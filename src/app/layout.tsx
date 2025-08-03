@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { appStore } from './store';
 import { PrimeReactProvider } from 'primereact/api';
 import { LayoutModel } from '../shared/models/layout.model';
+import LoadThemeComponent from '../shared/сomponents/load-theme.component';
 
 export default function MainLayout({ children }: LayoutModel) {
   return (
@@ -14,7 +15,9 @@ export default function MainLayout({ children }: LayoutModel) {
       <body>
         <Provider store={ appStore }>
           <PrimeReactProvider>
-            { children }
+            <LoadThemeComponent>
+              { children }
+            </LoadThemeComponent>
           </PrimeReactProvider>
         </Provider>
       </body>
