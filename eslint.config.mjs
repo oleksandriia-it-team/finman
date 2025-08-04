@@ -13,7 +13,6 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-    ...js.configs.recommended,
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
 
   // General rules
