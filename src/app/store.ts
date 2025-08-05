@@ -3,13 +3,15 @@ import { createStore } from 'redux';
 
 const initialState: ReduxStore = {
   mode: 'light'
-}
+};
 
 function stateReducer<T extends ReduxStateActions>(state: ReduxStore = initialState, action: ReduxStateChange<T>): ReduxStore {
 
   switch (action.type) {
-    case ReduxStateActions.Mode: return { ...state, mode: action.payload };
-    default: return state;
+    case ReduxStateActions.Mode:
+      return { ...state, mode: action.payload };
+    default:
+      return state;
   }
 
 }

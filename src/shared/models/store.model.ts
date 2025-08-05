@@ -1,6 +1,6 @@
 // TODO add later
 export interface ReduxStore {
-  mode: 'dark' | 'light'
+  mode: 'dark' | 'light';
 }
 
 export const enum ReduxStateActions {

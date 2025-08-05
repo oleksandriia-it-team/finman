@@ -3,7 +3,6 @@ import {fileURLToPath} from 'url';
 import {FlatCompat} from '@eslint/eslintrc';
 import eslintPluginHtml from 'eslint-plugin-html';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
-import js from "@eslint/js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

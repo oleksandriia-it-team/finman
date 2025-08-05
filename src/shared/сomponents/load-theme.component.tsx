@@ -1,10 +1,12 @@
+'use client';
+
 import { ReduxStore } from '../models/store.model';
 import { useSelector } from 'react-redux';
 import { useContext, useEffect, useMemo } from 'react';
 import { PrimeReactContext } from 'primereact/api';
-import { LayoutModel } from '../models/layout.model';
+import { ChildrenComponentProps } from '../models/component-with-chilren.model';
 
-export default function LoadThemeComponent({ children }: LayoutModel) {
+export default function LoadThemeComponent({ children }: ChildrenComponentProps) {
   const { changeTheme } = useContext(PrimeReactContext);
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
