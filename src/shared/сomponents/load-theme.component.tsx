@@ -6,6 +6,23 @@ import { useContext, useEffect, useMemo } from 'react';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildrenComponentProps } from '../models/component-with-chilren.model';
 
+/**
+ * LoadThemeComponent dynamically switches the application theme between light and dark modes
+ * using PrimeReact's `changeTheme` function and Redux state.
+ *
+ * It listens to the Redux `mode` value (`light` or `dark`) and updates the theme accordingly
+ * by injecting a `<link>` tag and triggering PrimeReact's theme change.
+ *
+ * @component
+ *
+ * @param {ChildrenComponentProps} props - The props for the component.
+ * @param {React.ReactNode} props.children - The content to be rendered inside the themed layout.
+ *
+ * @example
+ * <LoadThemeComponent>
+ *   <App />
+ * </LoadThemeComponent>
+ */
 export default function LoadThemeComponent({ children }: ChildrenComponentProps) {
   const { changeTheme } = useContext(PrimeReactContext);
 
