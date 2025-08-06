@@ -1,4 +1,4 @@
-export interface LocalStorageService {
+export interface ILocalStorageService {
   getItem<T>(token: string): T | null;
 
   setItem<T>(token: string, value: T): void;
