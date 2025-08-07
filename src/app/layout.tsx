@@ -1,6 +1,7 @@
 'use client';
 
 import './globals.scss';
+import Header from '../shared/сomponents/header/header';
 
 import { Provider } from 'react-redux';
 
@@ -14,6 +15,7 @@ import {
   userInformationServiceProvider
 } from '../data-access/user-information/user-information.service';
 import { LocalStorageService, localStorageServiceProvider } from '../data-access/local-storage/local-storage.service';
+
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
   const localStorageService = new LocalStorageService();
@@ -37,6 +39,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
           <PrimeReactProvider>
             <ProvideDependencies providers={ providers }>
               <LoadThemeComponent>
+                <Header />
                 { children }
               </LoadThemeComponent>
             </ProvideDependencies>
