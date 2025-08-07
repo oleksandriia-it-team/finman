@@ -1,0 +1,8 @@
+body {
+  &:has(.light-theme) {
+    --mark-bg: red;
+  }
+  &:has(.dark-theme) {
+    --mark-bg: green;
+  }
+}

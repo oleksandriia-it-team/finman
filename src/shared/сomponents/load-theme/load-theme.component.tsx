@@ -59,18 +59,25 @@ export default function LoadThemeComponent({ children }: ChildrenComponentProps)
     <>
       <link id="theme" rel="stylesheet" href={ `/themes/${ theme }/theme.css` } ref={ linkStyleRef }/>
 
-      <div
-        className={ `w-screen h-screen flex justify-center items-center ${ mode === 'light' ? 'bg-white' : 'bg-black' }` }>
-        { linkStyleLoading && (
-          <div className="load-theme-spinner"></div>
-        ) }
+      {
+        linkStyleLoading || linkStyleError
+          ? (
+            <div
+              className={ `w-screen h-screen flex justify-center items-center ${ mode === 'light' ? 'bg-white' : 'bg-black' }` }>
+              { linkStyleLoading && (
+                <div className="load-theme-spinner"></div>
+              ) }
 
-        { linkStyleError && (
-          <span className="text-sm text-red-500">Load theme error! Please try later</span>
-        ) }
-
-        { !linkStyleLoading && !linkStyleError && (children) }
-      </div>
+              { linkStyleError && (
+                <span className="text-sm text-red-500">Load theme error! Please try later</span>
+              ) }
+            </div>
+          ) : (
+            <div className={ `${ mode }-theme` }>
+              { children }
+            </div>
+          )
+      }
     </>
   );
 
