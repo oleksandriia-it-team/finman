@@ -1,32 +1,24 @@
 import { IUserInformationService } from './models/user-infomation.service.model';
 import { UserInformation } from './models/user-infomation.model';
-import { UserInformationKey } from '../../shared/constants/local-storage.contants';
+import { UserInformationKey } from '../local-storage/constants/local-storage.contants';
 import { InjectToken } from '../../shared/classes/inject-token.class';
-import { ILocalStorageService } from '../local-storage/models/local-storage.service.model';
+import { LocalStorageService } from '../local-storage/models/local-storage.service.model';
 
 export class UserInformationService implements IUserInformationService {
 
-  constructor(private readonly localStorageService: ILocalStorageService) {
+  constructor(private readonly localStorageService: LocalStorageService) {
   }
 
-  getUserInformation(): Promise<UserInformation | null> {
-    return new Promise<UserInformation | null>((resolve) => {
-      resolve(this.localStorageService.getItem<UserInformation>(UserInformationKey));
-    });
+  getUserInformation(): UserInformation | null {
+    return this.localStorageService.getItem<UserInformation>(UserInformationKey);
   }
 
-  setUserInformation(userInformation: UserInformation): Promise<void> {
-    return new Promise((resolve) => {
-      this.localStorageService.setItem(UserInformationKey, userInformation);
-      resolve();
-    });
+  setUserInformation(userInformation: UserInformation): void {
+    return this.localStorageService.setItem(UserInformationKey, userInformation);
   }
 
-  clearUserInformation(): Promise<void> {
-    return new Promise((resolve) => {
-      this.localStorageService.removeItem(UserInformationKey);
-      resolve();
-    });
+  clearUserInformation(): void {
+    return this.localStorageService.removeItem(UserInformationKey);
   }
 }
 

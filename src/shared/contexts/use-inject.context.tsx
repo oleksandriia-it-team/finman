@@ -45,7 +45,7 @@ export default function ProvideDependencies({
 }: ProvideDependenciesModel & ChildrenComponentProps) {
   const prevProviders = useContext(InjectContext);
 
-  const allProviders = useMemo(() => [ ...providers, ...prevProviders ], []);
+  const allProviders = useMemo(() => [ ...providers, ...prevProviders ], [ providers, prevProviders ]);
 
   return (
     <InjectContext.Provider value={ allProviders }>

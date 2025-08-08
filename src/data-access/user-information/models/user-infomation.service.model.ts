@@ -1,9 +1,9 @@
 import { UserInformation } from './user-infomation.model';
 
 export interface IUserInformationService {
-  getUserInformation(): Promise<UserInformation | null>;
+  getUserInformation(): UserInformation | null;
 
-  setUserInformation(userInformation: UserInformation): Promise<void>;
+  setUserInformation(userInformation: UserInformation): void;
 
-  clearUserInformation(): Promise<void>;
+  clearUserInformation(): void;
 }

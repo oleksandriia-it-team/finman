@@ -1,10 +1,8 @@
-import { ILocalStorageService } from './models/local-storage.service.model';
 import { isEmpty } from '../../shared/utils/is-empty.util';
-import { LocalStoragePrefix } from '../../shared/constants/local-storage.contants';
+import { LocalStoragePrefix } from './constants/local-storage.contants';
 import { InjectToken } from '../../shared/classes/inject-token.class';
-import { UserInformationService } from '../user-information/user-information.service';
 
-export class LocalStorageService implements ILocalStorageService {
+export class LocalStorageService {
   getItem<T>(token: string): T | null {
     if (isEmpty(global.localStorage)) {
       return null;
@@ -48,4 +46,4 @@ export class LocalStorageService implements ILocalStorageService {
   }
 }
 
-export const localStorageServiceProvider = new InjectToken<ILocalStorageService>('UserInformationService');
+export const localStorageServiceProvider = new InjectToken<LocalStorageService>('LocalStorageService');
