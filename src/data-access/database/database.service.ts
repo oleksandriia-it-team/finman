@@ -28,24 +28,32 @@ export class DatabaseService {
   #db: IDBPDatabase<unknown>;
 
   constructor(private databaseName: string, private tables: string[], private version: number) {
-    if(!global.indexedDB) {
+    if (!global.indexedDB) {
       return;
     }
-
-    this.connect(tables, databaseName, version)
-      .then(() => console.log('DB connection created'))
-      .catch(() => {
-        throw ErrorDataBaseConnection;
-      });
   }
 
   get db() {
     return this.#db;
   }
 
+  static initDB(databaseName: string, tables: string[], version: number) {
+    const instance = new this(databaseName, tables, version);
+
+    return instance.connect(tables, databaseName, version)
+      .then(() => {
+        console.log('DB connection created');
+
+        return instance;
+      })
+      .catch(() => {
+        throw ErrorDataBaseConnection;
+      });
+  }
+
   async getItemById<T>(tableName: string, id: number, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
-      const item = await this.db.get(tableName, id);
+      const item = await this.#db.get(tableName, id);
       if (!includeDeleted && item && item.softDeleted) {
         return null;
       }
@@ -62,7 +70,7 @@ export class DatabaseService {
     includeDeleted: boolean
   ): Promise<DatabaseResultOperationSuccess<T[]>> {
     try {
-      const tx = this.db.transaction(tableName);
+      const tx = this.#db.transaction(tableName);
       const store = tx.objectStore(tableName);
 
       const results: T[] = [];
@@ -99,7 +107,7 @@ export class DatabaseService {
       data.softDeleted = false;
     }
 
-    return this.db
+    return this.#db
       .put(tableName, data)
       .then((id) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
       .catch((error) => {
@@ -112,7 +120,7 @@ export class DatabaseService {
     id: number,
     softDelete: boolean
   ): Promise<DatabaseResultOperationSuccess<true>> {
-    const item = await this.db.get(tableName, id);
+    const item = await this.#db.get(tableName, id);
 
     if (!item) {
       throw {
@@ -123,7 +131,7 @@ export class DatabaseService {
 
     if (softDelete) {
       item.softDeleted = true;
-      return this.db
+      return this.#db
         .put(tableName, item)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
         .catch((error) => {
@@ -133,7 +141,7 @@ export class DatabaseService {
           } satisfies DatabaseResultOperationError;
         });
     } else {
-      return this.db
+      return this.#db
         .delete(tableName, id)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
         .catch((error) => {
@@ -146,7 +154,7 @@ export class DatabaseService {
   }
 
   async getTotalCount(tableName: string, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
-    const store = this.db.transaction(tableName, 'readonly').objectStore(tableName);
+    const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
 
     try {
       if (includeDeleted) {
@@ -163,9 +171,9 @@ export class DatabaseService {
     }
   }
 
-  private async connect(tables: string[], databaseName: string, version: number) {
+  async connect(tables: string[], databaseName: string, version: number) {
     this.#db = await openDB(databaseName, version, {
-      upgrade(db) {
+      upgrade: (db) => {
         tables.forEach((table) => {
           if (!db.objectStoreNames.contains(table)) {
             const store = db.createObjectStore(table, {

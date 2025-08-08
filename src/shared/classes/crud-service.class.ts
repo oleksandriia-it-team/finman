@@ -1,5 +1,6 @@
 import { DatabaseService } from '../../data-access/database/database.service';
 import { DatabaseResultOperationSuccess } from '../models/database-result-operation.model';
+import { ICrudService } from '../models/crud-service.model';
 
 export interface DefaultTableColumns extends Record<string, unknown> {
   id: number;
@@ -24,7 +25,7 @@ export interface DefaultTableColumns extends Record<string, unknown> {
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudService<T extends DefaultTableColumns, DTO extends Record<string, unknown> = Omit<T, 'id'>> {
+export abstract class CrudService<T extends DefaultTableColumns, DTO extends Record<string, unknown> = Omit<T, 'id'>> implements ICrudService<T, DTO> {
 
   protected constructor(protected readonly databaseService: DatabaseService, protected readonly tableName: string) {
   }

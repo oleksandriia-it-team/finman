@@ -30,44 +30,44 @@ import {
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
   // Memoize service instances to avoid recreating them on every render
-  const providers = useMemo(() => {
-    const localStorageService = new LocalStorageService();
-    const userInformationService = new UserInformationService(localStorageService);
-    let databaseService: DatabaseService;
-
+  const providers = useMemo(async () => {
     try {
-      databaseService = new DatabaseService(DatabaseName, Object.values(Tables), 1);
+      const localStorageService = new LocalStorageService();
+      const userInformationService = new UserInformationService(localStorageService);
+      const databaseService = await DatabaseService.initDB(DatabaseName, Object.values(Tables), 1);
+
+
+      const delayedExpensesService = new DelayedExpensesService(databaseService);
+      const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
+      const budgetPlanService = new BudgetPlanService(databaseService, delayedExpensesService);
+
+      return [
+        {
+          token: userInformationServiceProvider,
+          value: userInformationService
+        },
+        {
+          token: localStorageServiceProvider,
+          value: localStorageService
+        },
+        {
+          token: delayedExpensesServiceProvider,
+          value: delayedExpensesService
+        },
+        {
+          token: regularExpensesAndIncomesServiceProvider,
+          value: regularExpensesAndIncomesService
+        },
+        {
+          token: budgetPlanServiceProvider,
+          value: budgetPlanService
+        }
+      ];
     } catch {
       // TODO add handling errors during database connection
       console.log('ERROR');
     }
 
-    const delayedExpensesService = new DelayedExpensesService(databaseService);
-    const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
-    const budgetPlanService = new BudgetPlanService(databaseService, delayedExpensesService);
-
-    return [
-      {
-        token: userInformationServiceProvider,
-        value: userInformationService
-      },
-      {
-        token: localStorageServiceProvider,
-        value: localStorageService
-      },
-      {
-        token: delayedExpensesServiceProvider,
-        value: delayedExpensesService
-      },
-      {
-        token: regularExpensesAndIncomesServiceProvider,
-        value: regularExpensesAndIncomesService
-      },
-      {
-        token: budgetPlanServiceProvider,
-        value: budgetPlanService
-      }
-    ];
   }, []);
 
   return (
