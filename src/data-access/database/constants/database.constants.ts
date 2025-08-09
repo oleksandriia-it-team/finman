@@ -7,8 +7,9 @@ export const Tables = {
 };
 
 export const ErrorTexts = {
-  UnknownError: 'Unknown Error',
-  RecordDoesNotExist: 'Record does not exist',
+  UnknownError: 'Unknown Error.',
+  RecordDoesNotExist: 'Record does not exist.',
+  DataProvidedDoesntMeetRequirements: 'Unknown Error: Data provided to an operation does not meet requirements.'
 };
 
 export const ErrorDataBaseConnection = 'Error during database connection';

@@ -1,4 +1,4 @@
-import { IDBPDatabase, openDB } from 'idb';
+import { IDBPDatabase, IDBPTransaction, openDB } from 'idb';
 import {
   DatabaseResultOperation,
   DatabaseResultOperationError,
@@ -40,7 +40,7 @@ export class DatabaseService {
   static initDB(databaseName: string, tables: string[], version: number) {
     const instance = new this(databaseName, tables, version);
 
-    return instance.connect(tables, databaseName, version)
+    return instance.connect()
       .then(() => {
         console.log('DB connection created');
 
@@ -51,11 +51,13 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T>(tableName: string, id: number, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T>(tableName: string, id: number, includeDeleted: boolean, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
-      const item = await this.#db.get(tableName, id);
+      const getFn = tx?.objectStore(tableName).get.bind(tx) ?? this.#db.get.bind(this.#db, tableName);
+
+      const item = await getFn(id) ?? null;
       if (!includeDeleted && item && item.softDeleted) {
-        return null;
+        return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
       }
       return { status: 200, data: item as T } satisfies DatabaseResultOperation<T | null>;
     } catch ( error: unknown ) {
@@ -84,7 +86,7 @@ export class DatabaseService {
         }
       } else {
         const index = store.index('softDeleted');
-        const range = IDBKeyRange.only(false);
+        const range = IDBKeyRange.only(0);
         let cursor = await index.openCursor(range);
 
         while (cursor) {
@@ -102,13 +104,14 @@ export class DatabaseService {
     }
   }
 
-  async updateOrCreateItem(tableName: string, data: Record<string, unknown>): Promise<DatabaseResultOperationSuccess<number>> {
-    if (!('softDeleted' in data)) {
-      data.softDeleted = false;
+  async updateOrCreateItem(tableName: string, data: Record<string, unknown>, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<number>> {
+    if (data.softDeleted !== 0 && data.softDeleted !== 1) {
+      data.softDeleted = 0;
     }
 
-    return this.#db
-      .put(tableName, data)
+    const putFn = (tx?.objectStore(tableName).put as any)?.bind(tx) ?? this.#db.put.bind(this.#db, tableName);
+
+    return putFn(data)
       .then((id) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
       .catch((error) => {
         throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
@@ -118,9 +121,13 @@ export class DatabaseService {
   async deleteItem(
     tableName: string,
     id: number,
-    softDelete: boolean
+    softDelete: boolean,
+    tx?: IDBPTransaction
   ): Promise<DatabaseResultOperationSuccess<true>> {
-    const item = await this.#db.get(tableName, id);
+
+    const getFn = tx?.objectStore(tableName).get.bind(tx) ?? this.#db.get.bind(this.#db, tableName);
+
+    const item = await getFn(id);
 
     if (!item) {
       throw {
@@ -130,9 +137,11 @@ export class DatabaseService {
     }
 
     if (softDelete) {
-      item.softDeleted = true;
-      return this.#db
-        .put(tableName, item)
+      item.softDeleted = 1;
+
+      const putFn = (tx?.objectStore(tableName).put as any)?.bind(tx) ?? this.#db.put.bind(this.#db, tableName);
+
+      return putFn(item)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
         .catch((error) => {
           throw {
@@ -141,8 +150,9 @@ export class DatabaseService {
           } satisfies DatabaseResultOperationError;
         });
     } else {
-      return this.#db
-        .delete(tableName, id)
+      const deleteFn = (tx?.objectStore(tableName).delete as any)?.bind(tx) ?? this.#db.delete.bind(this.#db, tableName);
+
+      return deleteFn(id)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
         .catch((error) => {
           throw {
@@ -154,14 +164,16 @@ export class DatabaseService {
   }
 
   async getTotalCount(tableName: string, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
+
     const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
 
     try {
       if (includeDeleted) {
-        return store.count().then((count) => ({ status: 200, data: count }) satisfies DatabaseResultOperation<number>);
+        return await store.count().then((count) => ({ status: 200, data: count }) satisfies DatabaseResultOperation<number>);
       } else {
         const index = store.index('softDeleted');
-        return index.count(IDBKeyRange.only(false)).then((count) => ({
+
+        return await index.count(IDBKeyRange.only(0)).then((count) => ({
           status: 200,
           data: count
         }) satisfies DatabaseResultOperation<number>);
@@ -171,10 +183,10 @@ export class DatabaseService {
     }
   }
 
-  async connect(tables: string[], databaseName: string, version: number) {
-    this.#db = await openDB(databaseName, version, {
+  async connect() {
+    this.#db = await openDB(this.databaseName, this.version, {
       upgrade: (db) => {
-        tables.forEach((table) => {
+        this.tables.forEach((table) => {
           if (!db.objectStoreNames.contains(table)) {
             const store = db.createObjectStore(table, {
               keyPath: 'id',
@@ -185,5 +197,16 @@ export class DatabaseService {
         });
       },
     });
+  }
+
+  async clearDatabase(): Promise<void> {
+    const tx = this.db.transaction(this.tables, 'readwrite');
+
+    for (const table of this.tables) {
+      if (this.db.objectStoreNames.contains(table)) {
+        tx.objectStore(table).clear();
+      }
+    }
+    await tx.done;
   }
 }

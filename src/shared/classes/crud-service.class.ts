@@ -1,10 +1,11 @@
 import { DatabaseService } from '../../data-access/database/database.service';
 import { DatabaseResultOperationSuccess } from '../models/database-result-operation.model';
 import { ICrudService } from '../models/crud-service.model';
+import { IDBPTransaction } from 'idb';
 
 export interface DefaultTableColumns extends Record<string, unknown> {
-  id: number;
-  softDeleted: boolean;
+  id: number; // Primary key used as the unique identifier for each record
+  softDeleted: 0 | 1; // Soft deletion flag: 0 = active, 1 = deleted (used for indexing instead of boolean for better IndexedDB compatibility)
 }
 
 /**
@@ -30,7 +31,7 @@ export abstract class CrudService<T extends DefaultTableColumns, DTO extends Rec
   protected constructor(protected readonly databaseService: DatabaseService, protected readonly tableName: string) {
   }
 
-  getItemById(id: number): Promise<DatabaseResultOperationSuccess<T | null>> {
+  getItemById(id: number, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<T | null>> {
     return this.databaseService.getItemById(this.tableName, id, false);
   }
 
@@ -38,11 +39,11 @@ export abstract class CrudService<T extends DefaultTableColumns, DTO extends Rec
     return this.databaseService.getItems(this.tableName, first, last, false);
   }
 
-  abstract createItem(data: DTO): Promise<DatabaseResultOperationSuccess<number>>;
+  abstract createItem(data: DTO, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<number>>;
 
-  abstract updateItem(id: number, data: DTO): Promise<DatabaseResultOperationSuccess<true>>;
+  abstract updateItem(id: number, data: DTO,  tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<true>>;
 
-  abstract deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>>;
+  abstract deleteItem(id: number, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<true>>;
 
   getTotalCount(): Promise<DatabaseResultOperationSuccess<number>> {
     return this.databaseService.getTotalCount(this.tableName, false);
