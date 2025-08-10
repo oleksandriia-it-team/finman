@@ -19,6 +19,7 @@ export interface UnregularEntry {
 export interface DelayedExpense extends DefaultTableColumns {
   type: TypeEntry.Expense;
   sum: number;
-  delayed: false;
+  delayed: true;
   delayedMonth: Month;
+  delayedYear: number;
 }

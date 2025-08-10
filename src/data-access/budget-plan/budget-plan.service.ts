@@ -23,7 +23,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
     const delayedExpenses = await Promise.all(plannedDelayedExpenseRequests);
 
-    const dto: Omit<BudgetPlan, 'id'> = {
+    const dto: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
       month: data.month,
       year: data.year,
       otherEntries: data.otherEntries,
