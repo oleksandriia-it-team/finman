@@ -1,8 +1,9 @@
 import { DatabaseService } from '../../data-access/database/database.service';
 import { DatabaseResultOperationSuccess } from '../models/database-result-operation.model';
 import { ICrudService } from '../models/crud-service.model';
+import { RecordModel } from '../models/record.model';
 
-export interface DefaultTableColumns extends Record<string, unknown> {
+export interface DefaultTableColumns extends RecordModel {
   id: number; // Primary key used as the unique identifier for each record
   softDeleted: 0 | 1; // Soft deletion flag: 0 = active, 1 = deleted (used for indexing instead of boolean for better IndexedDB compatibility)
 }
@@ -25,7 +26,7 @@ export interface DefaultTableColumns extends Record<string, unknown> {
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudService<T extends DefaultTableColumns, DTO extends Record<string, unknown> = Omit<T, 'id'>> implements ICrudService<T, DTO> {
+export abstract class CrudService<T extends DefaultTableColumns, DTO extends RecordModel = Omit<T, 'id'>> implements ICrudService<T, DTO> {
 
   protected constructor(protected readonly databaseService: DatabaseService, readonly tableName: string) {
   }

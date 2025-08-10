@@ -23,16 +23,18 @@ import {
   RegularExpensesAndIncomesService,
   regularExpensesAndIncomesServiceProvider
 } from '../data-access/regular-expenses-and-incomes/regular-expenses-and-incomes.service';
+import { InjectProvider } from '../shared/models/inject-provider.model';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
   // Memoize service instances to avoid recreating them on every render
-  const providers = useMemo(async () => {
+  const providers = useMemo(() => {
     try {
       const localStorageService = new LocalStorageService();
       const authService = new AuthService(localStorageService);
-      const databaseService = await DatabaseService.initDB(DatabaseName, Object.values(Tables), 1);
+      const databaseService = new DatabaseService(DatabaseName, Object.values(Tables), 1);
 
+      databaseService.connect();
 
       const delayedExpensesService = new DelayedExpensesService(databaseService);
       const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
@@ -59,10 +61,12 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
           token: budgetPlanServiceProvider,
           value: budgetPlanService
         }
-      ];
+      ] as InjectProvider[];
     } catch {
       // TODO add handling errors during database connection
       console.log('ERROR');
+
+      return [];
     }
 
   }, []);

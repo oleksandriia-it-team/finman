@@ -14,13 +14,16 @@ function stateReducer<T extends ReduxStateActions>(state: ReduxStore = initialSt
 
   switch (action.type) {
     case ReduxStateActions.Mode:
-      return { ...state, mode: action.payload };
+      return { ...state, mode: (action as ReduxStateChange<ReduxStateActions.Mode>).payload };
     case ReduxStateActions.Auth:
-      return { ...state, ...action.payload, isLoggedIn: !isEmpty(action.payload.userName) };
+      return {
+        ...state, ...(action as ReduxStateChange<ReduxStateActions.Auth>).payload,
+        isLoggedIn: !isEmpty((action as ReduxStateChange<ReduxStateActions.Auth>).payload.userName)
+      };
     default:
       return state;
   }
 
 }
 
-export const appStore = createStore(stateReducer);
+export const appStore = createStore(stateReducer as never);

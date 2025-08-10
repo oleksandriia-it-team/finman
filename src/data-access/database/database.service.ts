@@ -6,6 +6,7 @@ import {
 } from '../../shared/models/database-result-operation.model';
 import { ErrorDataBaseConnection, ErrorTexts } from './constants/database.constants';
 import { getErrorMessage } from './utils/get-error-message.util';
+import { RecordModel } from '../../shared/models/record.model';
 
 /**
  * Service for interacting with an IndexedDB database using the `idb` library.
@@ -25,8 +26,8 @@ import { getErrorMessage } from './utils/get-error-message.util';
  * @param version - Version of the database, used for schema upgrades.
  */
 export class DatabaseService {
-  #db: IDBPDatabase<unknown>;
-  #tx: IDBPTransaction | null = null;
+  #db!: IDBPDatabase<unknown>;
+  #tx: IDBPTransaction<unknown, string | string[], any> | null = null;
 
   constructor(private databaseName: string, private tables: string[], private version: number) {
     if (!global.indexedDB) {
@@ -38,7 +39,7 @@ export class DatabaseService {
     return this.#db;
   }
 
-  static initDB(databaseName: string, tables: string[], version: number): DatabaseService {
+  static initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseService> {
     const instance = new this(databaseName, tables, version);
 
     return instance.connect()
@@ -132,7 +133,7 @@ export class DatabaseService {
    * }
    * ```
    */
-  async getPrevOrNextItem(
+  async getPrevOrNextItem<T>(
     next: boolean,
     tableName: string,
     id: number,
@@ -170,7 +171,7 @@ export class DatabaseService {
         data: null
       } satisfies DatabaseResultOperationSuccess<null>;
 
-    } catch (error: unknown) {
+    } catch ( error: unknown ) {
       tx.abort();
       throw {
         status: 500,
@@ -180,7 +181,7 @@ export class DatabaseService {
   }
 
 
-  async getFirstElement(tableName: string, includeSoftDeleted: boolean): DatabaseResultOperationSuccess<T | null> {
+  async getFirstElement<T>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -195,17 +196,17 @@ export class DatabaseService {
     return { status: 200, data: cursor?.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
   }
 
-  async updateOrCreateItem(tableName: string, data: Record<string, unknown>): Promise<DatabaseResultOperationSuccess<number>> {
+  async updateOrCreateItem(tableName: string, data: RecordModel): Promise<DatabaseResultOperationSuccess<number>> {
     if (data.softDeleted !== 0 && data.softDeleted !== 1) {
       data.softDeleted = 0;
     }
 
     const store = this.#tx?.objectStore(tableName);
-    const putFn = store ? store.put.bind(store) : this.#db.put.bind(this.#db, tableName);
+    const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
     return putFn(data)
-      .then((id) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
-      .catch((error) => {
+      .then((id: number) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
+      .catch((error: unknown) => {
         throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
       });
   }
@@ -232,11 +233,11 @@ export class DatabaseService {
       item.softDeleted = 1;
 
       const store = this.#tx?.objectStore(tableName);
-      const putFn = store ? store.put.bind(store) : this.#db.put.bind(this.#db, tableName);
+      const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
       return putFn(item)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
-        .catch((error) => {
+        .catch((error: unknown) => {
           throw {
             status: 500,
             message: getErrorMessage(error)
@@ -244,11 +245,11 @@ export class DatabaseService {
         });
     } else {
       const store = this.#tx?.objectStore(tableName);
-      const deleteFn = store ? store.delete.bind(store) : this.#db.delete.bind(this.#db, tableName);
+      const deleteFn = store ? (store.delete as any).bind(store) : this.#db.delete.bind(this.#db, tableName);
 
       return deleteFn(id)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
-        .catch((error) => {
+        .catch((error: unknown) => {
           throw {
             status: 500,
             message: getErrorMessage(error)
@@ -365,9 +366,9 @@ export class DatabaseService {
 
       this.#tx.abort();
       this.#tx = null;
-    }
-    catch {
-      return;;
+    } catch {
+      return;
+
     }
 
   }

@@ -40,11 +40,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
       this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
 
-      const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data.plannedDelayedExpenseIds;
+      const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
       const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) => !isEmpty(id)) as DelayedExpense[];
 
-      const savedDelayedExpenses: number[] = newData.plannedDelayedExpenses.map(({ id }) => id);
+      const savedDelayedExpenses: number[] = newData.plannedDelayedExpenses.map(({ id }) => id as number) ?? [];
 
       const needDeleteDelayedExpenses: number[] = prevPlannedDelayedExpenseIds.filter((id => !savedDelayedExpenses.includes(id)));
 
@@ -79,7 +79,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
   }
 
   async deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
-    const delayedExpenseIds: number[] = (await this.getItemById(id)).data.plannedDelayedExpenseIds;
+    const delayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
     const deleteDelayedExpenseRequests = delayedExpenseIds.map(id => this.delayedExpensesService.deleteItem(id));
 

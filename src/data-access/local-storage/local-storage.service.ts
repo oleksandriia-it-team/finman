@@ -23,7 +23,7 @@ export class LocalStorageService {
 
   setItem<T>(token: string, value: T): void {
     if (isEmpty(global.localStorage)) {
-      return null;
+      return;
     }
 
     localStorage.setItem(LocalStoragePrefix + token, JSON.stringify(value));
@@ -31,7 +31,7 @@ export class LocalStorageService {
 
   removeItem(token: string): void {
     if (isEmpty(global.localStorage)) {
-      return null;
+      return;
     }
 
     localStorage.removeItem(LocalStoragePrefix + token);
@@ -39,7 +39,7 @@ export class LocalStorageService {
 
   hasItem(token: string): boolean {
     if (isEmpty(global.localStorage)) {
-      return null;
+      return false;
     }
 
     return !isEmpty(localStorage.getItem(LocalStoragePrefix + token));

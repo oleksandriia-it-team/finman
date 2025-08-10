@@ -6,7 +6,7 @@ import { isEmpty } from '../utils/is-empty.util';
 import { ProvideDependenciesModel } from '../models/provide-dependencies.model';
 import { ChildrenComponentProps } from '../models/component-with-chilren.model';
 
-const InjectContext: Context<InjectProvider[]> = createContext([]);
+const InjectContext: Context<InjectProvider[]> = createContext<InjectProvider[]>([]);
 
 /**
  * Dependency injection provider component, similar to Angular's DI system.

@@ -45,7 +45,7 @@ export default function LoadThemeComponent({ children }: ChildrenComponentProps)
     setLinkStyleError(false);
 
     try {
-      changeTheme(oldTheme, newTheme, 'theme', () => {
+      changeTheme?.(oldTheme, newTheme, 'theme', () => {
         setLinkStyleLoading(false);
       });
     } catch {

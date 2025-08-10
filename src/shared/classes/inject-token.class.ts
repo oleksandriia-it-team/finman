@@ -1,3 +1,4 @@
+//@ts-ignore
 export class InjectToken<T> {
   description: string;
 
