@@ -1,5 +1,5 @@
 export interface UserInformation {
-  name: string;
+  userName: string;
   language: string;
   preferableLocale: string;
 }

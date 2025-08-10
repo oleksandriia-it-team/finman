@@ -26,6 +26,7 @@ import { getErrorMessage } from './utils/get-error-message.util';
  */
 export class DatabaseService {
   #db: IDBPDatabase<unknown>;
+  #tx: IDBPTransaction | null = null;
 
   constructor(private databaseName: string, private tables: string[], private version: number) {
     if (!global.indexedDB) {
@@ -37,7 +38,7 @@ export class DatabaseService {
     return this.#db;
   }
 
-  static initDB(databaseName: string, tables: string[], version: number) {
+  static initDB(databaseName: string, tables: string[], version: number): DatabaseService {
     const instance = new this(databaseName, tables, version);
 
     return instance.connect()
@@ -51,9 +52,10 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T>(tableName: string, id: number, includeDeleted: boolean, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T>(tableName: string, id: number, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
-      const getFn = tx?.objectStore(tableName).get.bind(tx) ?? this.#db.get.bind(this.#db, tableName);
+      const store = this.#tx?.objectStore(tableName);
+      const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
       const item = await getFn(id) ?? null;
       if (!includeDeleted && item && item.softDeleted) {
@@ -67,49 +69,112 @@ export class DatabaseService {
 
   async getItems<T>(
     tableName: string,
-    first: number,
-    last: number,
+    start: number,
+    end: number,
     includeDeleted: boolean
   ): Promise<DatabaseResultOperationSuccess<T[]>> {
+    const limit = end - start + 1;
+
+    const tx = this.#db.transaction(tableName);
+
     try {
-      const tx = this.#db.transaction(tableName);
       const store = tx.objectStore(tableName);
 
       const results: T[] = [];
+      let skipped = 0;
+      let cursor = await store.openCursor();
 
-      if (includeDeleted) {
-        const range = IDBKeyRange.bound(first, last);
-        let cursor = await store.openCursor(range);
-        while (cursor) {
-          results.push(cursor.value);
-          cursor = await cursor.continue();
-        }
-      } else {
-        const index = store.index('softDeleted');
-        const range = IDBKeyRange.only(0);
-        let cursor = await index.openCursor(range);
-
-        while (cursor) {
-          const id = cursor.primaryKey as number;
-          if (id >= first && id <= last) {
+      while (cursor && results.length < limit) {
+        if (includeDeleted || cursor.value.softDeleted === 0) {
+          if (skipped >= start) {
             results.push(cursor.value);
+          } else {
+            skipped++;
           }
-          cursor = await cursor.continue();
         }
+        cursor = await cursor.continue();
       }
 
+      await tx.done;
+
       return { status: 200, data: results } satisfies DatabaseResultOperation<T[]>;
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
+      tx.abort();
+
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
     }
   }
 
-  async updateOrCreateItem(tableName: string, data: Record<string, unknown>, tx?: IDBPTransaction): Promise<DatabaseResultOperationSuccess<number>> {
+  /**
+   * Retrieves the previous or next item relative to the given ID in the specified table.
+   *
+   * Iterates through the object store in the direction specified by `next` starting from the given `id`.
+   * Skips items marked as soft deleted if `includeDeleted` is false.
+   *
+   * @template T The type of items stored in the object store.
+   * @param {boolean} next - If true, fetch the next item; if false, fetch the previous item.
+   * @param {string} tableName - The name of the object store (table) to query.
+   * @param {number} id - The key from which to start searching.
+   * @param {boolean} includeDeleted - Whether to include items marked as soft deleted.
+   * @returns {Promise<DatabaseResultOperationSuccess<T | null>>}
+   *          A promise resolving with the found item or null if none found.
+   *
+   * @throws {DatabaseResultOperationError} Throws if an error occurs during the transaction.
+   *
+   * @example
+   * ```ts
+   * // Get the next item after id 5, excluding soft deleted items
+   * const result = await getPrevOrNextItem(true, 'users', 5, false);
+   * if(result.data) {
+   *   console.log('Next item:', result.data);
+   * } else {
+   *   console.log('No next item found');
+   * }
+   * ```
+   */
+  async getPrevOrNextItem(next: boolean, tableName: string, id: number, includeDeleted: boolean): DatabaseResultOperationSuccess<T | null> {
+    const tx = this.#db.transaction(tableName, 'readwrite');
+
+    try {
+      let cursor = await tx.objectStore(tableName).openCursor(id, next ? 'next' : 'prev');
+
+      while (cursor) {
+        cursor = await cursor.continue();
+
+        if(includeDeleted || !includeDeleted && cursor.value.softDeleted === 0) {
+          await tx.done;
+          return { status: 200, data: cursor.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
+        }
+      }
+
+      await tx.done;
+
+      return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
+    }
+    catch (error: unknown) {
+      tx.abort();
+      throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
+    }
+  }
+
+  async getFirstElement(tableName: string): DatabaseResultOperationSuccess<T | null> {
+    const tx = this.#db.transaction(tableName, 'readonly');
+    const store = tx.objectStore(tableName);
+
+    const cursor = await store.openCursor();
+
+    await tx.done;
+
+    return cursor.value ?? null;
+  }
+
+  async updateOrCreateItem(tableName: string, data: Record<string, unknown>): Promise<DatabaseResultOperationSuccess<number>> {
     if (data.softDeleted !== 0 && data.softDeleted !== 1) {
       data.softDeleted = 0;
     }
 
-    const putFn = (tx?.objectStore(tableName).put as any)?.bind(tx) ?? this.#db.put.bind(this.#db, tableName);
+    const store = this.#tx?.objectStore(tableName);
+    const putFn = store ? store.put.bind(store) : this.#db.put.bind(this.#db, tableName);
 
     return putFn(data)
       .then((id) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
@@ -122,10 +187,10 @@ export class DatabaseService {
     tableName: string,
     id: number,
     softDelete: boolean,
-    tx?: IDBPTransaction
   ): Promise<DatabaseResultOperationSuccess<true>> {
 
-    const getFn = tx?.objectStore(tableName).get.bind(tx) ?? this.#db.get.bind(this.#db, tableName);
+    const store = this.#tx?.objectStore(tableName);
+    const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
     const item = await getFn(id);
 
@@ -139,7 +204,8 @@ export class DatabaseService {
     if (softDelete) {
       item.softDeleted = 1;
 
-      const putFn = (tx?.objectStore(tableName).put as any)?.bind(tx) ?? this.#db.put.bind(this.#db, tableName);
+      const store = this.#tx?.objectStore(tableName);
+      const putFn = store ? store.put.bind(store) : this.#db.put.bind(this.#db, tableName);
 
       return putFn(item)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
@@ -150,7 +216,8 @@ export class DatabaseService {
           } satisfies DatabaseResultOperationError;
         });
     } else {
-      const deleteFn = (tx?.objectStore(tableName).delete as any)?.bind(tx) ?? this.#db.delete.bind(this.#db, tableName);
+      const store = this.#tx?.objectStore(tableName);
+      const deleteFn = store ? store.delete.bind(store) : this.#db.delete.bind(this.#db, tableName);
 
       return deleteFn(id)
         .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
@@ -183,7 +250,7 @@ export class DatabaseService {
     }
   }
 
-  async connect() {
+  async connect(): Promise<void> {
     this.#db = await openDB(this.databaseName, this.version, {
       upgrade: (db) => {
         this.tables.forEach((table) => {
@@ -199,14 +266,92 @@ export class DatabaseService {
     });
   }
 
+  /**
+   * Starts a new read/write batch transaction covering one or more object stores.
+   *
+   * Opens a single transaction in 'readwrite' mode that includes all specified
+   * object stores. All operations performed within this transaction will be atomic:
+   * either all succeed, or all fail together.
+   *
+   * Throws an error if a batch transaction is already active to avoid overlapping transactions.
+   *
+   * Use {@link doneBatch} to commit the transaction or {@link revertBatch} to abort it.
+   *
+   * @param {string | string[]} tableNames - The name or an array of names of object stores
+   *                                        to be included in the transaction.
+   * @throws {Error} If there is already an active batch transaction.
+   * @returns {void}
+   *
+   * @example
+   * ```ts
+   * db.runBatch(['users', 'orders']);
+   * const usersStore = db.#tx.objectStore('users');
+   * await usersStore.put({ id: 1, name: 'Alice' });
+   * const ordersStore = db.#tx.objectStore('orders');
+   * await ordersStore.put({ id: 10, userId: 1, total: 99.99 });
+   * await db.doneBatch(); // commits changes atomically
+   * ```
+   */
+  runBatch(tableNames: string | string[]): void {
+    if(this.#tx) {
+      throw new Error(getErrorMessage(this.#tx));
+    }
+
+    this.#tx = this.#db.transaction(tableNames, 'readwrite');
+  }
+
+  /**
+   * Finalizes the currently open batch transaction.
+   *
+   * Awaits the completion of the transaction.
+   * If any operation within the batch fails, the transaction will be rolled back automatically.
+   *
+   * After completion (either success or failure), the internal transaction reference is cleared.
+   *
+   * @throws {Error} If there is no active batch transaction.
+   * @returns {Promise<void>} Resolves when the transaction has successfully committed.
+   */
+  async doneBatch(): Promise<void> {
+    if(!this.#tx) {
+      throw new Error(ErrorTexts.PrevBatchIsNotDone);
+    }
+
+    await this.#tx.done;
+    this.#tx = null;
+  }
+
+  /**
+   * Aborts the currently open batch transaction.
+   *
+   * All changes made during the batch will be discarded.
+   *
+   * @returns {void} Resolves when the transaction is aborted.
+   */
+  revertBatch(): void {
+    if(!this.#tx) {
+      return;
+    }
+
+    this.#tx.abort();
+    this.#tx = null;
+  }
+
   async clearDatabase(): Promise<void> {
     const tx = this.db.transaction(this.tables, 'readwrite');
 
-    for (const table of this.tables) {
-      if (this.db.objectStoreNames.contains(table)) {
-        tx.objectStore(table).clear();
+    try {
+      for (const table of this.tables) {
+        if (this.db.objectStoreNames.contains(table)) {
+          tx.objectStore(table).clear();
+        }
       }
+      await tx.done;
     }
-    await tx.done;
+    catch (err: unknown ) {
+      tx.abort();
+
+      throw err;
+    }
+
   }
 }

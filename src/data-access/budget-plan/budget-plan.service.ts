@@ -4,10 +4,7 @@ import { DatabaseService } from '../database/database.service';
 import { Tables } from '../database/constants/database.constants';
 import { DelayedExpense } from './models/entry.model';
 import { isEmpty } from '../../shared/utils/is-empty.util';
-import {
-  DatabaseResultOperationError,
-  DatabaseResultOperationSuccess
-} from '../../shared/models/database-result-operation.model';
+import { DatabaseResultOperationSuccess } from '../../shared/models/database-result-operation.model';
 import { IDelayedExpensesService } from '../delayes-expenses/models/delayed-expenses.model';
 import { InjectToken } from '../../shared/classes/inject-token.class';
 
@@ -39,9 +36,9 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
   }
 
   override async updateItem(id: number, newData: BudgetPlanDto): Promise<DatabaseResultOperationSuccess<true>> {
-    const tx = this.databaseService.db.transaction(this.tableName, 'readwrite');
-
     try {
+
+      this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
       const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data.plannedDelayedExpenseIds;
 
@@ -70,13 +67,13 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
         plannedDelayedExpenseIds: [ ...savedDelayedExpenses, ...createdDelayedExpenses.map(expense => expense.data) ],
       };
 
-      return await Promise.all([,this.databaseService.updateOrCreateItem(this.tableName, dto), tx.done]).then(() => ({
+      return await Promise.all([this.databaseService.updateOrCreateItem(this.tableName, dto), this.databaseService.doneBatch()]).then(() => ({
         status: 200,
         data: true
       } satisfies DatabaseResultOperationSuccess<true>));
     }
     catch (err: unknown) {
-      tx.abort();
+      this.databaseService.revertBatch();
 
       throw err;
     }

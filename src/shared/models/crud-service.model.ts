@@ -2,6 +2,7 @@ import { DatabaseResultOperationSuccess } from './database-result-operation.mode
 import { DefaultTableColumns } from '../classes/crud-service.class';
 
 export interface ICrudService<T extends DefaultTableColumns, DTO extends Record<string, unknown> = Omit<T, 'id'>> {
+  readonly tableName: string;
 
   getItemById(id: number): Promise<DatabaseResultOperationSuccess<T | null>>;
 

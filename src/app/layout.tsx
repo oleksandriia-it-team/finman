@@ -9,10 +9,7 @@ import { PrimeReactProvider } from 'primereact/api';
 import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
 import LoadThemeComponent from '../shared/сomponents/load-theme/load-theme.component';
 import ProvideDependencies from '../shared/contexts/use-inject.context';
-import {
-  UserInformationService,
-  userInformationServiceProvider
-} from '../data-access/user-information/user-information.service';
+import { AuthService, authServiceProvider } from '../data-access/auth-service/auth.service';
 import { LocalStorageService, localStorageServiceProvider } from '../data-access/local-storage/local-storage.service';
 import { useMemo } from 'react';
 import { DatabaseService } from '../data-access/database/database.service';
@@ -33,7 +30,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
   const providers = useMemo(async () => {
     try {
       const localStorageService = new LocalStorageService();
-      const userInformationService = new UserInformationService(localStorageService);
+      const authService = new AuthService(localStorageService);
       const databaseService = await DatabaseService.initDB(DatabaseName, Object.values(Tables), 1);
 
 
@@ -43,8 +40,8 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
 
       return [
         {
-          token: userInformationServiceProvider,
-          value: userInformationService
+          token: authServiceProvider,
+          value: authService
         },
         {
           token: localStorageServiceProvider,
