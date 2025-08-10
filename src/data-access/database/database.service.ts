@@ -98,7 +98,7 @@ export class DatabaseService {
       await tx.done;
 
       return { status: 200, data: results } satisfies DatabaseResultOperation<T[]>;
-    } catch (error: unknown) {
+    } catch ( error: unknown ) {
       tx.abort();
 
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
@@ -141,7 +141,7 @@ export class DatabaseService {
       while (cursor) {
         cursor = await cursor.continue();
 
-        if(includeDeleted || !includeDeleted && cursor.value.softDeleted === 0) {
+        if (includeDeleted || !includeDeleted && cursor.value.softDeleted === 0) {
           await tx.done;
           return { status: 200, data: cursor.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
         }
@@ -150,8 +150,7 @@ export class DatabaseService {
       await tx.done;
 
       return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
-    }
-    catch (error: unknown) {
+    } catch ( error: unknown ) {
       tx.abort();
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
     }
@@ -236,7 +235,10 @@ export class DatabaseService {
 
     try {
       if (includeDeleted) {
-        return await store.count().then((count) => ({ status: 200, data: count }) satisfies DatabaseResultOperation<number>);
+        return await store.count().then((count) => ({
+          status: 200,
+          data: count
+        }) satisfies DatabaseResultOperation<number>);
       } else {
         const index = store.index('softDeleted');
 
@@ -293,7 +295,7 @@ export class DatabaseService {
    * ```
    */
   runBatch(tableNames: string | string[]): void {
-    if(this.#tx) {
+    if (this.#tx) {
       throw new Error(getErrorMessage(this.#tx));
     }
 
@@ -312,7 +314,7 @@ export class DatabaseService {
    * @returns {Promise<void>} Resolves when the transaction has successfully committed.
    */
   async doneBatch(): Promise<void> {
-    if(!this.#tx) {
+    if (!this.#tx) {
       throw new Error(ErrorTexts.PrevBatchIsNotDone);
     }
 
@@ -328,7 +330,7 @@ export class DatabaseService {
    * @returns {void} Resolves when the transaction is aborted.
    */
   revertBatch(): void {
-    if(!this.#tx) {
+    if (!this.#tx) {
       return;
     }
 
@@ -346,8 +348,7 @@ export class DatabaseService {
         }
       }
       await tx.done;
-    }
-    catch (err: unknown ) {
+    } catch ( err: unknown ) {
       tx.abort();
 
       throw err;

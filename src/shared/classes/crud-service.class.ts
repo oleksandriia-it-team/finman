@@ -27,7 +27,8 @@ export interface DefaultTableColumns extends Record<string, unknown> {
  */
 export abstract class CrudService<T extends DefaultTableColumns, DTO extends Record<string, unknown> = Omit<T, 'id'>> implements ICrudService<T, DTO> {
 
-  protected constructor(protected readonly databaseService: DatabaseService, readonly tableName: string) {}
+  protected constructor(protected readonly databaseService: DatabaseService, readonly tableName: string) {
+  }
 
   getItemById(id: number): Promise<DatabaseResultOperationSuccess<T | null>> {
     return this.databaseService.getItemById(this.tableName, id, false);

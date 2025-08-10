@@ -6,7 +6,8 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export class AuthService implements IAuthService {
 
-  constructor(private readonly localStorageService: LocalStorageService) {}
+  constructor(private readonly localStorageService: LocalStorageService) {
+  }
 
   getUser(): UserInformation | null {
     return this.localStorageService.getItem<UserInformation>(UserInformationKey);

@@ -38,7 +38,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
   override async updateItem(id: number, newData: BudgetPlanDto): Promise<DatabaseResultOperationSuccess<true>> {
     try {
 
-      this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
+      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
 
       const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data.plannedDelayedExpenseIds;
 
@@ -67,12 +67,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
         plannedDelayedExpenseIds: [ ...savedDelayedExpenses, ...createdDelayedExpenses.map(expense => expense.data) ],
       };
 
-      return await Promise.all([this.databaseService.updateOrCreateItem(this.tableName, dto), this.databaseService.doneBatch()]).then(() => ({
+      return await Promise.all([ this.databaseService.updateOrCreateItem(this.tableName, dto), this.databaseService.doneBatch() ]).then(() => ({
         status: 200,
         data: true
       } satisfies DatabaseResultOperationSuccess<true>));
-    }
-    catch (err: unknown) {
+    } catch ( err: unknown ) {
       this.databaseService.revertBatch();
 
       throw err;
