@@ -315,31 +315,57 @@ export class DatabaseService {
     });
   }
 
+
   /**
    * Starts a new read/write batch transaction covering one or more object stores.
    *
-   * Opens a single transaction in 'readwrite' mode that includes all specified
-   * object stores. All operations performed within this transaction will be atomic:
-   * either all succeed, or all fail together.
+   * ### Transaction Handling and Batch Operations
    *
-   * Throws an error if a batch transaction is already active to avoid overlapping transactions.
+   * This service is designed to support both simple CRUD operations and complex
+   * multi-step atomic transactions using IndexedDB.
    *
-   * Use {@link doneBatch} to commit the transaction or {@link revertBatch} to abort it.
+   * **Key Points:**
    *
-   * @param {string | string[]} tableNames - The name or an array of names of object stores
-   *                                        to be included in the transaction.
-   * @throws {Error} If there is already an active batch transaction.
-   * @returns {void}
+   * 1. **Implicit Transactions for Individual CRUD Methods**
+   *    - Each CRUD method internally uses either the current active transaction
+   *      or the database instance directly.
+   *    - When no batch transaction is active, operations are executed individually
+   *      without requiring explicit transaction management from the caller.
    *
-   * @example
+   * 2. **Explicit Batch Transactions for Atomic Multi-Operation Batches**
+   *    - To perform multiple operations atomically, you can start a batch
+   *      transaction with the `runBatch()` method, specifying one or more object stores.
+   *    - While the batch is active, all CRUD operations use the same transaction context.
+   *    - Changes within the batch can be either committed using `doneBatch()` or
+   *      aborted with `revertBatch()`.
+   *    - This pattern enables grouping related operations to succeed or fail together,
+   *      ensuring data consistency.
+   *
+   * 3. **Usage Example:**
    * ```ts
-   * db.runBatch(['users', 'orders']);
-   * const usersStore = db.#tx.objectStore('users');
-   * await usersStore.put({ id: 1, name: 'Alice' });
-   * const ordersStore = db.#tx.objectStore('orders');
-   * await ordersStore.put({ id: 10, userId: 1, total: 99.99 });
-   * await db.doneBatch(); // commits changes atomically
+   * dbService.runBatch(['users', 'orders']);
+   *
+   * await dbService.updateOrCreateItem('users', { id: 1, name: 'Alice' });
+   * await dbService.updateOrCreateItem('orders', { id: 100, userId: 1, total: 250 });
+   *
+   * await dbService.doneBatch(); // commits both inserts atomically
    * ```
+   *
+   * 4. **Best Practices:**
+   *    - Always finalize a batch transaction by calling either `doneBatch()` or `revertBatch()`.
+   *    - Avoid overlapping batch transactions to prevent conflicts (an error is thrown if you try).
+   *    - Use batch transactions when multiple related operations must be atomic,
+   *      otherwise simple CRUD methods work fine standalone.
+   *
+   * 5. **Error Handling:**
+   *    - If any operation inside a batch fails, you can call `revertBatch()` to
+   *      abort all changes in the batch.
+   *    - This rollback ensures the database remains in a consistent state.
+   *
+   * ---
+   *
+   * This design offers maximum flexibility by combining ease of use for simple cases
+   * and powerful transactional control for complex workflows.
    */
   runBatch(tableNames: string | string[]): void {
     if (this.#tx) {
