@@ -10,6 +10,7 @@ interface UnitTestUser {
   name: string;
   email: string;
   age: number;
+  softDeleted?: 0 | 1;
 }
 
 interface UnitTestWithDelete {
@@ -78,17 +79,15 @@ const testsWithCursor: UnitTestWithCursor[] = [
   },
   {
     id: 1,
-    expectedId: 3,
+    expectedId: 2,
     expectedNull: false,
     next: true,
-    deleteUserId: 2,
   },
   {
     id: 4,
     expectedId: 5,
-    expectedNull: true,
+    expectedNull: false,
     next: true,
-    deleteUserId: 5
   }
 ];
 
@@ -165,7 +164,7 @@ describe('DatabaseService', () => {
     indexedDB.deleteDatabase(dbName);
   });
 
-  it('should create user with id = 1, name = Dmytro, email = test@gmail.com, age = 18', async () => {
+  it('should create a user with id = 1, name = Dmytro, email = test@gmail.com, age = 18', async () => {
     const databaseService = await DatabaseService.initDB(dbName, tables, 1);
 
     const result = await databaseService.updateOrCreateItem('users', {
@@ -262,6 +261,46 @@ describe('DatabaseService', () => {
     expect(JSON.stringify(result.data)).toBe(JSON.stringify(selectedUsers));
   });
 
+  testsWithDelete.forEach((test) => {
+    it(`should create 25 users, delete users id = 1, 2, 3 with softDeleted = ${test.softDeleted} and get from 1 to 5 indexes ${test.getSoftDeleted ? 'including' : 'without'} softDeleted(it should be users with id = ${test.softDeleted && test.getSoftDeleted ? '1, 2, 3, 4, 5' : '4, 5, 6, 7, 8'})`, async () => {
+      const allUsers: UnitTestUser[] = Array.from({ length: 25 }, (_, i) => ({
+        id: i + 1,
+        name: `User${ i + 1 }`,
+        email: `user${ i + 1 }@example.com`,
+        age: 18 + (i % 10),
+        softDeleted: 0
+      }));
+
+      const deletedUsers = allUsers.slice(0, 3);
+
+      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+      await Promise.all(allUsers.map(user => databaseService.updateOrCreateItem('users', user)));
+
+      await Promise.all(deletedUsers.map(user => databaseService.deleteItem('users', user.id, test.softDeleted)));
+
+      if(test.softDeleted) {
+        deletedUsers.forEach(user => {
+          user.softDeleted = 1;
+        })
+      }
+
+      const result = await databaseService.getItems('users', 0, 4, test.getSoftDeleted);
+
+      if(test.softDeleted && test.getSoftDeleted) {
+        const checkUsers = allUsers.slice(0, 5);
+
+        expect(JSON.stringify(result.data)).toBe(JSON.stringify(checkUsers));
+      }
+      else {
+        const checkUsers = allUsers.slice(3, 8);
+
+        expect(JSON.stringify(result.data)).toBe(JSON.stringify(checkUsers));
+      }
+    });
+  })
+
+
   it('should done all inserts into db using runBatch', async () => {
     const allUsers: UnitTestUser[] = Array.from({ length: 25 }, (_, i) => ({
       id: i + 1,
@@ -325,48 +364,91 @@ describe('DatabaseService', () => {
     expect(newTotalCount.data).toBe(0);
   });
 
-  // TODO fix tests
   testsWithCursor.forEach((test) => {
-    it(`should get ${ test.next ? 'next' : 'prev' } user which to be ${ test.expectedNull ? 'null' : `id = ${ test.expectedId }` } starting with id=${ test.id }`, async () => {
+    it(`should get ${ test.next ? 'next' : 'prev' } user which to be ${ test.expectedNull ? 'null' : `id = ${ test.expectedId }` } starting with id = ${ test.id }`, async () => {
       const databaseService = await DatabaseService.initDB(dbName, tables, 1);
 
       await Promise.all(fiveUsers.map(user => databaseService.updateOrCreateItem('users', user)));
 
       const result = await databaseService.getPrevOrNextItem(test.next, 'users', test.id, false);
 
-      expect(result.data).toBe(test.expectedNull ? null : test.expectedId);
+      expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
   });
 
-  // TODO fix tests
   testsWithCursorAndDelete.forEach((test) => {
-    it(`should get ${ test.next ? 'next' : 'prev' } user with to be ${ test.expectedNull ? 'null' : `id = ${ test.expectedId }` } starting with id=${ test.id } when user with id=${ test.deleteUserId } was deleted`, async () => {
+    it(`should get ${ test.next ? 'next' : 'prev' } user ${ test.getSoftDeleted ? 'including' : 'without' } softDeleted which ${ test.expectedNull ? 'null' : `id = ${ test.expectedId }` } starting with id = ${ test.id } when user with id = ${ test.deleteUserId } was deleted with softDeleted = ${ test.softDeleted }`, async () => {
       const databaseService = await DatabaseService.initDB(dbName, tables, 1);
 
       await Promise.all(fiveUsers.map(user => databaseService.updateOrCreateItem('users', user)));
 
-      const result = await databaseService.getPrevOrNextItem(test.next, 'users', test.id, false);
+      await databaseService.deleteItem('users', test.deleteUserId, test.softDeleted);
 
-      expect(result.data).toBe(test.expectedNull ? null : test.expectedId);
+      const result = await databaseService.getPrevOrNextItem(test.next, 'users', test.id, test.getSoftDeleted);
+
+      expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
   });
 
-  // TODO fix test
-  it('should get the first user which will be id=3', async () => {
+  testsWithDelete.forEach((test) => {
+    it(`should get the first user ${ test.getSoftDeleted ? 'including' : 'without' } softDeleted if two users was deleted ${test.softDeleted ? 'with' : 'without' } softDeleted`, async () => {
+      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+      await Promise.all(fiveUsers.map(user => databaseService.updateOrCreateItem('users', user)));
+
+      await databaseService.deleteItem('users', 1, test.softDeleted);
+      await databaseService.deleteItem('users', 2, test.softDeleted);
+
+      const firstUser = await databaseService.getFirstElement('users', test.getSoftDeleted);
+
+      if(test.softDeleted && test.getSoftDeleted) {
+        expect(firstUser.data?.id).toBe(1);
+      }
+      else {
+        expect(firstUser.data?.id).toBe(3);
+      }
+    })
+  });
+
+  it('should get first user = null because the users table is empty', async () => {
     const databaseService = await DatabaseService.initDB(dbName, tables, 1);
 
-    await Promise.all(fiveUsers.map(user => databaseService.updateOrCreateItem('users', user)));
+    const firstUser = await databaseService.getFirstElement('users', false);
 
-
-    await databaseService.deleteItem('users', 1, false);
-    await databaseService.deleteItem('users', 2, false);
-
-    const firstValue = await databaseService.getFirstElement('users');
-
-    console.log(firstValue.data);
-
-    expect(firstValue.data?.id).toBe(3);
-
+    expect(firstUser.data).toBe(null);
   });
 
+  it('should delete the first user with softDeleted = true get first user = null without softIncluded', async () => {
+    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+    await databaseService.updateOrCreateItem('users', {
+      id: 1,
+      name: 'Dmytro',
+      age: 18,
+      email: 'test@gmail.com'
+    } satisfies UnitTestUser);
+
+    await databaseService.deleteItem('users', 1, true);
+
+    const firstUser = await databaseService.getFirstElement('users', false);
+
+    expect(firstUser.data).toBe(null);
+  });
+
+  it('should delete the first user with softDeleted = true get first user id = 1 including softIncluded', async () => {
+    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+    await databaseService.updateOrCreateItem('users', {
+      id: 1,
+      name: 'Dmytro',
+      age: 18,
+      email: 'test@gmail.com'
+    } satisfies UnitTestUser);
+
+    await databaseService.deleteItem('users', 1, true);
+
+    const firstUser = await databaseService.getFirstElement('users', true);
+
+    expect(firstUser.data?.id).toBe(1);
+  });
 });

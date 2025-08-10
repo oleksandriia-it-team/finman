@@ -52,13 +52,13 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T>(tableName: string, id: number, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
       const store = this.#tx?.objectStore(tableName);
       const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
       const item = await getFn(id) ?? null;
-      if (!includeDeleted && item && item.softDeleted) {
+      if (!includeSoftDeleted && item && item.softDeleted) {
         return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
       }
       return { status: 200, data: item as T } satisfies DatabaseResultOperation<T | null>;
@@ -71,7 +71,7 @@ export class DatabaseService {
     tableName: string,
     start: number,
     end: number,
-    includeDeleted: boolean
+    includeSoftDeleted: boolean
   ): Promise<DatabaseResultOperationSuccess<T[]>> {
     const limit = end - start + 1;
 
@@ -85,7 +85,7 @@ export class DatabaseService {
       let cursor = await store.openCursor();
 
       while (cursor && results.length < limit) {
-        if (includeDeleted || cursor.value.softDeleted === 0) {
+        if (includeSoftDeleted || cursor.value.softDeleted === 0) {
           if (skipped >= start) {
             results.push(cursor.value);
           } else {
@@ -109,13 +109,13 @@ export class DatabaseService {
    * Retrieves the previous or next item relative to the given ID in the specified table.
    *
    * Iterates through the object store in the direction specified by `next` starting from the given `id`.
-   * Skips items marked as soft deleted if `includeDeleted` is false.
+   * Skips items marked as soft deleted if `includeSoftDeleted` is false.
    *
    * @template T The type of items stored in the object store.
    * @param {boolean} next - If true, fetch the next item; if false, fetch the previous item.
    * @param {string} tableName - The name of the object store (table) to query.
    * @param {number} id - The key from which to start searching.
-   * @param {boolean} includeDeleted - Whether to include items marked as soft deleted.
+   * @param {boolean} includeSoftDeleted - Whether to include items marked as soft deleted.
    * @returns {Promise<DatabaseResultOperationSuccess<T | null>>}
    *          A promise resolving with the found item or null if none found.
    *
@@ -132,39 +132,67 @@ export class DatabaseService {
    * }
    * ```
    */
-  async getPrevOrNextItem(next: boolean, tableName: string, id: number, includeDeleted: boolean): DatabaseResultOperationSuccess<T | null> {
-    const tx = this.#db.transaction(tableName, 'readwrite');
-
-    try {
-      let cursor = await tx.objectStore(tableName).openCursor(id, next ? 'next' : 'prev');
-
-      while (cursor) {
-        cursor = await cursor.continue();
-
-        if (includeDeleted || !includeDeleted && cursor.value.softDeleted === 0) {
-          await tx.done;
-          return { status: 200, data: cursor.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
-        }
-      }
-
-      await tx.done;
-
-      return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
-    } catch ( error: unknown ) {
-      tx.abort();
-      throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
-    }
-  }
-
-  async getFirstElement(tableName: string): DatabaseResultOperationSuccess<T | null> {
+  async getPrevOrNextItem(
+    next: boolean,
+    tableName: string,
+    id: number,
+    includeSoftDeleted: boolean
+  ): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
-    const cursor = await store.openCursor();
+    try {
+      let cursor = await store.openCursor(
+        next
+          ? IDBKeyRange.lowerBound(id)
+          : IDBKeyRange.upperBound(id),
+        next ? 'next' : 'prev'
+      );
+
+      if (cursor && cursor.key === id) {
+        cursor = await cursor.continue();
+      }
+
+      while (cursor) {
+        if (includeSoftDeleted || cursor.value?.softDeleted === 0) {
+          await tx.done;
+          return {
+            status: 200,
+            data: cursor.value ?? null
+          } satisfies DatabaseResultOperationSuccess<T | null>;
+        }
+        cursor = await cursor.continue();
+      }
+
+      await tx.done;
+      return {
+        status: 200,
+        data: null
+      } satisfies DatabaseResultOperationSuccess<null>;
+
+    } catch (error: unknown) {
+      tx.abort();
+      throw {
+        status: 500,
+        message: getErrorMessage(error)
+      } satisfies DatabaseResultOperationError;
+    }
+  }
+
+
+  async getFirstElement(tableName: string, includeSoftDeleted: boolean): DatabaseResultOperationSuccess<T | null> {
+    const tx = this.#db.transaction(tableName, 'readonly');
+    const store = tx.objectStore(tableName);
+
+    let cursor = await store.openCursor();
+
+    while (!includeSoftDeleted && cursor?.value.softDeleted === 1) {
+      cursor = await cursor.continue();
+    }
 
     await tx.done;
 
-    return cursor.value ?? null;
+    return { status: 200, data: cursor?.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
   }
 
   async updateOrCreateItem(tableName: string, data: Record<string, unknown>): Promise<DatabaseResultOperationSuccess<number>> {
@@ -229,12 +257,12 @@ export class DatabaseService {
     }
   }
 
-  async getTotalCount(tableName: string, includeDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
+  async getTotalCount(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
 
     const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
 
     try {
-      if (includeDeleted) {
+      if (includeSoftDeleted) {
         return await store.count().then((count) => ({
           status: 200,
           data: count
@@ -330,12 +358,18 @@ export class DatabaseService {
    * @returns {void} Resolves when the transaction is aborted.
    */
   revertBatch(): void {
-    if (!this.#tx) {
-      return;
+    try {
+      if (!this.#tx) {
+        return;
+      }
+
+      this.#tx.abort();
+      this.#tx = null;
+    }
+    catch {
+      return;;
     }
 
-    this.#tx.abort();
-    this.#tx = null;
   }
 
   async clearDatabase(): Promise<void> {
