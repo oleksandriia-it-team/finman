@@ -21,12 +21,11 @@ export default function Header(){
   });
 
   const start = <p>{today}</p>
-  const end =  <Button
+  const end =  <Button className={'ThemeButton'}
     severity={'help'}
     icon="pi pi-sun"
     size={'large'}
     rounded
-    outlined
     onClick={ () => dispatch({
       type: ReduxStateActions.Mode,
       payload: mode === 'dark' ? 'light' : 'dark'
@@ -37,8 +36,8 @@ export default function Header(){
   return(
     <>
       <div
-        className={' w-screen h-screen fixed' }>
-        <Toolbar className={'custom-toolbar bg-blue-500'} start={start} end={end}/>
+        className={'w-screen fixed z-1000' }>
+        <Toolbar className={'custom-toolbar'} start={start} end={end}/>
       </div>
     </>
   );
