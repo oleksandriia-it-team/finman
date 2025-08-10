@@ -1,6 +1,6 @@
 import { TypeEntry } from '../enums/entry.enum';
-import { DefaultTableColumns } from '../../../shared/classes/crud-service.class';
 import { Month } from '../../../shared/enums/month.enum';
+import { DefaultTableColumns } from '../../../shared/models/default-table-columns.model';
 
 export type Entry = RegularEntry | UnregularEntry | DelayedExpense;
 

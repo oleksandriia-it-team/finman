@@ -1,8 +1,8 @@
-import { DefaultTableColumns } from '../../../shared/classes/crud-service.class';
 import { Month } from '../../../shared/enums/month.enum';
 import { DelayedExpense, UnregularEntry } from './entry.model';
 import { ICrudService } from '../../../shared/models/crud-service.model';
 import { RecordModel } from '../../../shared/models/record.model';
+import { DefaultTableColumns } from '../../../shared/models/default-table-columns.model';
 
 export interface BudgetPlan extends DefaultTableColumns {
   month: Month;

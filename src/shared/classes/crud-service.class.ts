@@ -2,11 +2,7 @@ import { DatabaseService } from '../../data-access/database/database.service';
 import { DatabaseResultOperationSuccess } from '../models/database-result-operation.model';
 import { ICrudService } from '../models/crud-service.model';
 import { RecordModel } from '../models/record.model';
-
-export interface DefaultTableColumns extends RecordModel {
-  id: number; // Primary key used as the unique identifier for each record
-  softDeleted: 0 | 1; // Soft deletion flag: 0 = active, 1 = deleted (used for indexing instead of boolean for better IndexedDB compatibility)
-}
+import { DefaultTableColumns } from '../models/default-table-columns.model';
 
 /**
  * Abstract base class for CRUD operations on a specific IndexedDB table.

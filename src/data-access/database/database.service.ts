@@ -7,6 +7,8 @@ import {
 import { ErrorDataBaseConnection, ErrorTexts } from './constants/database.constants';
 import { getErrorMessage } from './utils/get-error-message.util';
 import { RecordModel } from '../../shared/models/record.model';
+import { DefaultTableColumns } from '../../shared/models/default-table-columns.model';
+import { isEmpty } from '../../shared/utils/is-empty.util';
 
 /**
  * Service for interacting with an IndexedDB database using the `idb` library.
@@ -27,6 +29,8 @@ import { RecordModel } from '../../shared/models/record.model';
  */
 export class DatabaseService {
   #db!: IDBPDatabase<unknown>;
+
+  // eslint-disable-next-line
   #tx: IDBPTransaction<unknown, string | string[], any> | null = null;
 
   constructor(private databaseName: string, private tables: string[], private version: number) {
@@ -53,7 +57,7 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T extends DefaultTableColumns>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
       const store = this.#tx?.objectStore(tableName);
       const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
@@ -68,7 +72,7 @@ export class DatabaseService {
     }
   }
 
-  async getItems<T>(
+  async getItems<T extends DefaultTableColumns>(
     tableName: string,
     start: number,
     end: number,
@@ -133,7 +137,7 @@ export class DatabaseService {
    * }
    * ```
    */
-  async getPrevOrNextItem<T>(
+  async getPrevOrNextItem<T extends DefaultTableColumns>(
     next: boolean,
     tableName: string,
     id: number,
@@ -181,7 +185,7 @@ export class DatabaseService {
   }
 
 
-  async getFirstElement<T>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getFirstElement<T extends DefaultTableColumns>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -197,11 +201,21 @@ export class DatabaseService {
   }
 
   async updateOrCreateItem(tableName: string, data: RecordModel): Promise<DatabaseResultOperationSuccess<number>> {
+    if (typeof data !== 'object' || isEmpty(data)) {
+      throw { status: 400, message: ErrorTexts.IncorrectTypeData } satisfies DatabaseResultOperationError;
+    }
+
     if (data.softDeleted !== 0 && data.softDeleted !== 1) {
       data.softDeleted = 0;
     }
 
+    if (typeof data.id !== 'number') {
+      throw { status: 400, message: ErrorTexts.IncorrectIdProvided } satisfies DatabaseResultOperationError;
+    }
+
     const store = this.#tx?.objectStore(tableName);
+
+    // eslint-disable-next-line
     const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
     return putFn(data)
@@ -233,6 +247,8 @@ export class DatabaseService {
       item.softDeleted = 1;
 
       const store = this.#tx?.objectStore(tableName);
+
+      // eslint-disable-next-line
       const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
       return putFn(item)
@@ -245,6 +261,8 @@ export class DatabaseService {
         });
     } else {
       const store = this.#tx?.objectStore(tableName);
+
+      // eslint-disable-next-line
       const deleteFn = store ? (store.delete as any).bind(store) : this.#db.delete.bind(this.#db, tableName);
 
       return deleteFn(id)
