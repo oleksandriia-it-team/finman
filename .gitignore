@@ -6,6 +6,9 @@
 .pnp.js
 .idea
 
+# public json chunks and manifests
+/public/json
+
 # testing
 /coverage
 

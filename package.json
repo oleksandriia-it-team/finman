@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "split-json-files": "node split-json-on-chunks.js"
   },
   "author": "Oleksandriia's Frontend Team",
   "license": "ISC",
