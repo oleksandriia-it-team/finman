@@ -1,0 +1,17 @@
+[
+  {
+    "country": "Ukraine",
+    "locale": "uk-UA",
+    "language": "uk"
+  },
+  {
+    "country": "United States",
+    "locale": "en-US",
+    "language": "en"
+  },
+  {
+    "country": "United Kingdom",
+    "locale": "en-GB",
+    "language": "en"
+  }
+]
