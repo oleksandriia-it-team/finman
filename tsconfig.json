@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "target": "ES2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -24,7 +22,9 @@
     "exactOptionalPropertyTypes": true,
     "noEmit": true,
     "incremental": true,
+    "module": "esnext",
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",

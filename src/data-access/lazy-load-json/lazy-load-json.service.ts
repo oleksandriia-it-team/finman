@@ -1,6 +1,6 @@
 import { JSONFileNames } from './enums/json-files.enum';
 import { Manifest } from './models/manifest.model';
-import { GetJsonItemsResult } from './models/get-json-items-result.js';
+import { GetJsonItemsResult } from './models/get-json-items-result';
 
 /**
  * Service for lazy loading JSON data chunks.
@@ -23,7 +23,7 @@ export class LazyLoadJsonService {
     page: number,
     path?: string
   ): Promise<GetJsonItemsResult[T][]> {
-    const url = path ? `${path}/${fileName}_${page}.json` : `/chunks/${fileName}_${page}.json`;
+    const url = path ? `${ path }/${ fileName }_${ page }.json` : `/chunks/${ fileName }_${ page }.json`;
     return fetch(url).then(res => res.json());
   }
 
@@ -43,7 +43,7 @@ export class LazyLoadJsonService {
     fileName: JSONFileNames,
     path?: string
   ): Promise<Manifest> {
-    const url = path ? `${path}/${fileName}.json` : `/manifests/${fileName}.json`;
+    const url = path ? `${ path }/${ fileName }.json` : `/manifests/${ fileName }.json`;
     return fetch(url).then(res => res.json());
   }
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { JSONFileNames } from '../enums/json-files.enum.js';
-import { LazyLoadJsonService } from '../lazy-load-json.service.js';
+import { JSONFileNames } from '../enums/json-files.enum';
+import { LazyLoadJsonService } from '../lazy-load-json.service';
 import * as path from 'node:path';
 import { readFile } from 'fs/promises';
 
