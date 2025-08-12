@@ -1,8 +1,10 @@
-.MyStepper.p-stepper .p-stepper-nav{
-  display: flex;
-  justify-content: center !important;
-  padding-top: 6.5rem;
-  z-index: 0 !important;
+.MyStepper.p-stepper {
+  width: 100%;
+
+  .p-stepper-nav {
+    display: none;
+  }
+
 }
 
 .FormInput.p-inputtext{

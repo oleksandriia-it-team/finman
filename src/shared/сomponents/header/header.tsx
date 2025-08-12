@@ -36,7 +36,7 @@ export default function Header(){
   return(
     <>
       <div
-        className={'w-screen fixed z-1000' }>
+        className={'w-screen' }>
         <Toolbar className={'custom-toolbar'} start={start} end={end}/>
       </div>
     </>

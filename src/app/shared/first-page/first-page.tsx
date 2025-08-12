@@ -11,9 +11,9 @@ export default function FirstPage() {
   const stepperRef = useRef(null);
   return (
     <div className="flex items-center">
-      <Stepper className={'MyStepper'} ref={stepperRef} style={{ flexBasis: '60rem' }}>
+      <Stepper className={'MyStepper'} ref={stepperRef}>
         <StepperPanel header="Page I">
-          <div className=" border 1px flex items-center justify-center min-h-[60vh] ">
+          <div className=" border 1px flex items-center justify-center ">
             <div className="flex-auto flex justify-center align-items-center font-medium"><FirstForm/></div>
             <PageButton onClick={() => stepperRef.current.nextCallback()}/>
           </div>

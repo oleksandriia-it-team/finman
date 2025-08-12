@@ -80,8 +80,12 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
           <PrimeReactProvider>
             <ProvideDependencies providers={ providers }>
               <LoadThemeComponent>
-                <Header />
-                { children }
+                <div className="flex flex-col w-screen h-screen">
+                  <Header />
+                  <div className="flex-1">
+                    { children }
+                  </div>
+                </div>
               </LoadThemeComponent>
             </ProvideDependencies>
           </PrimeReactProvider>

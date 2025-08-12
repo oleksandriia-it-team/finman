@@ -9,7 +9,7 @@ interface PageButtonProps extends ButtonProps {
 
 export default function PageButton({className, ...props}: PageButtonProps) {
   return(
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center">
       <Button className={`PageButton ${className || ''}`}
         severity="help"
         icon="pi pi-angle-right"
