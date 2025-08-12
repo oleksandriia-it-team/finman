@@ -4,6 +4,8 @@ import { LazyLoadJsonService } from '../lazy-load-json.service';
 import * as path from 'node:path';
 import { readFile } from 'fs/promises';
 
+// eslint-disable-next-line
+// @ts-ignore
 global.fetch = async (input: string) => {
   let filePath = input;
   if (input.startsWith('/')) {

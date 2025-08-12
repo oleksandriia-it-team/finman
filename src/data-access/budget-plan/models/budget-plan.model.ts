@@ -8,18 +8,20 @@ export interface BudgetPlan extends DefaultTableColumns {
   month: Month;
   year: number;
   otherEntries: UnregularEntry[];
-  plannedOtherEntries: UnregularEntry[];
+  plannedOtherEntryIndexes: number[];
   plannedRegularEntryIds: number[];
   plannedDelayedExpenseIds: number[];
 }
+
+export type PlannedDelayedExpense = Omit<DelayedExpense, 'id' | 'softDeleted'> & Partial<DefaultTableColumns>;
 
 export interface BudgetPlanDto extends RecordModel {
   month: Month;
   year: number;
   otherEntries: UnregularEntry[];
-  plannedOtherEntries: UnregularEntry[];
+  plannedOtherEntryIndexes: number[];
   plannedRegularEntryIds: number[];
-  plannedDelayedExpenses: (Omit<DelayedExpense, 'id'> & { id?: number })[];
+  plannedDelayedExpenses: PlannedDelayedExpense[];
 }
 
 export type IBudgetPlanService = ICrudService<BudgetPlan, BudgetPlanDto>;

@@ -62,7 +62,7 @@ describe('DelayedExpensesService', () => {
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, { ...data, id: 1 });
   });
 
-  it('should delete a delayed expense with id = 1', async () => {
+  it('should delete a delayed expense with id = 1 with softDeleted = false', async () => {
     vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
       status: 200,
       data: true
