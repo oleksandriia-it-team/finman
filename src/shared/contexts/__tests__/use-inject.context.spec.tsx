@@ -1,4 +1,4 @@
-import { describe, expect, it, afterEach } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
 import ProvideDependencies, { useInject } from '../use-inject.context';
 import { InjectProvider } from '../../models/inject-provider.model';
@@ -18,18 +18,18 @@ const firstPartDependencies: InjectProvider[] = [
   }
 ];
 
-const secondPartDependencies: InjectProvider[] =[
+const secondPartDependencies: InjectProvider[] = [
   {
     token: 'Kirovohrad oblast',
     value: 'Oleksandriia'
   },
-]
+];
 
 describe('useInject', () => {
 
   afterEach(() => {
-    cleanup()
-  })
+    cleanup();
+  });
 
   it('should provide 3 dependencies', () => {
     function UnitTestComponent() {
@@ -37,12 +37,12 @@ describe('useInject', () => {
 
       return (
         <span>{ dependency }</span>
-      )
+      );
     }
 
     const renderResult = render(
-      <ProvideDependencies providers={firstPartDependencies}>
-        <UnitTestComponent />
+      <ProvideDependencies providers={ firstPartDependencies }>
+        <UnitTestComponent/>
       </ProvideDependencies>
     );
 
@@ -55,33 +55,32 @@ describe('useInject', () => {
 
       return (
         <span>{ dependency }</span>
-      )
+      );
     }
 
     try {
       render(
-        <ProvideDependencies providers={firstPartDependencies}>
-          <UnitTestComponent />
+        <ProvideDependencies providers={ firstPartDependencies }>
+          <UnitTestComponent/>
         </ProvideDependencies>
       );
-    }
-    catch ( err: unknown ) {
+    } catch ( err: unknown ) {
       expect((err as Error).message).toBe('Provider with token "335798ERERTT4" is not found');
     }
-  })
+  });
 
   it('shouldn\' get error to inject unknown token as optional', () => {
     function UnitTestComponent() {
-      const dependency: string | null = useInject('335798ERERTT4', false) as string | null
+      const dependency: string | null = useInject('335798ERERTT4', false) as string | null;
 
       return (
         <span>{ dependency ?? 'Not found' }</span>
-      )
+      );
     }
 
     const renderResult = render(
-      <ProvideDependencies providers={firstPartDependencies}>
-        <UnitTestComponent />
+      <ProvideDependencies providers={ firstPartDependencies }>
+        <UnitTestComponent/>
       </ProvideDependencies>
     );
 
@@ -95,18 +94,17 @@ describe('useInject', () => {
 
         return (
           <span>{ dependency }</span>
-        )
+        );
       }
 
       render(
-        <ProvideDependencies providers={[]}>
-          <UnitTestComponent />
+        <ProvideDependencies providers={ [] }>
+          <UnitTestComponent/>
         </ProvideDependencies>
       );
 
 
-    }
-    catch ( err: unknown ) {
+    } catch ( err: unknown ) {
       expect((err as Error).message).toBe('You must provide something to use InjectProvider');
     }
   });
@@ -117,10 +115,10 @@ describe('useInject', () => {
 
       return <div>
         <span>{ dependency }</span>
-        <ProvideDependencies providers={secondPartDependencies}>
-          <UnitTestChildrenComponent />
+        <ProvideDependencies providers={ secondPartDependencies }>
+          <UnitTestChildrenComponent/>
         </ProvideDependencies>
-      </div>
+      </div>;
     }
 
     function UnitTestChildrenComponent() {
@@ -130,12 +128,12 @@ describe('useInject', () => {
       return <div>
         <span>{ dependencyFromParent }</span>
         <span>{ dependencyFromChildren }</span>
-      </div>
+      </div>;
     }
 
     const result = render(
-      <ProvideDependencies providers={firstPartDependencies}>
-        <UnitTestParentComponent />
+      <ProvideDependencies providers={ firstPartDependencies }>
+        <UnitTestParentComponent/>
       </ProvideDependencies>
     );
 
@@ -145,4 +143,4 @@ describe('useInject', () => {
   });
 
 
-})
+});

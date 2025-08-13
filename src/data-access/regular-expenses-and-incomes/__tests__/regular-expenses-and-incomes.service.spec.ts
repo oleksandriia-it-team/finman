@@ -74,10 +74,10 @@ describe('RegularExpensesAndIncomesService', () => {
       // eslint-disable-next-line
       // @ts-ignore
       type: (TypeEntry as never)[index % 3],
-      description: `Description ${index}`,
+      description: `Description ${ index }`,
       regular: true,
       sum: index * 100
-    }) satisfies RegularEntry)
+    }) satisfies RegularEntry);
 
     vi.spyOn(dbService, 'getItems').mockReturnValue(
       Promise.resolve({
@@ -91,5 +91,5 @@ describe('RegularExpensesAndIncomesService', () => {
     expect(result.status).toBe(200);
     expect(JSON.stringify(result.data)).toBe(JSON.stringify(data));
     expect(dbService.getItems).toHaveBeenCalledWith(service.tableName, 1, 5, true);
-  })
+  });
 });

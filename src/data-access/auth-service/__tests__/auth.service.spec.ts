@@ -1,4 +1,4 @@
-import { describe, beforeEach, it, vi, expect } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalStorageService } from '../../local-storage/local-storage.service';
 import { AuthService } from '../auth.service';
 import { UserInformationKey } from '../../local-storage/constants/local-storage.contants';

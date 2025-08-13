@@ -30,7 +30,7 @@ async function SplitJsonFilesOnChunks() {
   const jsonFiles = await getFilesInDirectory(jsonPath);
 
   jsonFiles.forEach((fileName) => {
-    const inputPath = path.join(process.cwd(), 'public', 'json', `${ fileName }.json`);
+    const inputPath = path.join(process.cwd(), 'public', 'json', `${fileName}.json`);
     const outputChunkDir = path.join(process.cwd(), 'public', 'json', 'chunks');
     const outputManifestDir = path.join(process.cwd(), 'public', 'json', 'manifests');
 
@@ -41,14 +41,14 @@ async function SplitJsonFilesOnChunks() {
     const rawData = fs.readFileSync(inputPath, 'utf-8');
     const data = JSON.parse(rawData);
 
-    if (!fs.existsSync(outputChunkDir)) fs.mkdirSync(outputChunkDir, { recursive: true });
-    if (!fs.existsSync(outputManifestDir)) fs.mkdirSync(outputManifestDir, { recursive: true });
+    if (!fs.existsSync(outputChunkDir)) fs.mkdirSync(outputChunkDir, {recursive: true});
+    if (!fs.existsSync(outputManifestDir)) fs.mkdirSync(outputManifestDir, {recursive: true});
 
     const totalChunks = Math.ceil(data.length / chunkSize);
 
     for (let i = 0; i < totalChunks; i++) {
       const chunk = data.slice(i * chunkSize, (i + 1) * chunkSize);
-      const chunkPath = path.join(outputChunkDir, `${ fileName }_${ i + 1 }.json`);
+      const chunkPath = path.join(outputChunkDir, `${fileName}_${i + 1}.json`);
       fs.writeFileSync(chunkPath, JSON.stringify(chunk, null, 2), 'utf-8');
     }
 
