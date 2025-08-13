@@ -3,7 +3,6 @@ import {fileURLToPath} from 'url';
 import {FlatCompat} from '@eslint/eslintrc';
 import eslintPluginHtml from 'eslint-plugin-html';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
-import js from "@eslint/js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,13 +21,13 @@ const eslintConfig = [
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
-        ecmaFeatures: { jsx: true },
+        ecmaFeatures: {jsx: true},
       },
     },
     rules: {
       'camelcase': ['error'],
       'quotes': ['error', 'single'],
-      'indent': ['error', 2, { SwitchCase: 1 }],
+      'indent': ['error', 2, {SwitchCase: 1}],
       'react/jsx-indent': ['error', 2],
       'react/jsx-indent-props': ['error', 2],
     },

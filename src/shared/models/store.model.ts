@@ -1,14 +1,22 @@
+import { UserInformation } from '../../data-access/auth-service/models/user-infomation.model';
+
 // TODO add later
 export interface ReduxStore {
-  mode: 'dark' | 'light'
+  mode: 'dark' | 'light';
+  userName: string;
+  language: string;
+  preferableLocale: string;
+  isLoggedIn: boolean;
 }
 
 export const enum ReduxStateActions {
-  Mode = 'mode'
+  Mode = 'mode',
+  Auth = 'auth'
 }
 
 export interface ReduxStateChangeTypes {
   [ReduxStateActions.Mode]: 'dark' | 'light';
+  [ReduxStateActions.Auth]: UserInformation;
 }
 
 export interface ReduxStateChange<T extends ReduxStateActions> {
