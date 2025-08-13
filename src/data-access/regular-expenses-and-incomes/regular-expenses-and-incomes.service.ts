@@ -23,6 +23,10 @@ export class RegularExpensesAndIncomesService extends CrudService<RegularEntry> 
   deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
     return this.databaseService.deleteItem(this.tableName, id, true);
   }
+
+  getItemsWithSoftDeleted(first: number, last: number): Promise<DatabaseResultOperationSuccess<RegularEntry[]>> {
+    return this.databaseService.getItems(this.tableName, first, last, true);
+  }
 }
 
 export const regularExpensesAndIncomesServiceProvider = new InjectToken<IRegularExpensesAndIncomesService>('RegularExpensesAndIncomesService');

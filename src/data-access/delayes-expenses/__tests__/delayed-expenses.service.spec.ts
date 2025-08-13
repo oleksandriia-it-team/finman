@@ -10,6 +10,15 @@ describe('DelayedExpensesService', () => {
   let dbService: DatabaseService;
   let service: DelayedExpensesService;
 
+  const data: Omit<DelayedExpense, 'id' | 'softDeleted'> = {
+    type: TypeEntry.Expense,
+    description: 'Buy outfit',
+    delayed: true,
+    delayedMonth: Month.August,
+    delayedYear: 2025,
+    sum: 200
+  };
+
   beforeEach(() => {
     dbService = new DatabaseService('UNIT_TESTS', [], 1);
 
@@ -21,14 +30,6 @@ describe('DelayedExpensesService', () => {
       status: 200,
       data: 1
     } satisfies DatabaseResultOperationSuccess<number>));
-
-    const data: Omit<DelayedExpense, 'id' | 'softDeleted'> = {
-      type: TypeEntry.Expense,
-      delayed: true,
-      delayedMonth: Month.August,
-      delayedYear: 2025,
-      sum: 200
-    };
 
     const result = await service.createItem(data);
 
@@ -44,14 +45,6 @@ describe('DelayedExpensesService', () => {
       status: 200,
       data: 1
     } satisfies DatabaseResultOperationSuccess<number>));
-
-    const data: Omit<DelayedExpense, 'id' | 'softDeleted'> = {
-      type: TypeEntry.Expense,
-      delayed: true,
-      delayedMonth: Month.August,
-      delayedYear: 2025,
-      sum: 200
-    };
 
     const result = await service.updateItem(1, data);
 

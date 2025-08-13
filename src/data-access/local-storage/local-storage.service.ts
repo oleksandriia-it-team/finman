@@ -8,7 +8,7 @@ export class LocalStorageService {
       return null;
     }
 
-    const result = localStorage.getItem(LocalStoragePrefix + token);
+    const result = localStorage.getItem(LocalStoragePrefix + '-' + token);
 
     if (isEmpty(result)) {
       return null;
@@ -26,7 +26,7 @@ export class LocalStorageService {
       return;
     }
 
-    localStorage.setItem(LocalStoragePrefix + token, JSON.stringify(value));
+    localStorage.setItem(LocalStoragePrefix + '-' + token, JSON.stringify(value));
   }
 
   removeItem(token: string): void {
@@ -34,7 +34,7 @@ export class LocalStorageService {
       return;
     }
 
-    localStorage.removeItem(LocalStoragePrefix + token);
+    localStorage.removeItem(LocalStoragePrefix + '-' + token);
   }
 
   hasItem(token: string): boolean {
@@ -42,7 +42,7 @@ export class LocalStorageService {
       return false;
     }
 
-    return !isEmpty(localStorage.getItem(LocalStoragePrefix + token));
+    return !isEmpty(localStorage.getItem(LocalStoragePrefix + '-' + token));
   }
 }
 
