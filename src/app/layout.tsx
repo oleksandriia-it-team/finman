@@ -1,6 +1,6 @@
 'use client';
 
-import './globals.scss';
+import './styles/globals.scss';
 
 import { Provider } from 'react-redux';
 
