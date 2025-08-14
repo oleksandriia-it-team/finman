@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from "node:path";
 
 const inputFile = './public/themes/lara-light-blue/theme.css';
-const outputFile = './src/app/styles/tailwind-variables.scss';
+const outputFile = './src/app/styles/primereact-variables-for-tailwind.scss';
 
 const scss = fs.readFileSync(path.join(process.cwd(), inputFile), 'utf8');
 
