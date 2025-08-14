@@ -62,6 +62,8 @@ async function SplitJsonFilesOnChunks() {
     const manifestPath = path.join(outputManifestDir, `${fileName}.json`);
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), 'utf-8');
   });
+
+  console.log('All chunks has just been created');
 }
 
 SplitJsonFilesOnChunks();
