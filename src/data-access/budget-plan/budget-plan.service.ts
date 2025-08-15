@@ -63,7 +63,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
       return result;
     } catch ( err: unknown ) {
-      this.databaseService.revertBatch();
+      await this.databaseService.revertBatch();
 
       throw err;
     }
@@ -108,7 +108,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
         data: true
       } satisfies DatabaseResultOperationSuccess<true>;
     } catch ( err: unknown ) {
-      this.databaseService.revertBatch();
+      await this.databaseService.revertBatch();
 
       throw err;
     }
@@ -130,7 +130,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
       return result;
     } catch ( err: unknown ) {
-      this.databaseService.revertBatch();
+      await this.databaseService.revertBatch();
 
       throw err;
     }

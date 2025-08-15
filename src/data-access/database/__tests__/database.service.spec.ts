@@ -342,7 +342,7 @@ describe('DatabaseService', () => {
 
       await Promise.all(allUsers.map(user => databaseService.updateOrCreateItem('users', user)));
     } catch {
-      databaseService.revertBatch();
+      await databaseService.revertBatch();
 
       const result = await databaseService.getTotalCount('users', false);
 

@@ -113,7 +113,7 @@ describe('BudgetPlanService', () => {
   it('should revert creating a budget plan', async () => {
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(dbService, 'revertBatch').mockReturnValue();
+    vi.spyOn(dbService, 'revertBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'updateOrCreateItem').mockImplementation(() => {
       throw { status: 500, message: ErrorTexts.UnknownError } satisfies DatabaseResultOperationError;
     });
@@ -223,7 +223,7 @@ describe('BudgetPlanService', () => {
   it('should revert updating a budget plan', async () => {
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(dbService, 'revertBatch').mockReturnValue();
+    vi.spyOn(dbService, 'revertBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'updateOrCreateItem').mockImplementation(() => {
       throw { status: 500, message: ErrorTexts.UnknownError } satisfies DatabaseResultOperationError;
     });
@@ -287,7 +287,7 @@ describe('BudgetPlanService', () => {
   it('should revert deleting a budget plan', async () => {
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(dbService, 'revertBatch').mockReturnValue();
+    vi.spyOn(dbService, 'revertBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
       status: 200,
       data: true

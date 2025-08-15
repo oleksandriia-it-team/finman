@@ -402,17 +402,21 @@ export class DatabaseService {
    *
    * @returns {void} Resolves when the transaction is aborted.
    */
-  revertBatch(): void {
+  async revertBatch(): Promise<void> {
     try {
       if (!this.#tx) {
         return;
       }
 
       this.#tx.abort();
-      this.#tx = null;
-    } catch {
-      return;
+      await this.#tx.done;
 
+    }catch (err) {
+      if (err instanceof Object && 'name' in err && err.name !== ErrorTexts.AbortError) {
+        throw err;
+      }
+    } finally {
+      this.#tx = null;
     }
 
   }
