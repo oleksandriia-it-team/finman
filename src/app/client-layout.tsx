@@ -24,6 +24,7 @@ import {
   regularExpensesAndIncomesServiceProvider
 } from '../data-access/regular-expenses-and-incomes/regular-expenses-and-incomes.service';
 import { InjectProvider } from '../shared/models/inject-provider.model';
+import Header from '../shared/сomponents/header/header';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
@@ -76,7 +77,12 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       <PrimeReactProvider>
         <ProvideDependencies providers={ providers }>
           <LoadThemeComponent>
-            { children }
+            <div className="flex flex-col w-screen h-screen">
+              <Header/>
+              <div className="flex-1">
+                { children }
+              </div>
+            </div>
           </LoadThemeComponent>
         </ProvideDependencies>
       </PrimeReactProvider>
