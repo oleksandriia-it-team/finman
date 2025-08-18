@@ -1,6 +1,6 @@
 import { DatabaseResultOperationSuccess } from './database-result-operation.model';
-import { DefaultTableColumns } from '../classes/crud-service.class';
 import { RecordModel } from './record.model';
+import { DefaultTableColumns } from './default-table-columns.model';
 
 export interface ICrudService<T extends DefaultTableColumns, DTO extends RecordModel = Omit<T, 'id'>> {
   readonly tableName: string;

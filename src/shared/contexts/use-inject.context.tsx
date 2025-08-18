@@ -85,7 +85,7 @@ export function useInject<T>(token: T, required: true): GetProvideValueByToken<T
 export function useInject<T>(token: T, required: boolean): GetProvideValueByToken<T> | null {
   const providers = useContext(InjectContext);
 
-  if (isEmpty(providers)) {
+  if (providers.length === 0) {
     if (required) {
       throw new Error('You must provide something to use InjectProvider');
     }

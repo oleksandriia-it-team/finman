@@ -9,7 +9,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "split-json-files": "node split-json-on-chunks.js",
+    "generate-tailwind-vars": "node primereact-to-tailwind-vars"
   },
   "author": "Oleksandriia's Frontend Team",
   "license": "ISC",

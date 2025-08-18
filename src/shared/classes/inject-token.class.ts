@@ -1,4 +1,5 @@
-//@ts-ignore
+// eslint-disable-next-line
+// @ts-ignore
 export class InjectToken<T> {
   description: string;
 
