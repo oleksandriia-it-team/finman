@@ -11,17 +11,21 @@ export class RegularExpensesAndIncomesService extends CrudService<RegularEntry> 
     super(databaseService, Tables.RegularExpensesAndIncomesTable);
   }
 
-  createItem(data: Omit<RegularEntry, 'id'>): Promise<DatabaseResultOperationSuccess<number>> {
+  createItem(data: Omit<RegularEntry, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<number>> {
     return this.databaseService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, 'id'>): Promise<DatabaseResultOperationSuccess<true>> {
+  async updateItem(id: number, data: Omit<RegularEntry, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<true>> {
     return this.databaseService.updateOrCreateItem(this.tableName, { ...data, id })
       .then((result) => ({ ...result, data: true }) satisfies DatabaseResultOperationSuccess<boolean>);
   }
 
   deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
     return this.databaseService.deleteItem(this.tableName, id, true);
+  }
+
+  getItemsWithSoftDeleted(first: number, last: number): Promise<DatabaseResultOperationSuccess<RegularEntry[]>> {
+    return this.databaseService.getItems(this.tableName, first, last, true);
   }
 }
 

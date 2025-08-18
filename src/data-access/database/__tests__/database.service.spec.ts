@@ -4,6 +4,9 @@ import { indexedDB } from 'fake-indexeddb';
 import { DatabaseService } from '../database.service';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { RecordModel } from '../../../shared/models/record.model';
+import { DefaultTableColumns } from '../../../shared/models/default-table-columns.model';
+import { DatabaseResultOperationError } from '../../../shared/models/database-result-operation.model';
+import { ErrorTexts } from '../constants/database.constants';
 
 interface UnitTestUser extends RecordModel {
   id: number;
@@ -339,7 +342,7 @@ describe('DatabaseService', () => {
 
       await Promise.all(allUsers.map(user => databaseService.updateOrCreateItem('users', user)));
     } catch {
-      databaseService.revertBatch();
+      await databaseService.revertBatch();
 
       const result = await databaseService.getTotalCount('users', false);
 
@@ -369,7 +372,7 @@ describe('DatabaseService', () => {
 
       await Promise.all(fiveUsers.map(user => databaseService.updateOrCreateItem('users', user)));
 
-      const result = await databaseService.getPrevOrNextItem<UnitTestUser>(test.next, 'users', test.id, false);
+      const result = await databaseService.getPrevOrNextItem<UnitTestUser & DefaultTableColumns>(test.next, 'users', test.id, false);
 
       expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
@@ -383,7 +386,7 @@ describe('DatabaseService', () => {
 
       await databaseService.deleteItem('users', test.deleteUserId, test.softDeleted);
 
-      const result = await databaseService.getPrevOrNextItem<UnitTestUser>(test.next, 'users', test.id, test.getSoftDeleted);
+      const result = await databaseService.getPrevOrNextItem<UnitTestUser & DefaultTableColumns>(test.next, 'users', test.id, test.getSoftDeleted);
 
       expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
@@ -398,7 +401,7 @@ describe('DatabaseService', () => {
       await databaseService.deleteItem('users', 1, test.softDeleted);
       await databaseService.deleteItem('users', 2, test.softDeleted);
 
-      const firstUser = await databaseService.getFirstElement<UnitTestUser>('users', test.getSoftDeleted);
+      const firstUser = await databaseService.getFirstElement<UnitTestUser & DefaultTableColumns>('users', test.getSoftDeleted);
 
       if (test.softDeleted && test.getSoftDeleted) {
         expect(firstUser.data?.id).toBe(1);
@@ -445,8 +448,30 @@ describe('DatabaseService', () => {
 
     await databaseService.deleteItem('users', 1, true);
 
-    const firstUser = await databaseService.getFirstElement<UnitTestUser>('users', true);
+    const firstUser = await databaseService.getFirstElement<UnitTestUser & DefaultTableColumns>('users', true);
 
     expect(firstUser.data?.id).toBe(1);
+  });
+
+  it('should throw error when to try add user with typeof id !== \'number\'', async () => {
+    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+    try {
+      await databaseService.updateOrCreateItem('users', { id: 'aadefrer', user: 'Dmytro' });
+    } catch ( err: unknown ) {
+      expect((err as DatabaseResultOperationError).status).toBe(400);
+      expect((err as DatabaseResultOperationError).message).toBe(ErrorTexts.IncorrectIdProvided);
+    }
+  });
+
+  it('should throw error when to try add data which it is not an object', async () => {
+    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+
+    try {
+      await databaseService.updateOrCreateItem('users', 'asfhytt' as never);
+    } catch ( err: unknown ) {
+      expect((err as DatabaseResultOperationError).status).toBe(400);
+      expect((err as DatabaseResultOperationError).message).toBe(ErrorTexts.IncorrectTypeData);
+    }
   });
 });

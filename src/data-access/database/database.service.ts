@@ -7,6 +7,8 @@ import {
 import { ErrorDataBaseConnection, ErrorTexts } from './constants/database.constants';
 import { getErrorMessage } from './utils/get-error-message.util';
 import { RecordModel } from '../../shared/models/record.model';
+import { DefaultTableColumns } from '../../shared/models/default-table-columns.model';
+import { isEmpty } from '../../shared/utils/is-empty.util';
 
 /**
  * Service for interacting with an IndexedDB database using the `idb` library.
@@ -27,6 +29,8 @@ import { RecordModel } from '../../shared/models/record.model';
  */
 export class DatabaseService {
   #db!: IDBPDatabase<unknown>;
+
+  // eslint-disable-next-line
   #tx: IDBPTransaction<unknown, string | string[], any> | null = null;
 
   constructor(private databaseName: string, private tables: string[], private version: number) {
@@ -53,7 +57,7 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T extends DefaultTableColumns>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
       const store = this.#tx?.objectStore(tableName);
       const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
@@ -68,7 +72,7 @@ export class DatabaseService {
     }
   }
 
-  async getItems<T>(
+  async getItems<T extends DefaultTableColumns>(
     tableName: string,
     start: number,
     end: number,
@@ -133,7 +137,7 @@ export class DatabaseService {
    * }
    * ```
    */
-  async getPrevOrNextItem<T>(
+  async getPrevOrNextItem<T extends DefaultTableColumns>(
     next: boolean,
     tableName: string,
     id: number,
@@ -181,7 +185,7 @@ export class DatabaseService {
   }
 
 
-  async getFirstElement<T>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getFirstElement<T extends DefaultTableColumns>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -197,11 +201,21 @@ export class DatabaseService {
   }
 
   async updateOrCreateItem(tableName: string, data: RecordModel): Promise<DatabaseResultOperationSuccess<number>> {
+    if (typeof data !== 'object' || isEmpty(data)) {
+      throw { status: 400, message: ErrorTexts.IncorrectTypeData } satisfies DatabaseResultOperationError;
+    }
+
     if (data.softDeleted !== 0 && data.softDeleted !== 1) {
       data.softDeleted = 0;
     }
 
+    if (typeof data.id !== 'number') {
+      throw { status: 400, message: ErrorTexts.IncorrectIdProvided } satisfies DatabaseResultOperationError;
+    }
+
     const store = this.#tx?.objectStore(tableName);
+
+    // eslint-disable-next-line
     const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
     return putFn(data)
@@ -233,6 +247,8 @@ export class DatabaseService {
       item.softDeleted = 1;
 
       const store = this.#tx?.objectStore(tableName);
+
+      // eslint-disable-next-line
       const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
       return putFn(item)
@@ -245,6 +261,8 @@ export class DatabaseService {
         });
     } else {
       const store = this.#tx?.objectStore(tableName);
+
+      // eslint-disable-next-line
       const deleteFn = store ? (store.delete as any).bind(store) : this.#db.delete.bind(this.#db, tableName);
 
       return deleteFn(id)
@@ -297,31 +315,57 @@ export class DatabaseService {
     });
   }
 
+
   /**
    * Starts a new read/write batch transaction covering one or more object stores.
    *
-   * Opens a single transaction in 'readwrite' mode that includes all specified
-   * object stores. All operations performed within this transaction will be atomic:
-   * either all succeed, or all fail together.
+   * ### Transaction Handling and Batch Operations
    *
-   * Throws an error if a batch transaction is already active to avoid overlapping transactions.
+   * This service is designed to support both simple CRUD operations and complex
+   * multi-step atomic transactions using IndexedDB.
    *
-   * Use {@link doneBatch} to commit the transaction or {@link revertBatch} to abort it.
+   * **Key Points:**
    *
-   * @param {string | string[]} tableNames - The name or an array of names of object stores
-   *                                        to be included in the transaction.
-   * @throws {Error} If there is already an active batch transaction.
-   * @returns {void}
+   * 1. **Implicit Transactions for Individual CRUD Methods**
+   *    - Each CRUD method internally uses either the current active transaction
+   *      or the database instance directly.
+   *    - When no batch transaction is active, operations are executed individually
+   *      without requiring explicit transaction management from the caller.
    *
-   * @example
+   * 2. **Explicit Batch Transactions for Atomic Multi-Operation Batches**
+   *    - To perform multiple operations atomically, you can start a batch
+   *      transaction with the `runBatch()` method, specifying one or more object stores.
+   *    - While the batch is active, all CRUD operations use the same transaction context.
+   *    - Changes within the batch can be either committed using `doneBatch()` or
+   *      aborted with `revertBatch()`.
+   *    - This pattern enables grouping related operations to succeed or fail together,
+   *      ensuring data consistency.
+   *
+   * 3. **Usage Example:**
    * ```ts
-   * db.runBatch(['users', 'orders']);
-   * const usersStore = db.#tx.objectStore('users');
-   * await usersStore.put({ id: 1, name: 'Alice' });
-   * const ordersStore = db.#tx.objectStore('orders');
-   * await ordersStore.put({ id: 10, userId: 1, total: 99.99 });
-   * await db.doneBatch(); // commits changes atomically
+   * dbService.runBatch(['users', 'orders']);
+   *
+   * await dbService.updateOrCreateItem('users', { id: 1, name: 'Alice' });
+   * await dbService.updateOrCreateItem('orders', { id: 100, userId: 1, total: 250 });
+   *
+   * await dbService.doneBatch(); // commits both inserts atomically
    * ```
+   *
+   * 4. **Best Practices:**
+   *    - Always finalize a batch transaction by calling either `doneBatch()` or `revertBatch()`.
+   *    - Avoid overlapping batch transactions to prevent conflicts (an error is thrown if you try).
+   *    - Use batch transactions when multiple related operations must be atomic,
+   *      otherwise simple CRUD methods work fine standalone.
+   *
+   * 5. **Error Handling:**
+   *    - If any operation inside a batch fails, you can call `revertBatch()` to
+   *      abort all changes in the batch.
+   *    - This rollback ensures the database remains in a consistent state.
+   *
+   * ---
+   *
+   * This design offers maximum flexibility by combining ease of use for simple cases
+   * and powerful transactional control for complex workflows.
    */
   runBatch(tableNames: string | string[]): void {
     if (this.#tx) {
@@ -358,17 +402,21 @@ export class DatabaseService {
    *
    * @returns {void} Resolves when the transaction is aborted.
    */
-  revertBatch(): void {
+  async revertBatch(): Promise<void> {
     try {
       if (!this.#tx) {
         return;
       }
 
       this.#tx.abort();
-      this.#tx = null;
-    } catch {
-      return;
+      await this.#tx.done;
 
+    }catch (err) {
+      if (err instanceof Object && 'name' in err && err.name !== ErrorTexts.AbortError) {
+        throw err;
+      }
+    } finally {
+      this.#tx = null;
     }
 
   }

@@ -8,6 +8,28 @@ import { DatabaseResultOperationSuccess } from '../../shared/models/database-res
 import { IDelayedExpensesService } from '../delayes-expenses/models/delayed-expenses.model';
 import { InjectToken } from '../../shared/classes/inject-token.class';
 
+/**
+ * Service for managing monthly budget plans.
+ *
+ * This service handles the creation, updating, and deletion of monthly budget plans,
+ * which include planned income, expenses, and other budget entries for a given month and year.
+ *
+ * Special focus is placed on handling delayed expenses:
+ * - When creating a budget plan, any associated delayed expenses are created and linked to it.
+ * - When updating a budget plan:
+ *   - New delayed expenses are added.
+ *   - Unused delayed expenses (no longer linked to the plan) are removed.
+ *   - Existing delayed expenses are preserved.
+ * - When deleting a budget plan, all its associated delayed expenses are also deleted.
+ *
+ * Operations are executed within database batches to ensure atomicity:
+ * `runBatch` starts a batch affecting both the budget plan and delayed expenses tables,
+ * `doneBatch` commits the changes, and `revertBatch` rolls back in case of errors.
+ *
+ * Depends on:
+ * - `DatabaseService` for CRUD operations.
+ * - `IDelayedExpensesService` for managing delayed expenses.
+ */
 export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> implements IBudgetPlanService {
   constructor(
     databaseService: DatabaseService,
@@ -16,23 +38,35 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
     super(databaseService, Tables.BudgetPlanTable);
   }
 
-  override async createItem(data: Omit<BudgetPlanDto, 'id'>) {
-    const plannedDelayedExpenses = data.plannedDelayedExpenses as DelayedExpense[];
+  override async createItem(data: BudgetPlanDto) {
+    try {
+      const plannedDelayedExpenses = data.plannedDelayedExpenses as DelayedExpense[];
 
-    const plannedDelayedExpenseRequests = plannedDelayedExpenses.map(plannedDelayedExpense => this.delayedExpensesService.createItem(plannedDelayedExpense));
+      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
 
-    const delayedExpenses = await Promise.all(plannedDelayedExpenseRequests);
+      const plannedDelayedExpenseRequests = plannedDelayedExpenses.map(plannedDelayedExpense => this.delayedExpensesService.createItem(plannedDelayedExpense));
 
-    const dto: Omit<BudgetPlan, 'id'> = {
-      month: data.month,
-      year: data.year,
-      otherEntries: data.otherEntries,
-      plannedOtherEntries: data.plannedOtherEntries,
-      plannedRegularEntryIds: data.plannedRegularEntryIds,
-      plannedDelayedExpenseIds: delayedExpenses.map(expense => expense.data),
-    };
+      const delayedExpenses = await Promise.all(plannedDelayedExpenseRequests);
 
-    return this.databaseService.updateOrCreateItem(this.tableName, dto);
+      const dto: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
+        month: data.month,
+        year: data.year,
+        otherEntries: data.otherEntries,
+        plannedOtherEntryIndexes: data.plannedOtherEntryIndexes,
+        plannedRegularEntryIds: data.plannedRegularEntryIds,
+        plannedDelayedExpenseIds: delayedExpenses.map(expense => expense.data),
+      };
+
+      const result = await this.databaseService.updateOrCreateItem(this.tableName, dto);
+
+      await this.databaseService.doneBatch();
+
+      return result;
+    } catch ( err: unknown ) {
+      await this.databaseService.revertBatch();
+
+      throw err;
+    }
   }
 
   override async updateItem(id: number, newData: BudgetPlanDto): Promise<DatabaseResultOperationSuccess<true>> {
@@ -42,9 +76,9 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
       const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
-      const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) => !isEmpty(id)) as DelayedExpense[];
+      const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) => isEmpty(id)) as DelayedExpense[];
 
-      const savedDelayedExpenses: number[] = newData.plannedDelayedExpenses.map(({ id }) => id as number) ?? [];
+      const savedDelayedExpenses: number[] = newData.plannedDelayedExpenses.reduce((acc, { id }) => isEmpty(id) ? acc : [ ...acc, id ], [] as number[]) ?? [];
 
       const needDeleteDelayedExpenses: number[] = prevPlannedDelayedExpenseIds.filter((id => !savedDelayedExpenses.includes(id)));
 
@@ -56,36 +90,50 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> im
 
       const createdDelayedExpenses = await Promise.all(createDelayedExpenseRequests);
 
-      const dto: BudgetPlan = {
-        id,
-        softDeleted: 0,
+      const dto: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
         month: newData.month,
-        year: newData.month,
+        year: newData.year,
         otherEntries: newData.otherEntries,
-        plannedOtherEntries: newData.plannedOtherEntries,
+        plannedOtherEntryIndexes: newData.plannedOtherEntryIndexes,
         plannedRegularEntryIds: newData.plannedRegularEntryIds,
         plannedDelayedExpenseIds: [ ...savedDelayedExpenses, ...createdDelayedExpenses.map(expense => expense.data) ],
       };
 
-      return await Promise.all([ this.databaseService.updateOrCreateItem(this.tableName, dto), this.databaseService.doneBatch() ]).then(() => ({
+      await this.databaseService.updateOrCreateItem(this.tableName, dto);
+
+      await this.databaseService.doneBatch();
+
+      return {
         status: 200,
         data: true
-      } satisfies DatabaseResultOperationSuccess<true>));
+      } satisfies DatabaseResultOperationSuccess<true>;
     } catch ( err: unknown ) {
-      this.databaseService.revertBatch();
+      await this.databaseService.revertBatch();
 
       throw err;
     }
   }
 
   async deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
-    const delayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
+    try {
+      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
 
-    const deleteDelayedExpenseRequests = delayedExpenseIds.map(id => this.delayedExpensesService.deleteItem(id));
+      const delayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
-    await Promise.all(deleteDelayedExpenseRequests);
+      const deleteDelayedExpenseRequests = delayedExpenseIds.map(id => this.delayedExpensesService.deleteItem(id));
 
-    return super.databaseService.deleteItem(this.tableName, id, false);
+      await Promise.all(deleteDelayedExpenseRequests);
+
+      const result = await this.databaseService.deleteItem(this.tableName, id, false);
+
+      await this.databaseService.doneBatch();
+
+      return result;
+    } catch ( err: unknown ) {
+      await this.databaseService.revertBatch();
+
+      throw err;
+    }
   }
 }
 

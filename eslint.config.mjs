@@ -21,13 +21,13 @@ const eslintConfig = [
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: 'module',
-        ecmaFeatures: { jsx: true },
+        ecmaFeatures: {jsx: true},
       },
     },
     rules: {
       'camelcase': ['error'],
       'quotes': ['error', 'single'],
-      'indent': ['error', 2, { SwitchCase: 1 }],
+      'indent': ['error', 2, {SwitchCase: 1}],
       'react/jsx-indent': ['error', 2],
       'react/jsx-indent-props': ['error', 2],
     },

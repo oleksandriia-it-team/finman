@@ -12,6 +12,8 @@ export const ErrorTexts = {
   DataProvidedDoesntMeetRequirements: 'Unknown Error: Data provided to an operation does not meet requirements.',
   PrevBatchIsNotDone: 'Previous batch is not done.',
   AbortError: 'AbortError',
+  IncorrectIdProvided: 'Incorrect id provided.',
+  IncorrectTypeData: 'Incorrect type data provided.',
 };
 
 export const ErrorDataBaseConnection = 'Error during database connection';

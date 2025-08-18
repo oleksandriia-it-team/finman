@@ -1,5 +1,5 @@
 import { CrudService } from '../../shared/classes/crud-service.class';
-import { DelayedExpense, RegularEntry } from '../budget-plan/models/entry.model';
+import { DelayedExpense } from '../budget-plan/models/entry.model';
 import { DatabaseService } from '../database/database.service';
 import { Tables } from '../database/constants/database.constants';
 import { DatabaseResultOperationSuccess } from '../../shared/models/database-result-operation.model';
@@ -11,11 +11,11 @@ export class DelayedExpensesService extends CrudService<DelayedExpense> implemen
     super(databaseService, Tables.DelayedExpensesTable);
   }
 
-  createItem(data: Omit<RegularEntry, 'id'>): Promise<DatabaseResultOperationSuccess<number>> {
+  createItem(data: Omit<DelayedExpense, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<number>> {
     return this.databaseService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, 'id'>): Promise<DatabaseResultOperationSuccess<true>> {
+  async updateItem(id: number, data: Omit<DelayedExpense, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<true>> {
     return this.databaseService.updateOrCreateItem(this.tableName, { ...data, id })
       .then((result) => ({ ...result, data: true }) satisfies DatabaseResultOperationSuccess<boolean>);
   }
