@@ -1,14 +1,38 @@
-'use client'
+'use client';
 
-import { InputText } from 'primereact/inputtext';
-import './styles/first-page.scss'
+import InputComponent from '../../../shared/сomponents/input-component/input-component';
+import './styles/first-page.scss';
+import { useState } from 'react';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 
-export default function FirstForm (){
+//Registration form for first app launch.
+// This component is used by the stepper-component in first-page.tsx as content
+//TODO: add validation
+
+export default function FirstForm() {
+  const [ userName, setUserName ] = useState('');
+  const [ userLanguage, setUserLanguage ] = useState('');
+  const [ userFormats, setUserFormats ] = useState('');
+  const languages: string[] = [ 'English', 'Spanish', 'Ukrainian' ];
+  const formats: string[] = [ 'USD', 'ESP', 'UAH' ];
+
   return (
-    <div className="flex flex-col gap-2">
-      <InputText className="FormInput" type='text' placeholder="Username" />
-      <InputText type='select' className="FormInput" placeholder="Preferable Formats" />
-      <InputText className="FormInput" placeholder="Languages"/>
-    </div>
+    <form className="flex flex-col justify-center ">
+      <div className=" text-center">
+        <h1>Please enter your general information</h1>
+      </div>
+      <InputComponent placeholder={ 'Username' } className="FormInput p-inputtext-lg" value={ userName }
+        onChange={ setUserName }/>
+      <Dropdown className="FormInput p-inputtext-lg"
+        placeholder="Preferable Formats"
+        value={ userFormats }
+        onChange={ (event: DropdownChangeEvent) => setUserFormats(event.value) }
+        options={ formats }/>
+      <Dropdown className="FormInput p-inputtext-lg"
+        placeholder="Languages"
+        value={ userLanguage }
+        onChange={ (event: DropdownChangeEvent) => setUserLanguage(event.value) }
+        options={ languages }/>
+    </form>
   );
 }
