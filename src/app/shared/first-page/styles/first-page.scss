@@ -19,11 +19,17 @@
   margin: 0.5rem !important;
 }
 
-h1 {
+.formText {
   font-family: 'Inter', sans-serif;
   color: var(--text-color) !important;
   padding-left: 0.25rem;
   padding-right: 0.25rem;
+  font-size: 2rem !important;
+}
+
+.errorText {
+  color: red;
+  padding-left: 0.5rem;
 }
 
 form {

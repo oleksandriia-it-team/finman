@@ -5,6 +5,7 @@ import './styles/page-button.scss';
 
 interface PageButtonProps extends ButtonProps {
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 //Button for stepper component

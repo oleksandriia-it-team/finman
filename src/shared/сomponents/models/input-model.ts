@@ -3,6 +3,7 @@ export interface InputProps {
   className?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+
 }
 
 export interface DropdownInputProps extends InputProps {
