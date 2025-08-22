@@ -24,6 +24,7 @@ import {
   regularExpensesAndIncomesServiceProvider
 } from '../data-access/regular-expenses-and-incomes/regular-expenses-and-incomes.service';
 import { InjectProvider } from '../shared/models/inject-provider.model';
+import InitApplication from './init-application';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
@@ -76,7 +77,9 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       <PrimeReactProvider>
         <ProvideDependencies providers={ providers }>
           <LoadThemeComponent>
-            { children }
+            <InitApplication>
+              {children}
+            </InitApplication>
           </LoadThemeComponent>
         </ProvideDependencies>
       </PrimeReactProvider>
