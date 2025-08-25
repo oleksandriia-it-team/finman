@@ -1,11 +1,11 @@
-import {useEffect} from 'react';
-import {ReduxStateActions, UseDispatch} from '../shared/models/store.model';
-import {useDispatch} from 'react-redux';
-import {useInject} from '../shared/contexts/use-inject.context';
-import {authServiceProvider} from '../data-access/auth-service/auth.service';
-import {ChildrenComponentProps} from '../shared/models/component-with-chilren.model';
+import { useEffect } from 'react';
+import { ReduxStateActions, UseDispatch } from '../shared/models/store.model';
+import { useDispatch } from 'react-redux';
+import { useInject } from '../shared/contexts/use-inject.context';
+import { authServiceProvider } from '../data-access/auth-service/auth.service';
+import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
 
-export default function InitApplication({children}: ChildrenComponentProps) {
+export default function InitApplication({ children }: ChildrenComponentProps) {
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
   const authService = useInject(authServiceProvider, true);
 
@@ -22,6 +22,6 @@ export default function InitApplication({children}: ChildrenComponentProps) {
         },
       });
     }
-  }, [authService, dispatch]);
+  }, [ authService, dispatch ]);
   return children;
 }
