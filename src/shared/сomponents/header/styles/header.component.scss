@@ -1,0 +1,22 @@
+
+.custom-toolbar.p-toolbar {
+  padding: 0.55rem;
+  border: 0;
+  border-radius: 0;
+  background: var(--header-bg);
+}
+
+.ThemeButton.p-button {
+  background: var(--theme-button-bg) !important;
+  border-color: var(--theme-button-bg) !important;
+}
+
+.ThemeButton .p-button-icon {
+  color: var(--theme-button-icon);
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.25rem;
+  color: white;
+}
