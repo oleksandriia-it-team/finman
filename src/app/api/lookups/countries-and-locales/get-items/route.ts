@@ -9,7 +9,7 @@ import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-local
 import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
 import { getPaginatedItems } from '../../shared/utils/get-paginated-items.util';
 
-export default async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<CountryAndLocale[]>>> {
+export async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<CountryAndLocale[]>>> {
   try {
     const body: GetCountryAndLocalesPayload = await request.json();
 

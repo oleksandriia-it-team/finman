@@ -21,7 +21,7 @@ export async function getPaginatedItems<T>(
     const isValid = filtersFns.every(fn => fn(value));
     if (!isValid) continue;
 
-    if (index >= from && index < to) {
+    if (index + 1 >= from && index < to) {
       result.push(value);
     }
 
