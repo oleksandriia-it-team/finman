@@ -1,10 +1,10 @@
 'use client';
 
-import './styles/first-page.scss';
-import ControlledInput from '../../../shared/сomponents/controled-input/controlled-input/controled-input-component';
-import ControlledDropdown from '../../../shared/сomponents/controled-input/controlled-dropdown/controlled-dropdown';
+import '../styles/first-page.scss';
+import ControlledInput from '../../../../shared/сomponents/controled-input/controlled-input/controled-input-component';
+import ControlledDropdown from '../../../../shared/сomponents/controled-input/controlled-dropdown/controlled-dropdown';
 
-export default function Form() {
+export default function RegistrationFormComponent() {
 
   const languages = [
     { label: 'English', value: 'English' },

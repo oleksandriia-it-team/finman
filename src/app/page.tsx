@@ -1,11 +1,11 @@
 'use client';
 
-import FirstPage from './shared/first-page/first-page';
+import FirstPage from './shared/first-page/registration-page';
 
 export default function MainPage() {
   return (
     <>
-      <FirstPage />
+      <FirstPage/>
     </>
   );
 }

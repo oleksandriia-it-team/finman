@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { ControlledInputProps } from '../models/controlled-input-model';
+import { ControlledInputProps } from '../../models/controlled-input.model';
 import InputComponent from '../../input-component/input-component';
 
 export default function ControlledInput({ name, placeholder, className }: ControlledInputProps) {

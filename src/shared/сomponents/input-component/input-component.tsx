@@ -1,7 +1,7 @@
 'use client';
 
 import { InputText } from 'primereact/inputtext';
-import { InputProps } from '../models/input-model';
+import { InputProps } from '../models/input.model';
 
 /**
  * InputComponent

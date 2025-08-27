@@ -2,7 +2,7 @@
 
 import { ButtonProps } from 'primereact/button';
 
-export interface PageButtonProps extends ButtonProps {
+export interface PageButtonModel extends ButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
 }

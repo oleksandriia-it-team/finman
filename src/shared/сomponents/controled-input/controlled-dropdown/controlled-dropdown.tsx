@@ -1,7 +1,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { ControlledDropdownProps } from '../models/controlled-dropdown-model';
-import { Dropdown } from 'primereact/dropdown';
-import { DropdownChangeEvent } from 'primereact/dropdown';
+import { ControlledDropdownProps } from '../../models/controlled-dropdown.model';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 
 
 export default function ControlledDropdown({ name, placeholder, options, className }: ControlledDropdownProps) {

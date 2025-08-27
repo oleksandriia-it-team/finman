@@ -1,4 +1,4 @@
-import { InputProps } from '../../models/input-model';
+import { InputProps } from './input.model';
 
 export interface ControlledInputProps extends InputProps {
   name: string;

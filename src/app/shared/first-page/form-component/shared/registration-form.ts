@@ -4,26 +4,21 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
 import { authServiceProvider } from '../../../../../data-access/auth-service/auth.service';
 import { useInject } from '../../../../../shared/contexts/use-inject.context';
-import { RegistrationFormProps } from './registration-form-props';
 import { UserInformation } from '../../../../../data-access/auth-service/models/user-infomation.model';
 
 /**
- * RegistrationForm
+ * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.
+ * Automatically logs in the user via `AuthService` upon successful submission and invokes a callback.
  *
- * Component that handles user registration in the app.
- * Uses `react-hook-form` with Yup for validation and integrates with `AuthService` via `useInject`.
- * Upon successful submission, calls the `onSuccessAction` callback with the user data.
- *
- * @param {RegistrationFormProps} props - Component props.
- * @param {(data: UserInformation) => void} props.onSuccessAction - Callback function to execute after successful registration.
- *
- * @returns An object containing:
- * - `methods` - Form methods from `useForm` for use with `FormProvider`.
- * - `submit` - Submit handler function to be passed to buttons or forms.
+ * @param {function(UserInformation): void} onSuccessAction - Callback function to be called after successful registration.
+ * @returns {{
+ *   methods: UseFormReturn<UserInformation>, // Form methods for use with FormProvider
+ *   submit: () => void // Function to trigger form submission
+ * }}
  *
  * @example
- * const { methods, submit } = RegistrationForm({
- *   onSuccessAction: (userData) => console.log(userData)
+ * const { methods, submit } = RegistrationForm((userData) => {
+ *   console.log('Registered user:', userData);
  * });
  *
  * <FormProvider {...methods}>
@@ -32,9 +27,11 @@ import { UserInformation } from '../../../../../data-access/auth-service/models/
  * </FormProvider>
  */
 
-export default function RegistrationForm({ onSuccessAction }: RegistrationFormProps) {
 
-  const Auth = useInject(authServiceProvider, true);
+export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {
+
+
+  const authService = useInject(authServiceProvider, true);
 
 
   const methods = useForm({
@@ -60,8 +57,8 @@ export default function RegistrationForm({ onSuccessAction }: RegistrationFormPr
       language: data.language,
     };
 
-    Auth.logIn(user);
-    console.log(Auth.getUser());
+    authService.logIn(user);
+    console.log(authService.getUser());
     onSuccessAction(data);
   });
 

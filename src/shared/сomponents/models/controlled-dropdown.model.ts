@@ -1,4 +1,4 @@
-import { DropdownInputProps } from '../../models/input-model';
+import { DropdownInputProps } from './input.model';
 
 export interface ControlledDropdownProps extends DropdownInputProps {
   name: string;
