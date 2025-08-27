@@ -1,8 +1,8 @@
-import { Language } from './languages.model';
-import { CountryAndLocale } from './countries-and-locales.model';
 import { LookupsTypeEnum } from '../enums/lookups-type.enum';
+import { LookupsTypeRequest } from '../enums/lookups-type-request.enum';
 
-export interface GetLookupsItemsResult {
-  [LookupsTypeEnum.Languages]: Language;
-  [LookupsTypeEnum.CountriesAndLocales]: CountryAndLocale;
+export interface LookupsResponseResult<T extends LookupsTypeEnum> {
+  [LookupsTypeRequest.GetById]: T | null;
+  [LookupsTypeRequest.GetItems]: T[];
+  [LookupsTypeRequest.GetTotalItems]: number;
 }

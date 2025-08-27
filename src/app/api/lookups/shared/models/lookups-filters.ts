@@ -1,6 +1,6 @@
 import { LookupsTypeEnum } from '../enums/lookups-type.enum';
-import { CountriesAndLocalesFilter } from '../filters/countries-and-locales.filter';
-import { LanguagesFilter } from '../filters/languages.filter';
+import { CountriesAndLocalesFilter } from '../../countries-and-locales/shared/filters/countries-and-locales.filter';
+import { LanguagesFilter } from '../../languages/shared/filters/languages.filter';
 
 export interface LookupsFilters {
   [LookupsTypeEnum.Languages]: LanguagesFilter;

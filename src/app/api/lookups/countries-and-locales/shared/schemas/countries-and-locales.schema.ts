@@ -8,4 +8,4 @@ const filters = z.object({
   locale: z.string('Locale is required'),
 });
 
-export const countriesAndLocalesSchema = createPaginatedSchema(filters);
+export const CountriesAndLocalesSchema = createPaginatedSchema(filters);

@@ -1,14 +1,16 @@
 import fs from 'fs';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
+import path from 'node:path';
+import { PathToPublic } from '../constants/path-to-public.constant';
 
 export async function getTotalCountItems<T>(
-  path: string,
+  pathToJson: string,
   filtersFns: ((value: T) => boolean)[]
 ): Promise<number> {
   let count = 0;
 
-  const jsonStream = fs.createReadStream(path)
+  const jsonStream = fs.createReadStream(path.join(PathToPublic, pathToJson))
     .pipe(parser())
     .pipe(streamArray());
 

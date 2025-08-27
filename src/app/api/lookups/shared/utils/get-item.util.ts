@@ -1,9 +1,11 @@
 import fs from 'fs';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
+import path from 'node:path';
+import { PathToPublic } from '../constants/path-to-public.constant';
 
 export async function getItem<T>(
-  path: string,
+  pathToJson: string,
   key: string,
   searchValue: unknown,
 ): Promise<T | null> {
@@ -12,7 +14,7 @@ export async function getItem<T>(
     throw new Error(`${key} must be string or number`);
   }
 
-  const jsonStream = fs.createReadStream(path)
+  const jsonStream = fs.createReadStream(path.join(PathToPublic, pathToJson))
     .pipe(parser())
     .pipe(streamArray());
 

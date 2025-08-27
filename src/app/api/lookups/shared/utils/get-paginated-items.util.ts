@@ -1,9 +1,11 @@
 import fs from 'fs';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
+import path from 'node:path';
+import { PathToPublic } from '../constants/path-to-public.constant';
 
 export async function getPaginatedItems<T>(
-  path: string,
+  pathToJson: string,
   from: number,
   to: number,
   filtersFns: ((value: T) => boolean)[]
@@ -11,7 +13,7 @@ export async function getPaginatedItems<T>(
   const result: T[] = [];
   let index = 0;
 
-  const jsonStream = fs.createReadStream(path)
+  const jsonStream = fs.createReadStream(path.join(PathToPublic, pathToJson))
     .pipe(parser())
     .pipe(streamArray());
 

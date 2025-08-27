@@ -7,4 +7,4 @@ const filters = z.object({
   name: z.string('Name is required'),
 });
 
-export const languagesSchema = createPaginatedSchema(filters);
+export const LanguagesSchema = createPaginatedSchema(filters);
