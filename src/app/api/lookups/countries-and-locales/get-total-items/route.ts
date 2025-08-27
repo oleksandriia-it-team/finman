@@ -7,7 +7,7 @@ import { GetTotalCountryAndLocalesPayload } from '../shared/models/country-and-l
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
 import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
 
-export default async function GET(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
+export default async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
   try {
     const body: GetTotalCountryAndLocalesPayload = await request.json();
 

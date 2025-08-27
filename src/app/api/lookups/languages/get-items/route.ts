@@ -7,7 +7,7 @@ import { getApiErrorMessage } from '../../shared/utils/get-api-error-message.uti
 import { Language } from '../shared/models/languages.model';
 import { getPaginatedItems } from '../../shared/utils/get-paginated-items.util';
 
-export default async function GET(request: Request): Promise<NextResponse<DatabaseResultOperation<Language[]>>> {
+export default async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<Language[]>>> {
   try {
     const body: GetLanguagesPayload = await request.json();
 

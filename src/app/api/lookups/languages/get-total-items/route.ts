@@ -7,7 +7,7 @@ import { getApiErrorMessage } from '../../shared/utils/get-api-error-message.uti
 import { getTotalCountItems } from '../../shared/utils/get-total-count-items.util';
 import { Language } from '../shared/models/languages.model';
 
-export default async function GET(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
+export default async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
   try {
     const body: GetTotalLanguagesPayload = await request.json();
 
