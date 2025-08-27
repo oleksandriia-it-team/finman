@@ -411,7 +411,7 @@ export class DatabaseService {
       this.#tx.abort();
       await this.#tx.done;
 
-    }catch (err) {
+    } catch ( err ) {
       if (err instanceof Object && 'name' in err && err.name !== ErrorTexts.AbortError) {
         throw err;
       }
