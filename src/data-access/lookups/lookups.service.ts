@@ -24,7 +24,7 @@ export class LookupsService {
     return body as DatabaseResultOperationSuccess<LookupsResponseResult<LT>[LTR]>;
   }
 
-  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters: LookupsFilters[T]): Promise<DatabaseResultOperationSuccess<T[]>> {
+  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<T[]>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters });
   }
 
@@ -32,7 +32,7 @@ export class LookupsService {
     return this.fetchLookups(type, LookupsTypeRequest.GetById, { id });
   }
 
-  getTotalCount<T extends LookupsTypeEnum>(type: T, filters: LookupsFilters[T]): Promise<DatabaseResultOperationSuccess<number>> {
+  getTotalCount<T extends LookupsTypeEnum>(type: T, filters: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<number>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters });
   }
 }
