@@ -1,7 +1,4 @@
 import { describe, expect, it } from 'vitest';
-
-import './mocks/fs.mock';
-import './mocks/stream-array.mock';
 import { getPaginatedItems } from '../get-paginated-items.util';
 import { CountryAndLocale } from '../../../countries-and-locales/shared/models/countries-and-locales.model';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
@@ -9,6 +6,9 @@ import fs from 'fs';
 import path from 'node:path';
 import { PathToPublic } from '../../constants/path-to-public.constant';
 import StreamArray from 'stream-json/streamers/StreamArray';
+
+import './mocks/fs.mock';
+import './mocks/stream-array.mock';
 
 describe('getPaginatedItems', () => {
   it('should get items from 1 to 10', async () => {

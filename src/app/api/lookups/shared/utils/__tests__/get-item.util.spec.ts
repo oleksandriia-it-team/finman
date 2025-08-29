@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import fs from 'fs';
 import StreamArray from 'stream-json/streamers/StreamArray';
 import { getItem } from '../get-item.util';
@@ -10,10 +10,6 @@ import './mocks/fs.mock';
 import './mocks/stream-array.mock';
 
 describe('getItem', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it('should find a locale and language with id = 5', async () => {
     const result = await getItem<CountryAndLocale, 'id'>('TEST.json', 'id', 5);
 
