@@ -3,7 +3,7 @@ import { UserInformation } from '../../data-access/user-information/models/user-
 // TODO add later
 export interface ReduxStore {
   mode: 'dark' | 'light';
-  userName: string;
+  userName: string | null;
   language: string;
   preferableLocale: string;
   isLoggedIn: boolean;
