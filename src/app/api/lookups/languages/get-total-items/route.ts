@@ -13,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const result = LanguagesSchema.totalCountSchema.safeParse(body);
 
-    if(!result.success) {
+    if (!result.success) {
       return NextResponse.json(getZodErrorMessage(result));
     }
 
@@ -29,11 +29,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
       status: 200,
       data: await getTotalCountItems<Language>(
         'languages.json',
-        [idsFilter, excludeIdsFilter, nameFilter].filter((fn) => fn !== emptyFilter)
+        [ idsFilter, excludeIdsFilter, nameFilter ].filter((fn) => fn !== emptyFilter)
       )
-    })
-  }
-  catch (err: unknown) {
+    });
+  } catch ( err: unknown ) {
     return NextResponse.json(getApiErrorMessage(err));
   }
 

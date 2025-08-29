@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { LookupsService } from '../lookups.service';
 import { LookupsTypeEnum } from '../../../app/api/lookups/shared/enums/lookups-type.enum';
 
@@ -10,7 +10,7 @@ describe('LookupsService', () => {
   it('should fetch list of items', async () => {
     const mockResponse = {
       status: 200,
-      data: [{ id: 1, name: 'Test Item' }],
+      data: [ { id: 1, name: 'Test Item' } ],
     };
 
     vi.mocked(fetch).mockResolvedValueOnce({
@@ -22,7 +22,7 @@ describe('LookupsService', () => {
 
     expect(result).toEqual(mockResponse);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/languages/get-items',
+      '/api/lookups/languages/get-items',
       expect.objectContaining({
         body: JSON.stringify({ from: 0, to: 10, filters: {} }),
       })
@@ -44,7 +44,7 @@ describe('LookupsService', () => {
 
     expect(result).toEqual(mockResponse);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/languages/get-by-id',
+      '/api/lookups/languages/get-by-id',
       expect.objectContaining({
         body: JSON.stringify({ id: 1 }),
       })
@@ -66,7 +66,7 @@ describe('LookupsService', () => {
 
     expect(result).toEqual(mockResponse);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/languages/get-total-items',
+      '/api/lookups/languages/get-total-items',
       expect.objectContaining({
         body: JSON.stringify({ filters: {} }),
       })

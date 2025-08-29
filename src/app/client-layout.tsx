@@ -84,7 +84,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
         <ProvideDependencies providers={ providers }>
           <LoadThemeComponent>
             <InitApplication>
-              {children}
+              { children }
             </InitApplication>
           </LoadThemeComponent>
         </ProvideDependencies>

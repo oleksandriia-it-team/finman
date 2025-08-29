@@ -153,13 +153,13 @@ describe('useInject', () => {
     function UnitTestParentComponent() {
 
       return <div>
-        <div className='firstChild'>
+        <div className="firstChild">
           <ProvideDependencies providers={ secondPartDependencies }>
             <UnitTestChildrenComponent/>
           </ProvideDependencies>
         </div>
 
-        <div className='secondChild'>
+        <div className="secondChild">
           <ProvideDependencies providers={ thirdPartDependencies }>
             <UnitTestChildrenComponent/>
           </ProvideDependencies>

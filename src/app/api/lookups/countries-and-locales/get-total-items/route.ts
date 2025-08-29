@@ -13,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const result = CountriesAndLocalesSchema.totalCountSchema.safeParse(body);
 
-    if(!result.success) {
+    if (!result.success) {
       return NextResponse.json(getZodErrorMessage(result));
     }
 
@@ -30,11 +30,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
       status: 200,
       data: await getTotalCountItems<CountryAndLocale>(
         'countries-and-locales.json',
-        [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter)
+        [ idsFilter, excludeIdsFilter, countryFilter, localeFilter ].filter((fn) => fn !== emptyFilter)
       )
-    })
-  }
-  catch (err: unknown) {
+    });
+  } catch ( err: unknown ) {
     return NextResponse.json(getApiErrorMessage(err));
   }
 

@@ -3,11 +3,12 @@ body {
     --header-bg: #7254F3;
     --theme-button-bg: #ededed;
     --theme-button-icon: #7254F3;
-    --pagebutton-bg:#4B2CCD
+    --pagebutton-bg: #4B2CCD
   }
+
   &:has(.dark-theme) {
     --header-bg: #3d269e;
-    --pagebutton-bg:#8170c2;
+    --pagebutton-bg: #8170c2;
     --theme-button-bg: #3d269e;
     --theme-button-icon: #ffffff;
   }

@@ -16,5 +16,5 @@ export default function Layout({ children }: ChildrenComponentProps) {
         </ClientLayout>
       </body>
     </html>
-  )
+  );
 }

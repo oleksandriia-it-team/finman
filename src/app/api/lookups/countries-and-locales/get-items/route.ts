@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import { getZodErrorMessage } from '../../shared/utils/get-zod-error-message.util';
 import { DatabaseResultOperation } from '../../../../../shared/models/database-result-operation.model';
 import { getApiErrorMessage } from '../../shared/utils/get-api-error-message.util';
-import {
-  GetCountryAndLocalesPayload,
-} from '../shared/models/country-and-locales-payloads.model';
+import { GetCountryAndLocalesPayload, } from '../shared/models/country-and-locales-payloads.model';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
 import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
 import { getPaginatedItems } from '../../shared/utils/get-paginated-items.util';
@@ -15,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const result = CountriesAndLocalesSchema.itemsSchema.safeParse(body);
 
-    if(!result.success) {
+    if (!result.success) {
       return NextResponse.json(getZodErrorMessage(result));
     }
 
@@ -34,11 +32,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
         'countries-and-locales.json',
         body.from,
         body.to,
-        [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter)
+        [ idsFilter, excludeIdsFilter, countryFilter, localeFilter ].filter((fn) => fn !== emptyFilter)
       )
-    })
-  }
-  catch (err: unknown) {
+    });
+  } catch ( err: unknown ) {
     return NextResponse.json(getApiErrorMessage(err));
   }
 
