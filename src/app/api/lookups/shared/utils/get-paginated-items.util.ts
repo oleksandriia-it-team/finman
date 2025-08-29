@@ -21,14 +21,14 @@ export async function getPaginatedItems<T>(
     const isValid = filtersFns.every(fn => fn(value));
     if (!isValid) continue;
 
-    if (index + 1 >= from && index < to) {
+
+    if (index + 1 >= from && index + 1 < to) {
       result.push(value);
     }
 
     index++;
 
     if (index >= to) {
-      jsonStream.destroy();
       break;
     }
   }

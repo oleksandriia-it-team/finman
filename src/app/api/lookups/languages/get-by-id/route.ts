@@ -13,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const result = LanguagesSchema.getByIdSchema.safeParse(body);
 
-    if(!result.success) {
+    if (!result.success) {
       return NextResponse.json(getZodErrorMessage(result));
     }
 
@@ -24,9 +24,8 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
         'id',
         body.id
       )
-    })
-  }
-  catch (err: unknown) {
+    });
+  } catch ( err: unknown ) {
     return NextResponse.json(getApiErrorMessage(err));
   }
 

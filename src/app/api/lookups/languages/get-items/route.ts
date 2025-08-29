@@ -13,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const result = LanguagesSchema.itemsSchema.safeParse(body);
 
-    if(!result.success) {
+    if (!result.success) {
       return NextResponse.json(getZodErrorMessage(result));
     }
 
@@ -31,11 +31,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
         'languages.json',
         body.from,
         body.to,
-        [idsFilter, excludeIdsFilter, nameFilter].filter((fn) => fn !== emptyFilter)
+        [ idsFilter, excludeIdsFilter, nameFilter ].filter((fn) => fn !== emptyFilter)
       )
-    })
-  }
-  catch (err: unknown) {
+    });
+  } catch ( err: unknown ) {
     return NextResponse.json(getApiErrorMessage(err));
   }
 
