@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { LookupsService } from '../lookups.service';
 import { LookupsTypeEnum } from '../../../app/api/lookups/shared/enums/lookups-type.enum';
 
-global.fetch = vi.fn();
+vi.stubGlobal('fetch', vi.fn());
 
 describe('LookupsService', () => {
   const service = new LookupsService();
