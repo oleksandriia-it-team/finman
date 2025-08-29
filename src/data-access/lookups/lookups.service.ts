@@ -10,11 +10,11 @@ import {
   DatabaseResultOperationSuccess
 } from '../../shared/models/database-result-operation.model';
 import { LookupsResponseResult } from '../../app/api/lookups/shared/models/get-lookups-items-result';
-
+import { InjectToken } from '../../shared/classes/inject-token.class';
 
 export class LookupsService {
   private async fetchLookups<LT extends LookupsTypeEnum, LTR extends LookupsTypeRequest>(type: LT, typeRequest: LTR, payload: unknown): Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LT>[LTR]>> {
-    const result = await fetch(`/api/${ LookupsEndpoints[type] }/${ LookupsTypeEndpoints[typeRequest] }`, { body: JSON.stringify(payload) });
+    const result = await fetch(`/api/lookups/${ LookupsEndpoints[type] }/${ LookupsTypeEndpoints[typeRequest] }`, { method: 'post', body: JSON.stringify(payload) });
     const body: DatabaseResultOperation<LookupsResponseResult<LT>[LTR]> = await result.json();
 
     if(body.status === 400 || body.status === 500) {
@@ -36,3 +36,5 @@ export class LookupsService {
     return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters });
   }
 }
+
+export const lookupsProvider = new InjectToken<LookupsService>('LookupsService');

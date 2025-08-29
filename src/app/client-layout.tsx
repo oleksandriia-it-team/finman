@@ -25,6 +25,7 @@ import {
 } from '../data-access/regular-expenses-and-incomes/regular-expenses-and-incomes.service';
 import { InjectProvider } from '../shared/models/inject-provider.model';
 import InitApplication from './init-application';
+import { lookupsProvider, LookupsService } from '../data-access/lookups/lookups.service';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
@@ -40,11 +41,16 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       const delayedExpensesService = new DelayedExpensesService(databaseService);
       const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
       const budgetPlanService = new BudgetPlanService(databaseService, delayedExpensesService);
+      const lookupsService = new LookupsService();
 
       return [
         {
           token: authServiceProvider,
           value: authService
+        },
+        {
+          token: lookupsProvider,
+          value: lookupsService,
         },
         {
           token: localStorageServiceProvider,
