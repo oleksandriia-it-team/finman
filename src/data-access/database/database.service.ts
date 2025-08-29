@@ -4,11 +4,11 @@ import {
   DatabaseResultOperationError,
   DatabaseResultOperationSuccess
 } from '../../shared/models/database-result-operation.model';
-import { ErrorDataBaseConnection, ErrorTexts } from './constants/database.constants';
-import { getErrorMessage } from './utils/get-error-message.util';
+import { getErrorMessage } from '../../shared/utils/get-error-message.util';
 import { RecordModel } from '../../shared/models/record.model';
 import { DefaultTableColumns } from '../../shared/models/default-table-columns.model';
 import { isEmpty } from '../../shared/utils/is-empty.util';
+import { ErrorDataBaseConnection, ErrorTexts } from '../../shared/constants/error-texts.contant';
 
 /**
  * Service for interacting with an IndexedDB database using the `idb` library.

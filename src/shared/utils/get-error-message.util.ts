@@ -1,5 +1,5 @@
-import { isEmpty } from '../../../shared/utils/is-empty.util';
-import { ErrorTexts } from '../constants/database.constants';
+import { isEmpty } from './is-empty.util';
+import { ErrorTexts } from '../constants/error-texts.contant';
 
 export function getErrorMessage(error: unknown): string {
   if (typeof error === 'object' && !isEmpty(error)) {

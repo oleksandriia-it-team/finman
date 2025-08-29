@@ -26,6 +26,7 @@ import {
 import { InjectProvider } from '../shared/models/inject-provider.model';
 import InitApplication from './init-application';
 import Header from '../shared/сomponents/header/header';
+import { lookupsProvider, LookupsService } from '../data-access/lookups/lookups.service';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
@@ -41,11 +42,16 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       const delayedExpensesService = new DelayedExpensesService(databaseService);
       const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
       const budgetPlanService = new BudgetPlanService(databaseService, delayedExpensesService);
+      const lookupsService = new LookupsService();
 
       return [
         {
           token: authServiceProvider,
           value: authService
+        },
+        {
+          token: lookupsProvider,
+          value: lookupsService,
         },
         {
           token: localStorageServiceProvider,
