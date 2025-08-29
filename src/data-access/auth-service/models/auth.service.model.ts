@@ -1,9 +1,9 @@
 import { UserInformation } from './user-infomation.model';
 
-export interface IAuthService {
-  getUser(): UserInformation | null;
+export interface IUserInformationService {
+  getAllUserInformation(): UserInformation | null;
 
-  logIn(userInformation: UserInformation): void;
+  setUserInformation(userInformation: Partial<UserInformation>): void;
 
   logOut(): void;
 }

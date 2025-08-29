@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
-import { authServiceProvider } from '../../../../../data-access/auth-service/auth.service';
+import { userInformationServiceProvider } from '../../../../../data-access/auth-service/auth.service';
 import { useInject } from '../../../../../shared/contexts/use-inject.context';
 import { UserInformation } from '../../../../../data-access/auth-service/models/user-infomation.model';
 
@@ -31,7 +31,7 @@ import { UserInformation } from '../../../../../data-access/auth-service/models/
 export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {
 
 
-  const authService = useInject(authServiceProvider, true);
+  const authService = useInject(userInformationServiceProvider, true);
 
 
   const methods = useForm({
@@ -57,8 +57,8 @@ export function useSetupRegistration(onSuccessAction: (data: UserInformation) =>
       language: data.language,
     };
 
-    authService.logIn(user);
-    console.log(authService.getUser());
+    authService.setUserInformation(user);
+    console.log(authService.getAllUserInformation());
     onSuccessAction(data);
   });
 
