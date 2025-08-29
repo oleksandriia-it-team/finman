@@ -8,7 +8,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.model';
 
 
+/**
+ * Header
+ *
+ * A header component displaying the current date and a theme toggle button.
+ * The theme button switches between 'light' and 'dark' modes using Redux state.
+ *
+ * @component
+ *
+ * @example
+ * <Header />
+ *
+ * @remarks
+ * Uses `Toolbar` and `Button` components from PrimeReact.
+ * The current theme mode is read from Redux store, and dispatch updates it.
+ */
+
 export default function Header() {
+
 
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
 
@@ -21,7 +38,7 @@ export default function Header() {
   });
 
   const start = <p>{ today }</p>;
-  const end = <Button className={ 'ThemeButton' }
+  const end = <Button className={ 'theme-button' }
     severity={ 'help' }
     icon="pi pi-sun"
     size={ 'large' }
@@ -36,7 +53,7 @@ export default function Header() {
   return (
     <>
       <div
-        className={ 'w-screen fixed z-1000' }>
+        className={ 'w-screen' }>
         <Toolbar className={ 'custom-toolbar' } start={ start } end={ end }/>
       </div>
     </>

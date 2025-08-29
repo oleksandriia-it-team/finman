@@ -6,12 +6,12 @@
   background: var(--header-bg);
 }
 
-.ThemeButton.p-button {
+.theme-button.p-button {
   background: var(--theme-button-bg) !important;
   border-color: var(--theme-button-bg) !important;
 }
 
-.ThemeButton .p-button-icon {
+.theme-button .p-button-icon {
   color: var(--theme-button-icon);
   font-size: 2rem;
 }
