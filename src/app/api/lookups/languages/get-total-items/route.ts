@@ -23,7 +23,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const idsFilter = ids ? (value: Language) => ids.includes(value.id) : emptyFilter;
     const excludeIdsFilter = excludeIds ? (value: Language) => !excludeIds.includes(value.id) : emptyFilter;
-    const nameFilter = name ? (value: Language) => !name.includes(value.name) : emptyFilter;
+    const nameFilter = name ? (value: Language) => name.includes(value.name) : emptyFilter;
 
     return NextResponse.json({
       status: 200,
