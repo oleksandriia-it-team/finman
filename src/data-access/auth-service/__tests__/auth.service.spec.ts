@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalStorageService } from '../../local-storage/local-storage.service';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../user-information.service';
 import { UserInformationKey } from '../../local-storage/constants/local-storage.contants';
 import { UserInformation } from '../models/user-infomation.model';
 

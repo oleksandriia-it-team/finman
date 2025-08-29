@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
-import { userInformationServiceProvider } from '../../../../../data-access/auth-service/auth.service';
+import { userInformationServiceProvider } from '../../../../../data-access/auth-service/user-information.service';
 import { useInject } from '../../../../../shared/contexts/use-inject.context';
 import { UserInformation } from '../../../../../data-access/auth-service/models/user-infomation.model';
 

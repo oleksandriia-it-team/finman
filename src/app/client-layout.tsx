@@ -9,7 +9,10 @@ import { PrimeReactProvider } from 'primereact/api';
 import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
 import LoadThemeComponent from '../shared/сomponents/load-theme/load-theme.component';
 import ProvideDependencies from '../shared/contexts/use-inject.context';
-import { UserInformationService, userInformationServiceProvider } from '../data-access/auth-service/auth.service';
+import {
+  UserInformationService,
+  userInformationServiceProvider
+} from '../data-access/auth-service/user-information.service';
 import { LocalStorageService, localStorageServiceProvider } from '../data-access/local-storage/local-storage.service';
 import { useMemo } from 'react';
 import { DatabaseService } from '../data-access/database/database.service';
