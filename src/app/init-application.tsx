@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { ReduxStateActions, UseDispatch } from '../shared/models/store.model';
 import { useDispatch } from 'react-redux';
 import { useInject } from '../shared/contexts/use-inject.context';
-import { userInformationServiceProvider } from '../data-access/auth-service/user-information.service';
+import { userInformationServiceProvider } from '../data-access/user-information/user-information.service';
 import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
 
 export default function InitApplication({ children }: ChildrenComponentProps) {

@@ -1,4 +1,4 @@
-import { UserInformation } from '../../data-access/auth-service/models/user-infomation.model';
+import { UserInformation } from '../../data-access/user-information/models/user-infomation.model';
 
 // TODO add later
 export interface ReduxStore {

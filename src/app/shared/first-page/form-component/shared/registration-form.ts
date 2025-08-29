@@ -2,9 +2,9 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
-import { userInformationServiceProvider } from '../../../../../data-access/auth-service/user-information.service';
+import { userInformationServiceProvider } from '../../../../../data-access/user-information/user-information.service';
 import { useInject } from '../../../../../shared/contexts/use-inject.context';
-import { UserInformation } from '../../../../../data-access/auth-service/models/user-infomation.model';
+import { UserInformation } from '../../../../../data-access/user-information/models/user-infomation.model';
 
 /**
  * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.

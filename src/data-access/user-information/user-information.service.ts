@@ -15,10 +15,8 @@ export class UserInformationService implements IUserInformationService {
 
   setUserInformation(userInformation: Partial<UserInformation>): void {
     const user = this.localStorageService.getItem<UserInformation>(UserInformationKey);
-    if (user) {
-      const updatedUser = { ...user, ...userInformation };
-      this.localStorageService.setItem(UserInformationKey, updatedUser);
-    }
+    const updatedUser = { ...user, ...userInformation };
+    this.localStorageService.setItem(UserInformationKey, updatedUser);
   }
 
   logOut(): void {
