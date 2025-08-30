@@ -19,7 +19,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     return NextResponse.json({
       status: 200,
-      data: await getItem<CountryAndLocale>(
+      data: await getItem<CountryAndLocale, 'id'>(
         'countries-and-locales.json',
         'id',
         body.id

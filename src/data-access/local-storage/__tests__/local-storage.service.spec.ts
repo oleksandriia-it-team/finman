@@ -1,21 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { LocalStorageService } from '../../local-storage/local-storage.service';
-import { LocalStoragePrefix } from '../../local-storage/constants/local-storage.contants';
+import { LocalStorageService } from '../local-storage.service';
+import { LocalStoragePrefix } from '../constants/local-storage.contants';
+
+vi.stubGlobal('localStorage', {
+  setItem: vi.fn(),
+  getItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+  key: vi.fn(),
+  length: 0
+})
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;
 
   beforeEach(() => {
-    // eslint-disable-next-line
-    // @ts-ignore
-    global.localStorage = {
-      setItem: vi.fn(),
-      getItem: vi.fn(),
-      removeItem: vi.fn(),
-      clear: vi.fn(),
-      key: vi.fn(),
-      length: 0
-    };
+    vi.clearAllMocks();
 
     localStorageService = new LocalStorageService();
   });

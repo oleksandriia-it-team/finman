@@ -1,9 +1,9 @@
-import { UserInformation } from '../../data-access/auth-service/models/user-infomation.model';
+import { UserInformation } from '../../data-access/user-information/models/user-infomation.model';
 
 // TODO add later
 export interface ReduxStore {
   mode: 'dark' | 'light';
-  userName: string;
+  userName: string | null;
   language: string;
   preferableLocale: string;
   isLoggedIn: boolean;

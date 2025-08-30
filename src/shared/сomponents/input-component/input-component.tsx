@@ -30,7 +30,7 @@ export default function InputComponent({ value, className, placeholder, onChange
     <InputText className={ `input-component ${ className || '' } ` }
       placeholder={ placeholder }
       value={ value }
-      onChange={ (newValue) => onChange(newValue.target.value) }
+      onChange={ (newValue) => onChange?.(newValue.target.value) }
     />
   </>;
 }
