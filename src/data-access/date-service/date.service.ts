@@ -7,46 +7,51 @@ export enum DateFormatType {
 }
 
 export function FormatDate(
-  date: Date | string | number,
+  input: Date | string | number,
   type: DateFormatType,
-  locale: string,
+  locale: string = 'en-US'
 ): string {
-  const parsedDate = new Date(date);
+  const date = new Date(input);
+  if (isNaN(date.getTime())) return '';
 
   switch (type) {
     case DateFormatType.Long:
-      return parsedDate.toLocaleString(locale, {
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
         month: 'long',
-        day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-      });
-    case DateFormatType.LongWithYear:
-      return parsedDate.toLocaleString(locale, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-    case DateFormatType.Short:
-      return parsedDate.toLocaleString(locale, {
-        day: '2-digit',
-        month: 'short',
-      });
-    case DateFormatType.ShortWithYear:
-      return parsedDate.toLocaleString(locale, {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-      });
-    case DateFormatType.TimeOnly:
-      return parsedDate.toLocaleString(locale, {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-    default:
-      return parsedDate.toLocaleString(locale);
-  }
+      }).format(date);
 
+    case DateFormatType.LongWithYear:
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date);
+
+    case DateFormatType.Short:
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'short',
+      }).format(date);
+
+    case DateFormatType.ShortWithYear:
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      }).format(date);
+
+    case DateFormatType.TimeOnly:
+      return new Intl.DateTimeFormat(locale, {
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(date);
+
+    default:
+      return date.toLocaleString(locale);
+  }
 }
