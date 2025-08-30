@@ -10,7 +10,7 @@ import {
   DatabaseResultOperationError,
   DatabaseResultOperationSuccess
 } from '../../../shared/models/database-result-operation.model';
-import { ErrorTexts } from '../../database/constants/database.constants';
+import { ErrorTexts } from '../../../shared/constants/error-texts.contant';
 
 describe('BudgetPlanService', () => {
   let dbService: DatabaseService;

@@ -6,7 +6,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { RecordModel } from '../../../shared/models/record.model';
 import { DefaultTableColumns } from '../../../shared/models/default-table-columns.model';
 import { DatabaseResultOperationError } from '../../../shared/models/database-result-operation.model';
-import { ErrorTexts } from '../constants/database.constants';
+import { ErrorTexts } from '../../../shared/constants/error-texts.contant';
 
 interface UnitTestUser extends RecordModel {
   id: number;
