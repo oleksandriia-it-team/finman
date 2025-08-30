@@ -4,10 +4,6 @@ import { InjectToken } from '../../shared/classes/inject-token.class';
 
 export class LocalStorageService {
   getItem<T>(token: string): T | null {
-    if (isEmpty(global.localStorage)) {
-      return null;
-    }
-
     const result = localStorage.getItem(LocalStoragePrefix + '-' + token);
 
     if (isEmpty(result)) {
@@ -22,26 +18,14 @@ export class LocalStorageService {
   }
 
   setItem<T>(token: string, value: T): void {
-    if (isEmpty(global.localStorage)) {
-      return;
-    }
-
     localStorage.setItem(LocalStoragePrefix + '-' + token, JSON.stringify(value));
   }
 
   removeItem(token: string): void {
-    if (isEmpty(global.localStorage)) {
-      return;
-    }
-
     localStorage.removeItem(LocalStoragePrefix + '-' + token);
   }
 
   hasItem(token: string): boolean {
-    if (isEmpty(global.localStorage)) {
-      return false;
-    }
-
     return !isEmpty(localStorage.getItem(LocalStoragePrefix + '-' + token));
   }
 }

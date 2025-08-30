@@ -9,7 +9,10 @@ import { PrimeReactProvider } from 'primereact/api';
 import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
 import LoadThemeComponent from '../shared/сomponents/load-theme/load-theme.component';
 import ProvideDependencies from '../shared/contexts/use-inject.context';
-import { AuthService, authServiceProvider } from '../data-access/auth-service/auth.service';
+import {
+  UserInformationService,
+  userInformationServiceProvider
+} from '../data-access/user-information/user-information.service';
 import { LocalStorageService, localStorageServiceProvider } from '../data-access/local-storage/local-storage.service';
 import { useMemo } from 'react';
 import { DatabaseService } from '../data-access/database/database.service';
@@ -25,6 +28,8 @@ import {
 } from '../data-access/regular-expenses-and-incomes/regular-expenses-and-incomes.service';
 import { InjectProvider } from '../shared/models/inject-provider.model';
 import InitApplication from './init-application';
+import { lookupsProvider, LookupsService } from '../data-access/lookups/lookups.service';
+import Header from '../shared/сomponents/header/header';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
 
@@ -32,7 +37,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
   const providers = useMemo(() => {
     try {
       const localStorageService = new LocalStorageService();
-      const authService = new AuthService(localStorageService);
+      const authService = new UserInformationService(localStorageService);
       const databaseService = new DatabaseService(DatabaseName, Object.values(Tables), 1);
 
       databaseService.connect();
@@ -40,11 +45,16 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       const delayedExpensesService = new DelayedExpensesService(databaseService);
       const regularExpensesAndIncomesService = new RegularExpensesAndIncomesService(databaseService);
       const budgetPlanService = new BudgetPlanService(databaseService, delayedExpensesService);
+      const lookupsService = new LookupsService();
 
       return [
         {
-          token: authServiceProvider,
+          token: userInformationServiceProvider,
           value: authService
+        },
+        {
+          token: lookupsProvider,
+          value: lookupsService,
         },
         {
           token: localStorageServiceProvider,
@@ -78,7 +88,12 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
         <ProvideDependencies providers={ providers }>
           <LoadThemeComponent>
             <InitApplication>
-              {children}
+              <div className="flex flex-col w-screen h-screen">
+                <Header/>
+                <div className="flex-1">
+                  { children }
+                </div>
+              </div>
             </InitApplication>
           </LoadThemeComponent>
         </ProvideDependencies>

@@ -1,43 +1,60 @@
 'use client';
 
 import { Toolbar } from 'primereact/toolbar';
-import {Button} from 'primereact/button';
+import { Button } from 'primereact/button';
 import './styles/header.component.scss';
 import 'primeicons/primeicons.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.model';
 
 
-export default function Header(){
+/**
+ * Header
+ *
+ * A header component displaying the current date and a theme toggle button.
+ * The theme button switches between 'light' and 'dark' modes using Redux state.
+ *
+ * @component
+ *
+ * @example
+ * <Header />
+ *
+ * @remarks
+ * Uses `Toolbar` and `Button` components from PrimeReact.
+ * The current theme mode is read from Redux store, and dispatch updates it.
+ */
+
+export default function Header() {
+
 
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
-    
+
   const today = new Date().toLocaleDateString('en', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
   });
 
-  const start = <p>{today}</p>
-  const end =  <Button className={'ThemeButton'}
-    severity={'help'}
+  const start = <p>{ today }</p>;
+  const end = <Button className={ 'theme-button' }
+    severity={ 'help' }
     icon="pi pi-sun"
-    size={'large'}
+    size={ 'large' }
     rounded
     onClick={ () => dispatch({
       type: ReduxStateActions.Mode,
       payload: mode === 'dark' ? 'light' : 'dark'
     }) }>
-  </Button>
+  </Button>;
 
 
-  return(
+  return (
     <>
       <div
-        className={'w-screen fixed z-1000' }>
-        <Toolbar className={'custom-toolbar'} start={start} end={end}/>
+        className={ 'w-screen' }>
+        <Toolbar className={ 'custom-toolbar' } start={ start } end={ end }/>
       </div>
     </>
   );
