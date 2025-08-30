@@ -6,6 +6,8 @@ import './styles/header.component.scss';
 import 'primeicons/primeicons.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.model';
+import TransformDate from '../transform-date/transform-date';
+import { DateFormatType } from '../../../data-access/date-service/date.service';
 
 
 /**
@@ -31,22 +33,19 @@ export default function Header() {
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
 
-  const today = new Date().toLocaleDateString('en', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const today = new Date();
 
-  const start = <p>{ today }</p>;
+
+  const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
   const end = <Button className={ 'theme-button' }
-    severity={ 'help' }
-    icon="pi pi-sun"
-    size={ 'large' }
-    rounded
-    onClick={ () => dispatch({
-      type: ReduxStateActions.Mode,
-      payload: mode === 'dark' ? 'light' : 'dark'
-    }) }>
+                      severity={ 'help' }
+                      icon="pi pi-sun"
+                      size={ 'large' }
+                      rounded
+                      onClick={ () => dispatch({
+                        type: ReduxStateActions.Mode,
+                        payload: mode === 'dark' ? 'light' : 'dark'
+                      }) }>
   </Button>;
 
 
