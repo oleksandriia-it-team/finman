@@ -36,7 +36,7 @@ export default function Header() {
   const today = useMemo(() => new Date(), []);
 
 
-  const start = <TransformDate date={ today } type={ DateFormatType.long_with_year }></TransformDate>;
+  const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
   const end = <Button className={ 'theme-button' }
                       severity={ 'help' }
                       icon="pi pi-sun"
