@@ -1,14 +1,9 @@
-import { FormatDate, DateFormatType } from '../../../data-access/date-service/date.service';
+import { FormatDate } from '../../../data-access/date-service/date.service';
 import React, { useMemo } from 'react';
+import { TransformDateProps } from '../models/transform-date.model';
+import { defaultLocale } from '../../utils/get-preferred-locale.util';
 
-
-type TransformDateProps = {
-  date: Date | string | number;
-  type: DateFormatType;
-  locale?: string;
-};
-
-export default function TransformDate({ date, type, locale = 'en-US' }: TransformDateProps) {
+export default function TransformDate({ date, type, locale = defaultLocale }: TransformDateProps) {
   const formatted = useMemo(() => {
     return FormatDate(date, type, locale);
   }, [ date, type, locale ]);

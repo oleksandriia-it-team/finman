@@ -7,8 +7,8 @@ import 'primeicons/primeicons.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.model';
 import TransformDate from '../transform-date/transform-date';
-import { DateFormatType } from '../../../data-access/date-service/date.service';
-
+import { DateFormatType } from '../../enums/date-type.enum';
+import { useMemo } from 'react';
 
 /**
  * Header
@@ -33,10 +33,10 @@ export default function Header() {
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
 
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
 
 
-  const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
+  const start = <TransformDate date={ today } type={ DateFormatType.long_with_year }></TransformDate>;
   const end = <Button className={ 'theme-button' }
                       severity={ 'help' }
                       icon="pi pi-sun"

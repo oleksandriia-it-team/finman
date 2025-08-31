@@ -1,10 +1,4 @@
-export enum DateFormatType {
-  Long = 'long',
-  LongWithYear = 'longWithYear',
-  Short = 'short',
-  ShortWithYear = 'shortWithYear',
-  TimeOnly = 'timeOnly',
-}
+import { DateFormatType } from '../../shared/enums/date-type.enum';
 
 export function FormatDate(
   input: Date | string | number,
@@ -15,7 +9,7 @@ export function FormatDate(
   if (isNaN(date.getTime())) return '';
 
   switch (type) {
-    case DateFormatType.Long:
+    case DateFormatType.long:
       return new Intl.DateTimeFormat(locale, {
         day: 'numeric',
         month: 'long',
@@ -23,7 +17,7 @@ export function FormatDate(
         minute: '2-digit',
       }).format(date);
 
-    case DateFormatType.LongWithYear:
+    case DateFormatType.long_with_year:
       return new Intl.DateTimeFormat(locale, {
         day: 'numeric',
         month: 'long',
@@ -32,20 +26,20 @@ export function FormatDate(
         minute: '2-digit',
       }).format(date);
 
-    case DateFormatType.Short:
+    case DateFormatType.short:
       return new Intl.DateTimeFormat(locale, {
         day: 'numeric',
         month: 'short',
       }).format(date);
 
-    case DateFormatType.ShortWithYear:
+    case DateFormatType.short_with_year:
       return new Intl.DateTimeFormat(locale, {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
       }).format(date);
 
-    case DateFormatType.TimeOnly:
+    case DateFormatType.time_only:
       return new Intl.DateTimeFormat(locale, {
         hour: '2-digit',
         minute: '2-digit',
