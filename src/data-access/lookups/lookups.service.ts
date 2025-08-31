@@ -13,7 +13,7 @@ import { LookupsResponseResult } from '../../app/api/lookups/shared/models/get-l
 import { InjectToken } from '../../shared/classes/inject-token.class';
 
 export class LookupsService {
-  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<T[]>> {
+  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<T[]>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters });
   }
 
@@ -21,7 +21,7 @@ export class LookupsService {
     return this.fetchLookups(type, LookupsTypeRequest.GetById, { id });
   }
 
-  getTotalCount<T extends LookupsTypeEnum>(type: T, filters: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<number>> {
+  getTotalCount<T extends LookupsTypeEnum>(type: T, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<number>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters });
   }
 
