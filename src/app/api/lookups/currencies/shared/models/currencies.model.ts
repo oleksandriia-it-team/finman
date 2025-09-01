@@ -1,6 +1,6 @@
-export interface Currencies {
+export interface Currency {
   id: number;
-  currency_code: string;
-  currency_name: string;
-  currency_symbol: string;
+  currencyCode: string;
+  currencyName: string;
+  currencySymbol: string;
 }
