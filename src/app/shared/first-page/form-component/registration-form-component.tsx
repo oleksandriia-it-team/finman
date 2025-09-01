@@ -3,6 +3,11 @@
 import '../styles/first-page.scss';
 import ControlledInput from '../../../../shared/сomponents/controled-input/controlled-input/controled-input-component';
 import ControlledDropdown from '../../../../shared/сomponents/controled-input/controlled-dropdown/controlled-dropdown';
+import { useInject } from '../../../../shared/contexts/use-inject.context';
+import { lookupsProvider } from '../../../../data-access/lookups/lookups.service';
+import { useEffect, useRef, useState } from 'react';
+import { LookupsTypeEnum } from '../../../api/lookups/shared/enums/lookups-type.enum';
+import { CountryAndLocale } from '../../../api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
 
 export default function RegistrationFormComponent() {
 
@@ -12,12 +17,48 @@ export default function RegistrationFormComponent() {
     { label: 'Ukrainian', value: 'Ukrainian' },
   ];
 
-  const formats = [
-    { label: 'USD', value: 'USD' },
-    { label: 'ESP', value: 'ESP' },
-    { label: 'UAH', value: 'UAH' },
-  ];
+  const service = useInject(lookupsProvider, true);
+  const [ items, setItems ] = useState<any[]>([]);
 
+  useEffect(() => {
+    service.getTotalCount(0, {}).then(myItems => {
+      setItems(Array.from({ length: myItems.data }));
+    });
+  }, [ service ]);
+
+  const [ loading, setLoading ] = useState(false);
+  const loadLazyTimeout = useRef();
+
+  const onLazyLoad = (event: { first: number, last: number }) => {
+    setLoading(true);
+    if (loadLazyTimeout.current) {
+      clearTimeout(loadLazyTimeout.current);
+    }
+    loadLazyTimeout.current = setTimeout(() => {
+      const { first, last } = event;
+      const from = first + 1;
+      const to = last + 1;
+
+      service.getItems<CountryAndLocale[]>(LookupsTypeEnum.CountriesAndLocales, from, to, {}).then((response) => {
+        setItems(prevItems => {
+          const _items = [ ...prevItems ];
+          response.data.forEach((item: any, index: number) => {
+            _items[first + index] = {
+              label: item.country,
+              value: item.locale,
+            };
+          });
+          return _items;
+        });
+        setLoading(false);
+      });
+
+      loadLazyTimeout.current = null;
+    }, 250);
+  };
+
+
+  const formats = [ { label: 'test', value: 'test' } ];
 
   return (
     <form className="flex flex-col justify-center ">
@@ -32,7 +73,16 @@ export default function RegistrationFormComponent() {
         className="w-full form-input"
         name="preferableLocale"
         placeholder="Preferable Formats"
-        options={ formats }/>
+        options={ items }
+        virtualScrollerOptions={ {
+          lazy: true,
+          onLazyLoad: onLazyLoad,
+          itemSize: 38,
+          showLoader: true,
+          loading: loading,
+          delay: 250
+        } }
+      />
       <ControlledDropdown
         className="w-full form-input"
         name="language"

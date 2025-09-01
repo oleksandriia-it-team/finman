@@ -3,7 +3,14 @@ import { ControlledDropdownProps } from '../../models/controlled-dropdown.model'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 
 
-export default function ControlledDropdown({ name, placeholder, options, className }: ControlledDropdownProps) {
+export default function ControlledDropdown({
+  name,
+  options,
+  className,
+  virtualScrollerOptions,
+  placeholder,
+  onChange,
+}: ControlledDropdownProps) {
   const { control } = useFormContext();
 
   return (
@@ -17,7 +24,8 @@ export default function ControlledDropdown({ name, placeholder, options, classNa
             placeholder={ placeholder }
             value={ field.value ?? null }
             options={ options }
-            onChange={ (e: DropdownChangeEvent) => field.onChange(e.value) }
+            onChange={ onChange ?? ((e: DropdownChangeEvent) => field.onChange(e.value)) }
+            virtualScrollerOptions={ virtualScrollerOptions }
           />
           { fieldState.error && (
             <p className="error-text">{ fieldState.error.message }</p>
