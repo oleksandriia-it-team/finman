@@ -18,7 +18,7 @@ export default function RegistrationFormComponent() {
   ];
 
   const service = useInject(lookupsProvider, true);
-  const [ items, setItems ] = useState<any[]>([]);
+  const [ items, setItems ] = useState<{ label: string; value: string; }[]>([]);
 
   useEffect(() => {
     service.getTotalCount(0, {}).then(myItems => {
@@ -27,7 +27,7 @@ export default function RegistrationFormComponent() {
   }, [ service ]);
 
   const [ loading, setLoading ] = useState(false);
-  const loadLazyTimeout = useRef();
+  const loadLazyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const onLazyLoad = (event: { first: number, last: number }) => {
     setLoading(true);
@@ -39,10 +39,10 @@ export default function RegistrationFormComponent() {
       const from = first + 1;
       const to = last + 1;
 
-      service.getItems<CountryAndLocale[]>(LookupsTypeEnum.CountriesAndLocales, from, to, {}).then((response) => {
+      service.getItems(LookupsTypeEnum.CountriesAndLocales, from, to, {}).then((response) => {
         setItems(prevItems => {
           const _items = [ ...prevItems ];
-          response.data.forEach((item: any, index: number) => {
+          response.data.forEach((item: CountryAndLocale, index: number) => {
             _items[first + index] = {
               label: item.country,
               value: item.locale,
@@ -57,8 +57,6 @@ export default function RegistrationFormComponent() {
     }, 250);
   };
 
-
-  const formats = [ { label: 'test', value: 'test' } ];
 
   return (
     <form className="flex flex-col justify-center ">
