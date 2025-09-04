@@ -9,6 +9,7 @@ import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.m
 import TransformDate from '../transform-date/transform-date';
 import { DateFormatType } from '../../enums/date-type.enum';
 import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * Header
@@ -28,6 +29,7 @@ import { useMemo } from 'react';
 
 export default function Header() {
 
+  const router = useRouter();
 
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
 
@@ -37,7 +39,7 @@ export default function Header() {
 
 
   const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
-  const end = <Button className={ 'theme-button' }
+  const end =(<> <Button className={ 'theme-button' }
                       severity={ 'help' }
                       icon="pi pi-sun"
                       size={ 'large' }
@@ -47,8 +49,15 @@ export default function Header() {
                         payload: mode === 'dark' ? 'light' : 'dark'
                       }) }>
   </Button>;
-
-
+    <Button className={ 'setting-button' }
+            severity={ 'help' }
+            icon="pi pi-cog"
+            size={ 'large' }
+            rounded
+            onClick={ () => router.push('shared/setting-page' ) }>
+  </Button>;
+  </>
+)
   return (
     <>
       <div
