@@ -31,7 +31,11 @@ export default function Header() {
 
   const router = useRouter();
 
+
+
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
+
+  const isLoggedIn:boolean  = useSelector(({ isLoggedIn }: ReduxStore) => isLoggedIn);
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
 
@@ -49,14 +53,14 @@ export default function Header() {
                         payload: mode === 'dark' ? 'light' : 'dark'
                       }) }>
   </Button>;
-    <Button className={ 'setting-button' }
+  {isLoggedIn && <Button className={'setting-button'}
             severity={ 'help' }
             icon="pi pi-cog"
             size={ 'large' }
             rounded
             onClick={ () => router.push('shared/setting-page' ) }>
-  </Button>;
-  </>
+  </Button>}
+    </>
 )
   return (
     <>
