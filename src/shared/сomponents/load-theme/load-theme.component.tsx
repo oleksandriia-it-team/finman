@@ -4,7 +4,7 @@ import './styles/load-theme.component.scss';
 
 import { ReduxStore } from '../../models/store.model';
 import { useSelector } from 'react-redux';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 
@@ -28,14 +28,10 @@ import { ChildrenComponentProps } from '../../models/component-with-chilren.mode
 export default function LoadThemeComponent({ children }: ChildrenComponentProps) {
   const { changeTheme } = useContext(PrimeReactContext);
 
-  const linkStyleRef = useRef<HTMLLinkElement | null>(null);
-
   const [ linkStyleLoading, setLinkStyleLoading ] = useState<boolean>(true);
   const [ linkStyleError, setLinkStyleError ] = useState<boolean>(false);
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
-
-  const theme = useMemo(() => mode === 'light' ? 'lara-light-blue' : 'lara-dark-blue', [ mode ]);
 
   useEffect(() => {
     const newTheme = mode === 'light' ? 'lara-light-blue' : 'lara-dark-blue';
@@ -57,7 +53,6 @@ export default function LoadThemeComponent({ children }: ChildrenComponentProps)
 
   return (
     <>
-      <link id="theme" rel="stylesheet" href={ `/themes/${ theme }/theme.css` } ref={ linkStyleRef }/>
 
       {
         linkStyleLoading || linkStyleError
