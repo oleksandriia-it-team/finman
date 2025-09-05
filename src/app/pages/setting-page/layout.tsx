@@ -1,7 +1,9 @@
-'use client'
+'use client';
 
-export default function SettingLayout() {
+import { ChildrenComponentProps } from '../../../shared/models/component-with-chilren.model';
+
+export default function SettingLayout({ children }: ChildrenComponentProps) {
   return (
-    <p>Layuot</p>
+    { children }
   );
 }

@@ -32,10 +32,9 @@ export default function Header() {
   const router = useRouter();
 
 
-
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
 
-  const isLoggedIn:boolean  = useSelector(({ isLoggedIn }: ReduxStore) => isLoggedIn);
+  const isLoggedIn: boolean = useSelector(({ isLoggedIn }: ReduxStore) => isLoggedIn);
 
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
 
