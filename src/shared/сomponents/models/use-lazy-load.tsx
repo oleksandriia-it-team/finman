@@ -1,27 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { LookupsTypeEnum } from '../../../app/api/lookups/shared/enums/lookups-type.enum';
-import { LookupsService } from '../../../data-access/lookups/lookups.service';
-import { DatabaseResultOperationSuccess } from '../../models/database-result-operation.model';
-import { LookupsFilters } from '../../../app/api/lookups/shared/models/lookups-filters';
-import { LookupsDto } from '../../../app/api/lookups/shared/models/lookups-dto';
+import { UseLazyLoadModel } from './use-lazy-load.model';
 
 
-type LazyMapper<T> = (item: T) => { label: string; value: string };
+export function useLazyLoad<L, F, C>(service: UseLazyLoadModel<L, F, C>) {
 
-export function useLazyLoad<T extends LookupsTypeEnum>(
-  service: LookupsService,
-  type: T,
-  filter: Partial<LookupsFilters[T]>,
-  mapItem: LazyMapper<LookupsDto[T]>,
-  step: number
-) {
   const [ items, setItems ] = useState<{ label: string; value: string }[]>([]);
   const [ loading, setLoading ] = useState(false);
   const loadLazyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const step = service.step;
+
   useEffect(() => {
-    service.getTotalCount(type, filter).then((res: DatabaseResultOperationSuccess<number>) => {
-      setItems(Array.from({ length: res.data }));
+    service.getTotalCount(service.type, service.filter).then((res) => {
+      setItems(Array.from({ length: res }));
     });
   }, [ service ]);
 
@@ -36,8 +27,8 @@ export function useLazyLoad<T extends LookupsTypeEnum>(
         const from = event.first + 1;
         const to = event.last + 1;
 
-        service.getItems(type, from, to, filter).then((res) => {
-          const newItems = res.data.map(mapItem);
+        service.getItems(service.type, from, to, service.filter).then((res) => {
+          const newItems = res.map(service.mapItem);
 
           setItems((prev) => {
             const updated = [ ...prev ];
@@ -54,9 +45,8 @@ export function useLazyLoad<T extends LookupsTypeEnum>(
         loadLazyTimeout.current = null;
       });
     },
-    [ service, type, mapItem ]
+    [ service ]
   );
-
   const virtualScrollerOptions = {
     lazy: true,
     onLazyLoad,
