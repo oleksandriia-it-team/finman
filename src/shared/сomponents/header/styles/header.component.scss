@@ -6,6 +6,12 @@
   background: var(--header-bg);
 }
 
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .theme-button.p-button {
   background: var(--theme-button-bg) !important;
   border-color: var(--theme-button-bg) !important;
@@ -15,6 +21,18 @@
   color: var(--theme-button-icon);
   font-size: 2rem;
 }
+
+
+.setting-button.p-button {
+  background: var(--theme-button-bg) !important;
+  border-color: var(--theme-button-bg) !important;
+}
+
+.setting-button .p-button-icon {
+  color: var(--theme-button-icon);
+  font-size: 2rem;
+}
+
 
 p {
   font-size: 1.25rem;
