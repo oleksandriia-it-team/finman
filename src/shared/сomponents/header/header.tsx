@@ -42,7 +42,7 @@ export default function Header() {
 
 
   const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
-  const end =(<div className={'Header-Button'}> <Button className={ 'theme-button' }
+  const end =(<div className={'header-buttons'}> <Button className={ 'theme-button' }
                       severity={ 'help' }
                       icon="pi pi-sun"
                       size={ 'large' }
