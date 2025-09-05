@@ -1,15 +1,24 @@
 import { Resource } from '../models/resource.model';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { getErrorMessage } from '../utils/get-error-message.util';
 
 /**
  * A custom React hook for managing asynchronous operations with built-in loading, error, and data states.
- * Provides a simple way to handle async data fetching with automatic state management.
+ * Provides a simple way to handle async data fetching with automatic state management
+ * and request cancellation.
+ *
+ * Features:
+ * - Tracks loading, error, and resolved value states
+ * - Aborts the current request if:
+ *   - `refresh()` is called again before the previous request finishes
+ *   - The component using this hook is unmounted
+ *   - The `asyncFunction` dependency changes
  *
  * @template T - The type of the data returned by the async function
  *
- * @param {() => Promise<T>} asyncFunction - An asynchronous function that returns a promise.
- * This function is called when refresh() is invoked. The function should handle its own API errors
- * or let them propagate to be caught by the hook.
+ * @param {(signal?: AbortSignal) => Promise<T>} asyncFunction - An asynchronous function that returns a promise.
+ * It receives an optional AbortSignal, which allows the hook to cancel in-flight requests safely.
+ * The function should handle its own API errors or let them propagate to be caught by the hook.
  *
  * @returns {Resource<T>} An object containing the async operation state and controls
  * @returns {boolean} isLoading - True when the async operation is in progress
@@ -20,8 +29,8 @@ import { useCallback, useState } from 'react';
  *
  * @example
  * // Fetch user data with automatic error handling
- * const userResource = useResource(async () => {
- *   const response = await fetch('/api/user/123');
+ * const userResource = useResource(async (signal) => {
+ *   const response = await fetch('/api/user/123', { signal });
  *   if (!response.ok) throw new Error('Failed to fetch user');
  *   return response.json();
  * });
@@ -33,11 +42,11 @@ import { useCallback, useState } from 'react';
  *
  * @example
  * // Complex data transformation with error handling
- * const dashboardData = useResource(async () => {
+ * const dashboardData = useResource(async (signal) => {
  *   const [user, posts, notifications] = await Promise.all([
- *     fetch('/api/user').then(res => res.json()),
- *     fetch('/api/posts').then(res => res.json()),
- *     fetch('/api/notifications').then(res => res.json())
+ *     fetch('/api/user', { signal }).then(res => res.json()),
+ *     fetch('/api/posts', { signal }).then(res => res.json()),
+ *     fetch('/api/notifications', { signal }).then(res => res.json())
  *   ]);
  *
  *   return {
@@ -88,7 +97,6 @@ import { useCallback, useState } from 'react';
  *   const { value: data, isLoading, refresh } = useResource(fetchTableData);
  *
  *   const handleFiltersChange = useCallback((filters) => {
- *     // Update filters then refresh data
  *     updateFilters(filters);
  *     refresh();
  *   }, [refresh]);
@@ -101,25 +109,38 @@ import { useCallback, useState } from 'react';
  *   );
  * }
  */
-export function useResource<T>(asyncFunction: () => Promise<T>): Resource<T> {
+export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<T>): Resource<T> {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isError, setIsError ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('');
   const [ value, setValue ] = useState<T | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const refresh = useCallback(async () => {
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
     setIsLoading(true);
     setIsError(false);
     setErrorMessage('');
     try {
-      const result = await asyncFunction();
+      const result = await asyncFunction(controller.signal);
       setValue(result);
     } catch ( error ) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return;
+      }
       setIsError(true);
-      setErrorMessage(error instanceof Error ? error.message : String(error));
+      setErrorMessage(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
+  }, [ asyncFunction ]);
+
+  useEffect(() => {
+    return () => {
+      abortControllerRef.current?.abort();
+    };
   }, [ asyncFunction ]);
 
   return { isLoading, isError, errorMessage, value, refresh };
