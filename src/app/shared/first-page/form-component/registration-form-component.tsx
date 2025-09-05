@@ -24,14 +24,14 @@ export default function RegistrationFormComponent() {
   const filter = useMemo(() => ({}), []);
   const step: number = 25;
   const service = useInject(lookupsProvider, true);
-  const params = useMemo<UseLazyLoadModel<LookupsTypeEnum.CountriesAndLocales, CountriesAndLocalesFilter, CountryAndLocale>>(() => ({
-    type: LookupsTypeEnum.CountriesAndLocales,
+  const type: LookupsTypeEnum = LookupsTypeEnum.CountriesAndLocales;
+  const params = useMemo<UseLazyLoadModel<CountriesAndLocalesFilter, CountryAndLocale>>(() => ({
     filter,
-    getTotalCount: (type, filter) => service.getTotalCount(type, filter).then(result => result.data),
-    getItems: (type, from, to, filter) => service.getItems(type, from, to, filter).then(result => result.data),
+    getTotalCount: (filter) => service.getTotalCount(type, filter).then(result => result.data),
+    getItems: (from, to, filter) => service.getItems(type, from, to, filter).then(result => result.data),
     mapItem: (item) => ({ label: item.country, value: item.locale }),
     step
-  }), [ service, step ]);
+  }), [ filter, service, step, type ]);
   const { items, virtualScrollerOptions } = useLazyLoad(params);
 
 
