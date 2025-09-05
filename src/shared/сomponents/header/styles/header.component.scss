@@ -6,6 +6,12 @@
   background: var(--header-bg);
 }
 
+.Header-Button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .theme-button.p-button {
   background: var(--theme-button-bg) !important;
   border-color: var(--theme-button-bg) !important;
@@ -16,8 +22,8 @@
   font-size: 2rem;
 }
 
+
 .setting-button.p-button {
-  margin-left: 0.5rem;
   background: var(--theme-button-bg) !important;
   border-color: var(--theme-button-bg) !important;
 }
