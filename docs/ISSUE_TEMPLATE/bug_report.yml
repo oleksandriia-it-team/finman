@@ -1,5 +1,5 @@
-name: "Bug"
-description: "An unexpected problem or behaviour"
+name: Bug
+about: An unexpected problem or behaviour
 title: "[BUG] FIN-000: "
 labels: ["Todo"]
 body:

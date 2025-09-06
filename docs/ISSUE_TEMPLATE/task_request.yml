@@ -1,5 +1,5 @@
-name: "Task"
-description: "A specific piece of work"
+name: Task
+about: A specific piece of work
 title: "[TASK] FIN-000: "
 labels: ["Todo"]
 body:
