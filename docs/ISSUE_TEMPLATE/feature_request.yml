@@ -5,8 +5,8 @@ body:
     id: goal
     attributes:
       label: Goal of the task
-      description: Goal of the task
-      placeholder: Implement user's passcode
+      description: What needs to be done in this task
+      placeholder: Implement user's profile update
     validations:
       required: true
   - type: textarea
@@ -23,23 +23,24 @@ body:
     validations:
       required: true
   - type: textarea
-    id: addition
+    id: notes
     attributes:
-      label: Additions
-      description: Left some additions which assigners should keep in mind
-      placeholder: Don't forget to dispatch data in redux store
+      label: Notes / Additions
+      description: Any additional info or important notes for assignees
+      placeholder: Remember to validate user input before saving
   - type: textarea
     id: links
     attributes:
-      label: Links
-      description: Left some links if it's necessary
+      label: Links / References
+      description: Add links if necessary (designs, docs, tickets)
       placeholder: |
-        Figma: link
+        Figma: link |
+        Docs: link
   - type: input
     id: due-date
     attributes:
       label: Estimate
       description: Enter estimate in days and hours
-      placeholder: "1d 6h"
+      placeholder: "2d 4h"
     validations:
       required: true

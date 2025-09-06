@@ -1,0 +1,33 @@
+title: "[TASK] FIN-000: "
+labels: ["Todo"]
+body:
+  - type: input
+    id: goal
+    attributes:
+      label: Goal of the task
+      description: Short summary of what needs to be done
+      placeholder: Implement user's profile update
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed explanation of the task
+      placeholder: Describe exactly what needs to be implemented or fixed
+  - type: textarea
+    id: links
+    attributes:
+      label: Links / References
+      description: Add links if necessary (designs, docs, tickets)
+      placeholder: |
+        Figma: link |
+        Docs: link
+  - type: input
+    id: due-date
+    attributes:
+      label: Estimate
+      description: Enter estimate in days and hours
+      placeholder: "2d 4h"
+    validations:
+      required: true
