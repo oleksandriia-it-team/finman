@@ -19,5 +19,5 @@ body:
       placeholder: |
         Actual: ...
         Expected: ...
-      validations:
-        required: true
+    validations:
+      required: true
