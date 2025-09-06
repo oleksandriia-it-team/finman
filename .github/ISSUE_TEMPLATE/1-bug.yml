@@ -9,8 +9,8 @@ body:
       label: Branch or Task
       description: Branch where the bug was happened
       placeholder: "feature/FIN-000"
-      validations:
-        required: true
+    validations:
+      required: true
   - type: textarea
     id: what-happened
     attributes:
