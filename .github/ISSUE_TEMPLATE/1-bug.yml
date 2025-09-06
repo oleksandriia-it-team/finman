@@ -21,3 +21,11 @@ body:
         Expected: ...
     validations:
       required: true
+  - type: input
+    id: due-date
+    attributes:
+      label: Estimate
+      description: Enter estimate in days and hours
+      placeholder: "2d 4h"
+    validations:
+      required: true
