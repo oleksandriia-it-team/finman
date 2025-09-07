@@ -1,7 +1,8 @@
-import { DropdownInputProps } from './input.model';
+import { DropdownProps } from 'primereact/dropdown';
+import { VirtualScrollerProps } from 'primereact/virtualscroller';
 
 
-export interface ControlledDropdownProps extends DropdownInputProps {
+export interface ControlledDropdownProps extends DropdownProps {
   name: string;
-  virtualScrollerOptions?: any;
+  virtualScrollerOptions?: VirtualScrollerProps | undefined;
 }

@@ -12,7 +12,9 @@ import { UseLazyLoadModel } from '../../../../shared/сomponents/models/use-lazy
 import {
   CountriesAndLocalesFilter
 } from '../../../api/lookups/countries-and-locales/shared/filters/countries-and-locales.filter';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import InputComponent from '../../../../shared/сomponents/input-component/input-component';
+
 
 export default function RegistrationFormComponent() {
 
@@ -21,7 +23,13 @@ export default function RegistrationFormComponent() {
     { label: 'Spanish', value: 'Spanish' },
     { label: 'Ukrainian', value: 'Ukrainian' },
   ];
-  const filter = useMemo(() => ({}), []);
+
+  const [ value, setValue ] = useState('');
+  const filter = useMemo(() => ({
+    country: value,
+    locale: value
+  }), [ value ]);
+
   const step: number = 25;
   const service = useInject(lookupsProvider, true);
   const type: LookupsTypeEnum = LookupsTypeEnum.CountriesAndLocales;
@@ -50,7 +58,20 @@ export default function RegistrationFormComponent() {
         placeholder="Preferable Formats"
         options={ items }
         virtualScrollerOptions={ virtualScrollerOptions }
-      />
+        filter={ true }
+        filterTemplate={ () => {
+              return (
+                <>
+                  <InputComponent
+                    className="w-full form-input"
+                    type="text"
+                    value={ value }
+                    onChange={ (value) => setValue(value.target.value) }
+                    />
+                </>
+              );
+            } }
+        />
       <ControlledDropdown
         className="w-full form-input"
         name="language"

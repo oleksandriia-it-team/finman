@@ -14,40 +14,40 @@ export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
     service.getTotalCount(service.filter).then((res) => {
       setItems(Array.from({ length: res }));
     });
-  }, [ service ]);
+  }, [ service, service.filter ]);
 
   const onLazyLoad = useCallback(
-    (event: { first: number; last: number }) => {
-      setLoading(true);
-      if (loadLazyTimeout.current) {
-        clearTimeout(loadLazyTimeout.current);
-      }
+      (event: { first: number; last: number }) => {
+        setLoading(true);
+        if (loadLazyTimeout.current) {
+          clearTimeout(loadLazyTimeout.current);
+        }
 
-      loadLazyTimeout.current = setTimeout(() => {
-        const from = event.first + 1;
-        const to = event.last + 1;
-        console.log(from);
-        console.log(to);
+        loadLazyTimeout.current = setTimeout(() => {
+          const from = event.first + 1;
+          const to = event.last + 1;
+          console.log(from);
+          console.log(to);
 
-        service.getItems(from, to, service.filter).then((res) => {
-          const newItems = res.map(service.mapItem);
+          service.getItems(from, to, service.filter).then((res) => {
+            const newItems = res.map(service.mapItem);
 
-          setItems((prev) => {
-            const updated = [ ...prev ];
-            newItems.forEach((item: { label: string, value: string }, index: number) => {
-              updated[event.first + index] = item;
+            setItems((prev) => {
+              const updated = [ ...prev ];
+              newItems.forEach((item: { label: string, value: string }, index: number) => {
+                updated[event.first + index] = item;
+              });
+              console.log(updated);
+              return updated;
             });
-            console.log(updated);
-            return updated;
+
+            setLoading(false);
           });
 
-          setLoading(false);
+          loadLazyTimeout.current = null;
         });
-
-        loadLazyTimeout.current = null;
-      });
-    },
-    [ service ]
+      },
+      [ service, service.filter ]
   );
   const virtualScrollerOptions = {
     lazy: true,

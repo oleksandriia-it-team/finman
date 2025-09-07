@@ -2,6 +2,7 @@
 
 import { InputText } from 'primereact/inputtext';
 import { InputProps } from '../models/input.model';
+import React from 'react';
 
 /**
  * InputComponent
@@ -24,13 +25,14 @@ import { InputProps } from '../models/input.model';
  * />
  */
 
-export default function InputComponent({ value, className, placeholder, onChange }: InputProps) {
+export default function InputComponent({ value, className, placeholder, onChange, type }: InputProps) {
 
   return <>
     <InputText className={ `input-component ${ className || '' } ` }
+      type={ type }
       placeholder={ placeholder }
       value={ value }
-      onChange={ (newValue) => onChange?.(newValue.target.value) }
+      onChange={ (newValue: React.ChangeEvent<HTMLInputElement>) => onChange && onChange(newValue) }
     />
   </>;
 }

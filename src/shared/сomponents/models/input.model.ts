@@ -1,11 +1,9 @@
-import { DropdownChangeEvent } from 'primereact/dropdown';
+import { InputTextProps } from 'primereact/inputtext';
 
-export interface InputProps {
-  value?: string;
+
+export interface InputProps extends InputTextProps {
   className?: string;
-  onChange?: (e: DropdownChangeEvent) => void;
   placeholder?: string | undefined;
-
 }
 
 export interface DropdownInputProps extends InputProps {
