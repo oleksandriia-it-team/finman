@@ -10,6 +10,9 @@ const ClientLayout = dynamic(() => import('./client-layout'), {
 export default function Layout({ children }: ChildrenComponentProps) {
   return (
     <html lang="en">
+      <head>
+        <link id="theme" rel="stylesheet" href={ '/themes/lara-light-blue/theme.css' }/>
+      </head>
       <body className="w-screen h-screen">
         <ClientLayout>
           { children }

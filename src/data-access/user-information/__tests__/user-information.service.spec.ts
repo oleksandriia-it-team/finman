@@ -35,14 +35,22 @@ describe('UserInformationService', () => {
   });
 
   it('should delete user information when call logOut', () => {
-    vi.spyOn(localStorageService, 'getItem').mockReturnValue({ userName: 'Dmytro', preferableLocale: 'en-GB', language: 'uk' } satisfies UserInformation);
+    vi.spyOn(localStorageService, 'getItem').mockReturnValue({
+      userName: 'Dmytro',
+      preferableLocale: 'en-GB',
+      language: 'uk'
+    } satisfies UserInformation);
     vi.spyOn(localStorageService, 'setItem').mockReturnValue();
     vi.spyOn(userInformationService, 'setUserInformation');
 
     userInformationService.logOut();
 
 
-    expect(localStorageService.setItem).toHaveBeenCalledWith(UserInformationKey, { userName: null, preferableLocale: 'en-GB', language: 'uk' } satisfies Partial<UserInformation>);
+    expect(localStorageService.setItem).toHaveBeenCalledWith(UserInformationKey, {
+      userName: null,
+      preferableLocale: 'en-GB',
+      language: 'uk'
+    } satisfies Partial<UserInformation>);
     expect(localStorageService.getItem).toHaveBeenCalledWith(UserInformationKey);
     expect(userInformationService.setUserInformation).toHaveBeenCalledWith({ userName: null });
   });

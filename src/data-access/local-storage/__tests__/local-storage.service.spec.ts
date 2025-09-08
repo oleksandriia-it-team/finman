@@ -9,7 +9,7 @@ vi.stubGlobal('localStorage', {
   clear: vi.fn(),
   key: vi.fn(),
   length: 0
-})
+});
 
 describe('LocalStorageService', () => {
   let localStorageService: LocalStorageService;

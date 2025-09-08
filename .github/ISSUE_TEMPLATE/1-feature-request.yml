@@ -1,0 +1,48 @@
+name: Feature
+description: A request, idea, or new functionality
+title: "[FEATURE] FIN-000: "
+labels: ["Todo"]
+body:
+  - type: input
+    id: goal
+    attributes:
+      label: Goal of the task
+      description: What needs to be done in this task
+      placeholder: Implement user's profile update
+    validations:
+      required: true
+  - type: textarea
+    id: scenarios
+    attributes:
+      label: Scenarios
+      description: Write scenarios of the task
+      placeholder: |
+        Scenario 1 |
+        When an user is logged in |
+        And has a passcode |
+        And if the user opens the application |
+        Then a modal to enter passcode should be shown
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / Additions
+      description: Any additional info or important notes for assignees
+      placeholder: Remember to validate user input before saving
+  - type: textarea
+    id: links
+    attributes:
+      label: Links / References
+      description: Add links if necessary (designs, docs, tickets)
+      placeholder: |
+        Figma: link |
+        Docs: link
+  - type: input
+    id: due-date
+    attributes:
+      label: Estimate
+      description: Enter estimate in days and hours
+      placeholder: "2d 4h"
+    validations:
+      required: true
