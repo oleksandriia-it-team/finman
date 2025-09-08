@@ -23,9 +23,9 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const idsFilter = ids ? (value: Currency) => ids.includes(value.id) : emptyFilter;
     const excludeIdsFilter = excludeIds ? (value: Currency) => !excludeIds.includes(value.id) : emptyFilter;
-    const codeFilter = code ? (value: Currency) => value.currencyCode.includes(code) : emptyFilter;
-    const nameFilter = name ? (value: Currency) => value.currencyName.includes(name) : emptyFilter;
-    const symbolFilter = symbol ? (value: Currency) => value.currencySymbol.includes(symbol) : emptyFilter;
+    const codeFilter = code ? (value: Currency) => value.currencyCode.toLowerCase().includes(code.toLowerCase()) : emptyFilter;
+    const nameFilter = name ? (value: Currency) => value.currencyName.toLowerCase().includes(name.toLowerCase()) : emptyFilter;
+    const symbolFilter = symbol ? (value: Currency) => value.currencySymbol.toLowerCase().includes(symbol.toLowerCase()) : emptyFilter;
 
     return NextResponse.json({
       status: 200,

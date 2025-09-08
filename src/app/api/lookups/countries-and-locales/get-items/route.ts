@@ -23,8 +23,8 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     const idsFilter = ids ? (value: CountryAndLocale) => ids.includes(value.id) : emptyFilter;
     const excludeIdsFilter = excludeIds ? (value: CountryAndLocale) => !excludeIds.includes(value.id) : emptyFilter;
-    const countryFilter = country ? (value: CountryAndLocale) => value.country.includes(country) : emptyFilter;
-    const localeFilter = locale ? (value: CountryAndLocale) => value.locale.includes(locale) : emptyFilter;
+    const countryFilter = country ? (value: CountryAndLocale) => value.country.toLowerCase().includes(country.toLowerCase()) : emptyFilter;
+    const localeFilter = locale ? (value: CountryAndLocale) => value.locale.toLowerCase().includes(locale.toLowerCase()) : emptyFilter;
 
     return NextResponse.json({
       status: 200,

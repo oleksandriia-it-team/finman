@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { UseLazyLoadModel } from './use-lazy-load.model';
+import { blockSameProps } from '../../utils/block-same-props.util';
 
 
 export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
@@ -13,20 +14,21 @@ export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
   useEffect(() => {
     service.getTotalCount(service.filter).then((res) => {
       setItems(Array.from({ length: res }));
-      onLazyLoad({ first: 0, last: 25 });
+      onLazyLoad(1, step + 1);
     });
   }, [ service, service.filter ]);
 
   const onLazyLoad = useCallback(
-      (event: { first: number; last: number }) => {
+    blockSameProps(
+      (first: number, last: number) => {
         setLoading(true);
         if (loadLazyTimeout.current) {
           clearTimeout(loadLazyTimeout.current);
         }
 
         loadLazyTimeout.current = setTimeout(() => {
-          const from = event.first + 1;
-          const to = event.last + 1;
+          const from = first;
+          const to = last;
           console.log(from);
           console.log(to);
 
@@ -36,9 +38,8 @@ export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
             setItems((prev) => {
               const updated = [ ...prev ];
               newItems.forEach((item: { label: string, value: string }, index: number) => {
-                updated[event.first + index] = item;
+                updated[first + index - 1] = item;
               });
-              console.log(updated);
               return updated;
             });
 
@@ -48,11 +49,15 @@ export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
           loadLazyTimeout.current = null;
         });
       },
-      [ service, service.filter ]
+      (curr, prev) => {
+        return curr[0] === prev[0] && curr[1] <= prev[1];
+      }
+    ),
+    [ service, service.filter ]
   );
   const virtualScrollerOptions = {
     lazy: true,
-    onLazyLoad,
+    onLazyLoad: ({ first, last }: { first: number, last: number }) => onLazyLoad(first + 1, (last || step) + 1),
     itemSize: 38,
     showLoader: true,
     loading,
