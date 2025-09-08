@@ -127,11 +127,10 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
       const result = await asyncFunction(controller.signal);
       setValue(result);
     } catch ( error ) {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        return;
-      }
+      const message = getErrorMessage(error);
+      if (message === 'AbortError') return;
       setIsError(true);
-      setErrorMessage(getErrorMessage(error));
+      setErrorMessage(message);
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +140,7 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
     return () => {
       abortControllerRef.current?.abort();
     };
-  }, [ asyncFunction ]);
+  }, [ refresh ]);
 
   return { isLoading, isError, errorMessage, value, refresh };
 }
