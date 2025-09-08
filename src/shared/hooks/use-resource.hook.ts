@@ -128,10 +128,11 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
 
     try {
       const result = await asyncFunction(controller.signal);
+      console.log(result);
       setValue(result);
     } catch ( error ) {
       const message = getErrorMessage(error);
-      if (message === ErrorTexts.AbortError) return;
+      if (message === ErrorTexts.UnknownError) return;
       setIsError(true);
       setErrorMessage(message);
     } finally {
