@@ -1,0 +1,31 @@
+name: Bug
+description: An unexpected problem or behavior
+title: "[BUG] FIN-000: "
+labels: ["Todo"]
+body:
+  - type: input
+    id: number-task
+    attributes:
+      label: Branch or Task
+      description: Branch where the bug was happened
+      placeholder: "feature/FIN-000"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the issue with actual and expected behaviour
+      placeholder: |
+        Actual: ...
+        Expected: ...
+    validations:
+      required: true
+  - type: input
+    id: due-date
+    attributes:
+      label: Estimate
+      description: Enter estimate in days and hours
+      placeholder: "2d 4h"
+    validations:
+      required: true

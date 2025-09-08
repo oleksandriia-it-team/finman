@@ -13,6 +13,10 @@ import { LookupsResponseResult } from '../../app/api/lookups/shared/models/get-l
 import { InjectToken } from '../../shared/classes/inject-token.class';
 import { LookupsDto } from '../../app/api/lookups/shared/models/lookups-dto';
 
+/**
+ * Service for handling lookup operations
+ * Provides methods for retrieving lookup items and related data
+ */
 export class LookupsService {
   getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<LookupsDto[T][]>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters });

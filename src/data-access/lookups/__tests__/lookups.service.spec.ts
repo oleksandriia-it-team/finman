@@ -18,13 +18,13 @@ describe('LookupsService', () => {
       json: async () => mockResponse,
     } as Response);
 
-    const result = await service.getItems(LookupsTypeEnum.Languages, 0, 10, {});
+    const result = await service.getItems(LookupsTypeEnum.Languages, 1, 10, {});
 
     expect(result).toEqual(mockResponse);
     expect(fetch).toHaveBeenCalledWith(
       '/api/lookups/languages/get-items',
       expect.objectContaining({
-        body: JSON.stringify({ from: 0, to: 10, filters: {} }),
+        body: JSON.stringify({ from: 1, to: 10, filters: {} }),
       })
     );
   });
@@ -98,6 +98,6 @@ describe('LookupsService', () => {
       json: async () => mockErrorResponse,
     } as Response);
 
-    await expect(service.getItems(LookupsTypeEnum.Languages, 0, 10, {})).rejects.toEqual(mockErrorResponse);
+    await expect(service.getItems(LookupsTypeEnum.Languages, 1, 10, {})).rejects.toEqual(mockErrorResponse);
   });
 });

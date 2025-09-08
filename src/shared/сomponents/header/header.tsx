@@ -6,7 +6,10 @@ import './styles/header.component.scss';
 import 'primeicons/primeicons.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.model';
-
+import TransformDate from '../transform-date/transform-date';
+import { DateFormatType } from '../../enums/date-type.enum';
+import { useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 /**
  * Header
@@ -26,30 +29,38 @@ import { ReduxStateActions, ReduxStore, UseDispatch } from '../../models/store.m
 
 export default function Header() {
 
+  const router = useRouter();
+
 
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
 
+  const isLoggedIn: boolean = useSelector(({ isLoggedIn }: ReduxStore) => isLoggedIn);
+
   const mode: 'light' | 'dark' = useSelector(({ mode }: ReduxStore) => mode);
 
-  const today = new Date().toLocaleDateString('en', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-
-  const start = <p>{ today }</p>;
-  const end = <Button className={ 'theme-button' }
-    severity={ 'help' }
-    icon="pi pi-sun"
-    size={ 'large' }
-    rounded
-    onClick={ () => dispatch({
-      type: ReduxStateActions.Mode,
-      payload: mode === 'dark' ? 'light' : 'dark'
-    }) }>
-  </Button>;
+  const today = useMemo(() => new Date(), []);
 
 
+  const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
+  const end =(<div className={'header-buttons'}> <Button className={ 'theme-button' }
+                      severity={ 'help' }
+                      icon="pi pi-sun"
+                      size={ 'large' }
+                      rounded
+                      onClick={ () => dispatch({
+                        type: ReduxStateActions.Mode,
+                        payload: mode === 'dark' ? 'light' : 'dark'
+                      }) }>
+  </Button>
+  {isLoggedIn && <Button className={'setting-button'}
+            severity={ 'help' }
+            icon="pi pi-cog"
+            size={ 'large' }
+            rounded
+            onClick={ () => router.push('pages/setting-page' ) }>
+  </Button>}
+    </div>
+)
   return (
     <>
       <div

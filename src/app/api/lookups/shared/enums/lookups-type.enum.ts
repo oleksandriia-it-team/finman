@@ -1,4 +1,5 @@
 export enum LookupsTypeEnum {
   CountriesAndLocales,
-  Languages
+  Languages,
+  Currency
 }
