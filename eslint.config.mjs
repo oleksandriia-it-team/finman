@@ -27,7 +27,7 @@ const eslintConfig = [
     rules: {
       'camelcase': ['error'],
       'quotes': ['error', 'single'],
-      'indent': ['error', 2, {SwitchCase: 1}],
+      'indent': ['off'],
       'react/jsx-indent': ['error', 2],
       'react/jsx-indent-props': ['error', 2],
     },

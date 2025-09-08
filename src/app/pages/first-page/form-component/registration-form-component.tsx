@@ -26,8 +26,7 @@ export default function RegistrationFormComponent() {
 
   const [ value, setValue ] = useState('');
   const filter = useMemo(() => ({
-    country: value,
-    locale: value
+    country: value
   }), [ value ]);
 
   const step: number = 25;

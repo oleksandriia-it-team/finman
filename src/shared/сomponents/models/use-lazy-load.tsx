@@ -13,6 +13,7 @@ export function useLazyLoad<F, C>(service: UseLazyLoadModel<F, C>,) {
   useEffect(() => {
     service.getTotalCount(service.filter).then((res) => {
       setItems(Array.from({ length: res }));
+      onLazyLoad({ first: 0, last: 25 });
     });
   }, [ service, service.filter ]);
 

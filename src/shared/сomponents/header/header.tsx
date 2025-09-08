@@ -42,25 +42,29 @@ export default function Header() {
 
 
   const start = <TransformDate date={ today } type={ DateFormatType.LongWithYear }></TransformDate>;
-  const end =(<div className={'header-buttons'}> <Button className={ 'theme-button' }
-                      severity={ 'help' }
-                      icon="pi pi-sun"
-                      size={ 'large' }
-                      rounded
-                      onClick={ () => dispatch({
+  const end = (
+    <div className={ 'header-buttons' }>
+      <Button className={ 'theme-button' }
+        severity={ 'help' }
+        icon="pi pi-sun"
+        size={ 'large' }
+        rounded
+        onClick={
+                  () => dispatch(
+                      {
                         type: ReduxStateActions.Mode,
                         payload: mode === 'dark' ? 'light' : 'dark'
                       }) }>
-  </Button>
-  {isLoggedIn && <Button className={'setting-button'}
-            severity={ 'help' }
-            icon="pi pi-cog"
-            size={ 'large' }
-            rounded
-            onClick={ () => router.push('pages/setting-page' ) }>
-  </Button>}
+      </Button>
+      { isLoggedIn && <Button className={ 'setting-button' }
+        severity={ 'help' }
+        icon="pi pi-cog"
+        size={ 'large' }
+        rounded
+        onClick={ () => router.push('pages/setting-page') }>
+        </Button> }
     </div>
-)
+  );
   return (
     <>
       <div
