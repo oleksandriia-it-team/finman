@@ -1,6 +1,7 @@
 import { Resource } from '../models/resource.model';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../utils/get-error-message.util';
+import { ErrorTexts } from '../constants/error-texts.contant';
 
 /**
  * A custom React hook for managing asynchronous operations with built-in loading, error, and data states.
@@ -125,10 +126,11 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
     setErrorMessage('');
     try {
       const result = await asyncFunction(controller.signal);
+      console.log(result);
       setValue(result);
     } catch ( error ) {
       const message = getErrorMessage(error);
-      if (message === 'AbortError') return;
+      if (message === ErrorTexts.UnknownError) return;
       setIsError(true);
       setErrorMessage(message);
     } finally {
@@ -137,6 +139,8 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
   }, [ asyncFunction ]);
 
   useEffect(() => {
+    refresh();
+
     return () => {
       abortControllerRef.current?.abort();
     };

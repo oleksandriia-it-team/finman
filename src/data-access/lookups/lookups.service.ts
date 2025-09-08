@@ -27,8 +27,8 @@ export class LookupsService {
    * @param {Partial<LookupsFilters[T]>} [filters] - Optional filters to apply to the query
    * @returns {Promise<DatabaseResultOperationSuccess<T[]>>} Promise with the result containing the lookup items
    */
-  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<T[]>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters });
+  getItems<T extends LookupsTypeEnum>(type: T, from: number, to: number, signal?: AbortSignal, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<T[]>> {
+    return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters }, signal);
   }
 
   /**
@@ -39,36 +39,17 @@ export class LookupsService {
    * @param {number} id - ID of the lookup item to retrieve
    * @returns {Promise<DatabaseResultOperationSuccess<T | null>>} Promise with the result containing the lookup item or null if not found
    */
-  getItem<T extends LookupsTypeEnum>(type: T, id: number): Promise<DatabaseResultOperationSuccess<T | null>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetById, { id });
+  getItem<T extends LookupsTypeEnum>(type: T, id: number, signal?: AbortSignal): Promise<DatabaseResultOperationSuccess<T | null>> {
+    return this.fetchLookups(type, LookupsTypeRequest.GetById, { id }, signal);
   }
 
-  /**
-   * Gets the total count of lookup items of a specific type with optional filtering
-   *
-   * @template T - Type extending LookupsTypeEnum
-   * @param {T} type - The type of lookups to count
-   * @param {Partial<LookupsFilters[T]>} [filters] - Optional filters to apply to the count
-   * @returns {Promise<DatabaseResultOperationSuccess<number>>} Promise with the result containing the total count
-   */
-  getTotalCount<T extends LookupsTypeEnum>(type: T, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<number>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters });
+  getTotalCount<T extends LookupsTypeEnum>(type: T, signal?: AbortSignal, filters?: Partial<LookupsFilters[T]>): Promise<DatabaseResultOperationSuccess<number>> {
+    return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters }, signal);
   }
 
-  /**
-   * Private method to handle all lookup API requests
-   *
-   * @template LT - Type extending LookupsTypeEnum
-   * @template LTR - Type extending LookupsTypeRequest
-   * @param {LT} type - The type of lookup
-   * @param {LTR} typeRequest - The type of request to perform
-   * @param {unknown} payload - Request payload data
-   * @returns {Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LT>[LTR]>>} Promise with the result from the API
-   * @throws {DatabaseResultOperation} Throws error object if API returns error status
-   * @private
-   */
-  private async fetchLookups<LT extends LookupsTypeEnum, LTR extends LookupsTypeRequest>(type: LT, typeRequest: LTR, payload: unknown): Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LT>[LTR]>> {
+  private async fetchLookups<LT extends LookupsTypeEnum, LTR extends LookupsTypeRequest>(type: LT, typeRequest: LTR, payload: unknown, signal?: AbortSignal): Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LT>[LTR]>> {
     const result = await fetch(`/api/lookups/${ LookupsEndpoints[type] }/${ LookupsTypeEndpoints[typeRequest] }`, {
+      signal: signal as never,
       method: 'post',
       body: JSON.stringify(payload)
     });
