@@ -15,19 +15,19 @@ export default function InitApplication({ children }: ChildrenComponentProps) {
 
   const lookupsService = useInject(lookupsProvider, true);
 
-  const [type, setType] = useState(LookupsTypeEnum.CountriesAndLocales);
+  const [ type, setType ] = useState(LookupsTypeEnum.CountriesAndLocales);
 
   const getItemsFn = useCallback((signal: AbortSignal) => {
     return new Promise(resolve => {
-      setTimeout(() => resolve(lookupsService.getItems(type, 1, Math.floor(Math.random() * 100 % 20), signal)), 1000)
+      setTimeout(() => resolve(lookupsService.getItems(type, 1, Math.floor(Math.random() * 100 % 20) && 2, signal)), 1000);
     });
-  }, [type]);
+  }, [ type ]);
 
   const valueResource = useResource(getItemsFn);
 
   useEffect(() => {
     console.log(valueResource.value);
-  }, [valueResource.value]);
+  }, [ valueResource.value ]);
 
   useEffect(() => {
     const user = authService.getAllUserInformation();
@@ -48,7 +48,10 @@ export default function InitApplication({ children }: ChildrenComponentProps) {
   return (
     <>
       <button onClick={ () => valueResource.refresh() }>Refresh</button>
-      <button onClick={() => setType(current => current === LookupsTypeEnum.CountriesAndLocales ? LookupsTypeEnum.Languages : LookupsTypeEnum.CountriesAndLocales)}>Change method</button>
+      <button
+        onClick={ () => setType(current => current === LookupsTypeEnum.CountriesAndLocales ? LookupsTypeEnum.Languages : LookupsTypeEnum.CountriesAndLocales) }>Change
+        method
+      </button>
 
       { children }
     </>

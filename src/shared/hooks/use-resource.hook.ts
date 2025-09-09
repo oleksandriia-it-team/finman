@@ -110,7 +110,7 @@ import { ErrorTexts } from '../constants/error-texts.contant';
  *   );
  * }
  */
-export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<T>): Resource<T> {
+export function useResource<T>(asyncFunction: (signal: AbortSignal) => Promise<T>): Resource<T> {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isError, setIsError ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('');
@@ -141,9 +141,7 @@ export function useResource<T>(asyncFunction: (signal?: AbortSignal) => Promise<
   }, [ asyncFunction ]);
 
   useEffect(() => {
-    (async () => {
-      await refresh();
-    })();
+    void refresh();
 
     return () => {
       abortControllerRef.current?.abort();
