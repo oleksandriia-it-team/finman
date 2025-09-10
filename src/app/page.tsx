@@ -6,7 +6,7 @@ import FirstPage from './pages/first-page/registration-page';
 export default function MainPage() {
   return (
     <>
-      <ModalPassword/>
+      <FirstPage />
     </>
   );
 }

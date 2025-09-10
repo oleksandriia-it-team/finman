@@ -20,8 +20,12 @@ export class UserInformationService implements IUserInformationService {
   }
 
   logOut(): void {
-    this.setUserInformation({ userName: null });
+    this.setUserInformation({
+      userName: null,
+      password: undefined,
+    });
   }
 }
+
 
 export const userInformationServiceProvider = new InjectToken<IUserInformationService>('UserInformationService');

@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import './styles/first-page.scss';
 import PageButton from '../../../shared/сomponents/page-button/page-button';
 import { FormProvider } from 'react-hook-form';
-import SecondPage from '../second-page/second-page';
+import { SecondPage } from '../second-page/second-page';
 import { useSetupRegistration } from './form-component/shared/registration-form';
 import RegistrationFormComponent from './form-component/registration-form-component';
 
