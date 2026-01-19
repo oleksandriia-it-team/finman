@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getZodErrorMessage } from '../../shared/utils/get-zod-error-message.util';
-import { DatabaseResultOperation } from '../../../../../shared/models/database-result-operation.model';
-import { getApiErrorMessage } from '../../shared/utils/get-api-error-message.util';
-import { getTotalCountItems } from '../../shared/utils/get-total-count-items.util';
+import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
+import { DatabaseResultOperation } from '../../../../../common/models/database-result-operation.model';
+import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
+import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { GetTotalCurrenciesPayload } from '../shared/models/currencies-payloads.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
 import { Currency } from '../shared/models/currencies.model';

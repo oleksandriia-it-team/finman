@@ -1,0 +1,71 @@
+'use client';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { userSchema } from './validation-schema';
+import {
+  userInformationService,
+} from '../../../../../entities/user-information/user-information.service';
+import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
+import { ReduxStateActions, UseDispatch } from '../../../../../shared/models/store.model';
+import { useDispatch } from 'react-redux';
+
+/**
+ * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.
+ * Automatically logs in the user via `AuthService` upon successful submission and invokes a callback.
+ *
+ * @param {function(UserInformation): void} onSuccessAction - Callback function to be called after successful registration.
+ * @returns {{
+ *   methods: UseFormReturn<UserInformation>, // Form methods for use with FormProvider
+ *   submit: () => void // Function to trigger form submission
+ * }}
+ *
+ * @example
+ * const { methods, submit } = RegistrationForm((userData) => {
+ *   console.log('Registered user:', userData);
+ * });
+ *
+ * <FormProvider {...methods}>
+ *   <Form />
+ *   <button onClick={submit}>Submit</button>
+ * </FormProvider>
+ */
+export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {
+  const dispatch: UseDispatch = useDispatch() as UseDispatch;
+
+  const methods = useForm({
+    resolver: yupResolver(userSchema),
+    mode: 'onChange',
+    defaultValues: {
+      userName: '',
+      preferableLocale: '',
+      language: '',
+    },
+  });
+
+  //TODO make error catch
+  const submit = methods.handleSubmit((data) => {
+    if (!data) {
+      console.log('error', data);
+      return;
+    }
+
+    const user: UserInformation = {
+      userName: data.userName,
+      preferableLocale: data.preferableLocale,
+      language: data.language,
+    };
+
+
+    userInformationService.setUserInformation(user);
+
+    onSuccessAction(data);
+    dispatch(
+      {
+        type: ReduxStateActions.Auth,
+        payload: user
+      }
+    );
+  });
+
+  return { methods, submit };
+}

@@ -1,5 +1,5 @@
 import { appStore } from '../store';
-import { ReduxStateActions, ReduxStore } from '../../shared/models/store.model';
+import { ReduxStateActions, ReduxStore } from '../../client/shared/models/store.model';
 import { describe, expect, it } from 'vitest';
 
 describe('stateReducer', () => {

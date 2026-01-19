@@ -1,6 +1,6 @@
-import { ReduxStateActions, ReduxStateChange, ReduxStore } from '../shared/models/store.model';
+import { ReduxStateActions, ReduxStateChange, ReduxStore } from '../client/shared/models/store.model';
 import { createStore } from 'redux';
-import { isEmpty } from '../shared/utils/is-empty.util';
+import { isEmpty } from '../common/utils/is-empty.util';
 
 const initialState: ReduxStore = {
   mode: 'light',

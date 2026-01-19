@@ -1,6 +1,6 @@
 'use client';
 
-import FirstPage from './pages/first-page/registration-page';
+import FirstPage from '../client/features/auth/first-page/registration-page';
 
 export default function MainPage() {
   return (

@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
-import { ReduxStateActions, UseDispatch } from '../shared/models/store.model';
+import { ReduxStateActions, UseDispatch } from '../client/shared/models/store.model';
 import { useDispatch } from 'react-redux';
-import { useInject } from '../shared/contexts/use-inject.context';
-import { userInformationServiceProvider } from '../data-access/user-information/user-information.service';
-import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
+import { userInformationService, } from '../client/entities/user-information/user-information.service';
+import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
+import { databaseService } from '../client/database/database.service';
 
 export default function InitApplication({ children }: ChildrenComponentProps) {
   const dispatch: UseDispatch = useDispatch() as UseDispatch;
-  const authService = useInject(userInformationServiceProvider, true);
 
   useEffect(() => {
-    const user = authService.getAllUserInformation();
+    const user = userInformationService.getAllUserInformation();
+
+    databaseService.connect();
 
     if (user) {
       dispatch({
@@ -22,6 +23,6 @@ export default function InitApplication({ children }: ChildrenComponentProps) {
         },
       });
     }
-  }, [ authService, dispatch ]);
+  }, [ dispatch ]);
   return children;
 }
