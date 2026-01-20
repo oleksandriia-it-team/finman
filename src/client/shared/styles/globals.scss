@@ -1,4 +1,11 @@
-@import 'tailwindcss';
+@import 'bootstrap/scss/functions';
 
 @import 'variables';
-@import 'primereact-variables-for-tailwind';
+
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
+
+$enable-utilities: false;
+$enable-helpers: false;
+
+@import "bootstrap/scss/bootstrap";

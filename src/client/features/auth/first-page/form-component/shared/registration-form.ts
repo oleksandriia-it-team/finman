@@ -2,12 +2,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
-import {
-  userInformationService,
-} from '../../../../../entities/user-information/user-information.service';
+import { useUserInformation, } from '../../../../../entities/user-information/use-user-information.store';
 import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
-import { ReduxStateActions, UseDispatch } from '../../../../../shared/models/store.model';
-import { useDispatch } from 'react-redux';
 
 /**
  * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.
@@ -30,7 +26,8 @@ import { useDispatch } from 'react-redux';
  * </FormProvider>
  */
 export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {
-  const dispatch: UseDispatch = useDispatch() as UseDispatch;
+
+  const setUserInformation = useUserInformation((state) => state.setUserInformation);
 
   const methods = useForm({
     resolver: yupResolver(userSchema),
@@ -56,15 +53,9 @@ export function useSetupRegistration(onSuccessAction: (data: UserInformation) =>
     };
 
 
-    userInformationService.setUserInformation(user);
+    setUserInformation(user);
 
     onSuccessAction(data);
-    dispatch(
-      {
-        type: ReduxStateActions.Auth,
-        payload: user
-      }
-    );
   });
 
   return { methods, submit };

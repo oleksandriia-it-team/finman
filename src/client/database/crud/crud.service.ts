@@ -8,7 +8,7 @@ import { DefaultTableColumns } from '../models/default-table-columns.model';
  * Abstract base class for CRUD operations on a specific IndexedDB table.
  *
  * @template T - The full shape of the table's records, extending DefaultTableColumns (must include `id` and `softDeleted`).
- * @template DTO - The Data Transfer Object used for creating/updating records. Defaults to all fields in T except `id`.
+ * @template DTO - The Data Transfer Object used for creating/updating records. Defaults to all controlled-fields in T except `id`.
  *
  * @remarks
  * This class provides base implementations for common operations like retrieving items by ID,

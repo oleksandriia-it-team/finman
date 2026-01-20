@@ -2,7 +2,7 @@
 
 import { Button } from 'primereact/button';
 import './styles/page-button.scss';
-import { PageButtonModel } from '../models/page-button.model';
+import { PageButtonModel } from './models/page-button.model';
 
 
 /**

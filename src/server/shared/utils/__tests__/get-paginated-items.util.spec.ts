@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { getPaginatedItems } from '../get-paginated-items.util';
-import { CountryAndLocale } from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
+import {
+  CountryAndLocale
+} from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';

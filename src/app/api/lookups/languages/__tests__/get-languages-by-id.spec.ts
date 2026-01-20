@@ -3,7 +3,7 @@ import { POST } from '../get-by-id/route';
 import { getItem } from '../../../../../server/shared/utils/get-item.util';
 import { DatabaseResultOperationError } from '../../../../../common/models/database-result-operation.model';
 
-vi.mock('../../shared/utils/get-item.util', () => ({
+vi.mock('../../../../../server/shared/utils/get-item.util', () => ({
   getItem: vi.fn(),
 }));
 

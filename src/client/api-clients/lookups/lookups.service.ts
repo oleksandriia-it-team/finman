@@ -1,9 +1,6 @@
 import { LookupsTypeEnum } from '../../../server/shared/enums/lookups-type.enum';
 import { LookupsFilters } from '../../../common/models/lookups-filters';
-import {
-  LookupsEndpoints,
-  LookupsTypeEndpoints
-} from '../../../common/constants/lookups-endpoints.constant';
+import { LookupsEndpoints, LookupsTypeEndpoints } from '../../../common/constants/lookups-endpoints.constant';
 import { LookupsTypeRequest } from '../../../server/shared/enums/lookups-type-request.enum';
 import {
   DatabaseResultOperation,
