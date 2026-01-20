@@ -4,11 +4,11 @@ import { LookupsTypeRequest } from '../../server/shared/enums/lookups-type-reque
 export const LookupsEndpoints: Record<LookupsTypeEnum, string> = {
   [LookupsTypeEnum.Languages]: 'languages',
   [LookupsTypeEnum.CountriesAndLocales]: 'countries-and-locales',
-  [LookupsTypeEnum.Currency]: 'currencies'
+  [LookupsTypeEnum.Currency]: 'currencies',
 };
 
 export const LookupsTypeEndpoints: Record<LookupsTypeRequest, string> = {
   [LookupsTypeRequest.GetById]: 'get-by-id',
   [LookupsTypeRequest.GetItems]: 'get-items',
-  [LookupsTypeRequest.GetTotalItems]: 'get-total-items'
+  [LookupsTypeRequest.GetTotalItems]: 'get-total-items',
 };

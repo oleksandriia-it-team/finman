@@ -16,7 +16,7 @@ describe('DelayedExpensesService', () => {
     delayed: true,
     delayedMonth: Month.August,
     delayedYear: 2025,
-    sum: 200
+    sum: 200,
   };
 
   beforeEach(() => {
@@ -26,10 +26,12 @@ describe('DelayedExpensesService', () => {
   });
 
   it('should create a delayed expense', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
 
     const result = await service.createItem(data);
 
@@ -41,10 +43,12 @@ describe('DelayedExpensesService', () => {
   });
 
   it('should update a delayed expense with id = 1', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
 
     const result = await service.updateItem(1, data);
 
@@ -56,10 +60,12 @@ describe('DelayedExpensesService', () => {
   });
 
   it('should delete a delayed expense with id = 1 with softDeleted = false', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
 
     const result = await service.deleteItem(1);
 

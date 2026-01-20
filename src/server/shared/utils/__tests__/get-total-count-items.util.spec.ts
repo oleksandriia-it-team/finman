@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getTotalCountItems } from '../get-total-count-items.util';
-import {
-  CountryAndLocale
-} from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
+import { CountryAndLocale } from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';
@@ -25,7 +23,7 @@ describe('getTotalCountItems', () => {
     const filter = (value: CountryAndLocale) => value.id > 10;
     const expectedCount = localeAndLanguagesFixture.filter(filter).length;
 
-    const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [ filter ]);
+    const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [filter]);
 
     expect(result).toBe(expectedCount);
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));
@@ -33,13 +31,8 @@ describe('getTotalCountItems', () => {
   });
 
   it('should return count of items that match multiple filters', async () => {
-    const filters = [
-      (value: CountryAndLocale) => value.id > 5,
-      (value: CountryAndLocale) => value.id < 15
-    ];
-    const expectedCount = localeAndLanguagesFixture.filter(item =>
-      item.id > 5 && item.id < 15
-    ).length;
+    const filters = [(value: CountryAndLocale) => value.id > 5, (value: CountryAndLocale) => value.id < 15];
+    const expectedCount = localeAndLanguagesFixture.filter((item) => item.id > 5 && item.id < 15).length;
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', filters);
 
@@ -49,9 +42,7 @@ describe('getTotalCountItems', () => {
   });
 
   it('should return 0 when all items are filtered out', async () => {
-    const filters = [
-      (value: CountryAndLocale) => value.id < 0
-    ];
+    const filters = [(value: CountryAndLocale) => value.id < 0];
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', filters);
 
@@ -67,7 +58,7 @@ describe('getTotalCountItems', () => {
 
     const expectedCount = localeAndLanguagesFixture.filter(complexFilter).length;
 
-    const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [ complexFilter ]);
+    const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [complexFilter]);
 
     expect(result).toBe(expectedCount);
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));

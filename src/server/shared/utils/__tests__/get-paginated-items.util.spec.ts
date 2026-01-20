@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getPaginatedItems } from '../get-paginated-items.util';
-import {
-  CountryAndLocale
-} from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
+import { CountryAndLocale } from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';
@@ -22,7 +20,7 @@ describe('getPaginatedItems', () => {
   });
 
   it('should get items from 1 to 10 with filters', async () => {
-    const result = await getPaginatedItems<CountryAndLocale>('TEST.json', 1, 10, [ (value) => value.id >= 10 ]);
+    const result = await getPaginatedItems<CountryAndLocale>('TEST.json', 1, 10, [(value) => value.id >= 10]);
 
     expect(result).toMatchObject(localeAndLanguagesFixture.slice(9, 18));
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));
@@ -46,5 +44,4 @@ describe('getPaginatedItems', () => {
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));
     expect(StreamArray.prototype.destroy).toHaveBeenCalled();
   });
-
 });

@@ -31,12 +31,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
         'languages.json',
         body.from,
         body.to,
-        [ idsFilter, excludeIdsFilter, nameFilter ].filter((fn) => fn !== emptyFilter)
-      )
+        [idsFilter, excludeIdsFilter, nameFilter].filter((fn) => fn !== emptyFilter),
+      ),
     });
-  } catch ( err: unknown ) {
+  } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));
   }
-
-
 }

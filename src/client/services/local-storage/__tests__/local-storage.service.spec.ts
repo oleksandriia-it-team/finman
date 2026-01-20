@@ -8,7 +8,7 @@ vi.stubGlobal('localStorage', {
   removeItem: vi.fn(),
   clear: vi.fn(),
   key: vi.fn(),
-  length: 0
+  length: 0,
 });
 
 describe('LocalStorageService', () => {

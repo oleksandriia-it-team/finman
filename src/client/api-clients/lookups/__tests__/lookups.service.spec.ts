@@ -10,7 +10,7 @@ describe('LookupsService', () => {
   it('should fetch list of items', async () => {
     const mockResponse = {
       status: 200,
-      data: [ { id: 1, name: 'Test Item' } ],
+      data: [{ id: 1, name: 'Test Item' }],
     };
 
     vi.mocked(fetch).mockResolvedValueOnce({
@@ -25,7 +25,7 @@ describe('LookupsService', () => {
       '/api/lookups/languages/get-items',
       expect.objectContaining({
         body: JSON.stringify({ from: 1, to: 10, filters: {} }),
-      })
+      }),
     );
   });
 
@@ -47,7 +47,7 @@ describe('LookupsService', () => {
       '/api/lookups/languages/get-by-id',
       expect.objectContaining({
         body: JSON.stringify({ id: 1 }),
-      })
+      }),
     );
   });
 
@@ -69,7 +69,7 @@ describe('LookupsService', () => {
       '/api/lookups/languages/get-total-items',
       expect.objectContaining({
         body: JSON.stringify({ filters: {} }),
-      })
+      }),
     );
   });
 

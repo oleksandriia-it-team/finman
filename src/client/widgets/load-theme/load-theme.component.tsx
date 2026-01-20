@@ -74,6 +74,5 @@ export default function LoadThemeComponent({ children }: ChildrenComponentProps)
   //   </>
   // );
 
-  return children
-
+  return children;
 }

@@ -3,7 +3,6 @@ import { ControlledDropdownProps } from '../models/controlled-dropdown.model';
 // TODO update later
 export default function ControlledDropdown({ name, placeholder, options, className }: ControlledDropdownProps) {
   // const { control } = useFormContext();
-
   // return (
   //   <Controller
   //     name={ name }

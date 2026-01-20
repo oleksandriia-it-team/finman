@@ -32,7 +32,7 @@ import { DelayedExpensesService } from '../delayes-expenses/delayed-expenses.ser
 export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
   constructor(
     databaseService: DatabaseService,
-    private readonly delayedExpensesService: DelayedExpensesService
+    private readonly delayedExpensesService: DelayedExpensesService,
   ) {
     super(databaseService, Tables.BudgetPlanTable);
   }
@@ -41,9 +41,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
     try {
       const plannedDelayedExpenses = data.plannedDelayedExpenses as DelayedExpense[];
 
-      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
+      this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
-      const plannedDelayedExpenseRequests = plannedDelayedExpenses.map(plannedDelayedExpense => this.delayedExpensesService.createItem(plannedDelayedExpense));
+      const plannedDelayedExpenseRequests = plannedDelayedExpenses.map((plannedDelayedExpense) =>
+        this.delayedExpensesService.createItem(plannedDelayedExpense),
+      );
 
       const delayedExpenses = await Promise.all(plannedDelayedExpenseRequests);
 
@@ -53,7 +55,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
         otherEntries: data.otherEntries,
         plannedOtherEntryIndexes: data.plannedOtherEntryIndexes,
         plannedRegularEntryIds: data.plannedRegularEntryIds,
-        plannedDelayedExpenseIds: delayedExpenses.map(expense => expense.data),
+        plannedDelayedExpenseIds: delayedExpenses.map((expense) => expense.data),
       };
 
       const result = await this.databaseService.updateOrCreateItem(this.tableName, dto);
@@ -61,7 +63,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
       await this.databaseService.doneBatch();
 
       return result;
-    } catch ( err: unknown ) {
+    } catch (err: unknown) {
       await this.databaseService.revertBatch();
 
       throw err;
@@ -70,20 +72,29 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
 
   override async updateItem(id: number, newData: BudgetPlanDto): Promise<DatabaseResultOperationSuccess<true>> {
     try {
-
-      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
+      this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
       const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
-      const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) => isEmpty(id)) as DelayedExpense[];
+      const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) =>
+        isEmpty(id),
+      ) as DelayedExpense[];
 
-      const savedDelayedExpenses: number[] = newData.plannedDelayedExpenses.reduce((acc, { id }) => isEmpty(id) ? acc : [ ...acc, id ], [] as number[]) ?? [];
+      const savedDelayedExpenses: number[] =
+        newData.plannedDelayedExpenses.reduce((acc, { id }) => (isEmpty(id) ? acc : [...acc, id]), [] as number[]) ??
+        [];
 
-      const needDeleteDelayedExpenses: number[] = prevPlannedDelayedExpenseIds.filter((id => !savedDelayedExpenses.includes(id)));
+      const needDeleteDelayedExpenses: number[] = prevPlannedDelayedExpenseIds.filter(
+        (id) => !savedDelayedExpenses.includes(id),
+      );
 
-      const createDelayedExpenseRequests = needCreateDelayedExpenses.map((dto) => this.delayedExpensesService.createItem(dto));
+      const createDelayedExpenseRequests = needCreateDelayedExpenses.map((dto) =>
+        this.delayedExpensesService.createItem(dto),
+      );
 
-      const deleteDelayedExpenseRequests = needDeleteDelayedExpenses.map((id) => this.delayedExpensesService.deleteItem(id));
+      const deleteDelayedExpenseRequests = needDeleteDelayedExpenses.map((id) =>
+        this.delayedExpensesService.deleteItem(id),
+      );
 
       await Promise.all(deleteDelayedExpenseRequests);
 
@@ -95,7 +106,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
         otherEntries: newData.otherEntries,
         plannedOtherEntryIndexes: newData.plannedOtherEntryIndexes,
         plannedRegularEntryIds: newData.plannedRegularEntryIds,
-        plannedDelayedExpenseIds: [ ...savedDelayedExpenses, ...createdDelayedExpenses.map(expense => expense.data) ],
+        plannedDelayedExpenseIds: [...savedDelayedExpenses, ...createdDelayedExpenses.map((expense) => expense.data)],
       };
 
       await this.databaseService.updateOrCreateItem(this.tableName, dto);
@@ -104,9 +115,9 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
 
       return {
         status: 200,
-        data: true
+        data: true,
       } satisfies DatabaseResultOperationSuccess<true>;
-    } catch ( err: unknown ) {
+    } catch (err: unknown) {
       await this.databaseService.revertBatch();
 
       throw err;
@@ -115,11 +126,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
 
   async deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
     try {
-      this.databaseService.runBatch([ this.tableName, this.delayedExpensesService.tableName ]);
+      this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
       const delayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
 
-      const deleteDelayedExpenseRequests = delayedExpenseIds.map(id => this.delayedExpensesService.deleteItem(id));
+      const deleteDelayedExpenseRequests = delayedExpenseIds.map((id) => this.delayedExpensesService.deleteItem(id));
 
       await Promise.all(deleteDelayedExpenseRequests);
 
@@ -128,7 +139,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
       await this.databaseService.doneBatch();
 
       return result;
-    } catch ( err: unknown ) {
+    } catch (err: unknown) {
       await this.databaseService.revertBatch();
 
       throw err;

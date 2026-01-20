@@ -8,7 +8,7 @@ import { UnregularEntry } from '../models/entry.model';
 import { TypeEntry } from '../../../shared/enums/entry.enum';
 import {
   DatabaseResultOperationError,
-  DatabaseResultOperationSuccess
+  DatabaseResultOperationSuccess,
 } from '../../../../common/models/database-result-operation.model';
 import { ErrorTexts } from '../../../../common/constants/error-texts.contant';
 
@@ -22,14 +22,14 @@ describe('BudgetPlanService', () => {
       type: TypeEntry.Expense,
       description: 'Attractions',
       sum: 3000,
-      regular: false
+      regular: false,
     },
     {
       type: TypeEntry.Expense,
       description: 'Trip to Odesa',
       sum: 7000,
-      regular: false
-    }
+      regular: false,
+    },
   ];
 
   const getByIdPlan: BudgetPlan = {
@@ -37,10 +37,10 @@ describe('BudgetPlanService', () => {
     month: Month.August,
     year: 2025,
     otherEntries,
-    plannedOtherEntryIndexes: [ 0, 1 ],
+    plannedOtherEntryIndexes: [0, 1],
     plannedRegularEntryIds: [],
-    plannedDelayedExpenseIds: [ 1, 2 ],
-    softDeleted: 0
+    plannedDelayedExpenseIds: [1, 2],
+    softDeleted: 0,
   };
 
   beforeEach(() => {
@@ -53,20 +53,26 @@ describe('BudgetPlanService', () => {
 
   it('should create a budget plan and 2 delayed expenses', async () => {
     let countDelayedExpenses = 0;
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(delayedExpensesService, 'createItem').mockImplementation(() => Promise.resolve({
-      status: 200,
-      data: ++countDelayedExpenses
-    } satisfies DatabaseResultOperationSuccess<number>));
-    vi.spyOn(delayedExpensesService, 'deleteItem').mockImplementation(() => Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
+    vi.spyOn(delayedExpensesService, 'createItem').mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        data: ++countDelayedExpenses,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
+    vi.spyOn(delayedExpensesService, 'deleteItem').mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
 
     const plannedDelayedExpenses: PlannedDelayedExpense[] = [
       {
@@ -83,7 +89,7 @@ describe('BudgetPlanService', () => {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
       plannedDelayedExpenses,
     };
@@ -100,13 +106,13 @@ describe('BudgetPlanService', () => {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
-      plannedDelayedExpenseIds: [ 1 ]
+      plannedDelayedExpenseIds: [1],
     };
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledWith(budgetPlanService.tableName, sentBudgetPlanDtoInDb);
-    expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+    expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
     expect(dbService.doneBatch).toHaveBeenCalled();
   });
 
@@ -122,7 +128,7 @@ describe('BudgetPlanService', () => {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
       plannedDelayedExpenses: [],
     };
@@ -131,14 +137,13 @@ describe('BudgetPlanService', () => {
       await budgetPlanService.createItem(dto);
 
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       expect((error as DatabaseResultOperationError).status).toBe(500);
       expect((error as DatabaseResultOperationError).message).toBe(ErrorTexts.UnknownError);
-      expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+      expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
       expect(dbService.revertBatch).toHaveBeenCalledTimes(1);
     }
-
   });
 
   it('should update a budget plan with deleting a delayed expense and creating a new one, before updating the plan has two delayed expenses', async () => {
@@ -146,24 +151,29 @@ describe('BudgetPlanService', () => {
 
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
-    vi.spyOn(delayedExpensesService, 'createItem').mockImplementation(() => Promise.resolve({
-      status: 200,
-      data: ++countDelayedExpenses
-    } satisfies DatabaseResultOperationSuccess<number>));
-    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
-
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
+    vi.spyOn(delayedExpensesService, 'createItem').mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        data: ++countDelayedExpenses,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
+    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
 
     vi.spyOn(budgetPlanService, 'getItemById').mockImplementation(() => {
       return Promise.resolve({
         status: 200,
-        data: getByIdPlan
+        data: getByIdPlan,
       } satisfies DatabaseResultOperationSuccess<BudgetPlan>);
     });
 
@@ -185,14 +195,14 @@ describe('BudgetPlanService', () => {
         delayed: true,
         delayedMonth: Month.January,
         delayedYear: 2026,
-      }
+      },
     ];
 
     const dto: BudgetPlanDto = {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
       plannedDelayedExpenses: newPlannedDelayedExpenses,
     };
@@ -201,9 +211,9 @@ describe('BudgetPlanService', () => {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
-      plannedDelayedExpenseIds: [ 1, 3 ]
+      plannedDelayedExpenseIds: [1, 3],
     };
 
     const result = await budgetPlanService.updateItem(1, dto);
@@ -215,9 +225,8 @@ describe('BudgetPlanService', () => {
     expect(delayedExpensesService.createItem).toHaveBeenCalledWith(newPlannedDelayedExpenses[1]);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledWith(budgetPlanService.tableName, sentBudgetPlanDtoInDb);
-    expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+    expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
     expect(dbService.doneBatch).toHaveBeenCalled();
-
   });
 
   it('should revert updating a budget plan', async () => {
@@ -235,7 +244,7 @@ describe('BudgetPlanService', () => {
       month: Month.August,
       year: 2025,
       otherEntries,
-      plannedOtherEntryIndexes: [ 0, 1 ],
+      plannedOtherEntryIndexes: [0, 1],
       plannedRegularEntryIds: [],
       plannedDelayedExpenses: [],
     };
@@ -244,33 +253,36 @@ describe('BudgetPlanService', () => {
       await budgetPlanService.updateItem(1, dto);
 
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       expect((error as DatabaseResultOperationError).status).toBe(500);
       expect((error as DatabaseResultOperationError).message).toBe(ErrorTexts.UnknownError);
-      expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+      expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
       expect(dbService.revertBatch).toHaveBeenCalledTimes(1);
       expect(dbService.getItemById).toHaveBeenCalledWith(budgetPlanService.tableName, 1, false);
     }
-
   });
 
   it('should delete a budget plan with deleting related delayed expenses with softDelete = false', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<true>));
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<true>),
+    );
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
-    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
+    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
 
     vi.spyOn(budgetPlanService, 'getItemById').mockImplementation(() => {
       return Promise.resolve({
         status: 200,
-        data: getByIdPlan
+        data: getByIdPlan,
       } satisfies DatabaseResultOperationSuccess<BudgetPlan>);
     });
 
@@ -278,7 +290,7 @@ describe('BudgetPlanService', () => {
 
     expect(result.status).toBe(200);
     expect(result.data).toBe(true);
-    expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+    expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
     expect(dbService.doneBatch).toHaveBeenCalled();
     expect(delayedExpensesService.deleteItem).toHaveBeenNthCalledWith(1, 1);
     expect(delayedExpensesService.deleteItem).toHaveBeenNthCalledWith(2, 2);
@@ -288,14 +300,18 @@ describe('BudgetPlanService', () => {
     vi.spyOn(dbService, 'doneBatch').mockReturnValue(Promise.resolve());
     vi.spyOn(dbService, 'runBatch').mockReturnValue();
     vi.spyOn(dbService, 'revertBatch').mockReturnValue(Promise.resolve());
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<true>));
-    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<true>),
+    );
+    vi.spyOn(delayedExpensesService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
     vi.spyOn(dbService, 'getItemById').mockImplementation(() => {
       throw { status: 500, message: ErrorTexts.UnknownError } satisfies DatabaseResultOperationError;
     });
@@ -304,22 +320,23 @@ describe('BudgetPlanService', () => {
       await budgetPlanService.deleteItem(1);
 
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       expect((error as DatabaseResultOperationError).status).toBe(500);
       expect((error as DatabaseResultOperationError).message).toBe(ErrorTexts.UnknownError);
-      expect(dbService.runBatch).toHaveBeenCalledWith([ budgetPlanService.tableName, delayedExpensesService.tableName ]);
+      expect(dbService.runBatch).toHaveBeenCalledWith([budgetPlanService.tableName, delayedExpensesService.tableName]);
       expect(dbService.doneBatch).toHaveBeenCalledTimes(0);
       expect(dbService.revertBatch).toHaveBeenCalledTimes(1);
       expect(dbService.getItemById).toHaveBeenCalledWith(budgetPlanService.tableName, 1, false);
     }
-
   });
 
   it('should get by id = 1', async () => {
-    vi.spyOn(dbService, 'getItemById').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: getByIdPlan
-    } satisfies DatabaseResultOperationSuccess<BudgetPlan>));
+    vi.spyOn(dbService, 'getItemById').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: getByIdPlan,
+      } satisfies DatabaseResultOperationSuccess<BudgetPlan>),
+    );
 
     const result = await budgetPlanService.getItemById(1);
 

@@ -7,6 +7,6 @@ export function getApiErrorMessage(error: unknown): DatabaseResultOperationError
 
   return {
     status: errorMessage === ErrorTexts.UnknownError ? 500 : 400,
-    message: errorMessage
+    message: errorMessage,
   };
 }

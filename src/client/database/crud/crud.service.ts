@@ -22,10 +22,14 @@ import { DefaultTableColumns } from '../models/default-table-columns.model';
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudService<T extends DefaultTableColumns, DTO extends RecordModel = Omit<T, 'id' | 'softDeleted'>> implements ICrudService<T, DTO> {
-
-  protected constructor(protected readonly databaseService: DatabaseService, readonly tableName: string) {
-  }
+export abstract class CrudService<
+  T extends DefaultTableColumns,
+  DTO extends RecordModel = Omit<T, 'id' | 'softDeleted'>,
+> implements ICrudService<T, DTO> {
+  protected constructor(
+    protected readonly databaseService: DatabaseService,
+    readonly tableName: string,
+  ) {}
 
   getItemById(id: number): Promise<DatabaseResultOperationSuccess<T | null>> {
     return this.databaseService.getItemById(this.tableName, id, false);

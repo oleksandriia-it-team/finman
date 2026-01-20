@@ -4,7 +4,6 @@ import { Button } from 'primereact/button';
 import './styles/page-button.scss';
 import { PageButtonModel } from './models/page-button.model';
 
-
 /**
  * PageButton component.
  *
@@ -23,14 +22,15 @@ import { PageButtonModel } from './models/page-button.model';
 export default function PageButton({ className, ...props }: PageButtonModel) {
   return (
     <div className="flex justify-center items-center">
-      <Button className={ `page-button ${ className || '' }` }
+      <Button
+        className={`page-button ${className || ''}`}
         severity="help"
         icon="pi pi-angle-right"
-        size={ 'large' }
+        size={'large'}
         rounded
         text
         aria-label="Next page"
-        { ...props }
+        {...props}
       />
     </div>
   );

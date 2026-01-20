@@ -11,12 +11,14 @@ export default function Layout({ children }: ChildrenComponentProps) {
   return (
     <html lang="en">
       <head>
-        <link id="theme" rel="stylesheet" href={ '/themes/lara-light-blue/theme.css' }/>
+        <link
+          id="theme"
+          rel="stylesheet"
+          href={'/themes/lara-light-blue/theme.css'}
+        />
       </head>
       <body className="w-screen h-screen">
-        <ClientLayout>
-          { children }
-        </ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -7,6 +7,6 @@ export function getZodErrorMessage(result: ZodSafeParseResult<unknown>): Databas
 
   return {
     status: error ? 400 : 500,
-    message: error ?? ErrorTexts.UnknownError
+    message: error ?? ErrorTexts.UnknownError,
   };
 }

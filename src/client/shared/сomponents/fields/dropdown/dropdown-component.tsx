@@ -1,6 +1,5 @@
 'use client';
 
-import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { DropdownInputProps } from '../models/input.model';
 
 /**

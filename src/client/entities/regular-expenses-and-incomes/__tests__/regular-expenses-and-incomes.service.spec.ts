@@ -13,7 +13,7 @@ describe('RegularExpensesAndIncomesService', () => {
     type: TypeEntry.Income,
     description: 'Salary',
     delayed: true,
-    sum: 50000
+    sum: 50000,
   };
 
   beforeEach(() => {
@@ -23,10 +23,12 @@ describe('RegularExpensesAndIncomesService', () => {
   });
 
   it('should create a regular entry', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
 
     const result = await service.createItem(data);
 
@@ -38,10 +40,12 @@ describe('RegularExpensesAndIncomesService', () => {
   });
 
   it('should update a regular entry with id = 1', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 1
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 1,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
 
     const result = await service.updateItem(1, data);
 
@@ -53,10 +57,12 @@ describe('RegularExpensesAndIncomesService', () => {
   });
 
   it('should delete a regular entry with id = 1 with softDeleted = true', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: true
-    } satisfies DatabaseResultOperationSuccess<boolean>));
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: true,
+      } satisfies DatabaseResultOperationSuccess<boolean>),
+    );
 
     const result = await service.deleteItem(1);
 
@@ -68,22 +74,25 @@ describe('RegularExpensesAndIncomesService', () => {
   });
 
   it('should get 5 items including softDeleted', async () => {
-    const data = Array.from({ length: 5 }).map((_, index) => ({
-      id: index + 1,
-      softDeleted: index % 2 === 0 ? 1 : 0,
-      // eslint-disable-next-line
-      // @ts-ignore
-      type: (TypeEntry as never)[index % 3],
-      description: `Description ${ index }`,
-      regular: true,
-      sum: index * 100
-    }) satisfies RegularEntry);
+    const data = Array.from({ length: 5 }).map(
+      (_, index) =>
+        ({
+          id: index + 1,
+          softDeleted: index % 2 === 0 ? 1 : 0,
+          // eslint-disable-next-line
+          // @ts-ignore
+          type: (TypeEntry as never)[index % 3],
+          description: `Description ${index}`,
+          regular: true,
+          sum: index * 100,
+        }) satisfies RegularEntry,
+    );
 
     vi.spyOn(dbService, 'getItems').mockReturnValue(
       Promise.resolve({
         status: 200,
         data,
-      } satisfies DatabaseResultOperationSuccess<RegularEntry[]>)
+      } satisfies DatabaseResultOperationSuccess<RegularEntry[]>),
     );
 
     const result = await service.getItemsWithSoftDeleted(1, 5);

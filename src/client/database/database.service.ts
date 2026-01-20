@@ -2,7 +2,7 @@ import { IDBPDatabase, IDBPTransaction, openDB } from 'idb';
 import {
   DatabaseResultOperation,
   DatabaseResultOperationError,
-  DatabaseResultOperationSuccess
+  DatabaseResultOperationSuccess,
 } from '../../common/models/database-result-operation.model';
 import { getErrorMessage } from '../../common/utils/get-error-message.util';
 import { RecordModel } from '../shared/models/record.model';
@@ -34,7 +34,11 @@ export class DatabaseService {
   // eslint-disable-next-line
   #tx: IDBPTransaction<unknown, string | string[], any> | null = null;
 
-  constructor(private databaseName: string, private tables: string[], private version: number) {
+  constructor(
+    private databaseName: string,
+    private tables: string[],
+    private version: number,
+  ) {
     if (!global.indexedDB) {
       return;
     }
@@ -47,7 +51,8 @@ export class DatabaseService {
   static initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseService> {
     const instance = new this(databaseName, tables, version);
 
-    return instance.connect()
+    return instance
+      .connect()
       .then(() => {
         console.log('DB connection created');
 
@@ -58,17 +63,21 @@ export class DatabaseService {
       });
   }
 
-  async getItemById<T extends DefaultTableColumns>(tableName: string, id: number, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getItemById<T extends DefaultTableColumns>(
+    tableName: string,
+    id: number,
+    includeSoftDeleted: boolean,
+  ): Promise<DatabaseResultOperationSuccess<T | null>> {
     try {
       const store = this.#tx?.objectStore(tableName);
       const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
-      const item = await getFn(id) ?? null;
+      const item = (await getFn(id)) ?? null;
       if (!includeSoftDeleted && item && item.softDeleted) {
         return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
       }
       return { status: 200, data: item as T } satisfies DatabaseResultOperation<T | null>;
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
     }
   }
@@ -77,7 +86,7 @@ export class DatabaseService {
     tableName: string,
     start: number,
     end: number,
-    includeSoftDeleted: boolean
+    includeSoftDeleted: boolean,
   ): Promise<DatabaseResultOperationSuccess<T[]>> {
     const limit = end - start + 1;
 
@@ -104,7 +113,7 @@ export class DatabaseService {
       await tx.done;
 
       return { status: 200, data: results } satisfies DatabaseResultOperation<T[]>;
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       tx.abort();
 
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
@@ -142,17 +151,15 @@ export class DatabaseService {
     next: boolean,
     tableName: string,
     id: number,
-    includeSoftDeleted: boolean
+    includeSoftDeleted: boolean,
   ): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
     try {
       let cursor = await store.openCursor(
-        next
-          ? IDBKeyRange.lowerBound(id)
-          : IDBKeyRange.upperBound(id),
-        next ? 'next' : 'prev'
+        next ? IDBKeyRange.lowerBound(id) : IDBKeyRange.upperBound(id),
+        next ? 'next' : 'prev',
       );
 
       if (cursor && cursor.key === id) {
@@ -164,7 +171,7 @@ export class DatabaseService {
           await tx.done;
           return {
             status: 200,
-            data: cursor.value ?? null
+            data: cursor.value ?? null,
           } satisfies DatabaseResultOperationSuccess<T | null>;
         }
         cursor = await cursor.continue();
@@ -173,20 +180,21 @@ export class DatabaseService {
       await tx.done;
       return {
         status: 200,
-        data: null
+        data: null,
       } satisfies DatabaseResultOperationSuccess<null>;
-
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       tx.abort();
       throw {
         status: 500,
-        message: getErrorMessage(error)
+        message: getErrorMessage(error),
       } satisfies DatabaseResultOperationError;
     }
   }
 
-
-  async getFirstElement<T extends DefaultTableColumns>(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<T | null>> {
+  async getFirstElement<T extends DefaultTableColumns>(
+    tableName: string,
+    includeSoftDeleted: boolean,
+  ): Promise<DatabaseResultOperationSuccess<T | null>> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -226,12 +234,7 @@ export class DatabaseService {
       });
   }
 
-  async deleteItem(
-    tableName: string,
-    id: number,
-    softDelete: boolean,
-  ): Promise<DatabaseResultOperationSuccess<true>> {
-
+  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<DatabaseResultOperationSuccess<true>> {
     const store = this.#tx?.objectStore(tableName);
     const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
@@ -240,7 +243,7 @@ export class DatabaseService {
     if (!item) {
       throw {
         status: 400,
-        message: ErrorTexts.RecordDoesNotExist
+        message: ErrorTexts.RecordDoesNotExist,
       } satisfies DatabaseResultOperationError;
     }
 
@@ -257,7 +260,7 @@ export class DatabaseService {
         .catch((error: unknown) => {
           throw {
             status: 500,
-            message: getErrorMessage(error)
+            message: getErrorMessage(error),
           } satisfies DatabaseResultOperationError;
         });
     } else {
@@ -271,31 +274,36 @@ export class DatabaseService {
         .catch((error: unknown) => {
           throw {
             status: 500,
-            message: getErrorMessage(error)
+            message: getErrorMessage(error),
           } satisfies DatabaseResultOperationError;
         });
     }
   }
 
   async getTotalCount(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
-
     const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
 
     try {
       if (includeSoftDeleted) {
-        return await store.count().then((count) => ({
-          status: 200,
-          data: count
-        }) satisfies DatabaseResultOperation<number>);
+        return await store.count().then(
+          (count) =>
+            ({
+              status: 200,
+              data: count,
+            }) satisfies DatabaseResultOperation<number>,
+        );
       } else {
         const index = store.index('softDeleted');
 
-        return await index.count(IDBKeyRange.only(0)).then((count) => ({
-          status: 200,
-          data: count
-        }) satisfies DatabaseResultOperation<number>);
+        return await index.count(IDBKeyRange.only(0)).then(
+          (count) =>
+            ({
+              status: 200,
+              data: count,
+            }) satisfies DatabaseResultOperation<number>,
+        );
       }
-    } catch ( error: unknown ) {
+    } catch (error: unknown) {
       throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
     }
   }
@@ -315,7 +323,6 @@ export class DatabaseService {
       },
     });
   }
-
 
   /**
    * Starts a new read/write batch transaction covering one or more object stores.
@@ -411,15 +418,13 @@ export class DatabaseService {
 
       this.#tx.abort();
       await this.#tx.done;
-
-    } catch ( err ) {
+    } catch (err) {
       if (err instanceof Object && 'name' in err && err.name !== ErrorTexts.AbortError) {
         throw err;
       }
     } finally {
       this.#tx = null;
     }
-
   }
 
   async clearDatabase(): Promise<void> {
@@ -432,12 +437,11 @@ export class DatabaseService {
         }
       }
       await tx.done;
-    } catch ( err: unknown ) {
+    } catch (err: unknown) {
       tx.abort();
 
       throw err;
     }
-
   }
 }
 

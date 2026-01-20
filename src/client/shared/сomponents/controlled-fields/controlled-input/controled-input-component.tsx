@@ -3,7 +3,6 @@ import { ControlledInputProps } from '../models/controlled-input.model';
 // TODO update later
 export default function ControlledInput({ name, placeholder, className }: ControlledInputProps) {
   // const { control } = useFormContext();
-
   // return (
   //   <Controller
   //     name={ name }

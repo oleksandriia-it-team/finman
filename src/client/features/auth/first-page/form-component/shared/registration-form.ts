@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
-import { useUserInformation, } from '../../../../../entities/user-information/use-user-information.store';
+import { useUserInformation } from '../../../../../entities/user-information/use-user-information.store';
 import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
 
 /**
@@ -26,7 +26,6 @@ import { UserInformation } from '../../../../../entities/user-information/models
  * </FormProvider>
  */
 export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {
-
   const setUserInformation = useUserInformation((state) => state.setUserInformation);
 
   const methods = useForm({
@@ -51,7 +50,6 @@ export function useSetupRegistration(onSuccessAction: (data: UserInformation) =>
       preferableLocale: data.preferableLocale,
       language: data.language,
     };
-
 
     setUserInformation(user);
 

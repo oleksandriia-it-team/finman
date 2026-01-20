@@ -1,10 +1,6 @@
 import { DateFormatType } from '../enums/date-type.enum';
 
-export function FormatDate(
-  input: Date | string | number,
-  type: DateFormatType,
-  locale: string = 'en-US'
-): string {
+export function FormatDate(input: Date | string | number, type: DateFormatType, locale: string = 'en-US'): string {
   const date = new Date(input);
   if (isNaN(date.getTime())) return '';
 

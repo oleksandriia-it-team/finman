@@ -5,7 +5,6 @@ import ControlledInput from '../../../../shared/сomponents/controlled-fields/co
 import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
 
 export default function RegistrationFormComponent() {
-
   const languages = [
     { label: 'English', value: 'English' },
     { label: 'Spanish', value: 'Spanish' },
@@ -18,7 +17,6 @@ export default function RegistrationFormComponent() {
     { label: 'UAH', value: 'UAH' },
   ];
 
-
   return (
     <form className="flex flex-col justify-center ">
       <div className=" text-center">
@@ -27,17 +25,20 @@ export default function RegistrationFormComponent() {
       <ControlledInput
         className="w-full form-input"
         name="userName"
-        placeholder="Username"/>
+        placeholder="Username"
+      />
       <ControlledDropdown
         className="w-full form-input"
         name="preferableLocale"
         placeholder="Preferable Formats"
-        options={ formats }/>
+        options={formats}
+      />
       <ControlledDropdown
         className="w-full form-input"
         name="language"
         placeholder="Languages"
-        options={ languages }/>
+        options={languages}
+      />
     </form>
   );
 }

@@ -5,8 +5,6 @@ export const userSchema = object({
     .required('Username is required')
     .min(3, 'Your username must be at least 3 characters')
     .max(20, 'Your username must be no longer than 20 characters'),
-  language: string()
-    .required('Please choose a language'),
-  preferableLocale: string()
-    .required('Please choose a preferable locale'),
+  language: string().required('Please choose a language'),
+  preferableLocale: string().required('Please choose a preferable locale'),
 });

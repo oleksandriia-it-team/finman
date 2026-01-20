@@ -1,7 +1,5 @@
 'use client';
 
-export default function SettingPage( ){
-  return (
-    <p>SettingPage</p>
-  );
+export default function SettingPage() {
+  return <p>SettingPage</p>;
 }

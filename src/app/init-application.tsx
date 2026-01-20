@@ -3,7 +3,6 @@ import { ChildrenComponentProps } from '../client/shared/models/component-with-c
 import { databaseService } from '../client/database/database.service';
 
 export default function InitApplication({ children }: ChildrenComponentProps) {
-
   useEffect(() => {
     databaseService.connect();
   }, []);

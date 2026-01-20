@@ -31,12 +31,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
       status: 200,
       data: await getTotalCountItems<Currency>(
         'currencies.json',
-        [ idsFilter, excludeIdsFilter, codeFilter, nameFilter, symbolFilter ].filter((fn) => fn !== emptyFilter)
-      )
+        [idsFilter, excludeIdsFilter, codeFilter, nameFilter, symbolFilter].filter((fn) => fn !== emptyFilter),
+      ),
     });
-  } catch ( err: unknown ) {
+  } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));
   }
-
-
 }

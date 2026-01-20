@@ -7,12 +7,16 @@ import { ThemeEnum } from '../../../shared/enums/theme.enum';
 import { useUserInformation } from '../use-user-information.store';
 
 describe('useUserInformation', () => {
-
   it('should add user information when call logIn', () => {
     vi.spyOn(localStorageService, 'setItem').mockReturnValue();
     vi.spyOn(localStorageService, 'getItem').mockReturnValue(null);
 
-    const data: UserInformation = { userName: 'Dmytro', language: 'uk', preferableLocale: 'uk-UA', mode: ThemeEnum.Light };
+    const data: UserInformation = {
+      userName: 'Dmytro',
+      language: 'uk',
+      preferableLocale: 'uk-UA',
+      mode: ThemeEnum.Light,
+    };
 
     useUserInformation.getState().setUserInformation(data);
 
@@ -25,7 +29,7 @@ describe('useUserInformation', () => {
       userName: 'Dmytro',
       preferableLocale: 'en-GB',
       language: 'uk',
-      mode: ThemeEnum.Light
+      mode: ThemeEnum.Light,
     } satisfies UserInformation);
     vi.spyOn(localStorageService, 'setItem').mockReturnValue();
     vi.spyOn(useUserInformation.getState(), 'setUserInformation');
@@ -36,14 +40,14 @@ describe('useUserInformation', () => {
       userName: undefined,
       preferableLocale: 'en-GB',
       language: 'uk',
-      mode: ThemeEnum.Light
+      mode: ThemeEnum.Light,
     } satisfies UserInformation);
     expect(localStorageService.getItem).toHaveBeenCalledWith(UserInformationKey);
     expect(useUserInformation.getState().userInformation).toStrictEqual({
       userName: undefined,
       preferableLocale: 'en-GB',
       language: 'uk',
-      mode: ThemeEnum.Light
+      mode: ThemeEnum.Light,
     } satisfies UserInformation);
   });
 });

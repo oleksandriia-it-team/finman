@@ -19,15 +19,9 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     return NextResponse.json({
       status: 200,
-      data: await getItem<Currency, 'id'>(
-        'currencies.json',
-        'id',
-        body.id
-      )
+      data: await getItem<Currency, 'id'>('currencies.json', 'id', body.id),
     });
-  } catch ( err: unknown ) {
+  } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));
   }
-
-
 }

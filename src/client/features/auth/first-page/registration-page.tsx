@@ -5,7 +5,6 @@ import './styles/first-page.scss';
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
 
-
 export default function RegistrationPage() {
   // const stepperRef = useRef<Stepper | null>(null);
   //

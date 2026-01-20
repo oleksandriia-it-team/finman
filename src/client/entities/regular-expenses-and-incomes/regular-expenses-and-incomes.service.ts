@@ -13,8 +13,12 @@ export class RegularExpensesAndIncomesService extends CrudService<RegularEntry> 
     return this.databaseService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<true>> {
-    return this.databaseService.updateOrCreateItem(this.tableName, { ...data, id })
+  async updateItem(
+    id: number,
+    data: Omit<RegularEntry, 'id' | 'softDeleted'>,
+  ): Promise<DatabaseResultOperationSuccess<true>> {
+    return this.databaseService
+      .updateOrCreateItem(this.tableName, { ...data, id })
       .then((result) => ({ ...result, data: true }) satisfies DatabaseResultOperationSuccess<boolean>);
   }
 

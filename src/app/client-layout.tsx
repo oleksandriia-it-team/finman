@@ -8,15 +8,12 @@ import InitApplication from './init-application';
 import Header from '../client/widgets/header/header';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
-
   return (
     <LoadThemeComponent>
       <InitApplication>
         <div className="flex flex-col w-screen h-screen">
-          <Header/>
-          <div className="flex-1">
-            { children }
-          </div>
+          <Header />
+          <div className="flex-1">{children}</div>
         </div>
       </InitApplication>
     </LoadThemeComponent>

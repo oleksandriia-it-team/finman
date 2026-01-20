@@ -33,12 +33,10 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
         'currencies.json',
         body.from,
         body.to,
-        [ idsFilter, excludeIdsFilter, codeFilter, nameFilter, symbolFilter ].filter((fn) => fn !== emptyFilter)
-      )
+        [idsFilter, excludeIdsFilter, codeFilter, nameFilter, symbolFilter].filter((fn) => fn !== emptyFilter),
+      ),
     });
-  } catch ( err: unknown ) {
+  } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));
   }
-
-
 }

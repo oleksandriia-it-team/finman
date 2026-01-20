@@ -20,8 +20,11 @@ class CrudServiceForUnitTest extends CrudService<DefaultTableColumns> {
 
   // eslint-disable-next-line
   // @ts-ignore
-  // eslint-disable-next-line
-  updateItem(id: number, data: Omit<DefaultTableColumns, 'id' | 'softDeleted'>): Promise<DatabaseResultOperationSuccess<true>> {
+
+  updateItem(
+    id: number,
+    data: Omit<DefaultTableColumns, 'id' | 'softDeleted'>,
+  ): Promise<DatabaseResultOperationSuccess<true>> {
     return Promise.resolve({ status: 200, data: true });
   }
 
@@ -44,10 +47,12 @@ describe('CrudService', () => {
   });
 
   it('should return null when try to retrieve item with id = 1', async () => {
-    vi.spyOn(dbService, 'getItemById').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: null
-    } satisfies DatabaseResultOperationSuccess<null>));
+    vi.spyOn(dbService, 'getItemById').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: null,
+      } satisfies DatabaseResultOperationSuccess<null>),
+    );
 
     const result = await service.getItemById(1);
 
@@ -58,10 +63,12 @@ describe('CrudService', () => {
   });
 
   it('should return totalCount = 0', async () => {
-    vi.spyOn(dbService, 'getTotalCount').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: 0
-    } satisfies DatabaseResultOperationSuccess<number>));
+    vi.spyOn(dbService, 'getTotalCount').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: 0,
+      } satisfies DatabaseResultOperationSuccess<number>),
+    );
 
     const result = await service.getTotalCount();
 
@@ -72,10 +79,12 @@ describe('CrudService', () => {
   });
 
   it('should call getItems from 1 to 12 indexes and return []', async () => {
-    vi.spyOn(dbService, 'getItems').mockReturnValue(Promise.resolve({
-      status: 200,
-      data: []
-    } satisfies DatabaseResultOperationSuccess<DefaultTableColumns[]>));
+    vi.spyOn(dbService, 'getItems').mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        data: [],
+      } satisfies DatabaseResultOperationSuccess<DefaultTableColumns[]>),
+    );
 
     const result = await service.getItems(1, 12);
 

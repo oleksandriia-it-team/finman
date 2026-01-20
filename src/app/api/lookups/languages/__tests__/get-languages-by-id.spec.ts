@@ -13,7 +13,6 @@ const mockLanguage = {
 };
 
 describe('POST /api/lookups/languages/get-by-id', () => {
-
   it('returns Language for valid request', async () => {
     vi.mocked(getItem).mockResolvedValueOnce(mockLanguage);
 
