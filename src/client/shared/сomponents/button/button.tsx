@@ -35,7 +35,7 @@ export default function Button({
       isOutlined && outlineVariants[variant],
       isRoundedFull && '!rounded-full',
     );
-  }, [className, variant]);
+  }, [className, isOutlined, isRoundedFull, variant]);
 
   return (
     <button

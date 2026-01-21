@@ -9,9 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useUserInformation } from '../../entities/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import Button from '../../shared/сomponents/button/button';
 import Link from '../../shared/сomponents/link/link';
-import SvgIcon from '../../shared/сomponents/svg-icon/svg-icon';
 import IconButton from '../../shared/сomponents/icon-button/icon-button';
 
 /**
@@ -81,16 +79,14 @@ export default function Header() {
       )}
 
       {isLoggedIn && (
-        <Button
-          className="size-8"
+        <IconButton
+          icon="gear"
+          size="large"
           variant="info"
+          className="size-8"
+          isOutlined={true}
           onClick={() => router.push('pages/setting-page')}
-        >
-          <SvgIcon
-            className="text-3xl"
-            name="gear"
-          />
-        </Button>
+        />
       )}
     </>
   );
