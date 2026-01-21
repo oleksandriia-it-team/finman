@@ -1,7 +1,9 @@
+@import 'tailwindcss';
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 @import 'bootstrap/scss/functions';
 
 @import 'variables';
-
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/mixins';
 
@@ -9,3 +11,5 @@ $enable-utilities: false;
 $enable-helpers: false;
 
 @import 'bootstrap/scss/bootstrap';
+
+@import 'overrides';

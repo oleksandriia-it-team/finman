@@ -1,6 +1,6 @@
 'use client';
 
-import './styles/header.component.scss';
+import './styles/header.scss';
 
 import TransformDate from '../../shared/сomponents/transform-date/transform-date';
 import { DateFormatType } from '../../shared/enums/date-type.enum';
@@ -9,6 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useUserInformation } from '../../entities/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
+import Button from '../../shared/сomponents/button/button';
+import Link from '../../shared/сomponents/link/link';
+import SvgIcon from '../../shared/сomponents/svg-icon/svg-icon';
+import IconButton from '../../shared/сomponents/icon-button/icon-button';
 
 /**
  * Header
@@ -21,9 +25,6 @@ import { useShallow } from 'zustand/react/shallow';
  * @example
  * <Header />
  *
- * @remarks
- * Uses `Toolbar` and `Button` components from PrimeReact.
- * The current theme mode is read from Redux store, and dispatch updates it.
  */
 export default function Header() {
   const router = useRouter();
@@ -36,39 +37,78 @@ export default function Header() {
     })),
   );
 
+  const isLight = useMemo(() => mode === ThemeEnum.Light, [mode]);
+
   const today = useMemo(() => new Date(), []);
 
-  const start = (
+  const currentDateEl = (
     <TransformDate
       date={today}
       type={DateFormatType.LongWithYear}
     />
   );
 
-  const end = (
-    <div className={'header-buttons'}>
-      <button
-        className={'theme-button btn btn-danger'}
-        onClick={() =>
-          setUserInformation({
-            mode: mode === ThemeEnum.Light ? ThemeEnum.Dark : ThemeEnum.Light,
-          })
-        }
-      />
-      {isLoggedIn && (
-        <button
-          className={'setting-button btn btn-danger'}
-          onClick={() => router.push('pages/setting-page')}
+  const authButtonEl = (
+    <>
+      {isLight && (
+        <IconButton
+          icon="brightness-high-fill"
+          size="large"
+          variant="warning"
+          className="size-8"
+          isOutlined={true}
+          onClick={() =>
+            setUserInformation({
+              mode: ThemeEnum.Dark,
+            })
+          }
         />
       )}
-    </div>
-  );
-  return (
-    <>
-      <div className={'w-screen flex gap-2 justify-between custom-toolbar'}>
-        {start}
-        {end}
-      </div>
+
+      {!isLight && (
+        <IconButton
+          icon="moon-fill"
+          size="large"
+          variant="info"
+          className="size-8"
+          isOutlined={true}
+          onClick={() =>
+            setUserInformation({
+              mode: ThemeEnum.Light,
+            })
+          }
+        />
+      )}
+
+      {isLoggedIn && (
+        <Button
+          className="size-8"
+          variant="info"
+          onClick={() => router.push('pages/setting-page')}
+        >
+          <SvgIcon
+            className="text-3xl"
+            name="gear"
+          />
+        </Button>
+      )}
     </>
+  );
+
+  return (
+    <nav className="navbar navbar-light bg-primary px-3 py-2 flex justify-between items-center">
+      <Link
+        variant="revert"
+        href="/"
+        underlined={false}
+      >
+        Finman - Твій фінансовий рятівник
+      </Link>
+
+      <div className="header-buttons text-spell-revert">
+        {currentDateEl}
+        {authButtonEl}
+      </div>
+    </nav>
   );
 }

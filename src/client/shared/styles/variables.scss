@@ -1,17 +1,47 @@
-body {
-  &:has(.light-theme) {
-    --header-bg: #7254F3;
-    --theme-button-bg: #ededed;
-    --theme-button-icon: #7254F3;
-    --pagebutton-bg: #4B2CCD;
-    --text-color: black;
-  }
+@import 'tailwindcss';
 
-  &:has(.dark-theme) {
-    --header-bg: #3d269e;
-    --pagebutton-bg: #8170c2;
-    --theme-button-bg: #3d269e;
-    --theme-button-icon: #ffffff;
-    --text-color: #D1D5DB;
-  }
+:root[data-bs-theme="light"] {
+  --spell-basic: black;
+  --spell-revert: white;
+}
+
+:root[data-bs-theme="dark"] {
+  --spell-basic: white;
+  --spell-revert: black;
+}
+
+@theme {
+  /* Base */
+  --color-primary: rgb(var(--bs-primary-rgb));
+  --color-secondary: rgb(var(--bs-secondary-rgb));
+  --color-success: rgb(var(--bs-success-rgb));
+  --color-danger: rgb(var(--bs-danger-rgb));
+  --color-warning: rgb(var(--bs-warning-rgb));
+  --color-info: rgb(var(--bs-info-rgb));
+  --color-spell-basic: var(--spell-basic);
+  --color-spell-revert: var(--spell-revert);
+
+  /* Emphasis */
+  --color-primary-emphasis: var(--bs-primary-text-emphasis);
+  --color-secondary-emphasis: var(--bs-secondary-text-emphasis);
+  --color-success-emphasis: var(--bs-success-text-emphasis);
+  --color-danger-emphasis: var(--bs-danger-text-emphasis);
+  --color-warning-emphasis: var(--bs-warning-text-emphasis);
+  --color-info-emphasis: var(--bs-info-text-emphasis);
+
+  /* Subtle backgrounds */
+  --color-primary-subtle: var(--bs-primary-bg-subtle);
+  --color-secondary-subtle: var(--bs-secondary-bg-subtle);
+  --color-success-subtle: var(--bs-success-bg-subtle);
+  --color-danger-subtle: var(--bs-danger-bg-subtle);
+  --color-warning-subtle: var(--bs-warning-bg-subtle);
+  --color-info-subtle: var(--bs-info-bg-subtle);
+
+  /* Borders */
+  --color-primary-border: var(--bs-primary-border-subtle);
+  --color-secondary-border: var(--bs-secondary-border-subtle);
+  --color-success-border: var(--bs-success-border-subtle);
+  --color-danger-border: var(--bs-danger-border-subtle);
+  --color-warning-border: var(--bs-warning-border-subtle);
+  --color-info-border: var(--bs-info-border-subtle);
 }
