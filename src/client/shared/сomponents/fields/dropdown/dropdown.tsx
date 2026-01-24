@@ -2,8 +2,9 @@
 
 import { DropdownInputProps } from '../models/input.model';
 import { useMemo, useState } from 'react';
-import clsx from 'clsx';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
+import OptionList from '../../options/option-list';
+import OptionItem from '../../options/option-item';
 
 export default function Dropdown<T>({
   onChange,
@@ -14,11 +15,6 @@ export default function Dropdown<T>({
   value,
   ...props
 }: DropdownInputProps<T>) {
-  const optionListClasses = useMemo(
-    () => clsx('!flex', 'flex-col', 'gap-2', 'dropdown-menu', optionListClassName),
-    [optionListClassName],
-  );
-
   const [show, setVisibility] = useState<boolean>(false);
 
   const inputValue = useMemo(() => {
@@ -29,23 +25,21 @@ export default function Dropdown<T>({
     return options.find((option) => option.value === value)?.label;
   }, [customInputValue, value, options]);
 
-  const optionClasses = useMemo(() => clsx('dropdown-item', 'cursor-pointer', optionClassName), [optionClassName]);
-
   const optionsTemplate = useMemo(() => {
     return (
-      <ul className={optionListClasses}>
+      <OptionList className={optionListClassName}>
         {options.map((option) => (
-          <li
+          <OptionItem
             key={option.label}
+            className={optionClassName}
             onClick={() => onChange(option.value)}
-            className={optionClasses}
           >
             {option.label}
-          </li>
+          </OptionItem>
         ))}
-      </ul>
+      </OptionList>
     );
-  }, [optionListClasses, options, optionClasses, onChange]);
+  }, [optionListClassName, options, optionClassName, onChange]);
 
   return (
     <DropdownTemplate
