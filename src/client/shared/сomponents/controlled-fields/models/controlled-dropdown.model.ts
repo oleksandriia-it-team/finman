@@ -1,7 +1,5 @@
-import { InputDefaultProps } from '../../../models/input-default-props.model';
-import { DropdownDefaultPropsModel } from '../../../models/dropdown-default-props.model';
-import { InputControlProps } from '../../../models/input-control-props.model';
+import { InputDefaultProps } from '../../../props/input-default.props';
+import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
+import { InputControlProps } from '../../../props/input-control.props';
 
-export type ControlledDropdownProps<T> = Omit<InputDefaultProps, 'value'> &
-  DropdownDefaultPropsModel<T> &
-  InputControlProps;
+export type ControlledDropdownProps<T> = Omit<InputDefaultProps, 'value'> & DropdownDefaultProps<T> & InputControlProps;

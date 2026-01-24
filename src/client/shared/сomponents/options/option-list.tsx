@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import clsx from 'clsx';
-import { ComponentDefaultProps } from '../../models/component-props.model';
+import { ComponentDefaultProps } from '../../props/component.props';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 
 export default function OptionList({ className, children, id }: ComponentDefaultProps & ChildrenComponentProps) {

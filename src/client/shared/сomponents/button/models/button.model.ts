@@ -1,4 +1,4 @@
-import { ComponentDefaultProps } from '../../../models/component-props.model';
+import { ComponentDefaultProps } from '../../../props/component.props';
 import { ChildrenComponentProps } from '../../../models/component-with-chilren.model';
 
 export type ButtonVariant = 'warning' | 'danger' | 'info' | 'success';
