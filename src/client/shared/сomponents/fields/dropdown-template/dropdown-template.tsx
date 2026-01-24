@@ -34,7 +34,7 @@ export default function DropdownTemplate({
     } else if (inputWrapperRef.current) {
       showPopover(optionsTemplate, inputWrapperRef.current);
     }
-  }, [setOpen, open, hidePopover, showPopover, optionsTemplate, inputWrapperRef.current]);
+  }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
 
   useCloseWithPopover(optionsTemplate, () => setOpen(false));
 
