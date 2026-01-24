@@ -3,7 +3,6 @@ import { ChildrenComponentProps } from '../../../models/component-with-chilren.m
 
 export type OptionItemPropsModel = ComponentDefaultProps &
   ChildrenComponentProps & {
-    key: string;
     selected?: boolean;
     onClick: () => void;
   };

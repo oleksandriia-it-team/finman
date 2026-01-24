@@ -4,8 +4,9 @@ import SvgIcon from '../../svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../models/input.model';
 import { useCallback, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { useCloseWithPopover, usePopover } from '../../../hooks/popover/popover.hook';
+import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
+import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
 
 export default function DropdownTemplate({
   value,
