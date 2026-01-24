@@ -1,9 +1,8 @@
-import { ChildrenComponentProps } from '../../../models/component-with-chilren.model';
+import { ComponentDefaultProps } from '../../../models/component-props.model';
 
 export type LinkVariant = 'warning' | 'danger' | 'info' | 'success' | 'default' | 'revert';
 
-export interface LinkModel extends ChildrenComponentProps {
-  className?: string;
+export interface LinkModel extends ComponentDefaultProps {
   variant: LinkVariant;
   onClick?: () => void;
   underlined?: boolean;

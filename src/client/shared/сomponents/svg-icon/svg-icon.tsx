@@ -8,7 +8,10 @@ const SizeVariant: Record<IconSize, string> = {
 };
 
 export default function SvgIcon({ name, className, size }: SvgIconModel) {
-  const classes = useMemo(() => clsx(className, SizeVariant[size], 'text-[currentColor]', 'bi', `bi-${name}`), []);
+  const classes = useMemo(
+    () => clsx(className, SizeVariant[size], 'text-[currentColor]', 'bi', `bi-${name}`),
+    [className, name, size],
+  );
 
   return <i className={classes} />;
 }

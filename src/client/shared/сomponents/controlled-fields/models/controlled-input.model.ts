@@ -1,5 +1,4 @@
-import { InputProps } from '../../fields/models/input.model';
+import { InputDefaultProps } from '../../../models/input-default-props.model';
+import { InputControlProps } from '../../../models/input-control-props.model';
 
-export interface ControlledInputProps extends InputProps {
-  name: string;
-}
+export type ControlledInputProps = InputDefaultProps & InputControlProps;

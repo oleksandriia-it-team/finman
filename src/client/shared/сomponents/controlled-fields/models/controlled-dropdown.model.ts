@@ -1,5 +1,5 @@
-import { DropdownInputProps } from '../../fields/models/input.model';
+import { InputDefaultProps } from '../../../models/input-default-props.model';
+import { DropdownDefaultPropsModel } from '../../../models/dropdown-default-props.model';
+import { InputControlProps } from '../../../models/input-control-props.model';
 
-export interface ControlledDropdownProps extends DropdownInputProps {
-  name: string;
-}
+export type ControlledDropdownProps<T> = InputDefaultProps & DropdownDefaultPropsModel<T> & InputControlProps;
