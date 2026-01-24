@@ -1,6 +1,6 @@
 import { usePopover } from './popover.hook';
 import { useShallow } from 'zustand/react/shallow';
-import { useEffect, useRef } from 'react';
+import { JSX, useEffect, useRef } from 'react';
 
 /**
  * Synchronizes local component state with the global popover store.
