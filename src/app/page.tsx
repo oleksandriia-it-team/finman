@@ -14,9 +14,18 @@ export default function MainPage() {
     },
   ];
 
+  // TODO: remove later, it's an example
   return (
-    <div className="w-24">
+    <div className="flex gap-2">
       <Dropdown<string>
+        className="w-24"
+        value={''}
+        options={options}
+        onChange={(value) => console.log(value)}
+      />
+
+      <Dropdown<string>
+        className="w-24"
         value={''}
         options={options}
         onChange={(value) => console.log(value)}
