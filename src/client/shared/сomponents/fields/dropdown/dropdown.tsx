@@ -13,14 +13,14 @@ export default function Dropdown<T>({
   ...props
 }: DropdownInputProps<T>) {
   const optionListClasses = useMemo(
-    () => clsx('flex', 'flex-col', 'gap-2', optionListClassName),
+    () => clsx('!flex', 'flex-col', 'gap-2', 'dropdown-menu', optionListClassName),
     [optionListClassName],
   );
 
   const [show, setVisibility] = useState<boolean>(false);
 
   // TODO update in future
-  const optionClasses = useMemo(() => optionClassName, [optionClassName]);
+  const optionClasses = useMemo(() => clsx('dropdown-item', 'cursor-pointer', optionClassName), [optionClassName]);
 
   const optionsTemplate = useMemo(() => {
     return (

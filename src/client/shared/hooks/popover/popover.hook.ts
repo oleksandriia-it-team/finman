@@ -4,18 +4,23 @@ import { JSX, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { getPageCoords } from '../../utils/get-page-cords.util';
 
+const MinPopoverGap = 2;
+
 export const usePopover = create<PopoverHookModel>((set) => ({
   show: false,
   template: undefined,
   top: undefined,
   left: undefined,
+  minWidth: undefined,
   showPopover: (template: JSX.Element, targetEl: Element) => {
     const { top, left } = getPageCoords(targetEl);
 
-    set({ show: true, template, top: top + targetEl.clientHeight, left });
+    const width = targetEl.clientWidth;
+
+    set({ show: true, template, top: top + targetEl.clientHeight + MinPopoverGap, left, minWidth: width });
   },
   hidePopover: () => {
-    set({ show: false, template: undefined, top: undefined, left: undefined });
+    set({ show: false, template: undefined, top: undefined, left: undefined, minWidth: undefined });
   },
 }));
 

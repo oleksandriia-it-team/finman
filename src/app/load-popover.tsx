@@ -3,8 +3,14 @@ import { usePopover } from '../client/shared/hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 
 export default function LoadPopover({ children }: ChildrenComponentProps) {
-  const { template, top, left, show } = usePopover(
-    useShallow((state) => ({ template: state.template, left: state.left, top: state.top, show: state.show })),
+  const { template, top, left, show, minWidth } = usePopover(
+    useShallow((state) => ({
+      template: state.template,
+      left: state.left,
+      top: state.top,
+      show: state.show,
+      minWidth: state.minWidth,
+    })),
   );
 
   return (
@@ -12,7 +18,7 @@ export default function LoadPopover({ children }: ChildrenComponentProps) {
       {show && template && (
         <div
           className="absolute z-1000"
-          style={{ top: `${top}px`, left: `${left}px` }}
+          style={{ top: `${top}px`, left: `${left}px`, minWidth: `${minWidth}px` }}
         >
           {template}
         </div>

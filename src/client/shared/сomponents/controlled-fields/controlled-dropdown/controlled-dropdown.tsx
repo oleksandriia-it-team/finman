@@ -18,6 +18,7 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
             <Dropdown<T>
               className={classes}
               {...props}
+              value={field.value}
               onChange={(value) => field.onChange(value)}
             />
             {fieldState.error && <p className="error-text">{fieldState.error.message}</p>}

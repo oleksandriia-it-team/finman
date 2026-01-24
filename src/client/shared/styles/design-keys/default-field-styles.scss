@@ -1,0 +1,18 @@
+:root {
+  --default-field-height: 2.5rem;
+  --default-field-padding-y: 0.375rem;
+  --default-field-padding-x: 0.75rem;
+}
+
+.default-field-padding-right {
+  padding-right: var(--default-field-padding-x);
+}
+
+.default-field-styles {
+  height: var(--default-field-height);
+  padding: var(--default-field-padding-y) var(--default-field-padding-x);
+}
+
+.default-field-height {
+  height: var(--default-field-height);
+}
