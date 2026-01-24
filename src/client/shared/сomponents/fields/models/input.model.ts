@@ -6,7 +6,10 @@ export interface InputProps<T> extends InputDefaultProps {
   onChange: (value: T) => void;
 }
 
-export type DropdownInputProps<T> = InputProps<T> & DropdownDefaultPropsModel<T>;
+export type DropdownInputProps<T> = InputProps<T> &
+  DropdownDefaultPropsModel<T> & {
+    customInputValue?: boolean;
+  };
 
 export interface DropdownInputTemplateProps extends InputDefaultProps {
   optionsTemplate: JSX.Element;

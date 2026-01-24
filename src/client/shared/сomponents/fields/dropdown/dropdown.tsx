@@ -10,6 +10,8 @@ export default function Dropdown<T>({
   options,
   optionListClassName,
   optionClassName,
+  customInputValue = false,
+  value,
   ...props
 }: DropdownInputProps<T>) {
   const optionListClasses = useMemo(
@@ -19,7 +21,14 @@ export default function Dropdown<T>({
 
   const [show, setVisibility] = useState<boolean>(false);
 
-  // TODO update in future
+  const inputValue = useMemo(() => {
+    if (customInputValue) {
+      return value;
+    }
+
+    return options.find((option) => option.value === value)?.label;
+  }, [customInputValue, value, options]);
+
   const optionClasses = useMemo(() => clsx('dropdown-item', 'cursor-pointer', optionClassName), [optionClassName]);
 
   const optionsTemplate = useMemo(() => {
@@ -42,6 +51,7 @@ export default function Dropdown<T>({
     <DropdownTemplate
       open={show}
       setOpen={setVisibility}
+      value={inputValue}
       {...props}
       optionsTemplate={optionsTemplate}
     />

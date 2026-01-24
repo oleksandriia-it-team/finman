@@ -1,6 +1,6 @@
 import { ComponentDefaultProps } from './component-props.model';
 
 export interface InputDefaultProps extends ComponentDefaultProps {
-  value: string;
+  value?: string | undefined;
   placeholder?: string | undefined;
 }

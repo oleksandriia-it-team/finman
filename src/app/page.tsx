@@ -1,6 +1,7 @@
 'use client';
 
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
+import { useState } from 'react';
 
 export default function MainPage() {
   const options = [
@@ -14,21 +15,24 @@ export default function MainPage() {
     },
   ];
 
+  const [firstDropdownValue, setFirstDropdownValue] = useState('');
+  const [secondDropdownValue, setSecondDropdownValue] = useState('');
+
   // TODO: remove later, it's an example
   return (
     <div className="flex gap-2">
       <Dropdown<string>
         className="w-24"
-        value={''}
+        value={firstDropdownValue}
         options={options}
-        onChange={(value) => console.log(value)}
+        onChange={(value) => setFirstDropdownValue(value)}
       />
 
       <Dropdown<string>
         className="w-24"
-        value={''}
+        value={secondDropdownValue}
         options={options}
-        onChange={(value) => console.log(value)}
+        onChange={(value) => setSecondDropdownValue(value)}
       />
     </div>
   );
