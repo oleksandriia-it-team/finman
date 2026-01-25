@@ -10,6 +10,7 @@ export default function OptionList({ className, children, id }: ComponentDefault
     <ul
       id={id}
       className={classes}
+      role="listbox"
     >
       {children}
     </ul>

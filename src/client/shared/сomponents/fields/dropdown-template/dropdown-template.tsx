@@ -38,6 +38,16 @@ export default function DropdownTemplate({
 
   useCloseWithPopover(optionsTemplate, () => setOpen(false));
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setVisibility();
+      }
+    },
+    [setVisibility],
+  );
+
   const inputClasses = useMemo(() => {
     return clsx(className, 'form-control', 'default-field-styles');
   }, [className]);
@@ -61,6 +71,11 @@ export default function DropdownTemplate({
       className="relative cursor-pointer"
       onClick={setVisibility}
       ref={inputWrapperRef}
+      tabIndex={0}
+      role="combobox"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      onKeyDown={handleKeyDown}
     >
       <input
         id={id}
@@ -68,6 +83,8 @@ export default function DropdownTemplate({
         placeholder={placeholder}
         className={inputClasses}
         value={value}
+        tabIndex={-1} // Input is read-only, focus should be on the wrapper
+        aria-hidden="true" // Hide input from screen readers as wrapper acts as combobox
       />
 
       <div className={chevronWrapperClasses}>
