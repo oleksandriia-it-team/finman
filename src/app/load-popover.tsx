@@ -1,4 +1,3 @@
-import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
 import { usePopover } from '../client/shared/hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useMemo, useState } from 'react';
@@ -7,7 +6,7 @@ import { MinPopoverGap } from '../client/shared/constants/min-popover-gap.consta
 import { useEventContainment } from '../client/shared/hooks/event-containment/event-containment.hook';
 import { useDynamicKey } from '../client/shared/hooks/dynamic-key/dynamic-key.hook';
 
-export default function LoadPopover({ children }: ChildrenComponentProps) {
+export default function LoadPopover() {
   const { template, target, show, hidePopover } = usePopover(
     useShallow((state) => ({
       template: state.template,
@@ -55,8 +54,6 @@ export default function LoadPopover({ children }: ChildrenComponentProps) {
           {template}
         </div>
       )}
-
-      {children}
     </>
   );
 }
