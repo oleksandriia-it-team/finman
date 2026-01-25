@@ -1,4 +1,4 @@
-import { ComponentDefaultProps } from './component-props.model';
+import { ComponentDefaultProps } from './component.props';
 
 export interface InputDefaultProps extends ComponentDefaultProps {
   value?: string | undefined;

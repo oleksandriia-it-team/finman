@@ -1,6 +1,6 @@
 export type IconSize = 'small' | 'large';
 
-export interface SvgIconModel {
+export interface SvgIconProps {
   name: string;
   className?: string;
   size: IconSize;

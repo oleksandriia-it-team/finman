@@ -2,10 +2,8 @@ import { JSX } from 'react';
 
 export interface PopoverHookModel {
   template: JSX.Element | undefined;
-  top: number | undefined;
-  left: number | undefined;
-  minWidth: number | undefined;
+  target: HTMLElement | undefined;
   show: boolean;
-  showPopover: (template: JSX.Element, targetEl: Element) => void;
+  showPopover: (template: JSX.Element, targetEl: HTMLElement) => void;
   hidePopover: () => void;
 }

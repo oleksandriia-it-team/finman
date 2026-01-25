@@ -13,13 +13,13 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
   return (
     <LoadStylesComponent>
       <InitApplication>
-        <LoadPopover>
-          <div className="flex flex-col w-screen h-screen">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <LoadToasts />
-          </div>
-        </LoadPopover>
+        <LoadPopover />
+        <LoadToasts />
+
+        <div className="flex flex-col w-screen h-screen">
+          <Header />
+          <div className="flex-1">{children}</div>
+        </div>
       </InitApplication>
     </LoadStylesComponent>
   );

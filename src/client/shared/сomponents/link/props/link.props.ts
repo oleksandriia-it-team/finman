@@ -1,8 +1,8 @@
-import { ComponentDefaultProps } from '../../../models/component-props.model';
+import { ComponentDefaultProps } from '../../../props/component.props';
 
 export type LinkVariant = 'warning' | 'danger' | 'info' | 'success' | 'default' | 'revert';
 
-export interface LinkModel extends ComponentDefaultProps {
+export interface LinkProps extends ComponentDefaultProps {
   variant: LinkVariant;
   onClick?: () => void;
   underlined?: boolean;

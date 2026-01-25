@@ -4,8 +4,9 @@ import SvgIcon from '../../svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../models/input.model';
 import { useCallback, useMemo, useRef } from 'react';
 import clsx from 'clsx';
-import { useCloseWithPopover, usePopover } from '../../../hooks/popover/popover.hook';
+import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
+import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
 
 export default function DropdownTemplate({
   value,
@@ -33,9 +34,19 @@ export default function DropdownTemplate({
     } else if (inputWrapperRef.current) {
       showPopover(optionsTemplate, inputWrapperRef.current);
     }
-  }, [setOpen, open, hidePopover, showPopover, optionsTemplate, inputWrapperRef.current]);
+  }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
 
   useCloseWithPopover(optionsTemplate, () => setOpen(false));
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setVisibility();
+      }
+    },
+    [setVisibility],
+  );
 
   const inputClasses = useMemo(() => {
     return clsx(className, 'form-control', 'default-field-styles');
@@ -60,6 +71,11 @@ export default function DropdownTemplate({
       className="relative cursor-pointer"
       onClick={setVisibility}
       ref={inputWrapperRef}
+      tabIndex={0}
+      role="combobox"
+      aria-expanded={open}
+      aria-haspopup="listbox"
+      onKeyDown={handleKeyDown}
     >
       <input
         id={id}
@@ -67,6 +83,8 @@ export default function DropdownTemplate({
         placeholder={placeholder}
         className={inputClasses}
         value={value}
+        tabIndex={-1} // Input is read-only, focus should be on the wrapper
+        aria-hidden="true" // Hide input from screen readers as wrapper acts as combobox
       />
 
       <div className={chevronWrapperClasses}>

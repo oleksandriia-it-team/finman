@@ -1,4 +1,4 @@
-import { IconSize, SvgIconModel } from './models/svg-icon.model';
+import { IconSize, SvgIconProps } from './props/svg-icon.props';
 import { useMemo } from 'react';
 import clsx from 'clsx';
 
@@ -7,7 +7,7 @@ const SizeVariant: Record<IconSize, string> = {
   large: 'text-3xl',
 };
 
-export default function SvgIcon({ name, className, size }: SvgIconModel) {
+export default function SvgIcon({ name, className, size }: SvgIconProps) {
   const classes = useMemo(
     () => clsx(className, SizeVariant[size], 'text-[currentColor]', 'bi', `bi-${name}`),
     [className, name, size],
