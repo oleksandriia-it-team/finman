@@ -1,5 +1,7 @@
 'use client';
 
+import '../client/shared/styles/globals.scss';
+
 import dynamic from 'next/dynamic';
 import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
 

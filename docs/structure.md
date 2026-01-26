@@ -11,7 +11,7 @@ All source code is located in the `src` directory to keep configuration files se
 * **`app/`**: **The Routing Layer**. Contains only Next.js specific routing files. It acts as a "Thin Layer" connecting the user/request to the logic.
 * **`client/`**: **The Frontend Layer**. Contains all code that runs in the browser. It follows **Feature-Sliced Design (FSD)** principles.
 * **`server/`**: **The Backend Layer**. Contains all business logic, database interactions, and use cases. It follows **Domain-Driven Design (DDD)** principles.
-* **`common/`**: **The Shared Contract Layer**. Contains code shared between Client and Server (Types, Interfaces). **NO** business logic, runtime libraries (like Zod), or database access allowed here.
+* **`common/`**: **The Shared Contract Layer**. Contains code shared between Client and Server (Types, Interfaces, Constants). **NO** business logic, runtime libraries (like Zod), or database access allowed here.
 
 ---
 
@@ -19,7 +19,7 @@ All source code is located in the `src` directory to keep configuration files se
 **Purpose:** Routing and Entry Points only.
 This directory connects the URL to the application logic. It should not contain complex business logic or UI components.
 
-* **Pages (`page.tsx`)**: Should act as a layout composition point. It can import **Widgets** (for complex views) and **Features** (for simpler pages) to construct the view.
+* **Pages & Layouts (`page.tsx`, `layout.tsx`)**: Acts as a composition point. Includes global providers (`init-application.tsx`) and layout components (`client-layout.tsx`, `load-popover.tsx`).
 * **API Routes (`api/.../route.ts`)**: Should only parse the request and call **Services/UseCases** from `server/features`.
 
 ---
@@ -30,18 +30,22 @@ This directory connects the URL to the application logic. It should not contain 
 
 ### Structure
 * **`widgets/`**: Independent, self-contained UI blocks (e.g., `Header`, `BudgetDashboard`). They combine Features and Entities to form a complete functional unit.
-* **`features/`**: User scenarios (e.g., `AuthForm`, `CreateTransaction`).
+* **`features/`**: User scenarios (e.g., `RegistrationPage`).
   * *Rule:* A feature **cannot** import another feature.
-* **`entities/`**: Business entities and data logic (e.g., `BudgetCard`, `UserAvatar`). They contain models and UI but are not tied to specific user scenarios.
-* **`database/`**: **Client-side Database** (IndexedDB/Dexie).
-  * Contains services for local data storage.
+* **`entities/`**: Business entities, data logic, and global state (e.g., `BudgetPlan`, `UserInformation`).
+  * Contains `services/`, `models/`, and Zustand stores.
+* **`database/`**: **Client-side Database** (IndexedDB wrapper).
+  * Contains `DatabaseService` and base `CrudService` for local data storage.
   * *Note:* Strictly separated from server-side databases.
-* **`api-clients/`**: Abstraction layer for HTTP requests. The UI calls these clients, not `fetch` directly.
 * **`shared/`**: Reusable infrastructure code.
-  * `ui/`: Dumb components (Buttons, Inputs).
-  * `hooks/`: Generic hooks (`useClickOutside`).
-  * `utils/`: Helper functions.
-  * *...other utility folders (e.g., `lib`, `config`)*.
+  * **`components/`**: Reusable UI components (Buttons, Inputs, Dropdowns).
+  * **`hooks/`**: Generic hooks (e.g., `usePopover`).
+  * **`utils/`**: Helper functions (e.g., `format-date.util.ts`).
+  * **`models/`**: Shared data models and types.
+  * **`props/`**: Shared component prop interfaces.
+  * **`constants/`**: Global constants.
+  * **`enums/`**: Shared enumerations.
+  * **`styles/`**: Global styles, SCSS variables, and Tailwind configuration.
 
 ---
 
@@ -65,8 +69,9 @@ This directory connects the URL to the application logic. It should not contain 
 ## 4. Common Directory (`src/common`)
 **Purpose:** Pure Type Safety.
 **Contents:**
-* **`entities/`**: Shared TypeScript interfaces/types/enums used by both Client and Server (e.g., `IUser`, `BudgetStatusEnum`).
-* *...other shared type definitions*.
+* **`models/`**: Shared TypeScript interfaces/types (e.g., `DatabaseResultOperation`).
+* **`constants/`**: Shared constants (e.g., `ErrorTexts`).
+* **`utils/`**: Shared utility functions (e.g., `getErrorMessage`).
 
 ---
 
