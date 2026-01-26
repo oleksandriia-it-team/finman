@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonVariant, ButtonModel } from './models/button.model';
+import { ButtonProps, ButtonVariant } from './props/button.props';
 import { useMemo } from 'react';
 import clsx from 'clsx';
 
@@ -26,7 +26,7 @@ export default function Button({
   isOutlined = false,
   variant,
   isRoundedFull = false,
-}: ButtonModel) {
+}: ButtonProps) {
   const classes = useMemo(() => {
     return clsx(
       ['btn', '!flex', 'items-center', 'justify-center'],

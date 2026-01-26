@@ -1,7 +1,7 @@
 'use client';
 
 import SvgIcon from '../../svg-icon/svg-icon';
-import { DropdownInputTemplateProps } from '../models/input.model';
+import { DropdownInputTemplateProps } from '../props/input.props';
 import { useCallback, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { usePopover } from '../../../hooks/popover/popover.hook';

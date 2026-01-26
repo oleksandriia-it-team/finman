@@ -1,6 +1,6 @@
 'use client';
 
-import { InputProps } from '../models/input.model';
+import { InputProps } from '../props/input.props';
 
 /**
  * InputComponent

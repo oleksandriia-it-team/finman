@@ -1,6 +1,6 @@
 'use client';
 
-import { DropdownInputProps } from '../models/input.model';
+import { DropdownInputProps } from '../props/input.props';
 import { useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
 import OptionList from '../../options/option-list';

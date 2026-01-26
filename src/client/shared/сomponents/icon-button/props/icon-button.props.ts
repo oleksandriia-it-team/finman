@@ -1,5 +1,5 @@
 import { IconSize } from '../../svg-icon/props/svg-icon.props';
-import { ButtonVariant } from '../../button/models/button.model';
+import { ButtonVariant } from '../../button/props/button.props';
 
 export interface IconButtonProps {
   className?: string;

@@ -1,4 +1,4 @@
-import { ControlledDropdownProps } from '../models/controlled-dropdown.model';
+import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
 import { Controller, useFormContext } from 'react-hook-form';
 import Dropdown from '../../fields/dropdown/dropdown';
 import clsx from 'clsx';
