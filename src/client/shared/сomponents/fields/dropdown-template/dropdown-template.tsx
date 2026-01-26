@@ -82,7 +82,7 @@ export default function DropdownTemplate({
         readOnly={true}
         placeholder={placeholder}
         className={inputClasses}
-        value={value}
+        value={value ?? ''}
         tabIndex={-1} // Input is read-only, focus should be on the wrapper
         aria-hidden="true" // Hide input from screen readers as wrapper acts as combobox
       />
