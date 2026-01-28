@@ -1,6 +1,6 @@
 'use client';
 
-import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
+import DefaultDropdown from '../client/shared/сomponents/fields/dropdown/default-dropdown';
 import { useState } from 'react';
 
 export default function MainPage() {
@@ -21,14 +21,14 @@ export default function MainPage() {
   // TODO: remove later, it's an example
   return (
     <div className="flex gap-2">
-      <Dropdown<string>
+      <DefaultDropdown<string>
         className="w-24"
         value={firstDropdownValue}
         options={options}
         onChange={(value) => setFirstDropdownValue(value)}
       />
 
-      <Dropdown<string>
+      <DefaultDropdown<string>
         className="w-24"
         value={secondDropdownValue}
         options={options}
