@@ -31,12 +31,13 @@ export default function LazyDropdown<T>({
   useEffect(() => {
     if (!show) {
       setPage(1);
+      setShowOptions([]);
     }
   }, [setPage, show]);
 
   useEffect(() => {
-    console.log(showOptions);
-  }, [showOptions]);
+    console.log(showOptions, options);
+  }, [showOptions, options]);
 
   const inputValue = useMemo(() => {
     if (customInputValue) {
@@ -59,9 +60,9 @@ export default function LazyDropdown<T>({
           showOptions={showOptions}
           newOptions={options}
         >
-          {showOptions.map((option) => (
+          {showOptions.map((option, index) => (
             <OptionItem
-              key={option.label}
+              key={index}
               className={optionClassName}
               onClick={() => onChange(option.value)}
             >

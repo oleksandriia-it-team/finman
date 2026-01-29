@@ -30,7 +30,6 @@ export function useResource<T, P extends Array<unknown>>(
 
     try {
       const result = await asyncFunctionRef(controller.signal, ...memoizedParams);
-      console.log(result);
       setValue(result);
     } catch (error) {
       if (controller.signal.aborted) return;

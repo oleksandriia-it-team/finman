@@ -25,6 +25,7 @@ export default function LazyLoad<T>({
   const totalPages = useMemo(() => getTotalPages(total, pageSize), [pageSize, total]);
 
   const prevPage = usePreviousValue(page);
+  const prevNewOptions = usePreviousValue(newOptions);
   const previousScrollHeight = useRef<number>(0);
 
   useLayoutEffect(() => {
@@ -41,18 +42,22 @@ export default function LazyLoad<T>({
       }
     }
 
-    if (prevPage !== undefined && page > prevPage) {
-      container.scrollTop += scrollDiff;
-    }
-
     previousScrollHeight.current = currentScrollHeight;
   }, [showOptions, page, prevPage, topSentinel]);
 
   useEffect(() => {
-    if (prevPage === undefined) return;
-    else if (showOptions.length === 0 && total !== 0) {
-      console.log(1);
+    if (isLoading) {
+      return;
+    }
+
+    if (showOptions.length === 0 && newOptions.length > 0) {
       setShowOptions(newOptions);
+      return;
+    }
+
+    if (prevPage === undefined || prevPage === page) return;
+
+    if (newOptions === prevNewOptions) {
       return;
     }
 
@@ -68,15 +73,17 @@ export default function LazyLoad<T>({
       const keepFromOld = showOptions.slice(0, pageSize);
       setShowOptions([...newOptions, ...keepFromOld]);
     }
-  }, [page, newOptions]);
+  }, [page, newOptions, isLoading, prevPage, setShowOptions, pageSize, prevNewOptions]);
 
   useEffect(() => {
+    console.log(isLoading);
     if (!isLoading && isFirstIntersection && page > 1) {
       setPage(page - 1);
     }
   }, [isFirstIntersection, isLoading, page, setPage]);
 
   useEffect(() => {
+    console.log(isLoading);
     if (!isLoading && isLastIntersection && page < totalPages) {
       setPage(page + 1);
     }

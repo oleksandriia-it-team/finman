@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { lookupsService } from '../client/api-clients/lookups/lookups.service';
 import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
@@ -24,6 +24,10 @@ export default function MainPage() {
   }, [optionsResource.value]);
 
   const [firstDropdownValue, setFirstDropdownValue] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
 
   // TODO: remove later, it's an example
   return (
