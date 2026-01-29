@@ -7,14 +7,16 @@ export interface InputProps<T> extends InputDefaultProps {
   onChange: (value: T) => void;
 }
 
-export type DefaultDropdownInputProps<T> = InputProps<T> &
+export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
   DropdownDefaultProps<T> & {
+    value?: T | undefined | null;
     customInputValue?: string;
   };
 
-export type LazyDropdownInputProps<T> = InputProps<T> &
+export type LazyDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
   DropdownDefaultProps<T> &
   LazyEventProps & {
+    value?: T | undefined | null;
     customInputValue?: string;
   };
 

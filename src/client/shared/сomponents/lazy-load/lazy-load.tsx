@@ -49,7 +49,12 @@ export default function LazyLoad<T>({
   }, [showOptions, page, prevPage, topSentinel]);
 
   useEffect(() => {
-    if (prevPage === undefined || newOptions.length === 0) return;
+    if (prevPage === undefined) return;
+    else if (showOptions.length === 0 && total !== 0) {
+      console.log(1);
+      setShowOptions(newOptions);
+      return;
+    }
 
     const container = topSentinel?.parentElement;
     if (container) {

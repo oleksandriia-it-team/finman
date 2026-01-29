@@ -1,7 +1,7 @@
 'use client';
 
 import { LazyDropdownInputProps } from '../props/input.props';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
 import OptionList from '../../options/option-list';
 import OptionItem from '../../options/option-item';
@@ -28,9 +28,19 @@ export default function LazyDropdown<T>({
 
   const [showOptions, setShowOptions] = useState<DropdownOption<T>[]>([]);
 
+  useEffect(() => {
+    if (!show) {
+      setPage(1);
+    }
+  }, [setPage, show]);
+
+  useEffect(() => {
+    console.log(showOptions);
+  }, [showOptions]);
+
   const inputValue = useMemo(() => {
     if (customInputValue) {
-      return value;
+      return customInputValue;
     }
 
     return options.find((option) => option.value === value)?.label;
