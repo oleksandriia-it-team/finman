@@ -1,7 +1,7 @@
-import { Resource } from '../models/resource.model';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { getErrorMessage } from '../utils/get-error-message.util';
-import { ErrorTexts } from '../constants/error-texts.contant';
+import { Resource } from './models/resource.model';
+import { getErrorMessage } from '../../../../common/utils/get-error-message.util';
+import { ErrorTexts } from '../../../../common/constants/error-texts.contant';
 
 /**
  * A custom React hook for managing asynchronous operations with built-in loading, error, and data states.
@@ -111,10 +111,10 @@ import { ErrorTexts } from '../constants/error-texts.contant';
  * }
  */
 export function useResource<T>(asyncFunction: (signal: AbortSignal) => Promise<T>): Resource<T> {
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ isError, setIsError ] = useState(false);
-  const [ errorMessage, setErrorMessage ] = useState('');
-  const [ value, setValue ] = useState<T | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [value, setValue] = useState<T | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
   const refresh = useCallback(async () => {
@@ -130,7 +130,7 @@ export function useResource<T>(asyncFunction: (signal: AbortSignal) => Promise<T
       const result = await asyncFunction(controller.signal);
       console.log(result);
       setValue(result);
-    } catch ( error ) {
+    } catch (error) {
       const message = getErrorMessage(error);
       if (message === ErrorTexts.UnknownError) return;
       setIsError(true);
@@ -138,7 +138,7 @@ export function useResource<T>(asyncFunction: (signal: AbortSignal) => Promise<T
     } finally {
       setIsLoading(false);
     }
-  }, [ asyncFunction ]);
+  }, [asyncFunction]);
 
   useEffect(() => {
     void refresh();
@@ -146,7 +146,7 @@ export function useResource<T>(asyncFunction: (signal: AbortSignal) => Promise<T
     return () => {
       abortControllerRef.current?.abort();
     };
-  }, [ refresh ]);
+  }, [refresh]);
 
   return { isLoading, isError, errorMessage, value, refresh };
 }
