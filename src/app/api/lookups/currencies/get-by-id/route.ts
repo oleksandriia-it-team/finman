@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getZodErrorMessage } from '../../shared/utils/get-zod-error-message.util';
-import { DatabaseResultOperation } from '../../../../../shared/models/database-result-operation.model';
-import { getApiErrorMessage } from '../../shared/utils/get-api-error-message.util';
-import { getItem } from '../../shared/utils/get-item.util';
+import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
+import { DatabaseResultOperation } from '../../../../../common/models/database-result-operation.model';
+import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
+import { getItem } from '../../../../../server/shared/utils/get-item.util';
 import { Currency } from '../shared/models/currencies.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
 import { GetByCurrenciesPayload } from '../shared/models/currencies-payloads.model';
@@ -19,15 +19,9 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
 
     return NextResponse.json({
       status: 200,
-      data: await getItem<Currency, 'id'>(
-        'currencies.json',
-        'id',
-        body.id
-      )
+      data: await getItem<Currency, 'id'>('currencies.json', 'id', body.id),
     });
-  } catch ( err: unknown ) {
+  } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));
   }
-
-
 }

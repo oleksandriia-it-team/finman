@@ -1,7 +1,9 @@
 'use client';
 
+import '../client/shared/styles/globals.scss';
+
 import dynamic from 'next/dynamic';
-import { ChildrenComponentProps } from '../shared/models/component-with-chilren.model';
+import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
 
 const ClientLayout = dynamic(() => import('./client-layout'), {
   ssr: false,
@@ -10,13 +12,8 @@ const ClientLayout = dynamic(() => import('./client-layout'), {
 export default function Layout({ children }: ChildrenComponentProps) {
   return (
     <html lang="en">
-      <head>
-        <link id="theme" rel="stylesheet" href={ '/themes/lara-light-blue/theme.css' }/>
-      </head>
       <body className="w-screen h-screen">
-        <ClientLayout>
-          { children }
-        </ClientLayout>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

@@ -1,0 +1,1 @@
+export type ConstructorModel<T> = new (args: unknown) => T;
