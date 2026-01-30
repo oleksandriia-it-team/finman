@@ -19,32 +19,37 @@ export class LookupsService {
     from: number,
     to: number,
     filters: Partial<LookupsFilters[T]>,
+    abortSignal?: AbortSignal,
   ): Promise<DatabaseResultOperationSuccess<LookupsDto[T][]>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetItems, { from, to, filters });
+    return this.fetchLookups(type, LookupsTypeRequest.GetItems, abortSignal, { from, to, filters });
   }
 
   getItem<T extends LookupsTypeEnum>(
     type: T,
     id: number,
+    abortSignal?: AbortSignal,
   ): Promise<DatabaseResultOperationSuccess<LookupsDto[T] | null>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetById, { id });
+    return this.fetchLookups(type, LookupsTypeRequest.GetById, abortSignal, { id });
   }
 
   getTotalCount<T extends LookupsTypeEnum>(
     type: T,
     filters: Partial<LookupsFilters[T]>,
+    abortSignal?: AbortSignal,
   ): Promise<DatabaseResultOperationSuccess<number>> {
-    return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, { filters });
+    return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, abortSignal, { filters });
   }
 
   private async fetchLookups<LT extends LookupsTypeEnum, LTR extends LookupsTypeRequest>(
     type: LT,
     typeRequest: LTR,
+    abortSignal: AbortSignal | undefined,
     payload: unknown,
   ): Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>> {
     const result = await fetch(`/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`, {
       method: 'post',
       body: JSON.stringify(payload),
+      signal: abortSignal ?? null,
     });
     const body: DatabaseResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]> = await result.json();
 
@@ -55,3 +60,5 @@ export class LookupsService {
     return body as DatabaseResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>;
   }
 }
+
+export const lookupsService = new LookupsService();
