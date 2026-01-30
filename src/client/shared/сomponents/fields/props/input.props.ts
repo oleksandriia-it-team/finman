@@ -10,14 +10,14 @@ export interface InputProps<T> extends InputDefaultProps {
 export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
   DropdownDefaultProps<T> & {
     value?: T | undefined | null;
-    customInputValue?: string;
+    customInputValue?: string | undefined | null;
   };
 
 export type LazyDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
   DropdownDefaultProps<T> &
   LazyEventProps & {
     value?: T | undefined | null;
-    customInputValue?: string;
+    customInputValue?: string | undefined | null;
   };
 
 export interface DropdownInputTemplateProps extends InputDefaultProps {
