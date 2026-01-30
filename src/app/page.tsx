@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { lookupsService } from '../client/api-clients/lookups/lookups.service';
 import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
@@ -25,10 +25,6 @@ export default function MainPage() {
 
   const [firstDropdownValue, setFirstDropdownValue] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
-
   // TODO: remove later, it's an example
   return (
     <div className="flex gap-2">
@@ -40,6 +36,7 @@ export default function MainPage() {
         isLoading={totalCount.isLoading || optionsResource.isLoading}
         pageSize={20}
         page={page}
+        itemHeight={32}
         setPage={setPage}
         value={firstDropdownValue}
         options={options}

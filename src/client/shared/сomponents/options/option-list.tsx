@@ -4,7 +4,7 @@ import { ComponentDefaultProps } from '../../props/component.props';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 
 export default function OptionList({ className, children, id }: ComponentDefaultProps & ChildrenComponentProps) {
-  const classes = useMemo(() => clsx('!flex', 'flex-col', 'gap-2', 'dropdown-menu', className), [className]);
+  const classes = useMemo(() => clsx('!block', 'dropdown-menu', className), [className]);
 
   return (
     <ul

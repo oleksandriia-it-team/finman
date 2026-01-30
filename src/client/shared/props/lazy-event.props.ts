@@ -4,4 +4,5 @@ export interface LazyEventProps {
   page: number;
   setPage: (page: number) => void;
   isLoading: boolean;
+  itemHeight: number;
 }

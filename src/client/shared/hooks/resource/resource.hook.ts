@@ -31,6 +31,7 @@ export function useResource<T, P extends Array<unknown>>(
     try {
       const result = await asyncFunctionRef(controller.signal, ...memoizedParams);
       setValue(result);
+      setIsLoading(false);
     } catch (error) {
       if (controller.signal.aborted) return;
 
@@ -38,7 +39,6 @@ export function useResource<T, P extends Array<unknown>>(
       if (message === ErrorTexts.UnknownError) return;
       setIsError(true);
       setErrorMessage(message);
-    } finally {
       setIsLoading(false);
     }
   }, [memoizedParams]);

@@ -23,6 +23,7 @@ export default function LazyDropdown<T>({
   setPage,
   page,
   pageSize,
+  itemHeight,
 }: LazyDropdownInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
 
@@ -34,10 +35,6 @@ export default function LazyDropdown<T>({
       setShowOptions([]);
     }
   }, [setPage, show]);
-
-  useEffect(() => {
-    console.log(showOptions, options);
-  }, [showOptions, options]);
 
   const inputValue = useMemo(() => {
     if (customInputValue) {
@@ -56,6 +53,7 @@ export default function LazyDropdown<T>({
           setPage={setPage}
           pageSize={pageSize}
           total={total}
+          itemHeight={itemHeight}
           setShowOptions={setShowOptions}
           showOptions={showOptions}
           newOptions={options}

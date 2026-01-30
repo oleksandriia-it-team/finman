@@ -1,9 +1,9 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { LazyLoadProps } from './props/lazy-load.props';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
-import { useObserver } from '../../hooks/observer/observer.hook';
 import { usePreviousValue } from '../../hooks/previous-value/previous-value.hook';
-import { getTotalPages } from '../../utils/get-total-pages.util';
+import { useEventHandler } from '../../hooks/event-handler/event-handler.hook';
+import { isEmpty } from '../../../../common/utils/is-empty.util';
 
 export default function LazyLoad<T>({
   children,
@@ -15,35 +15,51 @@ export default function LazyLoad<T>({
   setShowOptions,
   showOptions,
   isLoading,
+  itemHeight,
 }: LazyLoadProps<T> & ChildrenComponentProps) {
   const [topSentinel, setTopSentinel] = useState<HTMLDivElement | null>(null);
-  const [bottomSentinel, setBottomSentinel] = useState<HTMLDivElement | null>(null);
 
-  const isFirstIntersection = useObserver(topSentinel);
-  const isLastIntersection = useObserver(bottomSentinel);
+  const [startPage, setStartPage] = useState(page);
 
-  const totalPages = useMemo(() => getTotalPages(total, pageSize), [pageSize, total]);
+  const totalScrollHeight = useMemo(() => total * itemHeight, [itemHeight, total]);
 
-  const prevPage = usePreviousValue(page);
-  const prevNewOptions = usePreviousValue(newOptions);
-  const previousScrollHeight = useRef<number>(0);
+  const topSentinelScrollHeight = useMemo(
+    () => Math.min(totalScrollHeight, (startPage - 1) * pageSize * itemHeight),
+    [startPage, pageSize, itemHeight, totalScrollHeight],
+  );
 
-  useLayoutEffect(() => {
-    const container = topSentinel?.parentElement;
+  const bottomSentinelScrollHeight = useMemo(() => {
+    return Math.max(0, totalScrollHeight - topSentinelScrollHeight - showOptions.length * itemHeight);
+  }, [totalScrollHeight, topSentinelScrollHeight, showOptions, itemHeight]);
 
-    if (!container) return;
+  const prevPage = useRef<number | undefined>(undefined);
+  const prevOptions = usePreviousValue(newOptions, newOptions);
 
-    const currentScrollHeight = container.scrollHeight;
-    const scrollDiff = currentScrollHeight - previousScrollHeight.current;
+  const scrollHandler = useCallback(
+    (event: Event) => {
+      if (isLoading) return;
 
-    if (prevPage !== undefined && page < prevPage) {
-      if (scrollDiff > 0) {
-        container.scrollTop += scrollDiff;
+      const scrollTop = (event.target as HTMLElement).scrollTop;
+
+      if (scrollTop >= totalScrollHeight) {
+        return;
       }
-    }
 
-    previousScrollHeight.current = currentScrollHeight;
-  }, [showOptions, page, prevPage, topSentinel]);
+      const currentVisibleItem = Math.floor(scrollTop / itemHeight);
+
+      const firstPageItem = (page - 1) * pageSize;
+      const lastPageItem = page * pageSize - 1;
+
+      if (currentVisibleItem > lastPageItem) {
+        setPage(page + 1);
+      } else if (currentVisibleItem < firstPageItem && page > 1) {
+        setPage(page - 1);
+      }
+    },
+    [itemHeight, page, pageSize, setPage, totalScrollHeight, isLoading],
+  );
+
+  useEventHandler('scroll', topSentinel?.parentElement, scrollHandler);
 
   useEffect(() => {
     if (isLoading) {
@@ -52,56 +68,42 @@ export default function LazyLoad<T>({
 
     if (showOptions.length === 0 && newOptions.length > 0) {
       setShowOptions(newOptions);
+      setStartPage(page);
+      prevPage.current = page;
       return;
     }
 
-    if (prevPage === undefined || prevPage === page) return;
+    if (isEmpty(prevPage.current) || prevPage.current === page || prevOptions === newOptions) return;
 
-    if (newOptions === prevNewOptions) {
-      return;
-    }
+    if (page > prevPage.current) {
+      const keepFromOld = showOptions.length > pageSize ? showOptions.slice(pageSize) : showOptions;
 
-    const container = topSentinel?.parentElement;
-    if (container) {
-      previousScrollHeight.current = container.scrollHeight;
-    }
-
-    if (page > prevPage) {
-      const keepFromOld = showOptions.slice(-pageSize);
       setShowOptions([...keepFromOld, ...newOptions]);
-    } else if (page < prevPage) {
+
+      setStartPage(page - 1);
+    } else if (page < prevPage.current) {
+      if (page === startPage) {
+        setShowOptions(showOptions.slice(0, pageSize));
+        return;
+      }
+
       const keepFromOld = showOptions.slice(0, pageSize);
       setShowOptions([...newOptions, ...keepFromOld]);
-    }
-  }, [page, newOptions, isLoading, prevPage, setShowOptions, pageSize, prevNewOptions]);
 
-  useEffect(() => {
-    console.log(isLoading);
-    if (!isLoading && isFirstIntersection && page > 1) {
-      setPage(page - 1);
+      setStartPage(page);
     }
-  }, [isFirstIntersection, isLoading, page, setPage]);
 
-  useEffect(() => {
-    console.log(isLoading);
-    if (!isLoading && isLastIntersection && page < totalPages) {
-      setPage(page + 1);
-    }
-  }, [isLastIntersection, isLoading, page, setPage, totalPages]);
+    prevPage.current = page;
+  }, [page, newOptions, isLoading, prevPage, setShowOptions, pageSize, startPage, showOptions]);
 
   return (
     <>
       <div
         ref={setTopSentinel}
-        style={{ height: '1px' }}
+        style={{ height: `${topSentinelScrollHeight}px` }}
       />
-
       {children}
-
-      <div
-        ref={setBottomSentinel}
-        style={{ height: '1px' }}
-      />
+      <div style={{ height: `${bottomSentinelScrollHeight}px` }} />
     </>
   );
 }
