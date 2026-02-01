@@ -1,17 +1,36 @@
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import StepperItem from './stepper-item';
+import React, { useState } from 'react';
 
-export default function Stepper({ children }: ChildrenComponentProps) {
+interface StepperProps {
+  children: React.ReactNode;
+  currentStep: number;
+  changeSlide: (index: number) => void;
+}
+
+export default function Stepper({ children, currentStep, changeSlide }: StepperProps) {
   return (
     <div className="carousel slide">
       <div className="carousel-inner">{children}</div>
-      <button className="btn btn-primary">next</button>
-      <button className="btn btn-primary">prev</button>
+      <button
+        onClick={() => changeSlide(currentStep + 1)}
+        className="btn btn-primary"
+      >
+        next
+      </button>
+      <button
+        onClick={() => changeSlide(currentStep - 1)}
+        className="btn btn-primary"
+      >
+        prev
+      </button>
     </div>
   );
 }
 
 export function Test() {
+  const [active, setActive] = useState(0);
+
   return (
     <Stepper>
       <StepperItem isActive={true}>11222</StepperItem>
