@@ -8,6 +8,7 @@ import Header from '../client/widgets/header/header';
 import LoadStylesComponent from '../client/widgets/load-styles/load-styles.component';
 import LoadPopover from './load-popover';
 import LoadToasts from './load-toasts';
+import LoadModal from './load-modal';
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
   return (
@@ -15,6 +16,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       <InitApplication>
         <LoadPopover />
         <LoadToasts />
+        <LoadModal />
 
         <div className="flex flex-col w-screen h-screen">
           <Header />
