@@ -1,8 +1,9 @@
-import { ModalParams } from './modal-params';
+import { JSX } from 'react';
 
 export interface ModalHookModel {
   isOpen: boolean;
-  params: ModalParams<unknown> | null;
-  openModal: <T>(params: ModalParams<T>) => void;
-  closeModal: <T>(result?: T) => void;
+  template: JSX.Element | undefined;
+  onClose: (() => void) | undefined;
+  openModal: (template: JSX.Element, onClose?: (result?: undefined) => void) => void;
+  hideModal: () => void;
 }
