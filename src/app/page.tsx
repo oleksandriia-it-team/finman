@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { lookupsService } from '../client/api-clients/lookups/lookups.service';
 import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
+import { PromiseState } from '../client/shared/enums/promise-state.enum';
 
 export function ConfirmModal({ onClose }: { onClose: (result: boolean | undefined) => void }) {
   const hideModal = useModalStore((state) => state.hideModal);
