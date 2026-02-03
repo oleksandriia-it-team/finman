@@ -9,16 +9,18 @@ import { BootstrapAnimationResult } from './models/bootstrap-animation-result.mo
  * so the content doesn't disappear instantly.
  *
  * @param show - Determines whether the component should be visible.
- * @param duration - The duration of the animation in milliseconds.
+ * @param duration - The duration of the exit animation in milliseconds.
+ * @param initialShouldRender - The initial state of the shouldRender flag.
  * @param animatedData - Data dependencies that need to be preserved during the exit animation.
  * @returns An object containing flags for rendering and the preserved data.
  */
 export function useBootstrapAnimation<T extends Array<unknown>>(
   show: boolean,
   duration: number,
+  initialShouldRender: boolean,
   ...animatedData: T
 ): BootstrapAnimationResult<T> {
-  const [shouldRender, setShouldRender] = useState(false);
+  const [shouldRender, setShouldRender] = useState(initialShouldRender);
   const [showElement, setShowElement] = useState(false);
   const necessaryAnimatedData = useRef<T>(animatedData);
 
@@ -26,7 +28,7 @@ export function useBootstrapAnimation<T extends Array<unknown>>(
     if (show) {
       setShouldRender(true);
       necessaryAnimatedData.current = animatedData;
-      const timer = setTimeout(() => setShowElement(true), duration);
+      const timer = setTimeout(() => setShowElement(true), 50);
       return () => clearTimeout(timer);
     } else {
       setShowElement(false);

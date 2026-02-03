@@ -32,7 +32,7 @@ export default function LoadModal() {
     shouldRender,
     showElement,
     animatedData: [templateToRender],
-  } = useBootstrapAnimation(isOpen, 300, template);
+  } = useBootstrapAnimation(isOpen, 300, false, template);
 
   if (!shouldRender || !templateToRender) return null;
 
