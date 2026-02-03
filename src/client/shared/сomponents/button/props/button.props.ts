@@ -3,7 +3,7 @@ import { ChildrenComponentProps } from '../../../models/component-with-chilren.m
 
 export type ButtonVariant = 'warning' | 'danger' | 'info' | 'success';
 
-export type ButtonModel = ComponentDefaultProps &
+export type ButtonProps = ComponentDefaultProps &
   ChildrenComponentProps & {
     variant: ButtonVariant;
     type?: 'button' | 'submit' | 'reset' | undefined;

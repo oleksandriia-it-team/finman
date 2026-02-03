@@ -1,10 +1,14 @@
 'use client';
 
-import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { useState } from 'react';
 import { addToast } from '../client/shared/hooks/toast/toast.hook';
 import { useModalStore } from '../client/shared/hooks/modal/modal.hook';
 import ModalTemplate from '../client/shared/сomponents/modal/modal-template';
+import { useDropdownResource } from '../client/shared/hooks/dropdown-resource/dropdown-resource.hook';
+import { useQuery } from '@tanstack/react-query';
+import { lookupsService } from '../client/api-clients/lookups/lookups.service';
+import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
+import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 
 export function ConfirmModal({ onClose }: { onClose: (result: boolean | undefined) => void }) {
   const hideModal = useModalStore((state) => state.hideModal);
@@ -31,19 +35,26 @@ export function ConfirmModal({ onClose }: { onClose: (result: boolean | undefine
 }
 
 export default function MainPage() {
-  const options = [
-    {
-      value: 'first',
-      label: 'First test',
-    },
-    {
-      value: 'second',
-      label: 'Second test',
-    },
-  ];
+  const [page, setPage] = useState(1);
 
-  const [firstDropdownValue, setFirstDropdownValue] = useState('');
-  const [secondDropdownValue, setSecondDropdownValue] = useState('');
+  const [firstDropdownValue, setFirstDropdownValue] = useState<number | undefined>(undefined);
+
+  const data = useDropdownResource({
+    currentValue: firstDropdownValue,
+    getTotalCountQuery: useQuery({
+      queryKey: ['total count country'],
+      queryFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}).then((r) => r.data),
+    }),
+    getLabelFn: (id) => lookupsService.getItem(LookupsTypeEnum.CountriesAndLocales, id).then((r) => r.data?.country),
+    getOptionsQuery: useQuery({
+      queryKey: ['options country', page],
+      queryFn: () =>
+        lookupsService
+          .getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * 20 + 1, page * 20 + 1, {})
+          .then((r) => r.data.map((data) => ({ label: data.country, value: data.id }))),
+    }),
+    labelQueryKey: ['label country', String(firstDropdownValue ?? '')],
+  });
 
   const { openModal } = useModalStore();
 
@@ -59,22 +70,22 @@ export default function MainPage() {
 
   // TODO: remove later, it's an example
   return (
-    <div>
-      <div className="flex gap-2">
-        <Dropdown<string>
-          className="w-24"
-          value={firstDropdownValue}
-          options={options}
-          onChange={(value) => setFirstDropdownValue(value)}
-        />
-
-        <Dropdown<string>
-          className="w-24"
-          value={secondDropdownValue}
-          options={options}
-          onChange={(value) => setSecondDropdownValue(value)}
-        />
-      </div>
+    <div className="flex gap-2">
+      <Dropdown<number>
+        lazy={true}
+        className="w-24"
+        optionListClassName="overflow-auto max-h-96"
+        total={data.totalCount}
+        isLoading={data.state === PromiseState.Loading}
+        pageSize={20}
+        page={page}
+        itemHeight={32}
+        setPage={setPage}
+        value={firstDropdownValue}
+        customInputValue={data.inputLabel}
+        options={data.options}
+        onChange={(value) => setFirstDropdownValue(value)}
+      />
       <div className="mt-4 flex gap-2">
         <button onClick={() => addToast({ message: '1', type: 'success', duration: 5000 })}>Test Toast1</button>
         <button onClick={() => addToast({ message: '2', type: 'success', duration: 10000 })}>Test Toast2</button>

@@ -1,8 +1,8 @@
 'use client';
 
 import SvgIcon from '../../svg-icon/svg-icon';
-import { DropdownInputTemplateProps } from '../models/input.model';
-import { useCallback, useMemo, useRef } from 'react';
+import { DropdownInputTemplateProps } from '../props/input.props';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
@@ -18,10 +18,11 @@ export default function DropdownTemplate({
   setOpen,
   open,
 }: DropdownInputTemplateProps) {
-  const { showPopover, hidePopover } = usePopover(
+  const { showPopover, hidePopover, isGlobalShow } = usePopover(
     useShallow((state) => ({
       showPopover: state.showPopover,
       hidePopover: state.hidePopover,
+      isGlobalShow: state.show,
     })),
   );
 
@@ -36,10 +37,20 @@ export default function DropdownTemplate({
     }
   }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
 
-  useCloseWithPopover(optionsTemplate, () => setOpen(false));
+  useEffect(() => {
+    if (open && isGlobalShow && inputWrapperRef.current) {
+      showPopover(optionsTemplate, inputWrapperRef.current);
+    }
+  }, [optionsTemplate, open, isGlobalShow, showPopover]);
+
+  useCloseWithPopover(inputWrapperRef.current, () => setOpen(false));
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
+      if (e.defaultPrevented) {
+        return;
+      }
+
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         setVisibility();
@@ -82,7 +93,7 @@ export default function DropdownTemplate({
         readOnly={true}
         placeholder={placeholder}
         className={inputClasses}
-        value={value}
+        value={value ?? ''}
         tabIndex={-1} // Input is read-only, focus should be on the wrapper
         aria-hidden="true" // Hide input from screen readers as wrapper acts as combobox
       />

@@ -1,4 +1,4 @@
-import { ControlledInputProps } from '../models/controlled-input.model';
+import { ControlledInputProps } from '../props/controlled-input.props';
 
 // TODO update later
 export default function ControlledInput({ name, placeholder, className }: ControlledInputProps) {

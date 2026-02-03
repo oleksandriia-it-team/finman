@@ -1,14 +1,23 @@
 import { JSX } from 'react';
 import { InputDefaultProps } from '../../../props/input-default.props';
 import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
+import { LazyEventProps } from '../../../props/lazy-event.props';
 
 export interface InputProps<T> extends InputDefaultProps {
   onChange: (value: T) => void;
 }
 
-export type DropdownInputProps<T> = InputProps<T> &
+export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
   DropdownDefaultProps<T> & {
-    customInputValue?: boolean;
+    value?: T | undefined | null;
+    customInputValue?: string | undefined | null;
+  };
+
+export type LazyDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
+  DropdownDefaultProps<T> &
+  LazyEventProps & {
+    value?: T | undefined | null;
+    customInputValue?: string | undefined | null;
   };
 
 export interface DropdownInputTemplateProps extends InputDefaultProps {
