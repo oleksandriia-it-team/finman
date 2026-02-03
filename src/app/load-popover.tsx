@@ -5,6 +5,7 @@ import { getPageCoords } from '../client/shared/utils/get-page-cords.util';
 import { MinPopoverGap } from '../client/shared/constants/min-popover-gap.constants';
 import { useEventContainment } from '../client/shared/hooks/event-containment/event-containment.hook';
 import { useDynamicKey } from '../client/shared/hooks/dynamic-key/dynamic-key.hook';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export default function LoadPopover() {
   const { template, target, show, hidePopover } = usePopover(
@@ -15,6 +16,8 @@ export default function LoadPopover() {
       hidePopover: state.hidePopover,
     })),
   );
+
+  const [parent] = useAutoAnimate();
 
   const dynamicKey = useDynamicKey(target);
 
@@ -43,7 +46,7 @@ export default function LoadPopover() {
   });
 
   return (
-    <>
+    <div ref={parent}>
       {show && template && (
         <div
           key={dynamicKey}
@@ -54,6 +57,6 @@ export default function LoadPopover() {
           {template}
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -15,5 +15,5 @@ export function useEventContainment(elements: HTMLElement[], eventName: string, 
     return () => {
       document.removeEventListener(eventName, listener);
     };
-  }, [elements, eventName]);
+  }, [elements, eventName, handler]);
 }

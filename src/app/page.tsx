@@ -1,12 +1,39 @@
 'use client';
 
 import { useState } from 'react';
-import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
+import { addToast } from '../client/shared/hooks/toast/toast.hook';
+import { useModalStore } from '../client/shared/hooks/modal/modal.hook';
+import ModalTemplate from '../client/shared/сomponents/modal/modal-template';
+import { useDropdownResource } from '../client/shared/hooks/dropdown-resource/dropdown-resource.hook';
+import { useQuery } from '@tanstack/react-query';
 import { lookupsService } from '../client/api-clients/lookups/lookups.service';
 import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
-import { useQuery } from '@tanstack/react-query';
-import { useDropdownResource } from '../client/shared/hooks/dropdown-resource/dropdown-resource.hook';
+import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { PromiseState } from '../client/shared/enums/promise-state.enum';
+
+export function ConfirmModal({ onClose }: { onClose: (result: boolean | undefined) => void }) {
+  const hideModal = useModalStore((state) => state.hideModal);
+
+  const footer = (
+    <button
+      onClick={() => {
+        onClose(true);
+        hideModal();
+      }}
+    >
+      Yes
+    </button>
+  );
+
+  return (
+    <ModalTemplate
+      header={'Confirm Action'}
+      body={'Are you sure?'}
+      footer={footer}
+      onClose={onClose}
+    />
+  );
+}
 
 export default function MainPage() {
   const [page, setPage] = useState(1);
@@ -30,6 +57,18 @@ export default function MainPage() {
     labelQueryKey: ['label country', String(firstDropdownValue ?? '')],
   });
 
+  const { openModal } = useModalStore();
+
+  const handleClose = (result: boolean | undefined) => {
+    addToast({ message: `You selected: ${result}`, type: 'info', duration: 3000 });
+  };
+
+  const modalTemplate = <ConfirmModal onClose={handleClose} />;
+
+  const handleConfirm = () => {
+    openModal(modalTemplate, handleClose);
+  };
+
   // TODO: remove later, it's an example
   return (
     <div className="flex gap-2">
@@ -48,6 +87,14 @@ export default function MainPage() {
         options={data.options}
         onChange={(value) => setFirstDropdownValue(value)}
       />
+      <div className="mt-4 flex gap-2">
+        <button onClick={() => addToast({ message: '1', type: 'success', duration: 5000 })}>Test Toast1</button>
+        <button onClick={() => addToast({ message: '2', type: 'success', duration: 10000 })}>Test Toast2</button>
+        <button onClick={() => addToast({ message: '3', type: 'success' })}>Test Toast3</button>
+      </div>
+      <div className="mt-4 flex gap-2">
+        <button onClick={() => handleConfirm()}>Open Test Modal</button>
+      </div>
     </div>
   );
 }
