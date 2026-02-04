@@ -20,7 +20,7 @@ describe('LookupsService', () => {
 
     const result = await service.getItems(LookupsTypeEnum.Languages, 1, 10, {});
 
-    expect(result).toEqual(mockResponse);
+    expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
       '/api/lookups/languages/get-items',
       expect.objectContaining({
@@ -42,7 +42,7 @@ describe('LookupsService', () => {
 
     const result = await service.getItem(LookupsTypeEnum.Languages, 1);
 
-    expect(result).toEqual(mockResponse);
+    expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
       '/api/lookups/languages/get-by-id',
       expect.objectContaining({
@@ -64,7 +64,7 @@ describe('LookupsService', () => {
 
     const result = await service.getTotalCount(LookupsTypeEnum.Languages, {});
 
-    expect(result).toEqual(mockResponse);
+    expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
       '/api/lookups/languages/get-total-items',
       expect.objectContaining({
@@ -84,7 +84,9 @@ describe('LookupsService', () => {
       json: async () => mockErrorResponse,
     } as Response);
 
-    await expect(service.getItem(LookupsTypeEnum.Languages, 1)).rejects.toEqual(mockErrorResponse);
+    await expect(service.getItem(LookupsTypeEnum.Languages, 1)).rejects.toMatchObject({
+      message: mockErrorResponse.message,
+    });
   });
 
   it('should throw an error for 500 status', async () => {
@@ -98,6 +100,8 @@ describe('LookupsService', () => {
       json: async () => mockErrorResponse,
     } as Response);
 
-    await expect(service.getItems(LookupsTypeEnum.Languages, 1, 10, {})).rejects.toEqual(mockErrorResponse);
+    await expect(service.getItems(LookupsTypeEnum.Languages, 1, 10, {})).rejects.toMatchObject({
+      message: mockErrorResponse.message,
+    });
   });
 });
