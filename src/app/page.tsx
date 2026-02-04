@@ -88,8 +88,8 @@ export default function MainPage() {
         onChange={(value) => setFirstDropdownValue(value)}
       />
       <div className="mt-4 flex gap-2">
-        <button onClick={() => addToast({ message: '1', type: 'success', duration: 5000 })}>Test Toast1</button>
-        <button onClick={() => addToast({ message: '2', type: 'success', duration: 10000 })}>Test Toast2</button>
+        <button onClick={() => addToast({ message: '1', type: 'info', duration: 5000 })}>Test Toast1</button>
+        <button onClick={() => addToast({ message: '2', type: 'error', duration: 1000000 })}>Test Toast2</button>
         <button onClick={() => addToast({ message: '3', type: 'success' })}>Test Toast3</button>
       </div>
       <div className="mt-4 flex gap-2">

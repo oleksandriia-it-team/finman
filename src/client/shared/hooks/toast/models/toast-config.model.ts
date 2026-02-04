@@ -1,5 +1,7 @@
+export type ToastVariant = 'success' | 'error' | 'info' | 'warning';
+
 export interface ToastConfig {
-  type: 'success' | 'error' | 'info';
+  type: ToastVariant;
   title?: string;
   message: string;
   duration?: number;

@@ -1,0 +1,23 @@
+.toast-success {
+  --bs-toast-header-bg: var(--bs-success-bg-subtle);
+  --bs-toast-header-color: var(--bs-success-text-emphasis);
+  --bs-toast-bg: var(--bs-success-bg-subtle);
+  --bs-toast-color: var(--bs-success-text-emphasis);
+  --bs-toast-border-color: var(--bs-success-border-subtle);
+}
+
+.toast-error {
+  --bs-toast-header-bg: var(--bs-danger-bg-subtle);
+  --bs-toast-header-color: var(--bs-danger-text-emphasis);
+  --bs-toast-bg: var(--bs-danger-bg-subtle);
+  --bs-toast-color: var(--bs-danger-text-emphasis);
+  --bs-toast-border-color: var(--bs-danger-border-subtle);
+}
+
+.toast-warning {
+  --bs-toast-header-bg: var(--bs-warning-bg-subtle);
+  --bs-toast-header-color: var(--bs-warning-text-emphasis);
+  --bs-toast-bg: var(--bs-warning-bg-subtle);
+  --bs-toast-color: var(--bs-warning-text-emphasis);
+  --bs-toast-border-color: var(--bs-warning-border-subtle);
+}

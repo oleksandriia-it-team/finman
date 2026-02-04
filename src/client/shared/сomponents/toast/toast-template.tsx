@@ -3,6 +3,14 @@ import { useToastHook } from '../../hooks/toast/toast.hook';
 import { useEffect, useState } from 'react';
 import { useBootstrapAnimation } from '../../hooks/bootstrap-animation/bootstrap-animation.hook';
 import clsx from 'clsx';
+import { ToastVariant } from '../../hooks/toast/models/toast-config.model';
+
+const variants: Record<ToastVariant, string> = {
+  success: 'toast-success',
+  error: 'toast-error',
+  info: '',
+  warning: 'toast-warning',
+};
 
 export default function ToastTemplate({ config }: ToastProps) {
   const removeToast = useToastHook((state) => state.removeToast);
@@ -36,6 +44,7 @@ export default function ToastTemplate({ config }: ToastProps) {
     !showElement && 'showing',
     !showElement && 'hiding',
     !shouldRender && 'hide',
+    variants[config.type],
   );
 
   if (!shouldRender) return null;
