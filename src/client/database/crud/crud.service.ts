@@ -1,5 +1,4 @@
 import { DatabaseService } from '../database.service';
-import { DatabaseResultOperationSuccess } from '../../../common/models/database-result-operation.model';
 import { ICrudService } from '../models/crud-service.model';
 import { RecordModel } from '../../shared/models/record.model';
 import { DefaultTableColumns } from '../models/default-table-columns.model';
@@ -31,21 +30,21 @@ export abstract class CrudService<
     readonly tableName: string,
   ) {}
 
-  getItemById(id: number): Promise<DatabaseResultOperationSuccess<T | null>> {
+  getItemById(id: number): Promise<T | null> {
     return this.databaseService.getItemById(this.tableName, id, false);
   }
 
-  async getItems(first: number, last: number): Promise<DatabaseResultOperationSuccess<T[]>> {
+  async getItems(first: number, last: number): Promise<T[]> {
     return this.databaseService.getItems(this.tableName, first, last, false);
   }
 
-  abstract createItem(data: DTO): Promise<DatabaseResultOperationSuccess<number>>;
+  abstract createItem(data: DTO): Promise<number>;
 
-  abstract updateItem(id: number, data: DTO): Promise<DatabaseResultOperationSuccess<true>>;
+  abstract updateItem(id: number, data: DTO): Promise<true>;
 
-  abstract deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>>;
+  abstract deleteItem(id: number): Promise<true>;
 
-  getTotalCount(): Promise<DatabaseResultOperationSuccess<number>> {
+  getTotalCount(): Promise<number> {
     return this.databaseService.getTotalCount(this.tableName, false);
   }
 }

@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DatabaseService } from '../../../database/database.service';
 import { RegularExpensesAndIncomesService } from '../regular-expenses-and-incomes.service';
-import { DatabaseResultOperationSuccess } from '../../../../common/models/database-result-operation.model';
 import { RegularEntry } from '../../budget-plan/models/entry.model';
 import { TypeEntry } from '../../../shared/enums/entry.enum';
 
@@ -23,52 +22,31 @@ describe('RegularExpensesAndIncomesService', () => {
   });
 
   it('should create a regular entry', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: 1,
-      } satisfies DatabaseResultOperationSuccess<number>),
-    );
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve(1));
 
     const result = await service.createItem(data);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(1);
+    expect(result).toBe(1);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, data);
   });
 
   it('should update a regular entry with id = 1', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: 1,
-      } satisfies DatabaseResultOperationSuccess<number>),
-    );
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve(1));
 
     const result = await service.updateItem(1, data);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(true);
+    expect(result).toBe(true);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, { ...data, id: 1 });
   });
 
   it('should delete a regular entry with id = 1 with softDeleted = true', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: true,
-      } satisfies DatabaseResultOperationSuccess<boolean>),
-    );
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve(true));
 
     const result = await service.deleteItem(1);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(true);
+    expect(result).toBe(true);
 
     expect(dbService.deleteItem).toHaveBeenCalledExactlyOnceWith(service.tableName, 1, true);
   });
@@ -88,17 +66,11 @@ describe('RegularExpensesAndIncomesService', () => {
         }) satisfies RegularEntry,
     );
 
-    vi.spyOn(dbService, 'getItems').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data,
-      } satisfies DatabaseResultOperationSuccess<RegularEntry[]>),
-    );
+    vi.spyOn(dbService, 'getItems').mockReturnValue(Promise.resolve(data));
 
     const result = await service.getItemsWithSoftDeleted(1, 5);
 
-    expect(result.status).toBe(200);
-    expect(JSON.stringify(result.data)).toBe(JSON.stringify(data));
+    expect(JSON.stringify(result)).toBe(JSON.stringify(data));
     expect(dbService.getItems).toHaveBeenCalledWith(service.tableName, 1, 5, true);
   });
 });

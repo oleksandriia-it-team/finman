@@ -1,8 +1,8 @@
 import { getErrorMessage } from '../../../common/utils/get-error-message.util';
-import { DatabaseResultOperationError } from '../../../common/models/database-result-operation.model';
+import { ApiResultOperationError } from '../../../common/models/api-result-operation.model';
 import { ErrorTexts } from '../../../common/constants/error-texts.contant';
 
-export function getApiErrorMessage(error: unknown): DatabaseResultOperationError {
+export function getApiErrorMessage(error: unknown): ApiResultOperationError {
   const errorMessage = getErrorMessage(error);
 
   return {

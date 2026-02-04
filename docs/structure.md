@@ -69,7 +69,7 @@ This directory connects the URL to the application logic. It should not contain 
 ## 4. Common Directory (`src/common`)
 **Purpose:** Pure Type Safety.
 **Contents:**
-* **`models/`**: Shared TypeScript interfaces/types (e.g., `DatabaseResultOperation`).
+* **`models/`**: Shared TypeScript interfaces/types (e.g., `ApiResultOperation`).
 * **`constants/`**: Shared constants (e.g., `ErrorTexts`).
 * **`utils/`**: Shared utility functions (e.g., `getErrorMessage`).
 

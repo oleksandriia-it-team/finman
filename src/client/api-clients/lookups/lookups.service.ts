@@ -2,10 +2,7 @@ import { LookupsTypeEnum } from '../../../server/shared/enums/lookups-type.enum'
 import { LookupsFilters } from '../../../common/models/lookups-filters';
 import { LookupsEndpoints, LookupsTypeEndpoints } from '../../../common/constants/lookups-endpoints.constant';
 import { LookupsTypeRequest } from '../../../server/shared/enums/lookups-type-request.enum';
-import {
-  DatabaseResultOperation,
-  DatabaseResultOperationSuccess,
-} from '../../../common/models/database-result-operation.model';
+import { ApiResultOperation, ApiResultOperationSuccess } from '../../../common/models/api-result-operation.model';
 import { LookupsResponseResult } from '../../../common/models/get-lookups-items-result';
 import { LookupsDto } from '../../../common/models/lookups-dto';
 
@@ -20,7 +17,7 @@ export class LookupsService {
     to: number,
     filters: Partial<LookupsFilters[T]>,
     abortSignal?: AbortSignal,
-  ): Promise<DatabaseResultOperationSuccess<LookupsDto[T][]>> {
+  ): Promise<ApiResultOperationSuccess<LookupsDto[T][]>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetItems, abortSignal, { from, to, filters });
   }
 
@@ -28,7 +25,7 @@ export class LookupsService {
     type: T,
     id: number,
     abortSignal?: AbortSignal,
-  ): Promise<DatabaseResultOperationSuccess<LookupsDto[T] | null>> {
+  ): Promise<ApiResultOperationSuccess<LookupsDto[T] | null>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetById, abortSignal, { id });
   }
 
@@ -36,7 +33,7 @@ export class LookupsService {
     type: T,
     filters: Partial<LookupsFilters[T]>,
     abortSignal?: AbortSignal,
-  ): Promise<DatabaseResultOperationSuccess<number>> {
+  ): Promise<ApiResultOperationSuccess<number>> {
     return this.fetchLookups(type, LookupsTypeRequest.GetTotalItems, abortSignal, { filters });
   }
 
@@ -45,19 +42,19 @@ export class LookupsService {
     typeRequest: LTR,
     abortSignal: AbortSignal | undefined,
     payload: unknown,
-  ): Promise<DatabaseResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>> {
+  ): Promise<ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>> {
     const result = await fetch(`/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`, {
       method: 'post',
       body: JSON.stringify(payload),
       signal: abortSignal ?? null,
     });
-    const body: DatabaseResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]> = await result.json();
+    const body: ApiResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]> = await result.json();
 
     if (body.status === 400 || body.status === 500) {
       throw body;
     }
 
-    return body as DatabaseResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>;
+    return body as ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>;
   }
 }
 

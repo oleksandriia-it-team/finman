@@ -4,7 +4,6 @@ import { DatabaseService } from '../../database/database.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { DelayedExpense } from './models/entry.model';
 import { isEmpty } from '../../../common/utils/is-empty.util';
-import { DatabaseResultOperationSuccess } from '../../../common/models/database-result-operation.model';
 import { DelayedExpensesService } from '../delayes-expenses/delayed-expenses.service';
 
 /**
@@ -55,7 +54,7 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
         otherEntries: data.otherEntries,
         plannedOtherEntryIndexes: data.plannedOtherEntryIndexes,
         plannedRegularEntryIds: data.plannedRegularEntryIds,
-        plannedDelayedExpenseIds: delayedExpenses.map((expense) => expense.data),
+        plannedDelayedExpenseIds: delayedExpenses,
       };
 
       const result = await this.databaseService.updateOrCreateItem(this.tableName, dto);
@@ -70,11 +69,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
     }
   }
 
-  override async updateItem(id: number, newData: BudgetPlanDto): Promise<DatabaseResultOperationSuccess<true>> {
+  override async updateItem(id: number, newData: BudgetPlanDto): Promise<true> {
     try {
       this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
-      const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
+      const prevPlannedDelayedExpenseIds: number[] = (await this.getItemById(id))?.plannedDelayedExpenseIds ?? [];
 
       const needCreateDelayedExpenses: DelayedExpense[] = newData.plannedDelayedExpenses.filter(({ id }) =>
         isEmpty(id),
@@ -106,17 +105,14 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
         otherEntries: newData.otherEntries,
         plannedOtherEntryIndexes: newData.plannedOtherEntryIndexes,
         plannedRegularEntryIds: newData.plannedRegularEntryIds,
-        plannedDelayedExpenseIds: [...savedDelayedExpenses, ...createdDelayedExpenses.map((expense) => expense.data)],
+        plannedDelayedExpenseIds: [...savedDelayedExpenses, ...createdDelayedExpenses],
       };
 
       await this.databaseService.updateOrCreateItem(this.tableName, dto);
 
       await this.databaseService.doneBatch();
 
-      return {
-        status: 200,
-        data: true,
-      } satisfies DatabaseResultOperationSuccess<true>;
+      return true;
     } catch (err: unknown) {
       await this.databaseService.revertBatch();
 
@@ -124,11 +120,11 @@ export class BudgetPlanService extends CrudService<BudgetPlan, BudgetPlanDto> {
     }
   }
 
-  async deleteItem(id: number): Promise<DatabaseResultOperationSuccess<true>> {
+  async deleteItem(id: number): Promise<true> {
     try {
       this.databaseService.runBatch([this.tableName, this.delayedExpensesService.tableName]);
 
-      const delayedExpenseIds: number[] = (await this.getItemById(id)).data?.plannedDelayedExpenseIds ?? [];
+      const delayedExpenseIds: number[] = (await this.getItemById(id))?.plannedDelayedExpenseIds ?? [];
 
       const deleteDelayedExpenseRequests = delayedExpenseIds.map((id) => this.delayedExpensesService.deleteItem(id));
 

@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DelayedExpensesService } from '../delayed-expenses.service';
 import { DatabaseService } from '../../../database/database.service';
-import { DatabaseResultOperationSuccess } from '../../../../common/models/database-result-operation.model';
 import { TypeEntry } from '../../../shared/enums/entry.enum';
 import { DelayedExpense } from '../../budget-plan/models/entry.model';
 import { Month } from '../../../shared/enums/month.enum';
@@ -26,52 +25,31 @@ describe('DelayedExpensesService', () => {
   });
 
   it('should create a delayed expense', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: 1,
-      } satisfies DatabaseResultOperationSuccess<number>),
-    );
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve(1));
 
     const result = await service.createItem(data);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(1);
+    expect(result).toBe(1);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, data);
   });
 
   it('should update a delayed expense with id = 1', async () => {
-    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: 1,
-      } satisfies DatabaseResultOperationSuccess<number>),
-    );
+    vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve(1));
 
     const result = await service.updateItem(1, data);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(true);
+    expect(result).toBe(true);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, { ...data, id: 1 });
   });
 
   it('should delete a delayed expense with id = 1 with softDeleted = false', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(
-      Promise.resolve({
-        status: 200,
-        data: true,
-      } satisfies DatabaseResultOperationSuccess<boolean>),
-    );
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve(true));
 
     const result = await service.deleteItem(1);
 
-    expect(result.status).toBe(200);
-
-    expect(result.data).toBe(true);
+    expect(result).toBe(true);
 
     expect(dbService.deleteItem).toHaveBeenCalledExactlyOnceWith(service.tableName, 1, false);
   });

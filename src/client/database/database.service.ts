@@ -1,9 +1,4 @@
 import { IDBPDatabase, IDBPTransaction, openDB } from 'idb';
-import {
-  DatabaseResultOperation,
-  DatabaseResultOperationError,
-  DatabaseResultOperationSuccess,
-} from '../../common/models/database-result-operation.model';
 import { getErrorMessage } from '../../common/utils/get-error-message.util';
 import { RecordModel } from '../shared/models/record.model';
 import { DefaultTableColumns } from './models/default-table-columns.model';
@@ -59,7 +54,7 @@ export class DatabaseService {
         return instance;
       })
       .catch(() => {
-        throw ErrorDataBaseConnection;
+        throw new Error(ErrorDataBaseConnection);
       });
   }
 
@@ -67,18 +62,18 @@ export class DatabaseService {
     tableName: string,
     id: number,
     includeSoftDeleted: boolean,
-  ): Promise<DatabaseResultOperationSuccess<T | null>> {
+  ): Promise<T | null> {
     try {
       const store = this.#tx?.objectStore(tableName);
       const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
       const item = (await getFn(id)) ?? null;
       if (!includeSoftDeleted && item && item.softDeleted) {
-        return { status: 200, data: null } satisfies DatabaseResultOperationSuccess<null>;
+        return null;
       }
-      return { status: 200, data: item as T } satisfies DatabaseResultOperation<T | null>;
+      return item as T;
     } catch (error: unknown) {
-      throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
+      throw new Error(getErrorMessage(error));
     }
   }
 
@@ -87,7 +82,7 @@ export class DatabaseService {
     start: number,
     end: number,
     includeSoftDeleted: boolean,
-  ): Promise<DatabaseResultOperationSuccess<T[]>> {
+  ): Promise<T[]> {
     const limit = end - start + 1;
 
     const tx = this.#db.transaction(tableName);
@@ -112,11 +107,11 @@ export class DatabaseService {
 
       await tx.done;
 
-      return { status: 200, data: results } satisfies DatabaseResultOperation<T[]>;
+      return results;
     } catch (error: unknown) {
       tx.abort();
 
-      throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
+      throw new Error(getErrorMessage(error));
     }
   }
 
@@ -131,17 +126,17 @@ export class DatabaseService {
    * @param {string} tableName - The name of the object store (table) to query.
    * @param {number} id - The key from which to start searching.
    * @param {boolean} includeSoftDeleted - Whether to include items marked as soft deleted.
-   * @returns {Promise<DatabaseResultOperationSuccess<T | null>>}
+   * @returns {Promise<T | null>}
    *          A promise resolving with the found item or null if none found.
    *
-   * @throws {DatabaseResultOperationError} Throws if an error occurs during the transaction.
+   * @throws {Error} Throws if an error occurs during the transaction.
    *
    * @example
    * ```ts
    * // Get the next item after id 5, excluding soft deleted items
    * const result = await getPrevOrNextItem(true, 'users', 5, false);
-   * if(result.data) {
-   *   console.log('Next item:', result.data);
+   * if(result) {
+   *   console.log('Next item:', result);
    * } else {
    *   console.log('No next item found');
    * }
@@ -152,7 +147,7 @@ export class DatabaseService {
     tableName: string,
     id: number,
     includeSoftDeleted: boolean,
-  ): Promise<DatabaseResultOperationSuccess<T | null>> {
+  ): Promise<T | null> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -169,32 +164,23 @@ export class DatabaseService {
       while (cursor) {
         if (includeSoftDeleted || cursor.value?.softDeleted === 0) {
           await tx.done;
-          return {
-            status: 200,
-            data: cursor.value ?? null,
-          } satisfies DatabaseResultOperationSuccess<T | null>;
+          return (cursor.value as T) ?? null;
         }
         cursor = await cursor.continue();
       }
 
       await tx.done;
-      return {
-        status: 200,
-        data: null,
-      } satisfies DatabaseResultOperationSuccess<null>;
+      return null;
     } catch (error: unknown) {
       tx.abort();
-      throw {
-        status: 500,
-        message: getErrorMessage(error),
-      } satisfies DatabaseResultOperationError;
+      throw new Error(getErrorMessage(error));
     }
   }
 
   async getFirstElement<T extends DefaultTableColumns>(
     tableName: string,
     includeSoftDeleted: boolean,
-  ): Promise<DatabaseResultOperationSuccess<T | null>> {
+  ): Promise<T | null> {
     const tx = this.#db.transaction(tableName, 'readonly');
     const store = tx.objectStore(tableName);
 
@@ -206,12 +192,12 @@ export class DatabaseService {
 
     await tx.done;
 
-    return { status: 200, data: cursor?.value ?? null } satisfies DatabaseResultOperationSuccess<T | null>;
+    return (cursor?.value as T) ?? null;
   }
 
-  async updateOrCreateItem(tableName: string, data: RecordModel): Promise<DatabaseResultOperationSuccess<number>> {
+  async updateOrCreateItem(tableName: string, data: RecordModel): Promise<number> {
     if (typeof data !== 'object' || isEmpty(data)) {
-      throw { status: 400, message: ErrorTexts.IncorrectTypeData } satisfies DatabaseResultOperationError;
+      throw new Error(ErrorTexts.IncorrectTypeData);
     }
 
     if (data.softDeleted !== 0 && data.softDeleted !== 1) {
@@ -219,7 +205,7 @@ export class DatabaseService {
     }
 
     if (typeof data.id !== 'number') {
-      throw { status: 400, message: ErrorTexts.IncorrectIdProvided } satisfies DatabaseResultOperationError;
+      throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 
     const store = this.#tx?.objectStore(tableName);
@@ -228,23 +214,20 @@ export class DatabaseService {
     const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
     return putFn(data)
-      .then((id: number) => ({ status: 200, data: id as number }) satisfies DatabaseResultOperation<number>)
+      .then((id: number) => id)
       .catch((error: unknown) => {
-        throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
+        throw new Error(getErrorMessage(error));
       });
   }
 
-  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<DatabaseResultOperationSuccess<true>> {
+  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<true> {
     const store = this.#tx?.objectStore(tableName);
     const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
 
     const item = await getFn(id);
 
     if (!item) {
-      throw {
-        status: 400,
-        message: ErrorTexts.RecordDoesNotExist,
-      } satisfies DatabaseResultOperationError;
+      throw new Error(ErrorTexts.RecordDoesNotExist);
     }
 
     if (softDelete) {
@@ -256,12 +239,9 @@ export class DatabaseService {
       const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
 
       return putFn(item)
-        .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
+        .then(() => true as const)
         .catch((error: unknown) => {
-          throw {
-            status: 500,
-            message: getErrorMessage(error),
-          } satisfies DatabaseResultOperationError;
+          throw new Error(getErrorMessage(error));
         });
     } else {
       const store = this.#tx?.objectStore(tableName);
@@ -270,41 +250,26 @@ export class DatabaseService {
       const deleteFn = store ? (store.delete as any).bind(store) : this.#db.delete.bind(this.#db, tableName);
 
       return deleteFn(id)
-        .then(() => ({ status: 200, data: true }) satisfies DatabaseResultOperation<true>)
+        .then(() => true as const)
         .catch((error: unknown) => {
-          throw {
-            status: 500,
-            message: getErrorMessage(error),
-          } satisfies DatabaseResultOperationError;
+          throw new Error(getErrorMessage(error));
         });
     }
   }
 
-  async getTotalCount(tableName: string, includeSoftDeleted: boolean): Promise<DatabaseResultOperationSuccess<number>> {
+  async getTotalCount(tableName: string, includeSoftDeleted: boolean): Promise<number> {
     const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
 
     try {
       if (includeSoftDeleted) {
-        return await store.count().then(
-          (count) =>
-            ({
-              status: 200,
-              data: count,
-            }) satisfies DatabaseResultOperation<number>,
-        );
+        return await store.count();
       } else {
         const index = store.index('softDeleted');
 
-        return await index.count(IDBKeyRange.only(0)).then(
-          (count) =>
-            ({
-              status: 200,
-              data: count,
-            }) satisfies DatabaseResultOperation<number>,
-        );
+        return await index.count(IDBKeyRange.only(0));
       }
     } catch (error: unknown) {
-      throw { status: 500, message: getErrorMessage(error) } satisfies DatabaseResultOperationError;
+      throw new Error(getErrorMessage(error));
     }
   }
 
@@ -441,6 +406,12 @@ export class DatabaseService {
       tx.abort();
 
       throw err;
+    }
+  }
+
+  close(): void {
+    if (this.#db) {
+      this.#db.close();
     }
   }
 }
