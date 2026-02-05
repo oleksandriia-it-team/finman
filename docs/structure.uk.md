@@ -39,19 +39,17 @@ FinMan використовує **Гібридну Архітектуру** дл
 
     ```text
     src/client/entities/budget-plan/
-    ├── ui/                     # Компоненти (Візуал)
-    │   ├── BudgetCard.tsx      # "Тупі" компоненти, отримують дані через пропси/хуки
-    │   └── BudgetList.tsx
+    ├── ui/                             # Компоненти (Візуал)
+    │   ├── budget-card.tsx             # "Тупі" компоненти, отримують дані через пропси/хуки
+    │   └── budget-list.tsx
     │
-    ├── model/                  # Стан та Логіка (Мозок)
-    │   ├── store.ts            # Zustand стор
-    │   └── useBudget.ts        # Кастомні хуки, що з'єднують Data та Store
+    │── budget.store.ts                 # Zustand стор
+    │── budget.hook.ts                  # Кастомні хуки, що з'єднують Data та Store
     │
-    └── data/                   # Шар Доступу до Даних (Руки)
-        ├── index.ts            # Публічний API (експортує репозиторій)
-        ├── budget.repository.ts# Фасад: Перемикає між API та Локальною БД
-        ├── budget.api.ts       # Клієнт Axios/Fetch
-        └── budget.local.ts     # Клієнт IndexedDB (використовує global database/)
+    └── data/                           # Шар Доступу до Даних (Руки)
+        ├── budget.repository.ts        # Фасад: Перемикає між API та Локальною БД
+        ├── budget.api.client.ts        # Клієнт Axios/Fetch
+        └── budget.local.repository.ts  # Клієнт IndexedDB (використовує global database/)
     ```
 * **`shared/`**: Перевикористовуваний інфраструктурний код (компоненти, хуки, утиліти).
 

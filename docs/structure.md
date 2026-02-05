@@ -39,19 +39,17 @@ To avoid confusion between Frontend, Backend, and Database layers:
 
     ```text
     src/client/entities/budget-plan/
-    ├── ui/                     # Components (Visuals)
-    │   ├── BudgetCard.tsx      # Dumb components, receive data via props or hooks
-    │   └── BudgetList.tsx
+    ├── ui/                                # Components (Visuals)
+    │   ├── budget-card.tsx                # Dumb components, receive data via props or hooks
+    │   └── budget-list.tsx
     │
-    ├── model/                  # State & Logic (The Brain)
-    │   ├── store.ts            # Zustand store
-    │   └── useBudget.ts        # Custom hooks connecting Data and Store
+    ├── budget.store.ts                    # Zustand store
+    ├── budget.hook.ts                     # Custom hooks connecting Data and Store
     │
-    └── data/                   # Data Access Layer (The Hands)
-        ├── index.ts            # Public API (exports the repository)
-        ├── budget.repository.ts# Facade: Switches between API and Local DB
-        ├── budget.api.ts       # Axios/Fetch client
-        └── budget.local.ts     # IndexedDB client (uses global database/)
+    └── data/                              # Data Access Layer (The Hands)
+        ├── budget.service.ts              # Facade: Switches between API and Local DB
+        ├── budget.api.client.ts           # Axios/Fetch client
+        └── budget.local.repository.ts     # IndexedDB client (uses global database/)
     ```
 * **`shared/`**: Reusable infrastructure code (components, hooks, utils).
 
