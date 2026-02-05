@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DatabaseService } from '../../../database/database.service';
-import { BudgetPlanService } from '../budget-plan.service';
-import { DelayedExpensesService } from '../../delayes-expenses/delayed-expenses.service';
-import { BudgetPlan, BudgetPlanDto, PlannedDelayedExpense } from '../models/budget-plan.model';
-import { Month } from '../../../shared/enums/month.enum';
-import { UnregularEntry } from '../models/entry.model';
-import { TypeEntry } from '../../../shared/enums/entry.enum';
+import { DatabaseLocalService } from '../../../database/database.local.service';
+import { BudgetPlanLocalRepository } from '../budget-plan.local.repository';
+import { DelayedExpensesLocalRepository } from '../../delayes-expenses/delayed-expenses.local.repository';
+import { BudgetPlan, BudgetPlanDto, PlannedDelayedExpense } from '../../../../common/records/budget-plan.record';
+import { Month } from '../../../../common/enums/month.enum';
+import { TypeEntry } from '../../../../common/enums/entry.enum';
 import { ErrorTexts } from '../../../../common/constants/error-texts.contant';
+import { UnregularEntry } from '../../../../common/records/unregular-entry.record';
 
-describe('BudgetPlanService', () => {
-  let dbService: DatabaseService;
-  let delayedExpensesService: DelayedExpensesService;
-  let budgetPlanService: BudgetPlanService;
+describe('BudgetPlanLocalRepository', () => {
+  let dbService: DatabaseLocalService;
+  let delayedExpensesService: DelayedExpensesLocalRepository;
+  let budgetPlanService: BudgetPlanLocalRepository;
 
   const otherEntries: UnregularEntry[] = [
     {
@@ -40,11 +40,11 @@ describe('BudgetPlanService', () => {
   };
 
   beforeEach(() => {
-    dbService = new DatabaseService('UNIT_TESTS', [], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [], 1);
 
-    delayedExpensesService = new DelayedExpensesService(dbService);
+    delayedExpensesService = new DelayedExpensesLocalRepository(dbService);
 
-    budgetPlanService = new BudgetPlanService(dbService, delayedExpensesService);
+    budgetPlanService = new BudgetPlanLocalRepository(dbService, delayedExpensesService);
   });
 
   it('should create a budget plan and 2 delayed expenses', async () => {

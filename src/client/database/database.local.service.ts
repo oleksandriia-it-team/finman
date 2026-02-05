@@ -15,7 +15,7 @@ import { DatabaseName, Tables } from '../shared/constants/database.constants';
  * logically deleted records when needed.
  *
  * @example
- * const dbService = new DatabaseService('AppDB', ['users', 'posts'], 1);
+ * const dbService = new DatabaseLocalService('AppDB', ['users', 'posts'], 1);
  * const user = await dbService.getItemById<User>('users', 1, false);
  *
  * @constructor
@@ -23,7 +23,7 @@ import { DatabaseName, Tables } from '../shared/constants/database.constants';
  * @param tables - Array of table (object store) names to be created if they do not exist.
  * @param version - Version of the database, used for schema upgrades.
  */
-export class DatabaseService {
+export class DatabaseLocalService {
   #db!: IDBPDatabase<unknown>;
 
   // eslint-disable-next-line
@@ -43,7 +43,7 @@ export class DatabaseService {
     return this.#db;
   }
 
-  static initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseService> {
+  static initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseLocalService> {
     const instance = new this(databaseName, tables, version);
 
     return instance
@@ -416,4 +416,4 @@ export class DatabaseService {
   }
 }
 
-export const databaseService = new DatabaseService(DatabaseName, Object.values(Tables), 1);
+export const databaseService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 1);

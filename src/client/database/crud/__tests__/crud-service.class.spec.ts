@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { CrudService } from '../crud.service';
-import { DefaultTableColumns } from '../../models/default-table-columns.model';
-import { DatabaseService } from '../../database.service';
+import { CrudLocalService } from '../crud.local.service';
+import { DefaultTableColumns } from '../../../../common/models/default-table-columns.model';
+import { DatabaseLocalService } from '../../database.local.service';
 
 const tableName = 'TEST';
 
-class CrudServiceForUnitTest extends CrudService<DefaultTableColumns> {
-  constructor(databaseService: DatabaseService) {
+class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
+  constructor(databaseService: DatabaseLocalService) {
     super(databaseService, tableName);
   }
 
@@ -33,11 +33,11 @@ class CrudServiceForUnitTest extends CrudService<DefaultTableColumns> {
 }
 
 describe('CrudService', () => {
-  let dbService: DatabaseService;
+  let dbService: DatabaseLocalService;
   let service: CrudServiceForUnitTest;
 
   beforeEach(() => {
-    dbService = new DatabaseService('UNIT_TESTS', [], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [], 1);
 
     service = new CrudServiceForUnitTest(dbService);
   });

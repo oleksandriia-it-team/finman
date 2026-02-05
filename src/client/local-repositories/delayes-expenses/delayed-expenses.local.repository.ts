@@ -1,10 +1,10 @@
-import { CrudService } from '../../database/crud/crud.service';
-import { DelayedExpense } from '../budget-plan/models/entry.model';
-import { DatabaseService } from '../../database/database.service';
+import { CrudLocalService } from '../../database/crud/crud.local.service';
+import { DatabaseLocalService, databaseService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
+import { DelayedExpense } from '../../../common/records/delayed-expenses.record';
 
-export class DelayedExpensesService extends CrudService<DelayedExpense> {
-  constructor(databaseService: DatabaseService) {
+export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense> {
+  constructor(databaseService: DatabaseLocalService) {
     super(databaseService, Tables.DelayedExpensesTable);
   }
 
@@ -20,3 +20,5 @@ export class DelayedExpensesService extends CrudService<DelayedExpense> {
     return this.databaseService.deleteItem(this.tableName, id, false);
   }
 }
+
+export const delayedExpensesLocalRepository = new DelayedExpensesLocalRepository(databaseService);

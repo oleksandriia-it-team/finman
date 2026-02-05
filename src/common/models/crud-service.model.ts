@@ -1,8 +1,8 @@
-import { RecordModel } from '../../shared/models/record.model';
+import { RecordModel } from './record.model';
 import { DefaultTableColumns } from './default-table-columns.model';
 
 export interface ICrudService<T extends DefaultTableColumns, DTO extends RecordModel = Omit<T, 'id'>> {
-  readonly tableName: string;
+  readonly tableName?: string;
 
   getItemById(id: number): Promise<T | null>;
 

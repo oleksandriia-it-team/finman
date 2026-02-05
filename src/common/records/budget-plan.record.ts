@@ -1,7 +1,8 @@
-import { Month } from '../../../shared/enums/month.enum';
-import { DelayedExpense, UnregularEntry } from './entry.model';
-import { RecordModel } from '../../../shared/models/record.model';
-import { DefaultTableColumns } from '../../../database/models/default-table-columns.model';
+import { Month } from '../enums/month.enum';
+import { RecordModel } from '../models/record.model';
+import { DefaultTableColumns } from '../models/default-table-columns.model';
+import { UnregularEntry } from './unregular-entry.record';
+import { DelayedExpense } from './delayed-expenses.record';
 
 export interface BudgetPlan extends DefaultTableColumns {
   month: Month;

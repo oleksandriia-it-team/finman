@@ -35,7 +35,7 @@ This directory connects the URL to the application logic. It should not contain 
 * **`entities/`**: Business entities, data logic, and global state (e.g., `BudgetPlan`, `UserInformation`).
   * Contains `services/`, `models/`, and Zustand stores.
 * **`database/`**: **Client-side Database** (IndexedDB wrapper).
-  * Contains `DatabaseService` and base `CrudService` for local data storage.
+  * Contains `DatabaseLocalService` and base `CrudLocalService` for local data storage.
   * *Note:* Strictly separated from server-side databases.
 * **`shared/`**: Reusable infrastructure code.
   * **`components/`**: Reusable UI components (Buttons, Inputs, Dropdowns).

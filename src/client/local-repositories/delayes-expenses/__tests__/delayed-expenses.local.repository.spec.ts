@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DelayedExpensesService } from '../delayed-expenses.service';
-import { DatabaseService } from '../../../database/database.service';
-import { TypeEntry } from '../../../shared/enums/entry.enum';
-import { DelayedExpense } from '../../budget-plan/models/entry.model';
-import { Month } from '../../../shared/enums/month.enum';
+import { DelayedExpensesLocalRepository } from '../delayed-expenses.local.repository';
+import { DatabaseLocalService } from '../../../database/database.local.service';
+import { TypeEntry } from '../../../../common/enums/entry.enum';
+import { Month } from '../../../../common/enums/month.enum';
+import { DelayedExpense } from '../../../../common/records/delayed-expenses.record';
 
-describe('DelayedExpensesService', () => {
-  let dbService: DatabaseService;
-  let service: DelayedExpensesService;
+describe('DelayedExpensesLocalRepository', () => {
+  let dbService: DatabaseLocalService;
+  let service: DelayedExpensesLocalRepository;
 
   const data: Omit<DelayedExpense, 'id' | 'softDeleted'> = {
     type: TypeEntry.Expense,
@@ -19,9 +19,9 @@ describe('DelayedExpensesService', () => {
   };
 
   beforeEach(() => {
-    dbService = new DatabaseService('UNIT_TESTS', [], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [], 1);
 
-    service = new DelayedExpensesService(dbService);
+    service = new DelayedExpensesLocalRepository(dbService);
   });
 
   it('should create a delayed expense', async () => {

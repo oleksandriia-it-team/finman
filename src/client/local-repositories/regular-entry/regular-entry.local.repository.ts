@@ -1,10 +1,10 @@
-import { CrudService } from '../../database/crud/crud.service';
-import { RegularEntry } from '../budget-plan/models/entry.model';
-import { DatabaseService } from '../../database/database.service';
+import { CrudLocalService } from '../../database/crud/crud.local.service';
+import { DatabaseLocalService, databaseService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
+import { RegularEntry } from '../../../common/records/regular-entry.record';
 
-export class RegularExpensesAndIncomesService extends CrudService<RegularEntry> {
-  constructor(databaseService: DatabaseService) {
+export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry> {
+  constructor(databaseService: DatabaseLocalService) {
     super(databaseService, Tables.RegularExpensesAndIncomesTable);
   }
 
@@ -24,3 +24,5 @@ export class RegularExpensesAndIncomesService extends CrudService<RegularEntry> 
     return this.databaseService.getItems(this.tableName, first, last, true);
   }
 }
+
+export const regularEntryLocalRepository = new RegularEntryLocalRepository(databaseService);

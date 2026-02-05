@@ -1,4 +1,4 @@
-import { RecordModel } from '../../shared/models/record.model';
+import { RecordModel } from './record.model';
 
 export interface DefaultTableColumns extends RecordModel {
   id: number; // Primary key used as the unique identifier for each record

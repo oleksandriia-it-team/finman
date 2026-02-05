@@ -1,10 +1,10 @@
 import 'fake-indexeddb/auto';
 import { indexedDB } from 'fake-indexeddb';
 
-import { DatabaseService } from '../database.service';
+import { DatabaseLocalService } from '../database.local.service';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { RecordModel } from '../../shared/models/record.model';
-import { DefaultTableColumns } from '../models/default-table-columns.model';
+import { RecordModel } from '../../../common/models/record.model';
+import { DefaultTableColumns } from '../../../common/models/default-table-columns.model';
 import { ErrorTexts } from '../../../common/constants/error-texts.contant';
 
 interface UnitTestUser extends RecordModel {
@@ -158,10 +158,10 @@ const fiveUsers: UnitTestUser[] = [
 ];
 
 describe('DatabaseService', () => {
-  let databaseService: DatabaseService;
+  let databaseService: DatabaseLocalService;
 
   beforeEach(async () => {
-    databaseService = await DatabaseService.initDB(dbName, tables, 1);
+    databaseService = await DatabaseLocalService.initDB(dbName, tables, 1);
   });
 
   afterEach(async () => {

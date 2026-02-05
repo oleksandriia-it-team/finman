@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { DatabaseService } from '../../../database/database.service';
-import { RegularExpensesAndIncomesService } from '../regular-expenses-and-incomes.service';
-import { RegularEntry } from '../../budget-plan/models/entry.model';
-import { TypeEntry } from '../../../shared/enums/entry.enum';
+import { DatabaseLocalService } from '../../../database/database.local.service';
+import { RegularEntryLocalRepository } from '../regular-entry.local.repository';
+import { TypeEntry } from '../../../../common/enums/entry.enum';
+import { RegularEntry } from '../../../../common/records/regular-entry.record';
 
-describe('RegularExpensesAndIncomesService', () => {
-  let dbService: DatabaseService;
-  let service: RegularExpensesAndIncomesService;
+describe('RegularEntryLocalRepository', () => {
+  let dbService: DatabaseLocalService;
+  let service: RegularEntryLocalRepository;
 
   const data: Omit<RegularEntry, 'id' | 'softDeleted'> = {
     type: TypeEntry.Income,
@@ -16,9 +16,9 @@ describe('RegularExpensesAndIncomesService', () => {
   };
 
   beforeEach(() => {
-    dbService = new DatabaseService('UNIT_TESTS', [], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [], 1);
 
-    service = new RegularExpensesAndIncomesService(dbService);
+    service = new RegularEntryLocalRepository(dbService);
   });
 
   it('should create a regular entry', async () => {

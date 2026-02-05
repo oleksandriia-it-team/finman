@@ -1,7 +1,7 @@
-import { DatabaseService } from '../database.service';
-import { ICrudService } from '../models/crud-service.model';
-import { RecordModel } from '../../shared/models/record.model';
-import { DefaultTableColumns } from '../models/default-table-columns.model';
+import { DatabaseLocalService } from '../database.local.service';
+import { ICrudService } from '../../../common/models/crud-service.model';
+import { RecordModel } from '../../../common/models/record.model';
+import { DefaultTableColumns } from '../../../common/models/default-table-columns.model';
 
 /**
  * Abstract base class for CRUD operations on a specific IndexedDB table.
@@ -12,21 +12,21 @@ import { DefaultTableColumns } from '../models/default-table-columns.model';
  * @remarks
  * This class provides base implementations for common operations like retrieving items by ID,
  * paginated item retrieval, and total item count. It delegates actual database work to the
- * `DatabaseService` and expects the child class to implement `createItem`, `updateItem`, and `deleteItem`.
+ * `DatabaseLocalService` and expects the child class to implement `createItem`, `updateItem`, and `deleteItem`.
  *
  * @example
- * class UserService extends CrudService<UserRecord> {
+ * class UserService extends CrudLocalService<UserRecord> {
  *   async createItem(data: UserDTO) { ... }
  *   async updateItem(id: number, data: UserDTO) { ... }
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudService<
+export abstract class CrudLocalService<
   T extends DefaultTableColumns,
   DTO extends RecordModel = Omit<T, 'id' | 'softDeleted'>,
 > implements ICrudService<T, DTO> {
   protected constructor(
-    protected readonly databaseService: DatabaseService,
+    protected readonly databaseService: DatabaseLocalService,
     readonly tableName: string,
   ) {}
 
