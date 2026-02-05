@@ -5,7 +5,7 @@ import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-e
 import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { GetTotalCurrenciesPayload } from '../shared/models/currencies-payloads.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
-import { Currency } from '../shared/models/currencies.model';
+import { Currency } from '../../../../../common/records/currencies.record';
 
 export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
   try {

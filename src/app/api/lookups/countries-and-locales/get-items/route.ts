@@ -4,7 +4,7 @@ import { ApiResultOperation } from '../../../../../common/models/api-result-oper
 import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { GetCountryAndLocalesPayload } from '../shared/models/country-and-locales-payloads.model';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
-import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
+import { CountryAndLocale } from '../../../../../common/records/countries.record';
 import { getPaginatedItems } from '../../../../../server/shared/utils/get-paginated-items.util';
 
 export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<CountryAndLocale[]>>> {

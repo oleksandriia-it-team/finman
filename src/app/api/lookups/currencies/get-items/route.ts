@@ -3,7 +3,7 @@ import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-e
 import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
 import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { getPaginatedItems } from '../../../../../server/shared/utils/get-paginated-items.util';
-import { Currency } from '../shared/models/currencies.model';
+import { Currency } from '../../../../../common/records/currencies.record';
 import { GetCurrenciesPayload } from '../shared/models/currencies-payloads.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
 

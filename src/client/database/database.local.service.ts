@@ -1,10 +1,10 @@
 import { IDBPDatabase, IDBPTransaction, openDB } from 'idb';
 import { getErrorMessage } from '../../common/utils/get-error-message.util';
-import { RecordModel } from '../shared/models/record.model';
-import { DefaultTableColumns } from './models/default-table-columns.model';
 import { isEmpty } from '../../common/utils/is-empty.util';
 import { ErrorDataBaseConnection, ErrorTexts } from '../../common/constants/error-texts.contant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
+import { DefaultTableColumns } from '../../common/models/default-table-columns.model';
+import { RecordModel } from '../../common/models/record.model';
 
 /**
  * Service for interacting with an IndexedDB database using the `idb` library.

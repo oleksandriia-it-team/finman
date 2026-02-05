@@ -1,7 +1,7 @@
 import { create } from 'zustand/react';
 import { ModalHookModel } from './model/modal-hook.model';
 
-export const useModalStore = create<ModalHookModel>((set, get) => ({
+export const useModalStore = create<ModalHookModel>((set) => ({
   isOpen: false,
   template: undefined,
   onClose: undefined,
