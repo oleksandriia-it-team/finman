@@ -75,6 +75,9 @@ To avoid confusion between Frontend, Backend, and Database layers:
 **Purpose:** Pure Type Safety & Shared Contracts.
 
 * **`records/`**: **Primary source of truth.** Database table definitions (e.g., `BudgetPlanRecord`).
+* **`domains/`**: **Shared Business Logic**. Grouped by business domain. Contains code used by BOTH Client and Server.
+  * *Example:* `common/domains/country/` contains `country.schema.ts` (Zod), `country.dto.ts`, `country.filters.ts`.
+  * **Rule:** Must contain ONLY pure TS/JS (no API calls, no DB access, no React hooks).
 * **`models/`**: Shared DTOs and Types.
 * **`constants/`**: Shared constants.
 * **`utils/`**: Shared utility functions (pure JS/TS only).
@@ -112,4 +115,4 @@ To maintain modularity and prevent circular dependencies, the following import r
 * **DDD Layers:**
   * `infrastructure` depends on `domain` and `application`.
   * `application` depends on `domain`.
-  * `domain` is **independent** (depends only on `common/).
+  * `domain` is **independent** (depends only on `common/`).

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { LookupsService } from '../lookups.service';
-import { LookupsTypeEnum } from '../../../../common/enums/lookups-type.enum';
+import { LookupsTypeEnum } from '../../../../common/domains/lookups/enums/lookups-type.enum';
 
 vi.stubGlobal('fetch', vi.fn());
 

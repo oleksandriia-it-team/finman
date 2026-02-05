@@ -1,9 +1,9 @@
-import { LookupsTypeEnum } from '../../../common/enums/lookups-type.enum';
-import { LookupsFilters } from '../../../common/models/lookups-filters';
+import { LookupsTypeEnum } from '../../../common/domains/lookups/enums/lookups-type.enum';
+import { LookupsFilters } from '../../../common/domains/lookups/models/lookups-filters';
 import { LookupsEndpoints, LookupsTypeEndpoints } from '../../../common/constants/lookups-endpoints.constant';
-import { LookupsTypeRequest } from '../../../common/enums/lookups-type-request.enum';
-import { LookupsResponseResult } from '../../../common/models/get-lookups-items-result';
-import { LookupsDto } from '../../../common/models/lookups-dto';
+import { LookupsTypeRequest } from '../../../common/domains/lookups/enums/lookups-type-request.enum';
+import { LookupsResponseResult } from '../../../common/domains/lookups/models/get-lookups-items-result';
+import { LookupsDto } from '../../../common/domains/lookups/models/lookups-dto';
 import { ApiResultOperation, ApiResultOperationSuccess } from '../../../common/models/api-result-operation.model';
 
 /**
