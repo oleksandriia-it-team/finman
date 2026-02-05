@@ -47,7 +47,7 @@ FinMan використовує **Гібридну Архітектуру** дл
     │── budget.hook.ts                  # Кастомні хуки, що з'єднують Data та Store
     │
     └── data/                           # Шар Доступу до Даних (Руки)
-        ├── budget.repository.ts        # Фасад: Перемикає між API та Локальною БД
+        ├── budget.service.ts        # Фасад: Перемикає між API та Локальною БД
         ├── budget.api.client.ts        # Клієнт Axios/Fetch
         └── budget.local.repository.ts  # Клієнт IndexedDB (використовує global database/)
     ```
