@@ -1,11 +1,10 @@
 import 'fake-indexeddb/auto';
 import { indexedDB } from 'fake-indexeddb';
 
-import { DatabaseService } from '../database.service';
-import { beforeEach, describe, expect, it } from 'vitest';
-import { RecordModel } from '../../shared/models/record.model';
-import { DefaultTableColumns } from '../models/default-table-columns.model';
-import { DatabaseResultOperationError } from '../../../common/models/database-result-operation.model';
+import { DatabaseLocalService } from '../database.local.service';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { RecordModel } from '../../../common/models/record.model';
+import { DefaultTableColumns } from '../../../common/models/default-table-columns.model';
 import { ErrorTexts } from '../../../common/constants/error-texts.contant';
 
 interface UnitTestUser extends RecordModel {
@@ -159,17 +158,21 @@ const fiveUsers: UnitTestUser[] = [
 ];
 
 describe('DatabaseService', () => {
-  beforeEach(async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
+  let databaseService: DatabaseLocalService;
 
+  beforeEach(async () => {
+    databaseService = await DatabaseLocalService.initDB(dbName, tables, 1);
+  });
+
+  afterEach(async () => {
     await databaseService.clearDatabase();
+
+    databaseService.close();
 
     indexedDB.deleteDatabase(dbName);
   });
 
   it('should create a user with id = 1, name = Dmytro, email = test@gmail.com, age = 18', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     const result = await databaseService.updateOrCreateItem('users', {
       id: 1,
       name: 'Dmytro',
@@ -177,12 +180,10 @@ describe('DatabaseService', () => {
       email: 'test@gmail.com',
     } satisfies UnitTestUser);
 
-    expect(result.data).toBe(1);
+    expect(result).toBe(1);
   });
 
   it('should return null when requesting a user by a non-existing id', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await databaseService.updateOrCreateItem('users', {
       id: 1,
       name: 'Dmytro',
@@ -192,13 +193,11 @@ describe('DatabaseService', () => {
 
     const result = await databaseService.getItemById('users', 2, false);
 
-    expect(result.data).toBe(null);
+    expect(result).toBe(null);
   });
 
   testsWithDelete.forEach((test) => {
     it(`should soft/hard delete user with id=1 (softDeleted=${test.softDeleted}) and verify retrieval based on includeSoftDeleted=${test.getSoftDeleted}`, async () => {
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
       const user: UnitTestUser = {
         id: 1,
         name: 'Dmytro',
@@ -213,34 +212,30 @@ describe('DatabaseService', () => {
       const result = await databaseService.getItemById('users', 1, test.getSoftDeleted);
 
       if (test.softDeleted && test.getSoftDeleted) {
-        expect(JSON.stringify(result.data)).toBe(JSON.stringify({ ...user, softDeleted: Number(test.softDeleted) }));
+        expect(JSON.stringify(result)).toBe(JSON.stringify({ ...user, softDeleted: Number(test.softDeleted) }));
       } else {
-        expect(result.data).toBe(null);
+        expect(result).toBe(null);
       }
     });
   });
 
   it('should create 5 users and verify total count equals 5', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
     const result = await databaseService.getTotalCount('users', false);
 
-    expect(result.data).toBe(5);
+    expect(result).toBe(5);
   });
 
   testsWithDelete.forEach((test) => {
     it(`should create 5 users, delete one with softDeleted=${test.softDeleted}, and check total count with includeSoftDeleted=${test.getSoftDeleted}`, async () => {
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
       await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
       await databaseService.deleteItem('users', 1, test.softDeleted);
 
       const result = await databaseService.getTotalCount('users', test.getSoftDeleted);
 
-      expect(result.data).toBe(test.getSoftDeleted && test.softDeleted ? 5 : 4);
+      expect(result).toBe(test.getSoftDeleted && test.softDeleted ? 5 : 4);
     });
   });
 
@@ -254,13 +249,11 @@ describe('DatabaseService', () => {
 
     const selectedUsers = allUsers.slice(5, 12);
 
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await Promise.all(allUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
     const result = await databaseService.getItems('users', 5, 11, false);
 
-    expect(JSON.stringify(result.data)).toBe(JSON.stringify(selectedUsers));
+    expect(JSON.stringify(result)).toBe(JSON.stringify(selectedUsers));
   });
 
   testsWithDelete.forEach((test) => {
@@ -274,8 +267,6 @@ describe('DatabaseService', () => {
       }));
 
       const deletedUsers = allUsers.slice(0, 3);
-
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
 
       await Promise.all(allUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
@@ -292,11 +283,11 @@ describe('DatabaseService', () => {
       if (test.softDeleted && test.getSoftDeleted) {
         const checkUsers = allUsers.slice(0, 5);
 
-        expect(JSON.stringify(result.data)).toBe(JSON.stringify(checkUsers));
+        expect(JSON.stringify(result)).toBe(JSON.stringify(checkUsers));
       } else {
         const checkUsers = allUsers.slice(3, 8);
 
-        expect(JSON.stringify(result.data)).toBe(JSON.stringify(checkUsers));
+        expect(JSON.stringify(result)).toBe(JSON.stringify(checkUsers));
       }
     });
   });
@@ -310,8 +301,6 @@ describe('DatabaseService', () => {
       softDeleted: 0,
     }));
 
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     databaseService.runBatch('users');
 
     await Promise.all(allUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
@@ -320,12 +309,10 @@ describe('DatabaseService', () => {
 
     const result = await databaseService.getItems('users', 0, 24, false);
 
-    expect(JSON.stringify(result.data)).toBe(JSON.stringify(allUsers));
+    expect(JSON.stringify(result)).toBe(JSON.stringify(allUsers));
   });
 
   it('should abort batch transaction and revert inserts when invalid data is provided', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     try {
       const allUsers: UnitTestUser[] = Array.from({ length: 25 }, (_, i) => ({
         id: i + 1,
@@ -344,30 +331,26 @@ describe('DatabaseService', () => {
 
       const result = await databaseService.getTotalCount('users', false);
 
-      expect(result.data).toBe(0);
+      expect(result).toBe(0);
     }
   });
 
   it('should insert multiple users into db and clear all data successfully', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
     const totalCount = await databaseService.getTotalCount('users', false);
 
-    expect(totalCount.data).toBe(5);
+    expect(totalCount).toBe(5);
 
     await databaseService.clearDatabase();
 
     const newTotalCount = await databaseService.getTotalCount('users', false);
 
-    expect(newTotalCount.data).toBe(0);
+    expect(newTotalCount).toBe(0);
   });
 
   testsWithCursor.forEach((test) => {
     it(`should retrieve the ${test.next ? 'next' : 'previous'} user ${test.expectedNull ? 'as null' : `with id = ${test.expectedId}`} starting from id = ${test.id}`, async () => {
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
       await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
       const result = await databaseService.getPrevOrNextItem<UnitTestUser & DefaultTableColumns>(
@@ -377,14 +360,12 @@ describe('DatabaseService', () => {
         false,
       );
 
-      expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
+      expect(result?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
   });
 
   testsWithCursorAndDelete.forEach((test) => {
     it(`should retrieve the ${test.next ? 'next' : 'previous'} user ${test.getSoftDeleted ? 'including' : 'excluding'} softDeleted users, expected ${test.expectedNull ? 'null' : `id = ${test.expectedId}`}, starting from id = ${test.id} after deleting user ${test.deleteUserId} with softDeleted=${test.softDeleted}`, async () => {
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
       await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
       await databaseService.deleteItem('users', test.deleteUserId, test.softDeleted);
@@ -396,14 +377,12 @@ describe('DatabaseService', () => {
         test.getSoftDeleted,
       );
 
-      expect(result.data?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
+      expect(result?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
     });
   });
 
   testsWithDelete.forEach((test) => {
     it(`should get the first user ${test.getSoftDeleted ? 'including' : 'excluding'} softDeleted users after deleting two users ${test.softDeleted ? 'softDeleted' : 'not softDeleted'}`, async () => {
-      const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
       await Promise.all(fiveUsers.map((user) => databaseService.updateOrCreateItem('users', user)));
 
       await databaseService.deleteItem('users', 1, test.softDeleted);
@@ -415,24 +394,20 @@ describe('DatabaseService', () => {
       );
 
       if (test.softDeleted && test.getSoftDeleted) {
-        expect(firstUser.data?.id).toBe(1);
+        expect(firstUser?.id).toBe(1);
       } else {
-        expect(firstUser.data?.id).toBe(3);
+        expect(firstUser?.id).toBe(3);
       }
     });
   });
 
   it('should return null when fetching first user from an empty users table', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     const firstUser = await databaseService.getFirstElement('users', false);
 
-    expect(firstUser.data).toBe(null);
+    expect(firstUser).toBe(null);
   });
 
   it('should return null when fetching first user excluding softDeleted users after soft deleting the only user', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await databaseService.updateOrCreateItem('users', {
       id: 1,
       name: 'Dmytro',
@@ -444,12 +419,10 @@ describe('DatabaseService', () => {
 
     const firstUser = await databaseService.getFirstElement('users', false);
 
-    expect(firstUser.data).toBe(null);
+    expect(firstUser).toBe(null);
   });
 
   it('should return softDeleted user as first user when including softDeleted users after soft deleting the only user', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     await databaseService.updateOrCreateItem('users', {
       id: 1,
       name: 'Dmytro',
@@ -461,28 +434,22 @@ describe('DatabaseService', () => {
 
     const firstUser = await databaseService.getFirstElement<UnitTestUser & DefaultTableColumns>('users', true);
 
-    expect(firstUser.data?.id).toBe(1);
+    expect(firstUser?.id).toBe(1);
   });
 
   it("should throw error when to try add user with typeof id !== 'number'", async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     try {
       await databaseService.updateOrCreateItem('users', { id: 'aadefrer', user: 'Dmytro' });
     } catch (err: unknown) {
-      expect((err as DatabaseResultOperationError).status).toBe(400);
-      expect((err as DatabaseResultOperationError).message).toBe(ErrorTexts.IncorrectIdProvided);
+      expect((err as Error).message).toBe(ErrorTexts.IncorrectIdProvided);
     }
   });
 
   it('should throw error when to try add data which it is not an object', async () => {
-    const databaseService = await DatabaseService.initDB(dbName, tables, 1);
-
     try {
       await databaseService.updateOrCreateItem('users', 'asfhytt' as never);
     } catch (err: unknown) {
-      expect((err as DatabaseResultOperationError).status).toBe(400);
-      expect((err as DatabaseResultOperationError).message).toBe(ErrorTexts.IncorrectTypeData);
+      expect((err as Error).message).toBe(ErrorTexts.IncorrectTypeData);
     }
   });
 });

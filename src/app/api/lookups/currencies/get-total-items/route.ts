@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
-import { DatabaseResultOperation } from '../../../../../common/models/database-result-operation.model';
+import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
 import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { GetTotalCurrenciesPayload } from '../shared/models/currencies-payloads.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
 import { Currency } from '../shared/models/currencies.model';
 
-export async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
+export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
   try {
     const body: GetTotalCurrenciesPayload = await request.json();
 

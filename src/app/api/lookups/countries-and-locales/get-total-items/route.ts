@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
-import { DatabaseResultOperation } from '../../../../../common/models/database-result-operation.model';
+import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
 import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { GetTotalCountryAndLocalesPayload } from '../shared/models/country-and-locales-payloads.model';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
 import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
 
-export async function POST(request: Request): Promise<NextResponse<DatabaseResultOperation<number>>> {
+export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
   try {
     const body: GetTotalCountryAndLocalesPayload = await request.json();
 
@@ -29,7 +29,7 @@ export async function POST(request: Request): Promise<NextResponse<DatabaseResul
     return NextResponse.json({
       status: 200,
       data: await getTotalCountItems<CountryAndLocale>(
-        'countries-and-locales.json',
+        'countries.json',
         [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter),
       ),
     });

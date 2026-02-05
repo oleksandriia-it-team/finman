@@ -1,84 +1,85 @@
 # Project Structure
 
-FinMan is a complex application that leverages a **Hybrid Architecture** to ensure scalability, maintainability, and a clear separation of concerns.
-
-The project is structured to strictly separate **Client-side logic** (Browser, IndexedDB, React) from **Server-side logic** (Node.js, PostgreSQL, API handlers), while providing a safe space for shared contracts.
+FinMan leverages a **Hybrid Architecture** to ensure scalability, maintainability, and a clear separation of concerns.
+The project strictly separates **Client-side logic** (Browser, IndexedDB, React) from **Server-side logic** (Node.js, PostgreSQL, API handlers), while providing a safe space for shared contracts.
 
 ## High Level Overview
 
-All source code is located in the `src` directory to keep configuration files separate. The `src` directory is divided into four main layers:
+The `src` directory is divided into four main layers:
 
-* **`app/`**: **The Routing Layer**. Contains only Next.js specific routing files. It acts as a "Thin Layer" connecting the user/request to the logic.
-* **`client/`**: **The Frontend Layer**. Contains all code that runs in the browser. It follows **Feature-Sliced Design (FSD)** principles.
-* **`server/`**: **The Backend Layer**. Contains all business logic, database interactions, and use cases. It follows **Domain-Driven Design (DDD)** principles.
-* **`common/`**: **The Shared Contract Layer**. Contains code shared between Client and Server (Types, Interfaces, Constants). **NO** business logic, runtime libraries (like Zod), or database access allowed here.
+* **`app/`**: **Routing Layer**. Next.js routing files only. Connects requests to logic.
+* **`client/`**: **Frontend Layer**. Follows **Feature-Sliced Design (FSD)** principles.
+* **`server/`**: **Backend Layer**. Follows **Domain-Driven Design (DDD)** principles.
+* **`common/`**: **Shared Contract Layer**. Types, Interfaces, Constants, Records. **NO** business logic or runtime libraries here.
 
 ---
 
-## 1. App Directory (`src/app`)
-**Purpose:** Routing and Entry Points only.
-This directory connects the URL to the application logic. It should not contain complex business logic or UI components.
+## 1. Terminology & Data Models
 
-* **Pages & Layouts (`page.tsx`, `layout.tsx`)**: Acts as a composition point. Includes global providers (`init-application.tsx`) and layout components (`client-layout.tsx`, `load-popover.tsx`).
-* **API Routes (`api/.../route.ts`)**: Should only parse the request and call **Services/UseCases** from `server/features`.
+To avoid confusion between Frontend, Backend, and Database layers:
+
+| Term | Location | Responsibility | Example |
+| :--- | :--- | :--- | :--- |
+| **Record** | `common/records/` | **Database Shape**. Pure interfaces reflecting the DB table structure 1-to-1. Shared between FE and BE. | `UserRecord`, `BudgetPlanRecord` |
+| **Entity (FE)** | `client/entities/` | **FSD Slice**. A module containing UI, Store, and Data Access for a business unit. | `client/entities/budget-plan/` |
+| **Entity (BE)** | `server/entities/` | **DDD Class**. A class with methods/behavior encapsulating business rules on the server. | `UserOrm` class |
+| **DTO** | `common/models/` | **Data Transfer Object**. Contracts for API requests/responses (if different from Record). | `CreateUserDto` |
 
 ---
 
 ## 2. Client Directory (`src/client`)
 **Architecture:** Feature-Sliced Design (FSD).
-**Responsibility:** Browser-side logic, UI, IndexedDB interactions.
 
-### Structure
-* **`widgets/`**: Independent, self-contained UI blocks (e.g., `Header`, `BudgetDashboard`). They combine Features and Entities to form a complete functional unit.
+### Core Structure
+* **`widgets/`**: Independent, self-contained UI blocks.
 * **`features/`**: User scenarios (e.g., `RegistrationPage`).
-  * *Rule:* A feature **cannot** import another feature.
-* **`entities/`**: Business entities, data logic, and global state (e.g., `BudgetPlan`, `UserInformation`).
-  * Contains `services/`, `models/`, and Zustand stores.
-* **`database/`**: **Client-side Database** (IndexedDB wrapper).
-  * Contains `DatabaseService` and base `CrudService` for local data storage.
-  * *Note:* Strictly separated from server-side databases.
-* **`shared/`**: Reusable infrastructure code.
-  * **`components/`**: Reusable UI components (Buttons, Inputs, Dropdowns).
-  * **`hooks/`**: Generic hooks (e.g., `usePopover`).
-  * **`utils/`**: Helper functions (e.g., `format-date.util.ts`).
-  * **`models/`**: Shared data models and types.
-  * **`props/`**: Shared component prop interfaces.
-  * **`constants/`**: Global constants.
-  * **`enums/`**: Shared enumerations.
-  * **`styles/`**: Global styles, SCSS variables, and Tailwind configuration.
+* **`database/`**: **Global Infrastructure**. Contains the Dexie.js instance and generic DB config. *No business logic here.*
+* **`entities/`**: **Business Entities (FSD Slices)**.
+  This is where the main logic lives. Each entity folder (e.g., `budget-plan`) follows this **Co-location** pattern:
+
+    ```text
+    src/client/entities/budget-plan/
+    ├── ui/                     # Components (Visuals)
+    │   ├── BudgetCard.tsx      # Dumb components, receive data via props or hooks
+    │   └── BudgetList.tsx
+    │
+    ├── model/                  # State & Logic (The Brain)
+    │   ├── store.ts            # Zustand store
+    │   └── useBudget.ts        # Custom hooks connecting Data and Store
+    │
+    └── data/                   # Data Access Layer (The Hands)
+        ├── index.ts            # Public API (exports the repository)
+        ├── budget.repository.ts# Facade: Switches between API and Local DB
+        ├── budget.api.ts       # Axios/Fetch client
+        └── budget.local.ts     # IndexedDB client (uses global database/)
+    ```
+* **`shared/`**: Reusable infrastructure code (components, hooks, utils).
 
 ---
 
 ## 3. Server Directory (`src/server`)
 **Architecture:** Domain-Driven Design (DDD).
-**Responsibility:** Business logic, PostgreSQL/ORM interactions, API processing.
 
 ### Structure
+* **`entities/`**: **Shared Kernel (Core Domain)**.
+  * Shared business classes used across multiple features (e.g., `UserOrm`).
+  * Contain pure business logic.
+  * Use `Records` from `common/` as internal data state.
 * **`features/`**: Isolated business modules (e.g., `budget`, `auth`).
-  Each feature folder is divided into strict layers:
-  * **`domain/`**: Pure business rules and types. Independent of external tools.
-  * **`application/`**: Use Cases, Services, and Validation (Zod). Coordinates data flow.
-  * **`infrastructure/`**: Direct interaction with the database (ORM, SQL) or external APIs.
-* **`entities/`**: Core domain objects shared across multiple features (e.g., `User` entity used in both Auth and Budget features).
+  * **`domain/`**: Local business rules and entities.
+  * **`application/`**: Use Cases, Services, and Validation.
+  * **`infrastructure/`**: Direct interaction with the database or external APIs.
 * **`shared/`**: Server-side utilities.
-  * `logger/`
-  * *...other infrastructure tools*.
 
 ---
 
 ## 4. Common Directory (`src/common`)
-**Purpose:** Pure Type Safety.
-**Contents:**
-* **`models/`**: Shared TypeScript interfaces/types (e.g., `DatabaseResultOperation`).
-* **`constants/`**: Shared constants (e.g., `ErrorTexts`).
-* **`utils/`**: Shared utility functions (e.g., `getErrorMessage`).
+**Purpose:** Pure Type Safety & Shared Contracts.
 
----
-
-## Public Directory (`public/`)
-Stores static assets served directly by Next.js:
--   **`json/`**: Static data files (`countries.json`, `currencies.json`).
--   **`themes/`**: CSS themes and font files.
+* **`records/`**: **Primary source of truth.** Database table definitions (e.g., `BudgetPlanRecord`).
+* **`models/`**: Shared DTOs and Types.
+* **`constants/`**: Shared constants.
+* **`utils/`**: Shared utility functions (pure JS/TS only).
 
 ---
 
@@ -86,21 +87,31 @@ Stores static assets served directly by Next.js:
 
 To maintain modularity and prevent circular dependencies, the following import rules must be observed:
 
-1.  **Client vs Server:**
-  * `client/` **MUST NOT** import from `server/`.
-  * `server/` **MUST NOT** import from `client/`.
-  * Both can import from `common/`.
+1.  **Client vs Server (Absolute Barrier):**
+* `client/` **MUST NOT** import from `server/`.
+* `server/` **MUST NOT** import from `client/`.
+* **Exception:** Both layers interact only via API calls (HTTP) and share contracts from `common/`.
 
-2.  **FSD (Client-side):**
-  * `widgets` can import `features`, `entities`, and `shared`.
-  * `features` can import `entities` and `shared`.
-  * `features` **MUST NOT** import other `features`.
-  * `entities` can import `shared`.
-  * **ALL layers** can import `shared`.
+2.  **Common Layer (The Foundation):**
+* `common/` **MUST NOT** import from `client/` or `server/`.
+* It must remain pure.
 
-3.  **DDD (Server-side):**
-  * `application` depends on `domain`, `infrastructure`, and `shared`.
-  * `domain` **MUST NOT** depend on `infrastructure` or `application`.
+3.  **Records vs Entities (Data vs Behavior):**
+* `server/entities` (DDD Classes) depend on `common/records` (Data Shape).
+* `client/entities` (FSD Slices) depend on `common/records` (Data Shape).
 
-4.  **Low-level Utilities:**
-  * Low-level code (inside `shared`) **must not** depend on high-level code (`features`, `widgets`, `application`).
+4.  **Client-side (FSD Hierarchy):**
+* Rule: **"Can only import from below"**.
+* `app` -> imports `widgets`, `features`, `entities`, `shared`.
+* `widgets` -> import `features`, `entities`, `shared`.
+* `features` -> import `entities`, `shared`. (**Cannot** import other features).
+* `entities` -> import `shared`, `repositories`, `database`. (**Cannot** import other entities).
+* `shared` -> imports nothing from upper layers.
+
+5.  **Server-side (DDD & Modularity):**
+* **Shared Kernel:** Features (`server/features/*`) **CAN** import from `server/entities` (Shared Entities) and `server/shared`.
+* **Feature Isolation:** One feature (e.g., `budget`) **SHOULD NOT** directly import code from another feature (e.g., `auth`).
+* **DDD Layers:**
+  * `infrastructure` depends on `domain` and `application`.
+  * `application` depends on `domain`.
+  * `domain` is **independent** (depends only on `common/` and `server/entities`).
