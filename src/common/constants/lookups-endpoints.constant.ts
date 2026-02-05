@@ -1,5 +1,5 @@
-import { LookupsTypeEnum } from '../../server/shared/enums/lookups-type.enum';
-import { LookupsTypeRequest } from '../../server/shared/enums/lookups-type-request.enum';
+import { LookupsTypeEnum } from '../enums/lookups-type.enum';
+import { LookupsTypeRequest } from '../enums/lookups-type-request.enum';
 
 export const LookupsEndpoints: Record<LookupsTypeEnum, string> = {
   [LookupsTypeEnum.Languages]: 'languages',

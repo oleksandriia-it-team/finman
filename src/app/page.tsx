@@ -7,7 +7,7 @@ import ModalTemplate from '../client/shared/сomponents/modal/modal-template';
 import { useDropdownResource } from '../client/shared/hooks/dropdown-resource/dropdown-resource.hook';
 import { useQuery } from '@tanstack/react-query';
 import { lookupsService } from '../client/entities/lookups/lookups.service';
-import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
+import { LookupsTypeEnum } from '../common/enums/lookups-type.enum';
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { PromiseState } from '../client/shared/enums/promise-state.enum';
 

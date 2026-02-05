@@ -5,7 +5,7 @@ import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-e
 import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
 import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
-import { Language } from '../shared/models/languages.model';
+import { Language } from '../../../../../common/records/languages.record';
 
 export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
   try {

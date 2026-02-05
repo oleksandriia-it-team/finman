@@ -5,7 +5,7 @@ import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-e
 import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { GetTotalCountryAndLocalesPayload } from '../shared/models/country-and-locales-payloads.model';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
-import { CountryAndLocale } from '../shared/models/countries-and-locales.model';
+import { CountryAndLocale } from '../../../../../common/records/countries.record';
 
 export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
   try {
