@@ -1,6 +1,6 @@
 import { LookupsTypeEnum } from '../../../common/domains/lookups/enums/lookups-type.enum';
 import { LookupsFilters } from '../../../common/domains/lookups/models/lookups-filters';
-import { LookupsEndpoints, LookupsTypeEndpoints } from '../../../common/constants/lookups-endpoints.constant';
+import { LookupsEndpoints, LookupsTypeEndpoints } from '../../../common/domains/lookups/endpoints/lookups.endpoints';
 import { LookupsTypeRequest } from '../../../common/domains/lookups/enums/lookups-type-request.enum';
 import { LookupsResponseResult } from '../../../common/domains/lookups/models/get-lookups-items-result';
 import { LookupsDto } from '../../../common/domains/lookups/models/lookups-dto';
