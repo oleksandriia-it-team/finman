@@ -6,7 +6,7 @@ import { isEmpty } from '../../../common/utils/is-empty.util';
 import {
   delayedExpensesLocalRepository,
   DelayedExpensesLocalRepository,
-} from '../delayes-expenses/delayed-expenses.local.repository';
+} from '../delayed-expenses/delayed-expenses.local.repository';
 import { DelayedExpense } from '../../../common/records/delayed-expenses.record';
 
 /**

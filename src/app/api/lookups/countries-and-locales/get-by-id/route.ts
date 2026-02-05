@@ -19,7 +19,7 @@ export async function POST(request: Request): Promise<NextResponse<ApiResultOper
 
     return NextResponse.json({
       status: 200,
-      data: await getItem<CountryAndLocale, 'id'>('countries-and-locales.json', 'id', body.id),
+      data: await getItem<CountryAndLocale, 'id'>('countries.json', 'id', body.id),
     });
   } catch (err: unknown) {
     return NextResponse.json(getApiErrorMessage(err));

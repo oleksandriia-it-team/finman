@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DatabaseLocalService } from '../../../database/database.local.service';
 import { BudgetPlanLocalRepository } from '../budget-plan.local.repository';
-import { DelayedExpensesLocalRepository } from '../../delayes-expenses/delayed-expenses.local.repository';
+import { DelayedExpensesLocalRepository } from '../../delayed-expenses/delayed-expenses.local.repository';
 import { BudgetPlan, BudgetPlanDto, PlannedDelayedExpense } from '../../../../common/records/budget-plan.record';
 import { Month } from '../../../../common/enums/month.enum';
 import { TypeEntry } from '../../../../common/enums/entry.enum';

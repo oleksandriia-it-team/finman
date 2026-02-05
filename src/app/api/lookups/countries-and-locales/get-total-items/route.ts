@@ -29,7 +29,7 @@ export async function POST(request: Request): Promise<NextResponse<ApiResultOper
     return NextResponse.json({
       status: 200,
       data: await getTotalCountItems<CountryAndLocale>(
-        'countries-and-locales.json',
+        'countries.json',
         [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter),
       ),
     });

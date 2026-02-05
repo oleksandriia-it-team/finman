@@ -29,7 +29,7 @@ export async function POST(request: Request): Promise<NextResponse<ApiResultOper
     return NextResponse.json({
       status: 200,
       data: await getPaginatedItems<CountryAndLocale>(
-        'countries-and-locales.json',
+        'countries.json',
         body.from,
         body.to,
         [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter),
