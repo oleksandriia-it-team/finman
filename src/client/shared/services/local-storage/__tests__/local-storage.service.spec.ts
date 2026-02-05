@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalStorageService } from '../local-storage.service';
-import { LocalStoragePrefix } from '../../../shared/constants/local-storage.contants';
+import { LocalStoragePrefix } from '../../../constants/local-storage.contants';
 
 vi.stubGlobal('localStorage', {
   setItem: vi.fn(),

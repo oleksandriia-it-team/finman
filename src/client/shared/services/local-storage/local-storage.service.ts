@@ -1,5 +1,5 @@
-import { isEmpty } from '../../../common/utils/is-empty.util';
-import { LocalStoragePrefix } from '../../shared/constants/local-storage.contants';
+import { isEmpty } from '../../../../common/utils/is-empty.util';
+import { LocalStoragePrefix } from '../../constants/local-storage.contants';
 
 export class LocalStorageService {
   getItem<T>(token: string): T | null {
