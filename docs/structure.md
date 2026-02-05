@@ -33,7 +33,7 @@ To avoid confusion between Frontend, Backend, and Database layers:
 ### Core Structure
 * **`widgets/`**: Independent, self-contained UI blocks.
 * **`features/`**: User scenarios (e.g., `RegistrationPage`).
-* **`database/`**: **Global Infrastructure**. Contains the Dexie.js instance and generic DB config. *No business logic here.*
+* **`database/`**: **Global Infrastructure**. Contains the DB instance. *No business logic here.*
 * **`entities/`**: **Business Entities (FSD Slices)**.
   This is where the main logic lives. Each entity folder (e.g., `budget-plan`) follows this **Co-location** pattern:
 
@@ -112,4 +112,4 @@ To maintain modularity and prevent circular dependencies, the following import r
 * **DDD Layers:**
   * `infrastructure` depends on `domain` and `application`.
   * `application` depends on `domain`.
-  * `domain` is **independent** (depends only on `common/` and `server/entities`).
+  * `domain` is **independent** (depends only on `common/).
