@@ -1,8 +1,8 @@
 import { ZodSafeParseResult } from 'zod';
 import { ErrorTexts } from '../../../common/constants/error-texts.contant';
-import { DatabaseResultOperationError } from '../../../common/models/database-result-operation.model';
+import { ApiResultOperationError } from '../../../common/models/api-result-operation.model';
 
-export function getZodErrorMessage(result: ZodSafeParseResult<unknown>): DatabaseResultOperationError {
+export function getZodErrorMessage(result: ZodSafeParseResult<unknown>): ApiResultOperationError {
   const error = result.error?.issues.at(0)?.message;
 
   return {

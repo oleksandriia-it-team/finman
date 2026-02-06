@@ -6,12 +6,12 @@ import { useModalStore } from '../client/shared/hooks/modal/modal.hook';
 import ModalTemplate from '../client/shared/сomponents/modal/modal-template';
 import { useDropdownResource } from '../client/shared/hooks/dropdown-resource/dropdown-resource.hook';
 import { useQuery } from '@tanstack/react-query';
-import { lookupsService } from '../client/api-clients/lookups/lookups.service';
-import { LookupsTypeEnum } from '../server/shared/enums/lookups-type.enum';
+import { lookupsService } from '../client/entities/lookups/lookups.service';
+import { LookupsTypeEnum } from '../common/domains/lookups/enums/lookups-type.enum';
 import Dropdown from '../client/shared/сomponents/fields/dropdown/dropdown';
 import { PromiseState } from '../client/shared/enums/promise-state.enum';
 
-export function ConfirmModal({ onClose }: { onClose: (result: boolean | undefined) => void }) {
+function ConfirmModal({ onClose }: { onClose: (result: boolean | undefined) => void }) {
   const hideModal = useModalStore((state) => state.hideModal);
 
   const footer = (
@@ -44,15 +44,15 @@ export default function MainPage() {
     currentValue: firstDropdownValue,
     getTotalCountQuery: useQuery({
       queryKey: ['total count country'],
-      queryFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}).then((r) => r.data),
+      queryFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
     }),
-    getLabelFn: (id) => lookupsService.getItem(LookupsTypeEnum.CountriesAndLocales, id).then((r) => r.data?.country),
+    getLabelFn: (id) => lookupsService.getItem(LookupsTypeEnum.CountriesAndLocales, id).then((r) => r?.country),
     getOptionsQuery: useQuery({
       queryKey: ['options country', page],
       queryFn: () =>
         lookupsService
           .getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * 20 + 1, page * 20 + 1, {})
-          .then((r) => r.data.map((data) => ({ label: data.country, value: data.id }))),
+          .then((r) => r.map((data) => ({ label: data.country, value: data.id }))),
     }),
     labelQueryKey: ['label country', String(firstDropdownValue ?? '')],
   });

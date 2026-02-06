@@ -2,6 +2,7 @@ import { LinkProps, LinkVariant } from './props/link.props';
 import { useMemo } from 'react';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
+import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 
 const variants: Record<LinkVariant, string> = {
   danger: 'link-danger',
@@ -12,7 +13,14 @@ const variants: Record<LinkVariant, string> = {
   success: 'link-success',
 };
 
-export default function Link({ underlined = false, className, children, variant, onClick, href }: LinkProps) {
+export default function Link({
+  underlined = false,
+  className,
+  children,
+  variant,
+  onClick,
+  href,
+}: LinkProps & ChildrenComponentProps) {
   const router = useRouter();
 
   const classes = useMemo(() => {
