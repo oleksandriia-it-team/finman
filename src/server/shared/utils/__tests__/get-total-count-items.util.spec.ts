@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getTotalCountItems } from '../get-total-count-items.util';
-import { CountryAndLocale } from '../../../../app/api/lookups/countries-and-locales/shared/models/countries-and-locales.model';
+import { CountryAndLocale } from '../../../../common/records/countries.record';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';

@@ -1,58 +1,49 @@
-import StepperItem from './stepper-item';
-import React, { Children, useState } from 'react';
-import SvgIcon from '../svg-icon/svg-icon';
+import { StepperProps } from './props/stepper.props';
+import { Children, useMemo } from 'react';
+import clsx from 'clsx';
+import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
+import IconButton from '../icon-button/icon-button';
 
-interface StepperProps {
-  children: React.ReactNode;
-  currentStep: number;
-  changeSlide: (index: number) => void;
-}
-
-export default function Stepper({ children, currentStep, changeSlide }: StepperProps) {
-  const count: number = Children.count(children);
-
-  return (
-    <div className="carousel slide w-full h-full">
-      <div className="carousel-inner h-full w-full flex items-center">{children}</div>
-      <button
-        onClick={() => changeSlide((currentStep + 1) % count)}
-        className="carousel-control-prev  "
-      >
-        <SvgIcon
-          size="large"
-          name="arrow-left-short"
-          className="text-black"
-        />
-        <span className="visually-hidden">Previous</span>
-      </button>
-      <button
-        onClick={() => changeSlide((currentStep - 1 + count) % count)}
-        className="carousel-control-next "
-      >
-        <SvgIcon
-          size="large"
-          name="arrow-right-short"
-          className="text-black"
-        />
-        <span className="visually-hidden">Next</span>
-      </button>
-    </div>
+export default function Stepper({
+  className,
+  id,
+  children,
+  setStep,
+  currentStep,
+  fullSize = true,
+}: StepperProps & ChildrenComponentProps) {
+  const classes = useMemo(() => clsx('carousel', 'slide', fullSize && 'size-full', className), [className, fullSize]);
+  const carouselInnerClasses = useMemo(
+    () => clsx('carousel-inner', 'align-content-center', 'text-center', fullSize && 'size-full'),
+    [fullSize],
   );
-}
 
-export function Test() {
-  const [active, setActive] = useState(0);
+  const stepItemsCount = Children.count(children);
 
   return (
-    <Stepper
-      currentStep={active}
-      changeSlide={setActive}
+    <div
+      className={classes}
+      id={id}
     >
-      <StepperItem isActive={active === 0}>
-        <div>11222</div>
-      </StepperItem>
-      <StepperItem isActive={active === 1}>112222333</StepperItem>
-      <StepperItem isActive={active === 2}>1122255566</StepperItem>
-    </Stepper>
+      <div className={carouselInnerClasses}>{children}</div>
+
+      <IconButton
+        icon="chevron-compact-left"
+        size="large"
+        className="carousel-control-prev"
+        variant="default"
+        bgNone={true}
+        onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
+      />
+
+      <IconButton
+        icon="chevron-compact-right"
+        size="large"
+        className="carousel-control-next"
+        variant="default"
+        bgNone={true}
+        onClick={() => setStep((currentStep + 1) % stepItemsCount)}
+      />
+    </div>
   );
 }

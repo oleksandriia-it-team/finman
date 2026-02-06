@@ -1,6 +1,6 @@
 'use client';
 
-import { IconButtonModel } from './models/icon-button.model';
+import { IconButtonProps } from './props/icon-button.props';
 import Button from '../button/button';
 import SvgIcon from '../svg-icon/svg-icon';
 
@@ -12,7 +12,8 @@ export default function IconButton({
   type,
   variant,
   isOutlined,
-}: IconButtonModel) {
+  bgNone,
+}: IconButtonProps) {
   return (
     <Button
       onClick={onClick}
@@ -21,6 +22,7 @@ export default function IconButton({
       type={type}
       className={className}
       isRoundedFull={true}
+      bgNone={bgNone}
     >
       <SvgIcon
         className="text-3xl"

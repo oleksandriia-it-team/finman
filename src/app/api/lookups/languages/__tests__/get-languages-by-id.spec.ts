@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { POST } from '../get-by-id/route';
 import { getItem } from '../../../../../server/shared/utils/get-item.util';
-import { DatabaseResultOperationError } from '../../../../../common/models/database-result-operation.model';
+import { ApiResultOperationError } from '../../../../../common/models/api-result-operation.model';
 
 vi.mock('../../../../../server/shared/utils/get-item.util', () => ({
   getItem: vi.fn(),
@@ -59,7 +59,7 @@ describe('POST /api/lookups/languages/get-by-id', () => {
 
     const response = await POST(request);
 
-    const jsonResponse: DatabaseResultOperationError = await response.json();
+    const jsonResponse: ApiResultOperationError = await response.json();
 
     expect(jsonResponse).toEqual({
       status: 400,

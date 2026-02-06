@@ -1,6 +1,6 @@
 import { UserInformation, UserInformationStore } from './models/user-infomation.model';
 import { UserInformationKey } from '../../shared/constants/local-storage.contants';
-import { localStorageService } from '../../services/local-storage/local-storage.service';
+import { localStorageService } from '../../shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
 
 export const useUserInformation = create<UserInformationStore>((set) => ({
