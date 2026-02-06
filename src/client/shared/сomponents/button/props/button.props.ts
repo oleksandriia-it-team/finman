@@ -1,7 +1,7 @@
 import { ComponentDefaultProps } from '../../../props/component.props';
 import { ChildrenComponentProps } from '../../../models/component-with-chilren.model';
 
-export type ButtonVariant = 'warning' | 'danger' | 'info' | 'success';
+export type ButtonVariant = 'warning' | 'danger' | 'info' | 'success' | 'default';
 
 export type ButtonProps = ComponentDefaultProps &
   ChildrenComponentProps & {
@@ -10,4 +10,5 @@ export type ButtonProps = ComponentDefaultProps &
     onClick?: () => void | undefined;
     isOutlined?: boolean | undefined;
     isRoundedFull?: boolean | undefined;
+    bgNone?: boolean | undefined;
   };

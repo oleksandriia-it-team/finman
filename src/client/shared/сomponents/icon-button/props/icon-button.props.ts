@@ -6,7 +6,7 @@ export interface IconButtonProps {
   size: IconSize;
   variant: ButtonVariant;
   type?: 'button' | 'submit' | 'reset';
-
+  bgNone?: boolean;
   onClick?: () => void;
   icon: string;
   isOutlined?: boolean;

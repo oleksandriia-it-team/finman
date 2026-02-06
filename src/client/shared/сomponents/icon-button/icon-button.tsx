@@ -12,6 +12,7 @@ export default function IconButton({
   type,
   variant,
   isOutlined,
+  bgNone,
 }: IconButtonProps) {
   return (
     <Button
@@ -21,6 +22,7 @@ export default function IconButton({
       type={type}
       className={className}
       isRoundedFull={true}
+      bgNone={bgNone}
     >
       <SvgIcon
         className="text-3xl"
