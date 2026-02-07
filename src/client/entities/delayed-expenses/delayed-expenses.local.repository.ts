@@ -2,17 +2,18 @@ import { CrudLocalService } from '../../database/crud/crud.local.service';
 import { DatabaseLocalService, databaseService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { DelayedExpense } from '../../../common/records/delayed-expenses.record';
+import { DefaultColumnKeys } from '../../../common/models/default-table-columns.model';
 
 export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense> {
   constructor(databaseService: DatabaseLocalService) {
     super(databaseService, Tables.DelayedExpensesTable);
   }
 
-  createItem(data: Omit<DelayedExpense, 'id' | 'softDeleted'>): Promise<number> {
+  createItem(data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<number> {
     return this.databaseService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<DelayedExpense, 'id' | 'softDeleted'>): Promise<true> {
+  async updateItem(id: number, data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<true> {
     return this.databaseService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
   }
 

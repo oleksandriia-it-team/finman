@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CrudLocalService } from '../crud.local.service';
-import { DefaultTableColumns } from '../../../../common/models/default-table-columns.model';
+import { DefaultColumnKeys, DefaultTableColumns } from '../../../../common/models/default-table-columns.model';
 import { DatabaseLocalService } from '../../database.local.service';
 
 const tableName = 'TEST';
@@ -13,14 +13,14 @@ class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
   // eslint-disable-next-line
   // @ts-ignore
   // eslint-disable-next-line
-  createItem(data: Omit<DefaultTableColumns, 'id' | 'softDeleted'>): Promise<number> {
+  createItem(data: Omit<DefaultTableColumns, DefaultColumnKeys>): Promise<number> {
     return Promise.resolve(1);
   }
 
   // eslint-disable-next-line
   // @ts-ignore
 
-  updateItem(id: number, data: Omit<DefaultTableColumns, 'id' | 'softDeleted'>): Promise<true> {
+  updateItem(id: number, data: Omit<DefaultTableColumns, DefaultColumnKeys>): Promise<true> {
     return Promise.resolve(true);
   }
 

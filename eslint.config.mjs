@@ -2,7 +2,7 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
 import eslintPluginHtml from 'eslint-plugin-html';
-import boundaries from 'eslint-plugin-boundaries'; // 👈 Імпортуємо плагін
+import boundaries from 'eslint-plugin-boundaries';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -56,7 +56,6 @@ const eslintConfig = [
             // ------------------------------------------
             // Rule 2: Common Layer (Foundation)
             // ------------------------------------------
-            // Common cannot import anything from internal project
             {
               from: 'common',
               allow: [],
@@ -70,7 +69,7 @@ const eslintConfig = [
               allow: ['common'],
             },
             {
-              from: 'server-entities', // Shared Kernel
+              from: 'server-entities',
               allow: ['common'],
             },
             {
@@ -111,7 +110,14 @@ const eslintConfig = [
             // App (Entry point - can import all Client layers)
             {
               from: 'app',
-              allow: ['client-widgets', 'client-features', 'client-entities', 'client-shared', 'client-db', 'common'],
+              allow: [
+                'client-widgets',
+                'client-features',
+                'client-entities',
+                'client-shared',
+                'client-db',
+                'common',
+              ],
             },
             {
               from: 'app-api',
@@ -127,7 +133,7 @@ const eslintConfig = [
     },
   },
 
-  // General rules for TS/TSX (Existing config)
+  // General rules for TS/TSX
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
@@ -137,11 +143,17 @@ const eslintConfig = [
         ecmaFeatures: { jsx: true },
       },
     },
+    plugins: {
+      '@typescript-eslint': tsEslintPlugin,
+    },
     rules: {
       camelcase: ['error'],
       quotes: ['error', 'single', { avoidEscape: true }],
       semi: ['error', 'always'],
-      indent: ['error', 2, { SwitchCase: 1 }],
+
+      indent: 'off',
+      '@typescript-eslint/indent': ['error', 2, { SwitchCase: 1 }],
+
       'comma-dangle': ['error', 'always-multiline'],
       'object-curly-spacing': ['error', 'always'],
       'arrow-parens': ['error', 'always'],
