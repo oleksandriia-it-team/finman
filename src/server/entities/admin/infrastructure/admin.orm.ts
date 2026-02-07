@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { Column, Entity } from 'typeorm';
 import { AdminRequirements } from '../../../../common/domains/admin/constants/admin-requirements.constant';
 import { Admin } from '../../../../common/records/admin.record';
