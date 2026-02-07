@@ -16,4 +16,12 @@ const DBDataSource = new DataSource({
   synchronize: true,
 });
 
+DBDataSource.initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch((err) => {
+    console.error('Error during Data Source initialization', err);
+  });
+
 export default DBDataSource;
