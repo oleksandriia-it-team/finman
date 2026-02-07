@@ -12,7 +12,7 @@ describe('RegularEntryLocalRepository', () => {
   const data: Omit<RegularEntry, DefaultColumnKeys> = {
     type: TypeEntry.Income,
     description: 'Salary',
-    delayed: true,
+    regular: true,
     sum: 50000,
   };
 

@@ -1,9 +1,9 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '../../common/constants/env-config.constant';
 
-const dataSourceOptions = {
+const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: EnvConfigConstant.DB_HOST,
   port: Number(EnvConfigConstant.DB_PORT),
