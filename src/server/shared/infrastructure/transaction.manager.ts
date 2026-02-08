@@ -10,6 +10,12 @@ export const getTransactionManager = (): EntityManager | undefined => {
 
 export class TransactionManager {
   static async run<T>(callback: () => Promise<T>): Promise<T> {
+    const currentTransaction = getTransactionManager();
+
+    if (currentTransaction) {
+      return callback();
+    }
+
     const queryRunner = DBDataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
