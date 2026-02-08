@@ -4,5 +4,4 @@ export interface EnvironmentModel {
   DB_USERNAME: string;
   DB_PASSWORD: string;
   DB_DATABASE: string;
-  DB_HOSTNAME: string;
 }
