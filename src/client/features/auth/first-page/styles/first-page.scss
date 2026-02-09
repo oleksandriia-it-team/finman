@@ -1,19 +1,4 @@
-.my-stepper.p-stepper {
-  width: 100%;
-  height: 100%;
 
-  .p-stepper-nav {
-    display: none;
-  }
-
-  .p-stepper-panels {
-    padding: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-}
 
 .form-input {
   margin: 0.5rem !important;
@@ -32,6 +17,6 @@
   padding-left: 0.5rem;
 }
 
-form {
-  padding-left: 3rem;
+.my-form {
+
 }

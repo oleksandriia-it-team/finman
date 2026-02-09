@@ -28,13 +28,13 @@ export default function InputComponent({ value, className, placeholder, onChange
   const classes = clsx('form-control', className);
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <>
       <input
         className={classes}
         placeholder={placeholder}
         value={value ?? ''}
         onChange={(newValue) => onChange?.(newValue.target.value)}
       />
-    </div>
+    </>
   );
 }
