@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Dropdown from '../../fields/dropdown/dropdown';
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';

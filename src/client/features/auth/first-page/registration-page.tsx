@@ -1,38 +1,52 @@
 'use client';
 
 import './styles/first-page.scss';
+import Stepper from '../../../shared/сomponents/stepper/stepper';
+import StepperItem from '../../../shared/сomponents/stepper/stepper-item';
+import { useState } from 'react';
+import RegistrationFormComponent from './form-component/registration-form-component';
 
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
 
 export default function RegistrationPage() {
-  // const stepperRef = useRef<Stepper | null>(null);
-  //
-  // const { methods, submit } = useSetupRegistration(() => {
-  //   stepperRef.current?.nextCallback();
-  // });
-  //
-  // return (
-  //   <div className="flex items-center h-full ">
-  //     <Stepper className={ 'my-stepper ' } ref={ stepperRef }>
-  //       <StepperPanel header="Page I">
-  //         <FormProvider { ...methods }>
-  //           <div className=" content flex items-center justify-center ">
-  //             <div className=" flex-auto flex justify-center align-items-center font-medium">
-  //               <RegistrationFormComponent/></div>
-  //             <PageButton onClick={ submit }/>
-  //           </div>
-  //         </FormProvider>
-  //       </StepperPanel>
-  //       <StepperPanel header="Page 2">
-  //         <div className="Content flex items-center justify-center ">
-  //           <div className=" flex-auto flex justify-center align-items-center font-medium">
-  //             <SecondPage/>
-  //           </div>
-  //           <PageButton className="scale-x-[-1]" onClick={ () => stepperRef.current?.prevCallback() }/>
-  //         </div>
-  //       </StepperPanel>
-  //     </Stepper>
-  //   </div>
-  // );
+  const [step, setStep] = useState<number>(0);
+
+  return (
+    <Stepper
+      setStep={setStep}
+      currentStep={step}
+    >
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={0}
+      >
+        <div className="bg-red-100 size-full">
+          <RegistrationFormComponent />
+        </div>
+      </StepperItem>
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={1}
+      >
+        <div className="bg-blue-100 size-full">2</div>
+      </StepperItem>
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={2}
+      >
+        <div className="bg-green-100 size-full">3</div>
+      </StepperItem>
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={3}
+      >
+        <div className="bg-purple-100 size-full">4</div>
+      </StepperItem>
+    </Stepper>
+  );
 }
