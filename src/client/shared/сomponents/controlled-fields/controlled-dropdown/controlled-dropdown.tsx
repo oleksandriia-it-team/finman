@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Dropdown from '../../fields/dropdown/dropdown';

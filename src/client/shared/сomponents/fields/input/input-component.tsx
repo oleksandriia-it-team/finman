@@ -1,6 +1,7 @@
 'use client';
 
 import { InputProps } from '../props/input.props';
+import clsx from 'clsx';
 
 /**
  * InputComponent
@@ -23,12 +24,17 @@ import { InputProps } from '../props/input.props';
  * />
  */
 
-export default function InputComponent({ value, className, placeholder, onChange }: InputProps) {
-  // return <>
-  //   <InputText className={ `input-component ${ className || '' } ` }
-  //     placeholder={ placeholder }
-  //     value={ value }
-  //     onChange={ (newValue) => onChange?.(newValue.target.value) }
-  //   />
-  // </>;
+export default function InputComponent({ value, className, placeholder, onChange }: InputProps<string>) {
+  const classes = clsx('form-control', className);
+
+  return (
+    <div className="flex flex-col justify-center items-center">
+      <input
+        className={classes}
+        placeholder={placeholder}
+        value={value ?? ''}
+        onChange={(newValue) => onChange?.(newValue.target.value)}
+      />
+    </div>
+  );
 }
