@@ -1,6 +1,5 @@
 'use client';
 
-import '../styles/first-page.scss';
 import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
 import DefaultDropdown from '../../../../shared/сomponents/fields/dropdown/default-dropdown';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -31,19 +30,16 @@ export default function RegistrationFormComponent() {
           <p className="form-text">Please enter your general information</p>
         </div>
         <ControlledInput
-          className="w-full form-input"
           name="userName"
           placeholder="Username"
         />
         <DefaultDropdown
-          className="w-full form-input"
           placeholder="Preferable Formats"
           options={formats}
           value={value1}
           onChange={(value) => setValue1(value)}
         />
         <DefaultDropdown
-          className="w-full form-input"
           placeholder="Languages"
           options={languages}
           onChange={(value) => setValue2(value)}

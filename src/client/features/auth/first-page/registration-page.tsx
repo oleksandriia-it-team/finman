@@ -1,6 +1,5 @@
 'use client';
 
-import './styles/first-page.scss';
 import Stepper from '../../../shared/сomponents/stepper/stepper';
 import StepperItem from '../../../shared/сomponents/stepper/stepper-item';
 import { useState } from 'react';
