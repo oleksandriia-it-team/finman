@@ -1,12 +1,24 @@
 'use client';
 
 import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
-import DefaultDropdown from '../../../../shared/сomponents/fields/dropdown/default-dropdown';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema } from './shared/validation-schema';
+import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
 
 export default function RegistrationFormComponent() {
-  const methods = useForm();
+  const methods = useForm({
+    resolver: zodResolver(userSchema),
+    mode: 'onChange',
+    defaultValues: {
+      userName: '',
+      preferableLocale: '',
+      language: '',
+    },
+  });
+
+  const onSubmit = async (): Promise<void> => {};
 
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
@@ -33,17 +45,24 @@ export default function RegistrationFormComponent() {
           name="userName"
           placeholder="Username"
         />
-        <DefaultDropdown
+        <ControlledDropdown
+          name="preferableLocale"
           placeholder="Preferable Formats"
           options={formats}
           value={value1}
           onChange={(value) => setValue1(value)}
         />
-        <DefaultDropdown
+        <ControlledDropdown
+          name="language"
           placeholder="Languages"
           options={languages}
           onChange={(value) => setValue2(value)}
           value={value2}
+        />
+        <input
+          onSubmit={onSubmit}
+          type="submit"
+          className=""
         />
       </form>
     </FormProvider>

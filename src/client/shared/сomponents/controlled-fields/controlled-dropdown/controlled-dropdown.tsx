@@ -11,7 +11,7 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const classes = clsx(className, fieldState.invalid && 'p-invalid');
+        const classes = clsx(className, fieldState.invalid && 'is-invalid');
 
         return (
           <div className="flex flex-col w-full">
@@ -22,7 +22,7 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
               className={classes}
               id={field.name}
             />
-            {fieldState.error && <p className="error-text">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="invalid-feedback">{fieldState.error.message}</p>}
           </div>
         );
       }}

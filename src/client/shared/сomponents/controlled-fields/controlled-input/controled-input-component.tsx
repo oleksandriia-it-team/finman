@@ -13,7 +13,7 @@ export default function ControlledInput({ name, className, ...props }: Controlle
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const classes = clsx(className, 'form-control');
+        const classes = clsx(className, fieldState.invalid && 'is-invalid');
         return (
           <div className="flex flex-col items-center justify-center">
             <InputComponent
@@ -22,7 +22,7 @@ export default function ControlledInput({ name, className, ...props }: Controlle
               value={field.value ?? ''}
               onChange={(value) => field.onChange(value)}
             />
-            {fieldState.error && <p className="error-text">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="invalid-feedback">{fieldState.error.message}</p>}
           </div>
         );
       }}
