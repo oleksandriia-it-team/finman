@@ -1,10 +1,13 @@
-import { adminRepository } from '../../../server/entities/admin/infrastructure/admin.repository';
+import { createRoute } from '../../../server/shared/utils/create-route.util';
 import { NextResponse } from 'next/server';
+import { adminRepository } from '../../../server/entities/admin/infrastructure/admin.repository';
 
-export async function GET() {
-  const res = await adminRepository.getItems(0, 50);
+export const GET = createRoute({
+  execute: async () => {
+    const res = await adminRepository.getItems(0, 50);
 
-  console.log(res);
+    console.log(res);
 
-  return NextResponse.json(200);
-}
+    return NextResponse.json({ status: 200, data: 200 });
+  },
+});

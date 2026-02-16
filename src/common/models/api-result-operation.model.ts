@@ -6,6 +6,6 @@ export interface ApiResultOperationSuccess<T> {
 }
 
 export interface ApiResultOperationError {
-  status: 400 | 500;
+  status: 400 | 403 | 500 | 503;
   message: string;
 }
