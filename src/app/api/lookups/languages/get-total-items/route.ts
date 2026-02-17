@@ -1,38 +1,18 @@
 import { LanguagesSchema } from '../shared/schemas/languages.schema';
-import { GetTotalLanguagesPayload } from '../shared/models/language-payloads.model';
-import { NextResponse } from 'next/server';
-import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
-import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
-import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
-import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
 import { Language } from '../../../../../common/records/languages.record';
+import { createRoute } from '../../../../../server/shared/utils/create-route.util';
+import { getDefaultApiErrorFilter } from '../../../../../server/shared/filter/get-api-error-filter.util';
+import { NextResponse } from 'next/server';
+import { getTotalCountItems } from '../../../../../server/shared/utils/get-total-count-items.util';
+import { getLanguageFilters } from '../shared/utils/get-language-filters.util';
 
-export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<number>>> {
-  try {
-    const body: GetTotalLanguagesPayload = await request.json();
-
-    const result = LanguagesSchema.totalCountSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(getZodErrorMessage(result));
-    }
-
-    const { ids, excludeIds, name } = body.filters ?? {};
-
-    const emptyFilter = () => true;
-
-    const idsFilter = ids ? (value: Language) => ids.includes(value.id) : emptyFilter;
-    const excludeIdsFilter = excludeIds ? (value: Language) => !excludeIds.includes(value.id) : emptyFilter;
-    const nameFilter = name ? (value: Language) => value.name.includes(name) : emptyFilter;
-
+export const POST = createRoute({
+  execute: async ({ body }) => {
     return NextResponse.json({
       status: 200,
-      data: await getTotalCountItems<Language>(
-        'languages.json',
-        [idsFilter, excludeIdsFilter, nameFilter].filter((fn) => fn !== emptyFilter),
-      ),
+      data: await getTotalCountItems<Language>('languages.json', getLanguageFilters(body)),
     });
-  } catch (err: unknown) {
-    return NextResponse.json(getApiErrorMessage(err));
-  }
-}
+  },
+  schema: LanguagesSchema.totalCountSchema,
+  filter: getDefaultApiErrorFilter,
+});
