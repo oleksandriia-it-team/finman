@@ -25,4 +25,5 @@ export interface DropdownInputTemplateProps extends InputDefaultProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   chevronClassName?: string;
+  wrapperClassName?: string;
 }

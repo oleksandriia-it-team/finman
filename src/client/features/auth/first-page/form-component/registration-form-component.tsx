@@ -1,12 +1,28 @@
 'use client';
 
-import '../styles/first-page.scss';
 import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
-import DefaultDropdown from '../../../../shared/сomponents/fields/dropdown/default-dropdown';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { userSchema } from './shared/validation-schema';
+import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
+import Button from '../../../../shared/сomponents/button/button';
 
 export default function RegistrationFormComponent() {
-  const methods = useForm();
+  const methods = useForm({
+    resolver: zodResolver(userSchema),
+    mode: 'onChange',
+    defaultValues: {
+      userName: '',
+      preferableLocale: '',
+      language: '',
+    },
+  });
+
+  const onSubmit = async (): Promise<void> => {};
+
+  const [value1, setValue1] = useState('');
+  const [value2, setValue2] = useState('');
 
   const languages = [
     { label: 'English', value: 'English' },
@@ -21,29 +37,47 @@ export default function RegistrationFormComponent() {
   ];
 
   return (
-    <FormProvider {...methods}>
-      <form className="flex flex-col justify-center ">
-        <div className=" text-center">
-          <p className="form-text">Please enter your general information</p>
-        </div>
-        <ControlledInput
-          className="w-full form-input"
-          name="userName"
-          placeholder="Username"
-        />
-        <DefaultDropdown
-          className="w-full form-input"
-          placeholder="Preferable Formats"
-          options={formats}
-          onChange={(value) => console.log(value)}
-        />
-        <DefaultDropdown
-          className="w-full form-input"
-          placeholder="Languages"
-          options={languages}
-          onChange={(value) => console.log(value)}
-        />
-      </form>
-    </FormProvider>
+    <div className="w-full h-full px-35">
+      <FormProvider {...methods}>
+        <form
+          className="mx-[50] my-form flex flex-col align-center h-full gap-3 justify-center"
+          onSubmit={onSubmit}
+        >
+          <div className="text-5xl text-center">
+            <p className="text-5xl form-text">Please enter your general information</p>
+          </div>
+          <ControlledInput
+            name="userName"
+            placeholder="Username"
+            className="min-w-50"
+          />
+          <ControlledDropdown
+            className="min-w-50"
+            wrapperClassName="min-w-50"
+            name="preferableLocale"
+            placeholder="Preferable Formats"
+            options={formats}
+            value={value1}
+            onChange={(value) => setValue1(value)}
+          />
+          <ControlledDropdown
+            className="min-w-50"
+            wrapperClassName="min-w-50"
+            name="language"
+            placeholder="Languages"
+            options={languages}
+            onChange={(value) => setValue2(value)}
+            value={value2}
+          />
+          <Button
+            type="submit"
+            className=" h-14 min-w-50"
+            variant="default"
+          >
+            Submit
+          </Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 }

@@ -3,16 +3,19 @@
 import SvgIcon from '../../svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../props/input.props';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import clsx from 'clsx';
 import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
-import { cn } from '../../../utils/cn.util';
+import { InputSize } from '../constants/input-size.constant';
 
 export default function DropdownTemplate({
   value,
   className,
   chevronClassName,
   placeholder,
+  wrapperClassName,
+  size = 'small',
   optionsTemplate,
   id,
   setOpen,
@@ -60,11 +63,11 @@ export default function DropdownTemplate({
   );
 
   const inputClasses = useMemo(() => {
-    return cn(className, 'form-control', 'default-field-styles');
-  }, [className]);
+    return clsx(className, 'form-control', 'default-field-styles', InputSize[size]);
+  }, [className, size]);
 
-  const chevronWrapperClasses = cn(
-    'default-field-height',
+  const chevronWrapperClasses = clsx(
+    'h-full',
     'default-field-padding-right',
     'top-0',
     'right-0',
@@ -74,12 +77,16 @@ export default function DropdownTemplate({
   );
 
   const chevronClasses = useMemo(() => {
-    return cn(open && 'rotate-180', chevronClassName);
+    return clsx(open && 'rotate-180', chevronClassName);
   }, [open, chevronClassName]);
+
+  const wrapperClasses = useMemo(() => {
+    return clsx(wrapperClassName, 'relative', 'cursor-pointer');
+  }, [wrapperClassName]);
 
   return (
     <div
-      className="relative cursor-pointer"
+      className={wrapperClasses}
       onClick={setVisibility}
       ref={inputWrapperRef}
       tabIndex={0}
