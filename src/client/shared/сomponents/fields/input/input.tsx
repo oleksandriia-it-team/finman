@@ -2,6 +2,7 @@
 
 import { InputProps } from '../props/input.props';
 import clsx from 'clsx';
+import { InputSize } from '../constants/input-size.constant';
 
 /**
  * InputComponent
@@ -24,8 +25,8 @@ import clsx from 'clsx';
  * />
  */
 
-export default function InputComponent({ value, className, placeholder, onChange }: InputProps<string>) {
-  const classes = clsx('form-control', className);
+export default function Input({ value, className, placeholder, onChange, size = 'small' }: InputProps<string>) {
+  const classes = clsx('form-control', 'default-field-styles', InputSize[size], className);
 
   return (
     <>

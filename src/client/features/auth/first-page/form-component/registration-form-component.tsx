@@ -40,19 +40,20 @@ export default function RegistrationFormComponent() {
     <div className="w-full h-full px-35">
       <FormProvider {...methods}>
         <form
-          className=" mx-[50] my-form flex flex-col align-center h-full gap-3  justify-center "
+          className="mx-[50] my-form flex flex-col align-center h-full gap-3 justify-center"
           onSubmit={onSubmit}
         >
-          <div className=" text-5xl text-center">
+          <div className="text-5xl text-center">
             <p className="text-5xl form-text">Please enter your general information</p>
           </div>
           <ControlledInput
             name="userName"
             placeholder="Username"
-            className=" min-w-50 h-14 text-2xl"
+            className="min-w-50"
           />
           <ControlledDropdown
-            className=" min-w-50 h-14 text-2xl"
+            className="min-w-50"
+            wrapperClassName="min-w-50"
             name="preferableLocale"
             placeholder="Preferable Formats"
             options={formats}
@@ -60,7 +61,8 @@ export default function RegistrationFormComponent() {
             onChange={(value) => setValue1(value)}
           />
           <ControlledDropdown
-            className=" min-w-50 h-14 text-2xl"
+            className="min-w-50"
+            wrapperClassName="min-w-50"
             name="language"
             placeholder="Languages"
             options={languages}
