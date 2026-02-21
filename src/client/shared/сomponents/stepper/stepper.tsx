@@ -11,6 +11,7 @@ export default function Stepper({
   setStep,
   currentStep,
   fullSize = true,
+  nextStepOnlyOnButtonClick = true,
 }: StepperProps & ChildrenComponentProps) {
   const classes = useMemo(() => clsx('carousel', 'slide', fullSize && 'size-full', className), [className, fullSize]);
   const carouselInnerClasses = useMemo(
@@ -20,6 +21,28 @@ export default function Stepper({
 
   const stepItemsCount = Children.count(children);
 
+  const prevButton = (
+    <IconButton
+      icon="chevron-compact-left"
+      size="large"
+      variant="default"
+      className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-prev'}
+      bgNone={true}
+      onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
+    />
+  );
+
+  const nextButton = (
+    <IconButton
+      icon="chevron-compact-right"
+      size="large"
+      variant="default"
+      className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-next'}
+      bgNone={true}
+      onClick={() => setStep((currentStep + 1) % stepItemsCount)}
+    />
+  );
+
   return (
     <div
       className={classes}
@@ -27,23 +50,13 @@ export default function Stepper({
     >
       <div className={carouselInnerClasses}>{children}</div>
 
-      <IconButton
-        icon="chevron-compact-left"
-        size="large"
-        className="carousel-control-prev"
-        variant="default"
-        bgNone={true}
-        onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
-      />
+      {nextStepOnlyOnButtonClick && <div className="carousel-control-prev">{prevButton}</div>}
 
-      <IconButton
-        icon="chevron-compact-right"
-        size="large"
-        className="carousel-control-next"
-        variant="default"
-        bgNone={true}
-        onClick={() => setStep((currentStep + 1) % stepItemsCount)}
-      />
+      {!nextStepOnlyOnButtonClick && prevButton}
+
+      {nextStepOnlyOnButtonClick && <div className="carousel-control-next">{nextButton}</div>}
+
+      {!nextStepOnlyOnButtonClick && nextButton}
     </div>
   );
 }

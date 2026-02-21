@@ -6,19 +6,20 @@ import { Controller, useFormContext } from 'react-hook-form';
 import Input from '../../fields/input/input';
 
 // TODO update later
-export default function ControlledInput({ name, className, ...props }: ControlledInputProps) {
+export default function ControlledInput({ name, className, inputClassName, ...props }: ControlledInputProps) {
   const { control } = useFormContext();
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const classes = clsx(className, fieldState.invalid && 'is-invalid');
+        const inputClasses = clsx(inputClassName, fieldState.invalid && 'is-invalid');
+        const wrapperClasses = clsx(className, 'flex flex-col items-center justify-center');
         return (
-          <div className="flex flex-col items-center justify-center">
+          <div className={wrapperClasses}>
             <Input
               {...props}
-              className={classes}
+              className={inputClasses}
               value={field.value ?? ''}
               onChange={(value) => field.onChange(value)}
             />

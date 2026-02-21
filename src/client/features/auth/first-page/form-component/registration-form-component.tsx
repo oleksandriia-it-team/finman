@@ -40,7 +40,7 @@ export default function RegistrationFormComponent() {
     <div className="w-full h-full px-35">
       <FormProvider {...methods}>
         <form
-          className="mx-[50] my-form flex flex-col align-center h-full gap-3 justify-center"
+          className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center"
           onSubmit={onSubmit}
         >
           <div className="text-5xl text-center">
@@ -49,11 +49,11 @@ export default function RegistrationFormComponent() {
           <ControlledInput
             name="userName"
             placeholder="Username"
-            className="min-w-50"
+            className="min-w-50 max-w-72 w-full"
           />
           <ControlledDropdown
-            className="min-w-50"
-            wrapperClassName="min-w-50"
+            className="min-w-50 max-w-72 w-full"
+            wrapperClassName="w-full"
             name="preferableLocale"
             placeholder="Preferable Formats"
             options={formats}
@@ -61,8 +61,8 @@ export default function RegistrationFormComponent() {
             onChange={(value) => setValue1(value)}
           />
           <ControlledDropdown
-            className="min-w-50"
-            wrapperClassName="min-w-50"
+            className="min-w-50 max-w-72 w-full"
+            wrapperClassName="w-full"
             name="language"
             placeholder="Languages"
             options={languages}
@@ -71,7 +71,7 @@ export default function RegistrationFormComponent() {
           />
           <Button
             type="submit"
-            className=" h-14 min-w-50"
+            className="w-full min-w-50 max-w-72"
             variant="default"
           >
             Submit
