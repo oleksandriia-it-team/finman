@@ -1,11 +1,11 @@
 :root[data-bs-theme="light"] {
-  --spell-basic: var(--bs-dark);
-  --spell-revert: var(--bs-light);
+  --spell-basic: black;
+  --spell-revert: white;
 }
 
 :root[data-bs-theme="dark"] {
-  --spell-basic: var(--bs-light);
-  --spell-revert: var(--bs-dark);
+  --spell-basic: white;
+  --spell-revert: black;
 }
 
 @theme {
