@@ -9,7 +9,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "docker:run": "docker-compose up -d"
   },
   "author": "Oleksandriia's Frontend Team",
   "license": "ISC",
