@@ -4,4 +4,5 @@ export interface DropdownDefaultProps<T> {
   options: DropdownOption<T>[];
   optionListClassName?: string;
   optionClassName?: string;
+  wrapperClassName?: string;
 }

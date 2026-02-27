@@ -9,8 +9,8 @@
 }
 
 .default-field-styles {
-  height: var(--default-field-height);
   padding: var(--default-field-padding-y) var(--default-field-padding-x);
+  font-size: var(--default-font-size);
 }
 
 .default-field-height {

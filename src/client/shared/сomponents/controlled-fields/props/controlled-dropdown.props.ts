@@ -8,4 +8,7 @@ type ControlledLazyProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
 type ControlledDefaultProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
   DefaultDropdownInputProps<T> & { lazy?: false };
 
-export type ControlledDropdownProps<T> = InputControlProps & (ControlledLazyProps<T> | ControlledDefaultProps<T>);
+export type ControlledDropdownProps<T> = InputControlProps &
+  (ControlledLazyProps<T> | ControlledDefaultProps<T>) & {
+    inputClassName?: string;
+  };

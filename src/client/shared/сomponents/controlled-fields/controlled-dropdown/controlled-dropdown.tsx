@@ -1,10 +1,14 @@
-import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 import Dropdown from '../../fields/dropdown/dropdown';
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
 
-export default function ControlledDropdown<T>({ name, className, ...props }: ControlledDropdownProps<T>) {
+export default function ControlledDropdown<T>({
+  name,
+  className,
+  inputClassName,
+  ...props
+}: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -12,18 +16,21 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const classes = clsx(className, fieldState.invalid && 'p-invalid');
+        const inputClasses = clsx(inputClassName, fieldState.invalid && 'is-invalid');
+        const wrapperClasses = clsx(className, 'flex flex-col items-center justify-center');
+
+        console.log(inputClasses);
 
         return (
-          <div className="flex flex-col w-full">
+          <div className={wrapperClasses}>
             <Dropdown
               {...props}
               value={field.value}
               onChange={(val) => field.onChange(val)}
-              className={classes}
+              className={inputClasses}
               id={field.name}
             />
-            {fieldState.error && <p className="error-text">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="invalid-feedback">{fieldState.error.message}</p>}
           </div>
         );
       }}

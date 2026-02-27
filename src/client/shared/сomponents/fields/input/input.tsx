@@ -1,6 +1,8 @@
 'use client';
 
 import { InputProps } from '../props/input.props';
+import clsx from 'clsx';
+import { InputSize } from '../constants/input-size.constant';
 
 /**
  * InputComponent
@@ -23,12 +25,17 @@ import { InputProps } from '../props/input.props';
  * />
  */
 
-export default function InputComponent({ value, className, placeholder, onChange }: InputProps) {
-  // return <>
-  //   <InputText className={ `input-component ${ className || '' } ` }
-  //     placeholder={ placeholder }
-  //     value={ value }
-  //     onChange={ (newValue) => onChange?.(newValue.target.value) }
-  //   />
-  // </>;
+export default function Input({ value, className, placeholder, onChange, size = 'small' }: InputProps<string>) {
+  const classes = clsx('form-control', 'default-field-styles', InputSize[size], className);
+
+  return (
+    <>
+      <input
+        className={classes}
+        placeholder={placeholder}
+        value={value ?? ''}
+        onChange={(newValue) => onChange?.(newValue.target.value)}
+      />
+    </>
+  );
 }
