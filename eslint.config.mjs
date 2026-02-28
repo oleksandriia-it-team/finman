@@ -1,7 +1,6 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { FlatCompat } from '@eslint/eslintrc';
-import eslintPluginHtml from 'eslint-plugin-html';
 import boundaries from 'eslint-plugin-boundaries';
 import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
 
@@ -15,10 +14,21 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
 
-  // 1. Base Configuration & Plugins
+  ...compat.extends('prettier'),
+
   {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    // 1. Base Configuration & Plugins
     plugins: {
       boundaries,
+      '@typescript-eslint': tsEslintPlugin,
     },
     // 2. Architecture Definition (Settings)
     settings: {
@@ -32,6 +42,7 @@ const eslintConfig = [
         { type: 'server-entities', pattern: 'src/server/entities/**' },
         { type: 'server-features', pattern: 'src/server/features/**' },
         { type: 'server-shared', pattern: 'src/server/shared/**' },
+        { type: 'server-db', pattern: 'src/server/database/**' },
 
         // --- Client Layer (FSD) ---
         { type: 'app', pattern: 'src/app/**' },
@@ -42,12 +53,10 @@ const eslintConfig = [
         { type: 'client-shared', pattern: 'src/client/shared/**' },
       ],
     },
-  },
-
-  // 3. Architectural Rules (Strict Boundaries)
-  {
-    files: ['**/*.ts', '**/*.tsx'],
     rules: {
+      camelcase: ['error', { properties: 'never' }],
+      '@typescript-eslint/no-unused-vars': ['warn'],
+      // 3. Architectural Rules (Strict Boundaries)
       'boundaries/element-types': [
         'error',
         {
@@ -66,17 +75,21 @@ const eslintConfig = [
             // ------------------------------------------
             {
               from: 'server-shared',
-              allow: ['common'],
+              allow: ['common', 'server-db'],
             },
             {
               from: 'server-entities',
-              allow: ['common'],
+              allow: ['common', 'server-shared', 'server-db'],
             },
             {
               from: 'server-features',
               // Can import Kernel, Shared, Common.
               // Cannot import other features (implicit via whitelist).
               allow: ['server-entities', 'server-shared', 'common'],
+            },
+            {
+              from: 'server-db',
+              allow: ['server-entities', 'common'],
             },
 
             // ------------------------------------------
@@ -110,14 +123,7 @@ const eslintConfig = [
             // App (Entry point - can import all Client layers)
             {
               from: 'app',
-              allow: [
-                'client-widgets',
-                'client-features',
-                'client-entities',
-                'client-shared',
-                'client-db',
-                'common',
-              ],
+              allow: ['client-widgets', 'client-features', 'client-entities', 'client-shared', 'client-db', 'common'],
             },
             {
               from: 'app-api',
@@ -126,64 +132,16 @@ const eslintConfig = [
           ],
         },
       ],
-
-      // External Module Restrictions
       'boundaries/no-unknown': ['error'],
       'boundaries/no-unknown-files': ['warn'],
-    },
-  },
 
-  // General rules for TS/TSX
-  {
-    files: ['**/*.ts', '**/*.tsx'],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        ecmaFeatures: { jsx: true },
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tsEslintPlugin,
-    },
-    rules: {
-      camelcase: ['error'],
-      quotes: ['error', 'single', { avoidEscape: true }],
-      semi: ['error', 'always'],
-
-      indent: 'off',
-      '@typescript-eslint/indent': ['error', 2, { SwitchCase: 1 }],
-
-      'comma-dangle': ['error', 'always-multiline'],
-      'object-curly-spacing': ['error', 'always'],
-      'arrow-parens': ['error', 'always'],
-
-      'react/jsx-indent': ['error', 2],
-      'react/jsx-indent-props': ['error', 2],
-      'react/jsx-max-props-per-line': ['error', { maximum: 1, when: 'multiline' }],
-      'react/jsx-first-prop-new-line': ['error', 'multiline'],
-      'react/jsx-closing-bracket-location': ['error', 'tag-aligned'],
       'react/self-closing-comp': 'error',
-      'react/jsx-equals-spacing': ['error', 'never'],
+      'react/jsx-no-useless-fragment': 'warn',
     },
   },
 
   {
-    files: ['**/*.html'],
-    plugins: {
-      html: eslintPluginHtml,
-      '@typescript-eslint': tsEslintPlugin,
-    },
-    processor: 'html/html',
-    rules: {
-      indent: ['error', 2],
-      quotes: ['error', 'single'],
-    },
-  },
-
-  {
-    files: ['**/*.scss'],
-    ignores: ['**/*.scss'],
+    ignores: ['.next/**', 'node_modules/**', 'dist/**', '**/*.scss', '**/*.css'],
   },
 ];
 

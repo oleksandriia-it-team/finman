@@ -20,7 +20,7 @@ class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
   // eslint-disable-next-line
   // @ts-ignore
 
-  updateItem(id: number, data: Omit<DefaultTableColumns, DefaultColumnKeys>): Promise<true> {
+  updateItem(): Promise<true> {
     return Promise.resolve(true);
   }
 

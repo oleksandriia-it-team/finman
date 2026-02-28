@@ -23,7 +23,7 @@ describe('createRoute with params', () => {
       id: Number(p.id),
     }));
 
-    const executeFn = vi.fn(({ params }: any) => {
+    const executeFn = vi.fn(({ params }) => {
       expect(params).toEqual(transformedParams);
       return NextResponse.json({ status: 200, data: params } satisfies ApiResultOperation<number>);
     });
@@ -43,7 +43,7 @@ describe('createRoute with params', () => {
     const rawParams = { slug: 'hello' };
     const context: RouteContext = { params: Promise.resolve(rawParams) };
 
-    const executeFn = vi.fn(({ params }: any) => {
+    const executeFn = vi.fn(({ params }) => {
       expect(params).toEqual(rawParams);
       return NextResponse.json({ status: 200, data: 1 } satisfies ApiResultOperation<number>);
     });
@@ -60,7 +60,7 @@ describe('createRoute with params', () => {
   it('should pass transformed params to guards and transformers', async () => {
     const context: RouteContext = { params: { code: 'abc' } };
 
-    const paramsTransformers = (p: any) => ({ code: p.code.toUpperCase() });
+    const paramsTransformers = (p: { code: string }) => ({ code: p.code.toUpperCase() });
 
     const guardsBeforeFn = vi.fn((_: Request, params) => {
       expect(params.code).toBe('ABC');
@@ -78,7 +78,7 @@ describe('createRoute with params', () => {
     });
 
     const route = createRoute({
-      paramsTransformers,
+      paramsTransformers: paramsTransformers as never,
       guardsBeforeTransformers: guardsBeforeFn,
       guards: [guardFn],
       transformers: transformersFn as never,
