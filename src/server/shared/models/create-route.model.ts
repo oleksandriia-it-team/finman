@@ -21,7 +21,7 @@ export interface CreateRouteConfig<
   execute: RouteExecute<TR, BTR, BODY, R>;
   guards?: RouteGuard<BTR, BODY>[];
   guardsBeforeTransformers?: (request: Request) => BTR | Promise<BTR>;
-  transformers?: (request: Request) => TR | Promise<TR>;
+  transformers?: (request: Request, body: BODY) => TR | Promise<TR>;
   filter?: FilterRouteExecute<R>;
 }
 

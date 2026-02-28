@@ -42,7 +42,7 @@ export function createRoute<TR, BTR, R, BODY extends ZodTypeAny | undefined>(
       if (result) return NextResponse.json(result, { status: result.status });
     }
 
-    let resultTransformers = transformers?.(request);
+    let resultTransformers = transformers?.(request, body as never);
 
     if (resultTransformers instanceof Promise) {
       resultTransformers = await resultTransformers;
