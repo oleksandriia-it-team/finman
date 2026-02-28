@@ -49,7 +49,7 @@ export class LookupsService {
       });
     } else {
       result = await fetch(
-        `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}${(payload as { id: number }).id}`,
+        `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}/${(payload as { id: number }).id}`,
         {
           method: 'GET',
           signal: abortSignal ?? null,
