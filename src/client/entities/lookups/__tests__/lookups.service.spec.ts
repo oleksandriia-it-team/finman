@@ -44,9 +44,10 @@ describe('LookupsService', () => {
 
     expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/lookups/languages/get-by-id',
+      `/api/lookups/languages/get-by-id/1`,
       expect.objectContaining({
-        body: JSON.stringify({ id: 1 }),
+        method: 'GET',
+        signal: null,
       }),
     );
   });

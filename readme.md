@@ -31,7 +31,7 @@ FinMan includes the following features:
 
 ## How to clone repository
 1. Open command line
-2. Create public ssh file using "ssh-keygen -t ed25519 -C "youremail@email.com"
+2. Create public ssh file using ```ssh-keygen -t ed25519 -C "youremail@email.com"```
 3. Enter your ssh key from public file [github link](https://github.com/settings/keys)
 4. If ssh key has been entered, you can clone project 
 ```bash
@@ -41,7 +41,10 @@ cd finman
 
 ## How to run locally
 1. Download Node.js and npm package latest version
-2. Execute "npm install" command in your terminal. Make sure your terminal is in the project root directory 
+2. Download Docker Composer
+3. Execute "npm install" command in your terminal. Make sure your terminal is in the project root directory
+4. Execute "npm run docker:run"
+5. Before starting the application, add "synchronize: true" in [data source options](/src/server/database/database-connection.ts) to create database. It's necessary when you start first time, then you must delete the line  
 3. Execute "npm run build" and after "npm run start" to launch this application in production mode
 4. Execute "npm run dev" to launch this application in development mode
 

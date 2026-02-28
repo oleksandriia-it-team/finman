@@ -1,42 +1,19 @@
 import { NextResponse } from 'next/server';
-import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
-import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
-import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
 import { getPaginatedItems } from '../../../../../server/shared/utils/get-paginated-items.util';
 import { Currency } from '../../../../../common/records/currencies.record';
-import { GetCurrenciesPayload } from '../shared/models/currencies-payloads.model';
 import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
+import { createRoute } from '../../../../../server/shared/utils/create-route.util';
+import { getCurrencyFilters } from '../shared/utils/get-currency-filters.util';
+import { getDefaultApiErrorFilter } from '../../../../../server/shared/filter/get-api-error-filter.util';
 
-export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<Currency[]>>> {
-  try {
-    const body: GetCurrenciesPayload = await request.json();
-
-    const result = CurrenciesSchema.itemsSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(getZodErrorMessage(result));
-    }
-
-    const { ids, excludeIds, code, name, symbol } = body.filters ?? {};
-
-    const emptyFilter = () => true;
-
-    const idsFilter = ids ? (value: Currency) => ids.includes(value.id) : emptyFilter;
-    const excludeIdsFilter = excludeIds ? (value: Currency) => !excludeIds.includes(value.id) : emptyFilter;
-    const codeFilter = code ? (value: Currency) => value.currencyCode.includes(code) : emptyFilter;
-    const nameFilter = name ? (value: Currency) => value.currencyName.includes(name) : emptyFilter;
-    const symbolFilter = symbol ? (value: Currency) => value.currencySymbol.includes(symbol) : emptyFilter;
-
+export const POST = createRoute({
+  transformers: (_, body) => getCurrencyFilters(body),
+  schema: CurrenciesSchema.itemsSchema,
+  execute: async ({ transformers, body }) => {
     return NextResponse.json({
       status: 200,
-      data: await getPaginatedItems<Currency>(
-        'currencies.json',
-        body.from,
-        body.to,
-        [idsFilter, excludeIdsFilter, codeFilter, nameFilter, symbolFilter].filter((fn) => fn !== emptyFilter),
-      ),
+      data: await getPaginatedItems<Currency>('currencies.json', body.from, body.to, transformers),
     });
-  } catch (err: unknown) {
-    return NextResponse.json(getApiErrorMessage(err));
-  }
-}
+  },
+  filter: getDefaultApiErrorFilter,
+});

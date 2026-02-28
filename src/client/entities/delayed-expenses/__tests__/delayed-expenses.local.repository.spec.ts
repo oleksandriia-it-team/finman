@@ -4,12 +4,13 @@ import { DatabaseLocalService } from '../../../database/database.local.service';
 import { TypeEntry } from '../../../../common/enums/entry.enum';
 import { Month } from '../../../../common/enums/month.enum';
 import { DelayedExpense } from '../../../../common/records/delayed-expenses.record';
+import { DefaultColumnKeys } from '../../../../common/models/default-table-columns.model';
 
 describe('DelayedExpensesLocalRepository', () => {
   let dbService: DatabaseLocalService;
   let service: DelayedExpensesLocalRepository;
 
-  const data: Omit<DelayedExpense, 'id' | 'softDeleted'> = {
+  const data: Omit<DelayedExpense, DefaultColumnKeys> = {
     type: TypeEntry.Expense,
     description: 'Buy outfit',
     delayed: true,

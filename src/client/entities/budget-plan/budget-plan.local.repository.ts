@@ -8,6 +8,7 @@ import {
   DelayedExpensesLocalRepository,
 } from '../delayed-expenses/delayed-expenses.local.repository';
 import { DelayedExpense } from '../../../common/records/delayed-expenses.record';
+import { DefaultColumnKeys } from '../../../common/models/default-table-columns.model';
 
 /**
  * Repository for managing monthly budget plans.
@@ -51,7 +52,7 @@ export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, Budg
 
       const delayedExpenses = await Promise.all(plannedDelayedExpenseRequests);
 
-      const dto: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
+      const dto: Omit<BudgetPlan, DefaultColumnKeys> = {
         month: data.month,
         year: data.year,
         otherEntries: data.otherEntries,
@@ -102,7 +103,7 @@ export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, Budg
 
       const createdDelayedExpenses = await Promise.all(createDelayedExpenseRequests);
 
-      const dto: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
+      const dto: Omit<BudgetPlan, DefaultColumnKeys> = {
         month: newData.month,
         year: newData.year,
         otherEntries: newData.otherEntries,

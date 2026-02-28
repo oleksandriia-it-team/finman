@@ -39,11 +39,24 @@ export class LookupsService {
     abortSignal: AbortSignal | undefined,
     payload: unknown,
   ): Promise<LookupsResponseResult<LookupsDto[LT]>[LTR]> {
-    const result = await fetch(`/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`, {
-      method: 'post',
-      body: JSON.stringify(payload),
-      signal: abortSignal ?? null,
-    });
+    let result: Response;
+
+    if (typeRequest !== LookupsTypeRequest.GetById) {
+      result = await fetch(`/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        signal: abortSignal ?? null,
+      });
+    } else {
+      result = await fetch(
+        `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}/${(payload as { id: number }).id}`,
+        {
+          method: 'GET',
+          signal: abortSignal ?? null,
+        },
+      );
+    }
+
     const body: ApiResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]> = await result.json();
 
     if (body.status === 400 || body.status === 500) {
