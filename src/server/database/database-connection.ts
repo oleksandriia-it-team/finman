@@ -3,6 +3,9 @@ import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '../../common/constants/env-config.constant';
 
+const args = process.argv.slice(2);
+const synchronize = args.includes('--synchronize=true');
+
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: EnvConfigConstant.DB_HOST,
@@ -13,7 +16,7 @@ const dataSourceOptions: DataSourceOptions = {
   entities: Entities,
   migrations: Migrations,
   migrationsRun: true,
-  // synchronize: true,
+  synchronize,
   logging: true,
 };
 

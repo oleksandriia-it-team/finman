@@ -44,7 +44,7 @@ cd finman
 2. Download Docker Composer
 3. Execute "npm install" command in your terminal. Make sure your terminal is in the project root directory
 4. Execute "npm run docker:run"
-5. Before starting the application, add "synchronize: true" in [data source options](/src/server/database/database-connection.ts) to create database. It's necessary when you start first time, then you must delete the line  
+5. Before starting the application, execute ```npm run database:init``` to create database and fill using seed data 
 3. Execute "npm run build" and after "npm run start" to launch this application in production mode
 4. Execute "npm run dev" to launch this application in development mode
 

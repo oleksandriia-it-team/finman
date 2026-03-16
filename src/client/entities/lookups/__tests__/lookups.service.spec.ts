@@ -18,11 +18,11 @@ describe('LookupsService', () => {
       json: async () => mockResponse,
     } as Response);
 
-    const result = await service.getItems(LookupsTypeEnum.Languages, 1, 10, {});
+    const result = await service.getItems(LookupsTypeEnum.Currency, 1, 10, {});
 
     expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/lookups/languages/get-items',
+      '/api/lookups/currencies/get-items',
       expect.objectContaining({
         body: JSON.stringify({ from: 1, to: 10, filters: {} }),
       }),
@@ -40,11 +40,11 @@ describe('LookupsService', () => {
       json: async () => mockResponse,
     } as Response);
 
-    const result = await service.getItem(LookupsTypeEnum.Languages, 1);
+    const result = await service.getItem(LookupsTypeEnum.Currency, 1);
 
     expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
-      `/api/lookups/languages/get-by-id/1`,
+      `/api/lookups/currencies/get-by-id/1`,
       expect.objectContaining({
         method: 'GET',
         signal: null,
@@ -63,11 +63,11 @@ describe('LookupsService', () => {
       json: async () => mockResponse,
     } as Response);
 
-    const result = await service.getTotalCount(LookupsTypeEnum.Languages, {});
+    const result = await service.getTotalCount(LookupsTypeEnum.Currency, {});
 
     expect(result).toEqual(mockResponse.data);
     expect(fetch).toHaveBeenCalledWith(
-      '/api/lookups/languages/get-total-items',
+      '/api/lookups/currencies/get-total-items',
       expect.objectContaining({
         body: JSON.stringify({ filters: {} }),
       }),
@@ -85,7 +85,7 @@ describe('LookupsService', () => {
       json: async () => mockErrorResponse,
     } as Response);
 
-    await expect(service.getItem(LookupsTypeEnum.Languages, 1)).rejects.toMatchObject({
+    await expect(service.getItem(LookupsTypeEnum.Currency, 1)).rejects.toMatchObject({
       message: mockErrorResponse.message,
     });
   });
@@ -101,7 +101,7 @@ describe('LookupsService', () => {
       json: async () => mockErrorResponse,
     } as Response);
 
-    await expect(service.getItems(LookupsTypeEnum.Languages, 1, 10, {})).rejects.toMatchObject({
+    await expect(service.getItems(LookupsTypeEnum.Currency, 1, 10, {})).rejects.toMatchObject({
       message: mockErrorResponse.message,
     });
   });
