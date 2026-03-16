@@ -11,7 +11,7 @@ export abstract class OrmRepository<T extends DefaultTableColumns> {
     this.entity = entity;
   }
 
-  protected get repository(): Repository<T> {
+  get repository(): Repository<T> {
     const txManager = getTransactionManager();
 
     if (!txManager) {

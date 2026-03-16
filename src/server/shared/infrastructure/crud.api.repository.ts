@@ -6,9 +6,10 @@ import { OrmRepository } from './orm.repository';
 export abstract class CrudApiRepository<
   T extends ObjectLiteral & DefaultTableColumns,
   DTO extends ObjectLiteral = Omit<T, DefaultColumnKeys>,
+  F = object,
 >
   extends OrmRepository<T>
-  implements ICrudService<T, DTO>
+  implements ICrudService<T, DTO, F>
 {
   constructor(entity: EntityTarget<T>) {
     super(entity);
@@ -34,11 +35,13 @@ export abstract class CrudApiRepository<
     return this.repository.findOneBy({ id } as FindOptionsWhere<T>);
   }
 
-  async getItems(first: number, last: number): Promise<T[]> {
+  async getItems(first: number, last: number, filters?: F): Promise<T[]> {
     const skip = first;
     const take = last - first;
 
-    return this.repository.find({ skip, take });
+    const where = filters ? this.mapFilters(filters) : {};
+
+    return this.repository.find({ skip, take, where: where as FindOptionsWhere<T> });
   }
 
   async deleteItem(id: number): Promise<true> {
@@ -49,5 +52,9 @@ export abstract class CrudApiRepository<
 
   getTotalCount(): Promise<number> {
     return this.repository.count();
+  }
+
+  protected mapFilters(_filters: F): FindOptionsWhere<T> {
+    return {};
   }
 }
