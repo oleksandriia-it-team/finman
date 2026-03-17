@@ -36,8 +36,8 @@ export abstract class CrudApiRepository<
   }
 
   async getItems(first: number, last: number, filters?: F): Promise<T[]> {
-    const skip = first;
-    const take = last - first;
+    const skip = first - 1;
+    const take = last - first + 1;
 
     const where = filters ? this.mapFilters(filters) : {};
 
@@ -50,8 +50,10 @@ export abstract class CrudApiRepository<
     return true;
   }
 
-  getTotalCount(): Promise<number> {
-    return this.repository.count();
+  getTotalCount(filters?: F): Promise<number> {
+    const where = filters ? this.mapFilters(filters) : {};
+
+    return this.repository.count({ where });
   }
 
   protected mapFilters(_filters: F): FindOptionsWhere<T> {

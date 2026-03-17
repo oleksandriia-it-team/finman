@@ -1,41 +1,18 @@
 import { NextResponse } from 'next/server';
-import { getZodErrorMessage } from '../../../../../server/shared/utils/get-zod-error-message.util';
-import { ApiResultOperation } from '../../../../../common/models/api-result-operation.model';
-import { getApiErrorMessage } from '../../../../../server/shared/utils/get-api-error-message.util';
-import { GetCountryAndLocalesPayload } from '../shared/models/country-and-locales-payloads.model';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
-import { CountryAndLocale } from '../../../../../common/records/countries.record';
-import { getPaginatedItems } from '../../../../../server/shared/utils/get-paginated-items.util';
+import { createRoute } from '../../../../../server/shared/utils/create-route.util';
+import { getCountriesAndLocalesFilters } from '../shared/utils/get-countries-filters.util';
+import { getDefaultApiErrorFilter } from '../../../../../server/shared/filter/get-api-error-filter.util';
+import { countryRepository } from '../../../../../server/entities/country/infrastructure/country.repository';
 
-export async function POST(request: Request): Promise<NextResponse<ApiResultOperation<CountryAndLocale[]>>> {
-  try {
-    const body: GetCountryAndLocalesPayload = await request.json();
-
-    const result = CountriesAndLocalesSchema.itemsSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(getZodErrorMessage(result));
-    }
-
-    const { ids, excludeIds, country, locale } = body.filters ?? {};
-
-    const emptyFilter = () => true;
-
-    const idsFilter = ids ? (value: CountryAndLocale) => ids.includes(value.id) : emptyFilter;
-    const excludeIdsFilter = excludeIds ? (value: CountryAndLocale) => !excludeIds.includes(value.id) : emptyFilter;
-    const countryFilter = country ? (value: CountryAndLocale) => value.country.includes(country) : emptyFilter;
-    const localeFilter = locale ? (value: CountryAndLocale) => value.locale.includes(locale) : emptyFilter;
-
+export const POST = createRoute({
+  transformers: (_, body) => getCountriesAndLocalesFilters(body),
+  schema: CountriesAndLocalesSchema.itemsSchema,
+  execute: async ({ transformers, body }) => {
     return NextResponse.json({
       status: 200,
-      data: await getPaginatedItems<CountryAndLocale>(
-        'countries.json',
-        body.from,
-        body.to,
-        [idsFilter, excludeIdsFilter, countryFilter, localeFilter].filter((fn) => fn !== emptyFilter),
-      ),
+      data: await countryRepository.getItems(body.from, body.to, transformers),
     });
-  } catch (err: unknown) {
-    return NextResponse.json(getApiErrorMessage(err));
-  }
-}
+  },
+  filter: getDefaultApiErrorFilter,
+});
