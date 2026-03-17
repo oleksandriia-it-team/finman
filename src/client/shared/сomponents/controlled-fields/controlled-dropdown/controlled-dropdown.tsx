@@ -19,7 +19,7 @@ export default function ControlledDropdown<T>({
         const inputClasses = clsx(inputClassName, fieldState.invalid && 'is-invalid');
         const wrapperClasses = clsx(className, 'flex flex-col items-center justify-center');
 
-        console.log(inputClasses);
+        console.log(fieldState.error);
 
         return (
           <div className={wrapperClasses}>

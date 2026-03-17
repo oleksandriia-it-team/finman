@@ -2,7 +2,6 @@
 
 import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema } from './shared/validation-schema';
 import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
@@ -19,10 +18,9 @@ export default function RegistrationFormComponent() {
     },
   });
 
-  const onSubmit = async (): Promise<void> => {};
-
-  const [value1, setValue1] = useState('');
-  const [value2, setValue2] = useState('');
+  const onSubmit = async (data): Promise<void> => {
+    console.log(data);
+  };
 
   const languages = [
     { label: 'English', value: 'English' },
@@ -41,7 +39,7 @@ export default function RegistrationFormComponent() {
       <FormProvider {...methods}>
         <form
           className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center"
-          onSubmit={onSubmit}
+          onSubmit={methods.handleSubmit(onSubmit)}
         >
           <div className="text-5xl text-center">
             <p className="text-5xl form-text">Please enter your general information</p>
@@ -57,8 +55,6 @@ export default function RegistrationFormComponent() {
             name="preferableLocale"
             placeholder="Preferable Formats"
             options={formats}
-            value={value1}
-            onChange={(value) => setValue1(value)}
           />
           <ControlledDropdown
             className="min-w-50 max-w-72 w-full"
@@ -66,8 +62,6 @@ export default function RegistrationFormComponent() {
             name="language"
             placeholder="Languages"
             options={languages}
-            onChange={(value) => setValue2(value)}
-            value={value2}
           />
           <Button
             type="submit"
