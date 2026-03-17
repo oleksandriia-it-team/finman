@@ -37,7 +37,7 @@ export default function RegistrationFormComponent() {
   ];
 
   return (
-    <div className="w-full h-full px-35">
+    <div className="w-full h-full px-35 bg-body">
       <FormProvider {...methods}>
         <form
           className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center"

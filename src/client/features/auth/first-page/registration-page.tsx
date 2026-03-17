@@ -31,7 +31,7 @@ export default function RegistrationPage() {
       </StepperItem>
 
       <StepperItem className="size-full">
-        <div className="bg-red-100 size-full">
+        <div className="size-full">
           <RegistrationFormComponent />
         </div>
       </StepperItem>
