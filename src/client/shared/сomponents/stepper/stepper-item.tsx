@@ -3,15 +3,11 @@ import { useMemo } from 'react';
 import clsx from 'clsx';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { useBootstrapAnimation } from '../../hooks/bootstrap-animation/bootstrap-animation.hook';
+import { useStepper } from './stepper-context';
 
-export default function StepperItem({
-  className,
-  step,
-  currentStep,
-  id,
-  children,
-}: StepperItemProps & ChildrenComponentProps) {
-  const isActive = step === currentStep;
+export default function StepperItem({ className, index, children }: StepperItemProps & ChildrenComponentProps) {
+  const { currentStep } = useStepper();
+  const isActive = index === currentStep;
 
   const { shouldRender, showElement } = useBootstrapAnimation(isActive, 300, isActive);
 
@@ -30,10 +26,13 @@ export default function StepperItem({
     zIndex: showElement ? 1 : 0,
   };
 
+  if (!shouldRender) {
+    return null;
+  }
+
   return (
     <div
       className={classes}
-      id={id}
       style={style}
     >
       {children}
