@@ -18,19 +18,35 @@ export default function RegistrationPage() {
       setStep={setStep}
       currentStep={step}
     >
-      <StepperItem className="size-full">
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={0}
+      >
         <MainWelcomeStep />
       </StepperItem>
 
-      <StepperItem className="size-full">
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={1}
+      >
         <BenefitsExplanationStep />
       </StepperItem>
 
-      <StepperItem className="size-full">
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={2}
+      >
         <SignUpStep />
       </StepperItem>
 
-      <StepperItem className="size-full">
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={3}
+      >
         <div className="size-full">
           <RegistrationForm />
         </div>

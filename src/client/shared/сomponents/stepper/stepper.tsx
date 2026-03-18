@@ -1,9 +1,8 @@
 import { StepperProps } from './props/stepper.props';
-import { Children, cloneElement, isValidElement, useMemo } from 'react';
+import { Children, useMemo } from 'react';
 import clsx from 'clsx';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import IconButton from '../icon-button/icon-button';
-import { StepperContext } from './stepper-context';
 
 export default function Stepper({
   className,
@@ -19,15 +18,6 @@ export default function Stepper({
     () => clsx('carousel-inner', 'align-content-center', 'text-center', fullSize && 'size-full'),
     [fullSize],
   );
-
-  const myChildren = useMemo(() => {
-    return Children.map(children, (child, index) => {
-      if (isValidElement(child)) {
-        return cloneElement(child, { index } as never);
-      }
-      return child;
-    });
-  }, [children]);
 
   const stepItemsCount = Children.count(children);
 
@@ -54,21 +44,19 @@ export default function Stepper({
   );
 
   return (
-    <StepperContext.Provider value={{ currentStep }}>
-      <div
-        className={classes}
-        id={id}
-      >
-        <div className={carouselInnerClasses}>{myChildren}</div>
+    <div
+      className={classes}
+      id={id}
+    >
+      <div className={carouselInnerClasses}>{children}</div>
 
-        {nextStepOnlyOnButtonClick && <div className="carousel-control-prev">{prevButton}</div>}
+      {nextStepOnlyOnButtonClick && <div className="carousel-control-prev">{prevButton}</div>}
 
-        {!nextStepOnlyOnButtonClick && prevButton}
+      {!nextStepOnlyOnButtonClick && prevButton}
 
-        {nextStepOnlyOnButtonClick && <div className="carousel-control-next">{nextButton}</div>}
+      {nextStepOnlyOnButtonClick && <div className="carousel-control-next">{nextButton}</div>}
 
-        {!nextStepOnlyOnButtonClick && nextButton}
-      </div>
-    </StepperContext.Provider>
+      {!nextStepOnlyOnButtonClick && nextButton}
+    </div>
   );
 }
