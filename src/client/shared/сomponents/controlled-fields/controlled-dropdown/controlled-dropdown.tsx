@@ -30,7 +30,7 @@ export default function ControlledDropdown<T>({
               className={inputClasses}
               id={field.name}
             />
-            {fieldState.error && <p className="invalid-feedback">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="invalid-feedback d-block">{fieldState.error.message}</p>}
           </div>
         );
       }}
