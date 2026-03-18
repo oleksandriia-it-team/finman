@@ -1,8 +1,8 @@
 'use client';
 
-import GlassCard from '../../../shared/сomponents/glass-card/glass-card';
+import GlassCard from '../../../../../shared/сomponents/glass-card/glass-card';
 
-export default function FirstPage() {
+export default function MainWelcomeStep() {
   return (
     <div className="relative flex items-center justify-center p-4 overflow-hidden min-h-[100%]">
       <div className="absolute rounded-full w-[250px] h-[250px] bg-[#20c997]/30 -top-[50px] -right-[50px] blur-[60px] z-0" />

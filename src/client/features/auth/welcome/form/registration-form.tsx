@@ -7,7 +7,7 @@ import { userSchema } from './shared/validation-schema';
 import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
 import Button from '../../../../shared/сomponents/button/button';
 
-export default function RegistrationFormComponent() {
+export default function RegistrationForm() {
   const methods = useForm({
     resolver: zodResolver(userSchema),
     mode: 'onChange',

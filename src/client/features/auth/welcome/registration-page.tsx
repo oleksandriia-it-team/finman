@@ -3,10 +3,10 @@
 import Stepper from '../../../shared/сomponents/stepper/stepper';
 import StepperItem from '../../../shared/сomponents/stepper/stepper-item';
 import { useState } from 'react';
-import RegistrationFormComponent from './form-component/registration-form-component';
-import FirstPage from '../../welcome-pages/welcome-page-1/welcome-page-1';
-import SecondPage from '../../welcome-pages/welcome-page-2/welcome-page-2';
-import ThirdPage from '../../welcome-pages/welcome-page-3/welcome-page-3';
+import RegistrationForm from './form/registration-form';
+import MainWelcomeStep from './steps/main-welcome-page/main-welcome-step';
+import BenefitsExplanationStep from './steps/benefits-explanation-step/benefits-explanation-step';
+import SignUpStep from './steps/sign-up-step/sign-up-step';
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
 
@@ -19,20 +19,20 @@ export default function RegistrationPage() {
       currentStep={step}
     >
       <StepperItem className="size-full">
-        <FirstPage />
+        <MainWelcomeStep />
       </StepperItem>
 
       <StepperItem className="size-full">
-        <SecondPage />
+        <BenefitsExplanationStep />
       </StepperItem>
 
       <StepperItem className="size-full">
-        <ThirdPage />
+        <SignUpStep />
       </StepperItem>
 
       <StepperItem className="size-full">
         <div className="size-full">
-          <RegistrationFormComponent />
+          <RegistrationForm />
         </div>
       </StepperItem>
     </Stepper>

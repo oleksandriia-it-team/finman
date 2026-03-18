@@ -1,17 +1,10 @@
 'use client';
 
-import TransactionCard from '../../../shared/сomponents/transaction-card/transaction-card';
+import { TransactionsData } from './transaction-data';
 
-const transactionsData = [
-  { id: 1, icon: '💶', title: 'Переказ коштів', subtitle: 'Надходження', amount: '+ 250 ₴', type: 'income' },
-  { id: 2, icon: '🚍', title: 'Автобус', subtitle: 'Особисті витрати', amount: '- 15 ₴', type: 'expense' },
-  { id: 3, icon: '🎶', title: 'Концерт', subtitle: 'Особисті витрати', amount: '- 100 ₴', type: 'expense' },
-  { id: 4, icon: '☕', title: "Кав'ярня", subtitle: 'Особисті витрати', amount: '- 81 ₴', type: 'expense' },
-  { id: 5, icon: '📌', title: 'Канцелярія', subtitle: 'Особисті витрати', amount: '- 78 ₴', type: 'expense' },
-  { id: 6, icon: '🍱', title: 'Ресторан', subtitle: 'Особисті витрати', amount: '- 700 ₴', type: 'expense' },
-] as const;
+import TransactionCard from '../../../../../shared/сomponents/transaction-card/transaction-card';
 
-export default function SecondPage() {
+export default function BenefitsExplanationStep() {
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="row align-items-center p-4">
@@ -30,7 +23,7 @@ export default function SecondPage() {
               <span className="badge bg-danger bg-opacity-25 text-danger rounded-pill px-3 py-2">- 724 ₴</span>
             </div>
 
-            {transactionsData.map((tx) => (
+            {TransactionsData.map((tx) => (
               <TransactionCard
                 key={tx.id}
                 icon={tx.icon}

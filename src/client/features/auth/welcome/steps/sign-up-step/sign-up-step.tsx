@@ -1,9 +1,9 @@
 'use client';
 
-import TransactionCard from '../../../shared/сomponents/transaction-card/transaction-card';
-import Button from '../../../shared/сomponents/button/button';
+import TransactionCard from '../../../../../shared/сomponents/transaction-card/transaction-card';
+import Button from '../../../../../shared/сomponents/button/button';
 
-export default function ThirdPage() {
+export default function SignUpStep() {
   const checks = [
     { id: 1, icon: '✔', title: 'Контроль коштів' },
     { id: 2, icon: '✔', title: 'Аналітика витрат та надходжень' },
