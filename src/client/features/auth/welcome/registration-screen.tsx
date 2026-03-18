@@ -10,7 +10,7 @@ import SignUpStep from './steps/sign-up-step/sign-up-step';
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
 
-export default function RegistrationPage() {
+export default function RegistrationScreen() {
   const [step, setStep] = useState<number>(0);
 
   return (

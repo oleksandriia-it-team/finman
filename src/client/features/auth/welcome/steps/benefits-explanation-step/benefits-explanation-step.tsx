@@ -1,6 +1,6 @@
 'use client';
 
-import { TransactionsData } from './transaction-data';
+import { TransactionsData } from './transaction-data.constant';
 
 import TransactionCard from '../../../../../shared/сomponents/transaction-card/transaction-card';
 
