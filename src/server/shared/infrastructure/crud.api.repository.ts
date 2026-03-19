@@ -2,11 +2,12 @@ import { EntityTarget, FindOptionsWhere, ObjectLiteral } from 'typeorm';
 import { DefaultColumnKeys, DefaultTableColumns } from '../../../common/models/default-table-columns.model';
 import { ICrudService } from '../../../common/models/crud-service.model';
 import { OrmRepository } from './orm.repository';
+import { DeepPartial } from '../../../common/models/deep-partial.model';
 
 export abstract class CrudApiRepository<
   T extends ObjectLiteral & DefaultTableColumns,
+  F extends object,
   DTO extends ObjectLiteral = Omit<T, DefaultColumnKeys>,
-  F = object,
 >
   extends OrmRepository<T>
   implements ICrudService<T, DTO, F>
@@ -35,7 +36,7 @@ export abstract class CrudApiRepository<
     return this.repository.findOneBy({ id } as FindOptionsWhere<T>);
   }
 
-  async getItems(first: number, last: number, filters?: F): Promise<T[]> {
+  async getItems(first: number, last: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
     const skip = first - 1;
     const take = last - first + 1;
 
@@ -50,13 +51,13 @@ export abstract class CrudApiRepository<
     return true;
   }
 
-  getTotalCount(filters?: F): Promise<number> {
+  getTotalCount(filters?: DeepPartial<F> | undefined): Promise<number> {
     const where = filters ? this.mapFilters(filters) : {};
 
     return this.repository.count({ where });
   }
 
-  protected mapFilters(_filters: F): FindOptionsWhere<T> {
+  protected mapFilters(_filters: DeepPartial<F> | undefined): FindOptionsWhere<T> {
     return {};
   }
 }
