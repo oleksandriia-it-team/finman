@@ -7,6 +7,7 @@ import { Month } from '../../../../common/enums/month.enum';
 import { TypeEntry } from '../../../../common/enums/entry.enum';
 import { ErrorTexts } from '../../../../common/constants/error-texts.contant';
 import { UnregularEntry } from '../../../../common/records/unregular-entry.record';
+import { DefaultColumnKeys } from '../../../../common/models/default-table-columns.model';
 
 describe('BudgetPlanLocalRepository', () => {
   let dbService: DatabaseLocalService;
@@ -82,7 +83,7 @@ describe('BudgetPlanLocalRepository', () => {
     expect(delayedExpensesService.deleteItem).toHaveBeenCalledTimes(0);
     expect(delayedExpensesService.createItem).toHaveBeenCalledWith(plannedDelayedExpenses[0]);
 
-    const sentBudgetPlanDtoInDb: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
+    const sentBudgetPlanDtoInDb: Omit<BudgetPlan, DefaultColumnKeys> = {
       month: Month.August,
       year: 2025,
       otherEntries,
@@ -168,7 +169,7 @@ describe('BudgetPlanLocalRepository', () => {
       plannedDelayedExpenses: newPlannedDelayedExpenses,
     };
 
-    const sentBudgetPlanDtoInDb: Omit<BudgetPlan, 'id' | 'softDeleted'> = {
+    const sentBudgetPlanDtoInDb: Omit<BudgetPlan, DefaultColumnKeys> = {
       month: Month.August,
       year: 2025,
       otherEntries,

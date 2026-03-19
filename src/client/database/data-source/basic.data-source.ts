@@ -1,10 +1,10 @@
 import { ICrudService } from '../../../common/models/crud-service.model';
-import { DefaultTableColumns } from '../../../common/models/default-table-columns.model';
+import { DefaultColumnKeys, DefaultTableColumns } from '../../../common/models/default-table-columns.model';
 import { RecordModel } from '../../../common/models/record.model';
 
 export class BasicDataSource<
   T extends DefaultTableColumns,
-  DTO extends RecordModel = Omit<T, 'id' | 'softDeleted'>,
+  DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
   constructor(private local: ICrudService<T, DTO>) {}
 

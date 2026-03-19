@@ -1,0 +1,18 @@
+import { NextResponse } from 'next/server';
+import { createRoute } from '../../../../../../server/shared/utils/create-route.util';
+import { getIntegerParamPipe } from '../../../../../../server/shared/pipes/get-integer-param.pipe';
+import { getDefaultApiErrorFilter } from '../../../../../../server/shared/filter/get-api-error-filter.util';
+import { countryRepository } from '../../../../../../server/entities/country/infrastructure/country.repository';
+
+export const GET = createRoute({
+  paramsTransformers: (context) => ({
+    id: getIntegerParamPipe(context.id, 1),
+  }),
+  execute: async ({ params: { id } }) => {
+    return NextResponse.json({
+      status: 200,
+      data: await countryRepository.getItemById(id),
+    });
+  },
+  filter: getDefaultApiErrorFilter,
+});

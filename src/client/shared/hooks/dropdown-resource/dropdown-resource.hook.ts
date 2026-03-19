@@ -55,7 +55,7 @@ export function useDropdownResource<T>({
     }
 
     return PromiseState.Loading;
-  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery.status]);
+  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery.status, getLabelQuery.isEnabled]);
 
   const errorMessage = useMemo(() => {
     const errors = [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery.error];

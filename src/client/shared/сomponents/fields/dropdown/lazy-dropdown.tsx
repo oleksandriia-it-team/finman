@@ -70,7 +70,19 @@ export default function LazyDropdown<T>({
         </LazyLoad>
       </OptionList>
     );
-  }, [optionListClassName, isLoading, page, setPage, pageSize, total, showOptions, options, optionClassName, onChange]);
+  }, [
+    optionListClassName,
+    isLoading,
+    page,
+    setPage,
+    pageSize,
+    total,
+    itemHeight,
+    showOptions,
+    options,
+    optionClassName,
+    onChange,
+  ]);
 
   return (
     <DropdownTemplate

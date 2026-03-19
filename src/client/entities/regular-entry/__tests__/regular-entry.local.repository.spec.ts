@@ -3,15 +3,16 @@ import { DatabaseLocalService } from '../../../database/database.local.service';
 import { RegularEntryLocalRepository } from '../regular-entry.local.repository';
 import { TypeEntry } from '../../../../common/enums/entry.enum';
 import { RegularEntry } from '../../../../common/records/regular-entry.record';
+import { DefaultColumnKeys } from '../../../../common/models/default-table-columns.model';
 
 describe('RegularEntryLocalRepository', () => {
   let dbService: DatabaseLocalService;
   let service: RegularEntryLocalRepository;
 
-  const data: Omit<RegularEntry, 'id' | 'softDeleted'> = {
+  const data: Omit<RegularEntry, DefaultColumnKeys> = {
     type: TypeEntry.Income,
     description: 'Salary',
-    delayed: true,
+    regular: true,
     sum: 50000,
   };
 
