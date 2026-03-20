@@ -1,9 +1,9 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { userSchema } from './validation-schema';
 import { useUserInformation } from '../../../../../entities/user-information/use-user-information.store';
 import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 /**
  * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.
@@ -29,7 +29,7 @@ export function useSetupRegistration(onSuccessAction: (data: UserInformation) =>
   const setUserInformation = useUserInformation((state) => state.setUserInformation);
 
   const methods = useForm({
-    resolver: yupResolver(userSchema),
+    resolver: zodResolver(userSchema),
     mode: 'onChange',
     defaultValues: {
       userName: '',
