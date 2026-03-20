@@ -25,7 +25,6 @@ export default function MainWelcomeStep() {
                 title="Баланс"
                 value={<span className="text-success">+ 12 500 ₴</span>}
                 rotationClass="-rotate-3"
-                className="shadow-xl"
               />
             </div>
 

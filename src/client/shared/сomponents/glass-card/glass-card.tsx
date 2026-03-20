@@ -3,15 +3,13 @@
 import clsx from 'clsx';
 import { GlassCardProps } from './glass-card-props';
 
+import './glass-card.scss';
+
 export default function GlassCard({ icon, title, value, rotationClass = '', className }: GlassCardProps) {
   return (
     <div
       className={clsx(
-        'w-36 h-36 sm:w-52 sm:h-52',
-        'p-4 rounded-4 text-center d-flex flex-column justify-content-center cursor-pointer',
-        'bg-white/10 backdrop-blur-md border border-white/20',
-        'transition-all duration-[400ms] ease-[cubic-bezier(0.175,0.885,0.32,1.275)]',
-        'hover:-translate-y-6 hover:scale-110 hover:z-10 hover:shadow-2xl hover:border-white/50',
+        'p-4 rounded-4 text-center d-flex flex-column justify-content-center cursor-pointer glass-card',
         rotationClass,
         className,
       )}
