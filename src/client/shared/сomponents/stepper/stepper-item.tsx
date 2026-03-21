@@ -1,8 +1,8 @@
 import { StepperItemProps } from './props/stepper-item.props';
 import { useMemo } from 'react';
-import clsx from 'clsx';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { useBootstrapAnimation } from '../../hooks/bootstrap-animation/bootstrap-animation.hook';
+import { cn } from '../../utils/cn.util';
 
 export default function StepperItem({
   className,
@@ -16,7 +16,7 @@ export default function StepperItem({
   const { shouldRender, showElement } = useBootstrapAnimation(isActive, 300, isActive);
 
   const classes = useMemo(
-    () => clsx(className, 'carousel-item', shouldRender && 'd-block', showElement && 'active'),
+    () => cn(className, 'carousel-item', shouldRender && 'd-block', showElement && 'active'),
     [className, shouldRender, showElement],
   );
 

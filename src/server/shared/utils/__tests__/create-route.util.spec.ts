@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { createRoute } from '../create-route.util';
 import { RouteContext } from '../../models/create-route.model';
 import { getDefaultApiErrorFilter } from '../../filter/get-api-error-filter.util';
-import { ApiResultOperation } from '../../../../common/models/api-result-operation.model';
+import { ApiResultOperation } from '@common/models/api-result-operation.model';
 
 describe('createRoute with params', () => {
   let request: Request;

@@ -1,8 +1,8 @@
 import { LinkProps, LinkVariant } from './props/link.props';
 import { useMemo } from 'react';
-import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
+import { cn } from '../../utils/cn.util';
 
 const variants: Record<LinkVariant, string> = {
   danger: 'link-danger',
@@ -24,7 +24,7 @@ export default function Link({
   const router = useRouter();
 
   const classes = useMemo(() => {
-    return clsx(className, underlined && '!no-underline', variants[variant]);
+    return cn(className, underlined && '!no-underline', variants[variant]);
   }, [className, underlined, variant]);
 
   return (

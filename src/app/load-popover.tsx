@@ -1,10 +1,10 @@
-import { usePopover } from '../client/shared/hooks/popover/popover.hook';
+import { usePopover } from '@frontend/shared/hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useMemo, useState } from 'react';
-import { getPageCoords } from '../client/shared/utils/get-page-cords.util';
-import { MinPopoverGap } from '../client/shared/constants/min-popover-gap.constants';
-import { useEventContainment } from '../client/shared/hooks/event-containment/event-containment.hook';
-import { useDynamicKey } from '../client/shared/hooks/dynamic-key/dynamic-key.hook';
+import { getPageCoords } from '@frontend/shared/utils/get-page-cords.util';
+import { MinPopoverGap } from '@frontend/shared/constants/min-popover-gap.constants';
+import { useEventContainment } from '@frontend/shared/hooks/event-containment/event-containment.hook';
+import { useDynamicKey } from '@frontend/shared/hooks/dynamic-key/dynamic-key.hook';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export default function LoadPopover() {

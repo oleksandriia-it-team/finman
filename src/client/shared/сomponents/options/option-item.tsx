@@ -1,9 +1,9 @@
 import { OptionItemProps } from './props/option-item.props';
 import { useMemo } from 'react';
-import clsx from 'clsx';
+import { cn } from '../../utils/cn.util';
 
 export default function OptionItem({ className, children, onClick, selected, id }: OptionItemProps) {
-  const classes = useMemo(() => clsx('dropdown-item', 'cursor-pointer', selected && 'active', className), [className]);
+  const classes = useMemo(() => cn('dropdown-item', 'cursor-pointer', selected && 'active', className), [className]);
 
   return (
     <li

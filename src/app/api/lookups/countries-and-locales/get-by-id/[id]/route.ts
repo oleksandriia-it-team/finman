@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createRoute } from '../../../../../../server/shared/utils/create-route.util';
-import { getIntegerParamPipe } from '../../../../../../server/shared/pipes/get-integer-param.pipe';
-import { getDefaultApiErrorFilter } from '../../../../../../server/shared/filter/get-api-error-filter.util';
-import { countryRepository } from '../../../../../../server/entities/country/infrastructure/country.repository';
+import { createRoute } from '@backend/shared/utils/create-route.util';
+import { getIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pipe';
+import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 
 export const GET = createRoute({
   paramsTransformers: (context) => ({

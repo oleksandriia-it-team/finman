@@ -1,8 +1,8 @@
 import { EntityTarget, FindOptionsWhere, ObjectLiteral } from 'typeorm';
-import { DefaultColumnKeys, DefaultTableColumns } from '../../../common/models/default-table-columns.model';
-import { ICrudService } from '../../../common/models/crud-service.model';
+import { DefaultColumnKeys, DefaultTableColumns } from '@common/models/default-table-columns.model';
+import { ICrudService } from '@common/models/crud-service.model';
 import { OrmRepository } from './orm.repository';
-import { DeepPartial } from '../../../common/models/deep-partial.model';
+import { DeepPartial } from '@common/models/deep-partial.model';
 
 export abstract class CrudApiRepository<
   T extends ObjectLiteral & DefaultTableColumns,

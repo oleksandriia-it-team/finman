@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Stepper from '../client/shared/сomponents/stepper/stepper';
-import StepperItem from '../client/shared/сomponents/stepper/stepper-item';
+import Stepper from '@frontend/shared/сomponents/stepper/stepper';
+import StepperItem from '@frontend/shared/сomponents/stepper/stepper-item';
 
 export default function MainPage() {
   const [step, setStep] = useState<number>(0);

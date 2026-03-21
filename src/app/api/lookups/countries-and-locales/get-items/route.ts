@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
-import { createRoute } from '../../../../../server/shared/utils/create-route.util';
-import { getDefaultApiErrorFilter } from '../../../../../server/shared/filter/get-api-error-filter.util';
-import { countryRepository } from '../../../../../server/entities/country/infrastructure/country.repository';
+import { createRoute } from '@backend/shared/utils/create-route.util';
+import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 
 export const POST = createRoute({
   schema: CountriesAndLocalesSchema.itemsSchema,

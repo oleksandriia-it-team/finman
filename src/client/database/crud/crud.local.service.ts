@@ -1,7 +1,7 @@
 import { DatabaseLocalService } from '../database.local.service';
-import { ICrudService } from '../../../common/models/crud-service.model';
-import { RecordModel } from '../../../common/models/record.model';
-import { DefaultColumnKeys, DefaultTableColumns } from '../../../common/models/default-table-columns.model';
+import { ICrudService } from '@common/models/crud-service.model';
+import { RecordModel } from '@common/models/record.model';
+import { DefaultColumnKeys, DefaultTableColumns } from '@common/models/default-table-columns.model';
 
 /**
  * Abstract base class for CRUD operations on a specific IndexedDB table.

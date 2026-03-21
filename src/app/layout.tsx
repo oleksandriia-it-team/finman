@@ -1,9 +1,9 @@
 'use client';
 
-import '../client/shared/styles/globals.scss';
+import '@frontend/shared/styles/globals.scss';
 
 import dynamic from 'next/dynamic';
-import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
+import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 
 const ClientLayout = dynamic(() => import('./client-layout'), {
   ssr: false,

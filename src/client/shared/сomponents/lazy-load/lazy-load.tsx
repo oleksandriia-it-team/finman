@@ -3,7 +3,7 @@ import { LazyLoadProps } from './props/lazy-load.props';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { usePreviousValue } from '../../hooks/previous-value/previous-value.hook';
 import { useEventHandler } from '../../hooks/event-handler/event-handler.hook';
-import { isEmpty } from '../../../../common/utils/is-empty.util';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 export default function LazyLoad<T>({
   children,

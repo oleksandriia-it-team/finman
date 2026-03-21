@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { isEmpty } from '../../../common/utils/is-empty.util';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 const intSchema = z.coerce.number().int();
 

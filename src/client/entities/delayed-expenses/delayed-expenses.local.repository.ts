@@ -1,8 +1,8 @@
 import { CrudLocalService } from '../../database/crud/crud.local.service';
 import { DatabaseLocalService, databaseService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
-import { DelayedExpense } from '../../../common/records/delayed-expenses.record';
-import { DefaultColumnKeys } from '../../../common/models/default-table-columns.model';
+import { DelayedExpense } from '@common/records/delayed-expenses.record';
+import { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense> {
   constructor(databaseService: DatabaseLocalService) {

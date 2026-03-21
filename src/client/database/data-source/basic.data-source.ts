@@ -1,6 +1,6 @@
-import { ICrudService } from '../../../common/models/crud-service.model';
-import { DefaultColumnKeys, DefaultTableColumns } from '../../../common/models/default-table-columns.model';
-import { RecordModel } from '../../../common/models/record.model';
+import { ICrudService } from '@common/models/crud-service.model';
+import { DefaultColumnKeys, DefaultTableColumns } from '@common/models/default-table-columns.model';
+import { RecordModel } from '@common/models/record.model';
 
 export class BasicDataSource<
   T extends DefaultTableColumns,

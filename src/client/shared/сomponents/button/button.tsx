@@ -2,7 +2,7 @@
 
 import { ButtonProps, ButtonVariant } from './props/button.props';
 import { useMemo } from 'react';
-import clsx from 'clsx';
+import { cn } from '../../utils/cn.util';
 
 const variants: Record<ButtonVariant, string> = {
   danger: 'btn-danger',
@@ -31,7 +31,7 @@ export default function Button({
   bgNone = false,
 }: ButtonProps) {
   const classes = useMemo(() => {
-    return clsx(
+    return cn(
       ['btn', '!flex', 'items-center', 'justify-center'],
       className,
       !isOutlined && variants[variant],

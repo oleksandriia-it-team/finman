@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
-import { EnvConfigConstant } from '../../common/constants/env-config.constant';
+import { EnvConfigConstant } from '@common/constants/env-config.constant';
 
 const args = process.argv.slice(2);
 const synchronize = args.includes('--synchronize=true');
@@ -22,7 +22,7 @@ const dataSourceOptions: DataSourceOptions = {
 
 const globalForTypeorm = global as unknown as { typeorm: DataSource };
 
-export const DBDataSource = globalForTypeorm.typeorm || new DataSource(dataSourceOptions);
+export const DBDataSource: DataSource = globalForTypeorm.typeorm || new DataSource(dataSourceOptions);
 
 /*
 Prevents multiple database connections during Next.js Hot Module Replacement (HMR).
