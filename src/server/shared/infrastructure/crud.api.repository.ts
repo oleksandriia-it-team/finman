@@ -57,7 +57,7 @@ export abstract class CrudApiRepository<
     return this.repository.count({ where });
   }
 
-  protected mapFilters(_filters: DeepPartial<F> | undefined): FindOptionsWhere<T> {
+  protected mapFilters(_: DeepPartial<F> | undefined): FindOptionsWhere<T> {
     return {};
   }
 }

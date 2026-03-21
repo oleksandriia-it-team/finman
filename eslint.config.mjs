@@ -54,6 +54,53 @@ const eslintConfig = [
       ],
     },
     rules: {
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'function',
+          format: ['camelCase', 'PascalCase'],
+        },
+        {
+          selector: 'parameter',
+          format: ['camelCase'],
+          filter: {
+            regex: '^_+$',
+            match: false,
+          },
+        },
+        {
+          selector: 'class',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'interface',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'typeAlias',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'enum',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'enumMember',
+          format: ['PascalCase'],
+        },
+        {
+          selector: 'classMethod',
+          format: ['camelCase'],
+        },
+        {
+          selector: 'classProperty',
+          format: ['camelCase'],
+        },
+        {
+          selector: 'typeParameter',
+          format: null,
+        },
+      ],
       camelcase: ['error', { properties: 'never' }],
       '@typescript-eslint/no-unused-vars': ['warn'],
       // 3. Architectural Rules (Strict Boundaries)
