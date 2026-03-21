@@ -2,15 +2,15 @@
 
 import './styles/header.scss';
 
-import TransformDate from '../../shared/сomponents/transform-date/transform-date';
+import TransformDate from '../../shared/components/transform-date/transform-date';
 import { DateFormatType } from '../../shared/enums/date-type.enum';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserInformation } from '../../entities/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import Link from '../../shared/сomponents/link/link';
-import IconButton from '../../shared/сomponents/icon-button/icon-button';
+import Link from '../../shared/components/link/link';
+import IconButton from '../../shared/components/icon-button/icon-button';
 
 /**
  * Header
