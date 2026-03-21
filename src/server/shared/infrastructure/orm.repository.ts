@@ -1,8 +1,8 @@
-import { DefaultTableColumns } from '../../../common/models/default-table-columns.model';
+import { DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { EntityTarget, Repository } from 'typeorm';
 import DBDataSource from '../../database/database-connection';
 import { getTransactionManager } from './transaction.manager';
-import { ConstructorModel } from '../../../common/models/constructor.model';
+import { ConstructorModel } from '@common/models/constructor.model';
 
 export abstract class OrmRepository<T extends DefaultTableColumns> {
   private readonly entity: EntityTarget<T>;

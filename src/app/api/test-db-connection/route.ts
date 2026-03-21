@@ -1,6 +1,6 @@
-import { createRoute } from '../../../server/shared/utils/create-route.util';
+import { createRoute } from '@backend/shared/utils/create-route.util';
 import { NextResponse } from 'next/server';
-import { adminApiRepository } from '../../../server/entities/admin/infrastructure/admin.repository';
+import { adminApiRepository } from '@backend/entities/admin/infrastructure/admin.repository';
 
 export const GET = createRoute({
   execute: async () => {

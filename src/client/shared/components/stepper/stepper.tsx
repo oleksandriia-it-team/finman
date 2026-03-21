@@ -1,8 +1,8 @@
 import { StepperProps } from './props/stepper.props';
 import { Children, useMemo } from 'react';
-import clsx from 'clsx';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import IconButton from '../icon-button/icon-button';
+import { cn } from '../../utils/cn.util';
 
 export default function Stepper({
   className,
@@ -12,9 +12,9 @@ export default function Stepper({
   currentStep,
   fullSize = true,
 }: StepperProps & ChildrenComponentProps) {
-  const classes = useMemo(() => clsx('carousel', 'slide', fullSize && 'size-full', className), [className, fullSize]);
+  const classes = useMemo(() => cn('carousel', 'slide', fullSize && 'size-full', className), [className, fullSize]);
   const carouselInnerClasses = useMemo(
-    () => clsx('carousel-inner', 'align-content-center', 'text-center', fullSize && 'size-full'),
+    () => cn('carousel-inner', 'align-content-center', 'text-center', fullSize && 'size-full'),
     [fullSize],
   );
 

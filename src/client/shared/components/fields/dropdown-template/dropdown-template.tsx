@@ -3,10 +3,10 @@
 import SvgIcon from '../../svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../props/input.props';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import clsx from 'clsx';
 import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
+import { cn } from '../../../utils/cn.util';
 
 export default function DropdownTemplate({
   value,
@@ -60,10 +60,10 @@ export default function DropdownTemplate({
   );
 
   const inputClasses = useMemo(() => {
-    return clsx(className, 'form-control', 'default-field-styles');
+    return cn(className, 'form-control', 'default-field-styles');
   }, [className]);
 
-  const chevronWrapperClasses = clsx(
+  const chevronWrapperClasses = cn(
     'default-field-height',
     'default-field-padding-right',
     'top-0',
@@ -74,7 +74,7 @@ export default function DropdownTemplate({
   );
 
   const chevronClasses = useMemo(() => {
-    return clsx(open && 'rotate-180', chevronClassName);
+    return cn(open && 'rotate-180', chevronClassName);
   }, [open, chevronClassName]);
 
   return (

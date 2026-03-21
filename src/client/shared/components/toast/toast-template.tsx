@@ -2,8 +2,8 @@ import { ToastProps } from './props/toast.props';
 import { useToastHook } from '../../hooks/toast/toast.hook';
 import { useEffect, useState } from 'react';
 import { useBootstrapAnimation } from '../../hooks/bootstrap-animation/bootstrap-animation.hook';
-import clsx from 'clsx';
 import { ToastVariant } from '../../hooks/toast/models/toast-config.model';
+import { cn } from '../../utils/cn.util';
 
 const variants: Record<ToastVariant, string> = {
   success: 'toast-success',
@@ -37,7 +37,7 @@ export default function ToastTemplate({ config }: ToastProps) {
     setIsVisible(false);
   };
 
-  const classes = clsx(
+  const classes = cn(
     'toast',
     'fade',
     shouldRender && 'show',

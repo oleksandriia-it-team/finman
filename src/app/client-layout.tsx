@@ -1,9 +1,9 @@
 'use client';
 
-import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
+import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import InitApplication from './init-application';
-import Header from '../client/widgets/header/header';
-import LoadStylesComponent from '../client/widgets/load-styles/load-styles.component';
+import Header from '@frontend/widgets/header/header';
+import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import LoadPopover from './load-popover';
 import LoadToasts from './load-toasts';
 import LoadModal from './load-modal';

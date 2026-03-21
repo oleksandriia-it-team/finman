@@ -1,6 +1,6 @@
 import { CurrenciesSchema } from '../schemas/currencies.schema';
 import { z } from 'zod';
-import { Currency } from '../../../../../../common/records/currencies.record';
+import { Currency } from '@common/records/currencies.record';
 
 type TotalCountSchema = z.infer<typeof CurrenciesSchema.totalCountSchema>;
 type GetItemsSchema = z.infer<typeof CurrenciesSchema.itemsSchema>;

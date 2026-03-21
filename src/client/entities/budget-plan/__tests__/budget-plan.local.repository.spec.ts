@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DatabaseLocalService } from '../../../database/database.local.service';
 import { BudgetPlanLocalRepository } from '../budget-plan.local.repository';
 import { DelayedExpensesLocalRepository } from '../../delayed-expenses/delayed-expenses.local.repository';
-import { BudgetPlan, BudgetPlanDto, PlannedDelayedExpense } from '../../../../common/records/budget-plan.record';
-import { Month } from '../../../../common/enums/month.enum';
-import { TypeEntry } from '../../../../common/enums/entry.enum';
-import { ErrorTexts } from '../../../../common/constants/error-texts.contant';
-import { UnregularEntry } from '../../../../common/records/unregular-entry.record';
-import { DefaultColumnKeys } from '../../../../common/models/default-table-columns.model';
+import { BudgetPlan, BudgetPlanDto, PlannedDelayedExpense } from '@common/records/budget-plan.record';
+import { Month } from '@common/enums/month.enum';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { UnregularEntry } from '@common/records/unregular-entry.record';
+import { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 describe('BudgetPlanLocalRepository', () => {
   let dbService: DatabaseLocalService;

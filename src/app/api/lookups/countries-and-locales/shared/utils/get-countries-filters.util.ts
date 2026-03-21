@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { CountriesAndLocalesSchema } from '../schemas/countries-and-locales.schema';
-import { CountryAndLocale } from '../../../../../../common/records/countries.record';
+import { CountryAndLocale } from '@common/records/countries.record';
 
 type TotalCountSchema = z.infer<typeof CountriesAndLocalesSchema.totalCountSchema>;
 type GetItemsSchema = z.infer<typeof CountriesAndLocalesSchema.itemsSchema>;

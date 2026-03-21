@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { ChildrenComponentProps } from '../client/shared/models/component-with-chilren.model';
-import { databaseService } from '../client/database/database.local.service';
+import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
+import { databaseService } from '@frontend/database/database.local.service';
 
 export default function InitApplication({ children }: ChildrenComponentProps) {
   useEffect(() => {

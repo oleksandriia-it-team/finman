@@ -1,8 +1,8 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import clsx from 'clsx';
 import Dropdown from '../../fields/dropdown/dropdown';
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
+import { cn } from '../../../utils/cn.util';
 
 export default function ControlledDropdown<T>({ name, className, ...props }: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
@@ -12,7 +12,7 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const classes = clsx(className, fieldState.invalid && 'p-invalid');
+        const classes = cn(className, fieldState.invalid && 'p-invalid');
 
         return (
           <div className="flex flex-col w-full">

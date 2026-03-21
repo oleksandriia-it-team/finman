@@ -1,4 +1,4 @@
-import { ApiResultOperation, ApiResultOperationError } from '../../../common/models/api-result-operation.model';
+import { ApiResultOperation, ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { NextResponse } from 'next/server';
 import { z, ZodTypeAny } from 'zod';
 

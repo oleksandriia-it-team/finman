@@ -1,6 +1,6 @@
 import { ZodSafeParseResult } from 'zod';
-import { ErrorTexts } from '../../../common/constants/error-texts.contant';
-import { ApiResultOperationError } from '../../../common/models/api-result-operation.model';
+import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { SafeParseReturnType } from 'zod/v3';
 
 export function getZodErrorMessage(

@@ -2,7 +2,7 @@ import { create } from 'zustand/react';
 import { Toast, ToastHookModel } from './models/toast-hook.model';
 import { ToastConfig } from './models/toast-config.model';
 import { DEFAULT_TOAST_TITLES } from './constants/default-title.constant';
-import { generateId } from '../../../../common/utils/generate-id.util';
+import { generateId } from '@common/utils/generate-id.util';
 
 export const useToastHook = create<ToastHookModel>((set, get) => ({
   toasts: [],
