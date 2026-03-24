@@ -9,7 +9,7 @@ export default function GlassCard({ icon, title, value, rotationClass = '', clas
   return (
     <div
       className={clsx(
-        'p-4 rounded-4 text-center d-flex flex-column justify-content-center cursor-pointer glass-card',
+        'p-4 rounded-4 text-center d-flex flex-column justify-content-center glass-card',
         rotationClass,
         className,
       )}

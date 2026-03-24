@@ -20,6 +20,7 @@ export default function Stepper({
   );
 
   const stepItemsCount = Children.count(children);
+  const canNavigate = stepItemsCount > 0;
 
   const prevButton = (
     <IconButton
@@ -28,7 +29,10 @@ export default function Stepper({
       variant="default"
       className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-prev'}
       bgNone={true}
-      onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
+      onClick={() => {
+        if (!canNavigate && stepItemsCount > 0) return;
+        setStep((currentStep - 1 + stepItemsCount) % stepItemsCount);
+      }}
     />
   );
 
@@ -39,7 +43,10 @@ export default function Stepper({
       variant="default"
       className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-next'}
       bgNone={true}
-      onClick={() => setStep((currentStep + 1) % stepItemsCount)}
+      onClick={() => {
+        if (!canNavigate && stepItemsCount > 0) return;
+        setStep((currentStep - 1 + stepItemsCount) % stepItemsCount);
+      }}
     />
   );
 
