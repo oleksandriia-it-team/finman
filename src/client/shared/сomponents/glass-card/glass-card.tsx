@@ -14,7 +14,7 @@ export default function GlassCard({ icon, title, value, rotationClass = '', clas
         className,
       )}
     >
-      <div className="text-[3.5rem] leading-none">{icon}</div>
+      <div className="text-5xl leading-none">{icon}</div>
       <div className="mt-3">
         <div className="fw-bold text-body text-base">{title}</div>
         <div className="fw-bold mt-1 text-sm sm:text-lg">{value}</div>

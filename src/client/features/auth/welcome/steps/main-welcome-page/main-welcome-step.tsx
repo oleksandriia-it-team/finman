@@ -10,8 +10,10 @@ export default function MainWelcomeStep() {
 
       <div className="row items-center justify-between w-full relative z-10 max-w-[1200px] gy-5">
         <div className="col-md-6 text-center text-md-start">
-          <h1 className="fw-bold mb-2 text-[2.5rem] md:text-[3.5rem] leading-tight">Керуй своїми фінансами!</h1>
-          <h1 className="fw-bold mb-4 text-[2.5rem] md:text-[3.5rem] leading-tight">Легко та стильно</h1>
+          <h1 className="fw-bold mb-4 text-[2.5rem] md:text-[3.5rem] leading-tight">
+            <span className="block">Керуй своїми фінансами!</span>
+            <span className="block">Легко та стильно</span>
+          </h1>
           <p className="text-body-secondary text-lg md:text-2xl">
             Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.
           </p>

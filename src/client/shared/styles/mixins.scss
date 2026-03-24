@@ -1,12 +1,14 @@
 @import "variables";
+@use "sass:map";
 
 @mixin mediascreen($type) {
- @if map-has-key($breakpoints, $type) {
-   @media screen and (min-width: map-get($breakpoints, $type)) {
+
+ @if map.has-key($breakpoints, $type) {
+   @media screen and (min-width: map.get($breakpoints, $type)) {
      @content;
    }
  }
-  @else{
+  @else {
    @media screen and (min-width:$type) {
      @content;
    }
@@ -14,19 +16,10 @@
 }
 
 html {
-
     font-size: 14px;
 
-  @include mediascreen("tablet") {
+  @include mediascreen("desktop") {
     font-size: 16px;
   }
-  @include mediascreen("laptop") {
-    font-size: 18px;
-  }
-  @include mediascreen("desktop") {
-    font-size: 19px;
-  }
-  @include mediascreen("desktop-large") {
-    font-size: 22px;
-  }
+]
 }

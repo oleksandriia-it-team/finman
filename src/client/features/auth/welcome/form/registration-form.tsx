@@ -18,10 +18,6 @@ export default function RegistrationForm() {
     },
   });
 
-  const onSubmit = async (data): Promise<void> => {
-    console.log(data);
-  };
-
   const languages = [
     { label: 'English', value: 'English' },
     { label: 'Spanish', value: 'Spanish' },
@@ -30,17 +26,14 @@ export default function RegistrationForm() {
 
   const formats = [
     { label: 'USD', value: 'USD' },
-    { label: 'ESP', value: 'ESP' },
+    { label: 'EUR', value: 'EUR' },
     { label: 'UAH', value: 'UAH' },
   ];
 
   return (
     <div className="w-full h-full px-35 bg-body">
       <FormProvider {...methods}>
-        <form
-          className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center"
-          onSubmit={methods.handleSubmit(onSubmit)}
-        >
+        <form className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center">
           <div className="text-5xl text-center">
             <p className="text-5xl form-text">Please enter your general information</p>
           </div>

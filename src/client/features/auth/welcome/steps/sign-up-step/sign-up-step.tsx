@@ -16,7 +16,10 @@ export default function SignUpStep() {
 
       <div className=" p-4 gap-4 transition-all duration-[400ms] shadow-md hover:shadow-2xl hover:scale-105 justify-center relative flex items-center flex-col w-[90%] min-h-screen max-h-fit max-w-fit backdrop-blur-md bg-white/5 border rounded-3xl border-gray-200">
         <div className=" bg-transparent text-7xl w-max h-max animate-bounce drop-shadow-[10px_20px_20px_#be38f3]">
-          <i className="bi bi-rocket-takeoff" />
+          <i
+            className="bi bi-rocket-takeoff "
+            aria-hidden="true"
+          />
         </div>
         <p className="text-center text-body text-4xl">ГОТОВІ ВЗЯТИ КОНТРОЛЬ НАД ВЛАСНИМИ ФІНАНСАМИ? </p>
         <p className="text-center text-secondary text-xl">ВАША ФІНАНСОВА ПОДОРОЖ ПОЧИНАЄТЬСЯ ЗАРАЗ </p>
