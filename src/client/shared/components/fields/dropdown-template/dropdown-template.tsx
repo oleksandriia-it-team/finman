@@ -2,10 +2,7 @@
 
 import SvgIcon from '../../svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../props/input.props';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { usePopover } from '../../../hooks/popover/popover.hook';
-import { useShallow } from 'zustand/react/shallow';
-import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
+import { useMemo, useRef } from 'react';
 import { cn } from '../../../utils/cn.util';
 
 export default function DropdownTemplate({
@@ -13,51 +10,51 @@ export default function DropdownTemplate({
   className,
   chevronClassName,
   placeholder,
-  optionsTemplate,
   id,
-  setOpen,
   open,
 }: DropdownInputTemplateProps) {
-  const { showPopover, hidePopover, isGlobalShow } = usePopover(
-    useShallow((state) => ({
-      showPopover: state.showPopover,
-      hidePopover: state.hidePopover,
-      isGlobalShow: state.show,
-    })),
-  );
+  // TODO: Refactor when Shadcn popover will be ready
+  // const { showPopover, hidePopover, isGlobalShow } = usePopover(
+  //   useShallow((state) => ({
+  //     showPopover: state.showPopover,
+  //     hidePopover: state.hidePopover,
+  //     isGlobalShow: state.show,
+  //   })),
+  // );
 
   const inputWrapperRef = useRef<HTMLDivElement>(null);
 
-  const setVisibility = useCallback(() => {
-    setOpen(!open);
-    if (open) {
-      hidePopover();
-    } else if (inputWrapperRef.current) {
-      showPopover(optionsTemplate, inputWrapperRef.current);
-    }
-  }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
+  // const setVisibility = useCallback(() => {
+  //   setOpen(!open);
+  //   if (open) {
+  //     hidePopover();
+  //   } else if (inputWrapperRef.current) {
+  //     showPopover(optionsTemplate, inputWrapperRef.current);
+  //   }
+  // }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
+  //
+  // useEffect(() => {
+  //   if (open && isGlobalShow && inputWrapperRef.current) {
+  //     showPopover(optionsTemplate, inputWrapperRef.current);
+  //   }
+  // }, [optionsTemplate, open, isGlobalShow, showPopover]);
 
-  useEffect(() => {
-    if (open && isGlobalShow && inputWrapperRef.current) {
-      showPopover(optionsTemplate, inputWrapperRef.current);
-    }
-  }, [optionsTemplate, open, isGlobalShow, showPopover]);
+  // TODO: Refactor when Shadcn popover will be ready
+  // useCloseWithPopover(inputWrapperRef.current, () => setOpen(false));
 
-  useCloseWithPopover(inputWrapperRef.current, () => setOpen(false));
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.defaultPrevented) {
-        return;
-      }
-
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setVisibility();
-      }
-    },
-    [setVisibility],
-  );
+  // const handleKeyDown = useCallback(
+  //   (e: React.KeyboardEvent) => {
+  //     if (e.defaultPrevented) {
+  //       return;
+  //     }
+  //
+  //     if (e.key === 'Enter' || e.key === ' ') {
+  //       e.preventDefault();
+  //       setVisibility();
+  //     }
+  //   },
+  //   [setVisibility],
+  // );
 
   const inputClasses = useMemo(() => {
     return cn(className, 'form-control', 'default-field-styles');
@@ -80,13 +77,13 @@ export default function DropdownTemplate({
   return (
     <div
       className="relative cursor-pointer"
-      onClick={setVisibility}
+      // onClick={setVisibility}
       ref={inputWrapperRef}
       tabIndex={0}
       role="combobox"
       aria-expanded={open}
       aria-haspopup="listbox"
-      onKeyDown={handleKeyDown}
+      // onKeyDown={handleKeyDown}
     >
       <input
         id={id}
