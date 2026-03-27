@@ -15,10 +15,7 @@ export default function StepperItem({
   // TODO: Refactor when Shadcn stepper will be ready
   // const { shouldRender, showElement } = useBootstrapAnimation(isActive, 300, isActive);
 
-  const classes = useMemo(
-    () => cn(className, 'carousel-item', shouldRender && 'd-block', showElement && 'active'),
-    [className, shouldRender, showElement],
-  );
+  const classes = useMemo(() => cn(className), [className]);
 
   // TODO: Refactor when Shadcn stepper will be ready
   // const style: React.CSSProperties = {
