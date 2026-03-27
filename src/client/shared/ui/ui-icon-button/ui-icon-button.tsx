@@ -1,8 +1,8 @@
 'use client';
 
+import { UiButton } from '../ui-button/ui-button';
 import { IconButtonProps } from './props/icon-button.props';
-import { UiButton } from '@frontend/ui/ui-button/button';
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/svg-icon';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export function UiIconButton({
   icon,

@@ -4,6 +4,8 @@ import { ButtonProps } from './props/button.props';
 import { cn } from '../../utils/cn.util';
 import { Slot } from 'radix-ui';
 
+import './styles/button-variants.scss';
+
 export function UiButton({
   className,
   variant = 'default',
