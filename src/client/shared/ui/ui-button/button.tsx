@@ -1,53 +1,33 @@
 'use client';
 
-import { ButtonProps, ButtonVariant } from './props/button.props';
-import { ComponentPropsWithRef, useMemo } from 'react';
+import { ButtonProps } from './props/button.props';
 import { cn } from '../../utils/cn.util';
+import { Slot } from 'radix-ui';
 
-const variants: Record<ButtonVariant, string> = {
-  danger: 'btn-danger',
-  warning: 'btn-warning',
-  info: 'btn-info',
-  success: 'btn-success',
-  default: '!text-spell-basic !bg-spell-revert',
-};
-
-const outlineVariants: Record<ButtonVariant, string> = {
-  danger: 'btn-outline-danger',
-  warning: 'btn-outline-warning',
-  info: 'btn-outline-info',
-  success: 'btn-outline-success',
-  default: '!border-solid !border-px !border-spell-basic !text-spell-basic',
-};
-
-export default function UiButton({
+export function UiButton({
   className,
-  onClick,
-  type,
-  children,
-  isOutlined = false,
-  variant,
-  isRoundedFull = false,
-  bgNone = false,
-}: ComponentPropsWithRef<'button'> & ButtonProps) {
-  const classes = useMemo(() => {
-    return cn(
-      ['btn', '!flex', 'items-center', 'justify-center'],
-      className,
-      !isOutlined && variants[variant],
-      isOutlined && outlineVariants[variant],
-      isRoundedFull && '!rounded-full',
-      bgNone && '!bg-transparent',
-    );
-  }, [bgNone, className, isOutlined, isRoundedFull, variant]);
+  variant = 'default',
+  size = 'default',
+  isOutlined,
+  isGhost,
+  isRoundedFull,
+  bgNone,
+  asChild,
+  ...props
+}: ButtonProps) {
+  const Comp = asChild ? Slot.Root : 'button';
 
   return (
-    <button
-      className={classes}
-      type={type}
-      onClick={onClick}
-    >
-      {children}
-    </button>
+    <Comp
+      data-slot="button"
+      data-variant={variant}
+      data-size={size}
+      data-outlined={isOutlined}
+      data-ghost={isGhost}
+      data-rounded={isRoundedFull}
+      data-bg-none={bgNone}
+      className={cn('btn', className)}
+      {...props}
+    />
   );
 }

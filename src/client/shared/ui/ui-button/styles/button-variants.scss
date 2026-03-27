@@ -1,0 +1,66 @@
+@import './button-variant-mixin';
+
+$variants: (
+  'default':     (var(--primary),     var(--primary-foreground)),
+  'secondary':   (var(--secondary),   var(--secondary-foreground)),
+  'destructive': (var(--destructive), white),
+  'muted':       (var(--muted),       var(--muted-foreground)),
+  'accent':      (var(--accent),      var(--accent-foreground)),
+);
+
+$outline-ghost-variants: (
+  'default':     var(--primary),
+  'secondary':   var(--secondary-foreground),
+  'destructive': var(--destructive),
+  'muted':       var(--muted-foreground),
+  'accent':      var(--accent-foreground),
+);
+
+$sizes: (
+  'default': (2.25rem, 1rem,   0.5rem,  0.875rem),
+  'xs':      (1.5rem,  0.5rem, 0,       0.75rem),
+  'sm':      (2rem,    0.75rem, 0,      0.875rem),
+  'lg':      (2.5rem,  1.5rem, 0,       0.875rem),
+);
+
+.btn {
+  @include btn-base;
+
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      @include btn-variant(nth($colors, 1), nth($colors, 2));
+
+      @if $name == 'destructive' {
+        &:focus-visible {
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+        }
+      }
+    }
+  }
+
+  @each $name, $color in $outline-ghost-variants {
+    &[data-outlined][data-variant='#{$name}'] {
+      @include btn-outline-variant($color);
+    }
+
+    &[data-ghost][data-variant='#{$name}'] {
+      @include btn-ghost-variant($color);
+    }
+  }
+
+  &[data-variant='link'] {
+    background: none;
+    border: none;
+    color: var(--primary);
+    &:hover { text-decoration: underline; }
+  }
+
+  @each $name, $values in $sizes {
+    &[data-size='#{$name}'] {
+      @include btn-size(nth($values, 1), nth($values, 2), nth($values, 3), nth($values, 4));
+    }
+  }
+
+  &[data-rounded] { border-radius: 9999px; }
+  &[data-bg-none] { background-color: transparent; }
+}

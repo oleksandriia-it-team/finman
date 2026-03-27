@@ -8,7 +8,7 @@
     "css": "src/client/shared/styles/globals.scss",
     "baseColor": "neutral",
     "cssVariables": true,
-    "prefix": "custom"
+    "prefix": ""
   },
   "iconLibrary": "hugeicons",
   "rtl": false,

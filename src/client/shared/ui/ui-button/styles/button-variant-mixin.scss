@@ -1,0 +1,52 @@
+@mixin btn-base {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.15s;
+  outline: none;
+
+  &:focus-visible {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--destructive);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+  }
+}
+
+@mixin btn-variant($bg, $text, $hover-bg) {
+  background-color: $bg;
+  color: $text;
+
+  &:hover {
+    background-color: $hover-bg;
+  }
+}
+
+@mixin btn-outline-variant($border-color, $text-color) {
+  background-color: transparent;
+  border: 1px solid $border-color;
+  color: $text-color;
+
+  &:hover {
+    background-color: color-mix(in srgb, $border-color 10%, transparent);
+  }
+}
+
+@mixin btn-size($height, $padding-x, $padding-y: 0) {
+  height: $height;
+  padding: $padding-y $padding-x;
+}

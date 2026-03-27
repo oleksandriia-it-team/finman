@@ -1,13 +1,15 @@
-import { ChildrenComponentProps } from '../../../models/component-with-chilren.model';
 import { ComponentPropsWithRef } from 'react';
 
-export type ButtonVariant = 'warning' | 'danger' | 'info' | 'success' | 'default';
+export type ButtonVariant = 'default' | 'secondary' | 'destructive' | 'muted' | 'accent' | 'link';
 
-export type ButtonProps = ComponentPropsWithRef<'button'> &
-  ChildrenComponentProps & {
-    variant: ButtonVariant;
-    type?: 'button' | 'submit' | 'reset' | undefined;
-    isOutlined?: boolean | undefined;
-    isRoundedFull?: boolean | undefined;
-    bgNone?: boolean | undefined;
-  };
+export type ButtonSize = 'default' | 'xs' | 'sm' | 'lg';
+
+export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  isOutlined?: boolean;
+  isGhost?: boolean;
+  isRoundedFull?: boolean;
+  bgNone?: boolean;
+  asChild?: boolean;
+}
