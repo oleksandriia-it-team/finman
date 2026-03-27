@@ -4,9 +4,6 @@ import { ChildrenComponentProps } from '@frontend/shared/models/component-with-c
 import InitApplication from './init-application';
 import Header from '@frontend/widgets/header/header';
 import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
-import LoadPopover from './load-popover';
-import LoadToasts from './load-toasts';
-import LoadModal from './load-modal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
@@ -24,10 +21,6 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
     <LoadStylesComponent>
       <InitApplication>
         <QueryClientProvider client={queryClient}>
-          <LoadPopover />
-          <LoadToasts />
-          <LoadModal />
-
           <div className="flex flex-col w-screen h-screen">
             <Header />
             <div className="flex-1">{children}</div>
