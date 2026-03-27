@@ -1,25 +1,19 @@
-import { IconSize, SvgIconProps } from './props/svg-icon.props';
+import { SvgIconProps } from './props/svg-icon.props';
 import { useMemo } from 'react';
 import { useDynamicKey } from '../../hooks/dynamic-key/dynamic-key.hook';
 import { cn } from '../../utils/cn.util';
 
-const SizeVariant: Record<IconSize, string> = {
-  small: 'text-base',
-  large: 'text-3xl',
-};
-
-export function UiSvgIcon({ name, className, size }: SvgIconProps) {
+export function UiSvgIcon({ name, size, className, ...props }: SvgIconProps) {
   const dynamicKey = useDynamicKey(name);
 
-  const classes = useMemo(
-    () => cn(className, SizeVariant[size], 'text-[currentColor]', 'bi', `bi-${name}`),
-    [className, name, size],
-  );
+  const classes = useMemo(() => cn(className, 'text-[currentColor]', 'bi', `bi-${name}`), [className, name]);
 
   return (
     <i
+      data-size={size}
       className={classes}
       key={dynamicKey}
+      {...props}
     />
   );
 }

@@ -1,13 +1,10 @@
-import { IconSize } from '@frontend/ui/svg-icon/props/svg-icon.props';
-import { ButtonVariant } from '@frontend/ui/button/props/button.props';
+import { ButtonProps } from '@frontend/ui/ui-button/props/button.props';
+import { IconSize } from '@frontend/ui/ui-svg-icon/props/svg-icon.props';
 
-export interface IconButtonProps {
+export interface IconButtonProps extends ButtonProps {
   className?: string;
   size: IconSize;
-  variant: ButtonVariant;
   type?: 'button' | 'submit' | 'reset';
-  bgNone?: boolean;
-  onClick?: () => void;
   icon: string;
   isOutlined?: boolean;
 }
