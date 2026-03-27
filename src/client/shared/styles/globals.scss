@@ -1,19 +1,8 @@
 @import 'tailwindcss';
-@import "bootstrap-icons/font/bootstrap-icons.css";
+@import 'tw-animate-css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-@import 'bootstrap/scss/functions';
+@import 'shadcn/tailwind.css';
 
-@import 'color-variables';
 @import 'design-keys';
-
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
-
-$enable-utilities: false;
-$enable-helpers: false;
-
-@import 'bootstrap/scss/bootstrap';
-
-@import 'overrides';
-
-@import 'toast';
+@import 'theme';
