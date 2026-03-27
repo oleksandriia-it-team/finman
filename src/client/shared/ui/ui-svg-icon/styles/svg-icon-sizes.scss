@@ -1,8 +1,8 @@
 $sizes: (
-  'default': (2.25rem, 1rem,   0.5rem,  0.875rem),
-  'xs':      (1.5rem,  0.5rem, 0,       0.75rem),
-  'sm':      (2rem,    0.75rem, 0,      0.875rem),
-  'lg':      (2.5rem,  1.5rem, 0,       0.875rem),
+  'default': (2.25rem, 1rem,   0.5rem),
+  'xs':      (1.5rem,  0.5rem, 0),
+  'sm':      (2rem,    0.75rem, 0),
+  'lg':      (2.5rem,  1.5rem, 0),
 );
 
 @mixin icon-size($height, $padding-x, $padding-y: 0) {
@@ -10,8 +10,11 @@ $sizes: (
   padding: $padding-y $padding-x;
 }
 
-@each $name, $values in $sizes {
-  &[data-size='#{$name}'] {
-    @include icon-size(nth($values, 1), nth($values, 2), nth($values, 3), nth($values, 4));
+.icon-svg {
+  @each $name, $values in $sizes {
+    &[data-size='#{$name}'] {
+      @include icon-size(nth($values, 1), nth($values, 2), nth($values, 3));
+    }
   }
 }
+

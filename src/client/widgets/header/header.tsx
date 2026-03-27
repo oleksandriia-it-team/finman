@@ -7,8 +7,10 @@ import { useRouter } from 'next/navigation';
 import { useUserInformation } from '../../entities/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import Link from '@frontend/ui/link/link';
-import IconButton from '@frontend/ui/icon-button/icon-button';
+import { UITransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import Link from 'next/link';
 
 /**
  * Header
@@ -47,11 +49,10 @@ export default function Header() {
   const authButtonEl = (
     <>
       {isLight && (
-        <IconButton
+        <UiIconButton
           icon="brightness-high-fill"
-          size="large"
-          variant="warning"
-          className="size-8"
+          size="sm"
+          variant="link"
           isOutlined={true}
           onClick={() =>
             setUserInformation({
@@ -62,11 +63,10 @@ export default function Header() {
       )}
 
       {!isLight && (
-        <IconButton
+        <UiIconButton
           icon="moon-fill"
-          size="large"
-          variant="info"
-          className="size-8"
+          size="sm"
+          variant="link"
           isOutlined={true}
           onClick={() =>
             setUserInformation({
@@ -77,11 +77,10 @@ export default function Header() {
       )}
 
       {isLoggedIn && (
-        <IconButton
+        <UiIconButton
           icon="gear"
-          size="large"
-          variant="info"
-          className="size-8"
+          size="sm"
+          variant="link"
           isOutlined={true}
           onClick={() => router.push('pages/setting-page')}
         />
@@ -91,13 +90,17 @@ export default function Header() {
 
   return (
     <nav className="navbar navbar-light bg-primary px-3 py-2 flex justify-between items-center">
-      <Link
-        variant="revert"
-        href="/"
-        underlined={false}
+      <UiButton
+        asChild
+        variant="link"
       >
-        Finman - Твій фінансовий рятівник
-      </Link>
+        <Link
+          href="/"
+          className="no-underline"
+        >
+          Finman - Твій фінансовий рятівник
+        </Link>
+      </UiButton>
 
       <div className="header-buttons text-spell-revert">
         {currentDateEl}

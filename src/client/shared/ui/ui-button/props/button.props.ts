@@ -8,7 +8,6 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   isOutlined?: boolean;
-  isGhost?: boolean;
   isRoundedFull?: boolean;
   bgNone?: boolean;
   asChild?: boolean;

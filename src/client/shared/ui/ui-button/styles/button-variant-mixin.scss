@@ -27,12 +27,12 @@
   }
 }
 
-@mixin btn-variant($bg, $text, $hover-bg) {
+@mixin btn-variant($bg, $text) {
   background-color: $bg;
   color: $text;
 
   &:hover {
-    background-color: $hover-bg;
+    background-color: color-mix(in srgb, $bg 85%, black);
   }
 }
 

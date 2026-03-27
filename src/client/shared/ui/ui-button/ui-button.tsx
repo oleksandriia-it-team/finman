@@ -11,7 +11,6 @@ export function UiButton({
   variant = 'default',
   size = 'default',
   isOutlined,
-  isGhost,
   isRoundedFull,
   bgNone,
   asChild,
@@ -25,7 +24,6 @@ export function UiButton({
       data-variant={variant}
       data-size={size}
       data-outlined={isOutlined}
-      data-ghost={isGhost}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
       className={cn('btn', className)}

@@ -8,7 +8,10 @@ import './styles/svg-icon-sizes.scss';
 export function UiSvgIcon({ name, size, className, ...props }: SvgIconProps) {
   const dynamicKey = useDynamicKey(name);
 
-  const classes = useMemo(() => cn(className, 'text-[currentColor]', 'bi', `bi-${name}`), [className, name]);
+  const classes = useMemo(
+    () => cn(className, 'icon-svg', 'text-[currentColor]', 'bi', `bi-${name}`),
+    [className, name],
+  );
 
   return (
     <i

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { z, ZodTypeAny } from 'zod';
 
 export type RouteContextParams = Record<string, string | string[]>;
-export type RouteContext = { params: Promise<RouteContextParams> | RouteContextParams };
+export type RouteContext = { params: Promise<RouteContextParams> };
 
 export type GuardResult =
   | ApiResultOperationError
