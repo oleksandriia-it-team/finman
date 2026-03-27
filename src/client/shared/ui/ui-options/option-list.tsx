@@ -1,14 +1,12 @@
-import { useMemo } from 'react';
-import { ComponentDefaultProps } from '../../props/component.props';
-import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
+import { ComponentPropsWithRef, useMemo } from 'react';
 import { cn } from '../../utils/cn.util';
 
-export function UiOptionList({ className, children, id }: ComponentDefaultProps & ChildrenComponentProps) {
+export function UiOptionList({ children, className, ...props }: ComponentPropsWithRef<'ul'>) {
   const classes = useMemo(() => cn('!block', 'dropdown-menu', className), [className]);
 
   return (
     <ul
-      id={id}
+      {...props}
       className={classes}
       role="listbox"
     >

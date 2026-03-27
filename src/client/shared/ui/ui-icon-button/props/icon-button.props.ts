@@ -4,7 +4,6 @@ import { IconSize } from '@frontend/ui/ui-svg-icon/props/svg-icon.props';
 export interface IconButtonProps extends ButtonProps {
   className?: string;
   size: IconSize;
-  type?: 'button' | 'submit' | 'reset';
   icon: string;
   isOutlined?: boolean;
 }

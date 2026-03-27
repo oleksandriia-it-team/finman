@@ -1,7 +1,7 @@
-import { ComponentDefaultProps } from '../../../props/component.props';
 import { ChildrenComponentProps } from '../../../models/component-with-chilren.model';
+import { ComponentPropsWithRef } from 'react';
 
-export type UiOptionItemProps = ComponentDefaultProps &
+export type UiOptionItemProps = ComponentPropsWithRef<'li'> &
   ChildrenComponentProps & {
     selected?: boolean;
     onClick: () => void;
