@@ -13,7 +13,7 @@ const variants: Record<LinkVariant, string> = {
   success: 'link-success',
 };
 
-export default function Link({
+export function UiLink({
   underlined = false,
   className,
   children,

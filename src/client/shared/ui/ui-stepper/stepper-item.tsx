@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { cn } from '../../utils/cn.util';
 
-export default function StepperItem({
+export function UiStepperItem({
   className,
   step,
   currentStep,

@@ -1,7 +1,7 @@
 import { StepperProps } from './props/stepper.props';
 import { Children, useMemo } from 'react';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
-import IconButton from '../icon-button/icon-button';
+import IconButton from '@frontend/ui/icon-button/icon-button';
 import { cn } from '../../utils/cn.util';
 
 export default function Stepper({

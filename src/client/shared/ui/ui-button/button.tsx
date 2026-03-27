@@ -1,7 +1,7 @@
 'use client';
 
 import { ButtonProps, ButtonVariant } from './props/button.props';
-import { useMemo } from 'react';
+import { ComponentPropsWithRef, useMemo } from 'react';
 import { cn } from '../../utils/cn.util';
 
 const variants: Record<ButtonVariant, string> = {
@@ -20,7 +20,7 @@ const outlineVariants: Record<ButtonVariant, string> = {
   default: '!border-solid !border-px !border-spell-basic !text-spell-basic',
 };
 
-export default function Button({
+export default function UiButton({
   className,
   onClick,
   type,
@@ -29,7 +29,7 @@ export default function Button({
   variant,
   isRoundedFull = false,
   bgNone = false,
-}: ButtonProps) {
+}: ComponentPropsWithRef<'button'> & ButtonProps) {
   const classes = useMemo(() => {
     return cn(
       ['btn', '!flex', 'items-center', 'justify-center'],
@@ -39,7 +39,7 @@ export default function Button({
       isRoundedFull && '!rounded-full',
       bgNone && '!bg-transparent',
     );
-  }, [className, isOutlined, isRoundedFull, variant]);
+  }, [bgNone, className, isOutlined, isRoundedFull, variant]);
 
   return (
     <button

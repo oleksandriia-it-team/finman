@@ -3,15 +3,15 @@
 import { LazyDropdownInputProps } from '../props/input.props';
 import { useEffect, useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
-import OptionList from '../../options/option-list';
-import OptionItem from '../../options/option-item';
-import LazyLoad from '../../lazy-load/lazy-load';
+import UiOptionList from '@frontend/ui/options/option-list';
+import UiOptionItem from '@frontend/ui/options/option-item';
+import LazyLoad from '@frontend/ui/lazy-load/lazy-load';
 import { DropdownOption } from '../../../models/dropdown-option.model';
 
 export default function LazyDropdown<T>({
   onChange,
   options,
-  optionListClassName,
+  UiOptionListClassName,
   optionClassName,
   className,
   placeholder,
@@ -46,7 +46,7 @@ export default function LazyDropdown<T>({
 
   const optionsTemplate = useMemo(() => {
     return (
-      <OptionList className={optionListClassName}>
+      <UiOptionList className={UiOptionListClassName}>
         <LazyLoad
           isLoading={isLoading}
           page={page}
@@ -59,19 +59,19 @@ export default function LazyDropdown<T>({
           newOptions={options}
         >
           {showOptions.map((option, index) => (
-            <OptionItem
+            <UiOptionItem
               key={index}
               className={optionClassName}
               onClick={() => onChange(option.value)}
             >
               {option.label}
-            </OptionItem>
+            </UiOptionItem>
           ))}
         </LazyLoad>
-      </OptionList>
+      </UiOptionList>
     );
   }, [
-    optionListClassName,
+    UiOptionListClassName,
     isLoading,
     page,
     setPage,

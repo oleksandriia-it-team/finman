@@ -8,7 +8,7 @@ const SizeVariant: Record<IconSize, string> = {
   large: 'text-3xl',
 };
 
-export default function SvgIcon({ name, className, size }: SvgIconProps) {
+export function UiSvgIcon({ name, className, size }: SvgIconProps) {
   const dynamicKey = useDynamicKey(name);
 
   const classes = useMemo(

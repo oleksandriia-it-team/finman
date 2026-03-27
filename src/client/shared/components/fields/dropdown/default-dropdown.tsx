@@ -3,13 +3,12 @@
 import { DefaultDropdownInputProps } from '../props/input.props';
 import { useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
-import OptionList from '../../options/option-list';
-import OptionItem from '../../options/option-item';
+import UiOptionItem from '@frontend/ui/options/option-item';
 
 export default function DefaultDropdown<T>({
   onChange,
   options,
-  optionListClassName,
+  UiOptionListClassName,
   optionClassName,
   customInputValue,
   value,
@@ -27,19 +26,19 @@ export default function DefaultDropdown<T>({
 
   const optionsTemplate = useMemo(() => {
     return (
-      <OptionList className={optionListClassName}>
+      <UiOptionList className={UiOptionListClassName}>
         {options.map((option) => (
-          <OptionItem
+          <UiOptionItem
             key={option.label}
             className={optionClassName}
             onClick={() => onChange(option.value)}
           >
             {option.label}
-          </OptionItem>
+          </UiOptionItem>
         ))}
-      </OptionList>
+      </UiOptionList>
     );
-  }, [optionListClassName, options, optionClassName, onChange]);
+  }, [UiOptionListClassName, options, optionClassName, onChange]);
 
   return (
     <DropdownTemplate

@@ -1,6 +1,6 @@
 'use client';
 
-import SvgIcon from '../../svg-icon/svg-icon';
+import SvgIcon from '@frontend/ui/svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../props/input.props';
 import { useMemo, useRef } from 'react';
 import { cn } from '../../../utils/cn.util';

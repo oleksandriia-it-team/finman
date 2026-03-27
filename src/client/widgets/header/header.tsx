@@ -1,16 +1,14 @@
 'use client';
 
 import './styles/header.scss';
-
-import TransformDate from '../../shared/components/transform-date/transform-date';
 import { DateFormatType } from '../../shared/enums/date-type.enum';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserInformation } from '../../entities/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import Link from '../../shared/components/link/link';
-import IconButton from '../../shared/components/icon-button/icon-button';
+import Link from '@frontend/ui/link/link';
+import IconButton from '@frontend/ui/icon-button/icon-button';
 
 /**
  * Header
@@ -40,7 +38,7 @@ export default function Header() {
   const today = useMemo(() => new Date(), []);
 
   const currentDateEl = (
-    <TransformDate
+    <UITransformDate
       date={today}
       type={DateFormatType.LongWithYear}
     />
