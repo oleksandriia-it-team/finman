@@ -1,10 +1,10 @@
 import { StepperProps } from './props/stepper.props';
 import { Children, useMemo } from 'react';
 import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
-import IconButton from '../icon-button/icon-button';
 import { cn } from '../../utils/cn.util';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 
-export default function Stepper({
+export function UiStepper({
   className,
   id,
   children,
@@ -27,18 +27,18 @@ export default function Stepper({
     >
       <div className={carouselInnerClasses}>{children}</div>
 
-      <IconButton
+      <UiIconButton
         icon="chevron-compact-left"
-        size="large"
+        size="sm"
         className="carousel-control-prev"
         variant="default"
         bgNone={true}
         onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
       />
 
-      <IconButton
+      <UiIconButton
         icon="chevron-compact-right"
-        size="large"
+        size="sm"
         className="carousel-control-next"
         variant="default"
         bgNone={true}

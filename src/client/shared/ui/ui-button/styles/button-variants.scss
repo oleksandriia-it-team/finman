@@ -1,0 +1,49 @@
+@import './button-variant-mixin';
+@use 'sass:list';
+
+$variants: (
+  'default':     (var(--primary),     var(--primary-foreground)),
+  'secondary':   (var(--secondary),   var(--secondary-foreground)),
+  'destructive': (var(--destructive), white),
+  'muted':       (var(--muted),       var(--muted-foreground)),
+  'accent':      (var(--accent),      var(--accent-foreground)),
+);
+
+$sizes: (
+  'default': (2.25rem, 1rem,   0.5rem),
+  'xs':      (1.5rem,  0.5rem, 0),
+  'sm':      (2rem,    0.75rem, 0),
+  'lg':      (2.5rem,  1.5rem, 0),
+);
+
+.btn {
+  @include btn-base;
+
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+
+      @if $name == 'destructive' {
+        &:focus-visible {
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+        }
+      }
+    }
+  }
+
+  &[data-variant='link'] {
+    background: none;
+    border: none;
+    color: var(--primary);
+    &:hover { text-decoration: underline; }
+  }
+
+  @each $name, $values in $sizes {
+    &[data-size='#{$name}'] {
+      @include btn-size(list.nth($values, 1), list.nth($values, 2), list.nth($values, 3));
+    }
+  }
+
+  &[data-rounded] { border-radius: 9999px; }
+  &[data-bg-none] { background-color: transparent; }
+}

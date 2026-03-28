@@ -1,21 +1,21 @@
 'use client';
 
+import { UiButton } from '../ui-button/ui-button';
 import { IconButtonProps } from './props/icon-button.props';
-import Button from '../button/button';
-import SvgIcon from '../svg-icon/svg-icon';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
-export default function IconButton({
+export function UiIconButton({
   icon,
   className,
   size,
   onClick = () => {},
   type,
-  variant,
-  isOutlined,
-  bgNone,
+  variant = 'default',
+  isOutlined = true,
+  bgNone = true,
 }: IconButtonProps) {
   return (
-    <Button
+    <UiButton
       onClick={onClick}
       isOutlined={isOutlined}
       variant={variant}
@@ -24,11 +24,10 @@ export default function IconButton({
       isRoundedFull={true}
       bgNone={bgNone}
     >
-      <SvgIcon
-        className="text-3xl"
+      <UiSvgIcon
         name={icon}
         size={size}
       />
-    </Button>
+    </UiButton>
   );
 }
