@@ -1,18 +1,18 @@
-import * as React from 'react';
 import { cn } from '../../utils/cn.util';
 import { useStepper } from '@frontend/ui/ui-stepper/hooks/stepper-context.hook';
+import { ComponentProps } from 'react';
 
-export function UiStepperContent({ className, ...props }: React.ComponentProps<'div'>) {
-  const { carouselRef, orientation } = useStepper();
+export function UiStepperContent({ className, ...props }: ComponentProps<'div'>) {
+  const { carouselRef, fullSize } = useStepper();
 
   return (
     <div
       ref={carouselRef}
-      className="overflow-hidden"
+      className={cn(fullSize && 'size-full', 'overflow-hidden')}
       data-slot="carousel-content"
     >
       <div
-        className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
+        className={cn(fullSize && 'size-full', 'flex', className)}
         {...props}
       />
     </div>

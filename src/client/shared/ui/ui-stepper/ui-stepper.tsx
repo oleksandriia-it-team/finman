@@ -11,6 +11,7 @@ export function UiStepper({
   plugins,
   className,
   children,
+  fullSize,
   ...props
 }: StepperProps) {
   const [carouselRef, api] = useEmblaCarousel(
@@ -77,11 +78,12 @@ export function UiStepper({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        fullSize,
       }}
     >
       <div
         onKeyDownCapture={handleKeyDown as never}
-        className={cn('relative', className)}
+        className={cn('relative', className, fullSize && 'size-full')}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"

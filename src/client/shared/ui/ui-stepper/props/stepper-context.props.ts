@@ -8,4 +8,5 @@ export interface StepperContextProps extends StepperProps {
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
+  fullSize?: boolean | undefined;
 }

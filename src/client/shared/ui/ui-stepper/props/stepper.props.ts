@@ -11,4 +11,5 @@ export interface StepperProps extends ComponentDefaultProps {
   plugins?: StepperPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: StepperApi) => void;
+  fullSize?: boolean | undefined;
 }

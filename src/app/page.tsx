@@ -2,15 +2,13 @@
 
 import { UiStepper } from '@frontend/ui/ui-stepper/ui-stepper';
 import { UiStepperItem } from '@frontend/ui/ui-stepper/ui-stepper-item';
-import { StepperApi } from '@frontend/ui/ui-stepper/props/stepper.props';
-import { useState } from 'react';
 import { UiStepperContent } from '@frontend/ui/ui-stepper/ui-stepper-content';
+import { UiStepperPrev } from '@frontend/ui/ui-stepper/ui-stepper-prev';
+import { UiStepperNext } from '@frontend/ui/ui-stepper/ui-stepper-next';
 
 export default function MainPage() {
-  const [api, setApi] = useState<StepperApi>();
-
   return (
-    <UiStepper setApi={setApi}>
+    <UiStepper fullSize>
       <UiStepperContent>
         <UiStepperItem key={1}>
           <div className="bg-red-100 size-full">1</div>
@@ -25,6 +23,9 @@ export default function MainPage() {
           <div className="bg-purple-100 size-full">4</div>
         </UiStepperItem>
       </UiStepperContent>
+
+      <UiStepperPrev />
+      <UiStepperNext />
     </UiStepper>
   );
 }

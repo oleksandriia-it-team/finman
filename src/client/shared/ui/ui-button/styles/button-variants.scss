@@ -22,7 +22,12 @@ $sizes: (
 
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
-      @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+      @if(&[data-outlined]) {
+        @include btn-outline-variant(list.nth($colors, 1));
+      }
+      @else {
+        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+      }
 
       @if $name == 'destructive' {
         &:focus-visible {
