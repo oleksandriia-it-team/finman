@@ -29,9 +29,9 @@ export function UiStepperPrev({
       )}
       disabled={!canScrollPrev || disabled}
       onClick={(event) => {
-        if (event.defaultPrevented) {
-          onClick?.(event);
+        onClick?.(event);
 
+        if (!event.defaultPrevented) {
           scrollPrev();
         }
       }}

@@ -30,9 +30,9 @@ export function UiStepperNext({
       )}
       disabled={!canScrollNext || disabled}
       onClick={(event) => {
-        if (event.defaultPrevented) {
-          onClick?.(event);
+        onClick?.(event);
 
+        if (!event.defaultPrevented) {
           scrollNext();
         }
       }}

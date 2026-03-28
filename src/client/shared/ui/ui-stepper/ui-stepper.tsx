@@ -40,6 +40,17 @@ export function UiStepper({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      const interactiveTags = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'BUTTON'];
+
+      if (
+        interactiveTags.includes(target.tagName) ||
+        target.isContentEditable ||
+        target.closest('[role="textbox"], [role="listbox"], [role="combobox"], [role="spinbutton"]')
+      ) {
+        return;
+      }
+
       if (orientation === 'vertical') {
         if (event.key === 'ArrowUp') {
           event.preventDefault();
