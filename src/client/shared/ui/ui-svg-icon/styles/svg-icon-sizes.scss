@@ -1,3 +1,5 @@
+@use 'sass:list';
+
 $sizes: (
   'default': (2.25rem, 1rem,   0.5rem),
   'xs':      (1.5rem,  0.5rem, 0),
@@ -13,7 +15,7 @@ $sizes: (
 .icon-svg {
   @each $name, $values in $sizes {
     &[data-size='#{$name}'] {
-      @include icon-size(nth($values, 1), nth($values, 2), nth($values, 3));
+      @include icon-size(list.nth($values, 1), list.nth($values, 2), list.nth($values, 3));
     }
   }
 }

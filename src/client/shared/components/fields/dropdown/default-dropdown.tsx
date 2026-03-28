@@ -4,9 +4,9 @@ import { DefaultDropdownInputProps } from '../props/input.props';
 import { useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
 import { UiOptionList } from '@frontend/ui/ui-options/ui-option-list';
-import UiOptionItem from '@frontend/ui/ui-options/ui-option-item';
+import { UiOptionItem } from '@frontend/ui/ui-options/ui-option-item';
 
-export default function DefaultDropdown<T>({
+export function DefaultDropdown<T>({
   onChange,
   options,
   optionListClassName,

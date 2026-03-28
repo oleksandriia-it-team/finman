@@ -17,7 +17,7 @@ describe('createRoute with params', () => {
   it('should transform params and pass them to execute', async () => {
     const rawParams = { id: '123' };
     const transformedParams = { id: 123 };
-    const context: RouteContext = { params: rawParams };
+    const context: RouteContext = Promise.resolve({ params: rawParams });
 
     const paramsTransformers = vi.fn((p) => ({
       id: Number(p.id),
@@ -58,7 +58,7 @@ describe('createRoute with params', () => {
   });
 
   it('should pass transformed params to guards and transformers', async () => {
-    const context: RouteContext = { params: { code: 'abc' } };
+    const context: RouteContext = { params: Promise.resolve({ code: 'abc' }) };
 
     const paramsTransformers = (p: { code: string }) => ({ code: p.code.toUpperCase() });
 
@@ -103,7 +103,7 @@ describe('createRoute with params', () => {
       filter: getDefaultApiErrorFilter,
     });
 
-    const response = await route(request, { params: { id: 'not-a-number' } });
+    const response = await route(request, { params: Promise.resolve({ id: 'not-a-number' }) });
     const json = await response.json();
 
     expect(response.status).toBe(400);
@@ -120,7 +120,7 @@ describe('createRoute with params', () => {
       execute: executeFn,
     });
 
-    await route(request, { params: {} });
+    await route(request, { params: Promise.resolve({}) });
     expect(executeFn).toHaveBeenCalled();
   });
 });

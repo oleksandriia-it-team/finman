@@ -1,4 +1,5 @@
 @import './button-variant-mixin';
+@use 'sass:list';
 
 $variants: (
   'default':     (var(--primary),     var(--primary-foreground)),
@@ -20,7 +21,7 @@ $sizes: (
 
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
-      @include btn-variant(nth($colors, 1), nth($colors, 2));
+      @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
 
       @if $name == 'destructive' {
         &:focus-visible {
@@ -39,7 +40,7 @@ $sizes: (
 
   @each $name, $values in $sizes {
     &[data-size='#{$name}'] {
-      @include btn-size(nth($values, 1), nth($values, 2), nth($values, 3));
+      @include btn-size(list.nth($values, 1), list.nth($values, 2), list.nth($values, 3));
     }
   }
 
