@@ -1,5 +1,6 @@
-@import './button-variant-mixin';
 @use 'sass:list';
+
+@import './button-variant-mixin';
 
 $variants: (
   'default':     (var(--primary),     var(--primary-foreground)),

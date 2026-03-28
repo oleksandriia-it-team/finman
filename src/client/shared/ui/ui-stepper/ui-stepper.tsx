@@ -1,49 +1,94 @@
-import { StepperProps } from './props/stepper.props';
-import { Children, useMemo } from 'react';
-import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { cn } from '../../utils/cn.util';
-import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import useEmblaCarousel from 'embla-carousel-react';
+import { StepperApi, StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
+import { StepperContext } from './hooks/stepper-context.hook';
+import { useCallback, useEffect, useState } from 'react';
 
 export function UiStepper({
+  orientation = 'horizontal',
+  opts,
+  setApi,
+  plugins,
   className,
-  id,
   children,
-  setStep,
-  currentStep,
-  fullSize = true,
-}: StepperProps & ChildrenComponentProps) {
-  const classes = useMemo(() => cn('carousel', 'slide', fullSize && 'size-full', className), [className, fullSize]);
-  const carouselInnerClasses = useMemo(
-    () => cn('carousel-inner', 'align-content-center', 'text-center', fullSize && 'size-full'),
-    [fullSize],
+  ...props
+}: StepperProps) {
+  const [carouselRef, api] = useEmblaCarousel(
+    {
+      ...opts,
+      axis: orientation === 'horizontal' ? 'x' : 'y',
+    },
+    plugins,
+  );
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const onSelect = useCallback((api: StepperApi) => {
+    if (!api) return;
+    setCanScrollPrev(api.canScrollPrev());
+    setCanScrollNext(api.canScrollNext());
+  }, []);
+
+  const scrollPrev = useCallback(() => {
+    api?.scrollPrev();
+  }, [api]);
+
+  const scrollNext = useCallback(() => {
+    api?.scrollNext();
+  }, [api]);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollPrev();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollNext();
+      }
+    },
+    [scrollPrev, scrollNext],
   );
 
-  const stepItemsCount = Children.count(children);
+  useEffect(() => {
+    if (!api || !setApi) return;
+    setApi(api);
+  }, [api, setApi]);
+
+  useEffect(() => {
+    if (!api) return;
+    onSelect(api);
+    api.on('reInit', onSelect);
+    api.on('select', onSelect);
+
+    return () => {
+      api?.off('select', onSelect);
+    };
+  }, [api, onSelect]);
 
   return (
-    <div
-      className={classes}
-      id={id}
+    <StepperContext.Provider
+      value={{
+        carouselRef,
+        api: api,
+        opts,
+        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+        scrollPrev,
+        scrollNext,
+        canScrollPrev,
+        canScrollNext,
+      }}
     >
-      <div className={carouselInnerClasses}>{children}</div>
-
-      <UiIconButton
-        icon="chevron-compact-left"
-        size="sm"
-        className="carousel-control-prev"
-        variant="default"
-        bgNone={true}
-        onClick={() => setStep((currentStep - 1 + stepItemsCount) % stepItemsCount)}
-      />
-
-      <UiIconButton
-        icon="chevron-compact-right"
-        size="sm"
-        className="carousel-control-next"
-        variant="default"
-        bgNone={true}
-        onClick={() => setStep((currentStep + 1) % stepItemsCount)}
-      />
-    </div>
+      <div
+        onKeyDownCapture={handleKeyDown as never}
+        className={cn('relative', className)}
+        role="region"
+        aria-roledescription="carousel"
+        data-slot="carousel"
+        {...props}
+      >
+        {children}
+      </div>
+    </StepperContext.Provider>
   );
 }
