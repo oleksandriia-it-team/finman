@@ -2,44 +2,33 @@
 
 import { UiStepper } from '@frontend/ui/ui-stepper/ui-stepper';
 import { UiStepperItem } from '@frontend/ui/ui-stepper/ui-stepper-item';
-import { useState } from 'react';
+import { UiStepperContent } from '@frontend/ui/ui-stepper/ui-stepper-content';
+import { UiStepperPrev } from '@frontend/ui/ui-stepper/ui-stepper-prev';
+import { UiStepperNext } from '@frontend/ui/ui-stepper/ui-stepper-next';
 
 export default function MainPage() {
-  const [step, setStep] = useState<number>(0);
-
   return (
     <UiStepper
-      setStep={setStep}
-      currentStep={step}
+      fullSize
+      orientation="vertical"
     >
-      <UiStepperItem
-        className="size-full"
-        currentStep={step}
-        step={0}
-      >
-        <div className="bg-red-100 size-full">1</div>
-      </UiStepperItem>
-      <UiStepperItem
-        className="size-full"
-        currentStep={step}
-        step={1}
-      >
-        <div className="bg-blue-100 size-full">2</div>
-      </UiStepperItem>
-      <UiStepperItem
-        className="size-full"
-        currentStep={step}
-        step={2}
-      >
-        <div className="bg-green-100 size-full">3</div>
-      </UiStepperItem>
-      <UiStepperItem
-        className="size-full"
-        currentStep={step}
-        step={3}
-      >
-        <div className="bg-purple-100 size-full">4</div>
-      </UiStepperItem>
+      <UiStepperContent>
+        <UiStepperItem key={1}>
+          <div className="bg-red-100 size-full">1</div>
+        </UiStepperItem>
+        <UiStepperItem key={2}>
+          <div className="bg-blue-100 size-full">2</div>
+        </UiStepperItem>
+        <UiStepperItem key={3}>
+          <div className="bg-green-100 size-full">3</div>
+        </UiStepperItem>
+        <UiStepperItem key={4}>
+          <div className="bg-purple-100 size-full">4</div>
+        </UiStepperItem>
+      </UiStepperContent>
+
+      <UiStepperPrev size="default" />
+      <UiStepperNext size="default" />
     </UiStepper>
   );
 }

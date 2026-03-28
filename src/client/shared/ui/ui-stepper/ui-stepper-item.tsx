@@ -1,40 +1,14 @@
-import { StepperItemProps } from './props/stepper-item.props';
-import { useMemo } from 'react';
-import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
+import * as React from 'react';
 import { cn } from '../../utils/cn.util';
 
-export function UiStepperItem({
-  className,
-  step,
-  currentStep,
-  id,
-  children,
-}: StepperItemProps & ChildrenComponentProps) {
-  const isActive = step === currentStep;
-
-  // TODO: Refactor when Shadcn stepper will be ready
-  // const { shouldRender, showElement } = useBootstrapAnimation(isActive, 300, isActive);
-
-  const classes = useMemo(() => cn(className), [className]);
-
-  // TODO: Refactor when Shadcn stepper will be ready
-  // const style: React.CSSProperties = {
-  //   transition: 'opacity 300ms ease-in-out',
-  //   opacity: showElement ? 1 : 0,
-  //   position: shouldRender && !showElement ? 'absolute' : 'relative',
-  //   top: 0,
-  //   left: 0,
-  //   width: '100%',
-  //   zIndex: showElement ? 1 : 0,
-  // };
-
+export function UiStepperItem({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
-      className={classes}
-      id={id}
-      // style={style}
-    >
-      {children}
-    </div>
+      role="group"
+      aria-roledescription="slide"
+      data-slot="carousel-item"
+      className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}
+      {...props}
+    />
   );
 }

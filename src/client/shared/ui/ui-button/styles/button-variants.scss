@@ -1,5 +1,6 @@
-@import './button-variant-mixin';
 @use 'sass:list';
+
+@import './button-variant-mixin';
 
 $variants: (
   'default':     (var(--primary),     var(--primary-foreground)),
@@ -21,13 +22,20 @@ $sizes: (
 
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
-      @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
-
       @if $name == 'destructive' {
         &:focus-visible {
           box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
         }
       }
+
+      &[data-outlined="false"] {
+        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+      }
+
+      &[data-outlined="true"] {
+        @include btn-outline-variant(list.nth($colors, 1));
+      }
+
     }
   }
 

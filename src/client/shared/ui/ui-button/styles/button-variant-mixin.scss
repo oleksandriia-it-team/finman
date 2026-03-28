@@ -36,13 +36,13 @@
   }
 }
 
-@mixin btn-outline-variant($border-color, $text-color) {
+@mixin btn-outline-variant($text-color) {
   background-color: transparent;
-  border: 1px solid $border-color;
+  border: 1px solid $text-color;
   color: $text-color;
 
   &:hover {
-    background-color: color-mix(in srgb, $border-color 10%, transparent);
+    background-color: color-mix(in srgb, $text-color 10%, transparent);
   }
 }
 
