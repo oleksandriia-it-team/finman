@@ -3,7 +3,7 @@ import { useStepper } from '@frontend/ui/ui-stepper/hooks/stepper-context.hook';
 import { ComponentProps } from 'react';
 
 export function UiStepperContent({ className, ...props }: ComponentProps<'div'>) {
-  const { carouselRef, fullSize } = useStepper();
+  const { carouselRef, fullSize, orientation } = useStepper();
 
   return (
     <div
@@ -12,7 +12,7 @@ export function UiStepperContent({ className, ...props }: ComponentProps<'div'>)
       data-slot="carousel-content"
     >
       <div
-        className={cn(fullSize && 'size-full', 'flex', className)}
+        className={cn(fullSize && 'size-full', 'flex', className, orientation === 'vertical' && 'flex-col')}
         {...props}
       />
     </div>

@@ -8,7 +8,10 @@ import { UiStepperNext } from '@frontend/ui/ui-stepper/ui-stepper-next';
 
 export default function MainPage() {
   return (
-    <UiStepper fullSize>
+    <UiStepper
+      fullSize
+      orientation="vertical"
+    >
       <UiStepperContent>
         <UiStepperItem key={1}>
           <div className="bg-red-100 size-full">1</div>
@@ -24,8 +27,8 @@ export default function MainPage() {
         </UiStepperItem>
       </UiStepperContent>
 
-      <UiStepperPrev />
-      <UiStepperNext />
+      <UiStepperPrev size="default" />
+      <UiStepperNext size="default" />
     </UiStepper>
   );
 }
