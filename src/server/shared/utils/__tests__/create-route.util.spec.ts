@@ -17,7 +17,7 @@ describe('createRoute with params', () => {
   it('should transform params and pass them to execute', async () => {
     const rawParams = { id: '123' };
     const transformedParams = { id: 123 };
-    const context: RouteContext = Promise.resolve({ params: rawParams });
+    const context: RouteContext = { params: Promise.resolve(rawParams) };
 
     const paramsTransformers = vi.fn((p) => ({
       id: Number(p.id),
