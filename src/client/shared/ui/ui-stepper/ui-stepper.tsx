@@ -40,15 +40,25 @@ export function UiStepper({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        scrollPrev();
-      } else if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        scrollNext();
+      if (orientation === 'vertical') {
+        if (event.key === 'ArrowUp') {
+          event.preventDefault();
+          scrollPrev();
+        } else if (event.key === 'ArrowDown') {
+          event.preventDefault();
+          scrollNext();
+        }
+      } else {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          scrollPrev();
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          scrollNext();
+        }
       }
     },
-    [scrollPrev, scrollNext],
+    [orientation, scrollPrev, scrollNext],
   );
 
   useEffect(() => {
@@ -63,6 +73,7 @@ export function UiStepper({
     api.on('select', onSelect);
 
     return () => {
+      api?.off('reInit', onSelect);
       api?.off('select', onSelect);
     };
   }, [api, onSelect]);

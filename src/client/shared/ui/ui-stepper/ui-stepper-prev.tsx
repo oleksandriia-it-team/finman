@@ -7,6 +7,8 @@ export function UiStepperPrev({
   className,
   variant = 'default',
   size = 'default',
+  onClick,
+  disabled,
   ...props
 }: Omit<ComponentProps<typeof UiIconButton>, 'icon'>) {
   const { orientation, scrollPrev, canScrollPrev } = useStepper();
@@ -25,8 +27,14 @@ export function UiStepperPrev({
           : 'top-0 left-1/2 translate-y-1/2 rotate-90',
         className,
       )}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
+      disabled={!canScrollPrev || disabled}
+      onClick={(event) => {
+        if (event.defaultPrevented) {
+          onClick?.(event);
+
+          scrollPrev();
+        }
+      }}
       {...props}
     />
   );

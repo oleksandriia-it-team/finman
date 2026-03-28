@@ -8,6 +8,8 @@ export function UiStepperNext({
   className,
   variant = 'default',
   size = 'default',
+  onClick,
+  disabled,
   ...props
 }: Omit<ComponentProps<typeof UiIconButton>, 'icon'>) {
   const { orientation, scrollNext, canScrollNext } = useStepper();
@@ -26,8 +28,14 @@ export function UiStepperNext({
           : 'bottom-0 left-1/2 -translate-y-1/2 rotate-90',
         className,
       )}
-      disabled={!canScrollNext}
-      onClick={scrollNext}
+      disabled={!canScrollNext || disabled}
+      onClick={(event) => {
+        if (event.defaultPrevented) {
+          onClick?.(event);
+
+          scrollNext();
+        }
+      }}
       {...props}
     />
   );
