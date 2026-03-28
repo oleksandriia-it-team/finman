@@ -23,7 +23,7 @@ export function UiButton({
       data-slot="button"
       data-variant={variant}
       data-size={size}
-      data-outlined={isOutlined}
+      data-outlined={isOutlined ?? false}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
       className={cn('btn', className)}
