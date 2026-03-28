@@ -21,10 +21,20 @@
   }
 
   &[data-state='open'] {
-    animation: fadeIn 0.15s ease-out, zoomIn 0.15s ease-out;
+    animation: fadeIn 0.15s ease-out, modalZoomIn 0.15s ease-out;
   }
 
   &[data-state='closed'] {
-    animation: fadeOut 0.15s ease-in, zoomOut 0.15s ease-in;
+    animation: fadeOut 0.15s ease-in, modalZoomOut 0.15s ease-in;
   }
+}
+
+@keyframes modalZoomIn {
+  from { transform: translate(-50%, -50%) scale(0.95); }
+  to   { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes modalZoomOut {
+  from { transform: translate(-50%, -50%) scale(1); }
+  to   { transform: translate(-50%, -50%) scale(0.95); }
 }

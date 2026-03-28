@@ -21,6 +21,7 @@ export function UiModalFooter({
       {showCloseButton && (
         <DialogPrimitive.Close asChild>
           <UiButton
+            type="button"
             variant="default"
             size="default"
           >
