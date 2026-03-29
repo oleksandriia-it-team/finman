@@ -1,10 +1,4 @@
 .toast-content {
-  display: grid;
-  grid-template-areas: "title action" "description action";
-  grid-template-columns: auto max-content;
-  column-gap: 1rem;
-  align-items: center;
-
   &[data-state="open"] {
     animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
