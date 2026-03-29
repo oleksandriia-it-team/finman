@@ -10,7 +10,7 @@ export function UiToastContent({ className, variant = 'default', ...props }: UiT
     <Toast.Root
       data-slot="toast-content"
       data-variant={variant}
-      className={cn(className, 'text-sm rounded-md shadow-lg p-1 toast-content')}
+      className={cn(className, 'text-sm rounded-md shadow-lg p-3 toast-content')}
       {...props}
     />
   );

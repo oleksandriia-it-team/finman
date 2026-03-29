@@ -5,6 +5,7 @@ import InitApplication from './init-application';
 import Header from '@frontend/widgets/header/header';
 import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { LoadGlobalToast } from './load-global-toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +22,8 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
     <LoadStylesComponent>
       <InitApplication>
         <QueryClientProvider client={queryClient}>
+          <LoadGlobalToast />
+
           <div className="flex flex-col w-screen h-screen">
             <Header />
             <div className="flex-1">{children}</div>

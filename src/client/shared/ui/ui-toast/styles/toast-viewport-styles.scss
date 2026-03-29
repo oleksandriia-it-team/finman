@@ -9,17 +9,17 @@
   list-style: none;
   z-index: 2147483647;
   outline: none;
+  padding: 1.25rem;
+  padding-bottom: 1.25rem !important;
 
   @media screen and (min-width: 768px) {
     bottom: 0;
     right: 0;
-    padding: 1.25rem;
   }
 
   @media screen and (max-width: 767px) {
     bottom: 0;
     right: 50%;
     transform: translateX(50%);
-    padding-bottom: env(safe-area-inset-bottom, 1rem);
   }
 }

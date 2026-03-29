@@ -6,7 +6,7 @@ export function UiToastTitle({ className, ...props }: Toast.ToastTitleProps) {
     <h3
       data-slot="toast-title"
       {...props}
-      className={cn(className, 'font-medium')}
+      className={cn(className, 'font-medium text-base')}
     />
   );
 }

@@ -1,33 +1,40 @@
 'use client';
 
-import { UiButton } from '../ui-button/ui-button';
 import { IconButtonProps } from './props/icon-button.props';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+
+import './styles/icon-button-variant.scss';
+import { Slot } from 'radix-ui';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiIconButton({
   icon,
   className,
   size,
-  onClick = () => {},
-  type,
+  asChild,
   variant = 'default',
+  isRoundedFull = true,
   isOutlined = true,
   bgNone = true,
+  ...props
 }: IconButtonProps) {
+  const Comp = asChild ? Slot.Root : 'button';
+
   return (
-    <UiButton
-      onClick={onClick}
-      isOutlined={isOutlined}
-      variant={variant}
-      type={type}
-      className={className}
-      isRoundedFull={true}
-      bgNone={bgNone}
+    <Comp
+      data-slot="button"
+      data-variant={variant}
+      data-size={size}
+      data-outlined={isOutlined}
+      data-rounded={isRoundedFull}
+      data-bg-none={bgNone}
+      className={cn('icon-btn', className)}
+      {...props}
     >
       <UiSvgIcon
         name={icon}
         size={size}
       />
-    </UiButton>
+    </Comp>
   );
 }
