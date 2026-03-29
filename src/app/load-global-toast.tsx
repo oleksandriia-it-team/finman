@@ -12,33 +12,29 @@ export function LoadGlobalToast() {
   const { list, hideToast } = useGlobalToast(useShallow((state) => ({ list: state.list, hideToast: state.hideToast })));
 
   return (
-    <>
-      {list.map((toast, index) => (
-        <UiToast
-          key={toast.description}
-          duration={toast.duration}
+    <UiToast duration={5000}>
+      {list.map((toast) => (
+        <UiToastContent
+          key={toast.id}
+          variant={toast.variant}
+          open
+          onOpenChange={() => hideToast(toast.id)}
         >
-          <UiToastContent
-            variant={toast.variant}
-            open
-            onOpenChange={() => hideToast(index)}
-          >
-            <UiToastTitle>{toast.title}</UiToastTitle>
-            <UiToastClose asChild>
-              <UiIconButton
-                icon="x"
-                variant={toast.variant}
-                isOutlined={false}
-                aria-label="Закрити сповіщення"
-                size="xs"
-              />
-            </UiToastClose>
-            <UiToastDescription>{toast.description}</UiToastDescription>
-          </UiToastContent>
-
-          <UiToastViewport />
-        </UiToast>
+          <UiToastTitle>{toast.title}</UiToastTitle>
+          <UiToastClose asChild>
+            <UiIconButton
+              icon="x"
+              variant={toast.variant}
+              isOutlined={false}
+              aria-label="Закрити сповіщення"
+              size="xs"
+            />
+          </UiToastClose>
+          <UiToastDescription>{toast.description}</UiToastDescription>
+        </UiToastContent>
       ))}
-    </>
+
+      <UiToastViewport />
+    </UiToast>
   );
 }

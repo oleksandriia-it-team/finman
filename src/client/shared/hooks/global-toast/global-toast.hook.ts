@@ -1,14 +1,15 @@
 import { GlobalToastConfig, GlobalToastModel } from '@frontend/shared/hooks/global-toast/models/global-toast.model';
 import { create } from 'zustand/react';
+import { generateId } from '@common/utils/generate-id.util';
 
 export const useGlobalToast = create<GlobalToastModel>((set, get) => ({
   list: [],
-  showToast: (config: GlobalToastConfig) => {
+  showToast: (config: Omit<GlobalToastConfig, 'id'>) => {
     const { list } = get();
-    set({ list: [...list, config] });
+    set({ list: [...list, { ...config, id: generateId() as unknown as string }] });
   },
-  hideToast: (index: number) => {
+  hideToast: (id: string) => {
     const { list } = get();
-    set({ list: list.filter((_, i) => i !== index) });
+    set({ list: list.filter((i) => i.id !== id) });
   },
 }));

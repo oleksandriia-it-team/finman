@@ -1,8 +1,10 @@
 import { ComponentPropsWithRef } from 'react';
+import { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
+import { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
-export type ButtonVariant = 'default' | 'secondary' | 'destructive' | 'muted' | 'accent' | 'link';
+export type ButtonVariant = ColorVariantModel | 'link';
 
-export type ButtonSize = 'default' | 'xs' | 'sm' | 'lg';
+export type ButtonSize = SizeVariantModel;
 
 export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   variant?: ButtonVariant;

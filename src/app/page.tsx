@@ -18,18 +18,10 @@ export default function MainPage() {
     >
       <UiStepperContent>
         <UiStepperItem key={1}>
-          <UiButton
-            onClick={() =>
-              showToast({ title: 'warning', description: 'warning', variant: 'warning', duration: 300000 })
-            }
-          >
+          <UiButton onClick={() => showToast({ title: 'warning', description: 'warning', variant: 'muted' })}>
             show warning toast
           </UiButton>
-          <UiButton
-            onClick={() =>
-              showToast({ title: 'danger', description: 'danger', variant: 'destructive', duration: 3000 })
-            }
-          >
+          <UiButton onClick={() => showToast({ title: 'danger', description: 'danger', variant: 'destructive' })}>
             show danger toast
           </UiButton>
         </UiStepperItem>
