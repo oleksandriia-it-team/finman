@@ -21,7 +21,7 @@ export function UiStepperPrev({
       size={size}
       isOutlined={true}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute rounded-full',
         orientation === 'horizontal'
           ? 'top-1/2 -translate-y-1/2 translate-x-1/2'
           : 'top-0 left-1/2 translate-y-1/2 rotate-90',

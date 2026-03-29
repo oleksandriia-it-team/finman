@@ -22,7 +22,7 @@ export function UiStepperNext({
       size={size}
       isOutlined={true}
       className={cn(
-        'absolute size-8 rounded-full',
+        'absolute rounded-full',
         orientation === 'horizontal'
           ? 'top-1/2 -translate-y-1/2 right-0 -translate-x-1/2'
           : 'bottom-0 left-1/2 -translate-y-1/2 rotate-90',

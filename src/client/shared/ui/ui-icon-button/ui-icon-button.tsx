@@ -28,7 +28,7 @@ export function UiIconButton({
       data-outlined={isOutlined}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
-      className={cn('icon-btn', className)}
+      className={cn('icon-btn cursor-pointer', className)}
       {...props}
     >
       <UiSvgIcon
