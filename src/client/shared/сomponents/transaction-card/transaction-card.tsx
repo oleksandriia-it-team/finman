@@ -23,7 +23,7 @@ export default function TransactionCard({ icon, title, subtitle, amount, type, c
   }, [className]);
 
   const iconClasses = useMemo(() => {
-    return clsx('rounded-circle p-2 me-2 sm:me3', type && iconBgVariants[type]);
+    return clsx('rounded-circle p-2 me-2 sm:me-3', type && iconBgVariants[type]);
   }, [type]);
 
   const amountClasses = useMemo(() => {

@@ -45,7 +45,7 @@ export default function Stepper({
       bgNone={true}
       onClick={() => {
         if (!canNavigate && stepItemsCount > 0) return;
-        setStep((currentStep - 1 + stepItemsCount) % stepItemsCount);
+        setStep((currentStep + 1) % stepItemsCount);
       }}
     />
   );

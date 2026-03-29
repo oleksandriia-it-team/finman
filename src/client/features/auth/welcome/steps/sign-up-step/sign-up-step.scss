@@ -1,0 +1,34 @@
+@use './../../../../../shared/styles/color-variables';
+@use './../styles/styles';
+
+.bg-blot{
+  width: 18.75rem;
+  height: 18.75rem;
+  filter:blur(6rem);
+
+}
+
+.bg-pink-blot{
+  background-color: rgb(var(--pink-blot));
+  opacity: 15%;
+  top:-5rem;
+  left:-5rem;
+
+}
+
+.blue-blot{
+  background-color: rgb(var(--blue-blot));
+  opacity: 15%;
+  bottom:-5rem;
+  right:-5rem;
+
+}
+
+@media screen and (min-width:1024px) {
+  .bg-blot {
+    width: 37.5rem;
+    height: 37.5rem;
+    filter:blur(8rem);
+
+  }
+}

@@ -1,5 +1,6 @@
-@import "variables";
 @use "sass:map";
+@import "variables";
+
 
 @mixin mediascreen($type) {
 
@@ -21,5 +22,4 @@ html {
   @include mediascreen("desktop") {
     font-size: 16px;
   }
-]
 }
