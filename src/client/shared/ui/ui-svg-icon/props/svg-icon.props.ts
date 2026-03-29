@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef } from 'react';
-import { ButtonSize } from '@frontend/ui/ui-button/props/button.props';
+import { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
-export type IconSize = ButtonSize;
+export type IconSize = SizeVariantModel;
 
 export interface SvgIconProps extends ComponentPropsWithoutRef<'i'> {
   size: IconSize;

@@ -1,0 +1,15 @@
+@mixin toast-base {
+  display: grid;
+  grid-template-areas: "title action" "description action";
+  grid-template-columns: auto max-content;
+  column-gap: 1rem;
+  align-items: center;
+  transition: all 0.15s ease-out;
+}
+
+@mixin toast-variant($bg, $text, $border: transparent) {
+  background-color: $bg;
+  color: $text;
+  border: 1px solid $border;
+}
+

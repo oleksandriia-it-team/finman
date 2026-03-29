@@ -1,21 +1,24 @@
 @use 'sass:list';
 
 $sizes: (
-  'default': (2.25rem, 1rem,   0.5rem),
-  'xs':      (1.5rem,  0.5rem, 0),
-  'sm':      (2rem,    0.75rem, 0),
-  'lg':      (2.5rem,  1.5rem, 0),
+  'default': (2.25rem),
+  'xs':      (1.5rem),
+  'sm':      (2rem),
+  'lg':      (2.5rem),
 );
 
-@mixin icon-size($height, $padding-x, $padding-y: 0) {
-  height: $height;
-  padding: $padding-y $padding-x;
+@mixin icon-size($size) {
+  height: $size;
+  width: $size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon-svg {
   @each $name, $values in $sizes {
     &[data-size='#{$name}'] {
-      @include icon-size(list.nth($values, 1), list.nth($values, 2), list.nth($values, 3));
+      @include icon-size(list.nth($values, 1));
     }
   }
 }
