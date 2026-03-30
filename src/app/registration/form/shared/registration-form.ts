@@ -1,8 +1,8 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { userSchema } from './validation-schema';
-import { useUserInformation } from '../../../../../entities/user-information/use-user-information.store';
-import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
+import { useUserInformation } from '../../../../client/entities/user-information/use-user-information.store';
+import { UserInformation } from '../../../../client/entities/user-information/models/user-infomation.model';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 /**
@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
  * }}
  *
  * @example
- * const { methods, submit } = RegistrationForm((userData) => {
+ * const { methods, submit } = Page((userData) => {
  *   console.log('Registered user:', userData);
  * });
  *

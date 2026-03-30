@@ -10,7 +10,7 @@
    }
  }
   @else {
-   @media screen and (min-width:$type) {
+   @media screen and (min-width: $type) {
      @content;
    }
  }

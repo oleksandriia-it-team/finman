@@ -2,6 +2,7 @@
 import './sign-up-step.scss';
 import TransactionCard from '../../../../../entities/budget-plan/transaction-card/transaction-card';
 import Button from '../../../../../shared/сomponents/button/button';
+import Link from 'next/link';
 
 export default function SignUpStep() {
   const checks = [
@@ -31,7 +32,10 @@ export default function SignUpStep() {
           <div className="relative">
             <div className="icon-glow-layer" />
             <div className="icon-card-wrapper relative p-6 flex items-center justify-center">
-              <i className="bi bi-rocket-takeoff text-6xl rocket-icon" />
+              <i
+                className="bi bi-rocket-takeoff text-6xl rocket-icon "
+                aria-hidden="true"
+              />
             </div>
           </div>
 
@@ -56,7 +60,9 @@ export default function SignUpStep() {
           ))}
         </div>
         <div className="w-full pt-4">
-          <Button className="step-submit-btn w-full py-6 text-lg font-semibold border-0">Зареєструватися</Button>
+          <Link href="/registration/form">
+            <Button className="step-submit-btn w-full py-6 text-lg font-semibold border-0">Зареєструватися</Button>
+          </Link>
           <p className="text-center step-footer-text text-sm mt-4">Це займе менше 1 хвилини</p>
         </div>
       </div>

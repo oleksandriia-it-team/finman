@@ -1,13 +1,13 @@
 'use client';
 
-import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
+import ControlledInput from '../../../client/shared/сomponents/controlled-fields/controlled-input/controled-input-component';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema } from './shared/validation-schema';
-import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
-import Button from '../../../../shared/сomponents/button/button';
+import ControlledDropdown from '../../../client/shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
+import Button from '../../../client/shared/сomponents/button/button';
 
-export default function RegistrationForm() {
+export default function Page() {
   const methods = useForm({
     resolver: zodResolver(userSchema),
     mode: 'onChange',
@@ -33,7 +33,7 @@ export default function RegistrationForm() {
   return (
     <div className="w-full h-full px-35 bg-body">
       <FormProvider {...methods}>
-        <form className="mx-[50] my-form flex flex-col align-center h-full gap-3 items-center justify-center">
+        <form className="mx-[50px] my-form flex flex-col align-center h-full gap-3 items-center justify-center">
           <div className="text-5xl text-center">
             <p className="text-5xl form-text">Please enter your general information</p>
           </div>
