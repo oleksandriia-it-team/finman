@@ -1,11 +1,6 @@
 @use 'sass:list';
 
-$sizes: (
-  'default': (1rem),
-  'xs':      (1.5rem),
-  'sm':      (2rem),
-  'lg':      (2.5rem),
-);
+@import '../../../styles/variants';
 
 @mixin icon-size($size) {
   height: $size;

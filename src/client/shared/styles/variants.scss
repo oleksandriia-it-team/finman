@@ -1,0 +1,14 @@
+$variants: (
+  'default':     (var(--primary),     var(--primary-foreground)),
+  'secondary':   (var(--secondary),   var(--secondary-foreground)),
+  'destructive': (var(--destructive), white),
+  'muted':       (var(--muted),       var(--muted-foreground)),
+  'accent':      (var(--accent),      var(--accent-foreground)),
+);
+
+$sizes: (
+  'default': (1rem, 0.5rem, 0),
+  'xs':      (0.75rem,  0.5rem, 0),
+  'sm':      (1.5rem,    0.75rem, 0),
+  'lg':      (2.25rem, 1rem,   0.5rem),
+);

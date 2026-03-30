@@ -1,26 +1,19 @@
 @use 'sass:list';
 
 @import './toast-variant-mixin';
-
-$toast-variants: (
-  'default':     (var(--primary),     var(--primary-foreground)),
-  'secondary':   (var(--secondary),   var(--secondary-foreground)),
-  'destructive': (white, var(--destructive)),
-  'muted':       (var(--muted),       var(--muted-foreground)),
-  'accent':      (var(--accent),      var(--accent-foreground)),
-);
+@import '../../../styles/variants';
 
 .toast-content {
   @include toast-base;
 
-  @each $name, $colors in $toast-variants {
+  @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
       @include toast-variant(
-        nth($colors, 2),
         nth($colors, 1),
-        nth($colors, 2)
+        nth($colors, 2),
+        nth($colors, 1)
       );
     }
   }
-}
 
+}

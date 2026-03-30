@@ -1,21 +1,7 @@
 @use 'sass:list';
 
 @import './button-variant-mixin';
-
-$variants: (
-  'default':     (var(--primary),     var(--primary-foreground)),
-  'secondary':   (var(--secondary),   var(--secondary-foreground)),
-  'destructive': (var(--destructive), white),
-  'muted':       (var(--muted),       var(--muted-foreground)),
-  'accent':      (var(--accent),      var(--accent-foreground)),
-);
-
-$sizes: (
-  'default': (2.25rem, 1rem,   0.5rem),
-  'xs':      (1.5rem,  0.5rem, 0),
-  'sm':      (2rem,    0.75rem, 0),
-  'lg':      (2.5rem,  1.5rem, 0),
-);
+@import '../../../styles/variants';
 
 .btn {
   @include btn-base;
