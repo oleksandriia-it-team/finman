@@ -16,10 +16,4 @@
  }
 }
 
-html {
-    font-size: 14px;
 
-  @include mediascreen("desktop") {
-    font-size: 16px;
-  }
-}
