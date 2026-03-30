@@ -1,0 +1,29 @@
+.select-item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  cursor: default;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-sm);
+  padding: 0.375rem 2rem 0.375rem 0.5rem;
+  font-size: 0.875rem;
+  outline: none;
+  user-select: none;
+
+  &:focus {
+    background-color: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  &[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  & > span:last-child {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
