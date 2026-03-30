@@ -10,8 +10,8 @@ const getUserInformation = () => {
   if (!user) {
     return null;
   }
-
-  return userSchema.safeParse(user).success ? user : null;
+  const result = userSchema.safeParse(user);
+  return result.success ? result.data : null;
 };
 
 export const useUserInformation = create<UserInformationStore>((set) => ({
