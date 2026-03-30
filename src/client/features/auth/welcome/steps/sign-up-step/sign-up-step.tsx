@@ -60,8 +60,19 @@ export default function SignUpStep() {
           ))}
         </div>
         <div className="w-full pt-4">
-          <Link href="/registration/form">
-            <Button className="step-submit-btn w-full py-6 text-lg font-semibold border-0">Зареєструватися</Button>
+          <Link
+            className="!text-inherit !no-underline"
+            href="/registration/form"
+          >
+            <Button
+              variant="purpleGradient"
+              isOutlined={true}
+              isRoundedFull={true}
+              size="lg"
+              className="w-full py-6 border-0"
+            >
+              Зареєструватися
+            </Button>
           </Link>
           <p className="text-center step-footer-text text-sm mt-4">Це займе менше 1 хвилини</p>
         </div>

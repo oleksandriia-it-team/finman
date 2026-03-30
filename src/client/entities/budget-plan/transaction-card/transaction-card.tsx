@@ -16,14 +16,11 @@ const amountColorVariants: Record<TransactionType, string> = {
 
 export default function TransactionCard({ icon, title, subtitle, amount, type, className }: TransactionCardProps) {
   const wrapperClasses = useMemo(() => {
-    return clsx(
-      'd-flex align-items-center md:p-2 p-3 bg-body rounded-3 shadow-sm mb-2 border border-subtle',
-      className,
-    );
+    return clsx('d-flex items-center md:p-2 p-3 bg-body rounded-3 shadow-sm mb-2 border border-subtle', className);
   }, [className]);
 
   const iconClasses = useMemo(() => {
-    return clsx('rounded-circle p-2 me-2 me-3', type && iconBgVariants[type]);
+    return clsx('rounded-circle p-2 me-2 md:me-3', type && iconBgVariants[type]);
   }, [type]);
 
   const amountClasses = useMemo(() => {
@@ -35,9 +32,9 @@ export default function TransactionCard({ icon, title, subtitle, amount, type, c
       <div className={iconClasses}>{icon}</div>
       <div className="flex-grow-1">
         <p className=" text-lg mb-0 fw-bold">{title}</p>
-        <small className="text-body-secondary">{subtitle}</small>
+        {subtitle && <small className="text-body-secondary">{subtitle}</small>}
       </div>
-      <span className={amountClasses}>{amount}</span>
+      {amount && <span className={amountClasses}>{amount}</span>}
     </div>
   );
 }

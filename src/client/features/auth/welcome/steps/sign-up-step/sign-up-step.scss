@@ -49,6 +49,7 @@
   filter: blur(3rem);
   opacity: 20%;
   animation: pulse-glow 2s infinite ease-in-out;
+
 }
 
 .icon-card-wrapper {
@@ -67,18 +68,6 @@
 .rocket-icon {
   color: rgb(var(--step-primary));
   animation: smooth-bounce 3s infinite ease-in-out;
-}
-
-.step-submit-btn {
-  background: linear-gradient(to right, #9333ea, #2563eb);
-  color: white !important;
-  border-radius: 1rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 20px rgba(var(--step-primary) / 0.4);
-  }
 }
 
 .step-card-item {

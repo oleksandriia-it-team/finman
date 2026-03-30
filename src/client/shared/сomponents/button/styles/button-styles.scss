@@ -1,0 +1,37 @@
+@use './../../../styles/color-variables';
+
+@mixin animated {
+  &:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px rgba(var(--step-primary) / 0.4);
+  }
+}
+
+.purple-gradient-btn{
+  background: linear-gradient(to right, #9333ea, #2563eb);
+  border: 2px solid transparent;
+  color: white;
+  transition: all 0.2s ease;
+
+  @include animated
+
+}
+
+.purple-outlined-gradient-btn{
+  border: 1px solid rgba(var(--purple-btn)) !important;
+  color: white;
+  transition: all 0.2s ease;
+  display: inline-block;
+
+  @include animated
+
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #9333ea, #2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+}
+
