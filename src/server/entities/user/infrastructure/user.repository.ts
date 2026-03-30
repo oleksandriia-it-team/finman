@@ -17,6 +17,13 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       password: hashedPassword,
     });
   }
+  async findUserForLogin(login: string): Promise<UserOrm | null> {
+    return await this.repository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.email = :login OR user.name = :login', { login })
+      .getOne();
+  }
 }
 
 export const userApiRepository = new UserApiRepository();
