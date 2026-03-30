@@ -8,6 +8,7 @@ import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
 import { InputSize } from '../constants/input-size.constant';
+import { DefaultInputSize } from '../../../constants/input-constants';
 
 export default function DropdownTemplate({
   value,
@@ -15,7 +16,7 @@ export default function DropdownTemplate({
   chevronClassName,
   placeholder,
   wrapperClassName,
-  size = 'small',
+  size,
   optionsTemplate,
   id,
   setOpen,
@@ -63,7 +64,7 @@ export default function DropdownTemplate({
   );
 
   const inputClasses = useMemo(() => {
-    return clsx(className, 'form-control', 'default-field-styles', InputSize[size]);
+    return clsx(className, 'form-control', 'default-field-styles', InputSize[size ?? DefaultInputSize]);
   }, [className, size]);
 
   const chevronWrapperClasses = clsx(
