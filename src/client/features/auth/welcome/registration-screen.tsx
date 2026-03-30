@@ -3,7 +3,6 @@
 import Stepper from '../../../shared/сomponents/stepper/stepper';
 import StepperItem from '../../../shared/сomponents/stepper/stepper-item';
 import { useState } from 'react';
-import Page from '../../../../app/registration/form/page';
 import MainWelcomeStep from './steps/main-welcome-page/main-welcome-step';
 import BenefitsExplanationStep from './steps/benefits-explanation-step/benefits-explanation-step';
 import SignUpStep from './steps/sign-up-step/sign-up-step';
@@ -40,16 +39,6 @@ export default function RegistrationScreen() {
         step={2}
       >
         <SignUpStep />
-      </StepperItem>
-
-      <StepperItem
-        className="size-full"
-        currentStep={step}
-        step={3}
-      >
-        <div className="size-full">
-          <Page />
-        </div>
       </StepperItem>
     </Stepper>
   );
