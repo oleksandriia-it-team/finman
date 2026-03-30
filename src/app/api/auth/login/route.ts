@@ -13,14 +13,14 @@ export const POST = createRoute({
     if (!user) {
       return NextResponse.json({
         status: 401,
-        message: 'User not found',
+        message: 'Invalid credentials',
       });
     }
     const isMatch = await bcrypt.compare(body.password, user.password as string);
     if (!isMatch) {
       return NextResponse.json({
         status: 401,
-        message: 'Invalid password',
+        message: 'Invalid credentials',
       });
     }
     const token = await createAccessToken({
