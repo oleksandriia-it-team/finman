@@ -1,12 +1,12 @@
 'use client';
 
-import ControlledInput from '../../../../shared/сomponents/controlled-fields/controlled-input/controled-input-component';
+import ControlledInput from '@frontend/shared/components/controlled-fields/controlled-input/controled-input-component';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { userSchema } from './shared/validation-schema';
-import ControlledDropdown from '../../../../shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
-import Button from '../../../../shared/сomponents/button/button';
+import ControlledDropdown from '@frontend/shared/components/controlled-fields/controlled-dropdown/controlled-dropdown';
+import Button from '@frontend/shared/components/button/button';
 
 export default function RegistrationFormComponent() {
   const methods = useForm({

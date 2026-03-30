@@ -1,10 +1,10 @@
 'use client';
 
 import './styles/first-page.scss';
-import Stepper from '../../../shared/сomponents/stepper/stepper';
-import StepperItem from '../../../shared/сomponents/stepper/stepper-item';
+import Stepper from '@frontend/shared/components/stepper/stepper';
+import StepperItem from '@frontend/shared/components/stepper/stepper-item';
 import { useState } from 'react';
-import RegistrationFormComponent from './form-component/registration-form-component';
+import RegistrationFormComponent from './form-component/registration-form-component'; //Page-component that meets user when launch app.
 
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
