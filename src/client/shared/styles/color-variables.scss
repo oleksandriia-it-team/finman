@@ -1,11 +1,27 @@
 :root[data-bs-theme="light"] {
   --spell-basic: black;
   --spell-revert: white;
+
+  --step-bg: 248 250 252;
+  --step-card-bg: 255 255 255;
+  --step-card-border: 226 232 240;
+  --step-text-main: 15 23 42;
+  --step-text-sub: 71 85 105;
+  --step-text-footer: 100 116 139;
+  --step-primary: 147 51 234;
 }
 
 :root[data-bs-theme="dark"] {
   --spell-basic: white;
   --spell-revert: black;
+
+  --step-bg: 9 9 11;
+  --step-card-bg: 255 255 255;
+  --step-card-border: 255 255 255;
+  --step-text-main: 255 255 255;
+  --step-text-sub: 161 161 170;
+  --step-text-footer: 113 113 122;
+  --step-primary: 192 132 252;
 }
 
 @theme {
