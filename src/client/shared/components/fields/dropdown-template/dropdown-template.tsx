@@ -1,107 +1,29 @@
 'use client';
 
-import SvgIcon from '@frontend/ui/svg-icon/svg-icon';
 import { DropdownInputTemplateProps } from '../props/input.props';
-import { useMemo, useRef } from 'react';
-import { cn } from '../../../utils/cn.util';
+import { UiSelect } from '@frontend/ui/ui-select/ui-select';
+import { UiSelectTrigger } from '@frontend/ui/ui-select/ui-select-trigger';
+import { UiSelectValue } from '@frontend/ui/ui-select/ui-select-value';
+import { UiSelectContent } from '@frontend/ui/ui-select/ui-select-content';
 
 export default function DropdownTemplate({
   value,
-  className,
-  chevronClassName,
   placeholder,
-  id,
+  optionsTemplate,
   open,
+  setOpen,
+  ...props
 }: DropdownInputTemplateProps) {
-  // TODO: Refactor when Shadcn popover will be ready
-  // const { showPopover, hidePopover, isGlobalShow } = usePopover(
-  //   useShallow((state) => ({
-  //     showPopover: state.showPopover,
-  //     hidePopover: state.hidePopover,
-  //     isGlobalShow: state.show,
-  //   })),
-  // );
-
-  const inputWrapperRef = useRef<HTMLDivElement>(null);
-
-  // const setVisibility = useCallback(() => {
-  //   setOpen(!open);
-  //   if (open) {
-  //     hidePopover();
-  //   } else if (inputWrapperRef.current) {
-  //     showPopover(optionsTemplate, inputWrapperRef.current);
-  //   }
-  // }, [setOpen, open, hidePopover, showPopover, optionsTemplate]);
-  //
-  // useEffect(() => {
-  //   if (open && isGlobalShow && inputWrapperRef.current) {
-  //     showPopover(optionsTemplate, inputWrapperRef.current);
-  //   }
-  // }, [optionsTemplate, open, isGlobalShow, showPopover]);
-
-  // TODO: Refactor when Shadcn popover will be ready
-  // useCloseWithPopover(inputWrapperRef.current, () => setOpen(false));
-
-  // const handleKeyDown = useCallback(
-  //   (e: React.KeyboardEvent) => {
-  //     if (e.defaultPrevented) {
-  //       return;
-  //     }
-  //
-  //     if (e.key === 'Enter' || e.key === ' ') {
-  //       e.preventDefault();
-  //       setVisibility();
-  //     }
-  //   },
-  //   [setVisibility],
-  // );
-
-  const inputClasses = useMemo(() => {
-    return cn(className, 'form-control', 'default-field-styles');
-  }, [className]);
-
-  const chevronWrapperClasses = cn(
-    'default-field-height',
-    'default-field-padding-right',
-    'top-0',
-    'right-0',
-    'absolute',
-    'flex',
-    'items-center',
-  );
-
-  const chevronClasses = useMemo(() => {
-    return cn(open && 'rotate-180', chevronClassName);
-  }, [open, chevronClassName]);
-
   return (
-    <div
-      className="relative cursor-pointer"
-      // onClick={setVisibility}
-      ref={inputWrapperRef}
-      tabIndex={0}
-      role="combobox"
-      aria-expanded={open}
-      aria-haspopup="listbox"
-      // onKeyDown={handleKeyDown}
+    <UiSelect
+      open={open}
+      onOpenChange={setOpen}
     >
-      <input
-        id={id}
-        readOnly={true}
-        placeholder={placeholder}
-        className={inputClasses}
-        value={value ?? ''}
-        tabIndex={-1} // Input is read-only, focus should be on the wrapper
-        aria-hidden="true" // Hide input from screen readers as wrapper acts as combobox
-      />
+      <UiSelectTrigger>
+        <UiSelectValue placeholder={placeholder}>{value}</UiSelectValue>
+      </UiSelectTrigger>
 
-      <div className={chevronWrapperClasses}>
-        <SvgIcon
-          className={chevronClasses}
-          size="small"
-          name="chevron-up"
-        />
-      </div>
-    </div>
+      <UiSelectContent {...props}>{optionsTemplate}</UiSelectContent>
+    </UiSelect>
   );
 }

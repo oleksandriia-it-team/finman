@@ -24,5 +24,4 @@ export interface DropdownInputTemplateProps extends InputDefaultProps {
   optionsTemplate: JSX.Element;
   open: boolean;
   setOpen: (value: boolean) => void;
-  chevronClassName?: string;
 }
