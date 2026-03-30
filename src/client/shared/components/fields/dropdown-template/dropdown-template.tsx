@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
-import { InputSize } from '../constants/input-size.constant';
+import { InputSize } from '@frontend/shared/сomponents/fields/constants/input-size.constant';
 
 export default function DropdownTemplate({
   value,

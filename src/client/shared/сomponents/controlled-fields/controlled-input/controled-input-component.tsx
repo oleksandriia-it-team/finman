@@ -1,9 +1,9 @@
 'use client';
 
-import { ControlledInputProps } from '../props/controlled-input.props';
 import clsx from 'clsx';
 import { Controller, useFormContext } from 'react-hook-form';
-import Input from '../../fields/input/input';
+import Input from '@frontend/components/fields/input/input';
+import { ControlledInputProps } from '@frontend/components/controlled-fields/props/controlled-input.props';
 
 // TODO update later
 export default function ControlledInput({ name, className, ...props }: ControlledInputProps) {

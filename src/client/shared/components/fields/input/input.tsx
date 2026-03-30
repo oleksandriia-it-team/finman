@@ -2,7 +2,7 @@
 
 import { InputProps } from '../props/input.props';
 import clsx from 'clsx';
-import { InputSize } from '../constants/input-size.constant';
+import { InputSize } from '@frontend/shared/сomponents/fields/constants/input-size.constant';
 
 /**
  * InputComponent
