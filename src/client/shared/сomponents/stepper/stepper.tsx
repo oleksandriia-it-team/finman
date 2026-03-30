@@ -30,7 +30,7 @@ export default function Stepper({
       className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-prev'}
       bgNone={true}
       onClick={() => {
-        if (!canNavigate && stepItemsCount > 0) return;
+        if (!canNavigate) return;
         setStep((currentStep - 1 + stepItemsCount) % stepItemsCount);
       }}
     />
@@ -44,7 +44,7 @@ export default function Stepper({
       className={nextStepOnlyOnButtonClick ? '' : 'carousel-control-next'}
       bgNone={true}
       onClick={() => {
-        if (!canNavigate && stepItemsCount > 0) return;
+        if (!canNavigate) return;
         setStep((currentStep + 1) % stepItemsCount);
       }}
     />
