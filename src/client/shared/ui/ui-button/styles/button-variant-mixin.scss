@@ -20,11 +20,6 @@
     pointer-events: none;
     opacity: 0.5;
   }
-
-  &[aria-invalid='true'] {
-    border-color: var(--destructive);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
-  }
 }
 
 @mixin btn-variant($bg, $text) {

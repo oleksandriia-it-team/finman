@@ -1,43 +1,60 @@
 'use client';
 
-import { UiStepper } from '@frontend/ui/ui-stepper/ui-stepper';
-import { UiStepperItem } from '@frontend/ui/ui-stepper/ui-stepper-item';
-import { UiStepperContent } from '@frontend/ui/ui-stepper/ui-stepper-content';
-import { UiStepperPrev } from '@frontend/ui/ui-stepper/ui-stepper-prev';
-import { UiStepperNext } from '@frontend/ui/ui-stepper/ui-stepper-next';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
+import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
+import { Dropdown } from '@frontend/components/fields/dropdown/dropdown';
+import { lookupsService } from '@frontend/entities/lookups/lookups.service';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { useDropdownResource } from '@frontend/shared/hooks/dropdown-resource/dropdown-resource.hook';
+import { UiInput } from '@frontend/ui/ui-input/ui-input';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 export default function MainPage() {
-  const showToast = useGlobalToast((v) => v.showToast);
+  const [page, setPage] = useState(1);
 
+  const [firstDropdownValue, setFirstDropdownValue] = useState<number | undefined>(undefined);
+  const [inputValue, setInputValue] = useState<string | undefined>(undefined);
+
+  const data = useDropdownResource({
+    currentValue: firstDropdownValue,
+    getTotalCountQuery: useQuery({
+      queryKey: ['total count country'],
+      queryFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
+    }),
+    getLabelFn: (id) => lookupsService.getItem(LookupsTypeEnum.CountriesAndLocales, id).then((r) => r?.country),
+    getOptionsQuery: useQuery({
+      queryKey: ['options country', page],
+      queryFn: () =>
+        lookupsService
+          .getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * 20 + 1, page * 20 + 1, {})
+          .then((r) => r.map((data) => ({ label: data.country, value: data.id }))),
+    }),
+    labelQueryKey: ['label country', String(firstDropdownValue ?? '')],
+  });
+
+  // TODO: remove later, it's an example
   return (
-    <UiStepper
-      fullSize
-      orientation="vertical"
-    >
-      <UiStepperContent>
-        <UiStepperItem key={1}>
-          <UiButton onClick={() => showToast({ title: 'warning', description: 'warning', variant: 'muted' })}>
-            show warning toast
-          </UiButton>
-          <UiButton onClick={() => showToast({ title: 'danger', description: 'danger', variant: 'destructive' })}>
-            show danger toast
-          </UiButton>
-        </UiStepperItem>
-        <UiStepperItem key={2}>
-          <div className="bg-blue-100 size-full">2</div>
-        </UiStepperItem>
-        <UiStepperItem key={3}>
-          <div className="bg-green-100 size-full">3</div>
-        </UiStepperItem>
-        <UiStepperItem key={4}>
-          <div className="bg-purple-100 size-full">4</div>
-        </UiStepperItem>
-      </UiStepperContent>
+    <div className="flex gap-2">
+      <Dropdown<number>
+        lazy={true}
+        className="w-24"
+        optionListClassName="overflow-auto max-h-96"
+        total={data.totalCount}
+        isLoading={data.state === PromiseState.Loading}
+        pageSize={20}
+        page={page}
+        itemHeight={32}
+        setPage={setPage}
+        value={firstDropdownValue}
+        customInputValue={data.inputLabel}
+        options={data.options}
+        onChange={(value) => setFirstDropdownValue(value)}
+      />
 
-      <UiStepperPrev size="default" />
-      <UiStepperNext size="default" />
-    </UiStepper>
+      <UiInput
+        onChange={setInputValue}
+        value={inputValue}
+      />
+    </div>
   );
 }

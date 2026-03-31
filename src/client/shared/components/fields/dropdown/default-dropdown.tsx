@@ -3,8 +3,9 @@
 import { DefaultDropdownInputProps } from '../props/input.props';
 import { useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
-import { UiOptionList } from '@frontend/ui/ui-options/ui-option-list';
-import { UiOptionItem } from '@frontend/ui/ui-options/ui-option-item';
+import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
+import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
+import { UiSelectLabel } from '@frontend/ui/ui-select/ui-select-label';
 
 export function DefaultDropdown<T>({
   onChange,
@@ -27,17 +28,18 @@ export function DefaultDropdown<T>({
 
   const optionsTemplate = useMemo(() => {
     return (
-      <UiOptionList className={optionListClassName}>
+      <UiSelectGroup className={optionListClassName}>
         {options.map((option) => (
-          <UiOptionItem
+          <UiSelectItem
             key={option.label}
             className={optionClassName}
             onClick={() => onChange(option.value)}
+            value={String(option.value)}
           >
-            {option.label}
-          </UiOptionItem>
+            <UiSelectLabel>{option.label}</UiSelectLabel>
+          </UiSelectItem>
         ))}
-      </UiOptionList>
+      </UiSelectGroup>
     );
   }, [optionListClassName, options, optionClassName, onChange]);
 
