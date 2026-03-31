@@ -12,8 +12,8 @@
   user-select: none;
 
   &:focus {
-    background-color: var(--color-accent);
-    color: var(--color-accent-foreground);
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
 
   &[data-disabled] {

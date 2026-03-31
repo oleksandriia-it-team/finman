@@ -7,6 +7,7 @@ import { DropdownOption } from '../../../models/dropdown-option.model';
 import { UiLazyLoad } from '@frontend/ui/ui-lazy-load/ui-lazy-load';
 import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
+import { UiSelectLabel } from '@frontend/ui/ui-select/ui-select-label';
 
 export function LazyDropdown<T>({
   onChange,
@@ -65,7 +66,7 @@ export function LazyDropdown<T>({
               onClick={() => onChange(option.value)}
               value={option.value as never}
             >
-              {option.label}
+              <UiSelectLabel>{option.label}</UiSelectLabel>
             </UiSelectItem>
           ))}
         </UiLazyLoad>

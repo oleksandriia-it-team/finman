@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import DropdownTemplate from '../dropdown-template/dropdown-template';
 import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
+import { UiSelectLabel } from '@frontend/ui/ui-select/ui-select-label';
 
 export function DefaultDropdown<T>({
   onChange,
@@ -35,7 +36,7 @@ export function DefaultDropdown<T>({
             onClick={() => onChange(option.value)}
             value={option.value as never}
           >
-            {option.label}
+            <UiSelectLabel>{option.label}</UiSelectLabel>
           </UiSelectItem>
         ))}
       </UiSelectGroup>

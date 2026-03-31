@@ -16,7 +16,7 @@ export function UiInput({ className, value, onChange, ...props }: InputProps<str
         const target = event.target as HTMLInputElement;
         onChange(target.value);
       }}
-      className={cn('input', className)}
+      className={cn('input basic-input', className)}
       {...props}
     />
   );

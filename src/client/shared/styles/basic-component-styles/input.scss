@@ -1,0 +1,38 @@
+.basic-input {
+  width: 100%;
+  min-width: 0;
+  outline: none;
+  border-radius: var(--radius);
+  border: 1px solid var(--muted-foreground);
+  background-color: var(--input);
+  box-shadow: var(--shadow-xs);
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  transition: color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  padding: 0.375rem 0.5rem;
+
+  &::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  &:focus-visible, &[aria-expanded="true"], &[data-state="open"] {
+    border-color: var(--ring);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+}
+
+.dark .basic-input {
+  background-color: color-mix(in srgb, var(--input) 30%, transparent);
+}

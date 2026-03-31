@@ -7,7 +7,7 @@ export function UiSelectTrigger({ className, size = 'default', children, ...prop
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
-      className={cn('flex w-fit items-center justify-between gap-2', className)}
+      className={cn('flex w-fit items-center justify-between gap-2 basic-input', className)}
       {...props}
     >
       {children}
