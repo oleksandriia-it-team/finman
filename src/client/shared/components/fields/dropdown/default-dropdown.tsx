@@ -34,7 +34,7 @@ export function DefaultDropdown<T>({
             key={option.label}
             className={optionClassName}
             onClick={() => onChange(option.value)}
-            value={option.value as never}
+            value={String(option.value)}
           >
             <UiSelectLabel>{option.label}</UiSelectLabel>
           </UiSelectItem>

@@ -12,6 +12,8 @@ export default function DropdownTemplate({
   optionsTemplate,
   open,
   setOpen,
+  id,
+  className,
   ...props
 }: DropdownInputTemplateProps) {
   return (
@@ -19,7 +21,10 @@ export default function DropdownTemplate({
       open={open}
       onOpenChange={setOpen}
     >
-      <UiSelectTrigger>
+      <UiSelectTrigger
+        className={className}
+        id={id}
+      >
         <UiSelectValue placeholder={placeholder}>{value}</UiSelectValue>
       </UiSelectTrigger>
 
