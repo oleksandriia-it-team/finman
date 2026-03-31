@@ -1,1 +1,10 @@
-export type ColorVariantModel = 'default' | 'secondary' | 'destructive' | 'muted' | 'accent';
+export type ColorVariantModel =
+  | 'default'
+  | 'destructive'
+  | 'muted'
+  | 'success'
+  | 'warning'
+  | 'purple'
+  | 'pink'
+  | 'orange'
+  | 'teal';

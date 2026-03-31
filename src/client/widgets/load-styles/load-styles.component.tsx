@@ -9,7 +9,8 @@ export default function LoadStylesComponent({ children }: ChildrenComponentProps
   const mode = useUserInformation((state) => state.userInformation?.mode ?? ThemeEnum.Light);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-bs-theme', mode);
+    if (mode === ThemeEnum.Dark) document.documentElement.classList.add(ThemeEnum.Dark);
+    else document.documentElement.classList.remove(ThemeEnum.Dark);
   }, [mode]);
 
   return <div>{children}</div>;

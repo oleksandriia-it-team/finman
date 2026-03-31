@@ -92,7 +92,8 @@ export default function Header() {
     <nav className="navbar navbar-light bg-primary px-3 py-2 flex justify-between items-center">
       <UiButton
         asChild
-        variant="link"
+        variant="default"
+        bgNone
       >
         <Link
           href="/"
@@ -102,7 +103,7 @@ export default function Header() {
         </Link>
       </UiButton>
 
-      <div className="header-buttons text-spell-revert">
+      <div className="header-buttons text-primary-foreground">
         {currentDateEl}
         {authButtonEl}
       </div>
