@@ -32,5 +32,12 @@
   }
 
   &[data-rounded] { border-radius: 9999px; }
-  &[data-bg-none] { background-color: transparent; }
+  &[data-bg-none] {
+    background-color: transparent;;
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background-color: transparent;
+    }
+  }
 }

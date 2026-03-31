@@ -41,41 +41,39 @@
   --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 0.25);
 
   // Custom colors
-  .dark {
-    /* Success / Green */
-    --success: rgb(34 197 94);
-    --success-foreground: rgb(5 46 22);
-    --success-muted: rgb(20 83 45);
-    --success-muted-foreground: rgb(134 239 172);
+  /* Success / Green */
+  --success: rgb(34 197 94);
+  --success-foreground: rgb(5 46 22);
+  --success-muted: rgb(20 83 45);
+  --success-muted-foreground: rgb(134 239 172);
 
-    /* Warning / Yellow */
-    --warning: rgb(234 179 8);
-    --warning-foreground: rgb(66 32 6);
-    --warning-muted: rgb(78 45 3);
-    --warning-muted-foreground: rgb(253 224 71);
+  /* Warning / Yellow */
+  --warning: rgb(234 179 8);
+  --warning-foreground: rgb(66 32 6);
+  --warning-muted: rgb(78 45 3);
+  --warning-muted-foreground: rgb(253 224 71);
 
-    /* Purple */
-    --purple: rgb(139 92 246);
-    --purple-foreground: rgb(255 255 255);
-    --purple-muted: rgb(46 16 101);
-    --purple-muted-foreground: rgb(196 181 253);
+  /* Purple */
+  --purple: rgb(139 92 246);
+  --purple-foreground: rgb(255 255 255);
+  --purple-muted: rgb(46 16 101);
+  --purple-muted-foreground: rgb(196 181 253);
 
-    /* Pink */
-    --pink: rgb(236 72 153);
-    --pink-foreground: rgb(255 255 255);
-    --pink-muted: rgb(80 7 36);
-    --pink-muted-foreground: rgb(249 168 212);
+  /* Pink */
+  --pink: rgb(236 72 153);
+  --pink-foreground: rgb(255 255 255);
+  --pink-muted: rgb(80 7 36);
+  --pink-muted-foreground: rgb(249 168 212);
 
-    /* Orange */
-    --orange: rgb(251 146 60);
-    --orange-foreground: rgb(67 20 7);
-    --orange-muted: rgb(67 20 7);
-    --orange-muted-foreground: rgb(253 186 116);
+  /* Orange */
+  --orange: rgb(251 146 60);
+  --orange-foreground: rgb(67 20 7);
+  --orange-muted: rgb(67 20 7);
+  --orange-muted-foreground: rgb(253 186 116);
 
-    /* Teal */
-    --teal: rgb(45 212 191);
-    --teal-foreground: rgb(4 47 46);
-    --teal-muted: rgb(19 78 74);
-    --teal-muted-foreground: rgb(153 246 228);
-  }
+  /* Teal */
+  --teal: rgb(45 212 191);
+  --teal-foreground: rgb(4 47 46);
+  --teal-muted: rgb(19 78 74);
+  --teal-muted-foreground: rgb(153 246 228);
 }
