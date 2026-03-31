@@ -2,8 +2,9 @@
 
 @import '../../../styles/variants';
 
-@mixin input-size($height, $padding-x, $padding-y) {
+@mixin input-size($font-size, $height, $padding-x, $padding-y) {
   height: $height;
+  font-size: $font-size;
   padding-inline: $padding-x;
   padding-block: $padding-y;
 }
@@ -14,7 +15,8 @@
       @include input-size(
         list.nth($values, 1),
         list.nth($values, 2),
-        list.nth($values, 3)
+        list.nth($values, 3),
+        list.nth($values, 4)
       );
     }
   }

@@ -2,7 +2,7 @@ import { ComponentPropsWithRef } from 'react';
 import { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
 import { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
-export type ButtonVariant = ColorVariantModel | 'link';
+export type ButtonVariant = ColorVariantModel;
 
 export type ButtonSize = SizeVariantModel;
 

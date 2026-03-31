@@ -41,7 +41,8 @@
   }
 }
 
-@mixin btn-size($height, $padding-x, $padding-y: 0) {
+@mixin btn-size($font-size, $height, $padding-x, $padding-y: 0) {
   height: $height;
+  font-size: $font-size;
   padding: $padding-y $padding-x;
 }

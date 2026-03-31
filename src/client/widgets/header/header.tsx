@@ -50,10 +50,12 @@ export default function Header() {
     <>
       {isLight && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="brightness-high-fill"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Dark,
@@ -64,10 +66,12 @@ export default function Header() {
 
       {!isLight && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="moon-fill"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Light,
@@ -78,10 +82,12 @@ export default function Header() {
 
       {isLoggedIn && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="gear"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() => router.push('pages/setting-page')}
         />
       )}
@@ -92,7 +98,8 @@ export default function Header() {
     <nav className="navbar navbar-light bg-primary px-3 py-2 flex justify-between items-center">
       <UiButton
         asChild
-        variant="link"
+        variant="default"
+        bgNone
       >
         <Link
           href="/"
@@ -102,7 +109,7 @@ export default function Header() {
         </Link>
       </UiButton>
 
-      <div className="header-buttons text-spell-revert">
+      <div className="header-buttons text-primary-foreground">
         {currentDateEl}
         {authButtonEl}
       </div>
