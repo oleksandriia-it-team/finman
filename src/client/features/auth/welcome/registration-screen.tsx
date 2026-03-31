@@ -1,0 +1,45 @@
+'use client';
+
+import { useState } from 'react';
+import MainWelcomeStep from './steps/main-welcome-page/main-welcome-step';
+import BenefitsExplanationStep from './steps/benefits-explanation-step/benefits-explanation-step';
+import SignUpStep from './steps/sign-up-step/sign-up-step';
+import Stepper from '@frontend/components/stepper/stepper';
+import StepperItem from '@frontend/components/stepper/stepper-item';
+//Page-component that meets user when launch app.
+// Realised as stepper component which shows reg form in first app-launch
+
+export default function RegistrationScreen() {
+  const [step, setStep] = useState<number>(0);
+
+  return (
+    <Stepper
+      setStep={setStep}
+      currentStep={step}
+    >
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={0}
+      >
+        <MainWelcomeStep />
+      </StepperItem>
+
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={1}
+      >
+        <BenefitsExplanationStep />
+      </StepperItem>
+
+      <StepperItem
+        className="size-full"
+        currentStep={step}
+        step={2}
+      >
+        <SignUpStep />
+      </StepperItem>
+    </Stepper>
+  );
+}

@@ -6,13 +6,17 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { usePopover } from '../../../hooks/popover/popover.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useCloseWithPopover } from '../../../hooks/popover/use-close-with-popover.hook';
+import { DefaultInputSize } from '../../../constants/input-constants';
 import { cn } from '../../../utils/cn.util';
+import { InputSize } from '@frontend/components/fields/constants/input-size.constant';
 
 export default function DropdownTemplate({
   value,
   className,
   chevronClassName,
   placeholder,
+  wrapperClassName,
+  size,
   optionsTemplate,
   id,
   setOpen,
@@ -60,10 +64,11 @@ export default function DropdownTemplate({
   );
 
   const inputClasses = useMemo(() => {
-    return cn(className, 'form-control', 'default-field-styles');
-  }, [className]);
+    return cn(className, 'form-control', 'default-field-styles', InputSize[size ?? DefaultInputSize]);
+  }, [className, size]);
 
   const chevronWrapperClasses = cn(
+    'h-full',
     'default-field-height',
     'default-field-padding-right',
     'top-0',
@@ -77,9 +82,13 @@ export default function DropdownTemplate({
     return cn(open && 'rotate-180', chevronClassName);
   }, [open, chevronClassName]);
 
+  const wrapperClasses = useMemo(() => {
+    return cn(wrapperClassName, 'relative', 'cursor-pointer');
+  }, [wrapperClassName]);
+
   return (
     <div
-      className="relative cursor-pointer"
+      className={wrapperClasses}
       onClick={setVisibility}
       ref={inputWrapperRef}
       tabIndex={0}

@@ -1,6 +1,9 @@
 'use client';
 
 import { InputProps } from '../props/input.props';
+import clsx from 'clsx';
+import { DefaultInputSize } from '../../../constants/input-constants';
+import { InputSize } from '@frontend/components/fields/constants/input-size.constant';
 
 /**
  * InputComponent
@@ -23,12 +26,15 @@ import { InputProps } from '../props/input.props';
  * />
  */
 
-export default function InputComponent({ value, className, placeholder, onChange }: InputProps) {
-  // return <>
-  //   <InputText className={ `input-component ${ className || '' } ` }
-  //     placeholder={ placeholder }
-  //     value={ value }
-  //     onChange={ (newValue) => onChange?.(newValue.target.value) }
-  //   />
-  // </>;
+export default function Input({ value, className, placeholder, onChange, size }: InputProps<string>) {
+  const classes = clsx('form-control', 'default-field-styles', InputSize[size ?? DefaultInputSize], className);
+
+  return (
+    <input
+      className={classes}
+      placeholder={placeholder}
+      value={value ?? ''}
+      onChange={(newValue) => onChange?.(newValue.target.value)}
+    />
+  );
 }
