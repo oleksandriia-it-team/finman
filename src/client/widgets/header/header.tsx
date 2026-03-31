@@ -50,10 +50,12 @@ export default function Header() {
     <>
       {isLight && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="brightness-high-fill"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Dark,
@@ -64,10 +66,12 @@ export default function Header() {
 
       {!isLight && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="moon-fill"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Light,
@@ -78,10 +82,12 @@ export default function Header() {
 
       {isLoggedIn && (
         <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="gear"
           size="sm"
-          variant="link"
-          isOutlined={true}
+          variant="default"
+          bgNone
           onClick={() => router.push('pages/setting-page')}
         />
       )}
