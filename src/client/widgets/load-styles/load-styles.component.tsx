@@ -12,5 +12,5 @@ export default function LoadStylesComponent({ children }: ChildrenComponentProps
     document.documentElement.setAttribute('data-bs-theme', mode);
   }, [mode]);
 
-  return <div>{children}</div>;
+  return <main className="flex flex-col w-screen h-screen">{children}</main>;
 }

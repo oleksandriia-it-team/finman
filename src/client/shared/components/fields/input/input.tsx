@@ -2,7 +2,8 @@
 
 import { InputProps } from '../props/input.props';
 import clsx from 'clsx';
-import { InputSize } from '@frontend/shared/сomponents/fields/constants/input-size.constant';
+import { DefaultInputSize } from '../../../constants/input-constants';
+import { InputSize } from '@frontend/components/fields/constants/input-size.constant';
 
 /**
  * InputComponent
@@ -25,17 +26,15 @@ import { InputSize } from '@frontend/shared/сomponents/fields/constants/input-s
  * />
  */
 
-export default function Input({ value, className, placeholder, onChange, size = 'small' }: InputProps<string>) {
-  const classes = clsx('form-control', 'default-field-styles', InputSize[size], className);
+export default function Input({ value, className, placeholder, onChange, size }: InputProps<string>) {
+  const classes = clsx('form-control', 'default-field-styles', InputSize[size ?? DefaultInputSize], className);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <input
-        className={classes}
-        placeholder={placeholder}
-        value={value ?? ''}
-        onChange={(newValue) => onChange?.(newValue.target.value)}
-      />
-    </div>
+    <input
+      className={classes}
+      placeholder={placeholder}
+      value={value ?? ''}
+      onChange={(newValue) => onChange?.(newValue.target.value)}
+    />
   );
 }

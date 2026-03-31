@@ -1,11 +1,27 @@
 :root[data-bs-theme="light"] {
   --spell-basic: black;
   --spell-revert: white;
+
+  --step-bg: rgba(248, 250, 252, 1);
+  --step-card-bg: rgba(255, 255, 255, 1);
+  --step-card-border: rgba(226, 232, 240, 1);
+  --step-text-main: rgba(15, 23, 42, 1);
+  --step-text-sub: rgba(71, 85, 105, 1);
+  --step-text-footer: rgba(100, 116, 139, 1);
+  --step-primary: rgba(147, 51, 234,1);
 }
 
 :root[data-bs-theme="dark"] {
   --spell-basic: white;
   --spell-revert: black;
+
+  --step-bg: rgba(9, 9, 11, 1);
+  --step-card-bg: rgba(255, 255, 255, 1);
+  --step-card-border: rgba(255, 255, 255, 1);
+  --step-text-main: rgba(255, 255, 255, 1);
+  --step-text-sub: rgba(161, 161, 170, 1);
+  --step-text-footer: rgba(113, 113, 122, 1);
+  --step-primary: rgba(192, 132, 252, 1);
 }
 
 @theme {
@@ -50,4 +66,13 @@
   --color-info-border: var(--bs-info-border-subtle);
   --color-light-border: var(--bs-light-border-subtle);
   --color-dark-border: var(--bs-dark-border-subtle);
+}
+
+
+:root{
+  --blue-blot: rgba(59, 130, 246, 1);
+  --pink-blot: rgba(111, 66, 193, 1);
+  --green-blot: rgba(32, 201, 151, 1);
+  --bg-badge: rgba(220, 53, 69, 1);
+  --purple-btn: rgba(147, 51, 234, 1);
 }

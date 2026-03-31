@@ -1,8 +1,8 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { userSchema } from './validation-schema';
-import { useUserInformation } from '../../../../../entities/user-information/use-user-information.store';
-import { UserInformation } from '../../../../../entities/user-information/models/user-infomation.model';
+import { userSchema } from '../../../../client/entities/user-information/validation-schema';
+import { useUserInformation } from '../../../../client/entities/user-information/use-user-information.store';
+import { UserInformation } from '../../../../client/entities/user-information/models/user-infomation.model';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 /**
@@ -16,13 +16,18 @@ import { zodResolver } from '@hookform/resolvers/zod';
  * }}
  *
  * @example
- * const { methods, submit } = RegistrationForm((userData) => {
+ * const { methods, submit } = useSetupRegistration((userData) => {
  *   console.log('Registered user:', userData);
  * });
  *
  * <FormProvider {...methods}>
- *   <Form />
- *   <button onClick={submit}>Submit</button>
+ *   <form
+ *     onSubmit = {(e)=>{
+ *       e.preventDefault;
+ *       submit();
+ *   }}
+ *   >
+ *   </form>
  * </FormProvider>
  */
 export function useSetupRegistration(onSuccessAction: (data: UserInformation) => void) {

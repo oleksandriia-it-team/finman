@@ -17,3 +17,13 @@ $enable-helpers: false;
 @import 'overrides';
 
 @import 'toast';
+
+@import 'mixins';
+
+html {
+  font-size: 14px;
+
+  @include mediascreen("desktop") {
+    font-size: 16px;
+  }
+}
