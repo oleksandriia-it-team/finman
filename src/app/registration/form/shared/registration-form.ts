@@ -1,8 +1,8 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { userSchema } from '../../../../client/entities/user-information/validation-schema';
-import { useUserInformation } from '../../../../client/entities/user-information/use-user-information.store';
-import { UserInformation } from '../../../../client/entities/user-information/models/user-infomation.model';
+import { userSchema } from '@frontend/shared/schemas/validation-schema';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { UserInformation } from '@frontend/shared/services/user-information/models/user-infomation.model';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 /**

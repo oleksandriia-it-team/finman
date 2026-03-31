@@ -1,7 +1,7 @@
 'use client';
 
-import { useUserInformation } from '../../client/entities/user-information/use-user-information.store';
-import { useUserGuard } from '../../client/entities/user-information/auth-guard.hook';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { useUserGuard } from '@frontend/entities/user-information/auth-guard.hook';
 
 export default function UserProfilePage() {
   useUserGuard();

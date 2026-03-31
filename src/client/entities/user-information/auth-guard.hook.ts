@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useUserInformation } from './use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useEffect } from 'react';
 
 export function useUserGuard(routePath?: string) {

@@ -6,7 +6,7 @@ import TransformDate from '../../shared/components/transform-date/transform-date
 import { DateFormatType } from '../../shared/enums/date-type.enum';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserInformation } from '../../entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
 import Link from '../../shared/components/link/link';
