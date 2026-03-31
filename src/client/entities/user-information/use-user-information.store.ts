@@ -23,11 +23,7 @@ export const useUserInformation = create<UserInformationStore>((set) => ({
     set({ userInformation: getUserInformation() });
   },
   logOut: () => {
-    const user = localStorageService.getItem<UserInformation>(UserInformationKey);
-
-    const updatedUser = { ...user, userName: undefined };
-
-    localStorageService.setItem(UserInformationKey, updatedUser);
-    set({ userInformation: getUserInformation() });
+    localStorageService.setItem<UserInformation | null>(UserInformationKey, null);
+    set({ userInformation: null });
   },
 }));
