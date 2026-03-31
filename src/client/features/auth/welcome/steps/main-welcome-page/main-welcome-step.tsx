@@ -1,7 +1,7 @@
 'use client';
 
-import GlassCard from '../../../../../shared/сomponents/glass-card/glass-card';
 import './main-welcome-step.scss';
+import GlassCard from '@frontend/components/glass-card/glass-card';
 
 export default function MainWelcomeStep() {
   return (

@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { getTotalCountItems } from '../get-total-count-items.util';
-import { CountryAndLocale } from '../../../../common/records/countries.record';
+import { CountryAndLocale } from '@common/records/countries.record';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';
-import { PathToPublic } from '../../../../common/path-to-public.constant';
+import { PathToPublic } from '@common/path-to-public.constant';
 import StreamArray from 'stream-json/streamers/StreamArray';
 
 import './mocks/fs.mock';
@@ -21,7 +21,7 @@ describe('getTotalCountItems', () => {
 
   it('should return count of items that match single filter', async () => {
     const filter = (value: CountryAndLocale) => value.id > 10;
-    const expectedCount = localeAndLanguagesFixture.filter(filter).length;
+    const expectedCount = localeAndLanguagesFixture.filter(filter as never).length;
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [filter]);
 
@@ -56,7 +56,7 @@ describe('getTotalCountItems', () => {
       return value.id > 5 && value.country?.includes('A');
     };
 
-    const expectedCount = localeAndLanguagesFixture.filter(complexFilter).length;
+    const expectedCount = localeAndLanguagesFixture.filter(complexFilter as never).length;
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [complexFilter]);
 

@@ -1,9 +1,9 @@
 'use client';
 
-import ControlledInput from '../../../client/shared/сomponents/controlled-fields/controlled-input/controled-input-component';
+import ControlledInput from '@frontend/components/controlled-fields/controlled-input/controled-input-component';
 import { FormProvider } from 'react-hook-form';
-import ControlledDropdown from '../../../client/shared/сomponents/controlled-fields/controlled-dropdown/controlled-dropdown';
-import Button from '../../../client/shared/сomponents/button/button';
+import ControlledDropdown from '@frontend/components/controlled-fields/controlled-dropdown/controlled-dropdown';
+import Button from '@frontend/components/button/button';
 import { useSetupRegistration } from './shared/registration-form';
 import { useRouter } from 'next/navigation';
 

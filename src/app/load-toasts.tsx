@@ -1,5 +1,5 @@
-import { useToastHook } from '../client/shared/hooks/toast/toast.hook';
-import ToastTemplate from '../client/shared/сomponents/toast/toast-template';
+import { useToastHook } from '@frontend/shared/hooks/toast/toast.hook';
+import ToastTemplate from '@frontend/shared/components/toast/toast-template';
 
 export default function LoadToasts() {
   const toasts = useToastHook((state) => state.toasts);

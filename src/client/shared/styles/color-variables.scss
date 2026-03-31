@@ -26,12 +26,14 @@
 
 @theme {
   /* Base */
-  --color-primary: rgb(var(--bs-primary-rgb));
-  --color-secondary: rgb(var(--bs-secondary-rgb));
-  --color-success: rgb(var(--bs-success-rgb));
-  --color-danger: rgb(var(--bs-danger-rgb));
-  --color-warning: rgb(var(--bs-warning-rgb));
-  --color-info: rgb(var(--bs-info-rgb));
+  --color-primary: var(--bs-primary);
+  --color-secondary: var(--bs-secondary);
+  --color-success: var(--bs-success);
+  --color-danger: var(--bs-danger);
+  --color-warning: var(--bs-warning);
+  --color-info: var(--bs-info);
+  --color-light: var(--bs-light);
+  --color-dark: var(--bs-dark);
   --color-spell-basic: var(--spell-basic);
   --color-spell-revert: var(--spell-revert);
 
@@ -42,6 +44,8 @@
   --color-danger-emphasis: var(--bs-danger-text-emphasis);
   --color-warning-emphasis: var(--bs-warning-text-emphasis);
   --color-info-emphasis: var(--bs-info-text-emphasis);
+  --color-light-emphasis: var(--bs-light-text-emphasis);
+  --color-dark-emphasis: var(--bs-dark-text-emphasis);
 
   /* Subtle backgrounds */
   --color-primary-subtle: var(--bs-primary-bg-subtle);
@@ -50,6 +54,8 @@
   --color-danger-subtle: var(--bs-danger-bg-subtle);
   --color-warning-subtle: var(--bs-warning-bg-subtle);
   --color-info-subtle: var(--bs-info-bg-subtle);
+  --color-light-subtle: var(--bs-light-bg-subtle);
+  --color-dark-subtle: var(--bs-dark-bg-subtle);
 
   /* Borders */
   --color-primary-border: var(--bs-primary-border-subtle);
@@ -58,6 +64,8 @@
   --color-danger-border: var(--bs-danger-border-subtle);
   --color-warning-border: var(--bs-warning-border-subtle);
   --color-info-border: var(--bs-info-border-subtle);
+  --color-light-border: var(--bs-light-border-subtle);
+  --color-dark-border: var(--bs-dark-border-subtle);
 }
 
 

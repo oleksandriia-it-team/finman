@@ -1,8 +1,9 @@
 'use client';
 
 import { TransactionsData } from './transaction-data.constant';
-import './benefits-explanation-step.scss';
 import TransactionCard from '../../../../../entities/budget-plan/transaction-card/transaction-card';
+
+import './benefits-explanation-step.scss';
 
 export default function BenefitsExplanationStep() {
   return (

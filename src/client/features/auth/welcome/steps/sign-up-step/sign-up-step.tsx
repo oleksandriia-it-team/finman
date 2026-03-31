@@ -1,8 +1,9 @@
 'use client';
-import './sign-up-step.scss';
 import TransactionCard from '../../../../../entities/budget-plan/transaction-card/transaction-card';
-import Button from '../../../../../shared/сomponents/button/button';
+import Button from '@frontend/shared/components/button/button';
 import Link from 'next/link';
+
+import './sign-up-step.scss';
 
 export default function SignUpStep() {
   const checks = [

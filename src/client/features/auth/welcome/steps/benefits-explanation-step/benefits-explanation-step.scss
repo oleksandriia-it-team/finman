@@ -5,13 +5,12 @@
   margin-bottom: 1rem;
 }
 
-
 .my-badge{
   display: inline-block;
   padding: 0.5rem 1rem;
   font-size: 0.75em;
   font-weight: 700;
-  background-color: rgba(var(--bg-badge), 0.25);
+  background-color: color-mix(in srgb, var(--bg-badge) 25%, transparent);
   border-radius: 50rem;
   text-align: center;
   white-space: nowrap;

@@ -53,20 +53,20 @@
 }
 
 .icon-card-wrapper {
-  background-color: rgba(var(--step-card-bg) / 0.4);
-  border: 1px solid rgba(var(--step-card-border) / 1);
+  background-color: var(--step-card-bg);
+  border: 1px solid var(--step-card-border);
   backdrop-filter: blur(0.75rem);
   border-radius: 1.5rem;
   transition: all 0.3s ease;
 
   [data-bs-theme="dark"] & {
-    background-color: rgba(var(--step-card-bg) / 0.05);
-    border-color: rgba(var(--step-card-border) / 0.1);
+    background-color: var(--step-card-bg);
+    border-color: var(--step-card-border);
   }
 }
 
 .rocket-icon {
-  color: rgb(var(--step-primary));
+  color: var(--step-primary);
   animation: smooth-bounce 3s infinite ease-in-out;
 }
 

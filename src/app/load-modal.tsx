@@ -1,9 +1,9 @@
-import { useModalStore } from '../client/shared/hooks/modal/modal.hook';
+import { useModalStore } from '@frontend/shared/hooks/modal/modal.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { useEffect, useState } from 'react';
-import { useEventKey } from '../client/shared/hooks/event-key/event-key-hook';
-import { useBootstrapAnimation } from '../client/shared/hooks/bootstrap-animation/bootstrap-animation.hook';
-import clsx from 'clsx';
+import { useEventKey } from '@frontend/shared/hooks/event-key/event-key-hook';
+import { useBootstrapAnimation } from '@frontend/shared/hooks/bootstrap-animation/bootstrap-animation.hook';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export default function LoadModal() {
   const { isOpen, template, hideModal, onClose } = useModalStore(
@@ -36,8 +36,8 @@ export default function LoadModal() {
 
   if (!shouldRender || !templateToRender) return null;
 
-  const wrapperModalClasses = clsx('modal', showElement && 'show', 'd-block', 'fade');
-  const backdropClasses = clsx('modal-backdrop', 'fade', showElement && 'show');
+  const wrapperModalClasses = cn('modal', showElement && 'show', 'd-block', 'fade');
+  const backdropClasses = cn('modal-backdrop', 'fade', showElement && 'show');
 
   return (
     <>

@@ -1,9 +1,9 @@
 import { DropdownResource, DropdownResourceConfig } from './models/dropdown-resource.model';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { isEmpty } from '../../../../common/utils/is-empty.util';
+import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
-import { getErrorMessage } from '../../../../common/utils/get-error-message.util';
+import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { usePreviousValue } from '../previous-value/previous-value.hook';
 
 export function useDropdownResource<T>({
@@ -55,7 +55,7 @@ export function useDropdownResource<T>({
     }
 
     return PromiseState.Loading;
-  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery.status]);
+  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery.status, getLabelQuery.isEnabled]);
 
   const errorMessage = useMemo(() => {
     const errors = [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery.error];

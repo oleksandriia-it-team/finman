@@ -1,4 +1,4 @@
-import { isEmpty } from '../../../../common/utils/is-empty.util';
+import { isEmpty } from '@common/utils/is-empty.util';
 import { LocalStoragePrefix } from '../../constants/local-storage.contants';
 
 export class LocalStorageService {

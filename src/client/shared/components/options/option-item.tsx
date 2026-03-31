@@ -1,0 +1,20 @@
+import { OptionItemProps } from './props/option-item.props';
+import { useMemo } from 'react';
+import { cn } from '../../utils/cn.util';
+
+export default function OptionItem({ className, children, onClick, selected, id }: OptionItemProps) {
+  const classes = useMemo(
+    () => cn('dropdown-item', 'cursor-pointer', selected && 'active', className),
+    [className, selected],
+  );
+
+  return (
+    <li
+      id={id}
+      onClick={onClick}
+      className={classes}
+    >
+      {children}
+    </li>
+  );
+}

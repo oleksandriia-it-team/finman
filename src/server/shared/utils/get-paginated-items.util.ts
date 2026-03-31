@@ -2,7 +2,7 @@ import fs from 'fs';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
 import path from 'node:path';
-import { PathToPublic } from '../../../common/path-to-public.constant';
+import { PathToPublic } from '@common/path-to-public.constant';
 
 export async function getPaginatedItems<T>(
   pathToJson: string,

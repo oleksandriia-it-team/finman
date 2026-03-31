@@ -59,16 +59,17 @@ To avoid confusion between Frontend, Backend, and Database layers:
 **Architecture:** Domain-Driven Design (DDD).
 
 ### Structure
-* **`entities/`**: **Shared Kernel (Core Domain)**.
-  * Shared business classes used across multiple features (e.g., `UserOrm`).
-  * Contain pure business logic.
-  * Use `Records` from `common/` as internal data state.
-* **`features/`**: Isolated business modules (e.g., `budget`, `auth`).
-  * **`domain/`**: Local business rules and entities.
-  * **`application/`**: Use Cases, Services, and Validation.
-  * **`infrastructure/`**: Direct interaction with the database or external APIs.
-* **`shared/`**: Server-side utilities.
-
+* **`entities/`**: **Shared Kernel (Domain & Data Access / Analog of layer Entities in FSD)**.
+  * Core business models shared across the application (e.g., `User`, `Transaction`).
+  * **ORM Schemas**: Database table definitions and relations (e.g., `User.orm.ts`).
+  * **Repositories**: "Dumb" data access services containing atomic CRUD operations (`findById`, `save`, `update`).
+  * Contain pure entity-level logic (rich models), but NO cross-entity orchestration.
+* **`features/`**: **Isolated Business Scenarios (Use Cases)**.
+  * Specific, independent actions or business flows (e.g., `create-transaction`, `auth`).
+  * **Use Cases**: Orchestrators that inject shared repositories from `entities/` to execute complex logic and manage transactions.
+  * **DTOs & Validation**: Input contracts and validation schemas specific to the feature's request.
+* **`shared/`**: **Server-side Utilities**.
+  * Cross-cutting concerns and infrastructure helpers (e.g., Loggers, custom exceptions, date formatters, base classes).
 ---
 
 ## 4. Common Directory (`src/common`)
