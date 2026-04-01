@@ -1,10 +1,10 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Dropdown } from '../../fields/dropdown/dropdown';
+import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdown';
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
 import { cn } from '../../../utils/cn.util';
 
-export default function ControlledDropdown<T>({ name, className, ...props }: ControlledDropdownProps<T>) {
+export default function FinControlledDropdown<T>({ name, className, ...props }: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -16,7 +16,7 @@ export default function ControlledDropdown<T>({ name, className, ...props }: Con
 
         return (
           <div className="flex flex-col w-full">
-            <Dropdown
+            <FinDropdown
               {...props}
               value={field.value}
               onChange={(val) => field.onChange(val)}

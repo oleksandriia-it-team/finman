@@ -3,7 +3,7 @@ import { ControlledInputProps } from '../props/controlled-input.props';
 import { Controller, useFormContext } from 'react-hook-form';
 import { cn } from '@frontend/shared/utils/cn.util';
 
-export default function ControlledInput({ name, className, ...props }: ControlledInputProps) {
+export default function FinControlledInput({ name, className, ...props }: ControlledInputProps) {
   const { control } = useFormContext();
   return (
     <Controller

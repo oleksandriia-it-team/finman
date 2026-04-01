@@ -1,8 +1,8 @@
 'use client';
 
 import '../styles/first-page.scss';
-import ControlledInput from '../../../../shared/components/controlled-fields/controlled-input/controled-input-component';
-import ControlledDropdown from '../../../../shared/components/controlled-fields/controlled-dropdown/controlled-dropdown';
+import ControlledInput from '@frontend/components/controlled-fields/fin-controlled-input/controled-input-component';
+import FinControlledDropdown from '@frontend/components/controlled-fields/fin-controlled-dropdown/fin-controlled-dropdown';
 
 export default function RegistrationFormComponent() {
   const languages = [
@@ -27,13 +27,13 @@ export default function RegistrationFormComponent() {
         name="userName"
         placeholder="Username"
       />
-      <ControlledDropdown
+      <FinControlledDropdown
         className="w-full form-input"
         name="preferableLocale"
         placeholder="Preferable Formats"
         options={formats}
       />
-      <ControlledDropdown
+      <FinControlledDropdown
         className="w-full form-input"
         name="language"
         placeholder="Languages"

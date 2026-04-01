@@ -1,7 +1,7 @@
 'use client';
 
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
-import { Dropdown } from '@frontend/components/fields/dropdown/dropdown';
+import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdown';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useDropdownResource } from '@frontend/shared/hooks/dropdown-resource/dropdown-resource.hook';
@@ -35,7 +35,7 @@ export default function MainPage() {
   // TODO: remove later, it's an example
   return (
     <div className="flex gap-2">
-      <Dropdown<number>
+      <FinDropdown<number>
         lazy={true}
         className="w-24"
         optionListClassName="overflow-auto max-h-96"
