@@ -41,4 +41,40 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Success / Green */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-muted: var(--success-muted);
+  --color-success-muted-foreground: var(--success-muted-foreground);
+
+  /* Warning / Yellow */
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-muted: var(--warning-muted);
+  --color-warning-muted-foreground: var(--warning-muted-foreground);
+
+  /* Purple */
+  --color-purple: var(--purple);
+  --color-purple-foreground: var(--purple-foreground);
+  --color-purple-muted: var(--purple-muted);
+  --color-purple-muted-foreground: var(--purple-muted-foreground);
+
+  /* Pink */
+  --color-pink: var(--pink);
+  --color-pink-foreground: var(--pink-foreground);
+  --color-pink-muted: var(--pink-muted);
+  --color-pink-muted-foreground: var(--pink-muted-foreground);
+
+  /* Orange */
+  --color-orange: var(--orange);
+  --color-orange-foreground: var(--orange-foreground);
+  --color-orange-muted: var(--orange-muted);
+  --color-orange-muted-foreground: var(--orange-muted-foreground);
+
+  /* Teal */
+  --color-teal: var(--teal);
+  --color-teal-foreground: var(--teal-foreground);
+  --color-teal-muted: var(--teal-muted);
+  --color-teal-muted-foreground: var(--teal-muted-foreground);
 }

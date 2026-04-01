@@ -17,7 +17,7 @@ export default function MainWelcomeStep() {
               <span className="block">Легко та стильно</span>
             </b>
           </h1>
-          <p className="text-body-secondary text-lg md:text-2xl">
+          <p className="text-secondary-foreground text-lg md:text-2xl">
             Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.
           </p>
         </div>
@@ -44,7 +44,7 @@ export default function MainWelcomeStep() {
               <UiGlassCard
                 icon="☕"
                 title="Кав'ярня"
-                value={<span className="text-danger">- 85 ₴</span>}
+                value={<span className="text-destructive">- 85 ₴</span>}
                 rotationClass="-rotate-2"
               />
             </div>
