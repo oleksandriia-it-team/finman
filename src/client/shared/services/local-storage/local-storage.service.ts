@@ -3,6 +3,8 @@ import { LocalStoragePrefix } from '../../constants/local-storage.contants';
 
 export class LocalStorageService {
   getItem<T>(token: string): T | null {
+    if (typeof window === 'undefined') return null;
+
     const result = localStorage.getItem(LocalStoragePrefix + '-' + token);
 
     if (isEmpty(result)) {
@@ -17,14 +19,20 @@ export class LocalStorageService {
   }
 
   setItem<T>(token: string, value: T): void {
+    if (typeof window === 'undefined') return;
+
     localStorage.setItem(LocalStoragePrefix + '-' + token, JSON.stringify(value));
   }
 
   removeItem(token: string): void {
+    if (typeof window === 'undefined') return;
+
     localStorage.removeItem(LocalStoragePrefix + '-' + token);
   }
 
   hasItem(token: string): boolean {
+    if (typeof window === 'undefined') return false;
+
     return !isEmpty(localStorage.getItem(LocalStoragePrefix + '-' + token));
   }
 }

@@ -4,7 +4,7 @@ import { defaultLocale } from '../../utils/get-preferred-locale.util';
 import { FormatDate } from '../../utils/format-date.util';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
-export default function UiTransformDate({ date, type, locale, ...props }: TransformDateProps) {
+export function UiTransformDate({ date, type, locale, ...props }: TransformDateProps) {
   const userLocale = useUserInformation((state) => state.userInformation)?.preferableLocale;
 
   const formatted = useMemo(() => {

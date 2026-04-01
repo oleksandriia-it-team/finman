@@ -11,7 +11,7 @@ export function FinControlledDropdown<T>({ name, className, inputClassName, ...p
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const inputClasses = cn(fieldState.invalid && 'is-invalid');
+        const inputClasses = cn(inputClassName, fieldState.invalid && 'is-invalid');
         const wrapperClasses = cn(className, 'flex flex-col items-center justify-center');
 
         return (
