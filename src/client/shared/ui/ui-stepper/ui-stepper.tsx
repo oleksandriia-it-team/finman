@@ -2,7 +2,7 @@ import { cn } from '../../utils/cn.util';
 import useEmblaCarousel from 'embla-carousel-react';
 import { StepperApi, StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
 import { StepperContext } from './hooks/stepper-context.hook';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, KeyboardEvent } from 'react';
 
 export function UiStepper({
   orientation = 'horizontal',
@@ -104,7 +104,7 @@ export function UiStepper({
       }}
     >
       <div
-        onKeyDownCapture={handleKeyDown as never}
+        onKeyDownCapture={handleKeyDown}
         className={cn('relative', className, fullSize && 'size-full')}
         role="region"
         aria-roledescription="carousel"

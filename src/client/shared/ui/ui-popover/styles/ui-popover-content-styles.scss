@@ -10,6 +10,8 @@
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   outline: none;
 
+
+
   &[data-state='open'] {
     animation: fadeIn 0.15s ease-out, zoomIn 0.15s ease-out;
   }

@@ -1,3 +1,5 @@
+'use client';
+
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useShallow } from 'zustand/react/shallow';
 import { UiToast } from '@frontend/ui/ui-toast/ui-toast';
