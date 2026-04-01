@@ -6,7 +6,7 @@ import { UserInformation } from '@frontend/shared/services/user-information/mode
 import { zodResolver } from '@hookform/resolvers/zod';
 
 /**
- * Sets up and manages a user registration form with validation using `react-hook-form` and Yup.
+ * Sets up and manages a user registration form with validation using `react-hook-form` and Zod.
  * Automatically logs in the user via `AuthService` upon successful submission and invokes a callback.
  *
  * @param {function(UserInformation): void} onSuccessAction - Callback function to be called after successful registration.
@@ -18,12 +18,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
  * @example
  * const { methods, submit } = useSetupRegistration((userData) => {
  *   console.log('Registered user:', userData);
+ *   route.push('/profile');
  * });
  *
  * <FormProvider {...methods}>
  *   <form
  *     onSubmit = {(e)=>{
- *       e.preventDefault;
+ *       e.preventDefault();
  *       submit();
  *   }}
  *   >

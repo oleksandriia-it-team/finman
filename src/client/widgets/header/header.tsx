@@ -16,7 +16,7 @@ import IconButton from '../../shared/components/icon-button/icon-button';
  * Header
  *
  * A header component displaying the current date and a theme toggle button.
- * The theme button switches between 'light' and 'dark' modes using Redux state.
+ * The theme button switches between 'light' and 'dark' modes using Zustand state.
  *
  * @component
  *
