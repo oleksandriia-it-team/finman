@@ -1,10 +1,10 @@
-import { JSX } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { InputDefaultProps } from '../../../props/input-default.props';
 import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
 import { LazyEventProps } from '../../../props/lazy-event.props';
 
 export interface InputProps<T> extends InputDefaultProps {
-  onChange: (value: T | undefined | null) => void;
+  onChange: Dispatch<SetStateAction<T | undefined>>;
 }
 
 export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
@@ -19,9 +19,3 @@ export type LazyDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
     value?: T | undefined | null;
     customInputValue?: string | undefined | null;
   };
-
-export interface DropdownInputTemplateProps extends InputProps<string> {
-  optionsTemplate: JSX.Element;
-  open: boolean;
-  setOpen: (value: boolean) => void;
-}

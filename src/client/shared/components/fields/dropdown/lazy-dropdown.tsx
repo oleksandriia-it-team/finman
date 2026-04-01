@@ -2,12 +2,14 @@
 
 import { LazyDropdownInputProps } from '../props/input.props';
 import { useEffect, useMemo, useState } from 'react';
-import DropdownTemplate from '../dropdown-template/dropdown-template';
 import { DropdownOption } from '../../../models/dropdown-option.model';
 import { UiLazyLoad } from '@frontend/ui/ui-lazy-load/ui-lazy-load';
-import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
-import { UiSelectLabel } from '@frontend/ui/ui-select/ui-select-label';
+import { UiSelect } from '@frontend/ui/ui-select/ui-select';
+import { UiSelectTrigger } from '@frontend/ui/ui-select/ui-select-trigger';
+import { UiSelectValue } from '@frontend/ui/ui-select/ui-select-value';
+import { UiSelectContent } from '@frontend/ui/ui-select/ui-select-content';
+import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 
 export function LazyDropdown<T>({
   onChange,
@@ -25,6 +27,7 @@ export function LazyDropdown<T>({
   page,
   pageSize,
   itemHeight,
+  ...props
 }: LazyDropdownInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
 
@@ -65,7 +68,7 @@ export function LazyDropdown<T>({
               className={optionClassName}
               value={option.label}
             >
-              <UiSelectLabel>{option.label}</UiSelectLabel>
+              {option.label}
             </UiSelectItem>
           ))}
         </UiLazyLoad>
@@ -82,21 +85,33 @@ export function LazyDropdown<T>({
     showOptions,
     options,
     optionClassName,
-    onChange,
   ]);
 
   return (
-    <DropdownTemplate
-      open={show}
-      setOpen={setVisibility}
-      value={inputValue}
-      className={className}
-      placeholder={placeholder}
-      onChange={(label) => {
+    <UiSelect
+      onValueChange={(label) => {
+        if (!label) {
+          return;
+        }
         onChange(options.find((option) => option.label === label)?.value);
       }}
-      id={id}
-      optionsTemplate={optionsTemplate}
-    />
+      open={show}
+      onOpenChange={setVisibility}
+      value={inputValue ?? ''}
+    >
+      <UiSelectTrigger
+        className={className}
+        id={id}
+      >
+        <UiSelectValue placeholder={placeholder}>{inputValue}</UiSelectValue>
+      </UiSelectTrigger>
+
+      <UiSelectContent
+        {...props}
+        className={className}
+      >
+        {optionsTemplate}
+      </UiSelectContent>
+    </UiSelect>
   );
 }
