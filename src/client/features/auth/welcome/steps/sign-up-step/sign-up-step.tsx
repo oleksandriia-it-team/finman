@@ -25,8 +25,8 @@ export default function SignUpStep() {
 
   return (
     <div className=" step-background relative flex items-center justify-center min-h-screen w-full overflow-hidden p-4">
-      <div className="blot bg-blot bg-pink-blot" />
-      <div className="blot bg-blot blue-blot" />
+      <div className="blot bg-blot bg-pink-blot " />
+      <div className="blot bg-blot blue-blot " />
 
       <div className="relative z-10 flex flex-col items-center w-full max-w-[30rem] gap-8">
         <div className="flex flex-col items-center gap-6">

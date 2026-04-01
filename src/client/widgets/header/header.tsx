@@ -6,7 +6,7 @@ import TransformDate from '../../shared/components/transform-date/transform-date
 import { DateFormatType } from '../../shared/enums/date-type.enum';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserInformation } from '../../entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
 import Link from '../../shared/components/link/link';
@@ -16,7 +16,7 @@ import IconButton from '../../shared/components/icon-button/icon-button';
  * Header
  *
  * A header component displaying the current date and a theme toggle button.
- * The theme button switches between 'light' and 'dark' modes using Redux state.
+ * The theme button switches between 'light' and 'dark' modes using Zustand state.
  *
  * @component
  *

@@ -1,8 +1,11 @@
-import { UserInformation, UserInformationStore } from './models/user-infomation.model';
-import { UserInformationKey } from '../../shared/constants/local-storage.contants';
-import { localStorageService } from '../../shared/services/local-storage/local-storage.service';
+import {
+  UserInformation,
+  UserInformationStore,
+} from '@frontend/shared/services/user-information/models/user-infomation.model';
+import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
-import { userSchema } from './validation-schema';
+import { userSchema } from '@frontend/shared/schemas/validation-schema';
 
 const getUserInformation = () => {
   const user = localStorageService.getItem<UserInformation>(UserInformationKey);

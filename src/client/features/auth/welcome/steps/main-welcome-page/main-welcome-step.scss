@@ -7,7 +7,7 @@
   width: 35rem;
   height: 35rem;
   filter:blur(6rem);
-  background-color: rgb(var(--pink-blot));
+  background-color: var(--pink-blot);
   opacity: 10%;
 
 }
@@ -18,7 +18,7 @@
   width: 35rem;
   height: 35rem;
   filter:blur(6rem);
-  background: rgb(var(--green-blot));
+  background: var(--green-blot);
   opacity: 15%;
 
 }
