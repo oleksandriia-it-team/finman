@@ -14,10 +14,12 @@ export default function DropdownTemplate({
   setOpen,
   id,
   className,
+  onChange,
   ...props
 }: DropdownInputTemplateProps) {
   return (
     <UiSelect
+      onValueChange={onChange}
       open={open}
       onOpenChange={setOpen}
     >

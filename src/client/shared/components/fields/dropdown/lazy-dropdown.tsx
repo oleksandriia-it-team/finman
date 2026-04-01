@@ -63,8 +63,7 @@ export function LazyDropdown<T>({
             <UiSelectItem
               key={option.label}
               className={optionClassName}
-              onClick={() => onChange(option.value)}
-              value={String(option.value)}
+              value={option.label}
             >
               <UiSelectLabel>{option.label}</UiSelectLabel>
             </UiSelectItem>
@@ -93,6 +92,9 @@ export function LazyDropdown<T>({
       value={inputValue}
       className={className}
       placeholder={placeholder}
+      onChange={(label) => {
+        onChange(options.find((option) => option.label === label)?.value);
+      }}
       id={id}
       optionsTemplate={optionsTemplate}
     />

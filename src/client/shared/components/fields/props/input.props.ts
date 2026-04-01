@@ -4,7 +4,7 @@ import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
 import { LazyEventProps } from '../../../props/lazy-event.props';
 
 export interface InputProps<T> extends InputDefaultProps {
-  onChange: (value: T) => void;
+  onChange: (value: T | undefined | null) => void;
 }
 
 export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
@@ -20,7 +20,7 @@ export type LazyDropdownInputProps<T> = Omit<InputProps<T>, 'value'> &
     customInputValue?: string | undefined | null;
   };
 
-export interface DropdownInputTemplateProps extends InputDefaultProps {
+export interface DropdownInputTemplateProps extends InputProps<string> {
   optionsTemplate: JSX.Element;
   open: boolean;
   setOpen: (value: boolean) => void;

@@ -33,8 +33,7 @@ export function DefaultDropdown<T>({
           <UiSelectItem
             key={option.label}
             className={optionClassName}
-            onClick={() => onChange(option.value)}
-            value={String(option.value)}
+            value={option.label}
           >
             <UiSelectLabel>{option.label}</UiSelectLabel>
           </UiSelectItem>
@@ -48,6 +47,9 @@ export function DefaultDropdown<T>({
       open={show}
       setOpen={setVisibility}
       value={inputValue}
+      onChange={(label) => {
+        onChange(options.find((option) => option.label === label)?.value);
+      }}
       {...props}
       optionsTemplate={optionsTemplate}
     />
