@@ -60,10 +60,11 @@ export default function RegistrationPage() {
           />
           <UiButton
             type="submit"
+            bgNone
             className="w-full min-w-50 max-w-72"
             variant="default"
           >
-            Зареєстуватися
+            Зареєструватися
           </UiButton>
         </form>
       </FormProvider>

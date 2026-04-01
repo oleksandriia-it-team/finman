@@ -25,7 +25,11 @@ export function UiPurpleButton({
       data-outlined={isOutlined ?? false}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
-      className={cn('btn cursor-pointer', className)}
+      className={cn(
+        'btn cursor-pointer',
+        isOutlined ? 'purple-gradient-btn gradient-text' : 'purple-gradient-btn',
+        className,
+      )}
       {...props}
     />
   );

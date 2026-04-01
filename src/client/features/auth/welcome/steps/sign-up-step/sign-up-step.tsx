@@ -74,10 +74,10 @@ export default function SignUpStep() {
         <div className="w-full pt-4">
           <UiPurpleButton
             asChild
-            isOutlined={false}
+            isOutlined
             bgNone
             isRoundedFull
-            size="lg"
+            size="sm"
             className="w-full py-6"
           >
             <Link

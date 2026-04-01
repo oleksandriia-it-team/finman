@@ -6,7 +6,7 @@
 }
 
 .purple-gradient-btn{
-  background: linear-gradient(to right, #9333ea, #2563eb);
+  background: linear-gradient(to right, var(--purple), var(--primary));
   border: 2px solid transparent;
   color: white;
   transition: all 0.2s ease;
@@ -16,7 +16,7 @@
 }
 
 .purple-outlined-gradient-btn{
-  border: 1px solid var(--purple-btn) !important;
+  border: 1px solid var(--purple) !important;
   color: white;
   transition: all 0.2s ease;
   display: inline-block;
@@ -26,7 +26,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(to right, #9333ea, #2563eb);
+  background: linear-gradient(to right, var(--purple), var(--primary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
