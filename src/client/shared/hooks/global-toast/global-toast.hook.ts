@@ -6,7 +6,7 @@ export const useGlobalToast = create<GlobalToastModel>((set, get) => ({
   list: [],
   showToast: (config: Omit<GlobalToastConfig, 'id'>) => {
     const { list } = get();
-    set({ list: [...list, { ...config, id: generateId() as unknown as string }] });
+    set({ list: [...list, { ...config, id: generateId() }] });
   },
   hideToast: (id: string) => {
     const { list } = get();
