@@ -2,7 +2,7 @@ import { Toast } from 'radix-ui';
 
 export function UiToastDescription(props: Toast.ToastDescriptionProps) {
   return (
-    <p
+    <Toast.Description
       data-slot="toast-description"
       {...props}
     />
