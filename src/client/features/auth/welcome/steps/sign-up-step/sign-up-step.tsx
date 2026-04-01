@@ -77,7 +77,7 @@ export default function SignUpStep() {
             isOutlined
             bgNone
             isRoundedFull
-            size="sm"
+            size="lg"
             className="w-full py-6"
           >
             <Link
