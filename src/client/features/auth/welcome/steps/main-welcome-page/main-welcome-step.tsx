@@ -1,7 +1,7 @@
 'use client';
 
 import './main-welcome-step.scss';
-import GlassCard from '@frontend/components/glass-card/glass-card';
+import { UiGlassCard } from '@frontend/ui/ui-glass-card/ui-glass-card';
 
 export default function MainWelcomeStep() {
   return (
@@ -25,7 +25,7 @@ export default function MainWelcomeStep() {
         <div className="w-full md:w-1/2 text flex justify-center">
           <div className="flex flex-col sm:flex-row gap-4 md:gap-6 items-center sm:items-start">
             <div className="flex items-center sm:mt-12">
-              <GlassCard
+              <UiGlassCard
                 icon="💳"
                 title="Баланс"
                 value={<span className="text-success">+ 12 500 ₴</span>}
@@ -34,14 +34,14 @@ export default function MainWelcomeStep() {
             </div>
 
             <div className="flex flex-col gap-4 md:gap-6">
-              <GlassCard
+              <UiGlassCard
                 icon="🎯"
                 title="На макбук"
                 value={<span className="text-info">45% зібрано</span>}
                 rotationClass="rotate-2"
               />
 
-              <GlassCard
+              <UiGlassCard
                 icon="☕"
                 title="Кав'ярня"
                 value={<span className="text-danger">- 85 ₴</span>}

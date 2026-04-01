@@ -3,12 +3,7 @@ import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdo
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
 import { cn } from '../../../utils/cn.util';
 
-export default function FinControlledDropdown<T>({
-  name,
-  className,
-  inputClassName,
-  ...props
-}: ControlledDropdownProps<T>) {
+export function FinControlledDropdown<T>({ name, className, inputClassName, ...props }: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -20,7 +15,7 @@ export default function FinControlledDropdown<T>({
         const wrapperClasses = cn(className, 'flex flex-col items-center justify-center');
 
         return (
-          <div className="flex flex-col w-full">
+          <div className={wrapperClasses}>
             <FinDropdown
               {...props}
               value={field.value}

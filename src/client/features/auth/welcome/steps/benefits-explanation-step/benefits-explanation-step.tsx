@@ -1,7 +1,7 @@
 'use client';
 
 import { TransactionsData } from './transaction-data.constant';
-import TransactionCard from '../../../../../entities/budget-plan/transaction-card/transaction-card';
+import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
 
 import './benefits-explanation-step.scss';
 

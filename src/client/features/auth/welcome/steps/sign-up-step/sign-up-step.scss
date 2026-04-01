@@ -1,5 +1,4 @@
-@use './../../../../../shared/styles/color-variables';
-@use './../styles/styles';
+@use '../styles/blot';
 
 .bg-blot{
   width: 18.75rem;
@@ -25,27 +24,27 @@
 }
 
 .step-background {
-  background-color: rgb(var(--step-bg));
+  background-color: var(--step-bg);
   transition: background-color 0.4s ease;
   isolation: isolate;
 }
 
 .step-title {
-  color: rgb(var(--step-text-main));
+  color: var(--step-text-main);
 }
 
 .step-subtitle {
-  color: rgb(var(--step-text-sub));
+  color: var(--step-text-sub);
 }
 
 .step-footer-text {
-  color: rgb(var(--step-text-footer));
+  color: var(--step-text-footer);
 }
 
 .icon-glow-layer {
   position: absolute;
   inset: 0;
-  background-color: rgb(var(--step-primary));
+  background-color: var(--step-primary);
   filter: blur(3rem);
   opacity: 20%;
   animation: pulse-glow 2s infinite ease-in-out;

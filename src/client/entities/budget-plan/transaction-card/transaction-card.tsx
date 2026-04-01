@@ -14,7 +14,7 @@ const amountColorVariants: Record<TransactionType, string> = {
   expense: 'text-danger',
 };
 
-export default function TransactionCard({ icon, title, subtitle, amount, type, className }: TransactionCardProps) {
+export function TransactionCard({ icon, title, subtitle, amount, type, className }: TransactionCardProps) {
   const wrapperClasses = useMemo(() => {
     return clsx('d-flex items-center md:p-2 p-3 bg-body rounded-3 shadow-sm mb-2 border border-subtle', className);
   }, [className]);

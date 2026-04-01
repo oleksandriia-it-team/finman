@@ -19,7 +19,7 @@ export function UiStepperPrev({
       data-slot="carousel-previous"
       variant={variant}
       size={size}
-      isOutlined={true}
+      isOutlined={false}
       className={cn(
         'absolute rounded-full',
         orientation === 'horizontal'

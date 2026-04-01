@@ -1,5 +1,3 @@
-@use '../../../styles/color-variables';
-
 @mixin animated {
   &:hover {
     filter: brightness(1.1);
@@ -13,7 +11,7 @@
   color: white;
   transition: all 0.2s ease;
 
-  @include animated
+  @include animated;
 
 }
 
@@ -23,7 +21,7 @@
   transition: all 0.2s ease;
   display: inline-block;
 
-  @include animated
+  @include animated;
 
 }
 

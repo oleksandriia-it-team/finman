@@ -1,6 +1,7 @@
 export type ColorVariantModel =
   | 'default'
   | 'destructive'
+  | 'primary'
   | 'muted'
   | 'success'
   | 'warning'

@@ -1,11 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
-import { GlassCardProps } from './glass-card-props';
+import { GlassCardProps } from './props/glass-card-props';
 
-import './glass-card.scss';
+import './styles/glass-card.scss';
 
-export default function GlassCard({ icon, title, value, rotationClass = '', className }: GlassCardProps) {
+export function UiGlassCard({ icon, title, value, rotationClass = '', className }: GlassCardProps) {
   return (
     <div
       className={clsx('p-4 rounded-4 text-center flex flex-column justify-center glass-card', rotationClass, className)}
