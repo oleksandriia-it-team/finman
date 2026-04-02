@@ -16,12 +16,14 @@ export function UiIconButton({
   isRoundedFull = true,
   isOutlined = true,
   bgNone = true,
+  type,
   ...props
 }: IconButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
 
   return (
     <Comp
+      type={!asChild ? (type ?? 'button') : undefined}
       data-slot="button"
       data-variant={variant}
       data-size={size}
@@ -32,6 +34,7 @@ export function UiIconButton({
       {...props}
     >
       <UiSvgIcon
+        aria-hidden
         name={icon}
         size={size}
       />

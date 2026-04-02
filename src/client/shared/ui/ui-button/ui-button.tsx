@@ -14,12 +14,14 @@ export function UiButton({
   isRoundedFull,
   bgNone,
   asChild,
+  type,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
 
   return (
     <Comp
+      type={!asChild ? (type ?? 'button') : undefined}
       data-slot="button"
       data-variant={variant}
       data-size={size}
