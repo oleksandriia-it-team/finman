@@ -12,8 +12,10 @@ export function useUserGuard(routePath?: string) {
   useEffect(() => {
     if (!user && pathName != '/registration/form') {
       router.push('/registration/form');
-    } else if (routePath && user) {
+    } else if (routePath && user && pathName !== routePath) {
       router.push(routePath);
     }
   }, [routePath, router, user, pathName]);
+
+  return user;
 }

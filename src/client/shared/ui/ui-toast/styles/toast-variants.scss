@@ -1,0 +1,19 @@
+@use 'sass:list';
+
+@import './toast-variant-mixin';
+@import '../../../styles/variants';
+
+.toast-content {
+  @include toast-base;
+
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      @include toast-variant(
+        nth($colors, 1),
+        nth($colors, 2),
+        nth($colors, 1)
+      );
+    }
+  }
+
+}

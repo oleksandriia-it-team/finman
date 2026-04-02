@@ -1,1 +1,1 @@
-export type SizeVariantModel = 'default' | 'sm' | 'lg';
+export type SizeVariantModel = 'default' | 'xs' | 'sm' | 'lg';

@@ -1,0 +1,89 @@
+:root {
+  --background: rgb(237 240 249);
+  --foreground: rgb(17 24 38);
+  --card: rgb(246 248 254);
+  --card-foreground: rgb(17 24 38);
+  --popover: rgb(255 255 255);
+  --popover-foreground: rgb(17 24 38);
+  --primary: rgb(2 101 253);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(222 226 241);
+  --secondary-foreground: rgb(54 64 80);
+  --muted: rgb(218, 219, 223);
+  --muted-foreground: rgb(108 114 126);
+  --destructive: rgb(223 34 36);
+  --accent: rgb(231 239 252);
+  --accent-foreground: rgb(1 82 203);
+  --border: rgb(212 219 230);
+  --input: rgb(255, 255, 255);
+  --ring: rgb(2 101 253);
+  --chart-1: rgb(2 101 253);
+  --chart-2: rgb(1 82 203);
+  --chart-3: rgb(76 155 255);
+  --chart-4: rgb(13 73 165);
+  --chart-5: rgb(22 42 78);
+  --sidebar: rgb(245 245 245);
+  --sidebar-foreground: rgb(17 24 38);
+  --sidebar-primary: rgb(2 101 253);
+  --sidebar-primary-foreground: rgb(255 255 255);
+  --sidebar-accent: rgb(231 239 252);
+  --sidebar-accent-foreground: rgb(1 82 203);
+  --sidebar-border: rgb(228 232 239);
+  --sidebar-ring: rgb(2 101 253);
+  --overlay-background: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgb(0, 0, 0);
+
+  --font-sans: Inter, sans-serif;
+  --font-serif: Source Serif 4, serif;
+  --font-mono: IBM Plex Mono, monospace;
+
+  --radius: 0.375rem;
+
+  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow-md: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 2px 4px -1px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 4px 6px -1px rgb(0 0 0 / 0.10);
+  --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 8px 10px -1px rgb(0 0 0 / 0.10);
+  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 0.25);
+
+  // Custom colors
+  /* Success / Green */
+  --success: rgb(22 163 74);
+  --success-foreground: rgb(255 255 255);
+  --success-muted: rgb(220 252 231);
+  --success-muted-foreground: rgb(22 163 74);
+
+  /* Warning / Yellow */
+  --warning: rgb(202 138 4);
+  --warning-foreground: rgb(255 255 255);
+  --warning-muted: rgb(254 249 195);
+  --warning-muted-foreground: rgb(161 98 7);
+
+  /* Purple */
+  --purple: rgb(109 40 217);
+  --purple-foreground: rgb(255 255 255);
+  --purple-muted: rgb(237 233 254);
+  --purple-muted-foreground: rgb(109 40 217);
+
+  /* Pink */
+  --pink: rgb(219 39 119);
+  --pink-foreground: rgb(255 255 255);
+  --pink-muted: rgb(252 231 243);
+  --pink-muted-foreground: rgb(219 39 119);
+
+  /* Orange */
+  --orange: rgb(234 88 12);
+  --orange-foreground: rgb(255 255 255);
+  --orange-muted: rgb(255 237 213);
+  --orange-muted-foreground: rgb(194 65 12);
+
+  /* Teal */
+  --teal: rgb(13 148 136);
+  --teal-foreground: rgb(255 255 255);
+  --teal-muted: rgb(204 251 241);
+  --teal-muted-foreground: rgb(13 148 136);
+
+
+}

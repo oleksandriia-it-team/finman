@@ -3,9 +3,9 @@ import { object, string } from 'zod';
 export const userSchema = object({
   userName: string()
     .trim()
-    .min(1, 'Username is required')
-    .min(3, 'Your username must be at least 3 characters')
-    .max(20, 'Your username must be no longer than 20 characters'),
-  language: string().nonempty('Please choose a language'),
-  preferableLocale: string().nonempty('Please choose a preferable locale'),
+    .min(1, "Ім'я користувача обов'язкове")
+    .min(3, "Ім'я користувача має містити щонайменше 3 символи")
+    .max(20, "Ім'я користувача не може перевищувати 20 символів"),
+  language: string().nonempty('Будь ласка, оберіть мову'),
+  preferableLocale: string().nonempty('Будь ласка, оберіть бажаний формат дат'),
 });

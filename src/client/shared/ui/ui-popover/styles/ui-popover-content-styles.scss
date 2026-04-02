@@ -1,0 +1,29 @@
+@import '../../../styles/functions';
+
+.popover-content {
+  z-index: 50;
+  width: 18rem;
+  transform-origin: var(--radix-popover-content-transform-origin);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--popover);
+  padding: 1rem;
+  color: var(--popover-foreground);
+  box-shadow: 0 4px 6px -1px getOpacity(var(--shadow-color), 90%), 0 2px 4px -2px getOpacity(var(--shadow-color), 90%);
+  outline: none;
+
+
+
+  &[data-state='open'] {
+    animation: fadeIn 0.15s ease-out, zoomIn 0.15s ease-out;
+  }
+
+  &[data-state='closed'] {
+    animation: fadeOut 0.15s ease-in, zoomOut 0.15s ease-in;
+  }
+
+  &[data-side='bottom'] { --slide-from: translateY(-0.5rem); }
+  &[data-side='top']    { --slide-from: translateY(0.5rem); }
+  &[data-side='left']   { --slide-from: translateX(0.5rem); }
+  &[data-side='right']  { --slide-from: translateX(-0.5rem); }
+}

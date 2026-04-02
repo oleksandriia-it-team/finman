@@ -1,0 +1,35 @@
+@mixin animated {
+  &:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 20px var(--purple);
+  }
+}
+
+.purple-gradient-btn{
+  background: linear-gradient(to right, var(--purple), var(--primary));
+  border: 2px solid transparent;
+  color: white;
+  transition: all 0.2s ease;
+
+  @include animated;
+
+}
+
+.purple-outlined-gradient-btn{
+  border: 1px solid var(--purple) !important;
+  color: white;
+  transition: all 0.2s ease;
+  display: inline-block;
+
+  @include animated;
+
+}
+
+.gradient-text {
+  background: linear-gradient(to right, var(--purple), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+}
+

@@ -2,11 +2,10 @@
 
 ## Tech stack
 ### Front
-1. Vitest unit tests
-2. Zustand
-3. React hook form
-4. Tailwind 4
-5. Bootstrap 5
+1. Zustand
+2. React hook form
+3. Tailwind 4
+4. shadcn ui
 
 ### Backend
 1. Postgres

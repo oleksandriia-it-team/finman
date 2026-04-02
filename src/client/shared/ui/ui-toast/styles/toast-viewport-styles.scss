@@ -1,0 +1,25 @@
+.toast-viewport {
+  --viewport-padding: 1.25rem;
+
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: min(26rem, 100vw);
+  margin: 0;
+  list-style: none;
+  z-index: 2147483647;
+  outline: none;
+  padding: var(--viewport-padding) !important;
+
+  @media screen and (min-width: 768px) {
+    bottom: 0;
+    right: 0;
+  }
+
+  @media screen and (max-width: 767px) {
+    bottom: 0;
+    right: 50%;
+    transform: translateX(50%);
+  }
+}

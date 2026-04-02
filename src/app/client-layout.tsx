@@ -2,11 +2,9 @@
 
 import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import InitApplication from './init-application';
-import LoadStylesComponent from '../client/widgets/load-styles/load-styles.component';
-import LoadPopover from './load-popover';
-import LoadToasts from './load-toasts';
-import LoadModal from './load-modal';
+import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { LoadGlobalToast } from './load-global-toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,9 +21,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
     <LoadStylesComponent>
       <InitApplication>
         <QueryClientProvider client={queryClient}>
-          <LoadPopover />
-          <LoadToasts />
-          <LoadModal />
+          <LoadGlobalToast />
           {children}
         </QueryClientProvider>
       </InitApplication>

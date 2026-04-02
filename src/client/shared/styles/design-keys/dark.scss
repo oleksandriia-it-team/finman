@@ -1,0 +1,82 @@
+.dark {
+  --background: rgb(22 22 22);
+  --foreground: rgb(191 191 191);
+  --card: rgb(4 19 39);
+  --card-foreground: rgb(228 232 239);
+  --popover: rgb(49 58 70);
+  --popover-foreground: rgb(228 232 239);
+  --primary: rgb(1 82 203);
+  --primary-foreground: rgb(255 255 255);
+  --secondary: rgb(47 59 80);
+  --secondary-foreground: rgb(228 232 239);
+  --muted: rgb(37 46 61);
+  --muted-foreground: rgb(155 162 174);
+  --destructive: rgb(241 68 68);
+  --accent: rgb(43 53 74);
+  --accent-foreground: rgb(228 232 239);
+  --border: rgb(47 59 80);
+  --input: rgb(47 59 80);
+  --ring: rgb(1 82 203);
+  --chart-1: rgb(1 82 203);
+  --chart-2: rgb(2 101 253);
+  --chart-3: rgb(0 64 155);
+  --chart-4: rgb(13 73 165);
+  --chart-5: rgb(22 42 78);
+  --sidebar: rgb(28 36 51);
+  --sidebar-foreground: rgb(228 232 239);
+  --sidebar-primary: rgb(1 82 203);
+  --sidebar-primary-foreground: rgb(255 255 255);
+  --sidebar-accent: rgb(43 53 74);
+  --sidebar-accent-foreground: rgb(1 82 203);
+  --sidebar-border: rgb(47 59 80);
+  --sidebar-ring: rgb(1 82 203);
+  --overlay-background: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgb(255, 0, 0);
+
+  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
+  --shadow-md: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 2px 4px -1px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 4px 6px -1px rgb(0 0 0 / 0.10);
+  --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 8px 10px -1px rgb(0 0 0 / 0.10);
+  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 0.25);
+
+  // Custom colors
+  /* Success / Green */
+  --success: rgb(34 197 94);
+  --success-foreground: rgb(5 46 22);
+  --success-muted: rgb(20 83 45);
+  --success-muted-foreground: rgb(134 239 172);
+
+  /* Warning / Yellow */
+  --warning: rgb(234 179 8);
+  --warning-foreground: rgb(66 32 6);
+  --warning-muted: rgb(78 45 3);
+  --warning-muted-foreground: rgb(253 224 71);
+
+  /* Purple */
+  --purple: rgb(139 92 246);
+  --purple-foreground: rgb(255 255 255);
+  --purple-muted: rgb(46 16 101);
+  --purple-muted-foreground: rgb(196 181 253);
+
+  /* Pink */
+  --pink: rgb(236 72 153);
+  --pink-foreground: rgb(255 255 255);
+  --pink-muted: rgb(80 7 36);
+  --pink-muted-foreground: rgb(249 168 212);
+
+  /* Orange */
+  --orange: rgb(251 146 60);
+  --orange-foreground: rgb(67 20 7);
+  --orange-muted: rgb(67 20 7);
+  --orange-muted-foreground: rgb(253 186 116);
+
+  /* Teal */
+  --teal: rgb(45 212 191);
+  --teal-foreground: rgb(4 47 46);
+  --teal-muted: rgb(19 78 74);
+  --teal-muted-foreground: rgb(153 246 228);
+
+}
