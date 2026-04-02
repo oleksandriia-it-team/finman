@@ -26,13 +26,18 @@ export function FinControlledDropdown<T>({
 
             <FinDropdown
               {...props}
+              {...field}
+              onBlur={() => {
+                field.onBlur();
+                field.onChange(field.value);
+              }}
               value={field.value}
               onChange={(val) => field.onChange(val)}
               className={className}
               id={field.name}
             />
 
-            {showErrors && <UiFieldError errors={[fieldState.error]} />}
+            {showErrors && <UiFieldError fieldState={fieldState} />}
           </UiField>
         );
       }}

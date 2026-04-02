@@ -4,8 +4,12 @@ import './styles/ui-field-error-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { FieldErrorProps } from '@frontend/ui/ui-field/props/field-error.props';
 
-export function UiFieldError({ className, children, errors, ...props }: FieldErrorProps) {
+export function UiFieldError({ className, children, fieldState, ...props }: FieldErrorProps) {
+  const showError = !!(fieldState.error?.message || fieldState.invalid);
+
   const content = useMemo(() => {
+    const errors = [fieldState.error];
+
     if (children) {
       return children;
     }
@@ -25,20 +29,22 @@ export function UiFieldError({ className, children, errors, ...props }: FieldErr
         {uniqueErrors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}
       </ul>
     );
-  }, [children, errors]);
+  }, [children, fieldState.error]);
 
   if (!content) {
     return null;
   }
 
   return (
-    <div
-      role="alert"
-      data-slot="field-error"
-      className={cn('field-error', className)}
-      {...props}
-    >
-      {content}
-    </div>
+    showError && (
+      <div
+        role="alert"
+        data-slot="field-error"
+        className={cn('field-error', className)}
+        {...props}
+      >
+        {content}
+      </div>
+    )
   );
 }

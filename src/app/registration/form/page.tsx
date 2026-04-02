@@ -55,10 +55,10 @@ export default function RegistrationPage() {
             />
 
             <FinControlledDropdown
-              label="Оберіть формат часу"
+              label="Оберіть формат дат"
               id="formats"
-              name="formats"
-              placeholder="Бажаний формат часу"
+              name="preferableLocale"
+              placeholder="Бажаний формат дат"
               options={formats}
             />
 

@@ -19,13 +19,18 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
 
             <UiInput
               {...props}
+              {...field}
+              onBlur={() => {
+                field.onBlur();
+                field.onChange(field.value);
+              }}
               id={id}
               className={className}
               value={field.value ?? ''}
               onChange={(value) => field.onChange(value)}
             />
 
-            {showErrors && <UiFieldError errors={[fieldState.error]} />}
+            {showErrors && <UiFieldError fieldState={fieldState} />}
           </UiField>
         );
       }}

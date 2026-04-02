@@ -32,3 +32,11 @@
   }
 
 }
+
+.field:has(.field-error) .basic-input {
+  border-color: var(--destructive);
+
+  &:focus-visible, &[aria-expanded="true"], &[data-state="open"] {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 50%, transparent);
+  }
+}
