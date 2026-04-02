@@ -1,12 +1,16 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdown';
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
-import { cn } from '../../../utils/cn.util';
+import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
+import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
+import { UiField } from '@frontend/ui/ui-field/ui-field';
 
-export default function FinControlledDropdown<T>({
+export function FinControlledDropdown<T>({
   name,
-  wrapperClassName,
   className,
+  showErrors = true,
+  label,
+  id,
   ...props
 }: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
@@ -16,20 +20,20 @@ export default function FinControlledDropdown<T>({
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const inputClasses = cn(className, fieldState.invalid && 'is-invalid');
-        const wrapperClasses = cn(wrapperClassName, 'flex flex-col');
-
         return (
-          <div className={wrapperClasses}>
+          <UiField>
+            {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
+
             <FinDropdown
               {...props}
               value={field.value}
               onChange={(val) => field.onChange(val)}
-              className={inputClasses}
+              className={className}
               id={field.name}
             />
-            {fieldState.error && <p className="text-destructive">{fieldState.error.message}</p>}
-          </div>
+
+            {showErrors && <UiFieldError errors={[fieldState.error]} />}
+          </UiField>
         );
       }}
     />

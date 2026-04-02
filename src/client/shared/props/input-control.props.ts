@@ -1,4 +1,5 @@
 export interface InputControlProps {
   name: string;
-  wrapperClassName?: string;
+  label?: string;
+  showErrors?: boolean;
 }

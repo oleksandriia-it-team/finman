@@ -1,6 +1,6 @@
 .separator {
   flex-shrink: 0;
-  background-color: var(--color-border);
+  background-color: var(--border);
 
   &[data-orientation="horizontal"] {
     height: 1px;
