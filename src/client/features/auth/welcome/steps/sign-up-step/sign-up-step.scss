@@ -25,7 +25,7 @@
 }
 
 .step-background {
-  background-color: var(--step-bg);
+  background-color: getOpacity(var(--card),90%);
   transition: background-color 0.4s ease;
   isolation: isolate;
 }
@@ -41,7 +41,7 @@
 }
 
 .icon-card-wrapper {
-  background-color: rgba(var(--card), 0.1);
+  background-color: getOpacity(var(--card),90%);
   border: 1px solid var(--border);
   backdrop-filter: blur(0.75rem);
   border-radius: 1.5rem;
