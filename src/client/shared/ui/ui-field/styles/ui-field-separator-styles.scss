@@ -1,0 +1,29 @@
+.field-separator {
+  position: relative;
+  margin-top: -0.5rem;
+  margin-bottom: -0.5rem;
+  height: 1.25rem;
+  font-size: 0.875rem;
+
+  :global(.group\/field-group)[data-variant="outline"] & {
+    margin-bottom: -0.5rem;
+  }
+
+  &-absolute {
+    position: absolute;
+    inset: 0;
+    top: 50%;
+  }
+
+  &-content {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: fit-content;
+    background-color: var(--background);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    color: var(--muted-foreground);
+  }
+}

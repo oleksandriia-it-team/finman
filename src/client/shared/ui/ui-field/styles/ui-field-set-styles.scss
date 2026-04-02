@@ -1,0 +1,10 @@
+.field-set {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &:has(> [data-slot="checkbox-group"]),
+  &:has(> [data-slot="radio-group"]) {
+    gap: 0.75rem;
+  }
+}

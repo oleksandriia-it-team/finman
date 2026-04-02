@@ -1,27 +1,38 @@
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 import { ControlledInputProps } from '../props/controlled-input.props';
 import { Controller, useFormContext } from 'react-hook-form';
-import { cn } from '@frontend/shared/utils/cn.util';
+import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
+import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
+import { UiField } from '@frontend/ui/ui-field/ui-field';
 
-export function FinControlledInput({ name, wrapperClassName, className, ...props }: ControlledInputProps) {
+export function FinControlledInput({ name, className, showErrors = true, label, id, ...props }: ControlledInputProps) {
   const { control } = useFormContext();
+
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const inputClasses = cn(className, fieldState.invalid && 'is-invalid');
-        const wrapperClasses = cn(wrapperClassName, 'flex flex-col');
         return (
-          <div className={wrapperClasses}>
+          <UiField>
+            {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
+
             <UiInput
               {...props}
-              className={inputClasses}
+              {...field}
+              data-invalid={fieldState.invalid}
+              onBlur={() => {
+                field.onBlur();
+                field.onChange(field.value);
+              }}
+              id={id}
+              className={className}
               value={field.value ?? ''}
               onChange={(value) => field.onChange(value)}
             />
-            {fieldState.error && <p className="text-destructive">{fieldState.error.message}</p>}
-          </div>
+
+            {showErrors && <UiFieldError fieldState={fieldState} />}
+          </UiField>
         );
       }}
     />

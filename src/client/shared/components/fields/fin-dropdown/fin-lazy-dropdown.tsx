@@ -27,6 +27,7 @@ export function FinLazyDropdown<T>({
   page,
   pageSize,
   itemHeight,
+  'data-invalid': dataInvalid,
   ...props
 }: LazyDropdownInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
@@ -100,6 +101,7 @@ export function FinLazyDropdown<T>({
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        data-invalid={dataInvalid}
         className={className}
         id={id}
       >
