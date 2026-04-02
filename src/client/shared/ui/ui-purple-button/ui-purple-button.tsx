@@ -14,12 +14,14 @@ export function UiPurpleButton({
   isRoundedFull,
   bgNone,
   asChild,
+  type,
   ...props
 }: Omit<ButtonProps, 'variant'>) {
   const Comp = asChild ? Slot.Root : 'button';
 
   return (
     <Comp
+      type={!asChild ? (type ?? 'button') : undefined}
       data-slot="button"
       data-size={size}
       data-outlined={isOutlined ?? false}

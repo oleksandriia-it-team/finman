@@ -3,15 +3,15 @@ import { ControlledInputProps } from '../props/controlled-input.props';
 import { Controller, useFormContext } from 'react-hook-form';
 import { cn } from '@frontend/shared/utils/cn.util';
 
-export function FinControlledInput({ name, className, inputClassName, ...props }: ControlledInputProps) {
+export function FinControlledInput({ name, wrapperClassName, className, ...props }: ControlledInputProps) {
   const { control } = useFormContext();
   return (
     <Controller
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const inputClasses = cn(inputClassName, fieldState.invalid && 'is-invalid');
-        const wrapperClasses = cn(className, 'flex flex-col items-center justify-center');
+        const inputClasses = cn(className, fieldState.invalid && 'is-invalid');
+        const wrapperClasses = cn(wrapperClassName, 'flex flex-col');
         return (
           <div className={wrapperClasses}>
             <UiInput
@@ -20,7 +20,7 @@ export function FinControlledInput({ name, className, inputClassName, ...props }
               value={field.value ?? ''}
               onChange={(value) => field.onChange(value)}
             />
-            {fieldState.error && <p className="invalid-feedback">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="text-destructive">{fieldState.error.message}</p>}
           </div>
         );
       }}

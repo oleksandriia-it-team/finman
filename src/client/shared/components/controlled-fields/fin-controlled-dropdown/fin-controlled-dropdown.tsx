@@ -3,7 +3,12 @@ import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdo
 import { ControlledDropdownProps } from '../props/controlled-dropdown.props';
 import { cn } from '../../../utils/cn.util';
 
-export function FinControlledDropdown<T>({ name, className, inputClassName, ...props }: ControlledDropdownProps<T>) {
+export default function FinControlledDropdown<T>({
+  name,
+  wrapperClassName,
+  className,
+  ...props
+}: ControlledDropdownProps<T>) {
   const { control } = useFormContext();
 
   return (
@@ -11,8 +16,8 @@ export function FinControlledDropdown<T>({ name, className, inputClassName, ...p
       name={name}
       control={control}
       render={({ field, fieldState }) => {
-        const inputClasses = cn(inputClassName, fieldState.invalid && 'is-invalid');
-        const wrapperClasses = cn(className, 'flex flex-col items-center justify-center');
+        const inputClasses = cn(className, fieldState.invalid && 'is-invalid');
+        const wrapperClasses = cn(wrapperClassName, 'flex flex-col');
 
         return (
           <div className={wrapperClasses}>
@@ -23,7 +28,7 @@ export function FinControlledDropdown<T>({ name, className, inputClassName, ...p
               className={inputClasses}
               id={field.name}
             />
-            {fieldState.error && <p className="invalid-feedback d-block">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="text-destructive">{fieldState.error.message}</p>}
           </div>
         );
       }}
