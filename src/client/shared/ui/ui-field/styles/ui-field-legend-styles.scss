@@ -1,0 +1,14 @@
+.field-legend {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+
+  &[data-variant="legend"] {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  &[data-variant="label"] {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}

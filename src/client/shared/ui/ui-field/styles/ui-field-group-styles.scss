@@ -1,0 +1,14 @@
+.field-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1.75rem;
+
+  &[data-slot="checkbox-group"] {
+    gap: 0.75rem;
+  }
+
+  & > [data-slot="field-group"] {
+    gap: 1rem;
+  }
+}

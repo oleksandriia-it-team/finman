@@ -1,0 +1,73 @@
+.field {
+  display: flex;
+  width: 100%;
+  gap: 0.75rem;
+
+  &[data-invalid="true"] {
+    color: var(--color-destructive);
+  }
+
+  &[data-orientation="vertical"] {
+    flex-direction: column;
+
+    & > * {
+      width: 100%;
+    }
+
+    & > .sr-only {
+      width: auto;
+    }
+  }
+
+  &[data-orientation="horizontal"] {
+    flex-direction: row;
+    align-items: center;
+
+    & > [data-slot="field-label"] {
+      flex: 1 1 auto;
+    }
+
+    &:has(> [data-slot="field-content"]) {
+      align-items: flex-start;
+
+      & > [role="checkbox"],
+      & > [role="radio"] {
+        margin-top: 1px;
+      }
+    }
+  }
+
+  &[data-orientation="responsive"] {
+    flex-direction: column;
+
+    & > * {
+      width: 100%;
+    }
+
+    & > .sr-only {
+      width: auto;
+    }
+
+    @container field-group (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+
+      & > * {
+        width: auto;
+      }
+
+      & > [data-slot="field-label"] {
+        flex: 1 1 auto;
+      }
+
+      &:has(> [data-slot="field-content"]) {
+        align-items: flex-start;
+
+        & > [role="checkbox"],
+        & > [role="radio"] {
+          margin-top: 1px;
+        }
+      }
+    }
+  }
+}
