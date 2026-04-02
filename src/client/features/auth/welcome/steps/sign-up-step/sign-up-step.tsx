@@ -55,12 +55,13 @@ export default function SignUpStep() {
             <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">
               Готові взяти контроль?
             </p>
-            <p className="text-lg step-subtitle">Ваша фінансова подорож починається зараз</p>
+            <p className="text-lg text-muted-foreground">Ваша фінансова подорож починається зараз</p>
           </div>
         </div>
         <div className="w-full space-y-3">
           {checks.map((check) => (
             <TransactionCard
+              bgNone
               key={check.id}
               icon={check.icon}
               title={check.title}
@@ -87,7 +88,7 @@ export default function SignUpStep() {
               Зареєструватися
             </Link>
           </UiPurpleButton>
-          <p className="text-center step-footer-text text-sm mt-4">Це займе менше 1 хвилини</p>
+          <p className="text-center text-muted-foreground text-sm mt-4">Це займе менше 1 хвилини</p>
         </div>
       </div>
     </div>

@@ -9,4 +9,5 @@ export interface TransactionCardProps {
   amount?: string;
   type?: TransactionType;
   className?: string;
+  bgNone?: boolean;
 }
