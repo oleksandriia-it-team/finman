@@ -27,7 +27,7 @@ export default function RegistrationPage() {
   ];
 
   return (
-    <div className="w-full h-full px-35 bg-body">
+    <div className="w-full h-full px-35 bg-card">
       <FormProvider {...methods}>
         <form
           onSubmit={(e) => {

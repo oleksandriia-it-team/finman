@@ -11,13 +11,13 @@ export default function MainWelcomeStep() {
 
       <div className="flex flex-col md:flex-row items-center justify-between w-full relative z-10 max-w-[75rem] gap-y-5">
         <div className="w-full md:w-1/2 text-center text-md-start">
-          <h1 className="mb-4 text-4xl md:text-6xl leading-tight">
+          <h1 className="mb-4 text-3xl md:text-4xl leading-tight">
             <b>
               <span className="block">Керуй своїми фінансами!</span>
               <span className="block">Легко та стильно</span>
             </b>
           </h1>
-          <p className="text-secondary-foreground text-lg md:text-2xl">
+          <p className="text-muted-foreground text-lg md:text-2xl">
             Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.
           </p>
         </div>
@@ -37,7 +37,7 @@ export default function MainWelcomeStep() {
               <UiGlassCard
                 icon="🎯"
                 title="На макбук"
-                value={<span className="text-info">45% зібрано</span>}
+                value={<span className="text-teal">45% зібрано</span>}
                 rotationClass="rotate-2"
               />
 

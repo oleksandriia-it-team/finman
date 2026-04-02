@@ -19,7 +19,7 @@ export default function Layout({ children }: ChildrenComponentProps) {
       lang="en"
       className={cn('font-sans', inter.variable)}
     >
-      <body className="w-screen h-screen">
+      <body className="w-screen h-screen bg-background text-foreground">
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
