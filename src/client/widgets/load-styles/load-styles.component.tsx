@@ -6,7 +6,7 @@ import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useEffect } from 'react';
 
 export default function LoadStylesComponent({ children }: ChildrenComponentProps) {
-  const mode = useUserInformation((state) => state.userInformation?.mode ?? ThemeEnum.Light);
+  const mode = useUserInformation((state) => state.userInformation?.mode ?? ThemeEnum.Dark);
 
   useEffect(() => {
     if (mode === ThemeEnum.Dark) document.documentElement.classList.add(ThemeEnum.Dark);

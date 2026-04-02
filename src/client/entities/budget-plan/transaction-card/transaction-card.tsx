@@ -17,7 +17,7 @@ const amountColorVariants: Record<TransactionType, string> = {
 export function TransactionCard({ icon, title, subtitle, amount, type, className }: TransactionCardProps) {
   const wrapperClasses = useMemo(() => {
     return clsx(
-      'flex items-center md:p-2 p-3 bg-body rounded-lg shadow-sm mb-2 border border-secondary-foreground',
+      'flex items-center md:p-2 p-3 bg-card rounded-lg shadow-sm mb-2 border border-secondary-foreground',
       className,
     );
   }, [className]);

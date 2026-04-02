@@ -1,0 +1,4 @@
+
+@function getOpacity($color, $opacity) {
+  @return color-mix(in srgb, #{$color}, transparent #{$opacity});
+}

@@ -37,7 +37,7 @@ export default function MainWelcomeStep() {
               <UiGlassCard
                 icon="🎯"
                 title="На макбук"
-                value={<span className="text-info">45% зібрано</span>}
+                value={<span className="text-secondary-foreground">45% зібрано</span>}
                 rotationClass="rotate-2"
               />
 

@@ -11,9 +11,9 @@
   --secondary-foreground: rgb(54 64 80);
   --muted: rgb(233 236 248);
   --muted-foreground: rgb(108 114 126);
+  --destructive: rgb(223 34 36);
   --accent: rgb(231 239 252);
   --accent-foreground: rgb(1 82 203);
-  --destructive: rgb(223 34 36);
   --border: rgb(212 219 230);
   --input: rgb(246 246 246);
   --ring: rgb(2 101 253);
@@ -31,6 +31,7 @@
   --sidebar-border: rgb(228 232 239);
   --sidebar-ring: rgb(2 101 253);
   --overlay-background: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgb(0, 0, 0);
 
   --font-sans: Inter, sans-serif;
   --font-serif: Source Serif 4, serif;
@@ -84,13 +85,5 @@
   --teal-muted: rgb(204 251 241);
   --teal-muted-foreground: rgb(13 148 136);
 
-  /* Step */
-  --step-bg: rgba(248, 250, 252, 1);
-  --step-card-bg: rgba(255, 255, 255, 1);
-  --step-card-border: rgba(226, 232, 240, 1);
-  --step-text-main: rgba(15, 23, 42, 1);
-  --step-text-sub: rgba(71, 85, 105, 1);
-  --step-text-footer: rgba(100, 116, 139, 1);
-  --step-primary: rgba(147, 51, 234,1);
 
 }

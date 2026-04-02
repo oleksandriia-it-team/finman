@@ -12,7 +12,7 @@ export function UiGlassCard({ icon, title, value, rotationClass = '', className 
     >
       <div className="text-5xl leading-none">{icon}</div>
       <div className="mt-3">
-        <div className="font-bold text-body text-base">{title}</div>
+        <div className="font-bold text-card-foreground text-base">{title}</div>
         <div className="font-bold mt-1 text-sm sm:text-lg">{value}</div>
       </div>
     </div>
