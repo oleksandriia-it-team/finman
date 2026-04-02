@@ -19,6 +19,7 @@ export function FinDefaultDropdown<T>({
   id,
   className,
   placeholder,
+  'data-invalid': dataInvalid,
   ...props
 }: DefaultDropdownInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
@@ -60,6 +61,7 @@ export function FinDefaultDropdown<T>({
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        data-invalid={dataInvalid}
         className={className}
         id={id}
       >

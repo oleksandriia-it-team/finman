@@ -32,54 +32,56 @@ export default function RegistrationPage() {
   return (
     <div className="w-full h-full px-35 flex items-center justify-center bg-card">
       <FormProvider {...methods}>
-        <UiFieldSet
+        <form
           className="min-w-50 max-w-72 w-full"
           onSubmit={(e) => {
             e.preventDefault();
             submit();
           }}
         >
-          <UiFieldLegend
-            size="lg"
-            className="text-center"
-          >
-            Введіть основну інформацію
-          </UiFieldLegend>
-
-          <UiFieldGroup>
-            <FinControlledInput
-              label="Введіть ваше імʼя"
-              id="userName"
-              name="userName"
-              placeholder="Імʼя"
-            />
-
-            <FinControlledDropdown
-              label="Оберіть формат дат"
-              id="formats"
-              name="preferableLocale"
-              placeholder="Бажаний формат дат"
-              options={formats}
-            />
-
-            <FinControlledDropdown
-              label="Оберіть мову"
-              id="language"
-              name="language"
-              placeholder="Мова"
-              options={languages}
-            />
-
-            <UiButton
-              type="submit"
-              bgNone
-              className="w-full min-w-50 max-w-72"
-              variant="default"
+          <UiFieldSet>
+            <UiFieldLegend
+              size="lg"
+              className="text-center"
             >
-              Зареєструватися
-            </UiButton>
-          </UiFieldGroup>
-        </UiFieldSet>
+              Введіть основну інформацію
+            </UiFieldLegend>
+
+            <UiFieldGroup>
+              <FinControlledInput
+                label="Введіть ваше імʼя"
+                id="userName"
+                name="userName"
+                placeholder="Імʼя"
+              />
+
+              <FinControlledDropdown
+                label="Оберіть формат дат"
+                id="formats"
+                name="preferableLocale"
+                placeholder="Бажаний формат дат"
+                options={formats}
+              />
+
+              <FinControlledDropdown
+                label="Оберіть мову"
+                id="language"
+                name="language"
+                placeholder="Мова"
+                options={languages}
+              />
+
+              <UiButton
+                type="submit"
+                bgNone
+                className="w-full min-w-50 max-w-72"
+                variant="default"
+              >
+                Зареєструватися
+              </UiButton>
+            </UiFieldGroup>
+          </UiFieldSet>
+        </form>
       </FormProvider>
     </div>
   );

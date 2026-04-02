@@ -20,6 +20,7 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
             <UiInput
               {...props}
               {...field}
+              data-invalid={fieldState.invalid}
               onBlur={() => {
                 field.onBlur();
                 field.onChange(field.value);
