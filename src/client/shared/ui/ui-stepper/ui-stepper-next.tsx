@@ -20,7 +20,8 @@ export function UiStepperNext({
       data-slot="carousel-next"
       variant={variant}
       size={size}
-      isOutlined={true}
+      bgNone
+      isOutlined={false}
       className={cn(
         'absolute rounded-full',
         orientation === 'horizontal'

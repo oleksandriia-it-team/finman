@@ -1,7 +1,7 @@
 'use client';
 
 import { ChildrenComponentProps } from '../../shared/models/component-with-chilren.model';
-import { useUserInformation } from '../../entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useEffect } from 'react';
 
@@ -13,5 +13,5 @@ export default function LoadStylesComponent({ children }: ChildrenComponentProps
     else document.documentElement.classList.remove(ThemeEnum.Dark);
   }, [mode]);
 
-  return <div>{children}</div>;
+  return <main className="flex flex-col w-screen h-screen">{children}</main>;
 }

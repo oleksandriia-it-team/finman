@@ -1,3 +1,5 @@
+@import '../../../styles/functions';
+
 .modal-content {
   position: fixed;
   top: 50%;
@@ -12,7 +14,7 @@
   border: 1px solid var(--border);
   background-color: var(--background);
   padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px getOpacity(var(--shadow-color), 90%), 0 4px 6px -4px getOpacity(var(--shadow-color), 90%);
   outline: none;
   transition-duration: 200ms;
 

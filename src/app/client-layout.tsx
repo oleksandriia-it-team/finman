@@ -2,7 +2,6 @@
 
 import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import InitApplication from './init-application';
-import Header from '@frontend/widgets/header/header';
 import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoadGlobalToast } from './load-global-toast';
@@ -23,11 +22,7 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
       <InitApplication>
         <QueryClientProvider client={queryClient}>
           <LoadGlobalToast />
-
-          <div className="flex flex-col w-screen h-screen">
-            <Header />
-            <div className="flex-1">{children}</div>
-          </div>
+          {children}
         </QueryClientProvider>
       </InitApplication>
     </LoadStylesComponent>

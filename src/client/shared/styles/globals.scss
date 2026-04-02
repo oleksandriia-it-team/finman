@@ -6,3 +6,12 @@
 @import 'key-frames';
 @import 'variants';
 @import 'basic-component-styles/input';
+@import 'mixins';
+
+html {
+  font-size: 14px;
+
+  @include mediascreen("desktop") {
+    font-size: 16px;
+  }
+}

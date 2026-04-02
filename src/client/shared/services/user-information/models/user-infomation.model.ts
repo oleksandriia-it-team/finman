@@ -1,4 +1,4 @@
-import { ThemeEnum } from '../../../shared/enums/theme.enum';
+import { ThemeEnum } from '../../../enums/theme.enum';
 
 export interface UserInformation {
   userName?: string | undefined;

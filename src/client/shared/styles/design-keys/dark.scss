@@ -1,7 +1,7 @@
 .dark {
-  --background: rgb(28 36 51);
-  --foreground: rgb(228 232 239);
-  --card: rgb(49 58 70);
+  --background: rgb(22 22 22);
+  --foreground: rgb(191 191 191);
+  --card: rgb(4 19 39);
   --card-foreground: rgb(228 232 239);
   --popover: rgb(49 58 70);
   --popover-foreground: rgb(228 232 239);
@@ -11,9 +11,9 @@
   --secondary-foreground: rgb(228 232 239);
   --muted: rgb(37 46 61);
   --muted-foreground: rgb(155 162 174);
+  --destructive: rgb(241 68 68);
   --accent: rgb(43 53 74);
   --accent-foreground: rgb(228 232 239);
-  --destructive: rgb(241 68 68);
   --border: rgb(47 59 80);
   --input: rgb(47 59 80);
   --ring: rgb(1 82 203);
@@ -31,6 +31,7 @@
   --sidebar-border: rgb(47 59 80);
   --sidebar-ring: rgb(1 82 203);
   --overlay-background: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgb(255, 0, 0);
 
   --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
   --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
@@ -77,4 +78,5 @@
   --teal-foreground: rgb(4 47 46);
   --teal-muted: rgb(19 78 74);
   --teal-muted-foreground: rgb(153 246 228);
+
 }
