@@ -8,7 +8,7 @@
 
   @each $name, $colors in $sizes {
     &[data-size='#{$name}'] {
-      font-size: list.nth($sizes, 1);
+      font-size: list.nth($colors, 1);
     }
   }
 }

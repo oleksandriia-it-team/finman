@@ -39,7 +39,12 @@ export default function RegistrationPage() {
             submit();
           }}
         >
-          <UiFieldLegend className="!text-xl text-center">Введіть основну інформацію</UiFieldLegend>
+          <UiFieldLegend
+            size="lg"
+            className="text-center"
+          >
+            Введіть основну інформацію
+          </UiFieldLegend>
 
           <UiFieldGroup>
             <FinControlledInput
