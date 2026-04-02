@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import { UITransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
+import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ export default function Header() {
   const today = useMemo(() => new Date(), []);
 
   const currentDateEl = (
-    <UITransformDate
+    <UiTransformDate
       date={today}
       type={DateFormatType.LongWithYear}
     />
