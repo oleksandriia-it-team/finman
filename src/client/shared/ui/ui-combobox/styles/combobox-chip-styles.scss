@@ -19,7 +19,7 @@
     opacity: 0.5;
   }
 
-  &:has([data-slot="combobox-chip-remove"]) {
+  &:has([data-slot='combobox-chip-remove']) {
     padding-right: 0;
   }
 }

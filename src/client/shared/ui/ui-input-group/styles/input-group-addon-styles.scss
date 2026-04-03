@@ -11,7 +11,7 @@
   color: var(--muted-foreground);
   user-select: none;
 
-  .input-group[data-disabled="true"] & {
+  .input-group[data-disabled='true'] & {
     opacity: 0.5;
   }
 
@@ -24,31 +24,33 @@
     height: 1rem;
   }
 
-  &[data-align="inline-start"] {
+  &[data-align='inline-start'] {
     order: -1;
     padding-left: 0.75rem;
 
     &:has(> button) {
       margin-left: -0.45rem;
     }
+
     &:has(> kbd) {
       margin-left: -0.35rem;
     }
   }
 
-  &[data-align="inline-end"] {
+  &[data-align='inline-end'] {
     order: 1;
     padding-right: 0.75rem;
 
     &:has(> button) {
       margin-right: -0.45rem;
     }
+
     &:has(> kbd) {
       margin-right: -0.35rem;
     }
   }
 
-  &[data-align="block-start"] {
+  &[data-align='block-start'] {
     order: -1;
     width: 100%;
     justify-content: flex-start;
@@ -63,7 +65,7 @@
     }
   }
 
-  &[data-align="block-end"] {
+  &[data-align='block-end'] {
     order: 1;
     width: 100%;
     justify-content: flex-start;

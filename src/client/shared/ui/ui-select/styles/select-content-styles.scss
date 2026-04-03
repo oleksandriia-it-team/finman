@@ -17,10 +17,21 @@
     animation-duration: 150ms;
     animation-fill-mode: both;
 
-    &[data-side='bottom'] { --slide-from: translateY(-0.5rem); }
-    &[data-side='left']   { --slide-from: translateX(0.5rem); }
-    &[data-side='right']  { --slide-from: translateX(-0.5rem); }
-    &[data-side='top']    { --slide-from: translateY(0.5rem); }
+    &[data-side='bottom'] {
+      --slide-from: translateY(-0.5rem);
+    }
+
+    &[data-side='left'] {
+      --slide-from: translateX(0.5rem);
+    }
+
+    &[data-side='right'] {
+      --slide-from: translateX(-0.5rem);
+    }
+
+    &[data-side='top'] {
+      --slide-from: translateY(0.5rem);
+    }
   }
 
   &[data-state='closed'] {
@@ -31,10 +42,21 @@
 }
 
 .select-content-popper {
-  &[data-side='bottom'] { transform: translateY(0.25rem); }
-  &[data-side='left']   { transform: translateX(-0.25rem); }
-  &[data-side='right']  { transform: translateX(0.25rem); }
-  &[data-side='top']    { transform: translateY(-0.25rem); }
+  &[data-side='bottom'] {
+    transform: translateY(0.25rem);
+  }
+
+  &[data-side='left'] {
+    transform: translateX(-0.25rem);
+  }
+
+  &[data-side='right'] {
+    transform: translateX(0.25rem);
+  }
+
+  &[data-side='top'] {
+    transform: translateY(-0.25rem);
+  }
 }
 
 .select-viewport-popper {

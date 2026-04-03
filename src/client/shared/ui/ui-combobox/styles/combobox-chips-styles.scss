@@ -18,7 +18,7 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 
-  &:has([data-slot="combobox-chip"]) {
+  &:has([data-slot='combobox-chip']) {
     padding-left: 0.375rem;
     padding-right: 0.375rem;
   }
