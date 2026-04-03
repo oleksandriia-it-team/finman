@@ -33,10 +33,10 @@
   }
 
   &[data-invalid="true"] {
-    border-color: var(--destructive);
+    border-color: var(--destructive) !important;
 
     &:focus-visible, &[aria-expanded="true"], &[data-state="open"], &:has([data-slot='input-group-control']:focus-visible) {
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 50%, transparent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 50%, transparent) !important;
     }
   }
 
