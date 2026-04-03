@@ -1,22 +1,33 @@
 'use client';
-import TransactionCard from '../../../../../entities/budget-plan/transaction-card/transaction-card';
-import Button from '@frontend/shared/components/button/button';
+import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
 import Link from 'next/link';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 import './sign-up-step.scss';
+import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
 
 export default function SignUpStep() {
   const checks = [
     {
       id: 1,
-      icon: <i className="bi bi-shield-check text-xl" />,
+      icon: (
+        <UiSvgIcon
+          size="lg"
+          name="shield-check"
+        />
+      ),
       title: 'Повний контроль коштів',
       subtitle: 'Ваші гроші під контролем',
       type: 'income' as const,
     },
     {
       id: 2,
-      icon: <i className="bi bi-graph-up-arrow text-xl" />,
+      icon: (
+        <UiSvgIcon
+          size="lg"
+          name="graph-up-arrow"
+        />
+      ),
       title: 'Аналітика витрат',
       subtitle: 'Детальні графіки та звіти',
       type: 'income' as const,
@@ -25,8 +36,8 @@ export default function SignUpStep() {
 
   return (
     <div className=" step-background relative flex items-center justify-center min-h-screen w-full overflow-hidden p-4">
-      <div className="blot bg-blot bg-pink-blot" />
-      <div className="blot bg-blot blue-blot" />
+      <div className="blot bg-blot bg-pink-blot " />
+      <div className="blot bg-blot blue-blot " />
 
       <div className="relative z-10 flex flex-col items-center w-full max-w-[30rem] gap-8">
         <div className="flex flex-col items-center gap-6">
@@ -44,12 +55,13 @@ export default function SignUpStep() {
             <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">
               Готові взяти контроль?
             </p>
-            <p className="text-lg step-subtitle">Ваша фінансова подорож починається зараз</p>
+            <p className="text-lg text-muted-foreground">Ваша фінансова подорож починається зараз</p>
           </div>
         </div>
         <div className="w-full space-y-3">
           {checks.map((check) => (
             <TransactionCard
+              bgNone
               key={check.id}
               icon={check.icon}
               title={check.title}
@@ -61,21 +73,22 @@ export default function SignUpStep() {
           ))}
         </div>
         <div className="w-full pt-4">
-          <Link
-            className="!text-inherit !no-underline"
-            href="/registration/form"
+          <UiPurpleButton
+            asChild
+            isOutlined
+            bgNone
+            isRoundedFull
+            size="lg"
+            className="w-full py-6"
           >
-            <Button
-              variant="purpleGradient"
-              isOutlined={true}
-              isRoundedFull={true}
-              size="lg"
-              className="w-full py-6 border-0"
+            <Link
+              className="!text-inherit !no-underline"
+              href="/registration/form"
             >
               Зареєструватися
-            </Button>
-          </Link>
-          <p className="text-center step-footer-text text-sm mt-4">Це займе менше 1 хвилини</p>
+            </Link>
+          </UiPurpleButton>
+          <p className="text-center text-muted-foreground text-sm mt-4">Це займе менше 1 хвилини</p>
         </div>
       </div>
     </div>

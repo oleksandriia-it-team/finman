@@ -1,0 +1,14 @@
+@use 'sass:list';
+
+@import '../../../styles/variants';
+
+.field-legend {
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+
+  @each $name, $colors in $sizes {
+    &[data-size='#{$name}'] {
+      font-size: list.nth($colors, 1);
+    }
+  }
+}

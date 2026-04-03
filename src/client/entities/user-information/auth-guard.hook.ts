@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useUserInformation } from './use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useEffect } from 'react';
 
 export function useUserGuard(routePath?: string) {
@@ -12,8 +12,10 @@ export function useUserGuard(routePath?: string) {
   useEffect(() => {
     if (!user && pathName != '/registration/form') {
       router.push('/registration/form');
-    } else if (routePath && user) {
+    } else if (routePath && user && pathName !== routePath) {
       router.push(routePath);
     }
   }, [routePath, router, user, pathName]);
+
+  return user;
 }

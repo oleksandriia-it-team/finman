@@ -1,15 +1,15 @@
-@use './../../../../../shared/styles/color-variables';
-@use './../styles/styles';
+@use '../styles/blot';
+@import '../../../../../shared/styles/functions';
 
 .bg-blot{
-  width: 18.75rem;
-  height: 18.75rem;
+  width: 37.5rem;
+  height: 37.5rem;
   filter:blur(6rem);
 
 }
 
 .bg-pink-blot{
-  background-color: rgb(var(--pink-blot));
+  background-color: var(--pink);
   opacity: 15%;
   top:-5rem;
   left:-5rem;
@@ -17,7 +17,7 @@
 }
 
 .blue-blot{
-  background-color: rgb(var(--blue-blot));
+  background-color: var(--primary);
   opacity: 15%;
   bottom:-5rem;
   right:-5rem;
@@ -25,27 +25,15 @@
 }
 
 .step-background {
-  background-color: rgb(var(--step-bg));
+  background-color: getOpacity(var(--card),90%);
   transition: background-color 0.4s ease;
   isolation: isolate;
-}
-
-.step-title {
-  color: rgb(var(--step-text-main));
-}
-
-.step-subtitle {
-  color: rgb(var(--step-text-sub));
-}
-
-.step-footer-text {
-  color: rgb(var(--step-text-footer));
 }
 
 .icon-glow-layer {
   position: absolute;
   inset: 0;
-  background-color: rgb(var(--step-primary));
+  background-color: var(--purple);
   filter: blur(3rem);
   opacity: 20%;
   animation: pulse-glow 2s infinite ease-in-out;
@@ -53,20 +41,16 @@
 }
 
 .icon-card-wrapper {
-  background-color: var(--step-card-bg);
-  border: 1px solid var(--step-card-border);
+  background-color: getOpacity(var(--card),90%);
+  border: 1px solid var(--border);
   backdrop-filter: blur(0.75rem);
   border-radius: 1.5rem;
   transition: all 0.3s ease;
 
-  [data-bs-theme="dark"] & {
-    background-color: var(--step-card-bg);
-    border-color: var(--step-card-border);
-  }
 }
 
 .rocket-icon {
-  color: var(--step-primary);
+  color: var(--purple);
   animation: smooth-bounce 3s infinite ease-in-out;
 }
 
@@ -75,7 +59,7 @@
 
   &:hover {
     transform: translateY(-4px) scale(1.02);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 20px getOpacity(var(--shadow-color), 80%) !important;
     z-index: 10;
   }
 }
@@ -88,13 +72,4 @@
 @keyframes smooth-bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
-}
-
-@media screen and (min-width:1024px) {
-  .bg-blot {
-    width: 37.5rem;
-    height: 37.5rem;
-    filter:blur(8rem);
-
-  }
 }

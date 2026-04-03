@@ -1,5 +1,4 @@
-@use './../../../../../shared/styles/color-variables';
-@use './../styles/styles';
+@use '../styles/blot';
 
 .pink-blot{
   left:-3.125rem;
@@ -7,7 +6,7 @@
   width: 35rem;
   height: 35rem;
   filter:blur(6rem);
-  background-color: rgb(var(--pink-blot));
+  background-color: var(--pink);
   opacity: 10%;
 
 }
@@ -18,7 +17,7 @@
   width: 35rem;
   height: 35rem;
   filter:blur(6rem);
-  background: rgb(var(--green-blot));
+  background: var(--success);
   opacity: 15%;
 
 }

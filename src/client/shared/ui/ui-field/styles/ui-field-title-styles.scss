@@ -1,0 +1,13 @@
+.field-title {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.375;
+  font-weight: 500;
+
+  :global(.group\/field)[data-disabled="true"] & {
+    opacity: 0.5;
+  }
+}

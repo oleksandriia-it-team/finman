@@ -1,0 +1,43 @@
+@use 'sass:list';
+
+@import './button-variant-mixin';
+@import '../../../styles/variants';
+
+.btn {
+  @include btn-base;
+
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      @if $name == 'destructive' {
+        &:focus-visible {
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+        }
+      }
+
+      &[data-outlined="false"] {
+        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+      }
+
+      &[data-outlined="true"] {
+        @include btn-outline-variant(list.nth($colors, 1));
+      }
+
+    }
+  }
+
+  @each $name, $values in $sizes {
+    &[data-size='#{$name}'] {
+      @include btn-size(list.nth($values, 1), list.nth($values, 2), list.nth($values, 3), list.nth($values, 4));
+    }
+  }
+
+  &[data-rounded] { border-radius: 9999px; }
+  &[data-bg-none] {
+    background-color: transparent;;
+    &:hover,
+    &:active,
+    &:focus-visible {
+      background-color: transparent;
+    }
+  }
+}

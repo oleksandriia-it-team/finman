@@ -1,22 +1,22 @@
 'use client';
 
 import './styles/header.scss';
-
-import TransformDate from '../../shared/components/transform-date/transform-date';
 import { DateFormatType } from '../../shared/enums/date-type.enum';
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserInformation } from '../../entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
 import { useShallow } from 'zustand/react/shallow';
-import Link from '../../shared/components/link/link';
-import IconButton from '../../shared/components/icon-button/icon-button';
+import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import Link from 'next/link';
 
 /**
  * Header
  *
  * A header component displaying the current date and a theme toggle button.
- * The theme button switches between 'light' and 'dark' modes using Redux state.
+ * The theme button switches between 'light' and 'dark' modes using Zustand state.
  *
  * @component
  *
@@ -40,7 +40,7 @@ export default function Header() {
   const today = useMemo(() => new Date(), []);
 
   const currentDateEl = (
-    <TransformDate
+    <UiTransformDate
       date={today}
       type={DateFormatType.LongWithYear}
     />
@@ -49,12 +49,13 @@ export default function Header() {
   const authButtonEl = (
     <>
       {isLight && (
-        <IconButton
+        <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="brightness-high-fill"
-          size="large"
-          variant="warning"
-          className="size-8"
-          isOutlined={true}
+          size="sm"
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Dark,
@@ -64,12 +65,13 @@ export default function Header() {
       )}
 
       {!isLight && (
-        <IconButton
+        <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="moon-fill"
-          size="large"
-          variant="info"
-          className="size-8"
-          isOutlined={true}
+          size="sm"
+          variant="default"
+          bgNone
           onClick={() =>
             setUserInformation({
               mode: ThemeEnum.Light,
@@ -79,12 +81,13 @@ export default function Header() {
       )}
 
       {isLoggedIn && (
-        <IconButton
+        <UiIconButton
+          isRoundedFull={false}
+          isOutlined={false}
           icon="gear"
-          size="large"
-          variant="info"
-          className="size-8"
-          isOutlined={true}
+          size="sm"
+          variant="default"
+          bgNone
           onClick={() => router.push('pages/setting-page')}
         />
       )}
@@ -93,15 +96,20 @@ export default function Header() {
 
   return (
     <nav className="navbar navbar-light bg-primary px-3 py-2 flex justify-between items-center">
-      <Link
-        variant="revert"
-        href="/"
-        underlined={false}
+      <UiButton
+        asChild
+        variant="default"
+        bgNone
       >
-        Finman - Твій фінансовий рятівник
-      </Link>
+        <Link
+          href="/"
+          className="no-underline"
+        >
+          Finman - Твій фінансовий рятівник
+        </Link>
+      </UiButton>
 
-      <div className="header-buttons text-spell-revert">
+      <div className="header-buttons text-primary-foreground">
         {currentDateEl}
         {authButtonEl}
       </div>
