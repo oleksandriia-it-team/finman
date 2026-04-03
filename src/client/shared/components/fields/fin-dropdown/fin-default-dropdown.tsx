@@ -1,7 +1,7 @@
 'use client';
 
 import { DefaultDropdownInputProps } from '../props/input.props';
-import { useMemo, useState } from 'react';
+import { Ref, useMemo, useState } from 'react';
 import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
 import { UiSelect } from '@frontend/ui/ui-select/ui-select';
@@ -19,6 +19,7 @@ export function FinDefaultDropdown<T>({
   id,
   className,
   placeholder,
+  ref,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultDropdownInputProps<T>) {
@@ -61,6 +62,7 @@ export function FinDefaultDropdown<T>({
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}
         className={className}
         id={id}

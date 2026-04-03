@@ -2,8 +2,14 @@ import { Select as SelectPrimitive } from 'radix-ui';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
+import { Ref } from 'react';
 
-export function UiSelectTrigger({ className, size = 'default', children, ...props }: SelectTriggerProps) {
+export function UiSelectTrigger({
+  className,
+  size = 'default',
+  children,
+  ...props
+}: SelectTriggerProps & { ref: Ref<HTMLButtonElement> }) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"

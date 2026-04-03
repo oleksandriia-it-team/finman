@@ -1,7 +1,7 @@
 'use client';
 
 import { LazyDropdownInputProps } from '../props/input.props';
-import { useEffect, useMemo, useState } from 'react';
+import { Ref, useEffect, useMemo, useState } from 'react';
 import { DropdownOption } from '../../../models/dropdown-option.model';
 import { UiLazyLoad } from '@frontend/ui/ui-lazy-load/ui-lazy-load';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
@@ -27,6 +27,7 @@ export function FinLazyDropdown<T>({
   page,
   pageSize,
   itemHeight,
+  ref,
   'data-invalid': dataInvalid,
   ...props
 }: LazyDropdownInputProps<T>) {
@@ -101,6 +102,7 @@ export function FinLazyDropdown<T>({
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}
         className={className}
         id={id}

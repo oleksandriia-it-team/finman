@@ -27,6 +27,14 @@ export function FinControlledDropdown<T>({
             <FinDropdown
               {...props}
               {...field}
+              ref={(el) => {
+                if (!el) return;
+
+                field.ref({
+                  ...el,
+                  focus: () => el.click(),
+                });
+              }}
               data-invalid={fieldState.invalid}
               onBlur={() => {
                 field.onBlur();

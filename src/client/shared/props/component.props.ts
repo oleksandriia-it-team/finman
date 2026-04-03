@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef } from 'react';
+import { ComponentPropsWithRef } from 'react';
 
-export interface ComponentDefaultProps extends ComponentPropsWithoutRef<'div'> {
+export interface ComponentDefaultProps extends ComponentPropsWithRef<'div'> {
   className?: string | undefined;
 }
