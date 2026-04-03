@@ -1,24 +1,21 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Combobox as ComboboxPrimitive } from "@base-ui/react"
-import { cn } from "@frontend/shared/utils"
+import * as React from 'react';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-import './styles/combobox-styles.scss'
+import './styles/combobox-content-styles.scss';
 
 export function UiComboboxContent({
   className,
-  side = "bottom",
+  side = 'bottom',
   sideOffset = 6,
-  align = "start",
+  align = 'start',
   alignOffset = 0,
   anchor,
   ...props
 }: ComboboxPrimitive.Popup.Props &
-  Pick<
-    ComboboxPrimitive.Positioner.Props,
-    "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
-  >) {
+  Pick<ComboboxPrimitive.Positioner.Props, 'side' | 'align' | 'sideOffset' | 'alignOffset' | 'anchor'>) {
   return (
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Positioner
@@ -32,13 +29,10 @@ export function UiComboboxContent({
         <ComboboxPrimitive.Popup
           data-slot="combobox-content"
           data-chips={!!anchor}
-          className={cn(
-            "combobox-content group/combobox-content",
-            className
-          )}
+          className={cn('combobox-content group/combobox-content', className)}
           {...props}
         />
       </ComboboxPrimitive.Positioner>
     </ComboboxPrimitive.Portal>
-  )
+  );
 }

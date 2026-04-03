@@ -1,0 +1,47 @@
+.combobox-content {
+  position: relative;
+  max-height: 24rem;
+  width: var(--anchor-width);
+  max-width: var(--available-width);
+  min-width: calc(var(--anchor-width) + 1.75rem);
+  transform-origin: var(--transform-origin);
+  overflow: hidden;
+  border-radius: var(--radius);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+  transition-duration: 100ms;
+
+  &[data-chips="true"] {
+    min-width: var(--anchor-width);
+  }
+
+  &[data-side="bottom"] {
+    animation: slideInFromTop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  &[data-side="left"] {
+    animation: slideInFromRight 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  &[data-side="right"] {
+    animation: slideInFromLeft 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  &[data-side="top"] {
+    animation: slideInFromBottom 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  & > [data-slot="input-group"] {
+    margin: 0.25rem;
+    margin-bottom: 0;
+    height: 2rem;
+    border-color: color-mix(in srgb, var(--input) 30%, transparent);
+    background-color: color-mix(in srgb, var(--input) 30%, transparent);
+    box-shadow: none;
+  }
+
+  &[data-state="open"] {
+    animation: zoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1), fadeIn 0.2s ease-out;
+  }
+  &[data-state="closed"] {
+    animation: zoomOut 0.2s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.2s ease-in;
+  }
+}

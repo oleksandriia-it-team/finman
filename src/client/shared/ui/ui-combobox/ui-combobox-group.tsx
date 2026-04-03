@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Combobox as ComboboxPrimitive } from "@base-ui/react"
-import { cn } from "@frontend/shared/utils"
+import * as React from 'react';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
@@ -11,5 +11,5 @@ export function UiComboboxGroup({ className, ...props }: ComboboxPrimitive.Group
       className={cn(className)}
       {...props}
     />
-  )
+  );
 }

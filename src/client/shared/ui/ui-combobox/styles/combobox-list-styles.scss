@@ -1,0 +1,10 @@
+.combobox-list {
+  max-height: min(calc(24rem - 2.25rem), calc(var(--available-height) - 2.25rem));
+  scroll-padding-block: 0.25rem;
+  overflow-y: auto;
+  padding: 0.25rem;
+
+  &[data-empty="true"] {
+    padding: 0;
+  }
+}

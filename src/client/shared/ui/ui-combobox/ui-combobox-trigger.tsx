@@ -1,15 +1,11 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { Combobox as ComboboxPrimitive } from "@base-ui/react"
-import { ChevronDownIcon } from "lucide-react"
-import { cn } from "@frontend/shared/utils"
+import * as React from 'react';
+import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { cn } from '@frontend/shared/utils/cn.util';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
-export function UiComboboxTrigger({
-  className,
-  children,
-  ...props
-}: ComboboxPrimitive.Trigger.Props) {
+export function UiComboboxTrigger({ className, children, ...props }: ComboboxPrimitive.Trigger.Props) {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
@@ -17,10 +13,13 @@ export function UiComboboxTrigger({
       {...props}
     >
       {children}
-      <ChevronDownIcon
+
+      <UiSvgIcon
         data-slot="combobox-trigger-icon"
-        className="pointer-events-none size-4 text-muted-foreground"
+        className="pointer-events-none"
+        name="chevron-down"
+        size="default"
       />
     </ComboboxPrimitive.Trigger>
-  )
+  );
 }
