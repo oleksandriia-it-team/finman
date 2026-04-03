@@ -1,11 +1,8 @@
 import { InputDefaultProps } from '../../../props/input-default.props';
-import { DefaultDropdownInputProps, LazyDropdownInputProps } from '../../fields/props/input.props';
+import { DefaultDropdownInputProps } from '../../fields/props/input.props';
 import { InputControlProps } from '../../../props/input-control.props';
-
-type ControlledLazyProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
-  Omit<LazyDropdownInputProps<T>, 'onChange'> & { lazy: true };
 
 type ControlledDefaultProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
   Omit<DefaultDropdownInputProps<T>, 'onChange'> & { lazy?: false };
 
-export type ControlledDropdownProps<T> = InputControlProps & (ControlledLazyProps<T> | ControlledDefaultProps<T>);
+export type ControlledDropdownProps<T> = InputControlProps & ControlledDefaultProps<T>;
