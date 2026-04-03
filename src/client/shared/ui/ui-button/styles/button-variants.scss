@@ -36,12 +36,12 @@
   }
 
   &[data-bg-none='true'] {
-    background-color: transparent;;
+    background-color: transparent !important;
 
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent;
+      background-color: transparent !important;
     }
   }
 }

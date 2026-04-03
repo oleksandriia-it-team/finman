@@ -2,10 +2,12 @@
 
 @import '../../../styles/variants';
 
-.combobox-label {
+.combobox-message {
   padding: 0.375rem 0.5rem;
-  font-size: 0.75rem;
   font-weight: 500;
+  font-size: 0.875rem;
+  justify-content: center;
+  text-align: center;
 
   &[data-variant='muted'] {
    color: var(--muted-foreground);
@@ -18,5 +20,9 @@
   @media (pointer: coarse) {
     padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
+  }
+
+  .group-data-empty\/combobox-content & {
+    display: flex;
   }
 }

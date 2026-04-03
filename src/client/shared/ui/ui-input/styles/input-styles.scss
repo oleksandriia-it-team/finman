@@ -13,10 +13,10 @@
   @each $name, $values in $sizes {
     &[data-size='#{$name}'] {
       @include input-size(
-                      list.nth($values, 1),
-                      list.nth($values, 2),
-                      list.nth($values, 3),
-                      list.nth($values, 4)
+        list.nth($values, 1),
+        list.nth($values, 2),
+        list.nth($values, 3),
+        list.nth($values, 4)
       );
     }
   }

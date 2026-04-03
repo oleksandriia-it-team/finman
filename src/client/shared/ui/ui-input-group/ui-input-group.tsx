@@ -10,7 +10,7 @@ export function UiInputGroup({ className, ...props }: React.ComponentProps<'div'
     <div
       data-slot="input-group"
       role="group"
-      className={cn('input-group group/input-group', className)}
+      className={cn('input-group basic-input group/input-group', className)}
       {...props}
     />
   );

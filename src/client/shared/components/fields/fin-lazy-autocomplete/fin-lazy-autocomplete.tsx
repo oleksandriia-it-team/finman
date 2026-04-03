@@ -3,11 +3,10 @@ import { UiCombobox } from '@frontend/ui/ui-combobox/ui-combobox';
 import { UiComboboxInput } from '@frontend/ui/ui-combobox/ui-combobox-input';
 import { useMemo, useState } from 'react';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';
-import { UiComboboxEmpty } from '@frontend/ui/ui-combobox/ui-combobox-empty';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { UiComboboxLabel } from '@frontend/ui/ui-combobox/ui-combobox-label';
 import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
 import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
+import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
 
 export function FinLazyAutocomplete<T>({
   onChange,
@@ -54,11 +53,11 @@ export function FinLazyAutocomplete<T>({
       {...props}
     >
       <UiComboboxInput
+        className={className}
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
         placeholder={placeholder}
-        className={className}
         value={search}
         onInput={(event) => {
           const target = event.target as HTMLInputElement;
@@ -67,17 +66,17 @@ export function FinLazyAutocomplete<T>({
       />
 
       <UiComboboxContent>
-        {options.length === 0 && state === PromiseState.Success && (
-          <UiComboboxEmpty>{emptyLabel ?? 'Нічого не знайдено'}</UiComboboxEmpty>
-        )}
-
-        {state === PromiseState.Loading && <UiComboboxLabel>{loadingLabel ?? 'Завантаження...'}</UiComboboxLabel>}
-
-        {state === PromiseState.Error && (
-          <UiComboboxLabel variant="destructive">{errorLabel ?? 'Помилка'}</UiComboboxLabel>
-        )}
-
         <UiComboboxList className={optionListClassName}>
+          {options.length === 0 && state === PromiseState.Success && (
+            <UiComboboxMessage>{emptyLabel || 'Нічого не знайдено'}</UiComboboxMessage>
+          )}
+
+          {state === PromiseState.Loading && <UiComboboxMessage>{loadingLabel || 'Завантаження...'}</UiComboboxMessage>}
+
+          {state === PromiseState.Error && (
+            <UiComboboxMessage variant="destructive">{errorLabel || 'Помилка'}</UiComboboxMessage>
+          )}
+
           {options.map((option) => (
             <UiComboboxItem
               className={optionClassName}

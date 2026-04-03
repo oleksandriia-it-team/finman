@@ -1,49 +1,20 @@
 .input-group {
   position: relative;
   display: flex;
-  width: 100%;
   align-items: center;
-  border-radius: var(--radius);
-  border: 1px solid var(--input);
-  box-shadow: var(--shadow-xs);
-  transition: color 0.2s, box-shadow 0.2s;
-  outline: none;
-  height: 2.25rem;
-  min-width: 0;
 
   &:has(textarea) {
     height: auto;
   }
 
-  &:has(> [data-align='inline-start']) > input {
-    padding-left: 0.5rem;
-  }
-
-  &:has(> [data-align='inline-end']) > input {
-    padding-right: 0.5rem;
-  }
-
   &:has(> [data-align='block-start']) {
     height: auto;
     flex-direction: column;
-
-    > input {
-      padding-bottom: 0.75rem;
-    }
   }
 
   &:has(> [data-align='block-end']) {
     height: auto;
     flex-direction: column;
-
-    > input {
-      padding-top: 0.75rem;
-    }
-  }
-
-  &:has([data-slot='input-group-control']:focus-visible) {
-    border-color: var(--ring);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
 }
 

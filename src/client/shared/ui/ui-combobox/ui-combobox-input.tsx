@@ -10,7 +10,7 @@ import { UiInputGroupInput } from '@frontend/ui/ui-input-group/ui-input-group-in
 
 import { UiComboboxTrigger } from './ui-combobox-trigger';
 import { UiComboboxClear } from './ui-combobox-clear';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { ComboboxInputProps } from '@frontend/ui/ui-combobox/props/combobox-input.props';
 
 export function UiComboboxInput({
   className,
@@ -18,31 +18,20 @@ export function UiComboboxInput({
   disabled = false,
   showTrigger = true,
   showClear = false,
+  'data-invalid': dataInvalid,
   ...props
-}: ComboboxPrimitive.Input.Props & {
-  showTrigger?: boolean;
-  showClear?: boolean;
-}) {
+}: ComboboxInputProps) {
   return (
-    <UiInputGroup className={cn('w-auto', className)}>
+    <UiInputGroup
+      className={cn('w-auto', className)}
+      data-invalid={dataInvalid}
+    >
       <ComboboxPrimitive.Input
         render={<UiInputGroupInput disabled={disabled} />}
         {...props}
       />
       <UiInputGroupAddon align="inline-end">
-        {showTrigger && (
-          <UiButton
-            size="xs"
-            isOutlined
-            variant="default"
-            asChild
-            data-slot="input-group-button"
-            className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
-            disabled={disabled}
-          >
-            <UiComboboxTrigger />
-          </UiButton>
-        )}
+        {showTrigger && <UiComboboxTrigger data-slot="input-group-button" />}
         {showClear && <UiComboboxClear disabled={disabled} />}
       </UiInputGroupAddon>
       {children}
