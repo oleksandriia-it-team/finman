@@ -1,7 +1,7 @@
 'use client';
 
-import RegistrationPage from '../client/features/auth/welcome/registration-screen';
+import RegularIncomesPage from '@frontend/features/regular-incomes';
 
 export default function MainPage() {
-  return <RegistrationPage />;
+  return <RegularIncomesPage />;
 }

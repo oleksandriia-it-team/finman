@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserGuard } from '@frontend/entities/user-information/auth-guard.hook';
+import { useUserGuard } from '@frontend/entities/profile/auth-guard.hook';
 
 export default function UserProfilePage() {
   const user = useUserGuard();

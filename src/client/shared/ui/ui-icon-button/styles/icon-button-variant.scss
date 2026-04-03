@@ -25,11 +25,11 @@
   &[data-rounded] { border-radius: 9999px; }
 
   &[data-bg-none] {
-    background-color: transparent;;
+    background-color: transparent !important;
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent;
+      background-color: transparent !important;
     }
   }
 
