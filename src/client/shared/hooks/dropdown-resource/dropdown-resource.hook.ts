@@ -43,7 +43,7 @@ export function useDropdownResource<T>({
     const statuses = [
       getOptionsQuery.status,
       !getLabelQuery.isEnabled ? 'success' : getLabelQuery.status,
-      getTotalCountQuery.status,
+      getTotalCountQuery?.status ?? 'success',
     ];
 
     if (statuses.every((status) => status === 'success')) {
@@ -55,10 +55,10 @@ export function useDropdownResource<T>({
     }
 
     return PromiseState.Loading;
-  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery.status, getLabelQuery.isEnabled]);
+  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery?.status, getLabelQuery.isEnabled]);
 
   const errorMessage = useMemo(() => {
-    const errors = [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery.error];
+    const errors = [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery?.error];
 
     const error = errors.find((error) => !!error);
 
@@ -67,12 +67,12 @@ export function useDropdownResource<T>({
     }
 
     return getErrorMessage(error);
-  }, [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery.error]);
+  }, [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery?.error]);
 
   return {
     state,
     options: getOptionsQuery.data ?? [],
-    totalCount: getTotalCountQuery.data ?? 0,
+    totalCount: getTotalCountQuery?.data ?? 0,
     inputLabel: inputLabel || prevInputLabel,
     errorMessage,
   };

@@ -4,7 +4,7 @@ import { UseQueryResult } from '@tanstack/react-query';
 
 export interface DropdownResourceConfig<T> {
   currentValue: T | undefined | null;
-  getTotalCountQuery: UseQueryResult<number, Error>;
+  getTotalCountQuery?: UseQueryResult<number, Error>;
   getOptionsQuery: UseQueryResult<DropdownOption<T>[], Error>;
   getLabelFn: (value: T) => Promise<string | undefined | null>;
   labelQueryKey: string[];

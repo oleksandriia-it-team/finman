@@ -1,6 +1,5 @@
-import { ComponentPropsWithoutRef, Ref } from 'react';
+import { ComponentPropsWithoutRef } from 'react';
 
 export interface ComponentDefaultProps extends ComponentPropsWithoutRef<'div'> {
   className?: string | undefined;
-  ref?: Ref<never>;
 }

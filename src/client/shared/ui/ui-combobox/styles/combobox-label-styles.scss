@@ -1,8 +1,19 @@
+@use 'sass:list';
+
+@import '../../../styles/variants';
+
 .combobox-label {
   padding: 0.375rem 0.5rem;
   font-size: 0.75rem;
-  color: var(--muted-foreground);
   font-weight: 500;
+
+  &[data-variant='muted'] {
+   color: var(--muted-foreground);
+  }
+
+  &[data-variant='descructive'] {
+    color: var(--destructive);
+  }
 
   @media (pointer: coarse) {
     padding: 0.5rem 0.75rem;
