@@ -29,7 +29,8 @@ export function UiButton({
       data-outlined={isOutlined ?? false}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
-      className={cn('btn cursor-pointer', borderNone && 'border-0', className)}
+      data-border-none={borderNone}
+      className={cn('btn cursor-pointer', className)}
       {...props}
     />
   );
