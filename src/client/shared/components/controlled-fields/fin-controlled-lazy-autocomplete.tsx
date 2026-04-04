@@ -34,13 +34,11 @@ export function FinControlledLazyAutocomplete<T>({
               data-invalid={fieldState.invalid}
               onBlur={() => {
                 field.onBlur();
-                onSearch(field.value);
                 field.onChange(field.value);
               }}
-              value={field.value}
               onChange={(val) => {
-                onSearch(val ?? '');
-                field.onChange(val);
+                onSearch(val?.label ?? '');
+                field.onChange(val?.value);
               }}
               className={className}
               id={id}

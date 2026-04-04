@@ -55,7 +55,7 @@ export function FinDropdown<T>({
         if (!label) {
           return;
         }
-        onChange(options.find((option) => option.label === label)?.value);
+        onChange(options.find((option) => option.label === label));
       }}
       open={show}
       onOpenChange={setVisibility}

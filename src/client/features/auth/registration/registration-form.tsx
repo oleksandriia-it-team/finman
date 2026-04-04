@@ -53,7 +53,7 @@ export function RegistrationForm() {
               options={localeDataResource.options}
               errorLabel={localeDataResource.errorMessage ?? ''}
               state={localeDataResource.state}
-              customInputValue={localeDataResource.inputLabel}
+              customInputValue={localeDataResource.inputLabel ?? ''}
               search={localeDataResource.search}
               onSearch={localeDataResource.setSearch}
             />

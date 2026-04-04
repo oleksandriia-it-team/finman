@@ -7,4 +7,7 @@ type ControlledDefaultProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
 
 export type ControlledDropdownProps<T> = InputControlProps & ControlledDefaultProps<T>;
 
-export type ControlledLazyAutocompleteProps<T> = InputControlProps & Omit<DefaultAutocompleteInputProps<T>, 'onChange'>;
+export type ControlledLazyAutocompleteProps<T> = InputControlProps &
+  Omit<DefaultAutocompleteInputProps<T>, 'onChange'> & {
+    customInputValue: string;
+  };
