@@ -56,6 +56,7 @@ export function RegistrationForm() {
               options={localeDataResource.options}
               errorLabel={localeDataResource.errorMessage ?? ''}
               state={localeDataResource.state}
+              customInputValue={localeDataResource.inputLabel}
               search={localeSearch ?? ''}
               onSearch={setLocaleSearch}
             />
@@ -70,7 +71,6 @@ export function RegistrationForm() {
 
             <UiButton
               type="submit"
-              bgNone
               className="w-full min-w-50 max-w-72"
               variant="default"
             >

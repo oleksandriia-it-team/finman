@@ -16,8 +16,7 @@ export function UiComboboxInput({
   className,
   children,
   disabled = false,
-  showTrigger = true,
-  showClear = false,
+  onClear,
   'data-invalid': dataInvalid,
   ...props
 }: ComboboxInputProps) {
@@ -31,8 +30,13 @@ export function UiComboboxInput({
         {...props}
       />
       <UiInputGroupAddon align="inline-end">
-        {showTrigger && <UiComboboxTrigger data-slot="input-group-button" />}
-        {showClear && <UiComboboxClear disabled={disabled} />}
+        <UiComboboxTrigger data-slot="input-group-button" />
+        {onClear && (
+          <UiComboboxClear
+            disabled={disabled}
+            onClick={onClear}
+          />
+        )}
       </UiInputGroupAddon>
       {children}
     </UiInputGroup>

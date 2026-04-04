@@ -27,10 +27,7 @@ export function UiComboboxChip({
           className="combobox-chip-remove"
           data-slot="combobox-chip-remove"
         >
-          <UiSvgIcon
-            name="x"
-            size="xs"
-          />
+          <UiSvgIcon name="x" />
         </ComboboxPrimitive.ChipRemove>
       )}
     </ComboboxPrimitive.Chip>

@@ -1,13 +1,11 @@
-.input-group-addon {
+.basic-input-addons {
   display: flex;
   height: auto;
   cursor: text;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--muted-foreground);
+  color: var(--secondary-foreground);
   user-select: none;
 
   .input-group[data-disabled='true'] & {

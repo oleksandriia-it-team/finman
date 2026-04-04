@@ -11,11 +11,11 @@ export function UiComboboxClear({ className, ...props }: ComboboxPrimitive.Clear
       data-slot="combobox-clear"
       className={cn(className)}
       {...props}
+      render={<button />}
     >
       <UiSvgIcon
         name="x"
         className="pointer-events-none"
-        size="xs"
       />
     </ComboboxPrimitive.Clear>
   );

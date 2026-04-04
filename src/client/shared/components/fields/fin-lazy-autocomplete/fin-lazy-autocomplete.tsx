@@ -1,7 +1,7 @@
 import { DefaultAutocompleteInputProps } from '@frontend/components/fields/props/input.props';
 import { UiCombobox } from '@frontend/ui/ui-combobox/ui-combobox';
 import { UiComboboxInput } from '@frontend/ui/ui-combobox/ui-combobox-input';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
@@ -13,7 +13,6 @@ export function FinLazyAutocomplete<T>({
   options,
   optionListClassName,
   optionClassName,
-  value,
   id,
   className,
   placeholder,
@@ -25,19 +24,18 @@ export function FinLazyAutocomplete<T>({
   errorLabel,
   loadingLabel,
   disabled,
+  customInputValue,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
-
-  const selectedValue = useMemo(() => options.find((option) => option.value === value)?.label, [options, value]);
 
   return (
     <UiCombobox<string>
       open={show}
       onOpenChange={setVisibility}
       items={options}
-      value={selectedValue ?? ''}
+      value={customInputValue}
       onValueChange={(label) => {
         if (!label) {
           return;
@@ -47,6 +45,8 @@ export function FinLazyAutocomplete<T>({
       disabled={disabled}
     >
       <UiComboboxInput
+        showTrigger
+        showClear
         className={className}
         data-invalid={dataInvalid}
         ref={ref}
@@ -57,6 +57,7 @@ export function FinLazyAutocomplete<T>({
           const target = event.target as HTMLInputElement;
           onSearch(target.value);
         }}
+        onClear={() => onChange(undefined)}
         {...props}
       />
 

@@ -65,6 +65,7 @@ export function FinDropdown<T>({
         ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}
         className={className}
+        onClear={() => onChange(undefined)}
         id={id}
       >
         <UiSelectValue placeholder={placeholder}>{inputValue}</UiSelectValue>

@@ -12,6 +12,7 @@ export function FinControlledLazyAutocomplete<T>({
   label,
   id,
   onSearch,
+  customInputValue,
   ...props
 }: ControlledLazyAutocompleteProps<T>) {
   const { control } = useFormContext();
@@ -28,6 +29,7 @@ export function FinControlledLazyAutocomplete<T>({
             <FinLazyAutocomplete
               {...props}
               {...field}
+              customInputValue={customInputValue}
               onSearch={onSearch}
               data-invalid={fieldState.invalid}
               onBlur={() => {
@@ -37,8 +39,8 @@ export function FinControlledLazyAutocomplete<T>({
               }}
               value={field.value}
               onChange={(val) => {
-                onSearch(val);
-                field.onChange(val);
+                onSearch(val ?? '');
+                field.onChange(val ?? '');
               }}
               className={className}
               id={field.name}

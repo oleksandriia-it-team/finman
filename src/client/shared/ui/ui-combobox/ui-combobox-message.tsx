@@ -1,13 +1,11 @@
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 
-import './styles/combobox-message-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { ComboboxMessageProps } from '@frontend/ui/ui-combobox/props/combobox-message.props';
 
-export function UiComboboxMessage({
-  className,
-  variant = 'muted',
-  ...props
-}: ComboboxPrimitive.Label.Props & { variant?: 'destructive' | 'muted' }) {
+import './styles/combobox-message-styles.scss';
+
+export function UiComboboxMessage({ className, variant = 'muted', ...props }: ComboboxMessageProps) {
   return (
     <ComboboxPrimitive.Label
       data-variant={variant}

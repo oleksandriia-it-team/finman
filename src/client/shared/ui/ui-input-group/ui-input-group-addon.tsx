@@ -3,8 +3,6 @@
 import * as React from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 
-import './styles/input-group-addon-styles.scss';
-
 export interface InputGroupAddonProps extends React.ComponentProps<'div'> {
   align?: 'inline-start' | 'inline-end' | 'block-start' | 'block-end';
 }
@@ -15,7 +13,7 @@ export function UiInputGroupAddon({ className, align = 'inline-start', ...props 
       role="group"
       data-slot="input-group-addon"
       data-align={align}
-      className={cn('input-group-addon', className)}
+      className={cn('basic-input-addons', className)}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest('button')) {
           return;

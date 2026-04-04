@@ -1,29 +1,53 @@
 import { Select as SelectPrimitive } from 'radix-ui';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
-import { Ref } from 'react';
+import { UiInputGroupAddon } from '../ui-input-group/ui-input-group-addon';
+import { UiInputGroup } from '@frontend/ui/ui-input-group/ui-input-group';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiSelectTrigger({
   className,
   size = 'default',
   children,
+  onClear,
+  'data-invalid': dataInvalid,
   ...props
-}: SelectTriggerProps & { ref: Ref<HTMLButtonElement> }) {
+}: SelectTriggerProps) {
   return (
-    <SelectPrimitive.Trigger
-      data-slot="select-trigger"
-      className={cn('flex w-fit items-center justify-between gap-2 basic-input', className)}
-      {...props}
+    <UiInputGroup
+      className={cn('w-auto', className)}
+      data-invalid={dataInvalid}
     >
-      {children}
-      <SelectPrimitive.Icon asChild>
-        <UiSvgIcon
-          name="chevron-down"
-          size={size}
-          className="opacity-50"
-        />
-      </SelectPrimitive.Icon>
-    </SelectPrimitive.Trigger>
+      <SelectPrimitive.Trigger
+        data-slot="select-trigger"
+        className="input-group-control text-left"
+        {...props}
+      >
+        {children}
+      </SelectPrimitive.Trigger>
+
+      <UiInputGroupAddon align="inline-end">
+        <SelectPrimitive.Icon asChild>
+          <button>
+            <UiSvgIcon
+              name="chevron-down"
+              size={size}
+            />
+          </button>
+        </SelectPrimitive.Icon>
+
+        <SelectPrimitive.Icon
+          asChild
+          onClick={onClear}
+        >
+          <button>
+            <UiSvgIcon
+              name="x"
+              size={size}
+            />
+          </button>
+        </SelectPrimitive.Icon>
+      </UiInputGroupAddon>
+    </UiInputGroup>
   );
 }
