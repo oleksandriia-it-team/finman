@@ -55,6 +55,7 @@ export function RegistrationForm() {
               options={localeDataResource.resource.options}
               errorLabel={localeDataResource.resource.errorMessage ?? ''}
               state={localeDataResource.resource.state}
+              customInputValue={localeDataResource.resource.inputLabel}
             />
 
             <FinControlledDropdown

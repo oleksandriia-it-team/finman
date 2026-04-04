@@ -11,6 +11,7 @@ export function FinControlledLazyAutocomplete<T>({
   showErrors = true,
   label,
   id,
+  customInputValue,
   ...props
 }: ControlledLazyAutocompleteProps<T>) {
   const { control } = useFormContext();
@@ -27,6 +28,7 @@ export function FinControlledLazyAutocomplete<T>({
             <FinLazyAutocomplete
               {...props}
               {...field}
+              customInputValue={customInputValue}
               data-invalid={fieldState.invalid}
               onBlur={() => {
                 field.onBlur();

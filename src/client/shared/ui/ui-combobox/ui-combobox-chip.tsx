@@ -2,12 +2,10 @@
 
 import * as React from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
-
-import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
 import './styles/combobox-chip-styles.scss';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export function UiComboboxChip({
   className,
@@ -26,20 +24,12 @@ export function UiComboboxChip({
       {children}
       {showRemove && (
         <ComboboxPrimitive.ChipRemove
-          render={
-            <UiButton
-              variant="default"
-              size="xs"
-              isOutlined
-            />
-          }
           className="combobox-chip-remove"
           data-slot="combobox-chip-remove"
         >
-          <UiIconButton
-            icon="x"
+          <UiSvgIcon
+            name="x"
             variant="default"
-            isOutlined={false}
             size="xs"
           />
         </ComboboxPrimitive.ChipRemove>

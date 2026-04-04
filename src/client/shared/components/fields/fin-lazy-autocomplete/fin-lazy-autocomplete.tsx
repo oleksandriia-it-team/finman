@@ -25,6 +25,7 @@ export function FinLazyAutocomplete<T>({
   emptyLabel,
   errorLabel,
   loadingLabel,
+  disabled,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
@@ -50,7 +51,7 @@ export function FinLazyAutocomplete<T>({
         }
         onChange(options.find((option) => option.label === label)?.value);
       }}
-      {...props}
+      disabled={disabled}
     >
       <UiComboboxInput
         className={className}
@@ -63,6 +64,7 @@ export function FinLazyAutocomplete<T>({
           const target = event.target as HTMLInputElement;
           onSearch(target.value);
         }}
+        {...props}
       />
 
       <UiComboboxContent>
