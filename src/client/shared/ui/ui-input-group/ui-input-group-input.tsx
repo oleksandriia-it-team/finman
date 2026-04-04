@@ -8,7 +8,7 @@ export function UiInputGroupInput({ className, ...props }: React.ComponentProps<
     <input
       type="text"
       data-slot="input-group-control"
-      className={cn('input-group-control')}
+      className={cn('input-group-control', className)}
       {...props}
     />
   );

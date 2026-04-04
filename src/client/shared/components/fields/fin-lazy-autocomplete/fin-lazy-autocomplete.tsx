@@ -45,8 +45,6 @@ export function FinLazyAutocomplete<T>({
       disabled={disabled}
     >
       <UiComboboxInput
-        showTrigger
-        showClear
         className={className}
         data-invalid={dataInvalid}
         ref={ref}
