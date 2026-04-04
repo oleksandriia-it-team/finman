@@ -11,7 +11,7 @@ export function UiComboboxItem({ className, children, ...props }: ComboboxPrimit
   return (
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
-      className={cn('combobox-item', className)}
+      className={cn('list-item', className)}
       {...props}
     >
       {children}

@@ -9,7 +9,8 @@
   border-radius: var(--radius);
   background-color: var(--popover);
   color: var(--popover-foreground);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--foreground) 10%, transparent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
   transition-duration: 100ms;
 
   &[data-chips='true'] {
