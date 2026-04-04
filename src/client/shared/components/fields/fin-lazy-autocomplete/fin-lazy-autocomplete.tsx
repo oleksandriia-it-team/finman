@@ -36,9 +36,6 @@ export function FinLazyAutocomplete<T>({
       onOpenChange={setVisibility}
       items={options}
       value={customInputValue}
-      // eslint-disable-next-line
-      // @ts-ignore
-      inputValue={customInputValue}
       onValueChange={(label) => {
         if (!label) {
           return;

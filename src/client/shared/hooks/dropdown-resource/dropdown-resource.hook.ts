@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
-import { usePreviousValue } from '../previous-value/previous-value.hook';
 
 export function useDropdownResource<T>({
   currentValue,
@@ -36,8 +35,6 @@ export function useDropdownResource<T>({
   });
 
   const inputLabel = foundOption?.label ?? getLabelQuery.data ?? '';
-
-  const prevInputLabel = usePreviousValue(inputLabel);
 
   const state = useMemo(() => {
     const statuses = [
@@ -73,7 +70,7 @@ export function useDropdownResource<T>({
     state,
     options: getOptionsQuery.data ?? [],
     totalCount: getTotalCountQuery?.data ?? 0,
-    inputLabel: inputLabel || prevInputLabel,
+    inputLabel: inputLabel,
     errorMessage,
   };
 }
