@@ -39,6 +39,8 @@ export function FinLazyAutocomplete<T>({
     return options.find((option) => option.value === value)?.label;
   }, [customInputValue, value, options]);
 
+  console.log(inputValue);
+
   return (
     <UiCombobox<string>
       open={show}

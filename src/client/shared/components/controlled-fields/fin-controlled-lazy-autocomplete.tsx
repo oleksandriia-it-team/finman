@@ -35,7 +35,10 @@ export function FinControlledLazyAutocomplete<T>({
                 field.onChange(field.value);
               }}
               value={field.value}
-              onChange={(val) => field.onChange(val)}
+              onChange={(val) => {
+                console.log(val);
+                field.onChange(val);
+              }}
               className={className}
               id={field.name}
             />

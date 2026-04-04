@@ -8,8 +8,8 @@ import { SupportLanguagesLocale } from '@frontend/shared/constants/support-langu
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { FormProvider } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useSetupRegistration } from '../../../../app/registration/form/shared/registration-form';
 import { useGetLocales } from '@frontend/entities/lookups/hooks/get-locales.hook';
+import { useSetupRegistration } from '../../../entities/user-information/registration-form';
 
 export function RegistrationForm() {
   const router = useRouter();
