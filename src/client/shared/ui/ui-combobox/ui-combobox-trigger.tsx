@@ -14,6 +14,7 @@ export function UiComboboxTrigger({ className, children, ...props }: ComboboxPri
       {children}
 
       <UiSvgIcon
+        aria-hidden
         data-slot="combobox-trigger-icon"
         className="pointer-events-none"
         name="chevron-down"

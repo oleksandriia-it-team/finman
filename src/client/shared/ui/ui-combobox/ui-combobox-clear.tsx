@@ -10,10 +10,12 @@ export function UiComboboxClear({ className, ...props }: ComboboxPrimitive.Clear
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
       className={cn(className)}
+      tabIndex={0}
       {...props}
       render={<button />}
     >
       <UiSvgIcon
+        aria-hidden
         name="x"
         className="pointer-events-none"
       />

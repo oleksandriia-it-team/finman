@@ -27,26 +27,26 @@ export function UiSelectTrigger({
       </SelectPrimitive.Trigger>
 
       <UiInputGroupAddon align="inline-end">
-        <SelectPrimitive.Icon asChild>
-          <button>
+        <button tabIndex={-1}>
+          <SelectPrimitive.Icon asChild>
             <UiSvgIcon
               name="chevron-down"
               size={size}
             />
-          </button>
-        </SelectPrimitive.Icon>
+          </SelectPrimitive.Icon>
+        </button>
 
-        <SelectPrimitive.Icon
-          asChild
-          onClick={onClear}
-        >
-          <button>
+        <button>
+          <SelectPrimitive.Icon
+            asChild
+            onClick={onClear}
+          >
             <UiSvgIcon
               name="x"
               size={size}
             />
-          </button>
-        </SelectPrimitive.Icon>
+          </SelectPrimitive.Icon>
+        </button>
       </UiInputGroupAddon>
     </UiInputGroup>
   );
