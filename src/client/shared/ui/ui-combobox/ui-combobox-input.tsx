@@ -28,7 +28,6 @@ export function UiComboboxInput({
     >
       <ComboboxPrimitive.Input
         render={<UiInputGroupInput disabled={disabled} />}
-        value={value}
         {...props}
       />
       <UiInputGroupAddon align="inline-end">

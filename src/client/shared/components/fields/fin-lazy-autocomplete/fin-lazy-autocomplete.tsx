@@ -24,7 +24,6 @@ export function FinLazyAutocomplete<T>({
   errorLabel,
   loadingLabel,
   disabled,
-  customInputValue,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
@@ -35,7 +34,7 @@ export function FinLazyAutocomplete<T>({
       open={show}
       onOpenChange={setVisibility}
       items={options}
-      value={customInputValue}
+      value={search}
       onValueChange={(label) => {
         if (!label) {
           return;
@@ -49,10 +48,8 @@ export function FinLazyAutocomplete<T>({
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
-        placeholder={placeholder}
-        // eslint-disable-next-line
-        // @ts-ignore
         value={search}
+        placeholder={placeholder}
         onInput={(event) => {
           const target = event.target as HTMLInputElement;
           onSearch(target.value);

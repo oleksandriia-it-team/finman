@@ -15,12 +15,13 @@ export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value' | 'ref'> 
     ref?: Ref<HTMLButtonElement>;
   };
 
-export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>, 'ref'> & {
-  onSearch: Dispatch<SetStateAction<string>>;
-  search: string;
-  state: PromiseState;
-  emptyLabel?: string;
-  loadingLabel?: string;
-  errorLabel?: string;
-  ref?: Ref<HTMLInputElement>;
-};
+export type DefaultAutocompleteInputProps<T> = Omit<InputProps<T>, 'value' | 'ref'> &
+  DropdownDefaultProps<T> & {
+    onSearch: Dispatch<SetStateAction<string>>;
+    search: string;
+    state: PromiseState;
+    emptyLabel?: string;
+    loadingLabel?: string;
+    errorLabel?: string;
+    ref?: Ref<HTMLInputElement>;
+  };
