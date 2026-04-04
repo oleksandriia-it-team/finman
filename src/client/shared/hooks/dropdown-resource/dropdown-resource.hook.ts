@@ -5,36 +5,60 @@ import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 
-export function useDropdownResource<T>({
+export function useDropdownResource<T, Multiple extends boolean = false>({
+  multiple,
   currentValue,
   getTotalCountQuery,
   getOptionsQuery,
   getLabelFn,
   labelQueryKey,
-}: DropdownResourceConfig<T>): DropdownResource<T> {
-  const foundOption = getOptionsQuery.data?.find((i) => i.value === currentValue);
+}: DropdownResourceConfig<T, Multiple>): DropdownResource<T, Multiple> {
+  const isMultiple = multiple === true;
 
-  const shouldFetchLabel = !isEmpty(currentValue) && !foundOption && !getOptionsQuery.isLoading;
+  const currentValueArr = useMemo(() => {
+    if (isEmpty(currentValue)) return [];
+    if (isMultiple) {
+      return (Array.isArray(currentValue) ? currentValue : [currentValue]) as T[];
+    }
+    return [currentValue as T];
+  }, [currentValue, isMultiple]);
 
-  const getLabelQuery = useQuery<string | undefined | null>({
-    queryKey: [...labelQueryKey, currentValue],
+  const foundOptions = useMemo(() => {
+    if (!getOptionsQuery.data) return [];
+    return getOptionsQuery.data.filter((i) => currentValueArr.includes(i.value));
+  }, [getOptionsQuery.data, currentValueArr]);
+
+  const shouldFetchLabel = !isEmpty(currentValue) && foundOptions.length !== currentValueArr.length && !getOptionsQuery.isLoading;
+
+  const getLabelQuery = useQuery<(Multiple extends true ? string[] : string) | undefined | null>({
+    queryKey: [...labelQueryKey, currentValueArr],
     queryFn: () => {
       if (isEmpty(currentValue) || getOptionsQuery.isLoading) {
-        return Promise.resolve('');
+        return Promise.resolve((isMultiple ? [] : '') as unknown as (Multiple extends true ? string[] : string));
       }
 
-      const labelInOptions = getOptionsQuery.data?.find((i) => i.value === currentValue)?.label;
-
-      if (!isEmpty(labelInOptions)) {
-        return Promise.resolve(labelInOptions);
+      if (foundOptions.length === currentValueArr.length) {
+        const labels = currentValueArr.map(val => foundOptions.find(o => o.value === val)?.label ?? '');
+        return Promise.resolve((isMultiple ? labels : labels[0]) as unknown as (Multiple extends true ? string[] : string));
       }
 
-      return getLabelFn(currentValue);
+      return getLabelFn(currentValue!);
     },
     enabled: shouldFetchLabel,
   });
 
-  const inputLabel = foundOption?.label ?? getLabelQuery.data ?? '';
+  const inputLabel = useMemo(() => {
+    if (!isEmpty(getLabelQuery.data)) {
+      return getLabelQuery.data as (Multiple extends true ? string[] : string);
+    }
+
+    if (foundOptions.length > 0) {
+      const labels = currentValueArr.map(val => foundOptions.find(o => o.value === val)?.label ?? '');
+      return (isMultiple ? labels : (labels[0] ?? '')) as unknown as (Multiple extends true ? string[] : string);
+    }
+
+    return (isMultiple ? [] : '') as unknown as (Multiple extends true ? string[] : string);
+  }, [getLabelQuery.data, foundOptions, currentValueArr, isMultiple]);
 
   const state = useMemo(() => {
     const statuses = [
@@ -70,7 +94,7 @@ export function useDropdownResource<T>({
     state,
     options: getOptionsQuery.data ?? [],
     totalCount: getTotalCountQuery?.data ?? 0,
-    inputLabel: inputLabel,
+    inputLabel,
     errorMessage,
   };
 }
