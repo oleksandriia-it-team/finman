@@ -29,7 +29,6 @@ export function UiComboboxChip({
         >
           <UiSvgIcon
             name="x"
-            variant="default"
             size="xs"
           />
         </ComboboxPrimitive.ChipRemove>

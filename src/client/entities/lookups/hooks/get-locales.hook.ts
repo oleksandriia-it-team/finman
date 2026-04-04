@@ -1,6 +1,5 @@
 import { useDropdownResource } from '@frontend/shared/hooks/dropdown-resource/dropdown-resource.hook';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
-import { useState } from 'react';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useQuery } from '@tanstack/react-query';
 import { CountryAndLocale } from '@common/records/countries.record';
@@ -11,16 +10,17 @@ function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<
   return locales.map((locale) => ({ value: locale.locale, label: locale.locale }));
 }
 
-export function useGetLocales(locale?: string) {
-  const [search, setSearch] = useState<string | undefined>('');
+export function useGetLocales(search?: string, currentValue?: string) {
+  search = search ?? '';
+  currentValue = currentValue ?? '';
 
-  const resource = useDropdownResource<string>({
-    currentValue: locale,
+  return useDropdownResource<string>({
+    currentValue: currentValue,
     getOptionsQuery: useQuery({
-      queryKey: ['get locale search', search?.trim()],
+      queryKey: ['get locale search', search.trim()],
       queryFn: () =>
         lookupsService
-          .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: search?.trim() ?? '' })
+          .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: search.trim() })
           .then(transformLocalesToOptions),
     }),
     getLabelFn: (locale) => {
@@ -28,15 +28,9 @@ export function useGetLocales(locale?: string) {
         return Promise.resolve('');
       }
       return lookupsService
-        .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 2, { locale: locale.trim() ?? '' })
-        .then((r) => r.find((l) => l.locale === locale)?.locale);
+        .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 2, { locale: locale.trim() })
+        .then((r) => r.find((l) => l.locale === locale)?.locale ?? '');
     },
-    labelQueryKey: ['get locale label', String(locale?.trim() ?? '')],
+    labelQueryKey: ['get locale label', currentValue.trim()],
   });
-
-  return {
-    search,
-    setSearch,
-    resource,
-  };
 }

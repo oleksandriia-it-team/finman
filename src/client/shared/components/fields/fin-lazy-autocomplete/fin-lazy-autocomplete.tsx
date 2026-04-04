@@ -13,7 +13,6 @@ export function FinLazyAutocomplete<T>({
   options,
   optionListClassName,
   optionClassName,
-  customInputValue,
   value,
   id,
   className,
@@ -31,22 +30,14 @@ export function FinLazyAutocomplete<T>({
 }: DefaultAutocompleteInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
 
-  const inputValue = useMemo(() => {
-    if (customInputValue) {
-      return customInputValue;
-    }
-
-    return options.find((option) => option.value === value)?.label;
-  }, [customInputValue, value, options]);
-
-  console.log(inputValue);
+  const selectedValue = useMemo(() => options.find((option) => option.value === value)?.label, [options, value]);
 
   return (
     <UiCombobox<string>
       open={show}
       onOpenChange={setVisibility}
       items={options}
-      value={inputValue ?? ''}
+      value={selectedValue ?? ''}
       onValueChange={(label) => {
         if (!label) {
           return;
@@ -81,15 +72,16 @@ export function FinLazyAutocomplete<T>({
             <UiComboboxMessage variant="destructive">{errorLabel || 'Помилка'}</UiComboboxMessage>
           )}
 
-          {options.map((option) => (
-            <UiComboboxItem
-              className={optionClassName}
-              key={option.label}
-              value={option.label}
-            >
-              {option.label}
-            </UiComboboxItem>
-          ))}
+          {state === PromiseState.Success &&
+            options.map((option) => (
+              <UiComboboxItem
+                className={optionClassName}
+                key={option.label}
+                value={option.label}
+              >
+                {option.label}
+              </UiComboboxItem>
+            ))}
         </UiComboboxList>
       </UiComboboxContent>
     </UiCombobox>

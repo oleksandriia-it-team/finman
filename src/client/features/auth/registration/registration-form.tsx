@@ -10,15 +10,18 @@ import { FormProvider } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useGetLocales } from '@frontend/entities/lookups/hooks/get-locales.hook';
 import { useSetupRegistration } from '../../../entities/user-information/registration-form';
+import { useState } from 'react';
 
 export function RegistrationForm() {
+  const [localeSearch, setLocaleSearch] = useState<string | undefined>('');
+
   const router = useRouter();
 
   const { methods, submit } = useSetupRegistration(() => {
     router.push('/profile');
   });
 
-  const localeDataResource = useGetLocales();
+  const localeDataResource = useGetLocales(localeSearch, methods.getValues('preferableLocale'));
 
   return (
     <FormProvider {...methods}>
@@ -46,16 +49,15 @@ export function RegistrationForm() {
             />
 
             <FinControlledLazyAutocomplete
-              search={localeDataResource.search ?? ''}
-              onSearch={localeDataResource.setSearch}
               label="Оберіть формат дат"
               id="formats"
               name="preferableLocale"
               placeholder="Бажаний формат дат"
-              options={localeDataResource.resource.options}
-              errorLabel={localeDataResource.resource.errorMessage ?? ''}
-              state={localeDataResource.resource.state}
-              customInputValue={localeDataResource.resource.inputLabel}
+              options={localeDataResource.options}
+              errorLabel={localeDataResource.errorMessage ?? ''}
+              state={localeDataResource.state}
+              search={localeSearch ?? ''}
+              onSearch={setLocaleSearch}
             />
 
             <FinControlledDropdown

@@ -14,7 +14,6 @@ export function UiComboboxClear({ className, ...props }: ComboboxPrimitive.Clear
     >
       <UiSvgIcon
         name="x"
-        variant="default"
         className="pointer-events-none"
         size="xs"
       />
