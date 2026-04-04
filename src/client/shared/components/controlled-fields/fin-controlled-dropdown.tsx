@@ -43,7 +43,7 @@ export function FinControlledDropdown<T>({
               value={field.value}
               onChange={(val) => field.onChange(val)}
               className={className}
-              id={field.name}
+              id={id}
             />
 
             {showErrors && <UiFieldError fieldState={fieldState} />}

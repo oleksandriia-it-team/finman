@@ -1,5 +1,5 @@
-import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { ComponentProps } from 'react';
 
-export interface ComboboxMessageProps extends ComboboxPrimitive.Label.Props {
+export interface ComboboxMessageProps extends ComponentProps<'span'> {
   variant?: 'destructive' | 'muted';
 }

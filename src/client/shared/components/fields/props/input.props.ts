@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, Ref, SetStateAction } from 'react';
+import { Dispatch, Ref, SetStateAction } from 'react';
 import { InputDefaultProps } from '../../../props/input-default.props';
 import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
@@ -23,6 +23,4 @@ export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>
   loadingLabel?: string;
   errorLabel?: string;
   ref?: Ref<HTMLInputElement>;
-  label?: string | undefined;
-  validationErrorMessage?: ReactNode;
 };
