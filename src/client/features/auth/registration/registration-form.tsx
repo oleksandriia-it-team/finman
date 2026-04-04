@@ -8,20 +8,17 @@ import { SupportLanguagesLocale } from '@frontend/shared/constants/support-langu
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { FormProvider } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useGetLocales } from '@frontend/entities/lookups/hooks/get-locales.hook';
+import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { useSetupRegistration } from '../../../entities/user-information/registration-form';
-import { useState } from 'react';
 
 export function RegistrationForm() {
-  const [localeSearch, setLocaleSearch] = useState<string | undefined>('');
-
   const router = useRouter();
 
   const { methods, submit } = useSetupRegistration(() => {
     router.push('/profile');
   });
 
-  const localeDataResource = useGetLocales(localeSearch, methods.getValues('preferableLocale'));
+  const localeDataResource = useGetLocalesDropdown(methods.getValues('preferableLocale'));
 
   return (
     <FormProvider {...methods}>
@@ -57,8 +54,8 @@ export function RegistrationForm() {
               errorLabel={localeDataResource.errorMessage ?? ''}
               state={localeDataResource.state}
               customInputValue={localeDataResource.inputLabel}
-              search={localeSearch ?? ''}
-              onSearch={setLocaleSearch}
+              search={localeDataResource.search}
+              onSearch={localeDataResource.setSearch}
             />
 
             <FinControlledDropdown

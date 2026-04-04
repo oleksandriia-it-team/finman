@@ -17,6 +17,7 @@ export function UiComboboxInput({
   children,
   disabled = false,
   onClear,
+  value,
   'data-invalid': dataInvalid,
   ...props
 }: ComboboxInputProps) {
@@ -27,11 +28,12 @@ export function UiComboboxInput({
     >
       <ComboboxPrimitive.Input
         render={<UiInputGroupInput disabled={disabled} />}
+        value={value}
         {...props}
       />
       <UiInputGroupAddon align="inline-end">
         <UiComboboxTrigger data-slot="input-group-button" />
-        {onClear && (
+        {onClear && value && (
           <UiComboboxClear
             disabled={disabled}
             onClick={onClear}

@@ -5,16 +5,18 @@ import { useQuery } from '@tanstack/react-query';
 import { CountryAndLocale } from '@common/records/countries.record';
 import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 import { isEmpty } from '@common/utils/is-empty.util';
+import { useState } from 'react';
 
 function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<string>[] {
   return locales.map((locale) => ({ value: locale.locale, label: locale.locale }));
 }
 
-export function useGetLocales(search?: string, currentValue?: string) {
-  search = search ?? '';
+export function useGetLocalesDropdown(currentValue?: string) {
+  const [search, setSearch] = useState<string>('');
+
   currentValue = currentValue ?? '';
 
-  return useDropdownResource<string>({
+  const resource = useDropdownResource<string>({
     currentValue: currentValue,
     getOptionsQuery: useQuery({
       queryKey: ['get locale search', search.trim()],
@@ -33,4 +35,10 @@ export function useGetLocales(search?: string, currentValue?: string) {
     },
     labelQueryKey: ['get locale label', currentValue.trim()],
   });
+
+  return {
+    ...resource,
+    search,
+    setSearch,
+  };
 }

@@ -7,6 +7,7 @@ import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
 import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
 import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
+import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 
 export function FinLazyAutocomplete<T>({
   onChange,
@@ -26,6 +27,8 @@ export function FinLazyAutocomplete<T>({
   disabled,
   customInputValue,
   'data-invalid': dataInvalid,
+  validationErrorMessage,
+  label,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
@@ -36,6 +39,9 @@ export function FinLazyAutocomplete<T>({
       onOpenChange={setVisibility}
       items={options}
       value={customInputValue}
+      // eslint-disable-next-line
+      // @ts-ignore
+      inputValue={customInputValue}
       onValueChange={(label) => {
         if (!label) {
           return;
@@ -44,15 +50,20 @@ export function FinLazyAutocomplete<T>({
       }}
       disabled={disabled}
     >
+      {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
+
       <UiComboboxInput
         className={className}
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
         placeholder={placeholder}
+        // eslint-disable-next-line
+        // @ts-ignore
         value={search}
         onInput={(event) => {
           const target = event.target as HTMLInputElement;
+          console.log(target.value);
           onSearch(target.value);
         }}
         onClear={() => onChange(undefined)}
@@ -83,6 +94,8 @@ export function FinLazyAutocomplete<T>({
             ))}
         </UiComboboxList>
       </UiComboboxContent>
+
+      {validationErrorMessage}
     </UiCombobox>
   );
 }

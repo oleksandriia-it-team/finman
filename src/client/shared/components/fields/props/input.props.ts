@@ -1,4 +1,4 @@
-import { Dispatch, Ref, SetStateAction } from 'react';
+import { Dispatch, ReactNode, Ref, SetStateAction } from 'react';
 import { InputDefaultProps } from '../../../props/input-default.props';
 import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
@@ -16,11 +16,13 @@ export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value' | 'ref'> 
   };
 
 export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>, 'ref'> & {
-  onSearch: Dispatch<SetStateAction<string | undefined>>;
+  onSearch: Dispatch<SetStateAction<string>>;
   search: string;
   state: PromiseState;
   emptyLabel?: string;
   loadingLabel?: string;
   errorLabel?: string;
   ref?: Ref<HTMLInputElement>;
+  label?: string | undefined;
+  validationErrorMessage?: ReactNode;
 };
