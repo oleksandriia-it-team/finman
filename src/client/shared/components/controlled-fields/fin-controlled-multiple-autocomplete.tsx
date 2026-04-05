@@ -40,7 +40,7 @@ export function FinControlledMultipleAutocomplete<T>({
               }}
               onChange={(val = []) => {
                 if (val.length > (field.value?.length ?? 0)) {
-                  onSearch(val[val.length - 1].label);
+                  onSearch('');
                 }
 
                 field.onChange(val.map((i) => i.value));

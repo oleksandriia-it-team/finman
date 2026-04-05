@@ -35,11 +35,20 @@ export function FinMultipleAutocomplete<T>({
     <UiCombobox<string, true>
       multiple
       open={show}
-      onOpenChange={setVisibility}
+      onOpenChange={(v, { reason }) => {
+        if (reason === 'item-press') {
+          return;
+        }
+
+        setVisibility(v);
+      }}
       items={options}
       value={customInputValue}
       inputValue={search}
-      onInputValueChange={onSearch}
+      onInputValueChange={(value, { reason }) => {
+        if (reason === 'input-clear') return;
+        onSearch(value);
+      }}
       onValueChange={(updatedValues) => {
         const removedValues = customInputValue?.filter((v) => !updatedValues.includes(v));
         const addedValues = updatedValues
