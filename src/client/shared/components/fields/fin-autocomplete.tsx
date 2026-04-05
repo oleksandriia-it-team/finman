@@ -8,7 +8,7 @@ import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
 import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
 import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
 
-export function FinLazyAutocomplete<T>({
+export function FinAutocomplete<T>({
   onChange,
   options,
   optionListClassName,

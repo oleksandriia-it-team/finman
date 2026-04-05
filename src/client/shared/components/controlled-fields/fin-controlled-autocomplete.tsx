@@ -3,9 +3,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
-import { FinLazyAutocomplete } from '@frontend/components/fields/fin-lazy-autocomplete/fin-lazy-autocomplete';
+import { FinAutocomplete } from '@frontend/components/fields/fin-autocomplete';
 
-export function FinControlledLazyAutocomplete<T>({
+export function FinControlledAutocomplete<T>({
   name,
   className,
   showErrors = true,
@@ -26,7 +26,7 @@ export function FinControlledLazyAutocomplete<T>({
           <UiField>
             {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
 
-            <FinLazyAutocomplete
+            <FinAutocomplete
               {...props}
               {...field}
               customInputValue={customInputValue}

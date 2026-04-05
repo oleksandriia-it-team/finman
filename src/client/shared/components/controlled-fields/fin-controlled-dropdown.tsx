@@ -1,5 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { FinDropdown } from '@frontend/components/fields/fin-dropdown/fin-dropdown';
+import { FinDropdown } from '@frontend/components/fields/fin-dropdown';
 import { ControlledDropdownProps } from './props/controlled-dropdown.props';
 import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';

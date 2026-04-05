@@ -2,7 +2,7 @@ import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { FinControlledLazyAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-lazy-autocomplete';
+import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { SupportLanguagesLocale } from '@frontend/shared/constants/support-languages-locale.constant';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -45,7 +45,7 @@ export function RegistrationForm() {
               placeholder="Імʼя"
             />
 
-            <FinControlledLazyAutocomplete
+            <FinControlledAutocomplete
               label="Оберіть формат дат"
               id="formats"
               name="preferableLocale"
