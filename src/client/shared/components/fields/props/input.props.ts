@@ -24,8 +24,13 @@ export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>
     ref?: Ref<HTMLInputElement>;
   };
 
-export type DefaultAutocompleteMultipleInputProps<T> = Omit<DefaultAutocompleteInputProps<T>, 'customInputValue'> & {
-  customInputValue: string[];
+export type DefaultAutocompleteMultipleInputProps<T> = Omit<
+  DefaultAutocompleteInputProps<T[]>,
+  'customInputValue' | 'options' | 'onChange' | 'value'
+> & {
+  selectedDataFull: DropdownOption<T>[];
+  options: DropdownOption<T>[];
+  onChange: Dispatch<DropdownOption<T>[] | undefined>;
 };
 
 export interface LazyOptionsProps<T> {

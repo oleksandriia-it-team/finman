@@ -1,4 +1,5 @@
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
+import { ComponentPropsWithRef } from 'react';
 
 export interface ComboboxInputProps extends Omit<ComboboxPrimitive.Input.Props, 'value'> {
   'data-invalid'?: boolean | undefined;
@@ -6,6 +7,7 @@ export interface ComboboxInputProps extends Omit<ComboboxPrimitive.Input.Props, 
   hasValue: boolean;
 }
 
-export interface ComboboxMultipleInputProps extends Omit<ComboboxPrimitive.Input.Props, 'value'> {
-  'data-invalid'?: boolean | undefined;
-}
+export type ComboboxMultipleChips = ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &
+  ComboboxPrimitive.Chips.Props & {
+    'data-invalid'?: boolean | undefined;
+  };

@@ -32,7 +32,7 @@
     color: var(--primary-foreground);
   }
 
-  &:focus-visible, &[aria-expanded="true"], &[data-state="open"], &:has([data-slot='input-group-control']:focus-visible) {
+  &:focus-within, &:focus-visible, &[aria-expanded="true"], &[data-state="open"], &:has([data-slot='input-group-control']:focus-visible) {
     border-color: var(--ring);
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 50%, transparent);
   }
@@ -40,7 +40,7 @@
   &[data-invalid="true"] {
     border-color: var(--destructive) !important;
 
-    &:focus-visible, &[aria-expanded="true"], &[data-state="open"], &:has([data-slot='input-group-control']:focus-visible) {
+    &:focus-within, &:focus-visible, &[aria-expanded="true"], &[data-state="open"], &:has([data-slot='input-group-control']:focus-visible) {
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 50%, transparent) !important;
     }
   }

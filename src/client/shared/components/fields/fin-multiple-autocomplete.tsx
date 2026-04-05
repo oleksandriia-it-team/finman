@@ -25,12 +25,14 @@ export function FinMultipleAutocomplete<T>({
   errorLabel,
   loadingLabel,
   disabled,
-  customInputValue,
+  selectedDataFull,
   'data-invalid': dataInvalid,
   ...props
-}: DefaultAutocompleteMultipleInputProps<T[]>) {
+}: DefaultAutocompleteMultipleInputProps<T>) {
   const anchor = useComboboxAnchor();
   const [show, setVisibility] = useState<boolean>(false);
+
+  const customInputValue = selectedDataFull.map((i) => i.label);
 
   return (
     <UiCombobox<string, true>
@@ -41,15 +43,20 @@ export function FinMultipleAutocomplete<T>({
       value={customInputValue}
       inputValue={search}
       onInputValueChange={onSearch}
-      // onValueChange={(label) => {
-      //   if (!label) {
-      //     return;
-      //   }
-      //   onChange(options.find((option) => option.label === label));
-      // }}
+      onValueChange={(updatedValues) => {
+        const removedValues = customInputValue?.filter((v) => !updatedValues.includes(v));
+        const addedValues = updatedValues
+          ?.filter((v) => !customInputValue.includes(v))
+          .map((label) => options.find((option) => option.label === label))
+          .filter((option) => !!option);
+        const remainValues = selectedDataFull.filter((v) => !removedValues.includes(v.label));
+
+        onChange([...remainValues, ...addedValues]);
+      }}
       disabled={disabled}
     >
       <UiComboboxChips
+        data-invalid={dataInvalid}
         ref={anchor}
         className="w-full max-w-xs"
       >
@@ -60,7 +67,6 @@ export function FinMultipleAutocomplete<T>({
 
           <UiComboboxChipsInput
             className={className}
-            // data-invalid={dataInvalid}
             ref={ref}
             id={id}
             placeholder={placeholder}

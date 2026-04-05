@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 export function useDropdownResource<T, Multiple extends boolean = false>({
   multiple,
@@ -28,18 +29,28 @@ export function useDropdownResource<T, Multiple extends boolean = false>({
     return getOptionsQuery.data.filter((i) => currentValueArr.includes(i.value));
   }, [getOptionsQuery.data, currentValueArr]);
 
-  const shouldFetchLabel = !isEmpty(currentValue) && foundOptions.length !== currentValueArr.length && !getOptionsQuery.isLoading;
+  const shouldFetchLabel =
+    !isEmpty(currentValue) && foundOptions.length !== currentValueArr.length && !getOptionsQuery.isLoading;
 
-  const getLabelQuery = useQuery<(Multiple extends true ? string[] : string) | undefined | null>({
+  const getLabelQuery = useQuery<(Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>) | undefined | null>({
     queryKey: [...labelQueryKey, currentValueArr],
     queryFn: () => {
       if (isEmpty(currentValue) || getOptionsQuery.isLoading) {
-        return Promise.resolve((isMultiple ? [] : '') as unknown as (Multiple extends true ? string[] : string));
+        return Promise.resolve(
+          (isMultiple ? [] : undefined) as unknown as
+            | (Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>)
+            | undefined
+            | null,
+        );
       }
 
       if (foundOptions.length === currentValueArr.length) {
-        const labels = currentValueArr.map(val => foundOptions.find(o => o.value === val)?.label ?? '');
-        return Promise.resolve((isMultiple ? labels : labels[0]) as unknown as (Multiple extends true ? string[] : string));
+        const labels = currentValueArr.map((val) => foundOptions.find((o) => o.value === val)).filter((v) => !!v);
+        return Promise.resolve(
+          (isMultiple ? labels : labels[0]) as unknown as Multiple extends true
+            ? DropdownOption<T>[]
+            : DropdownOption<T>,
+        );
       }
 
       return getLabelFn(currentValue!);
@@ -49,15 +60,17 @@ export function useDropdownResource<T, Multiple extends boolean = false>({
 
   const inputLabel = useMemo(() => {
     if (!isEmpty(getLabelQuery.data)) {
-      return getLabelQuery.data as (Multiple extends true ? string[] : string);
+      return getLabelQuery.data as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>;
     }
 
     if (foundOptions.length > 0) {
-      const labels = currentValueArr.map(val => foundOptions.find(o => o.value === val)?.label ?? '');
-      return (isMultiple ? labels : (labels[0] ?? '')) as unknown as (Multiple extends true ? string[] : string);
+      const labels = currentValueArr.map((val) => foundOptions.find((o) => o.value === val)).filter((v) => !!v);
+      return (isMultiple ? labels : (labels[0] ?? '')) as unknown as Multiple extends true
+        ? DropdownOption<T>[]
+        : DropdownOption<T>;
     }
 
-    return (isMultiple ? [] : '') as unknown as (Multiple extends true ? string[] : string);
+    return (isMultiple ? [] : '') as unknown as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>;
   }, [getLabelQuery.data, foundOptions, currentValueArr, isMultiple]);
 
   const state = useMemo(() => {

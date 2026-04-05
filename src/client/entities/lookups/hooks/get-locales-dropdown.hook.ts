@@ -31,13 +31,22 @@ export function useGetLocalesDropdown(currentValue?: string) {
           .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: querySearch.current.trim() })
           .then(transformLocalesToOptions),
     }),
-    getLabelFn: (locale) => {
+    getLabelFn: async (locale) => {
       if (isEmpty(locale)) {
-        return Promise.resolve('');
+        return undefined;
       }
-      return lookupsService
+      const result = await lookupsService
         .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 2, { locale: locale.trim() })
-        .then((r) => r.find((l) => l.locale === locale)?.locale ?? '');
+        .then((r) => r.find((l) => l.locale === locale));
+
+      if (isEmpty(result)) {
+        return undefined;
+      }
+
+      return {
+        value: result.locale,
+        label: result.locale,
+      };
     },
     labelQueryKey: ['get locale label', currentValue.trim()],
   });
