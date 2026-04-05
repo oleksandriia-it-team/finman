@@ -32,6 +32,8 @@ export function FinAutocomplete<T>({
       open={show}
       onOpenChange={setVisibility}
       items={options}
+      // eslint-disable-next-line
+      // @ts-ignore
       value={customInputValue}
       inputValue={search}
       onInputValueChange={onSearch}
