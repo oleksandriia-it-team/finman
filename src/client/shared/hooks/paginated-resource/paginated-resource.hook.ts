@@ -6,7 +6,7 @@ import { PromiseState } from '../../enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
-export function useDropdownResource<T, Multiple extends boolean = false>({
+export function usePaginatedResource<T, Multiple extends boolean = false>({
   multiple,
   currentValue,
   getTotalCountQuery,

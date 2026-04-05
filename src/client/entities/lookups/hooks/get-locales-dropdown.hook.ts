@@ -1,4 +1,4 @@
-import { useDropdownResource } from '@frontend/shared/hooks/dropdown-resource/dropdown-resource.hook';
+import { usePaginatedResource } from '@frontend/shared/hooks/paginated-resource/paginated-resource.hook';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useQuery } from '@tanstack/react-query';
@@ -22,7 +22,7 @@ export function useGetLocalesDropdown(currentValue?: string) {
     querySearch.current = search;
   }
 
-  const resource = useDropdownResource<string>({
+  const resource = usePaginatedResource<string>({
     currentValue: currentValue,
     getOptionsQuery: useQuery({
       queryKey: ['get locale search', querySearch.current.trim()],
