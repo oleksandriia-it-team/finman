@@ -1,0 +1,28 @@
+@use 'sass:list';
+
+@import '../../../styles/variants';
+
+.combobox-message {
+  padding: 0.375rem 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  justify-content: center;
+  text-align: center;
+
+  &[data-variant='muted'] {
+   color: var(--muted-foreground);
+  }
+
+  &[data-variant='destructive'] {
+    color: var(--destructive);
+  }
+
+  @media (pointer: coarse) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .group-data-empty\/combobox-content & {
+    display: flex;
+  }
+}

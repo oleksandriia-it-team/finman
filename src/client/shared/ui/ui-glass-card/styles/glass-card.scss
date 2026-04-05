@@ -3,7 +3,7 @@
 .glass-card {
   width: 12rem;
   height: 12rem;
-  background: getOpacity(var(--card),90%);
+  background: getOpacity(var(--card), 90%);
   backdrop-filter: blur(0.75rem);
   border: 1px solid var(--border);
   transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.275);

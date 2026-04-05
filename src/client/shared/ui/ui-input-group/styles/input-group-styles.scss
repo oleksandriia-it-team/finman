@@ -1,0 +1,32 @@
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &:has(textarea) {
+    height: auto;
+  }
+
+  &:has(> [data-align='block-start']) {
+    height: auto;
+    flex-direction: column;
+  }
+
+  &:has(> [data-align='block-end']) {
+    height: auto;
+    flex-direction: column;
+  }
+}
+
+.input-group-control {
+  flex: 1;
+  border-radius: 0;
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
+
+  &:focus-visible {
+    box-shadow: none;
+    outline: none;
+  }
+}

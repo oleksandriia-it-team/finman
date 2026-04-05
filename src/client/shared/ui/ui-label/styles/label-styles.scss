@@ -7,7 +7,7 @@
   font-weight: 500;
   user-select: none;
 
-  :global(.group\/field-group)[data-disabled="true"] & {
+  :global(.group\/field-group)[data-disabled='true'] & {
     pointer-events: none;
     opacity: 0.5;
   }

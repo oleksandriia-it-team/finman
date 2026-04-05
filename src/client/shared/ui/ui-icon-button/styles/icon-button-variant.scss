@@ -22,14 +22,17 @@
     }
   }
 
-  &[data-rounded] { border-radius: 9999px; }
+  &[data-rounded='true'] {
+    border-radius: 9999px;
+  }
 
-  &[data-bg-none] {
-    background-color: transparent;;
+  &[data-bg-none='true'] {
+    background-color: transparent !important;
+
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent;
+      background-color: transparent !important;
     }
   }
 
