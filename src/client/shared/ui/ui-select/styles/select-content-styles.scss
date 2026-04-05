@@ -1,3 +1,5 @@
+@import '../../../styles/basic-component-styles/list-content';
+
 .select-content {
   position: relative;
   z-index: 50;
@@ -6,57 +8,8 @@
   transform-origin: var(--radix-select-content-transform-origin);
   overflow-x: hidden;
   overflow-y: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background-color: var(--popover);
-  color: var(--popover-foreground);
-  box-shadow: var(--shadow-md);
 
-  &[data-state='open'] {
-    animation-name: fadeIn, zoomIn95;
-    animation-duration: 150ms;
-    animation-fill-mode: both;
-
-    &[data-side='bottom'] {
-      --slide-from: translateY(-0.5rem);
-    }
-
-    &[data-side='left'] {
-      --slide-from: translateX(0.5rem);
-    }
-
-    &[data-side='right'] {
-      --slide-from: translateX(-0.5rem);
-    }
-
-    &[data-side='top'] {
-      --slide-from: translateY(0.5rem);
-    }
-  }
-
-  &[data-state='closed'] {
-    animation-name: fadeOut, zoomOut95;
-    animation-duration: 150ms;
-    animation-fill-mode: both;
-  }
-}
-
-.select-content-popper {
-  &[data-side='bottom'] {
-    transform: translateY(0.25rem);
-  }
-
-  &[data-side='left'] {
-    transform: translateX(-0.25rem);
-  }
-
-  &[data-side='right'] {
-    transform: translateX(0.25rem);
-  }
-
-  &[data-side='top'] {
-    transform: translateY(-0.25rem);
-  }
+  @include list-content-animation;
 }
 
 .select-viewport-popper {

@@ -29,7 +29,7 @@ export function UiComboboxContent({
         <ComboboxPrimitive.Popup
           data-slot="combobox-content"
           data-chips={!!anchor}
-          className={cn('combobox-content group/combobox-content', className)}
+          className={cn('list-content combobox-content list-content-animation group/combobox-content', className)}
           {...props}
         />
       </ComboboxPrimitive.Positioner>
