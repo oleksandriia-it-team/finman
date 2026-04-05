@@ -51,7 +51,7 @@ export function FinAutocomplete<T>({
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
-        hasValue={!!search}
+        hasValue={!!search || !!customInputValue}
         placeholder={placeholder}
         onClear={() => onChange(undefined)}
       />

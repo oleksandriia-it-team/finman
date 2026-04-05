@@ -31,7 +31,7 @@ export function useGetMultipleLocalesDropdown(currentIds?: number[]) {
         .getItems(LookupsTypeEnum.CountriesAndLocales, 1, ids.length + 1, { ids })
         .then(transformLocalesToOptions);
     },
-    labelQueryKey: ['get locale label', currentIds.sort().join(',')],
+    labelQueryKey: ['get locale label', [...currentIds].sort((a, b) => a - b).join(',')],
   });
 
   return {

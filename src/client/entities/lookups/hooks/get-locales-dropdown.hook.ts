@@ -22,12 +22,14 @@ export function useGetLocalesDropdown(currentValue?: string) {
     querySearch.current = search;
   }
 
+  const normalizedQuerySearch = querySearch.current.trim();
+
   const resource = usePaginatedResource<string>({
     currentValue: currentValue,
     getOptionsQuery: useQuery({
-      queryKey: ['get locale search', querySearch.current.trim()],
+      queryKey: ['get locale search', normalizedQuerySearch],
       queryFn: () =>
-        lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: querySearch.current.trim() }),
+        lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: normalizedQuerySearch }),
       select: transformLocalesToOptions,
     }),
     getLabelFn: async (locale) => {

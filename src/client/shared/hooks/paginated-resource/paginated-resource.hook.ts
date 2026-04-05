@@ -65,12 +65,12 @@ export function usePaginatedResource<T, Multiple extends boolean = false>({
 
     if (foundOptions.length > 0) {
       const labels = currentValueArr.map((val) => foundOptions.find((o) => o.value === val)).filter((v) => !!v);
-      return (isMultiple ? labels : (labels[0] ?? '')) as unknown as Multiple extends true
+      return (isMultiple ? labels : (labels[0] ?? undefined)) as unknown as Multiple extends true
         ? DropdownOption<T>[]
         : DropdownOption<T>;
     }
 
-    return (isMultiple ? [] : '') as unknown as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>;
+    return (isMultiple ? [] : undefined) as unknown as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>;
   }, [getLabelQuery.data, foundOptions, currentValueArr, isMultiple]);
 
   const state = useMemo(() => {
@@ -106,7 +106,7 @@ export function usePaginatedResource<T, Multiple extends boolean = false>({
   return {
     state,
     options: getOptionsQuery.data ?? [],
-    totalCount: getTotalCountQuery?.data ?? 0,
+    totalCount: getTotalCountQuery?.data ?? getOptionsQuery.data?.length ?? 0,
     inputLabel,
     errorMessage,
   };

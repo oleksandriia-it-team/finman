@@ -4,10 +4,16 @@ import * as React from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
-export function UiComboboxTrigger({ className, children, ...props }: ComboboxPrimitive.Trigger.Props) {
+export function UiComboboxTrigger({
+  className,
+  'aria-label': ariaLabel,
+  children,
+  ...props
+}: ComboboxPrimitive.Trigger.Props) {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
+      aria-label={ariaLabel ?? 'Відкрити список'}
       className={className}
       {...props}
     >

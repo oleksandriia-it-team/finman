@@ -26,6 +26,7 @@ export function UiComboboxChip({
         <ComboboxPrimitive.ChipRemove
           className="combobox-chip-remove"
           data-slot="combobox-chip-remove"
+          aria-label="Видалити елемент"
         >
           <UiSvgIcon name="x" />
         </ComboboxPrimitive.ChipRemove>

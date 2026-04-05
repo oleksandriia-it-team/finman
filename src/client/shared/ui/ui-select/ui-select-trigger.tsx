@@ -11,6 +11,7 @@ export function UiSelectTrigger({
   onClear,
   hasValue,
   'data-invalid': dataInvalid,
+  disabled,
   ...props
 }: SelectTriggerProps) {
   return (
@@ -19,6 +20,7 @@ export function UiSelectTrigger({
         data-invalid={dataInvalid}
         data-slot="select-trigger"
         className={cn('flex w-fit items-center justify-between gap-2 basic-input', className)}
+        disabled={disabled}
         {...props}
       >
         {children}
@@ -32,6 +34,7 @@ export function UiSelectTrigger({
           tabIndex={-1}
           type="button"
           className="outline-none"
+          disabled={disabled}
         >
           <SelectPrimitive.Icon asChild>
             <UiSvgIcon
@@ -44,6 +47,8 @@ export function UiSelectTrigger({
           <button
             type="button"
             onClick={onClear}
+            disabled={disabled}
+            aria-label="Очистити поле"
           >
             <SelectPrimitive.Icon asChild>
               <UiSvgIcon
