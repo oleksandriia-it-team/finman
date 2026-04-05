@@ -26,7 +26,6 @@ export function FinMultipleAutocomplete<T>({
   disabled,
   selectedDataFull,
   'data-invalid': dataInvalid,
-  ...props
 }: DefaultAutocompleteMultipleInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
 
@@ -47,12 +46,10 @@ export function FinMultipleAutocomplete<T>({
           ?.filter((v) => !customInputValue.includes(v))
           .map((label) => options.find((option) => option.label === label))
           .filter((option) => !!option);
-        const remainValues = selectedDataFull.filter((v) => !removedValues.includes(v.label));
-
+        const remainValues = selectedDataFull.filter((v) => !removedValues?.length || !removedValues.includes(v.label));
         onChange([...remainValues, ...addedValues]);
       }}
       disabled={disabled}
-      {...props}
     >
       <UiComboboxChips
         data-invalid={dataInvalid}

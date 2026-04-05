@@ -12,7 +12,7 @@ export function UiComboboxChips({ className, 'data-invalid': dataInvalid, ...pro
     <ComboboxPrimitive.Chips
       data-slot="combobox-chips"
       data-invalid={dataInvalid}
-      className={cn('combobox-chips basic-input', className)}
+      className={cn('combobox-chips basic-input min-h-9 !h-full', className)}
       {...props}
     />
   );

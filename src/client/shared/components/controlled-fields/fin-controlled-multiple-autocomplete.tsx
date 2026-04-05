@@ -38,12 +38,11 @@ export function FinControlledMultipleAutocomplete<T>({
                 field.onBlur();
                 field.onChange(field.value);
               }}
-              onChange={(val) => {
-                if (!val?.length) {
-                  field.onChange([]);
-                  return;
+              onChange={(val = []) => {
+                if (val.length > (field.value?.length ?? 0)) {
+                  onSearch(val[val.length - 1].label);
                 }
-                onSearch(val[val.length - 1].label);
+
                 field.onChange(val.map((i) => i.value));
               }}
               className={className}
