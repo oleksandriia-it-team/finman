@@ -42,6 +42,7 @@ export function FinAutocomplete<T>({
         onChange(options.find((option) => option.label === label));
       }}
       disabled={disabled}
+      {...props}
     >
       <UiComboboxInput
         className={className}
@@ -51,7 +52,6 @@ export function FinAutocomplete<T>({
         hasValue={!!search}
         placeholder={placeholder}
         onClear={() => onChange(undefined)}
-        {...props}
       />
 
       <UiComboboxContent>

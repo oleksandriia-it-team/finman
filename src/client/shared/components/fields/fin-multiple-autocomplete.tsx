@@ -1,7 +1,6 @@
 import { DefaultAutocompleteMultipleInputProps } from '@frontend/components/fields/props/input.props';
 import { UiCombobox } from '@frontend/ui/ui-combobox/ui-combobox';
 import { useState } from 'react';
-import { useComboboxAnchor } from '@frontend/ui/ui-combobox/hooks/use-combobox-anchor';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';
 import { FinComboboxList } from '@frontend/components/fields/components/fin-combobox-list';
 import { UiComboboxChips } from '@frontend/ui/ui-combobox/ui-combobox-chips';
@@ -29,7 +28,6 @@ export function FinMultipleAutocomplete<T>({
   'data-invalid': dataInvalid,
   ...props
 }: DefaultAutocompleteMultipleInputProps<T>) {
-  const anchor = useComboboxAnchor();
   const [show, setVisibility] = useState<boolean>(false);
 
   const customInputValue = selectedDataFull.map((i) => i.label);
@@ -54,10 +52,10 @@ export function FinMultipleAutocomplete<T>({
         onChange([...remainValues, ...addedValues]);
       }}
       disabled={disabled}
+      {...props}
     >
       <UiComboboxChips
         data-invalid={dataInvalid}
-        ref={anchor}
         className="w-full max-w-xs"
       >
         <UiComboboxValue>
@@ -70,12 +68,11 @@ export function FinMultipleAutocomplete<T>({
             ref={ref}
             id={id}
             placeholder={placeholder}
-            {...props}
           />
         </UiComboboxValue>
       </UiComboboxChips>
 
-      <UiComboboxContent anchor={anchor}>
+      <UiComboboxContent>
         <FinComboboxList
           optionListClassName={optionListClassName}
           options={options}

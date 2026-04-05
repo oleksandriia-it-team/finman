@@ -26,7 +26,7 @@ export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>
 
 export type DefaultAutocompleteMultipleInputProps<T> = Omit<
   DefaultAutocompleteInputProps<T[]>,
-  'customInputValue' | 'options' | 'onChange' | 'value'
+  'customInputValue' | 'options' | 'onChange' | 'value' | 'defaultValue'
 > & {
   selectedDataFull: DropdownOption<T>[];
   options: DropdownOption<T>[];

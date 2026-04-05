@@ -27,9 +27,8 @@ export function useGetLocalesDropdown(currentValue?: string) {
     getOptionsQuery: useQuery({
       queryKey: ['get locale search', querySearch.current.trim()],
       queryFn: () =>
-        lookupsService
-          .getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: querySearch.current.trim() })
-          .then(transformLocalesToOptions),
+        lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, 1, 10, { locale: querySearch.current.trim() }),
+      select: transformLocalesToOptions,
     }),
     getLabelFn: async (locale) => {
       if (isEmpty(locale)) {
@@ -48,7 +47,7 @@ export function useGetLocalesDropdown(currentValue?: string) {
         label: result.locale,
       };
     },
-    labelQueryKey: ['get locale label', currentValue.trim()],
+    labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
 
   return {

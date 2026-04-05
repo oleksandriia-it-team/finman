@@ -13,6 +13,7 @@ export function FinControlledMultipleAutocomplete<T>({
   id,
   onSearch,
   selectedDataFull,
+  options,
   ...props
 }: ControlledLazyMultipleAutocompleteProps<T>) {
   const { control } = useFormContext();
@@ -29,6 +30,7 @@ export function FinControlledMultipleAutocomplete<T>({
             <FinMultipleAutocomplete
               {...props}
               {...field}
+              options={options}
               selectedDataFull={selectedDataFull}
               onSearch={onSearch}
               data-invalid={fieldState.invalid}
