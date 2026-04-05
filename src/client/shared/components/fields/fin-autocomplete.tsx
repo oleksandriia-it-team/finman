@@ -3,10 +3,7 @@ import { UiCombobox } from '@frontend/ui/ui-combobox/ui-combobox';
 import { UiComboboxInput } from '@frontend/ui/ui-combobox/ui-combobox-input';
 import { useState } from 'react';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
-import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
-import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
+import { FinComboboxList } from '@frontend/components/fields/components/fin-combobox-list';
 
 export function FinAutocomplete<T>({
   onChange,
@@ -58,28 +55,15 @@ export function FinAutocomplete<T>({
       />
 
       <UiComboboxContent>
-        <UiComboboxList className={optionListClassName}>
-          {options.length === 0 && state === PromiseState.Success && (
-            <UiComboboxMessage>{emptyLabel || 'Нічого не знайдено'}</UiComboboxMessage>
-          )}
-
-          {state === PromiseState.Loading && <UiComboboxMessage>{loadingLabel || 'Завантаження...'}</UiComboboxMessage>}
-
-          {state === PromiseState.Error && (
-            <UiComboboxMessage variant="destructive">{errorLabel || 'Помилка'}</UiComboboxMessage>
-          )}
-
-          {state === PromiseState.Success &&
-            options.map((option) => (
-              <UiComboboxItem
-                className={optionClassName}
-                key={option.label}
-                value={option.label}
-              >
-                {option.label}
-              </UiComboboxItem>
-            ))}
-        </UiComboboxList>
+        <FinComboboxList
+          optionListClassName={optionListClassName}
+          options={options}
+          optionClassName={optionClassName}
+          errorLabel={errorLabel}
+          loadingLabel={loadingLabel}
+          emptyLabel={emptyLabel}
+          state={state}
+        />
       </UiComboboxContent>
     </UiCombobox>
   );

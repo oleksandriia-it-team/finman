@@ -17,12 +17,23 @@ export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value' | 'ref' |
     onChange: Dispatch<DropdownOption<T> | undefined>;
   };
 
-export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>, 'ref'> & {
-  onSearch: Dispatch<string>;
-  search: string;
-  state: PromiseState;
-  emptyLabel?: string;
-  loadingLabel?: string;
-  errorLabel?: string;
-  ref?: Ref<HTMLInputElement>;
+export type DefaultAutocompleteInputProps<T> = Omit<DefaultDropdownInputProps<T>, 'ref'> &
+  LazyOptionsProps<T> & {
+    onSearch: Dispatch<string>;
+    search: string;
+    ref?: Ref<HTMLInputElement>;
+  };
+
+export type DefaultAutocompleteMultipleInputProps<T> = Omit<DefaultAutocompleteInputProps<T>, 'customInputValue'> & {
+  customInputValue: string[];
 };
+
+export interface LazyOptionsProps<T> {
+  state: PromiseState;
+  emptyLabel?: string | undefined;
+  loadingLabel?: string | undefined;
+  errorLabel?: string | undefined;
+  options: DropdownOption<T>[];
+  optionListClassName?: string | undefined;
+  optionClassName?: string | undefined;
+}
