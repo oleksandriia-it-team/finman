@@ -2,7 +2,6 @@ import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { SupportLanguagesLocale } from '@frontend/shared/constants/support-languages-locale.constant';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -10,6 +9,7 @@ import { FormProvider } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { useSetupRegistration } from '../../../entities/user-information/registration-form';
+import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 
 export function RegistrationForm() {
   const router = useRouter();
@@ -47,13 +47,13 @@ export function RegistrationForm() {
 
             <FinControlledAutocomplete
               label="Оберіть формат дат"
-              id="formats"
+              id="preferableLocale"
               name="preferableLocale"
               placeholder="Бажаний формат дат"
               options={localeDataResource.options}
               errorLabel={localeDataResource.errorMessage ?? ''}
               state={localeDataResource.state}
-              customInputValue={localeDataResource.inputLabel ?? ''}
+              customInputValue={localeDataResource.inputLabel?.label ?? ''}
               search={localeDataResource.search}
               onSearch={localeDataResource.setSearch}
             />
