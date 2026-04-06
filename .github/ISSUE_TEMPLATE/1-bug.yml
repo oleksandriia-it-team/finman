@@ -1,7 +1,7 @@
 name: Bug
 description: An unexpected problem or behavior
 title: "[BUG] FIN-000: "
-labels: ["Todo"]
+labels: [ "Todo" ]
 body:
   - type: input
     id: number-task
