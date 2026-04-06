@@ -1,4 +1,4 @@
-import { usePaginatedResource } from '@frontend/shared/hooks/paginated-resource/paginated-resource.hook';
+import { useOptionsResource } from '@frontend/shared/hooks/options-resource/options-resource.hook';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useQuery } from '@tanstack/react-query';
@@ -15,7 +15,7 @@ export function useGetMultipleLocalesDropdown(currentIds?: number[]) {
 
   currentIds = currentIds ?? [];
 
-  const resource = usePaginatedResource<number, true>({
+  const resource = useOptionsResource<number, true>({
     multiple: true,
     currentValue: currentIds,
     getOptionsQuery: useQuery({

@@ -23,6 +23,7 @@ export function FinAutocomplete<T>({
   disabled,
   customInputValue,
   'data-invalid': dataInvalid,
+  onBlur,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
@@ -36,7 +37,12 @@ export function FinAutocomplete<T>({
       // @ts-ignore
       value={customInputValue}
       inputValue={search}
-      onInputValueChange={onSearch}
+      onInputValueChange={(v, { reason }) => {
+        if (reason !== 'input-clear' && reason !== 'input-change') {
+          return;
+        }
+        onSearch(v);
+      }}
       onValueChange={(label) => {
         if (!label) {
           return;
@@ -51,6 +57,7 @@ export function FinAutocomplete<T>({
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
+        onBlur={onBlur}
         hasValue={!!search || !!customInputValue}
         placeholder={placeholder}
         onClear={() => onChange(undefined)}

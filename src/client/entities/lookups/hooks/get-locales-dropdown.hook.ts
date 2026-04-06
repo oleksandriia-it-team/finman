@@ -1,11 +1,11 @@
-import { usePaginatedResource } from '@frontend/shared/hooks/paginated-resource/paginated-resource.hook';
+import { useOptionsResource } from '@frontend/shared/hooks/options-resource/options-resource.hook';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useQuery } from '@tanstack/react-query';
 import { CountryAndLocale } from '@common/records/countries.record';
 import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<string>[] {
   return locales.map((locale) => ({ value: locale.locale, label: locale.locale }));
@@ -24,7 +24,7 @@ export function useGetLocalesDropdown(currentValue?: string) {
 
   const normalizedQuerySearch = querySearch.current.trim();
 
-  const resource = usePaginatedResource<string>({
+  const resource = useOptionsResource<string>({
     currentValue: currentValue,
     getOptionsQuery: useQuery({
       queryKey: ['get locale search', normalizedQuerySearch],
@@ -49,9 +49,13 @@ export function useGetLocalesDropdown(currentValue?: string) {
         label: result.locale,
       };
     },
-    onGetLabel: ({ label }) => {
-      setSearch(label);
-    },
+    onGetLabel: useCallback(
+      ({ label }) => {
+        console.log(label);
+        setSearch(label);
+      },
+      [setSearch],
+    ),
     labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
 

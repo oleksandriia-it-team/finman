@@ -34,6 +34,7 @@ export function FinControlledAutocomplete<T>({
               data-invalid={fieldState.invalid}
               onBlur={() => {
                 field.onBlur();
+                onSearch(field.value ?? '');
                 field.onChange(field.value);
               }}
               onChange={(val) => {

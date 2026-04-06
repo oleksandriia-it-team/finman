@@ -26,6 +26,7 @@ export function FinMultipleAutocomplete<T>({
   disabled,
   selectedDataFull,
   'data-invalid': dataInvalid,
+  onBlur,
 }: DefaultAutocompleteMultipleInputProps<T>) {
   const [show, setVisibility] = useState<boolean>(false);
 
@@ -61,6 +62,7 @@ export function FinMultipleAutocomplete<T>({
       disabled={disabled}
     >
       <UiComboboxChips
+        onBlur={onBlur}
         data-invalid={dataInvalid}
         className="w-full max-w-xs"
       >
