@@ -1,7 +1,8 @@
 # Project Structure
 
 FinMan leverages a **Hybrid Architecture** to ensure scalability, maintainability, and a clear separation of concerns.
-The project strictly separates **Client-side logic** (Browser, IndexedDB, React) from **Server-side logic** (Node.js, PostgreSQL, API handlers), while providing a safe space for shared contracts.
+The project strictly separates **Client-side logic** (Browser, IndexedDB, React) from **Server-side logic** (Node.js,
+PostgreSQL, API handlers), while providing a safe space for shared contracts.
 
 ## High Level Overview
 
@@ -10,7 +11,8 @@ The `src` directory is divided into four main layers:
 * **`app/`**: **Routing Layer**. Next.js routing files only. Connects requests to logic.
 * **`client/`**: **Frontend Layer**. Follows **Feature-Sliced Design (FSD)** principles.
 * **`server/`**: **Backend Layer**. Follows **Domain-Driven Design (DDD)** principles.
-* **`common/`**: **Shared Contract Layer**. Types, Interfaces, Constants, Records. **NO** business logic or runtime libraries here.
+* **`common/`**: **Shared Contract Layer**. Types, Interfaces, Constants, Records. **NO** business logic or runtime
+  libraries here.
 
 ---
 
@@ -18,19 +20,21 @@ The `src` directory is divided into four main layers:
 
 To avoid confusion between Frontend, Backend, and Database layers:
 
-| Term | Location | Responsibility | Example |
-| :--- | :--- | :--- | :--- |
-| **Record** | `common/records/` | **Database Shape**. Pure interfaces reflecting the DB table structure 1-to-1. Shared between FE and BE. | `UserRecord`, `BudgetPlanRecord` |
-| **Entity (FE)** | `client/entities/` | **FSD Slice**. A module containing UI, Store, and Data Access for a business unit. | `client/entities/budget-plan/` |
-| **Entity (BE)** | `server/entities/` | **DDD Class**. A class with methods/behavior encapsulating business rules on the server. | `UserOrm` class |
-| **DTO** | `common/models/` | **Data Transfer Object**. Contracts for API requests/responses (if different from Record). | `CreateUserDto` |
+| Term            | Location           | Responsibility                                                                                          | Example                          |
+|:----------------|:-------------------|:--------------------------------------------------------------------------------------------------------|:---------------------------------|
+| **Record**      | `common/records/`  | **Database Shape**. Pure interfaces reflecting the DB table structure 1-to-1. Shared between FE and BE. | `UserRecord`, `BudgetPlanRecord` |
+| **Entity (FE)** | `client/entities/` | **FSD Slice**. A module containing UI, Store, and Data Access for a business unit.                      | `client/entities/budget-plan/`   |
+| **Entity (BE)** | `server/entities/` | **DDD Class**. A class with methods/behavior encapsulating business rules on the server.                | `UserOrm` class                  |
+| **DTO**         | `common/models/`   | **Data Transfer Object**. Contracts for API requests/responses (if different from Record).              | `CreateUserDto`                  |
 
 ---
 
 ## 2. Client Directory (`src/client`)
+
 **Architecture:** Feature-Sliced Design (FSD).
 
 ### Core Structure
+
 * **`widgets/`**: Independent, self-contained UI blocks.
 * **`features/`**: User scenarios (e.g., `RegistrationPage`).
 * **`database/`**: **Global Infrastructure**. Contains the DB instance. *No business logic here.*
@@ -56,29 +60,35 @@ To avoid confusion between Frontend, Backend, and Database layers:
 ---
 
 ## 3. Server Directory (`src/server`)
+
 **Architecture:** Domain-Driven Design (DDD).
 
 ### Structure
+
 * **`entities/`**: **Shared Kernel (Domain & Data Access / Analog of layer Entities in FSD)**.
-  * Core business models shared across the application (e.g., `User`, `Transaction`).
-  * **ORM Schemas**: Database table definitions and relations (e.g., `User.orm.ts`).
-  * **Repositories**: "Dumb" data access services containing atomic CRUD operations (`findById`, `save`, `update`).
-  * Contain pure entity-level logic (rich models), but NO cross-entity orchestration.
+    * Core business models shared across the application (e.g., `User`, `Transaction`).
+    * **ORM Schemas**: Database table definitions and relations (e.g., `User.orm.ts`).
+    * **Repositories**: "Dumb" data access services containing atomic CRUD operations (`findById`, `save`, `update`).
+    * Contain pure entity-level logic (rich models), but NO cross-entity orchestration.
 * **`features/`**: **Isolated Business Scenarios (Use Cases)**.
-  * Specific, independent actions or business flows (e.g., `create-transaction`, `auth`).
-  * **Use Cases**: Orchestrators that inject shared repositories from `entities/` to execute complex logic and manage transactions.
-  * **DTOs & Validation**: Input contracts and validation schemas specific to the feature's request.
+    * Specific, independent actions or business flows (e.g., `create-transaction`, `auth`).
+    * **Use Cases**: Orchestrators that inject shared repositories from `entities/` to execute complex logic and manage
+      transactions.
+    * **DTOs & Validation**: Input contracts and validation schemas specific to the feature's request.
 * **`shared/`**: **Server-side Utilities**.
-  * Cross-cutting concerns and infrastructure helpers (e.g., Loggers, custom exceptions, date formatters, base classes).
+    * Cross-cutting concerns and infrastructure helpers (e.g., Loggers, custom exceptions, date formatters, base
+      classes).
+
 ---
 
 ## 4. Common Directory (`src/common`)
+
 **Purpose:** Pure Type Safety & Shared Contracts.
 
 * **`records/`**: **Primary source of truth.** Database table definitions (e.g., `BudgetPlanRecord`).
 * **`domains/`**: **Shared Business Logic**. Grouped by business domain. Contains code used by BOTH Client and Server.
-  * *Example:* `common/domains/country/` contains `country.schema.ts` (Zod), `country.dto.ts`, `country.filters.ts`.
-  * **Rule:** Must contain ONLY pure TS/JS (no API calls, no DB access, no React hooks).
+    * *Example:* `common/domains/country/` contains `country.schema.ts` (Zod), `country.dto.ts`, `country.filters.ts`.
+    * **Rule:** Must contain ONLY pure TS/JS (no API calls, no DB access, no React hooks).
 * **`models/`**: Shared DTOs and Types.
 * **`constants/`**: Shared constants.
 * **`utils/`**: Shared utility functions (pure JS/TS only).
@@ -89,20 +99,24 @@ To avoid confusion between Frontend, Backend, and Database layers:
 
 To maintain modularity and prevent circular dependencies, the following import rules must be observed:
 
-1.  **Client vs Server (Absolute Barrier):**
+1. **Client vs Server (Absolute Barrier):**
+
 * `client/` **MUST NOT** import from `server/`.
 * `server/` **MUST NOT** import from `client/`.
 * **Exception:** Both layers interact only via API calls (HTTP) and share contracts from `common/`.
 
-2.  **Common Layer (The Foundation):**
+2. **Common Layer (The Foundation):**
+
 * `common/` **MUST NOT** import from `client/` or `server/`.
 * It must remain pure.
 
-3.  **Records vs Entities (Data vs Behavior):**
+3. **Records vs Entities (Data vs Behavior):**
+
 * `server/entities` (DDD Classes) depend on `common/records` (Data Shape).
 * `client/entities` (FSD Slices) depend on `common/records` (Data Shape).
 
-4.  **Client-side (FSD Hierarchy):**
+4. **Client-side (FSD Hierarchy):**
+
 * Rule: **"Can only import from below"**.
 * `app` -> imports `widgets`, `features`, `entities`, `shared`.
 * `widgets` -> import `features`, `entities`, `shared`.
@@ -110,10 +124,13 @@ To maintain modularity and prevent circular dependencies, the following import r
 * `entities` -> import `shared`, `repositories`, `database`. (**Cannot** import other entities).
 * `shared` -> imports nothing from upper layers.
 
-5.  **Server-side (DDD & Modularity):**
-* **Shared Kernel:** Features (`server/features/*`) **CAN** import from `server/entities` (Shared Entities) and `server/shared`.
-* **Feature Isolation:** One feature (e.g., `budget`) **SHOULD NOT** directly import code from another feature (e.g., `auth`).
+5. **Server-side (DDD & Modularity):**
+
+* **Shared Kernel:** Features (`server/features/*`) **CAN** import from `server/entities` (Shared Entities) and
+  `server/shared`.
+* **Feature Isolation:** One feature (e.g., `budget`) **SHOULD NOT** directly import code from another feature (e.g.,
+  `auth`).
 * **DDD Layers:**
-  * `infrastructure` depends on `domain` and `application`.
-  * `application` depends on `domain`.
-  * `domain` is **independent** (depends only on `common/`).
+    * `infrastructure` depends on `domain` and `application`.
+    * `application` depends on `domain`.
+    * `domain` is **independent** (depends only on `common/`).

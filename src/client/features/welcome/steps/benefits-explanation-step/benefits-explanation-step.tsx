@@ -3,8 +3,6 @@
 import { TransactionsData } from './transaction-data.constant';
 import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
 
-import './benefits-explanation-step.scss';
-
 export default function BenefitsExplanationStep() {
   return (
     <div className="flex items-center justify-center h-full w-full">

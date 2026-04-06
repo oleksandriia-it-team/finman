@@ -1,5 +1,4 @@
 @use 'sass:list';
-
 @import '../../ui-button/styles/button-variants';
 
 .icon-btn {
@@ -18,7 +17,6 @@
       &[data-outlined='true'] {
         @include btn-outline-variant(list.nth($colors, 1));
       }
-
     }
   }
 
@@ -35,5 +33,4 @@
       background-color: transparent !important;
     }
   }
-
 }
