@@ -1,0 +1,19 @@
+.svg-div{
+  display:none;
+
+}
+
+@media screen and (min-width: 640px) {
+  .svg-div{
+    display:flex;
+    min-width: 55%;
+  }
+}
+
+@media screen and (min-width: 960px) {
+  .svg-div {
+    display: flex ;
+    min-width: 65% ;
+  }
+
+}

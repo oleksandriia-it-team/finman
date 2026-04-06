@@ -3,7 +3,7 @@
 import { FormProvider } from 'react-hook-form';
 import { useSetupLogin } from './shared/login-form';
 import { useRouter } from 'next/navigation';
-import './shared/styles.scss';
+import './shared/login-form.scss';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
@@ -11,6 +11,7 @@ import { FinControlledInput } from '@frontend/components/controlled-fields/fin-c
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { LoginIllustration } from './shared/login-illustration';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
+import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,11 +20,11 @@ export default function LoginPage() {
   });
 
   return (
-    <div className="min-h-screen w-full flex flex-col sm:flex-row bg-white">
+    <div className="min-h-screen w-full flex flex-row bg-primary-foreground">
       <div className="flex flex-1 items-center justify-center p-6 sm:p-12">
         <FormProvider {...methods}>
           <form
-            className="w-full max-w-[22.5rem] flex flex-col gap-6"
+            className="w-full max-w-[20rem] flex flex-col gap-6"
             onSubmit={(e) => {
               e.preventDefault();
               submit();
@@ -32,9 +33,19 @@ export default function LoginPage() {
             <UiFieldSet>
               <UiFieldLegend
                 size="xl"
-                className="text-center"
+                className="text-center flex flex-col items-center gap-1 mb-10"
               >
-                Увійдіть в свій акаунт
+                <div className="flex items-center gap-1">
+                  <UiGraphic
+                    src="/logo/finman-icon.svg"
+                    size={48}
+                    priority
+                    alt="Finman Logo"
+                  />
+                  <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
+                </div>
+
+                <span className="text-lg font-semibold text-foreground block">Увійдіть в свій акаунт</span>
               </UiFieldLegend>
 
               <UiFieldGroup>
@@ -55,7 +66,7 @@ export default function LoginPage() {
                   />
                   <button
                     type="button"
-                    className="absolute right-0 top-0 text-xs text-blue-500 hover:underline"
+                    className="absolute right-0 top-0 text-xs text-primary hover:underline"
                   >
                     Забули пароль?
                   </button>
@@ -75,7 +86,7 @@ export default function LoginPage() {
                     <UiSeparator />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white text-muted-foreground">АБО</span>
+                    <span className="text-muted-foreground">АБО</span>
                   </div>
                 </div>
 
@@ -95,9 +106,13 @@ export default function LoginPage() {
         </FormProvider>
       </div>
 
-      <div className="hidden sm:flex flex-1 items-center justify-center bg-[#E0F2FE] p-12">
+      <div className="svg-div flex flex-1 items-center justify-center bg-background p-12">
         <div className="w-full max-w-lg h-full flex items-center justify-center">
-          <LoginIllustration className="w-full h-auto max-h-[37.5rem] transition-all duration-500" />
+          <UiGraphic
+            src={LoginIllustration}
+            width="100%"
+            height="37.5rem"
+          />
         </div>
       </div>
     </div>
