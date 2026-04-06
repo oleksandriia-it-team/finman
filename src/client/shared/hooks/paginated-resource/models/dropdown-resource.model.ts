@@ -10,6 +10,7 @@ export interface DropdownResourceConfig<T, Multiple extends boolean = false> {
   getLabelFn: (
     value: Multiple extends true ? T[] : T,
   ) => Promise<(Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>) | undefined | null>;
+  onGetLabel?: (label: Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>) => void;
   labelQueryKey: string[];
 }
 

@@ -1,5 +1,5 @@
 import { DropdownResource, DropdownResourceConfig } from './models/dropdown-resource.model';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
@@ -13,6 +13,7 @@ export function usePaginatedResource<T, Multiple extends boolean = false>({
   getOptionsQuery,
   getLabelFn,
   labelQueryKey,
+  onGetLabel,
 }: DropdownResourceConfig<T, Multiple>): DropdownResource<T, Multiple> {
   const isMultiple = multiple === true;
 
@@ -57,6 +58,12 @@ export function usePaginatedResource<T, Multiple extends boolean = false>({
     },
     enabled: shouldFetchLabel,
   });
+
+  useEffect(() => {
+    if (getLabelQuery.data && getLabelQuery.status === 'success') {
+      onGetLabel?.(getLabelQuery.data as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>);
+    }
+  }, [getLabelQuery.data, getLabelQuery.status, onGetLabel]);
 
   const inputLabel = useMemo(() => {
     if (!isEmpty(getLabelQuery.data)) {

@@ -49,6 +49,9 @@ export function useGetLocalesDropdown(currentValue?: string) {
         label: result.locale,
       };
     },
+    onGetLabel: ({ label }) => {
+      setSearch(label);
+    },
     labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
 
