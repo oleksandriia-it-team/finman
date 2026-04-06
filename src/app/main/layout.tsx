@@ -1,7 +1,7 @@
 import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { UserMobileNavigationBar } from '@frontend/entities/profile/mobile-navigation/navigation-bar/navigation-bar';
 
-export default function UserProfilePage({ children }: ChildrenComponentProps) {
+export default function MainPage({ children }: ChildrenComponentProps) {
   return (
     <div className="w-full h-full">
       <UserMobileNavigationBar />
