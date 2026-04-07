@@ -26,6 +26,7 @@
     "autoprefixer": "^10.4.21",
     "bcrypt": "^6.0.0",
     "bootstrap-icons": "^1.13.1",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "idb": "^8.0.3",

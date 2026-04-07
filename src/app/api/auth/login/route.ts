@@ -11,17 +11,23 @@ export const POST = createRoute({
   execute: async ({ body }: { body: LoginDto }) => {
     const user = await userApiRepository.findUserForLogin(body.login);
     if (!user) {
-      return NextResponse.json({
-        status: 401,
-        message: 'Invalid credentials',
-      });
+      return NextResponse.json(
+        {
+          status: 401,
+          message: 'Недійсні облікові дані',
+        },
+        { status: 401 },
+      );
     }
     const isMatch = await bcrypt.compare(body.password, user.password as string);
     if (!isMatch) {
-      return NextResponse.json({
-        status: 401,
-        message: 'Invalid credentials',
-      });
+      return NextResponse.json(
+        {
+          status: 401,
+          message: 'Недійсні облікові дані',
+        },
+        { status: 401 },
+      );
     }
     const token = await createAccessToken({
       userId: user.id,

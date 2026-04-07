@@ -1,9 +1,32 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema';
+import { handleResponse } from '@frontend/shared/utils/fetch-handler';
+import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
+import { LoginResponse } from '@common/domains/auth/models/responses/login.response';
 
 export function useSetupLogin(onSuccessAction: () => void) {
-  // 1. Налаштовуємо методи форми
+  const { mutate, isPending } = useSendDataFetch(
+    async (data: LoginDto) => {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      return handleResponse<LoginResponse>(response);
+    },
+    {
+      successMessage: 'Вхід виконано успішно!',
+      onSuccess: (result) => {
+        if (result?.data?.token) {
+          document.cookie = `token=${result.data.token}; path=/; max-age=86400`;
+        }
+        onSuccessAction();
+      },
+    },
+  );
+
   const methods = useForm<LoginDto>({
     resolver: zodResolver(LoginSchema),
     mode: 'onChange',
@@ -13,26 +36,9 @@ export function useSetupLogin(onSuccessAction: () => void) {
     },
   });
 
-  const submit = methods.handleSubmit(async (data) => {
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
-
-      if (result.status === 200) {
-        document.cookie = `token=${result.data.token}; path=/; max-age=86400`;
-
-        onSuccessAction();
-      } else {
-        console.error(result.message);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-    }
+  const submit = methods.handleSubmit((data) => {
+    mutate(data);
   });
 
-  return { methods, submit };
+  return { methods, submit, isLoading: isPending };
 }
