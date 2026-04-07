@@ -12,7 +12,7 @@ export function UserMobileNavigationBar() {
   const pathName = usePathname();
 
   return (
-    <nav className=" fixed bottom-0 left-0 w-full bg-background border-t border-secondary flex items-center">
+    <nav className=" sticky bottom-0 w-full bg-background border-t border-secondary flex items-center">
       {buttonsArrayToMap.map((button) => (
         <UiButton
           key={button.id}

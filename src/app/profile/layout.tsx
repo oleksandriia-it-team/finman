@@ -12,9 +12,9 @@ export default function UserLayoutPage({ children }: ChildrenComponentProps) {
   }
 
   return (
-    <div className="w-full h-full">
+    <div className="size-full flex flex-col">
+      <div className="flex-1">{children}</div>
       <UserMobileNavigationBar />
-      <div className="flex flex-1">{children}</div>
     </div>
   );
 }
