@@ -11,7 +11,7 @@ import { UiStepperPrev } from '@frontend/ui/ui-stepper/ui-stepper-prev';
 
 //Page-component that meets user when launch app.
 // Realised as stepper component which shows reg form in first app-launch
-export function RegistrationScreen() {
+export function WelcomeScreen() {
   return (
     <UiStepper fullSize>
       <UiStepperContent>

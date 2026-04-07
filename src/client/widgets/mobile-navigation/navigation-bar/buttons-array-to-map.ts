@@ -10,24 +10,24 @@ export const buttonsArrayToMap: NavigationBarButton[] = [
     id: 1,
     icon: 'house-door',
     label: 'Головна',
-    route: '/main',
+    route: '/profile/main',
   },
   {
     id: 2,
     icon: 'pie-chart',
     label: 'Планування',
-    route: '/plans',
+    route: '/profile/plans',
   },
   {
     id: 3,
     icon: 'graph-up-arrow',
     label: 'Аналітика',
-    route: '/analytics',
+    route: '/profile/analytics',
   },
   {
     id: 4,
     icon: 'person',
     label: 'Профіль',
-    route: '/profile',
+    route: '/profile/settings',
   },
 ];

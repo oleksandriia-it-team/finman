@@ -1,7 +1,7 @@
 'use client';
 
-import RegularIncomesPage from '@frontend/features/regular-incomes';
+import { WelcomeScreen } from '@frontend/features/auth/welcome/welcome-screen';
 
 export default function MainPage() {
-  return <RegularIncomesPage />;
+  return <WelcomeScreen />;
 }
