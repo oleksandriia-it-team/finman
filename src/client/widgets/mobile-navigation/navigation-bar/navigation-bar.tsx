@@ -34,6 +34,8 @@ export function UserMobileNavigationBar() {
         </UiButton>
       ))}
       <UiIconButton
+        tabIndex={-1}
+        aria-hidden="true"
         bgNone={false}
         isOutlined={false}
         className="absolute -top-6 right-1/2 translate-x-1/2"
