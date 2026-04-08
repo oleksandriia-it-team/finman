@@ -10,8 +10,6 @@ export default function UserLayoutPage({ children }: ChildrenComponentProps) {
   const user = useUserGuard();
   const logout = useUserInformation((s) => s.logOut);
 
-  console.log(user);
-
   if (!user) {
     return null;
   }
