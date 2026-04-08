@@ -13,4 +13,5 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   isRoundedFull?: boolean;
   bgNone?: boolean;
   asChild?: boolean;
+  borderNone?: boolean;
 }

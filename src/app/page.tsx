@@ -1,7 +1,7 @@
 'use client';
 
-import RegistrationPage from '../client/features/auth/welcome/registration-screen';
+import { WelcomeScreen } from '@frontend/features/auth/welcome/welcome-screen';
 
 export default function MainPage() {
-  return <RegistrationPage />;
+  return <WelcomeScreen />;
 }

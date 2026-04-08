@@ -6,4 +6,6 @@ export interface IconButtonProps extends ButtonProps {
   size: IconSize;
   icon: string;
   isOutlined?: boolean;
+  borderNone?: boolean;
+  widthAuto?: boolean;
 }

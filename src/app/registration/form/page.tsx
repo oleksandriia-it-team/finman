@@ -14,7 +14,7 @@ export default function RegistrationPage() {
   const router = useRouter();
 
   const { methods, submit } = useSetupRegistration(() => {
-    router.push('/profile');
+    router.push('/main');
   });
 
   const languages = [

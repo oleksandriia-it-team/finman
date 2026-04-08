@@ -31,13 +31,16 @@
     }
   }
 
-  &[data-rounded] { border-radius: 9999px; }
-  &[data-bg-none] {
+  &[data-rounded="true"] { border-radius: 9999px; }
+  &[data-bg-none="true"] {
     background-color: transparent;;
     &:hover,
     &:active,
     &:focus-visible {
       background-color: transparent;
     }
+  }
+  &[data-border-none="true"] {
+    border: none !important;
   }
 }

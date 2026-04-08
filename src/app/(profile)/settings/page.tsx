@@ -1,13 +1,9 @@
 'use client';
 
-import { useUserGuard } from '@frontend/entities/user-information/auth-guard.hook';
+import { useAuthorizedUser } from '@frontend/shared/services/user-information/authorized-user.hook';
 
-export default function UserProfilePage() {
-  const user = useUserGuard();
-
-  if (!user) {
-    return null;
-  }
+export default function UserProfileSettingsPage() {
+  const user = useAuthorizedUser();
 
   return (
     <div className="flex flex-col items-center justify-center p-5">

@@ -15,6 +15,7 @@ export function UiButton({
   bgNone,
   asChild,
   type,
+  borderNone,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
@@ -28,6 +29,7 @@ export function UiButton({
       data-outlined={isOutlined ?? false}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
+      data-border-none={borderNone}
       className={cn('btn cursor-pointer', className)}
       {...props}
     />
