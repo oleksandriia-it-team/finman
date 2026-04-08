@@ -16,7 +16,9 @@ export const UiGraphic = ({
   const finalWidth = size || width || (type === 'icon' ? 24 : 500);
   const finalHeight = size || height || (type === 'icon' ? 24 : 500);
 
-  if (typeof src === 'string') {
+  if (typeof src === 'string' && src.startsWith('http') && !src.startsWith('https')) {
+    //This placeholder will remain until dedicated image hosts are set up
+    console.warn(`UiGraphic: Використання незахищеного протоколу HTTP для ${src} може бути заблоковано браузером.`);
     return (
       <div
         className={cn('relative flex-shrink-0', className)}

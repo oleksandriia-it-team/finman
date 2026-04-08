@@ -1,5 +1,4 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { NextResponse } from 'next/server';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 
 export const GET = createRoute({
@@ -8,6 +7,6 @@ export const GET = createRoute({
 
     console.log(res);
 
-    return NextResponse.json({ status: 200, data: 200 });
+    return { status: 200, data: 200 };
   },
 });

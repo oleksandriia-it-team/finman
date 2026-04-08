@@ -13,12 +13,10 @@ import { LoginIllustration } from './shared/login-illustration';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
-import { useState } from 'react';
-import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 
 export default function LoginPage() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
   const { methods, submit, isLoading } = useSetupLogin(() => {
     router.push('/profile');
   });
@@ -34,7 +32,7 @@ export default function LoginPage() {
               submit();
             }}
           >
-            <UiFieldSet>
+            <UiFieldSet disabled={isLoading}>
               <UiFieldLegend
                 size="xl"
                 className="text-center flex flex-col items-center gap-1 mb-10"
@@ -57,18 +55,16 @@ export default function LoginPage() {
                   name="login"
                   label="Логін*"
                   id="login"
-                  placeholder="Введіть email або пароль"
+                  placeholder="Введіть email або логін"
                   disabled={isLoading}
                 />
 
                 <div className="relative">
-                  <FinControlledInput
+                  <FinControlledPassword
                     name="password"
                     label="Пароль*"
                     id="password"
                     placeholder="Введіть пароль"
-                    type={showPassword ? 'text' : 'password'}
-                    disabled={isLoading}
                   />
                   <button
                     type="button"
@@ -76,15 +72,6 @@ export default function LoginPage() {
                   >
                     Забули пароль?
                   </button>
-                  <UiIconButton
-                    icon={showPassword ? 'eye-slash' : 'eye'}
-                    onClick={() => setShowPassword(!showPassword)}
-                    disabled={isLoading}
-                    size="sm"
-                    variant="muted"
-                    className="absolute right-2 top-8 text-foreground"
-                    title={showPassword ? 'Приховати' : 'Показати'}
-                  />
                 </div>
 
                 <UiButton
@@ -92,7 +79,6 @@ export default function LoginPage() {
                   className="w-full"
                   variant="primary"
                   size="sm"
-                  disabled={isLoading}
                 >
                   {isLoading && <UiSpinner className="w-4 h-4" />}
                   {isLoading ? 'Входимо...' : 'Увійти'}
@@ -114,7 +100,6 @@ export default function LoginPage() {
                   size="sm"
                   isOutlined
                   onClick={() => router.push('/signup')}
-                  disabled={isLoading}
                 >
                   Зареєструватися зараз
                 </UiButton>

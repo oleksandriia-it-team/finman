@@ -70,13 +70,15 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
     }
 
     try {
-      return await execute({
+      const result = await execute({
         request,
         body: body as never,
         transformers: resultTransformers as TR,
         beforeGuardTransformers: resultBeforeTransformers as BTR,
         params: transformedParams,
       });
+
+      return NextResponse.json(result, { status: result.status });
     } catch (e) {
       if (filter) {
         return filter(e as Error);

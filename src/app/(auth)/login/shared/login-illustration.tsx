@@ -4,6 +4,6 @@ export const LoginIllustration = ({ className }: { className?: string }) => (
     className={className}
     preserveAspectRatio="xMidYMid meet"
   >
-    <use href="pictures/login-picture.svg#main-illustration" />
+    <use href="/pictures/login-picture.svg#main-illustration" />
   </svg>
 );

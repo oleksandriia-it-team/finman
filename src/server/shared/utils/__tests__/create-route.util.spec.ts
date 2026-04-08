@@ -1,5 +1,4 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { NextResponse } from 'next/server';
 import { createRoute } from '../create-route.util';
 import { RouteContext } from '../../models/create-route.model';
 import { getDefaultApiErrorFilter } from '../../filter/get-api-error-filter.util';
@@ -25,7 +24,7 @@ describe('createRoute with params', () => {
 
     const executeFn = vi.fn(({ params }) => {
       expect(params).toEqual(transformedParams);
-      return NextResponse.json({ status: 200, data: params } satisfies ApiResultOperation<number>);
+      return { status: 200, data: params } satisfies ApiResultOperation<number>;
     });
 
     const route = createRoute({
@@ -45,7 +44,7 @@ describe('createRoute with params', () => {
 
     const executeFn = vi.fn(({ params }) => {
       expect(params).toEqual(rawParams);
-      return NextResponse.json({ status: 200, data: 1 } satisfies ApiResultOperation<number>);
+      return { status: 200, data: 1 } satisfies ApiResultOperation<number>;
     });
 
     const route = createRoute({
@@ -82,7 +81,7 @@ describe('createRoute with params', () => {
       guardsBeforeTransformers: guardsBeforeFn,
       guards: [guardFn],
       transformers: transformersFn as never,
-      execute: () => NextResponse.json({ status: 200, data: 1 }),
+      execute: () => ({ status: 200, data: 1 }),
     });
 
     await route(request, context);
@@ -113,7 +112,7 @@ describe('createRoute with params', () => {
   it('should work without params provided', async () => {
     const executeFn = vi.fn(({ params }) => {
       expect(params).toEqual({});
-      return NextResponse.json({ status: 200, data: 1 } satisfies ApiResultOperation<number>);
+      return { status: 200, data: 1 } satisfies ApiResultOperation<number>;
     });
 
     const route = createRoute({
