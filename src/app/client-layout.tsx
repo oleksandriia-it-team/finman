@@ -5,7 +5,6 @@ import InitApplication from './init-application';
 import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoadGlobalToast } from './load-global-toast';
-import { AuthorizedUserProvider } from '@frontend/shared/services/user-information/authorized-user.hook';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,15 +18,13 @@ const queryClient = new QueryClient({
 
 export default function MainLayout({ children }: ChildrenComponentProps) {
   return (
-    <AuthorizedUserProvider>
-      <LoadStylesComponent>
-        <InitApplication>
-          <QueryClientProvider client={queryClient}>
-            <LoadGlobalToast />
-            {children}
-          </QueryClientProvider>
-        </InitApplication>
-      </LoadStylesComponent>
-    </AuthorizedUserProvider>
+    <LoadStylesComponent>
+      <InitApplication>
+        <QueryClientProvider client={queryClient}>
+          <LoadGlobalToast />
+          {children}
+        </QueryClientProvider>
+      </InitApplication>
+    </LoadStylesComponent>
   );
 }
