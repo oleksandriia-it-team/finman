@@ -28,6 +28,6 @@ export const buttonsArrayToMap: NavigationBarButton[] = [
     id: 4,
     icon: 'person',
     label: 'Профіль',
-    route: '/profile',
+    route: '/settings',
   },
 ];

@@ -5,19 +5,19 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import './navigation-bar.scss';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { usePathname, useRouter } from 'next/navigation';
-import { buttonsArrayToMap } from '@frontend/entities/profile/mobile-navigation/navigation-bar/buttons-array-to-map';
+import { buttonsArrayToMap } from '@frontend/widgets/mobile-navigation/navigation-bar/buttons-array-to-map';
 
 export function UserMobileNavigationBar() {
   const router = useRouter();
   const pathName = usePathname();
 
   return (
-    <nav className=" fixed bottom-0 left-0 w-full bg-background border-t border-secondary flex items-center">
+    <nav className=" sticky bottom-0 w-full bg-background border-t border-secondary flex items-center">
       {buttonsArrayToMap.map((button) => (
         <UiButton
           key={button.id}
           size="xxl"
-          variant={`${pathName === button.route ? 'primary' : 'muted'}`}
+          variant={`${pathName.startsWith(button.route) ? 'primary' : 'muted'}`}
           isOutlined
           bgNone
           className="nav-btn"
@@ -34,6 +34,8 @@ export function UserMobileNavigationBar() {
         </UiButton>
       ))}
       <UiIconButton
+        tabIndex={-1}
+        aria-hidden="true"
         bgNone={false}
         isOutlined={false}
         className="absolute -top-6 right-1/2 translate-x-1/2"
