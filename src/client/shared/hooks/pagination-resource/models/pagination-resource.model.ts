@@ -3,9 +3,10 @@ import { Dispatch } from 'react';
 
 export interface PaginationResourceConfig<T, F extends object> {
   getTotalCountFn: (filters?: F | undefined) => Promise<number>;
-  getOptionsFn: (page: number, filters?: F | undefined) => Promise<T[]>;
+  getOptionsFn: (page: number, pageSize: number, filters?: F | undefined) => Promise<T[]>;
   queryKey: string[];
   filters?: F;
+  pageSize: number;
 }
 
 export interface PaginationResource<T> {

@@ -9,8 +9,7 @@ export function UiPaginationItem({ isActive, children, ...props }: PaginationIte
     >
       <UiButton
         size="sm"
-        variant={isActive ? 'default' : 'primary'}
-        isOutlined={!isActive}
+        variant={!isActive ? 'default' : 'primary'}
       >
         {children}
       </UiButton>

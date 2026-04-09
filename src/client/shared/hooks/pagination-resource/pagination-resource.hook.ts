@@ -12,13 +12,14 @@ export function usePaginationResource<T, F extends object>({
   getTotalCountFn,
   getOptionsFn,
   queryKey,
+  pageSize,
   filters,
 }: PaginationResourceConfig<T, F>): PaginationResource<T> {
   const [selectedPage, setPage] = useState<number>(1);
 
   const getOptionsQuery = useQuery({
-    queryKey: [...queryKey, 'options', String(selectedPage), JSON.stringify(filters)],
-    queryFn: () => getOptionsFn(selectedPage, filters),
+    queryKey: [...queryKey, 'options', String(selectedPage), String(pageSize), JSON.stringify(filters)],
+    queryFn: () => getOptionsFn(selectedPage, pageSize, filters),
     placeholderData: (previousData) => previousData,
   });
 
