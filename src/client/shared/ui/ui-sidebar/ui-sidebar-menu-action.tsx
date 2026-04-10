@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Slot } from 'radix-ui';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/sidebar-menu-action-styles.scss';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 import { useSidebar } from './ui-sidebar-provider';
 
 import './styles/sidebar-rail-styles.scss';

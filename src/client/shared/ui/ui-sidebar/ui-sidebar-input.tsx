@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 
 import './styles/sidebar-input-styles.scss';

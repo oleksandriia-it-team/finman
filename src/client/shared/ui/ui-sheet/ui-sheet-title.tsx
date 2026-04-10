@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Dialog as SheetPrimitive } from 'radix-ui';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 function UiSheetTitle({ className, ...props }: React.ComponentProps<typeof SheetPrimitive.Title>) {
   return (

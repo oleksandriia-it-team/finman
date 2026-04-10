@@ -1,11 +1,15 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
-import { UiSheet, UiSheetContent, UiSheetDescription, UiSheetHeader, UiSheetTitle } from '@frontend/ui/ui-sheet';
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './ui-sidebar-provider';
 
 import './styles/sidebar-styles.scss';
+import { cn } from '@frontend/shared/utils/cn.util';
+import { UiSheet } from '../ui-sheet/ui-sheet';
+import { UiSheetContent } from '../ui-sheet/ui-sheet-content';
+import { UiSheetHeader } from '../ui-sheet/ui-sheet-header';
+import { UiSheetTitle } from '@frontend/ui/ui-sheet/ui-sheet-title';
+import { UiSheetDescription } from '@frontend/ui/ui-sheet/ui-sheet-description';
 
 export function UiSidebar({
   side = 'left',
@@ -53,8 +57,8 @@ export function UiSidebar({
           side={side}
         >
           <UiSheetHeader className="sr-only">
-            <UiSheetTitle>Sidebar</UiSheetTitle>
-            <UiSheetDescription>Displays the mobile sidebar.</UiSheetDescription>
+            <UiSheetTitle>Панель керування</UiSheetTitle>
+            <UiSheetDescription>Відбражається лише на мобільних пристроях</UiSheetDescription>
           </UiSheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </UiSheetContent>

@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import { TooltipProvider } from '@radix-ui/react-tooltip';
-import { useIsMobile } from '@frontend/shared/hooks/is-mobile/use-mobile';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/sidebar-provider-styles.scss';
+import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

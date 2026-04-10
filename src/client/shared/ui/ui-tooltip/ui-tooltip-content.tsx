@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Tooltip as TooltipPrimitive } from 'radix-ui';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 function UiTooltipContent({
   className,

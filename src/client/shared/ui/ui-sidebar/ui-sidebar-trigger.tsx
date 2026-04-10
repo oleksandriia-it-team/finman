@@ -1,29 +1,34 @@
 'use client';
 
 import * as React from 'react';
-import { PanelLeftIcon } from 'lucide-react';
-import { cn } from '@frontend/shared/utils/utils';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useSidebar } from './ui-sidebar-provider';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 
-export function UiSidebarTrigger({ className, onClick, ...props }: React.ComponentProps<typeof UiButton>) {
+export function UiSidebarTrigger({
+  className,
+  size = 'lg',
+  bgNone = true,
+  onClick,
+  ...props
+}: React.ComponentProps<typeof UiIconButton>) {
   const { toggleSidebar } = useSidebar();
 
   return (
-    <UiButton
+    <UiIconButton
+      name="layout-sidebar"
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="ghost"
-      size="icon"
-      className={cn('size-7', className)}
+      variant="default"
+      size={size}
+      bgNone={bgNone}
+      className={className}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();
       }}
       {...props}
     >
-      <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
-    </UiButton>
+      <span className="sr-only">Переключити сайдбар</span>
+    </UiIconButton>
   );
 }

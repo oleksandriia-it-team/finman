@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 function UiSheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (

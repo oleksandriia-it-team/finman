@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 
 import './styles/sidebar-menu-skeleton-styles.scss';

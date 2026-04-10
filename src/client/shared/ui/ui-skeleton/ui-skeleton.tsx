@@ -1,4 +1,4 @@
-import { cn } from '@frontend/shared/utils/utils';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 function UiSkeleton({ className, ...props }: React.ComponentProps<'div'>) {
   return (

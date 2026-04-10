@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { cn } from '@frontend/shared/utils/utils';
 
 import './styles/sidebar-content-styles.scss';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiSidebarContent({ className, ...props }: React.ComponentProps<'div'>) {
   return (
