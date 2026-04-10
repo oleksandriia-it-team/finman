@@ -1,5 +1,7 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, MouseEventHandler } from 'react';
 
-export interface PaginationItemProps extends ComponentProps<'li'> {
+export interface PaginationItemProps extends Omit<ComponentProps<'li'>, 'onClick'> {
   isActive?: boolean;
+  disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
 }
