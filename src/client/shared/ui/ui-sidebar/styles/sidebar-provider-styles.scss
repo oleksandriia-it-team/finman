@@ -1,7 +1,6 @@
 .sidebar-wrapper {
   display: flex;
   min-height: 100svh;
-  width: 100%;
 
   &:has([data-variant='inset']) {
     background-color: var(--sidebar);

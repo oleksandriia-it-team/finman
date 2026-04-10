@@ -3,25 +3,28 @@
 import * as React from 'react';
 import { useSidebar } from './ui-sidebar-provider';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiSidebarTrigger({
   className,
   size = 'lg',
   bgNone = true,
   onClick,
+  hideOnCollapse,
   ...props
-}: React.ComponentProps<typeof UiIconButton>) {
+}: Partial<React.ComponentProps<typeof UiIconButton>> & { hideOnCollapse?: boolean }) {
   const { toggleSidebar } = useSidebar();
 
   return (
     <UiIconButton
-      name="layout-sidebar"
+      isOutlined={false}
+      icon="layout-sidebar"
       data-sidebar="trigger"
       data-slot="sidebar-trigger"
-      variant="default"
+      variant="muted"
       size={size}
       bgNone={bgNone}
-      className={className}
+      className={cn(hideOnCollapse && 'group-data-[collapsible=icon]:hidden', className)}
       onClick={(event) => {
         onClick?.(event);
         toggleSidebar();

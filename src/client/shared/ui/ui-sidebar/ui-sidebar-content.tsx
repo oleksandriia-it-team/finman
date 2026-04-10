@@ -8,7 +8,7 @@ export function UiSidebarContent({ className, ...props }: React.ComponentProps<'
     <div
       data-slot="sidebar-content"
       data-sidebar="content"
-      className={cn('sidebar-content', className)}
+      className={cn('sidebar-content p-2', className)}
       {...props}
     />
   );
