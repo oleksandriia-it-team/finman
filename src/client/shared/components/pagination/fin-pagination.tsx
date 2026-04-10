@@ -45,7 +45,6 @@ export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...
         {showPages.map((page) => {
           return (
             <UiPaginationItem
-              disabled
               key={page}
               isActive={page === selectedPage}
               onClick={() => setPage(page)}
