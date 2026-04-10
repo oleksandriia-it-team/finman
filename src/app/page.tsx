@@ -1,7 +1,7 @@
 'use client';
 
-import RegularIncomesExpensesPageCopy from '@frontend/features/regular-incomes-expenses/regular-incomes-expenses-page-copy';
+import { WelcomeScreen } from '@frontend/features/auth/welcome/welcome-screen';
 
 export default function MainPage() {
-  return <RegularIncomesExpensesPageCopy />;
+  return <WelcomeScreen />;
 }

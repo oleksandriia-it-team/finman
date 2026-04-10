@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { getTotalPages } from '@frontend/shared/utils/get-total-pages.util';
 import { UiPaginationContent } from '@frontend/ui/ui-pagination/ui-pagination-content';
 import { UiPaginationItem } from '@frontend/ui/ui-pagination/ui-pagination-item';
+import { UiPaginationNext, UiPaginationPrevious } from '@frontend/ui/ui-pagination/ui-pagination-actions';
 
 export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...props }: PaginationProps) {
   const totalPages = getTotalPages(totalCount, pageSize);
@@ -36,9 +37,15 @@ export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...
   return (
     <UiPagination {...props}>
       <UiPaginationContent>
+        <UiPaginationPrevious
+          disabled={selectedPage <= 1}
+          onClick={() => setPage(selectedPage - 1)}
+        />
+
         {showPages.map((page) => {
           return (
             <UiPaginationItem
+              disabled
               key={page}
               isActive={page === selectedPage}
               onClick={() => setPage(page)}
@@ -47,6 +54,11 @@ export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...
             </UiPaginationItem>
           );
         })}
+
+        <UiPaginationNext
+          disabled={selectedPage >= totalPages}
+          onClick={() => setPage(selectedPage + 1)}
+        />
       </UiPaginationContent>
     </UiPagination>
   );
