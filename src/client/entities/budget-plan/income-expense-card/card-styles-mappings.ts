@@ -24,7 +24,7 @@ export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
   housing: {
     borderColor: 'border-destructive-foreground',
     textColor: 'text-destructive-foreground',
-    bgColor: 'bg-destructive',
+    bgColor: 'bg-destructive dark:bg-destructive-foreground/30',
     icon: 'house',
     label: 'Дім',
   },
