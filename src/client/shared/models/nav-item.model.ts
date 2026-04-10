@@ -5,5 +5,5 @@ export interface NavItemModel {
 }
 
 export interface SidebarItemModel extends NavItemModel {
-  innerItems: NavItemModel[];
+  innerItems?: NavItemModel[];
 }

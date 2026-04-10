@@ -11,15 +11,15 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 
 const routes: SidebarItemModel[] = [
   {
-    route: '/',
+    route: '/profile',
     name: 'Головна',
     icon: 'house',
     innerItems: [],
   },
   {
+    route: '/profile/budget',
     icon: 'pie-chart',
     name: 'Планування',
-    route: '/budget',
     innerItems: [
       {
         icon: 'coin',
@@ -34,15 +34,15 @@ const routes: SidebarItemModel[] = [
     ],
   },
   {
+    route: '/profile/analytics',
     icon: 'graph-up-arrow',
     name: 'Аналітика',
-    route: '/analytics',
     innerItems: [],
   },
   {
+    route: '/profile/settings',
     icon: 'person',
     name: 'Профіль',
-    route: '/settings',
     innerItems: [],
   },
 ];
@@ -52,11 +52,11 @@ export function ProfileSidebar() {
     <UiSidebarProvider>
       <UiSidebar collapsible="icon">
         <UiSidebarHeader>
-          <div className="flex gap-1 flex-1">
-            <UiSidebarHeaderIcon className="size-6 group-data-[collapsible=icon]:w-full">
+          <div className="flex gap-1 flex-1 items-center">
+            <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">
               <Image
-                width="24"
-                height="20"
+                width="31"
+                height="36"
                 src="/logo/finman-icon.png"
                 alt="finman logo"
               />
