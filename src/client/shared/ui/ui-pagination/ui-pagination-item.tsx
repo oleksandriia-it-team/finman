@@ -9,6 +9,7 @@ export function UiPaginationItem({ isActive, onClick, children, disabled, ...pro
     >
       <UiButton
         onClick={onClick}
+        aria-current={isActive ? 'page' : undefined}
         disabled={disabled}
         size="sm"
         variant={!isActive ? 'default' : 'primary'}
