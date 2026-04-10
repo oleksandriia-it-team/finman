@@ -26,6 +26,7 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
             <UiSidebarGroupContent>
               <UiSidebarMenu>
                 <UiSidebarMenuButton
+                  tooltip={route.name}
                   isActive={activeRoute === route}
                   asChild
                 >
