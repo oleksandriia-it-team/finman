@@ -5,38 +5,45 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import dayjs from 'dayjs';
+import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 
-export function IncomeExpenseCard({ type, title, subtitle, amount, date, className }: TransactionCardProps) {
+export function IncomeExpenseCard({
+  type,
+  subtitle,
+  amount,
+  date,
+  className,
+  category = 'misc',
+}: TransactionCardProps) {
+  const categoryStyles = CategoriesMapping[category] || CategoriesMapping.misc;
+
   return (
     <UiCard
       className={cn(
-        'border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl group',
-        type === 'income' ? 'border-success' : 'border-destructive-foreground',
+        'border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl',
+        categoryStyles.borderColor,
         className,
       )}
     >
-      <div className="top-0 right-0 p-2 absolute hidden group-hover:flex ">
-        <UiIconButton
-          size="default"
-          icon="three-dots-vertical"
-          variant="muted"
-        />
-      </div>
-
       <CardHeader>
         <div className="flex flex-col items-start gap-3">
-          <div
-            className={cn(
-              'p-2 rounded-3xl',
-              type === 'income' ? 'bg-success-muted text-success' : 'bg-destructive text-destructive-foreground',
-            )}
-          >
-            <UiSvgIcon
-              name={type === 'income' ? 'arrow-down-left' : 'arrow-up-right'}
-              size="3xl"
+          <div className="flex between w-full justify-between">
+            <div
+              className={cn('p-4 rounded-3xl flex justify-between', categoryStyles.bgColor, categoryStyles.textColor)}
+            >
+              <UiSvgIcon
+                name={categoryStyles.icon}
+                size="3xl"
+              />
+            </div>
+            <UiIconButton
+              size="xl"
+              icon="three-dots-vertical"
+              variant="muted"
+              className="!border-none"
             />
           </div>
-          <CardTitle className="text-2xl line-clamp-1">{title}</CardTitle>
+          <CardTitle className="text-2xl line-clamp-1"> {categoryStyles.label} </CardTitle>
         </div>
         {subtitle ? (
           <p className="text-base text-muted-foreground line-clamp-2">{subtitle}</p>
