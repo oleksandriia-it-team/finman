@@ -16,21 +16,22 @@ export function usePaginationResource<T, F extends object>({
   filters,
 }: PaginationResourceConfig<T, F>): PaginationResource<T> {
   const [selectedPage, setPage] = useState<number>(1);
+  const filtersKey = useMemo(() => JSON.stringify(filters ?? null), [filters]);
 
   const getOptionsQuery = useQuery({
-    queryKey: [...queryKey, 'options', String(selectedPage), String(pageSize), JSON.stringify(filters)],
+    queryKey: [...queryKey, 'options', String(selectedPage), String(pageSize), filtersKey],
     queryFn: () => getOptionsFn(selectedPage, pageSize, filters),
     placeholderData: (previousData) => previousData,
   });
 
   const getTotalCountQuery = useQuery({
-    queryKey: [...queryKey, 'total-count', JSON.stringify(filters)],
+    queryKey: [...queryKey, 'total-count', filtersKey],
     queryFn: () => getTotalCountFn(filters),
   });
 
   useEffect(() => {
     setPage(1);
-  }, [filters]);
+  }, [filtersKey]);
 
   const state = useMemo(() => {
     const statuses = [getOptionsQuery.status, getTotalCountQuery.status];
