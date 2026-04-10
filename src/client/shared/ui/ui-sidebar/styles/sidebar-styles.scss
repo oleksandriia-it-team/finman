@@ -1,0 +1,116 @@
+.sidebar {
+  display: flex;
+  height: 100%;
+  width: var(--sidebar-width);
+  flex-direction: column;
+  background-color: var(--sidebar);
+  color: var(--sidebar-foreground);
+}
+
+.sidebar-wrapper {
+  display: none;
+  color: var(--sidebar-foreground);
+
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+
+.sidebar-gap {
+  position: relative;
+  width: var(--sidebar-width);
+  background-color: transparent;
+  transition-property: width;
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+
+  .group[data-collapsible='offcanvas'] & {
+    width: 0;
+  }
+
+  .group[data-side='right'] & {
+    transform: rotate(180deg);
+  }
+
+  .group[data-variant='floating'] &,
+  .group[data-variant='inset'] & {
+    .group[data-collapsible='icon'] & {
+      width: calc(var(--sidebar-width-icon) + 1rem);
+    }
+  }
+
+  .group:not([data-variant='floating']):not([data-variant='inset']) & {
+    .group[data-collapsible='icon'] & {
+      width: var(--sidebar-width-icon);
+    }
+  }
+}
+
+.sidebar-container {
+  position: fixed;
+  inset-y: 0;
+  z-index: 10;
+  display: none;
+  height: 100svh;
+  width: var(--sidebar-width);
+  transition-property: left, right, width;
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+
+  @media (min-width: 768px) {
+    display: flex;
+  }
+
+  &[data-side='left'] {
+    left: 0;
+
+    .group[data-collapsible='offcanvas'] & {
+      left: calc(var(--sidebar-width) * -1);
+    }
+  }
+
+  &[data-side='right'] {
+    right: 0;
+
+    .group[data-collapsible='offcanvas'] & {
+      right: calc(var(--sidebar-width) * -1);
+    }
+  }
+
+  &[data-variant='floating'],
+  &[data-variant='inset'] {
+    padding: 0.5rem;
+
+    .group[data-collapsible='icon'] & {
+      width: calc(var(--sidebar-width-icon) + 1rem + 2px);
+    }
+  }
+
+  &:not([data-variant='floating']):not([data-variant='inset']) {
+    .group[data-collapsible='icon'] & {
+      width: var(--sidebar-width-icon);
+    }
+
+    .group[data-side='left'] & {
+      border-right: 1px solid var(--border); // Fallback border if sidebar-border doesn't exist on all components
+    }
+
+    .group[data-side='right'] & {
+      border-left: 1px solid var(--border);
+    }
+  }
+}
+
+.sidebar-inner {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  background-color: var(--sidebar);
+
+  .group[data-variant='floating'] & {
+    border-radius: var(--radius-lg, 0.5rem);
+    border: 1px solid var(--sidebar-border);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  }
+}
