@@ -39,12 +39,11 @@ export default function RegularIncomesExpensesPage() {
               />
             );
           })}
-
-          <FinPagination
-            {...paginationRestProps}
-            pageSize={pageSize}
-          />
         </div>
+        <FinPagination
+          {...paginationRestProps}
+          pageSize={pageSize}
+        />
       </div>
     </div>
   );
