@@ -7,7 +7,7 @@ import { UiSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar';
 import Image from 'next/image';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
-import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
+import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
 
 const routes: SidebarItemModel[] = [
   {
@@ -68,7 +68,7 @@ export function ProfileSidebar() {
           <UiSidebarTrigger hideOnCollapse />
         </UiSidebarHeader>
 
-        <UiSeparator />
+        <UiSidebarSeparator />
 
         <FinSidebarContent routes={routes} />
       </UiSidebar>
