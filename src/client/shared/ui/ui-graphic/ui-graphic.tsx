@@ -5,20 +5,24 @@ import React from 'react';
 
 export const UiGraphic = ({
   src,
-  alt = 'Graphic element',
   size,
   width,
   height,
   className,
   priority = false,
   type = 'icon',
+  alt = type === 'icon' ? '' : 'Graphic element',
 }: UiGraphicProps) => {
   const finalWidth = size || width || (type === 'icon' ? 24 : 500);
   const finalHeight = size || height || (type === 'icon' ? 24 : 500);
 
-  if (typeof src === 'string' && src.startsWith('http') && !src.startsWith('https')) {
-    //This placeholder will remain until dedicated image hosts are set up
-    console.warn(`UiGraphic: Використання незахищеного протоколу HTTP для ${src} може бути заблоковано браузером.`);
+  const isImageSource = typeof src === 'string' || (typeof src === 'object' && src !== null && 'src' in src);
+
+  if (isImageSource) {
+    if (typeof src === 'string' && src.startsWith('http:')) {
+      console.warn(`UiGraphic: Використання незахищеного протоколу HTTP для ${src} може бути заблоковано.`);
+    }
+
     return (
       <div
         className={cn('relative flex-shrink-0', className)}
@@ -29,19 +33,20 @@ export const UiGraphic = ({
           alt={alt}
           fill
           priority={priority}
-          unoptimized={src.endsWith('.svg')}
+          unoptimized={typeof src === 'string' && src.endsWith('.svg')}
           className="object-contain"
         />
       </div>
     );
   }
-
   return (
     <div
       className={cn('flex items-center justify-center flex-shrink-0', className)}
       style={{ width: finalWidth, height: finalHeight }}
     >
-      {React.createElement(src, { className: 'w-full h-full' })}
+      {React.createElement(src as React.ComponentType<{ className?: string }>, {
+        className: 'w-full h-full',
+      })}
     </div>
   );
 };

@@ -9,7 +9,6 @@ import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input/fin-controlled-input';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { LoginIllustration } from './shared/login-illustration';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
@@ -109,10 +108,10 @@ export default function LoginPage() {
         </FormProvider>
       </div>
 
-      <div className="svg-div flex flex-1 items-center justify-center bg-background p-12">
+      <div className="svg-div flex flex-1 items-center justify-center bg-aqua-muted p-12">
         <div className="w-full max-w-lg h-full flex items-center justify-center">
           <UiGraphic
-            src={LoginIllustration}
+            src="/pictures/login-picture.png"
             width="100%"
             height="37.5rem"
           />
