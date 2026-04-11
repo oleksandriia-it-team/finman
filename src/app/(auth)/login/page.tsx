@@ -110,7 +110,7 @@ export default function LoginPage() {
         </FormProvider>
       </div>
 
-      <div className="svg-div flex flex-1 items-center justify-center bg-aqua-muted p-12">
+      <div className="svg-icon-container flex flex-1 items-center justify-center bg-aqua-muted p-12">
         <div className="size-full max-w-lg flex items-center justify-center">
           <UiGraphic
             src="/pictures/login-picture.png"
