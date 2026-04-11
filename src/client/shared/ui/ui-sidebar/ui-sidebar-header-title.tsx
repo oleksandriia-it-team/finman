@@ -1,3 +1,5 @@
+'use client';
+
 import { ComponentProps } from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 

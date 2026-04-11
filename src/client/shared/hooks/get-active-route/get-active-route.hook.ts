@@ -29,15 +29,23 @@ export function useGetActiveRoute<T extends NavItemModel | SidebarItemModel>(rou
   const pathname = usePathname();
 
   return useMemo(() => {
-    let currentRoute: T | undefined = undefined;
+    let currentRoute: T | undefined;
+    let bestPrefixLength = -1;
+    const isSegmentPrefix = (current: string, candidate: string) =>
+      current === candidate || current.startsWith(`${candidate}/`);
 
     const routeMap = new Map<T, string[]>(routes.map((route) => [route, getAllRoutesByNavItem(route)]));
 
     for (const [key, paths] of routeMap) {
       if (paths.includes(pathname)) {
         return key;
-      } else if (paths.some((path) => pathname.startsWith(path))) {
-        currentRoute = key;
+      } else {
+        const matched = paths.filter((path) => isSegmentPrefix(pathname, path));
+        const longest = matched.reduce((acc, p) => Math.max(acc, p.length), -1);
+        if (longest > bestPrefixLength) {
+          bestPrefixLength = longest;
+          currentRoute = key;
+        }
       }
     }
 
