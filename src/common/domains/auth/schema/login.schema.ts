@@ -1,10 +1,14 @@
 import { z } from 'zod';
+import { UserRequirements } from '@common/domains/user/constants/user-requirements.constant';
 
 export const LoginSchema = z.object({
   login: z
     .string()
     .min(1, "Логін або email є обов'язковим")
-    .max(255, 'Логін не може бути довше 255 символів')
+    .max(
+      UserRequirements.MaxLoginLength,
+      'Логін не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
+    )
     .superRefine((val, ctx) => {
       if (val.includes('@')) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,10 +19,10 @@ export const LoginSchema = z.object({
           });
         }
       } else {
-        if (val.length < 4) {
+        if (val.length < UserRequirements.MinNameLength) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Ім'я користувача повинно бути не менше 4 символів",
+            message: "Ім'я користувача повинно бути не менше " + UserRequirements.MinNameLength + ' символів',
           });
         }
 
@@ -35,7 +39,10 @@ export const LoginSchema = z.object({
   password: z
     .string()
     .min(1, "Пароль є обов'язковим")
-    .min(8, 'Пароль повинен бути не менше 8 символів')
-    .max(255, 'Пароль не може бути довше 255 символів'),
+    .min(
+      UserRequirements.MinPasswordLength,
+      'Пароль повинен бути не менше ' + UserRequirements.MinPasswordLength + ' символів',
+    )
+    .max(255, 'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів'),
 });
 export type LoginDto = z.infer<typeof LoginSchema>;

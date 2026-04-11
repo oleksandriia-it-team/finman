@@ -10,11 +10,11 @@ export const POST = createRoute({
     const isNameTaken = await userApiRepository.findUserForLogin(body.name);
 
     if (isEmailTaken) {
-      return { status: 400, code: 'EMAIL_ALREADY_EXISTS', message: 'This email already exist' };
+      return { status: 400, code: 'EMAIL_ALREADY_EXISTS', message: 'Ця електронна адреса вже існує' };
     }
 
     if (isNameTaken) {
-      return { status: 400, code: 'NAME_ALREADY_EXISTS', message: 'This name already exist' };
+      return { status: 400, code: 'NAME_ALREADY_EXISTS', message: "Це ім'я вже існує" };
     }
 
     await userApiRepository.createItem({ ...body, role: RoleEnum.User });
