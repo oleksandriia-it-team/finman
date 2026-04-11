@@ -67,6 +67,8 @@ export default function LoginPage() {
                   />
                   <button
                     type="button"
+                    //TODO remove disabled state and implement forgot password functionality
+                    disabled={true}
                     className="absolute right-0 top-0 text-xs text-primary hover:underline"
                   >
                     Забули пароль?
@@ -79,7 +81,7 @@ export default function LoginPage() {
                   variant="primary"
                   size="sm"
                 >
-                  {isLoading && <UiSpinner className="w-4 h-4" />}
+                  {isLoading && <UiSpinner className="size-4" />}
                   {isLoading ? 'Входимо...' : 'Увійти'}
                 </UiButton>
 
@@ -109,7 +111,7 @@ export default function LoginPage() {
       </div>
 
       <div className="svg-div flex flex-1 items-center justify-center bg-aqua-muted p-12">
-        <div className="w-full max-w-lg h-full flex items-center justify-center">
+        <div className="size-full max-w-lg flex items-center justify-center">
           <UiGraphic
             src="/pictures/login-picture.png"
             width="100%"
