@@ -32,17 +32,13 @@
     transform: rotate(180deg);
   }
 
-  .group[data-variant='floating'] &,
-  .group[data-variant='inset'] & {
-    .group[data-collapsible='icon'] & {
-      width: calc(var(--sidebar-width-icon) + 1rem);
-    }
+  .group[data-collapsible='icon'][data-variant='floating'] &,
+  .group[data-collapsible='icon'][data-variant='inset'] & {
+    width: calc(var(--sidebar-width-icon) + 1rem);
   }
 
-  .group:not([data-variant='floating']):not([data-variant='inset']) & {
-    .group[data-collapsible='icon'] & {
-      width: var(--sidebar-width-icon);
-    }
+  .group[data-collapsible='icon']:not([data-variant='floating']):not([data-variant='inset']) & {
+    width: var(--sidebar-width-icon);
   }
 }
 
