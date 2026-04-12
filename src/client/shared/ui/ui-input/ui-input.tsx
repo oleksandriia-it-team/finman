@@ -13,7 +13,7 @@ export function UiInput({
   onChange,
   type = 'text',
   ...props
-}: InputProps<string> & ComponentProps<'input'>) {
+}: InputProps<string> & Omit<ComponentProps<'input'>, 'onChange'>) {
   return (
     <input
       data-slot="input"
