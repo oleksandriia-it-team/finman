@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { createPaginatedSchema } from '@backend/shared/utils/create-paginated-schema.util';
+import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 
 const filters = z.object({
   ids: z.array(z.number('Each id must be an integer'), 'Ids array is required').optional(),

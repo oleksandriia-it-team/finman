@@ -24,5 +24,5 @@ export class RegularEntryOrm extends DefaultTableColumnsOrm implements RegularAp
 
   @ManyToOne(() => UserOrm)
   @JoinColumn({ name: 'userId' })
-  user!: UserOrm;
+  user?: UserOrm;
 }

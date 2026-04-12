@@ -1,4 +1,4 @@
-import { CurrenciesSchema } from '../shared/schemas/currencies.schema';
+import { CurrenciesSchema } from '@common/domains/lookups/schemas/currencies.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 import { currencyRepository } from '@backend/entities/currency/infrastructure/currency.repository';
