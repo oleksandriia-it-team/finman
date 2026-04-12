@@ -1,0 +1,9 @@
+.sidebar-header {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+
+  .group[data-collapsible='icon'] & {
+    overflow: hidden;
+  }
+}
