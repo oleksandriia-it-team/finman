@@ -11,6 +11,7 @@ describe('RegularEntryLocalRepository', () => {
 
   const data: Omit<RegularEntry, DefaultColumnKeys> = {
     type: TypeEntry.Income,
+    title: 'Salary',
     description: 'Salary',
     regular: true,
     sum: 50000,
@@ -61,6 +62,7 @@ describe('RegularEntryLocalRepository', () => {
           // eslint-disable-next-line
           // @ts-ignore
           type: (TypeEntry as never)[index % 3],
+          title: `Title ${index}`,
           description: `Description ${index}`,
           regular: true,
           sum: index * 100,
