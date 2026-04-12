@@ -14,7 +14,7 @@ export class UserOrm extends DefaultTableColumnsOrm implements User {
   @Column({ type: 'varchar', length: UserRequirements.MaxEmailLength, unique: true })
   email!: string;
 
-  @Column({ type: 'varchar', length: UserRequirements.MaxNameLength, unique: true })
+  @Column({ type: 'varchar', length: UserRequirements.MaxLoginLength, unique: true })
   name!: string;
 
   @Column({ type: 'varchar', length: UserRequirements.MaxPasswordLength, select: false })
