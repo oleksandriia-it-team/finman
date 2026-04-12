@@ -1,4 +1,4 @@
-import { LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema';
+import { LoginSchema } from '@common/domains/auth/schema/login.schema';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import bcrypt from 'bcrypt';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
@@ -7,7 +7,7 @@ import { createAccessToken } from '@backend/shared/utils/jwt.util';
 
 export const POST = createRoute({
   schema: LoginSchema,
-  execute: async ({ body }: { body: LoginDto }) => {
+  execute: async ({ body }) => {
     const user = await userApiRepository.findUserForLogin(body.login);
     if (!user) {
       return {

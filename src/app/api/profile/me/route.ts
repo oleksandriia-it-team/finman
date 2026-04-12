@@ -4,10 +4,10 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 
 export const GET = createRoute({
-  guardsBeforeTransformers: GetUserIdTransformer,
+  contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
-  execute: async ({ beforeGuardTransformers }) => {
-    const userId = beforeGuardTransformers as number;
+  execute: async ({ context }) => {
+    const userId = context as number;
 
     const user = await userApiRepository.getItemById(userId);
 

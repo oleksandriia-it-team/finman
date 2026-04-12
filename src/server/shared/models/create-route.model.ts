@@ -24,24 +24,24 @@ export interface CreateRouteConfig<
   schema?: Schema;
   execute: RouteExecute<TR, BTR, BODY, R, TP>;
   guards?: RouteGuard<BTR, BODY, TP>[];
-  guardsBeforeTransformers?: (request: Request, params: TP) => BTR | Promise<BTR>;
-  transformers?: (request: Request, body: BODY, params: TP) => TR | Promise<TR>;
-  paramsTransformers?: (params: RouteContextParams) => TP | Promise<TP>;
+  contextFn?: (request: Request, params: TP) => BTR | Promise<BTR>;
+  dataFn?: (request: Request, body: BODY, params: TP) => TR | Promise<TR>;
+  paramsFn?: (params: RouteContextParams) => TP | Promise<TP>;
   filter?: FilterRouteExecute<R>;
 }
 
 export interface RouteParams<TR, BTR, BODY, TP> {
   request: Request;
   body: BODY;
-  beforeGuardTransformers: BTR;
-  transformers: TR;
+  context: BTR;
+  data: TR;
   params: TP;
 }
 
 export interface RouteGuardParams<BTR, BODY, TP> {
   request: Request;
   body: BODY;
-  beforeGuardTransformers: BTR;
+  context: BTR;
   params: TP;
 }
 

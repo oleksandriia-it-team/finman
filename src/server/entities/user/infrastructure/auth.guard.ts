@@ -5,10 +5,7 @@ import { ApiResultOperationError } from '@common/models/api-result-operation.mod
 export async function AuthGuard<BTR extends number | null | { userId: number | null }>(
   data: RouteGuardParams<BTR, unknown, unknown>,
 ): Promise<ApiResultOperationError | null> {
-  const token =
-    typeof data.beforeGuardTransformers === 'number'
-      ? data.beforeGuardTransformers
-      : data.beforeGuardTransformers?.userId;
+  const token = typeof data.context === 'number' ? data.context : data.context?.userId;
 
   if (isEmpty(token)) {
     return {
