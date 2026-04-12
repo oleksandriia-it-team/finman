@@ -1,3 +1,3 @@
-import { EnvironmentModel } from '../models/environment.model';
+import { validateEnv } from '@common/config/env/validator';
 
-export const EnvConfigConstant: EnvironmentModel = process.env as unknown as EnvironmentModel;
+export const EnvConfigConstant = validateEnv();
