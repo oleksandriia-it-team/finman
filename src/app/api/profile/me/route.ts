@@ -13,7 +13,7 @@ export const GET = createRoute({
 
     if (!user) {
       return {
-        status: 400,
+        status: 401,
         message: 'Дані користувача не знайдені',
       };
     }
