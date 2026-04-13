@@ -1,19 +1,17 @@
 import { serverSchema } from '@common/config/env/server';
 import { clientSchema } from '@common/config/env/client';
-import { z } from 'zod';
+import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
 export const validateEnv = () => {
   const client = clientSchema.safeParse(process.env);
   const server = serverSchema.safeParse(process.env);
 
   if (!client.success) {
-    console.error('Client Environment Error:', z.treeifyError(client.error));
-    throw new Error('Invalid Client ENV');
+    throw new Error('Client env ' + getZodErrorMessage(client).message);
   }
 
   if (!server.success) {
-    console.error('Server Environment Error:', z.treeifyError(server.error));
-    throw new Error('Invalid Server ENV');
+    throw new Error('Server env ' + getZodErrorMessage(server).message);
   }
 
   return {

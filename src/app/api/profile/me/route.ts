@@ -2,6 +2,7 @@ import { createRoute } from '@backend/shared/utils/create-route.util';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
+import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 
 export const GET = createRoute({
   contextFn: GetUserIdTransformer,
@@ -23,4 +24,5 @@ export const GET = createRoute({
       data: user,
     };
   },
+  filter: getDefaultApiErrorFilter,
 });
