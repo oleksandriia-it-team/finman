@@ -5,18 +5,22 @@ import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pip
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
 
 export const PUT = createRoute({
   schema: RegularEntrySchema.omit({
     id: true,
   }),
-  contextFn: GetUserIdTransformer,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
-  guards: [AuthGuard],
+  contextFn: async (request, params) => ({
+    userId: await GetUserIdTransformer(request),
+    regularEntry: await regularEntryApiRepository.getItemById(params.id),
+  }),
+  guards: [AuthGuard, ({ context }) => ExistRegularEntryGuard(context.regularEntry)],
   execute: async ({ context, body, params: { id } }) => {
-    const userId = context as number;
+    const userId = context.userId as number;
 
     await regularEntryApiRepository.updateItem(id, { ...body, userId });
 
