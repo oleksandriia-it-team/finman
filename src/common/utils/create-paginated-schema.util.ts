@@ -16,11 +16,5 @@ export function createPaginatedSchema<Filters extends ZodType<unknown>>(filtersS
     totalCountSchema: z.object({
       filters: filtersSchema.optional(),
     }),
-    getByIdSchema: z.object({
-      id: z
-        .number('Поле ID є обовʼязковим і має бути числом')
-        .int('Поле ID має бути цілим числом')
-        .positive('Поле ID має бути додатним числом'),
-    }),
   };
 }
