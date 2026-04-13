@@ -18,11 +18,11 @@ export default function RegularIncomesExpensesPage() {
   });
 
   return (
-    <div className="w-full flex flex-col pb-8 ">
-      <p className="text-xl p-4">
+    <div className="w-full h-screen overflow-hidden flex flex-col pb-8 ">
+      <p className="flex-none text-xl p-4">
         <b>Регулярні доходи та витрати</b>
       </p>
-      <div className="flex flex-col w-full flex-wrap ">
+      <div className="flex-1 overflow-y-auto min-h-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 ">
           {state === PromiseState.Loading && 'Завантаження'}
           {state === PromiseState.Error && (errorMessage || 'Помилка завантаження')}
@@ -40,11 +40,11 @@ export default function RegularIncomesExpensesPage() {
             );
           })}
         </div>
-        <FinPagination
-          {...paginationRestProps}
-          pageSize={pageSize}
-        />
       </div>
+      <FinPagination
+        {...paginationRestProps}
+        pageSize={pageSize}
+      />
     </div>
   );
 }
