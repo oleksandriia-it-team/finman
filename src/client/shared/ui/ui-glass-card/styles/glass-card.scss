@@ -11,11 +11,11 @@
 
   &:hover {
     transform: scale(1.1) translateY(-1.5rem);
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgb(255 255 255 / 50%);
     box-shadow: 0 25px 50px -12px getOpacity(var(--shadow-color), 75%);
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (width >= 768px) {
     width: 13rem;
     height: 13rem;
   }

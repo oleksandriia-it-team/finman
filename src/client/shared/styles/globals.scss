@@ -1,11 +1,10 @@
 @import 'tailwindcss';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
-
 @import 'design-keys';
 @import 'theme';
 @import 'key-frames';
 @import 'variants';
-@import 'basic-component-styles/input';
+@import 'basic-component-styles/index';
 @import 'mixins';
 
 html {

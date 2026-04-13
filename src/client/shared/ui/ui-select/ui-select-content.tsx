@@ -16,7 +16,7 @@ export function UiSelectContent({
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         data-slot="select-content"
-        className={cn('select-content', position === 'popper' && 'select-content-popper', className)}
+        className={cn('list-content select-content', position === 'popper' && 'select-content-popper', className)}
         position={position}
         align={align}
         {...props}

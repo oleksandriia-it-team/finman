@@ -12,12 +12,12 @@
   outline: none;
   padding: var(--viewport-padding) !important;
 
-  @media screen and (min-width: 768px) {
+  @media screen and (width >= 768px) {
     bottom: 0;
     right: 0;
   }
 
-  @media screen and (max-width: 767px) {
+  @media screen and (width <= 767px) {
     bottom: 0;
     right: 50%;
     transform: translateX(50%);

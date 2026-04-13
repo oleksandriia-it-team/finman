@@ -1,9 +1,7 @@
 @use 'sass:map';
 @import 'variables';
 
-
 @mixin mediascreen($type) {
-
   @if map.has-key($breakpoints, $type) {
     @media screen and (min-width: map.get($breakpoints, $type)) {
       @content;
@@ -14,5 +12,3 @@
     }
   }
 }
-
-
