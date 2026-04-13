@@ -4,6 +4,7 @@ import { LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema'
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { LoginResponse } from '@common/domains/auth/models/responses/login.response';
+import { ApiResultOperation } from '@common/models/api-result-operation.model';
 
 export function useSetupLogin(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
@@ -14,12 +15,12 @@ export function useSetupLogin(onSuccessAction: () => void) {
         body: JSON.stringify(data),
       });
 
-      return handleResponse<LoginResponse>(response);
+      return handleResponse<ApiResultOperation<LoginResponse>>(response);
     },
     {
       successMessage: 'Вхід виконано успішно!',
       onSuccess: (result) => {
-        if (result?.data?.token) {
+        if (result.status === 200) {
           document.cookie = `token=${result.data.token}; path=/; max-age=86400`;
         }
         onSuccessAction();

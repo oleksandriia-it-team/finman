@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { CreateRouteConfig, ReturnRouteExecute, RouteContext, RouteContextParams } from '../models/create-route.model';
 import { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { z, ZodTypeAny } from 'zod';
-import { getZodErrorMessage } from './get-zod-error-message.util';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
   config: CreateRouteConfig<Schema, TR, BTR, R, TP>,
