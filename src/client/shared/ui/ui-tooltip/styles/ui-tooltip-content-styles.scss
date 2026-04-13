@@ -1,0 +1,104 @@
+.tooltip-content {
+  --tooltip-slide-animation: slideUpAndFade;
+  &[data-state='delayed-open'],
+  &[data-state='instant-open'] {
+    animation-name: zoomIn, var(--tooltip-slide-animation);
+    animation-duration: 150ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: forwards;
+  }
+  &[data-state='closed'] {
+    animation-name: zoomOut;
+  }
+
+  &[data-side='top'] {
+    --tooltip-slide-animation: slideDownAndFade;
+  }
+
+  &[data-side='right'] {
+    --tooltip-slide-animation: slideLeftAndFade;
+  }
+
+  &[data-side='bottom'] {
+    --tooltip-slide-animation: slideUpAndFade;
+  }
+
+  &[data-side='left'] {
+    --tooltip-slide-animation: slideRightAndFade;
+  }
+}
+.tooltip-arrow {
+  z-index: 50;
+  width: 0.625rem;
+  height: 0.625rem;
+  transform: translateY(calc(-50% - 2px)) rotate(45deg);
+  border-radius: 2px;
+  background-color: var(--foreground);
+  fill: var(--foreground);
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(2px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-2px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(2px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}

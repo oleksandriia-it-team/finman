@@ -1,0 +1,70 @@
+.sidebar-rail {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  width: 1rem;
+  transform: translateX(-50%);
+  transition: all;
+  transition-timing-function: linear;
+
+  @media (min-width: 640px) {
+    display: flex;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-y: 0;
+    left: 50%;
+    width: 2px;
+  }
+
+  &:hover::after {
+    background-color: var(--sidebar-border);
+  }
+
+  .group[data-side='left'] & {
+    right: -1rem;
+  }
+
+  .group[data-side='right'] & {
+    left: 0;
+  }
+
+  .in[data-side='left'] & {
+    cursor: w-resize;
+  }
+
+  .in[data-side='right'] & {
+    cursor: e-resize;
+  }
+
+  .group[data-side='left'][data-state='collapsed'] & {
+    cursor: e-resize;
+  }
+
+  .group[data-side='right'][data-state='collapsed'] & {
+    cursor: w-resize;
+  }
+
+  .group[data-collapsible='offcanvas'] & {
+    transform: translateX(0);
+
+    &::after {
+      left: 100%;
+    }
+
+    &:hover {
+      background-color: var(--sidebar);
+    }
+  }
+
+  .group[data-side='left'][data-collapsible='offcanvas'] & {
+    right: -0.5rem;
+  }
+
+  .group[data-side='right'][data-collapsible='offcanvas'] & {
+    left: -0.5rem;
+  }
+}

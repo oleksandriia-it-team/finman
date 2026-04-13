@@ -3,7 +3,7 @@ import { IconSize } from '@frontend/ui/ui-svg-icon/props/svg-icon.props';
 
 export interface IconButtonProps extends ButtonProps {
   className?: string | undefined;
-  size: IconSize;
+  size?: IconSize;
   icon: string;
   isOutlined?: boolean;
   borderNone?: boolean;
