@@ -47,15 +47,13 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
     if (schema) {
       try {
         const json = await request.json();
-        console.log(json);
         const schemaResult = schema.safeParse(json);
 
         if (!schemaResult.success) {
           return NextResponse.json(getZodErrorMessage(schemaResult), { status: 400 });
         }
         body = schemaResult.data as z.infer<Schema>;
-      } catch (e) {
-        console.log(e);
+      } catch {
         return NextResponse.json({ status: 400, message: 'Невалідний JSON' }, { status: 400 });
       }
     }
