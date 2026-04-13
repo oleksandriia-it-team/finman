@@ -4,7 +4,7 @@ import StreamArray from 'stream-json/streamers/StreamArray';
 import { getItem } from '../get-item.util';
 import path from 'node:path';
 import { PathToPublic } from '@common/path-to-public.constant';
-import { CountryAndLocale } from '@common/records/countries.record';
+import { type CountryAndLocale } from '@common/records/countries.record';
 
 import './mocks/fs.mock';
 import './mocks/stream-array.mock';

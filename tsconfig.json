@@ -6,6 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "verbatimModuleSyntax": true,
     "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
@@ -37,12 +38,24 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@frontend/ui/*": ["src/client/shared/ui/*"],
-      "@frontend/components/*": ["src/client/shared/components/*"],
-      "@frontend/shared/*": ["src/client/shared/*"],
-      "@frontend/*": ["src/client/*"],
-      "@backend/*": ["src/server/*"],
-      "@common/*": ["src/common/*"]
+      "@frontend/ui/*": [
+        "src/client/shared/ui/*"
+      ],
+      "@frontend/components/*": [
+        "src/client/shared/components/*"
+      ],
+      "@frontend/shared/*": [
+        "src/client/shared/*"
+      ],
+      "@frontend/*": [
+        "src/client/*"
+      ],
+      "@backend/*": [
+        "src/server/*"
+      ],
+      "@common/*": [
+        "src/common/*"
+      ]
     }
   },
   "include": [

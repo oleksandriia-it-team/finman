@@ -9,9 +9,9 @@
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
       @include toast-variant(
-        nth($colors, 1),
-        nth($colors, 2),
-        nth($colors, 1)
+                      nth($colors, 1),
+                      nth($colors, 2),
+                      nth($colors, 1)
       );
     }
   }

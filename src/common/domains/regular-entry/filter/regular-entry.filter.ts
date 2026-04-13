@@ -1,4 +1,4 @@
-import { TypeEntry } from '@common/enums/entry.enum';
+import { type TypeEntry } from '@common/enums/entry.enum';
 
 export interface RegularEntryFilter {
   type: TypeEntry.Expense | TypeEntry.Income;

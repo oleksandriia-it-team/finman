@@ -4,11 +4,11 @@
   flex-direction: column;
   gap: 1rem;
 
-  &[data-slot="checkbox-group"] {
+  &[data-slot='checkbox-group'] {
     gap: 0.5rem;
   }
 
-  & > [data-slot="field-group"] {
+  & > [data-slot='field-group'] {
     gap: 0.75rem;
   }
 }

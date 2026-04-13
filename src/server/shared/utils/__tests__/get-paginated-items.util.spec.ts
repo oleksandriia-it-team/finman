@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getPaginatedItems } from '../get-paginated-items.util';
-import { CountryAndLocale } from '@common/records/countries.record';
+import { type CountryAndLocale } from '@common/records/countries.record';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
 import fs from 'fs';
 import path from 'node:path';

@@ -1,31 +1,31 @@
 @use '../styles/blot';
 @import '../../../../../shared/styles/functions';
 
-.bg-blot{
+.bg-blot {
   width: 37.5rem;
   height: 37.5rem;
-  filter:blur(6rem);
+  filter: blur(6rem);
 
 }
 
-.bg-pink-blot{
+.bg-pink-blot {
   background-color: var(--pink);
   opacity: 15%;
-  top:-5rem;
-  left:-5rem;
+  top: -5rem;
+  left: -5rem;
 
 }
 
-.blue-blot{
+.blue-blot {
   background-color: var(--primary);
   opacity: 15%;
-  bottom:-5rem;
-  right:-5rem;
+  bottom: -5rem;
+  right: -5rem;
 
 }
 
 .step-background {
-  background-color: getOpacity(var(--card),90%);
+  background-color: getOpacity(var(--card), 90%);
   transition: background-color 0.4s ease;
   isolation: isolate;
 }
@@ -41,7 +41,7 @@
 }
 
 .icon-card-wrapper {
-  background-color: getOpacity(var(--card),90%);
+  background-color: getOpacity(var(--card), 90%);
   border: 1px solid var(--border);
   backdrop-filter: blur(0.75rem);
   border-radius: 1.5rem;
@@ -65,11 +65,19 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.3; }
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 @keyframes smooth-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }

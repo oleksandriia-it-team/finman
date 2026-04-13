@@ -1,4 +1,6 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
+import 'reflect-metadata';
+
+import { DataSource, type DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '@common/constants/env-config.constant';

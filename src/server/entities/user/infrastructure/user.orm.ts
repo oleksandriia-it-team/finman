@@ -1,11 +1,9 @@
-import 'reflect-metadata';
-
 import { Column, Entity, OneToMany } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../shared/infrastructure/default-table-columns.orm';
-import { FullUserData } from '@common/records/user.record';
+import { type FullUserData } from '@common/records/user.record';
 import { UserRequirements } from '@common/domains/user/constants/user-requirements.constant';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
-import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
+import { type RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
 
 @Entity('user')
 export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
@@ -21,6 +19,6 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
   @Column({ type: 'varchar', length: UserRequirements.MaxPasswordLength, select: false })
   password!: string;
 
-  @OneToMany(() => RegularEntryOrm, (r) => r.user)
+  @OneToMany('RegularEntryOrm', 'user')
   regularEntries!: RegularEntryOrm[];
 }

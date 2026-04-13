@@ -1,5 +1,5 @@
-import { ApiResultOperationError } from '@common/models/api-result-operation.model';
-import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
+import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { type RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
 
 export function OwnsRegularEntryGuard(
   regularEntry: RegularEntryOrm | null,
