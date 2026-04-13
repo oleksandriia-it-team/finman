@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { LazyLoadProps } from './props/lazy-load.props';
-import { ChildrenComponentProps } from '../../models/component-with-chilren.model';
+import { type LazyLoadProps } from './props/lazy-load.props';
+import { type ChildrenComponentProps } from '../../models/component-with-chilren.model';
 import { usePreviousValue } from '../../hooks/previous-value/previous-value.hook';
 import { useEventHandler } from '../../hooks/event-handler/event-handler.hook';
 import { isEmpty } from '@common/utils/is-empty.util';

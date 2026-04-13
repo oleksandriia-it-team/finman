@@ -1,6 +1,6 @@
 import { Select as SelectPrimitive } from 'radix-ui';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { UiSelectScrollDownButton, UiSelectScrollUpButton } from './ui-select-scroll-buttons';
 
 import './styles/select-content-styles.scss';

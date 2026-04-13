@@ -1,5 +1,5 @@
 import { Select as SelectPrimitive } from 'radix-ui';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 export function UiSelectLabel(props: ComponentProps<typeof SelectPrimitive.Label>) {
   return (

@@ -1,4 +1,4 @@
-import { ComponentDefaultProps } from './component.props';
+import { type ComponentDefaultProps } from './component.props';
 
 export interface InputDefaultProps extends Omit<ComponentDefaultProps, 'onChange' | 'onInput'> {
   value?: string | undefined | null;

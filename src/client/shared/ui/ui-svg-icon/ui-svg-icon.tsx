@@ -1,4 +1,4 @@
-import { SvgIconProps } from './props/svg-icon.props';
+import { type SvgIconProps } from './props/svg-icon.props';
 import { useMemo } from 'react';
 import { useDynamicKey } from '../../hooks/dynamic-key/dynamic-key.hook';
 import { cn } from '../../utils/cn.util';

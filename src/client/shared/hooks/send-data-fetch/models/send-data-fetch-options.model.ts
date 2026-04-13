@@ -1,4 +1,4 @@
-import { UseMutationOptions } from '@tanstack/react-query';
+import { type UseMutationOptions } from '@tanstack/react-query';
 
 export interface AppMutationOptions<TData, TError, TVariables, TContext> extends UseMutationOptions<
   TData,

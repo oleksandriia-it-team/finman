@@ -1,4 +1,4 @@
-import { UiGraphicProps } from '@frontend/ui/ui-graphic/props/ui-graphic.props';
+import { type UiGraphicProps } from '@frontend/ui/ui-graphic/props/ui-graphic.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 import Image from 'next/image';
 import React from 'react';

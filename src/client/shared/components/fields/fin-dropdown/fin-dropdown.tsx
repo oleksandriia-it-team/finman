@@ -1,4 +1,4 @@
-import { DefaultDropdownInputProps, LazyDropdownInputProps } from '../props/input.props';
+import { type DefaultDropdownInputProps, type LazyDropdownInputProps } from '../props/input.props';
 import { FinLazyDropdown } from './fin-lazy-dropdown';
 import { FinDefaultDropdown } from './fin-default-dropdown';
 

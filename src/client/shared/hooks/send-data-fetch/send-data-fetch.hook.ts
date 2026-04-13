@@ -1,6 +1,6 @@
-import { MutationFunction, useMutation, UseMutationOptions } from '@tanstack/react-query';
+import { type MutationFunction, useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import { ApiError } from '@frontend/shared/models/api-error.model';
+import { type ApiError } from '@frontend/shared/models/api-error.model';
 
 export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,

@@ -5,7 +5,7 @@ import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { useState } from 'react';
-import { ControlledInputProps } from '@frontend/components/controlled-fields/props/controlled-input.props';
+import { type ControlledInputProps } from '@frontend/components/controlled-fields/props/controlled-input.props';
 
 export function FinControlledPassword({
   name,

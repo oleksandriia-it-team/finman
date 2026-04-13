@@ -1,6 +1,6 @@
-import { Toast } from 'radix-ui';
-import { ComponentProps } from 'react';
-import { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
+import { type Toast } from 'radix-ui';
+import { type ComponentProps } from 'react';
+import { type ColorVariantModel } from '@frontend/shared/models/color-variant.model';
 
 export type ToastVariant = ColorVariantModel;
 

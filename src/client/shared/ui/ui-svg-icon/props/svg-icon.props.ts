@@ -1,5 +1,5 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
+import { type ComponentPropsWithoutRef } from 'react';
+import { type SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
 export type IconSize = SizeVariantModel;
 

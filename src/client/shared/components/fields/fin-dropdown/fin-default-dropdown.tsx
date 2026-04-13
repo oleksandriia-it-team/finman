@@ -1,6 +1,6 @@
 'use client';
 
-import { DefaultDropdownInputProps } from '../props/input.props';
+import { type DefaultDropdownInputProps } from '../props/input.props';
 import { useMemo, useState } from 'react';
 import { UiSelectGroup } from '@frontend/ui/ui-select/ui-select-group';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';

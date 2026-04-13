@@ -1,8 +1,8 @@
 import { CrudApiRepository } from '@backend/shared/infrastructure/crud.api.repository';
 import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
-import { DeepPartial } from '@common/models/deep-partial.model';
-import { FindOptionsWhere } from 'typeorm';
-import { RegularEntryApiFilter } from '@backend/entities/regular-entry/domain/regular-entry-api.filter';
+import { type DeepPartial } from '@common/models/deep-partial.model';
+import { type FindOptionsWhere } from 'typeorm';
+import { type RegularEntryApiFilter } from '@backend/entities/regular-entry/domain/regular-entry-api.filter';
 
 export class RegularEntryApiRepository extends CrudApiRepository<RegularEntryOrm, RegularEntryApiFilter> {
   protected override mapFilters(

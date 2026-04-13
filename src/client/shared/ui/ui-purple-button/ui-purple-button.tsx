@@ -1,6 +1,6 @@
 'use client';
 
-import { ButtonProps } from '../ui-button/props/button.props';
+import { type ButtonProps } from '../ui-button/props/button.props';
 import { cn } from '../../utils/cn.util';
 import { Slot } from 'radix-ui';
 

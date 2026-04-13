@@ -1,10 +1,10 @@
-import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
-import { LookupsFilters } from '@common/domains/lookups/models/lookups-filters';
+import { type LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
+import { type LookupsFilters } from '@common/domains/lookups/models/lookups-filters';
 import { LookupsEndpoints, LookupsTypeEndpoints } from '@common/domains/lookups/endpoints/lookups.endpoints';
 import { LookupsTypeRequest } from '@common/domains/lookups/enums/lookups-type-request.enum';
-import { LookupsResponseResult } from '@common/domains/lookups/models/get-lookups-items-result';
-import { LookupsDto } from '@common/domains/lookups/models/lookups-dto';
-import { ApiResultOperation, ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
+import { type LookupsResponseResult } from '@common/domains/lookups/models/get-lookups-items-result';
+import { type LookupsDto } from '@common/domains/lookups/models/lookups-dto';
+import { type ApiResultOperation, type ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 
 /**
  * Service for handling lookup operations

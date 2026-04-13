@@ -1,4 +1,4 @@
-import { DropdownResource, DropdownResourceConfig } from './models/dropdown-resource.model';
+import { type DropdownResource, type DropdownResourceConfig } from './models/dropdown-resource.model';
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';

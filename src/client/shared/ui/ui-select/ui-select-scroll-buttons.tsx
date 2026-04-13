@@ -1,6 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { Select as SelectPrimitive } from 'radix-ui';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { UiSvgIcon } from '../ui-svg-icon/ui-svg-icon';
 
 export function UiSelectScrollUpButton({ className, ...props }: ComponentProps<typeof SelectPrimitive.ScrollUpButton>) {

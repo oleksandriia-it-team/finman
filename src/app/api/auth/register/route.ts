@@ -1,5 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { RegisterDto, RegisterSchema } from '@common/domains/auth/schema/register.schema';
+import { type RegisterDto, RegisterSchema } from '@common/domains/auth/schema/register.schema';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';

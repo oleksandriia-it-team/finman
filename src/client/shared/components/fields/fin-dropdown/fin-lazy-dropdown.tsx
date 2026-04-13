@@ -1,8 +1,8 @@
 'use client';
 
-import { LazyDropdownInputProps } from '../props/input.props';
+import { type LazyDropdownInputProps } from '../props/input.props';
 import { useEffect, useMemo, useState } from 'react';
-import { DropdownOption } from '../../../models/dropdown-option.model';
+import { type DropdownOption } from '../../../models/dropdown-option.model';
 import { UiLazyLoad } from '@frontend/ui/ui-lazy-load/ui-lazy-load';
 import { UiSelectItem } from '@frontend/ui/ui-select/ui-select-item';
 import { UiSelect } from '@frontend/ui/ui-select/ui-select';

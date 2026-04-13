@@ -1,6 +1,6 @@
-import { RouteGuardParams } from '@backend/shared/models/create-route.model';
+import { type RouteGuardParams } from '@backend/shared/models/create-route.model';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 export async function AuthGuard<BTR extends number | null | { userId: number | null }>(
   data: RouteGuardParams<BTR, unknown, unknown>,

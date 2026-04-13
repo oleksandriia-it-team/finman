@@ -1,4 +1,4 @@
-import { DropdownOption } from '../models/dropdown-option.model';
+import { type DropdownOption } from '../models/dropdown-option.model';
 
 export interface DropdownDefaultProps<T> {
   options: DropdownOption<T>[];

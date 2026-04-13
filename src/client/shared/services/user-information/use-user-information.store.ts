@@ -1,6 +1,6 @@
 import {
-  UserInformation,
-  UserInformationStore,
+  type UserInformation,
+  type UserInformationStore,
 } from '@frontend/shared/services/user-information/models/user-infomation.model';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';

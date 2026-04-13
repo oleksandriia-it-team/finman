@@ -1,6 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSeparator } from '../ui-separator/ui-separator';
-import { ComponentDefaultProps } from '@frontend/shared/props/component.props';
+import { type ComponentDefaultProps } from '@frontend/shared/props/component.props';
 
 import './styles/ui-field-separator-styles.scss';
 

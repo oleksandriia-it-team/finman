@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DatabaseLocalService } from '../../../database/database.local.service';
 import { RegularEntryLocalRepository } from '../regular-entry.local.repository';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { RegularEntry } from '@common/records/regular-entry.record';
-import { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { type RegularEntry } from '@common/records/regular-entry.record';
+import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 describe('RegularEntryLocalRepository', () => {
   let dbService: DatabaseLocalService;

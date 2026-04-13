@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
-import { InputDefaultProps } from '../../../props/input-default.props';
-import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
-import { LazyEventProps } from '../../../props/lazy-event.props';
+import { type Dispatch, type SetStateAction } from 'react';
+import { type InputDefaultProps } from '../../../props/input-default.props';
+import { type DropdownDefaultProps } from '../../../props/dropdown-default.props';
+import { type LazyEventProps } from '../../../props/lazy-event.props';
 
 export interface InputProps<T> extends InputDefaultProps {
   onChange: Dispatch<SetStateAction<T | undefined>>;
