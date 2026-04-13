@@ -19,7 +19,7 @@ export const DELETE = createRoute({
     ({ context: { userId, regularEntry } }) => OwnsRegularEntryGuard(regularEntry, userId as number, true),
   ],
   execute: async ({ params: { id } }) => {
-    await regularEntryApiRepository.deleteItem(id);
+    await regularEntryApiRepository.deleteItem(id, true);
 
     return {
       status: 200,

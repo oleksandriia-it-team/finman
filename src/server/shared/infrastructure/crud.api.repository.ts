@@ -45,7 +45,13 @@ export abstract class CrudApiRepository<
     return this.repository.find({ skip, take, where: where as FindOptionsWhere<T> });
   }
 
-  async deleteItem(id: number): Promise<true> {
+  async deleteItem(id: number, softDeleted?: boolean): Promise<true> {
+    if (softDeleted) {
+      await this.repository.update({ id } as FindOptionsWhere<T>, { softDeleted: 1 } as T);
+
+      return true;
+    }
+
     await this.repository.delete({ id } as FindOptionsWhere<T>);
 
     return true;

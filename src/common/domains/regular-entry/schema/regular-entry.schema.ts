@@ -6,16 +6,36 @@ import { createPaginatedSchema } from '@common/utils/create-paginated-schema.uti
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
 export const RegularEntrySchema = z.object({
-  id: z.int().min(1),
-  title: z.string().min(1).max(RegularEntryRequirements.MaxTitleLength),
-  description: z.string().min(1).max(RegularEntryRequirements.MaxDescriptionLength),
-  sum: z.number().min(RegularEntryRequirements.MinSumValue),
-  type: z.enum(RegularEntryTypes),
+  id: z.number().int({ message: 'ID має бути цілим числом' }).min(1, { message: 'ID не може бути менше 1' }),
+
+  title: z
+    .string('Назва має бути строкою')
+    .min(1, { message: "Назва обов'язкова" })
+    .max(RegularEntryRequirements.MaxTitleLength, {
+      message: `Назва не може бути довшою за ${RegularEntryRequirements.MaxTitleLength} символів`,
+    }),
+
+  description: z
+    .string('Опис має бути строкою')
+    .min(1, { message: "Опис обов'язковий" })
+    .max(RegularEntryRequirements.MaxDescriptionLength, {
+      message: `Опис не може бути довшим за ${RegularEntryRequirements.MaxDescriptionLength} символів`,
+    }),
+
+  sum: z.number({ message: 'Сума має бути числом' }).min(RegularEntryRequirements.MinSumValue, {
+    message: `Мінімальна сума: ${RegularEntryRequirements.MinSumValue}`,
+  }),
+
+  type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }),
 });
 
 export const RegularEntryFilterSchema = z.object({
-  type: z.enum(RegularEntryTypes),
-  softDeleted: z.number().min(0).max(1),
+  type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }).optional(),
+  softDeleted: z
+    .number({ message: 'Поле softDeleted має бути числом' })
+    .min(0, { message: 'Поле softDeleted має бути 0 або 1' })
+    .max(1, { message: 'Поле softDeleted має бути 0 або 1' })
+    .optional(),
 });
 
 export const RegularEntryPaginationSchema = createPaginatedSchema(RegularEntryFilterSchema);

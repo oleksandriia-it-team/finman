@@ -6,7 +6,9 @@ import { regularEntryApiRepository } from '@backend/entities/regular-entry/infra
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 
 export const POST = createRoute({
-  schema: RegularEntrySchema,
+  schema: RegularEntrySchema.omit({
+    id: true,
+  }),
   contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
   execute: async ({ context, body }) => {

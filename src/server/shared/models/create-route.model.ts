@@ -1,6 +1,6 @@
-import { ApiResultOperation, ApiResultOperationError } from '@common/models/api-result-operation.model';
-import { NextResponse } from 'next/server';
-import { z, ZodTypeAny } from 'zod';
+import { type ApiResultOperation, type ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { type NextResponse } from 'next/server';
+import { type z, type ZodTypeAny } from 'zod';
 
 export type RouteContextParams = Record<string, string | string[]>;
 export type RouteContext = { params: Promise<RouteContextParams> };

@@ -1,4 +1,4 @@
-import { z, ZodType } from 'zod';
+import { z, type ZodType } from 'zod';
 
 export function createPaginatedSchema<Filters extends ZodType<unknown>>(filtersSchema: Filters) {
   return {

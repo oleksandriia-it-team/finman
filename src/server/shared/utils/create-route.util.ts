@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
-import { CreateRouteConfig, ReturnRouteExecute, RouteContext, RouteContextParams } from '../models/create-route.model';
-import { ApiResultOperation } from '@common/models/api-result-operation.model';
-import { z, ZodTypeAny } from 'zod';
+import {
+  type CreateRouteConfig,
+  type ReturnRouteExecute,
+  type RouteContext,
+  type RouteContextParams,
+} from '../models/create-route.model';
+import { type ApiResultOperation } from '@common/models/api-result-operation.model';
+import { type z, type ZodTypeAny } from 'zod';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
@@ -42,14 +47,16 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
     if (schema) {
       try {
         const json = await request.json();
+        console.log(json);
         const schemaResult = schema.safeParse(json);
 
         if (!schemaResult.success) {
           return NextResponse.json(getZodErrorMessage(schemaResult), { status: 400 });
         }
         body = schemaResult.data as z.infer<Schema>;
-      } catch {
-        return NextResponse.json({ status: 400, message: 'Invalid JSON' }, { status: 400 });
+      } catch (e) {
+        console.log(e);
+        return NextResponse.json({ status: 400, message: 'Невалідний JSON' }, { status: 400 });
       }
     }
 
