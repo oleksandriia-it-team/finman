@@ -30,23 +30,20 @@
   --sidebar-accent-foreground: rgb(1 82 203);
   --sidebar-border: rgb(228 232 239);
   --sidebar-ring: rgb(2 101 253);
-  --overlay-background: rgba(0, 0, 0, 0.5);
-  --shadow-color: rgb(0, 0, 0);
-
-  --font-sans: Inter, sans-serif;
-  --font-serif: Source Serif 4, serif;
-  --font-mono: IBM Plex Mono, monospace;
-
+  --overlay-background: rgb(0 0 0 / 50%);
+  --shadow-color: rgb(0 0 0);
+  --font-sans: inter, sans-serif;
+  --font-serif: source serif 4, serif;
+  --font-mono: ibm plex mono, monospace;
   --radius: 0.375rem;
-
-  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
-  --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
-  --shadow: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 1px 2px -1px rgb(0 0 0 / 0.10);
-  --shadow-md: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 2px 4px -1px rgb(0 0 0 / 0.10);
-  --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 4px 6px -1px rgb(0 0 0 / 0.10);
-  --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 0.10), 0 8px 10px -1px rgb(0 0 0 / 0.10);
-  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 0.25);
+  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
+  --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
+  --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+  --shadow: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
+  --shadow-md: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 4px 6px -1px rgb(0 0 0 / 10%);
+  --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 8px 10px -1px rgb(0 0 0 / 10%);
+  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 25%);
 
   // Custom colors
   /* Success / Green */
@@ -93,5 +90,3 @@
 
 
 
-
-}

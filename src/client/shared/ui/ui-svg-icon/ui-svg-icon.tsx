@@ -5,7 +5,7 @@ import { cn } from '../../utils/cn.util';
 
 import './styles/svg-icon-sizes.scss';
 
-export function UiSvgIcon({ name, size, className, ...props }: SvgIconProps) {
+export function UiSvgIcon({ name, size = 'default', className, ...props }: SvgIconProps) {
   const dynamicKey = useDynamicKey(name);
 
   const classes = useMemo(

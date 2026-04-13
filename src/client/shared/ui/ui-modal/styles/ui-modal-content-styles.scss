@@ -14,29 +14,45 @@
   border: 1px solid var(--border);
   background-color: var(--background);
   padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px getOpacity(var(--shadow-color), 90%), 0 4px 6px -4px getOpacity(var(--shadow-color), 90%);
+  box-shadow:
+    0 10px 15px -3px getOpacity(var(--shadow-color), 90%),
+    0 4px 6px -4px getOpacity(var(--shadow-color), 90%);
   outline: none;
   transition-duration: 200ms;
 
-  @media (min-width: 640px) {
+  @media (width >= 640px) {
     max-width: 32rem;
   }
 
   &[data-state='open'] {
-    animation: fadeIn 0.15s ease-out, modalZoomIn 0.15s ease-out;
+    animation:
+      fadeIn 0.15s ease-out,
+      modalZoomIn 0.15s ease-out;
   }
 
   &[data-state='closed'] {
-    animation: fadeOut 0.15s ease-in, modalZoomOut 0.15s ease-in;
+    animation:
+      fadeOut 0.15s ease-in,
+      modalZoomOut 0.15s ease-in;
   }
 }
 
 @keyframes modalZoomIn {
-  from { transform: translate(-50%, -50%) scale(0.95); }
-  to   { transform: translate(-50%, -50%) scale(1); }
+  from {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @keyframes modalZoomOut {
-  from { transform: translate(-50%, -50%) scale(1); }
-  to   { transform: translate(-50%, -50%) scale(0.95); }
+  from {
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
 }

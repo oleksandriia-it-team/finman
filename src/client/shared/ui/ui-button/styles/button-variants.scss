@@ -1,5 +1,4 @@
 @use 'sass:list';
-
 @import './button-variant-mixin';
 @import '../../../styles/variants';
 
@@ -14,14 +13,13 @@
         }
       }
 
-      &[data-outlined="false"] {
+      &[data-outlined='false'] {
         @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
       }
 
-      &[data-outlined="true"] {
+      &[data-outlined='true'] {
         @include btn-outline-variant(list.nth($colors, 1));
       }
-
     }
   }
 
@@ -31,13 +29,17 @@
     }
   }
 
-  &[data-rounded] { border-radius: 9999px; }
-  &[data-bg-none] {
-    background-color: transparent;;
+  &[data-rounded='true'] {
+    border-radius: 9999px;
+  }
+
+  &[data-bg-none='true'] {
+    background-color: transparent !important;
+
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent;
+      background-color: transparent !important;
     }
   }
 }
