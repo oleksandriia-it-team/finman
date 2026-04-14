@@ -5,10 +5,10 @@ import { userApiRepository } from '@backend/entities/user/infrastructure/user.re
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 
 export const GET = createRoute({
-  guardsBeforeTransformers: GetUserIdTransformer,
+  contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
-  execute: async ({ beforeGuardTransformers }) => {
-    const userId = beforeGuardTransformers as number;
+  execute: async ({ context }) => {
+    const userId = context as number;
 
     const user = await userApiRepository.getItemById(userId);
 

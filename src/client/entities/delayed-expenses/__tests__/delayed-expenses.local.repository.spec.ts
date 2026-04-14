@@ -3,8 +3,8 @@ import { DelayedExpensesLocalRepository } from '../delayed-expenses.local.reposi
 import { DatabaseLocalService } from '../../../database/database.local.service';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { Month } from '@common/enums/month.enum';
-import { DelayedExpense } from '@common/records/delayed-expenses.record';
-import { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { type DelayedExpense } from '@common/records/delayed-expenses.record';
+import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 describe('DelayedExpensesLocalRepository', () => {
   let dbService: DatabaseLocalService;

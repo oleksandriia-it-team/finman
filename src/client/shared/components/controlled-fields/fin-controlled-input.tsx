@@ -1,5 +1,5 @@
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
-import { ControlledInputProps } from './props/controlled-input.props';
+import { type ControlledInputProps } from './props/controlled-input.props';
 import { Controller, useFormContext } from 'react-hook-form';
 import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';

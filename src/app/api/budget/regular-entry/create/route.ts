@@ -1,0 +1,25 @@
+import { createRoute } from '@backend/shared/utils/create-route.util';
+import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
+import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
+import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
+import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
+import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+
+export const POST = createRoute({
+  schema: RegularEntrySchema.omit({
+    id: true,
+  }),
+  contextFn: GetUserIdTransformer,
+  guards: [AuthGuard],
+  execute: async ({ context, body }) => {
+    const userId = context as number;
+
+    await regularEntryApiRepository.createItem({ ...body, userId });
+
+    return {
+      status: 200,
+      data: true,
+    };
+  },
+  filter: getDefaultApiErrorFilter,
+});

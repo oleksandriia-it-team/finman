@@ -1,6 +1,6 @@
 import { Toast } from 'radix-ui';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { UiToastContentProps } from './props/toast-content.props';
+import { type UiToastContentProps } from './props/toast-content.props';
 
 import './styles/toast-content-styles.scss';
 import './styles/toast-variants.scss';

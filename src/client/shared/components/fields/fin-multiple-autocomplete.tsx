@@ -1,4 +1,4 @@
-import { DefaultAutocompleteMultipleInputProps } from '@frontend/components/fields/props/input.props';
+import { type DefaultAutocompleteMultipleInputProps } from '@frontend/components/fields/props/input.props';
 import { UiCombobox } from '@frontend/ui/ui-combobox/ui-combobox';
 import { useState } from 'react';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';

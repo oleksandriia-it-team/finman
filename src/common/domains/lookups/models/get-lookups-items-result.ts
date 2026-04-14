@@ -1,4 +1,4 @@
-import { LookupsTypeRequest } from '../enums/lookups-type-request.enum';
+import { type LookupsTypeRequest } from '../enums/lookups-type-request.enum';
 
 export interface LookupsResponseResult<T> {
   [LookupsTypeRequest.GetById]: T | null;

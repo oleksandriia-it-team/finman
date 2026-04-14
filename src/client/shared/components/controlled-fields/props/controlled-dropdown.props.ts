@@ -1,7 +1,7 @@
-import { InputDefaultProps } from '../../../props/input-default.props';
-import { DefaultAutocompleteInputProps, DefaultDropdownInputProps } from '../../fields/props/input.props';
-import { InputControlProps } from '../../../props/input-control.props';
-import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { type InputDefaultProps } from '../../../props/input-default.props';
+import { type DefaultAutocompleteInputProps, type DefaultDropdownInputProps } from '../../fields/props/input.props';
+import { type InputControlProps } from '../../../props/input-control.props';
+import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 type ControlledDefaultProps<T> = Omit<InputDefaultProps, 'value' | 'onChange'> &
   Omit<DefaultDropdownInputProps<T>, 'onChange'>;

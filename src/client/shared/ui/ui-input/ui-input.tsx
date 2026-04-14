@@ -1,9 +1,9 @@
 'use client';
 
-import { InputProps } from '@frontend/components/fields/props/input.props';
+import { type InputProps } from '@frontend/components/fields/props/input.props';
 
 import { cn } from '@frontend/shared/utils/cn.util';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 import './styles/input-styles.scss';
 

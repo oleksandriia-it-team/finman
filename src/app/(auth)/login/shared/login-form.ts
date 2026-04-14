@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema';
+import { type LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { LoginResponse } from '@common/domains/auth/models/responses/login.response';
-import { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
+import { type LoginResponse } from '@common/domains/auth/models/responses/login.response';
+import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 
 export function useSetupLogin(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(

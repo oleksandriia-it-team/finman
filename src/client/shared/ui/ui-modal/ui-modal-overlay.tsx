@@ -1,5 +1,5 @@
 import { Dialog as DialogPrimitive } from 'radix-ui';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/ui-modal-overlay-styles.scss';

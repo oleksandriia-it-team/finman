@@ -1,5 +1,5 @@
 import { LoaderSvg } from '@frontend/shared/svg/loader-svg';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiSpinner({ className, ...props }: ComponentProps<'svg'>) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 export interface UiGraphicProps {
   src: string | React.ElementType<{ className?: string }>;

@@ -2,8 +2,8 @@ import { useOptionsResource } from '@frontend/shared/hooks/options-resource/opti
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useQuery } from '@tanstack/react-query';
-import { CountryAndLocale } from '@common/records/countries.record';
-import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { type CountryAndLocale } from '@common/records/countries.record';
+import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { useCallback, useRef, useState } from 'react';
 

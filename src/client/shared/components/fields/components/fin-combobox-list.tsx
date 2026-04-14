@@ -2,7 +2,7 @@ import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
 import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
-import { LazyOptionsProps } from '@frontend/components/fields/props/input.props';
+import { type LazyOptionsProps } from '@frontend/components/fields/props/input.props';
 
 export function FinComboboxList<T>({
   optionListClassName,

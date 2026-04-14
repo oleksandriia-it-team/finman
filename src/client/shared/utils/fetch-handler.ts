@@ -1,4 +1,4 @@
-import { ApiError } from '@frontend/shared/models/api-error.model';
+import { type ApiError } from '@frontend/shared/models/api-error.model';
 
 /**
  * Handles the fetch API response, parsing JSON and managing empty bodies or errors.

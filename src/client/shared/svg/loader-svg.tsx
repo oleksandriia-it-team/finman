@@ -1,4 +1,4 @@
-import { SVGProps } from 'react';
+import { type SVGProps } from 'react';
 
 export function LoaderSvg({ width = 24, height = 24, ...props }: SVGProps<SVGSVGElement>) {
   return (

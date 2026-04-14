@@ -1,4 +1,4 @@
-import { RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
+import { type RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
 import { EnvConfigConstant } from '@common/constants/env-config.constant';
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { isEmpty } from '@common/utils/is-empty.util';

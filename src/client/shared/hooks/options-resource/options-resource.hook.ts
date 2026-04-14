@@ -1,10 +1,10 @@
-import { DropdownResource, DropdownResourceConfig } from './models/dropdown-resource.model';
+import { type DropdownResource, type DropdownResourceConfig } from './models/dropdown-resource.model';
 import { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
-import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 export function useOptionsResource<T, Multiple extends boolean = false>({
   multiple,

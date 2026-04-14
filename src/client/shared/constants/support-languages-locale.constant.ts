@@ -1,5 +1,5 @@
 import { SupportLanguages } from '@common/enums/support-languages.enum';
-import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 export const SupportLanguagesLocale: DropdownOption<SupportLanguages>[] = [
   {

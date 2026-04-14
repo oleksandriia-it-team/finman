@@ -1,6 +1,6 @@
-import { ComponentPropsWithRef } from 'react';
-import { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
-import { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
+import { type ComponentPropsWithRef } from 'react';
+import { type ColorVariantModel } from '@frontend/shared/models/color-variant.model';
+import { type SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
 export type ButtonVariant = ColorVariantModel;
 

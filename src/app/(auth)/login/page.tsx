@@ -7,12 +7,12 @@ import './shared/login-form.scss';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
-import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input/fin-controlled-input';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
+import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 
 export default function LoginPage() {
   const router = useRouter();

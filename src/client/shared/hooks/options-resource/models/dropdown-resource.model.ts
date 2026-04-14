@@ -1,6 +1,6 @@
-import { PromiseState } from '../../../enums/promise-state.enum';
-import { DropdownOption } from '../../../models/dropdown-option.model';
-import { UseQueryResult } from '@tanstack/react-query';
+import { type PromiseState } from '../../../enums/promise-state.enum';
+import { type DropdownOption } from '../../../models/dropdown-option.model';
+import { type UseQueryResult } from '@tanstack/react-query';
 
 export interface DropdownResourceConfig<T, Multiple extends boolean = false> {
   multiple?: Multiple;

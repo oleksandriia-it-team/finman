@@ -5,7 +5,7 @@ import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/combobox-chips-styles.scss';
-import { ComboboxMultipleChips } from '@frontend/ui/ui-combobox/props/combobox-input.props';
+import { type ComboboxMultipleChips } from '@frontend/ui/ui-combobox/props/combobox-input.props';
 
 export function UiComboboxChips({ className, 'data-invalid': dataInvalid, ...props }: ComboboxMultipleChips) {
   return (

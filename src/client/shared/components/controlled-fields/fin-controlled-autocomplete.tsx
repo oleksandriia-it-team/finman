@@ -1,4 +1,4 @@
-import { ControlledLazyAutocompleteProps } from '@frontend/components/controlled-fields/props/controlled-dropdown.props';
+import { type ControlledLazyAutocompleteProps } from '@frontend/components/controlled-fields/props/controlled-dropdown.props';
 import { Controller, useFormContext } from 'react-hook-form';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';

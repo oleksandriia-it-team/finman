@@ -1,8 +1,8 @@
 import { cn } from '../../utils/cn.util';
 import useEmblaCarousel from 'embla-carousel-react';
-import { StepperApi, StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
+import { type StepperApi, type StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
 import { StepperContext } from './hooks/stepper-context.hook';
-import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
+import { type KeyboardEvent, useCallback, useEffect, useState } from 'react';
 
 export function UiStepper({
   orientation = 'horizontal',

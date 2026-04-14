@@ -1,6 +1,6 @@
 import { Select as SelectPrimitive } from 'radix-ui';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
+import { type SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiInputGroupAddon } from '../ui-input-group/ui-input-group-addon';
 

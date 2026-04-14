@@ -10,7 +10,7 @@ import { UiInputGroupInput } from '@frontend/ui/ui-input-group/ui-input-group-in
 
 import { UiComboboxTrigger } from './ui-combobox-trigger';
 import { UiComboboxClear } from './ui-combobox-clear';
-import { ComboboxInputProps } from '@frontend/ui/ui-combobox/props/combobox-input.props';
+import { type ComboboxInputProps } from '@frontend/ui/ui-combobox/props/combobox-input.props';
 
 export function UiComboboxInput({
   className,

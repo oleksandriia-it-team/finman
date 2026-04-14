@@ -1,8 +1,8 @@
-import { Dispatch, Ref } from 'react';
-import { InputDefaultProps } from '../../../props/input-default.props';
-import { DropdownDefaultProps } from '../../../props/dropdown-default.props';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { type Dispatch, type Ref } from 'react';
+import { type InputDefaultProps } from '../../../props/input-default.props';
+import { type DropdownDefaultProps } from '../../../props/dropdown-default.props';
+import { type PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 export interface InputProps<T> extends InputDefaultProps {
   onChange: Dispatch<T | undefined>;

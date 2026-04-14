@@ -1,4 +1,4 @@
-import { DefaultTableColumns } from '../models/default-table-columns.model';
+import { type DefaultTableColumns } from '../models/default-table-columns.model';
 
 export interface Currency extends DefaultTableColumns {
   currencyCode: string;

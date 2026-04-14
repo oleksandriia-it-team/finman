@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { GlassCardProps } from './props/glass-card-props';
+import { type GlassCardProps } from './props/glass-card-props';
 
 import './styles/glass-card.scss';
 
