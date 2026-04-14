@@ -1,10 +1,7 @@
 # Code style requirements
 
 ## Naming conventions
-
-- PascalCase: classes, global constants such as ErrorTexts, components, interfaces, types, keys in enums, keys in global
-  constants
-
+- PascalCase: classes, global constants such as ErrorTexts, components, interfaces, types, keys in enums, keys in global constants
 ```js
 export default function MainPage(children) {
   return (
@@ -16,7 +13,6 @@ export default function MainPage(children) {
 ```
 
 - camelCase: variables, utilities, keys in objects, class methods,
-
 ```js
 const authService = useInject(AuthServiceProvider, true);
 
@@ -28,7 +24,6 @@ authService.getUser().catch(err => {
 ```
 
 - kebab-case: CSS class names and folder names
-
 ```css
 .header-wrapper {
     width: 100%;
@@ -41,7 +36,6 @@ authService.getUser().catch(err => {
 ```
 
 - kebab-case + postfix: file names
-
 ```
 shared
 ├─ is-empty.util.ts
@@ -56,6 +50,5 @@ shared
 - Use CSS files for media queries, avoid Tailwind responsive prefixes (`sm:`, `md:`, `lg:`)
 
 ## Links
-
 - [Eslint](../eslint.config.mjs)
 - [Prettier](../.prettierrc)

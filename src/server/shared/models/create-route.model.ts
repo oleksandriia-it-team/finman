@@ -47,7 +47,7 @@ export interface RouteGuardParams<BTR, BODY, TP> {
 
 export type RouteExecute<TR, BTR, BODY, R, TP> = (
   params: RouteParams<TR, BTR, BODY, TP>,
-) => Promise<NextResponse<ApiResultOperation<R>>> | NextResponse<ApiResultOperation<R>>;
+) => Promise<ApiResultOperation<R>> | ApiResultOperation<R>;
 
 export type FilterRouteExecute<R> = (
   err: Error,

@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { CreateRouteConfig, ReturnRouteExecute, RouteContext, RouteContextParams } from '../models/create-route.model';
 import { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { z, ZodTypeAny } from 'zod';
-import { getZodErrorMessage } from './get-zod-error-message.util';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
   config: CreateRouteConfig<Schema, TR, BTR, R, TP>,
@@ -70,13 +70,15 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
     }
 
     try {
-      return await execute({
+      const result = await execute({
         request,
         body: body as never,
         transformers: resultTransformers as TR,
         beforeGuardTransformers: resultBeforeTransformers as BTR,
         params: transformedParams,
       });
+
+      return NextResponse.json(result, { status: result.status });
     } catch (e) {
       if (filter) {
         return filter(e as Error);

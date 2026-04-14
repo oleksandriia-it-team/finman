@@ -2,8 +2,7 @@
 @import '../../../styles/variants';
 
 @mixin icon-size($size) {
-  height: $size;
-  width: $size;
+  font-size: $size;
   display: flex;
   justify-content: center;
   align-items: center;

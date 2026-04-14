@@ -1,7 +1,7 @@
 name: Task
 description: A specific piece of work
 title: "[TASK] FIN-000: "
-labels: [ "Todo" ]
+labels: ["Todo"]
 body:
   - type: input
     id: goal
