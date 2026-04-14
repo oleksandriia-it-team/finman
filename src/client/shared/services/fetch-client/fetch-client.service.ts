@@ -1,0 +1,71 @@
+import { type RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
+import { EnvConfigConstant } from '@common/constants/env-config.constant';
+import { handleResponse } from '@frontend/shared/utils/fetch-handler';
+import { isEmpty } from '@common/utils/is-empty.util';
+
+class FetchClientService {
+  private readonly baseUrl: string;
+
+  constructor() {
+    this.baseUrl = EnvConfigConstant.NEXT_PUBLIC_API_URL;
+  }
+
+  private async request<T, D = unknown>(
+    endpoint: string,
+    method: string,
+    options: RequestOptions<D, T> = {},
+  ): Promise<T> {
+    const { params, body, signal, defaultValue, headers: customHeaders, ...restOptions } = options;
+
+    const url = new URL(`${this.baseUrl}${endpoint}`);
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (!isEmpty(value)) {
+          url.searchParams.append(key, String(value));
+        }
+      });
+    }
+
+    const headers = new Headers(customHeaders);
+    const isFormData = body instanceof FormData;
+    let requestBody: BodyInit | null = null;
+
+    if (body !== undefined && body !== null) {
+      if (!headers.has('Content-Type') && !isFormData) {
+        headers.set('Content-Type', 'application/json');
+      }
+      requestBody = isFormData ? (body as FormData) : JSON.stringify(body);
+    }
+
+    const response = await fetch(url.toString(), {
+      ...restOptions,
+      method,
+      headers,
+      body: requestBody,
+      signal: signal ?? null,
+    });
+    return handleResponse<T>(response, defaultValue);
+  }
+
+  public get<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
+    return this.request<T, never>(endpoint, 'GET', options);
+  }
+
+  public post<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'POST', { ...options, body });
+  }
+
+  public put<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'PUT', { ...options, body });
+  }
+
+  public patch<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'PATCH', { ...options, body });
+  }
+
+  public delete<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
+    return this.request<T, never>(endpoint, 'DELETE', options);
+  }
+}
+
+export const fetchClient = new FetchClientService();
