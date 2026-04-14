@@ -6,21 +6,26 @@ import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-f
 
 export const POST = createRoute({
   schema: RegisterSchema,
+  guards: [
+    async ({ body }) => {
+      const isEmailTaken = await userApiRepository.findUserForLogin(body.email);
+      const isNameTaken = await userApiRepository.findUserForLogin(body.name);
+
+      if (isEmailTaken) {
+        return { status: 400, message: 'Ця електронна адреса вже існує' };
+      }
+
+      if (isNameTaken) {
+        return { status: 400, message: "Це ім'я вже існує" };
+      }
+
+      return null;
+    },
+  ],
   execute: async ({ body }: { body: RegisterDto }) => {
-    const isEmailTaken = await userApiRepository.findUserForLogin(body.email);
-    const isNameTaken = await userApiRepository.findUserForLogin(body.name);
-
-    if (isEmailTaken) {
-      return { status: 400, code: 'EMAIL_ALREADY_EXISTS', message: 'Ця електронна адреса вже існує' };
-    }
-
-    if (isNameTaken) {
-      return { status: 400, code: 'NAME_ALREADY_EXISTS', message: "Це ім'я вже існує" };
-    }
-
     await userApiRepository.createItem({ ...body, role: RoleEnum.User });
 
-    return { status: 200, data: { success: true } };
+    return { status: 200, data: true };
   },
   filter: getDefaultApiErrorFilter,
 });

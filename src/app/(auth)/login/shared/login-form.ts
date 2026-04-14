@@ -1,22 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { LoginDto, LoginSchema } from '@common/domains/auth/schema/login.schema';
-import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { LoginResponse } from '@common/domains/auth/models/responses/login.response';
 import { ApiResultOperation } from '@common/models/api-result-operation.model';
+import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 
 export function useSetupLogin(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
-    async (data: LoginDto) => {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      return handleResponse<ApiResultOperation<LoginResponse>>(response);
-    },
+    async (data: LoginDto) => await fetchClient.post<ApiResultOperation<LoginResponse>>('/api/auth/login', data),
     {
       successMessage: 'Вхід виконано успішно!',
       onSuccess: (result) => {
