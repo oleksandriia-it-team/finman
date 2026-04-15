@@ -1,6 +1,5 @@
 import { MobileNavbarCenterItem } from '@frontend/components/mobile-navbar/props/mobile-navbar.props';
 import { cn } from '@frontend/shared/utils/cn.util';
-import Link from 'next/link';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { useRouter } from 'next/navigation';
 
