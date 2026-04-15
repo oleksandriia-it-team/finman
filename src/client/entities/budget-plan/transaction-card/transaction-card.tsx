@@ -6,7 +6,7 @@ import { type TransactionCardProps, type TransactionType } from './props/transac
 
 const iconBgVariants: Record<TransactionType, string> = {
   income: 'bg-success/10 text-success',
-  expense: 'bg-destructive/10 text-destructive',
+  expense: 'bg-destructive-foreground/10 text-destructive-foreground',
 };
 
 const amountColorVariants: Record<TransactionType, string> = {

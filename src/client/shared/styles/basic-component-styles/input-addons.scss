@@ -13,7 +13,7 @@
     font-size: 0.875rem;
   }
 
-  .input-group[data-disabled='true'] & {
+  .input-group[data-disabled] & {
     opacity: 0.5;
   }
 
