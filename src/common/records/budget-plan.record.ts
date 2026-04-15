@@ -1,25 +1,27 @@
 import { type Month } from '../enums/month.enum';
-import { type RecordModel } from '../models/record.model';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '../models/default-table-columns.model';
-import { type UnregularEntry } from './unregular-entry.record';
-import { type DelayedExpense } from './delayed-expenses.record';
+import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { PartialIdModel } from '@common/models/partial-id.model';
+import type { RecordModel } from '@common/models/record.model';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export interface BudgetPlan extends DefaultTableColumns {
+interface BudgetPlanBase extends DefaultTableColumns {
   month: Month;
   year: number;
-  otherEntries: UnregularEntry[];
-  plannedOtherEntryIndexes: number[];
-  plannedRegularEntryIds: number[];
-  plannedDelayedExpenseIds: number[];
 }
 
-export type PlannedDelayedExpense = Omit<DelayedExpense, DefaultColumnKeys> & Partial<DefaultTableColumns>;
-
-export interface BudgetPlanDto extends RecordModel {
-  month: Month;
-  year: number;
+export interface BudgetPlanDetailed extends BudgetPlanBase {
   otherEntries: UnregularEntry[];
-  plannedOtherEntryIndexes: number[];
-  plannedRegularEntryIds: number[];
-  plannedDelayedExpenses: PlannedDelayedExpense[];
+  plannedRegularEntries: RegularEntry[];
 }
+
+export interface BudgetPlan extends BudgetPlanBase {
+  otherEntryIds: number[];
+  plannedRegularEntryIds: number[];
+}
+
+export type BudgetPlanDto = Omit<BudgetPlanBase, DefaultColumnKeys> &
+  RecordModel & {
+    otherEntries: PartialIdModel<UnregularEntry>[];
+    plannedRegularEntryIds: number[];
+  };

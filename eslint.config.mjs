@@ -167,7 +167,7 @@ const eslintConfig = [
             // Features (Can import entities, shared, common)
             {
               from: 'client-features',
-              allow: ['client-entities', 'client-shared', 'common'],
+              allow: ['client-entities', 'client-db', 'client-shared', 'common'],
             },
             // Widgets (Can import features, entities, shared, common)
             {

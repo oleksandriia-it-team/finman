@@ -200,11 +200,11 @@ export class DatabaseLocalService {
       throw new Error(ErrorTexts.IncorrectTypeData);
     }
 
-    if (data.softDeleted !== 0 && data.softDeleted !== 1) {
-      data.softDeleted = 0;
+    if (!('softDeleted' in data) || (data.softDeleted !== 0 && data.softDeleted !== 1)) {
+      (data as Record<string, unknown>).softDeleted = 0;
     }
 
-    if (typeof data.id !== 'number') {
+    if (!('id' in data) || typeof data.id !== 'number') {
       throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 

@@ -1,3 +1,1 @@
-export interface RecordModel {
-  [s: string]: unknown;
-}
+export type RecordModel = {};
