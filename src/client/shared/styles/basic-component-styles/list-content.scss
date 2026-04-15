@@ -1,0 +1,47 @@
+@mixin list-content-animation {
+  &[data-open],
+  &[data-ending-style],
+  &[data-state='open'],
+  &[data-state='closed'] {
+    animation-duration: 150ms;
+    animation-fill-mode: both;
+  }
+
+  &[data-open],
+  &[data-state='open'] {
+    animation-name: fadeIn, zoomIn95;
+
+    &[data-side='bottom'] {
+      --slide-from: translateY(-0.5rem);
+    }
+
+    &[data-side='left'] {
+      --slide-from: translateX(0.5rem);
+    }
+
+    &[data-side='right'] {
+      --slide-from: translateX(-0.5rem);
+    }
+
+    &[data-side='top'] {
+      --slide-from: translateY(0.5rem);
+    }
+  }
+
+  &[data-ending-style],
+  &[data-state='closed'] {
+    animation-name: fadeOut, zoomOut95;
+  }
+}
+
+.list-content-animation {
+  @include list-content-animation;
+}
+
+.list-content {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: var(--shadow-md);
+}

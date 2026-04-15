@@ -1,8 +1,8 @@
 import { CrudApiRepository } from '../../../shared/infrastructure/crud.api.repository';
 import { CurrencyOrm } from './currency.orm';
-import { CurrencyFilter } from '@common/domains/lookups/filters/currency.filter';
-import { FindOptionsWhere, ILike, In, Not } from 'typeorm';
-import { DeepPartial } from '@common/models/deep-partial.model';
+import { type CurrencyFilter } from '@common/domains/lookups/filters/currency.filter';
+import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
+import { type DeepPartial } from '@common/models/deep-partial.model';
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
   protected override mapFilters(filters: DeepPartial<CurrencyFilter> | undefined): FindOptionsWhere<CurrencyOrm> {

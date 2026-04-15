@@ -5,7 +5,7 @@
   height: 1.25rem;
   font-size: 0.875rem;
 
-  :global(.group\/field-group)[data-variant="outline"] & {
+  :global(.group\/field-group)[data-variant='outline'] & {
     margin-bottom: -0.5rem;
   }
 

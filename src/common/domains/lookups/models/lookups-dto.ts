@@ -1,6 +1,6 @@
-import { LookupsTypeEnum } from '../enums/lookups-type.enum';
-import { CountryAndLocale } from '../../../records/countries.record';
-import { Currency } from '../../../records/currencies.record';
+import { type LookupsTypeEnum } from '../enums/lookups-type.enum';
+import { type CountryAndLocale } from '../../../records/countries.record';
+import { type Currency } from '../../../records/currencies.record';
 
 export interface LookupsDto {
   [LookupsTypeEnum.CountriesAndLocales]: CountryAndLocale;

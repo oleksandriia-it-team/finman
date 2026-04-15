@@ -3,13 +3,11 @@ import { Select as SelectPrimitive } from 'radix-ui';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '../ui-svg-icon/ui-svg-icon';
 
-import './styles/select-item-styles.scss';
-
 export function UiSelectItem({ className, children, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={cn('select-item', className)}
+      className={cn('list-item', className)}
       {...props}
     >
       <span

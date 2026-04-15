@@ -1,0 +1,21 @@
+@use '../styles/blot';
+
+.pink-blot {
+  left: -3.125rem;
+  bottom: -1.25rem;
+  width: 35rem;
+  height: 35rem;
+  filter: blur(6rem);
+  background-color: var(--pink);
+  opacity: 0.1;
+}
+
+.green-blot {
+  right: -3.125rem;
+  top: -3.125rem;
+  width: 35rem;
+  height: 35rem;
+  filter: blur(6rem);
+  background: var(--success);
+  opacity: 0.15;
+}

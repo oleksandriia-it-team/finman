@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../shared/infrastructure/default-table-columns.orm';
-import { Currency } from '@common/records/currencies.record';
+import { type Currency } from '@common/records/currencies.record';
 import { CurrencyRequirements } from '@common/domains/lookups/constants/currency-requirements.constant';
 
 @Entity('currency')

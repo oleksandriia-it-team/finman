@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import clsx from 'clsx';
-import { TransactionCardProps, TransactionType } from './props/transaction-card-props';
+import { type TransactionCardProps, type TransactionType } from './props/transaction-card-props';
 
 const iconBgVariants: Record<TransactionType, string> = {
   income: 'bg-success/10 text-success',
@@ -11,7 +11,7 @@ const iconBgVariants: Record<TransactionType, string> = {
 
 const amountColorVariants: Record<TransactionType, string> = {
   income: 'text-success',
-  expense: 'text-destructive',
+  expense: 'text-destructive-foreground',
 };
 
 export function TransactionCard({ icon, title, subtitle, amount, type, className, bgNone }: TransactionCardProps) {

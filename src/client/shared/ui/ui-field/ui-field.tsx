@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@frontend/shared/utils/cn.util';
-import { FieldProps } from '@frontend/ui/ui-field/props/field.props';
+import { type FieldProps } from '@frontend/ui/ui-field/props/field.props';
 
 import './styles/ui-field-styles.scss';
 

@@ -1,4 +1,4 @@
-import { ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { getApiErrorMessage } from '../utils/get-api-error-message.util';
 import { NextResponse } from 'next/server';
 

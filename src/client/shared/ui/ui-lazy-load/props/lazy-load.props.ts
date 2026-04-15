@@ -1,4 +1,4 @@
-import { LazyEventProps } from '../../../props/lazy-event.props';
+import { type LazyEventProps } from '../../../props/lazy-event.props';
 
 export interface LazyLoadProps<T> extends LazyEventProps {
   newOptions: T[];
