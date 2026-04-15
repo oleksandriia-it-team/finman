@@ -11,7 +11,7 @@
 html {
   font-size: 14px;
 
-  @include mediascreen("desktop") {
+  @include mediascreen("tablet") {
     font-size: 16px;
   }
 }

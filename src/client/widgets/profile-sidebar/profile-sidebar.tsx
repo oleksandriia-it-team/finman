@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
 import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
-import { profileNavRoutes } from '@frontend/widgets/shared/profile-routes.constant';
+import { profileNavRoutesWindow } from '@frontend/widgets/shared/profile-routes.constant';
 
 export function ProfileSidebar() {
   return (
@@ -32,7 +32,7 @@ export function ProfileSidebar() {
 
         <UiSidebarSeparator />
 
-        <FinSidebarContent routes={profileNavRoutes} />
+        <FinSidebarContent routes={profileNavRoutesWindow} />
       </UiSidebar>
     </UiSidebarProvider>
   );

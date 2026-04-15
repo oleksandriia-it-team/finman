@@ -1,6 +1,6 @@
-import { SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { NavItemModel, SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
-export const profileNavRoutes: SidebarItemModel[] = [
+export const profileNavRoutesWindow: SidebarItemModel[] = [
   {
     route: '/profile',
     name: 'Головна',
@@ -35,5 +35,28 @@ export const profileNavRoutes: SidebarItemModel[] = [
     icon: 'person',
     name: 'Профіль',
     innerItems: [],
+  },
+];
+
+export const profileNavRoutesMobile: NavItemModel[] = [
+  {
+    route: '/profile',
+    name: 'Головна',
+    icon: 'house',
+  },
+  {
+    route: '/profile/budget/plans',
+    icon: 'pie-chart',
+    name: 'Планування',
+  },
+  {
+    route: '/profile/analytics',
+    icon: 'graph-up-arrow',
+    name: 'Аналітика',
+  },
+  {
+    route: '/profile/settings',
+    icon: 'person',
+    name: 'Профіль',
   },
 ];

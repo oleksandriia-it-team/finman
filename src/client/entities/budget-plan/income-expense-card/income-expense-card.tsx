@@ -4,8 +4,9 @@ import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@fronten
 import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
-import dayjs from 'dayjs';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
+import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
+import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 
 export function IncomeExpenseCard({
   type,
@@ -33,22 +34,22 @@ export function IncomeExpenseCard({
             >
               <UiSvgIcon
                 name={categoryStyles.icon}
-                size="3xl"
+                size="lg"
               />
             </div>
             <UiIconButton
-              size="xl"
+              size="default"
               icon="three-dots-vertical"
               variant="muted"
               className="!border-none"
             />
           </div>
-          <CardTitle className="text-2xl line-clamp-1"> {categoryStyles.label} </CardTitle>
+          <CardTitle className="text-lg line-clamp-1"> {categoryStyles.label} </CardTitle>
         </div>
         {subtitle ? (
-          <p className="text-base text-muted-foreground line-clamp-2">{subtitle}</p>
+          <p className="text-sm text-muted-foreground line-clamp-2">{subtitle}</p>
         ) : (
-          <p className="text-sm italic text-muted-foreground/50">Немає опису</p>
+          <p className="text-xs italic text-muted-foreground/50">Немає опису</p>
         )}
       </CardHeader>
 
@@ -56,12 +57,9 @@ export function IncomeExpenseCard({
 
       <CardContent>
         <div className="flex flex-col items-start">
-          <span className="text-base text-muted-foreground font-semibold">Сума:</span>
+          <span className="text-sm text-muted-foreground font-semibold">Сума:</span>
           <span
-            className={cn(
-              'pt-1 text-3xl font-bold',
-              type === 'income' ? 'text-success' : 'text-destructive-foreground',
-            )}
+            className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
             {type === 'expense' && '-'}{' '}
             {Number(amount).toLocaleString('uk-UA', {
@@ -76,7 +74,13 @@ export function IncomeExpenseCard({
       <UiSeparator className="mx-6 !w-auto" />
 
       <CardFooter className=" flex justify-between items-center">
-        {date ? dayjs(date).format('DD.MM.YYYY') : ''}
+        {date && (
+          <UiTransformDate
+            className="text-sm"
+            date={date}
+            type={DateFormatType.ShortWithYear}
+          />
+        )}
       </CardFooter>
     </UiCard>
   );
