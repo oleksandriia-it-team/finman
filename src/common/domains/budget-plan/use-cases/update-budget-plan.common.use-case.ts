@@ -26,6 +26,12 @@ export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
       remainedRecords: remainedOtherEntryIds,
     } = getNewAndDeletedRecords(otherEntriesDto, currentBudgetPlan.otherEntryIds);
 
+    const remainedOtherEntries = otherEntriesDto.filter((i) => i.id && remainedOtherEntryIds.includes(i.id));
+
+    await Promise.all(
+      remainedOtherEntries.map((dto) => this.unregularEntryRepository.updateItem(dto.id as number, dto)),
+    );
+
     await Promise.all(deletedOtherEntries.map((id) => this.unregularEntryRepository.deleteItem(id)));
 
     const newOtherEntryIds = await Promise.all(
