@@ -43,6 +43,7 @@ const eslintConfig = [
         { type: 'server-features', pattern: 'src/server/features/**' },
         { type: 'server-shared', pattern: 'src/server/shared/**' },
         { type: 'server-db', pattern: 'src/server/database/**' },
+        { type: 'server-config', pattern: 'src/server/config/**' },
 
         // --- Client Layer (FSD) ---
         { type: 'app', pattern: 'src/app/**' },
@@ -129,21 +130,25 @@ const eslintConfig = [
             // ------------------------------------------
             {
               from: 'server-shared',
-              allow: ['common', 'server-db'],
+              allow: ['common', 'server-db', 'server-config'],
             },
             {
               from: 'server-entities',
-              allow: ['common', 'server-shared', 'server-db'],
+              allow: ['common', 'server-shared', 'server-db', 'server-config'],
             },
             {
               from: 'server-features',
               // Can import Kernel, Shared, Common.
               // Cannot import other features (implicit via whitelist).
-              allow: ['server-entities', 'server-shared', 'common'],
+              allow: ['server-entities', 'server-shared', 'common', 'server-config'],
             },
             {
               from: 'server-db',
-              allow: ['server-entities', 'common'],
+              allow: ['server-entities', 'common', 'server-config'],
+            },
+            {
+              from: 'server-config',
+              allow: ['common'],
             },
 
             // ------------------------------------------

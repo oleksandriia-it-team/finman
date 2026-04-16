@@ -1,8 +1,8 @@
-import { serverSchema } from '@common/config/env/server';
-import { clientSchema } from '@common/config/env/client';
+import { serverSchema } from '@backend/config/server';
 import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
+import { clientSchema } from '@common/config/client';
 
-export const validateEnv = () => {
+export const validateServerEnv = () => {
   const client = clientSchema.safeParse(process.env);
   const server = serverSchema.safeParse(process.env);
 
