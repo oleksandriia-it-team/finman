@@ -5,7 +5,7 @@ import { DatabaseName, Tables } from '../shared/constants/database.constants';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
 import { DexieService } from '@frontend/database/dexie.service';
-import { type Table, type Transaction } from 'dexie';
+import Dexie, { type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 
 /**
@@ -278,20 +278,23 @@ export class DatabaseLocalService {
 
     const names = Array.isArray(tableNames) ? tableNames : [tableNames];
 
-    return this.db.transaction(
+    // Cast to base Dexie to avoid TS2589: the dynamic index signature on
+    // DexieService causes TypeScript to recurse infinitely across all
+    // transaction() overloads when resolving the table array element type.
+    const dexie = this.db as unknown as Dexie;
+
+    return dexie.transaction(
       'rw',
-      names.map((n) => this.db.table(n)),
-      // eslint-disable-next-line
-      // @ts-ignore
-      async (tx) => {
-        this.#tx = tx;
+      names.map((n) => dexie.table(n)),
+      async () => {
+        this.#tx = Dexie.currentTransaction;
         try {
           return await work();
         } finally {
           this.#tx = null;
         }
       },
-    );
+    ) as Promise<T>;
   }
 
   // -------------------------------------------------------------------------
