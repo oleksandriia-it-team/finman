@@ -1,62 +1,117 @@
-import { type IDBPDatabase, type IDBPTransaction, openDB } from 'idb';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.contant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
+import { DexieService } from '@frontend/database/dexie.service';
+import { type Table, type Transaction } from 'dexie';
+import type { DeepPartial } from '@common/models/deep-partial.model';
+import type { FilterPredicate, LocalFilter } from '@frontend/shared/models/local-filter.model';
 
 /**
- * Service for interacting with an IndexedDB database using the `idb` library.
+ * Service for interacting with an IndexedDB database via **Dexie**.
  *
  * @remarks
- * Provides generic methods to perform CRUD operations on any table in the database.
- * Supports soft deletion through the `softDeleted` flag and uses an index to filter out
- * logically deleted records when needed.
+ * Drop-in replacement for the previous `idb`-based implementation.
+ * Public API is identical; the internals are much simpler.
+ *
+ * New capabilities compared to the original:
+ * - `getItems` and `getTotalCount` now accept an optional `filters` argument
+ *   that is translated by `mapFilters` into a Dexie `Collection` filter.
+ * - `mapFilters` is a protected hook — override it in subclasses (or in
+ *   concrete repositories) to add domain-specific filtering logic, exactly
+ *   like `CrudApiRepository.mapFilters`.
  *
  * @example
- * const dbService = new DatabaseLocalService('AppDB', ['users', 'posts'], 1);
+ * const dbService = new DatabaseLocalService('AppDB', ['users'], 1);
+ * await dbService.connect();
  * const user = await dbService.getItemById<User>('users', 1, false);
- *
- * @constructor
- * @param databaseName - Name of the IndexedDB database to connect to.
- * @param tables - Array of table (object store) names to be created if they do not exist.
- * @param version - Version of the database, used for schema upgrades.
  */
 export class DatabaseLocalService {
-  #db!: IDBPDatabase<unknown>;
+  protected db!: DexieService;
 
-  // eslint-disable-next-line
-  #tx: IDBPTransaction<unknown, string | string[], any> | null = null;
+  /** Active Dexie transaction scope (null when no batch is running). */
+  #tx: Transaction | null = null;
 
   constructor(
-    private databaseName: string,
-    private tables: string[],
-    private version: number,
-  ) {
-    if (!global.indexedDB) {
-      return;
+    private readonly databaseName: string,
+    private readonly tables: string[],
+    private readonly version: number,
+  ) {}
+
+  // -------------------------------------------------------------------------
+  // Static factory
+  // -------------------------------------------------------------------------
+
+  static async initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseLocalService> {
+    const instance = new this(databaseName, tables, version);
+    try {
+      await instance.connect();
+      console.log('DB connection created');
+      return instance;
+    } catch {
+      throw new Error(ErrorDataBaseConnection);
     }
   }
 
-  get db() {
-    return this.#db;
+  // -------------------------------------------------------------------------
+  // Connection
+  // -------------------------------------------------------------------------
+
+  async connect(): Promise<void> {
+    this.db = new DexieService(this.databaseName, this.tables);
+    // Dexie opens the connection lazily on first operation; calling open()
+    // here ensures errors surface early.
+    await this.db.open();
   }
 
-  static initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseLocalService> {
-    const instance = new this(databaseName, tables, version);
-
-    return instance
-      .connect()
-      .then(() => {
-        console.log('DB connection created');
-
-        return instance;
-      })
-      .catch(() => {
-        throw new Error(ErrorDataBaseConnection);
-      });
+  close(): void {
+    this.db?.close();
   }
+
+  // -------------------------------------------------------------------------
+  // Filter hook  (override in subclasses / repositories)
+  // -------------------------------------------------------------------------
+
+  /**
+   * Translates a domain filter object into a predicate that Dexie's
+   * `.filter()` can consume.
+   *
+   * The default implementation handles only the `softDeleted` flag that every
+   * table shares.  Override this method in a concrete repository to add
+   * domain-specific conditions:
+   *
+   * @example
+   * // In RegularEntryLocalRepository:
+   * protected override mapFilters(filters: DeepPartial<RegularEntryFilter>) {
+   *   return (item: RegularEntry) => {
+   *     if (filters.type !== undefined && item.type !== filters.type) return false;
+   *     if (filters.softDeleted !== undefined && item.softDeleted !== filters.softDeleted) return false;
+   *     return true;
+   *   };
+   * }
+   */
+  protected mapFilters<T extends DefaultTableColumns>(filters: DeepPartial<LocalFilter>): FilterPredicate<T> {
+    return (item: T) => {
+      if (filters.softDeleted !== undefined && item.softDeleted !== filters.softDeleted) {
+        return false;
+      }
+      return true;
+    };
+  }
+
+  // -------------------------------------------------------------------------
+  // Helpers
+  // -------------------------------------------------------------------------
+
+  private table<T extends DefaultTableColumns>(name: string): Table<T, number> {
+    return this.db.table<T, number>(name);
+  }
+
+  // -------------------------------------------------------------------------
+  // CRUD
+  // -------------------------------------------------------------------------
 
   async getItemById<T extends DefaultTableColumns>(
     tableName: string,
@@ -64,115 +119,122 @@ export class DatabaseLocalService {
     includeSoftDeleted: boolean,
   ): Promise<T | null> {
     try {
-      const store = this.#tx?.objectStore(tableName);
-      const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
+      const run = async () => {
+        const item = (await this.table<T>(tableName).get(id)) ?? null;
+        if (!includeSoftDeleted && item?.softDeleted) return null;
+        return item;
+      };
 
-      const item = (await getFn(id)) ?? null;
-      if (!includeSoftDeleted && item && item.softDeleted) {
-        return null;
-      }
-      return item as T;
-    } catch (error: unknown) {
-      throw new Error(getErrorMessage(error));
-    }
-  }
-
-  async getItems<T extends DefaultTableColumns>(
-    tableName: string,
-    start: number,
-    end: number,
-    includeSoftDeleted: boolean,
-  ): Promise<T[]> {
-    const limit = end - start + 1;
-
-    const tx = this.#db.transaction(tableName);
-
-    try {
-      const store = tx.objectStore(tableName);
-
-      const results: T[] = [];
-      let skipped = 0;
-      let cursor = await store.openCursor();
-
-      while (cursor && results.length < limit) {
-        if (includeSoftDeleted || cursor.value.softDeleted === 0) {
-          if (skipped >= start) {
-            results.push(cursor.value);
-          } else {
-            skipped++;
-          }
-        }
-        cursor = await cursor.continue();
-      }
-
-      await tx.done;
-
-      return results;
-    } catch (error: unknown) {
-      tx.abort();
-
+      return this.#tx
+        ? await this.#tx.db
+            .table<T, number>(tableName)
+            .get(id)
+            .then((item) => {
+              if (!item) return null;
+              if (!includeSoftDeleted && item.softDeleted) return null;
+              return item;
+            })
+        : await run();
+    } catch (error) {
       throw new Error(getErrorMessage(error));
     }
   }
 
   /**
-   * Retrieves the previous or next item relative to the given ID in the specified table.
+   * Returns a paginated slice of records.
    *
-   * Iterates through the object store in the direction specified by `next` starting from the given `id`.
-   * Skips items marked as soft deleted if `includeSoftDeleted` is false.
-   *
-   * @template T The type of items stored in the object store.
-   * @param {boolean} next - If true, fetch the next item; if false, fetch the previous item.
-   * @param {string} tableName - The name of the object store (table) to query.
-   * @param {number} id - The key from which to start searching.
-   * @param {boolean} includeSoftDeleted - Whether to include items marked as soft deleted.
-   * @returns {Promise<T | null>}
-   *          A promise resolving with the found item or null if none found.
-   *
-   * @throws {Error} Throws if an error occurs during the transaction.
-   *
-   * @example
-   * ```ts
-   * // Get the next item after id 5, excluding soft deleted items
-   * const result = await getPrevOrNextItem(true, 'users', 5, false);
-   * if(result) {
-   *   console.log('Next item:', result);
-   * } else {
-   *   console.log('No next item found');
-   * }
-   * ```
+   * @param tableName  - target object store
+   * @param start      - zero-based offset of the first record to return
+   * @param end        - zero-based offset of the last record to return (inclusive)
+   * @param includeSoftDeleted - when false, soft-deleted rows are skipped
+   * @param filters    - optional domain filter; translated via `mapFilters`
    */
+  async getItems<T extends DefaultTableColumns, F extends LocalFilter = LocalFilter>(
+    tableName: string,
+    start: number,
+    end: number,
+    includeSoftDeleted: boolean,
+    filters?: DeepPartial<F>,
+  ): Promise<T[]> {
+    try {
+      const limit = end - start + 1;
+
+      let collection = this.table<T>(tableName).toCollection();
+
+      // Apply softDeleted guard
+      if (!includeSoftDeleted) {
+        collection = collection.filter((item) => item.softDeleted === 0);
+      }
+
+      // Apply domain filters if provided
+      if (filters && !isEmpty(filters)) {
+        const predicate = this.mapFilters<T>(filters);
+        collection = collection.filter(predicate);
+      }
+
+      return await collection.offset(start).limit(limit).toArray();
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
+
+  /**
+   * Returns the total number of records (optionally filtered).
+   *
+   * @param tableName          - target object store
+   * @param includeSoftDeleted - when false, soft-deleted rows are excluded
+   * @param filters            - optional domain filter; translated via `mapFilters`
+   */
+  async getTotalCount<F extends LocalFilter = LocalFilter>(
+    tableName: string,
+    includeSoftDeleted: boolean,
+    filters?: DeepPartial<F>,
+  ): Promise<number> {
+    try {
+      const hasExtraFilters = filters && !isEmpty(filters);
+
+      // Fast path — no extra filters, use Dexie index
+      if (!hasExtraFilters) {
+        if (includeSoftDeleted) {
+          return await this.table(tableName).count();
+        }
+        return await this.table(tableName).where('softDeleted').equals(0).count();
+      }
+
+      // Slow path — need in-memory filtering
+      let collection = this.table(tableName).toCollection();
+
+      if (!includeSoftDeleted) {
+        collection = collection.filter((item) => item.softDeleted === 0);
+      }
+
+      const predicate = this.mapFilters(filters!);
+      collection = collection.filter(predicate);
+
+      return await collection.count();
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
+    }
+  }
+
   async getPrevOrNextItem<T extends DefaultTableColumns>(
     next: boolean,
     tableName: string,
     id: number,
     includeSoftDeleted: boolean,
   ): Promise<T | null> {
-    const tx = this.#db.transaction(tableName, 'readonly');
-    const store = tx.objectStore(tableName);
-
     try {
-      let cursor = await store.openCursor(
-        next ? IDBKeyRange.lowerBound(id) : IDBKeyRange.upperBound(id),
-        next ? 'next' : 'prev',
-      );
+      // Dexie's .where().above/.below gives us a sorted cursor cheaply
+      const collection = next
+        ? this.table<T>(tableName).where('id').above(id)
+        : this.table<T>(tableName).where('id').below(id).reverse();
 
-      if (cursor && cursor.key === id) {
-        cursor = await cursor.continue();
+      if (includeSoftDeleted) {
+        return (await collection.first()) ?? null;
       }
 
-      while (cursor) {
-        if (includeSoftDeleted || cursor.value?.softDeleted === 0) {
-          await tx.done;
-          return (cursor.value as T) ?? null;
-        }
-        cursor = await cursor.continue();
-      }
-
-      await tx.done;
-      return null;
-    } catch (error: unknown) {
-      tx.abort();
+      return (await collection.filter((item) => item.softDeleted === 0).first()) ?? null;
+    } catch (error) {
       throw new Error(getErrorMessage(error));
     }
   }
@@ -181,18 +243,14 @@ export class DatabaseLocalService {
     tableName: string,
     includeSoftDeleted: boolean,
   ): Promise<T | null> {
-    const tx = this.#db.transaction(tableName, 'readonly');
-    const store = tx.objectStore(tableName);
-
-    let cursor = await store.openCursor();
-
-    while (!includeSoftDeleted && cursor?.value.softDeleted === 1) {
-      cursor = await cursor.continue();
+    try {
+      if (includeSoftDeleted) {
+        return (await this.table<T>(tableName).toCollection().first()) ?? null;
+      }
+      return (await this.table<T>(tableName).where('softDeleted').equals(0).first()) ?? null;
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
     }
-
-    await tx.done;
-
-    return (cursor?.value as T) ?? null;
   }
 
   async updateOrCreateItem(tableName: string, data: RecordModel): Promise<number> {
@@ -208,212 +266,96 @@ export class DatabaseLocalService {
       throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 
-    const store = this.#tx?.objectStore(tableName);
-
-    // eslint-disable-next-line
-    const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
-
-    return putFn(data)
-      .then((id: number) => id)
-      .catch((error: unknown) => {
-        throw new Error(getErrorMessage(error));
-      });
-  }
-
-  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<true> {
-    const store = this.#tx?.objectStore(tableName);
-    const getFn = store ? store.get.bind(store) : this.#db.get.bind(this.#db, tableName);
-
-    const item = await getFn(id);
-
-    if (!item) {
-      throw new Error(ErrorTexts.RecordDoesNotExist);
-    }
-
-    if (softDelete) {
-      item.softDeleted = 1;
-
-      const store = this.#tx?.objectStore(tableName);
-
-      // eslint-disable-next-line
-      const putFn = store ? (store.put as any).bind(store) : this.#db.put.bind(this.#db, tableName);
-
-      return putFn(item)
-        .then(() => true as const)
-        .catch((error: unknown) => {
-          throw new Error(getErrorMessage(error));
-        });
-    } else {
-      const store = this.#tx?.objectStore(tableName);
-
-      // eslint-disable-next-line
-      const deleteFn = store ? (store.delete as any).bind(store) : this.#db.delete.bind(this.#db, tableName);
-
-      return deleteFn(id)
-        .then(() => true as const)
-        .catch((error: unknown) => {
-          throw new Error(getErrorMessage(error));
-        });
-    }
-  }
-
-  async getTotalCount(tableName: string, includeSoftDeleted: boolean): Promise<number> {
-    const store = this.#db.transaction(tableName, 'readonly').objectStore(tableName);
-
     try {
-      if (includeSoftDeleted) {
-        return await store.count();
-      } else {
-        const index = store.index('softDeleted');
-
-        return await index.count(IDBKeyRange.only(0));
-      }
-    } catch (error: unknown) {
+      const table = this.table(tableName);
+      // `put` inside an active transaction automatically uses it
+      return await table.put(data as DefaultTableColumns & RecordModel);
+    } catch (error) {
       throw new Error(getErrorMessage(error));
     }
   }
 
-  async connect(): Promise<void> {
-    this.#db = await openDB(this.databaseName, this.version, {
-      upgrade: (db) => {
-        this.tables.forEach((table) => {
-          if (!db.objectStoreNames.contains(table)) {
-            const store = db.createObjectStore(table, {
-              keyPath: 'id',
-              autoIncrement: true,
-            });
-            store.createIndex('softDeleted', 'softDeleted', { unique: false });
-          }
-        });
-      },
-    });
-  }
-
-  /**
-   * Starts a new read/write batch transaction covering one or more object stores.
-   *
-   * ### Transaction Handling and Batch Operations
-   *
-   * This service is designed to support both simple CRUD operations and complex
-   * multi-step atomic transactions using IndexedDB.
-   *
-   * **Key Points:**
-   *
-   * 1. **Implicit Transactions for Individual CRUD Methods**
-   *    - Each CRUD method internally uses either the current active transaction
-   *      or the database instance directly.
-   *    - When no batch transaction is active, operations are executed individually
-   *      without requiring explicit transaction management from the caller.
-   *
-   * 2. **Explicit Batch Transactions for Atomic Multi-Operation Batches**
-   *    - To perform multiple operations atomically, you can start a batch
-   *      transaction with the `runBatch()` method, specifying one or more object stores.
-   *    - While the batch is active, all CRUD operations use the same transaction context.
-   *    - Changes within the batch can be either committed using `doneBatch()` or
-   *      aborted with `revertBatch()`.
-   *    - This pattern enables grouping related operations to succeed or fail together,
-   *      ensuring data consistency.
-   *
-   * 3. **Usage Example:**
-   * ```ts
-   * dbService.runBatch(['users', 'orders']);
-   *
-   * await dbService.updateOrCreateItem('users', { id: 1, name: 'Alice' });
-   * await dbService.updateOrCreateItem('orders', { id: 100, userId: 1, total: 250 });
-   *
-   * await dbService.doneBatch(); // commits both inserts atomically
-   * ```
-   *
-   * 4. **Best Practices:**
-   *    - Always finalize a batch transaction by calling either `doneBatch()` or `revertBatch()`.
-   *    - Avoid overlapping batch transactions to prevent conflicts (an error is thrown if you try).
-   *    - Use batch transactions when multiple related operations must be atomic,
-   *      otherwise simple CRUD methods work fine standalone.
-   *
-   * 5. **Error Handling:**
-   *    - If any operation inside a batch fails, you can call `revertBatch()` to
-   *      abort all changes in the batch.
-   *    - This rollback ensures the database remains in a consistent state.
-   *
-   * ---
-   *
-   * This design offers maximum flexibility by combining ease of use for simple cases
-   * and powerful transactional control for complex workflows.
-   */
-  runBatch(tableNames: string | string[]): void {
-    if (this.#tx) {
-      throw new Error(getErrorMessage(this.#tx));
-    }
-
-    this.#tx = this.#db.transaction(tableNames, 'readwrite');
-  }
-
-  /**
-   * Finalizes the currently open batch transaction.
-   *
-   * Awaits the completion of the transaction.
-   * If any operation within the batch fails, the transaction will be rolled back automatically.
-   *
-   * After completion (either success or failure), the internal transaction reference is cleared.
-   *
-   * @throws {Error} If there is no active batch transaction.
-   * @returns {Promise<void>} Resolves when the transaction has successfully committed.
-   */
-  async doneBatch(): Promise<void> {
-    if (!this.#tx) {
-      throw new Error(ErrorTexts.PrevBatchIsNotDone);
-    }
-
-    await this.#tx.done;
-    this.#tx = null;
-  }
-
-  /**
-   * Aborts the currently open batch transaction.
-   *
-   * All changes made during the batch will be discarded.
-   *
-   * @returns {void} Resolves when the transaction is aborted.
-   */
-  async revertBatch(): Promise<void> {
+  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<true> {
     try {
-      if (!this.#tx) {
-        return;
+      const table = this.table(tableName);
+      const item = await table.get(id);
+
+      if (!item) throw new Error(ErrorTexts.RecordDoesNotExist);
+
+      if (softDelete) {
+        await table.update(id, { softDeleted: 1 });
+      } else {
+        await table.delete(id);
       }
 
-      this.#tx.abort();
-      await this.#tx.done;
-    } catch (err) {
-      if (err instanceof Object && 'name' in err && err.name !== ErrorTexts.AbortError) {
-        throw err;
-      }
-    } finally {
-      this.#tx = null;
+      return true;
+    } catch (error) {
+      throw new Error(getErrorMessage(error));
     }
   }
+
+  // -------------------------------------------------------------------------
+  // Batch transactions
+  // -------------------------------------------------------------------------
+
+  /**
+   * Starts a read/write batch transaction covering the specified table(s).
+   *
+   * While the batch is active every Dexie operation **inside the same
+   * transaction scope** participates in the same atomic unit.  Use
+   * `doneBatch()` to commit and `revertBatch()` to roll back.
+   *
+   * @example
+   * await dbService.runBatch(['budgetPlans', 'delayedExpenses'], async () => {
+   *   await dbService.updateOrCreateItem('budgetPlans', plan);
+   *   await dbService.updateOrCreateItem('delayedExpenses', expense);
+   * });
+   *
+   * @remarks
+   * Unlike the old idb implementation that stored `#tx` as a field and
+   * required manual `doneBatch()` calls, this version wraps the callback in
+   * `Dexie.transaction()` so the transaction lifecycle is managed
+   * automatically.  The `#tx` field is kept for compatibility checks only.
+   */
+  async runBatch(tableNames: string | string[], work: () => Promise<void>): Promise<void> {
+    if (this.#tx) {
+      throw new Error(ErrorTexts.PrevBatchIsNotDone ?? 'A batch transaction is already active');
+    }
+
+    const names = Array.isArray(tableNames) ? tableNames : [tableNames];
+
+    await this.db.transaction(
+      'rw',
+      names.map((n) => this.db.table(n)),
+      // eslint-disable-next-line
+      // @ts-ignore
+      async (tx) => {
+        this.#tx = tx;
+        try {
+          await work();
+        } finally {
+          this.#tx = null;
+        }
+      },
+    );
+  }
+
+  // -------------------------------------------------------------------------
+  // Utilities
+  // -------------------------------------------------------------------------
 
   async clearDatabase(): Promise<void> {
-    const tx = this.db.transaction(this.tables, 'readwrite');
-
     try {
-      for (const table of this.tables) {
-        if (this.db.objectStoreNames.contains(table)) {
-          tx.objectStore(table).clear();
-        }
-      }
-      await tx.done;
-    } catch (err: unknown) {
-      tx.abort();
-
-      throw err;
-    }
-  }
-
-  close(): void {
-    if (this.#db) {
-      this.#db.close();
+      await this.db.transaction(
+        'rw',
+        this.tables.map((t) => this.db.table(t)),
+        async () => {
+          await Promise.all(this.tables.map((t) => this.db.table(t).clear()));
+        },
+      );
+    } catch (error) {
+      throw error;
     }
   }
 }
-
 export const databaseService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 1);
