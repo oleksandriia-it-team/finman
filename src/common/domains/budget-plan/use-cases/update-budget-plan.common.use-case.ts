@@ -4,7 +4,7 @@ import { type ITransactionManager, TransactionalUseCase } from '@common/models/t
 import type { ICrudService } from '@common/models/crud-service.model';
 import type { UnregularEntry } from '@common/records/unregular-entry.record';
 
-export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<BudgetPlanDto & { id: number }, true> {
+export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPlanDto & { id: number }, true> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: ICrudService<BudgetPlan>,

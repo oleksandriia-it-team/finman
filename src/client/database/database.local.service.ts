@@ -317,14 +317,14 @@ export class DatabaseLocalService {
    * `Dexie.transaction()` so the transaction lifecycle is managed
    * automatically.  The `#tx` field is kept for compatibility checks only.
    */
-  async runBatch(tableNames: string | string[], work: () => Promise<void>): Promise<void> {
+  async runBatch<T>(tableNames: string | string[], work: () => Promise<T>): Promise<T> {
     if (this.#tx) {
-      throw new Error(ErrorTexts.PrevBatchIsNotDone ?? 'A batch transaction is already active');
+      throw new Error(ErrorTexts.PrevBatchIsNotDone);
     }
 
     const names = Array.isArray(tableNames) ? tableNames : [tableNames];
 
-    await this.db.transaction(
+    return this.db.transaction(
       'rw',
       names.map((n) => this.db.table(n)),
       // eslint-disable-next-line
@@ -332,7 +332,7 @@ export class DatabaseLocalService {
       async (tx) => {
         this.#tx = tx;
         try {
-          await work();
+          return await work();
         } finally {
           this.#tx = null;
         }
