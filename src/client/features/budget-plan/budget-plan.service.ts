@@ -1,10 +1,10 @@
 import { type BudgetPlanLocalRepository } from '../../entities/budget-plan/budget-plan.local.repository';
 import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
 import type { ICrudService } from '@common/models/crud-service.model';
-import { type CreateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/create-budget-plan.local.use-case';
+import { type CreateBudgetPlanLocalUseCase } from '@common/domains/budget-plan/use-cases/create-budget-plan.local.use-case';
 import { type DeleteBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/delete-budget-plan.local.use-case';
 import { type GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-budget-plan.local.use-case';
-import { type UpdateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/update-budget-plan.local.use-case';
+import { type UpdateBudgetPlanLocalUseCase } from '@common/domains/budget-plan/use-cases/update-budget-plan.local.use-case';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 export class BudgetPlanLocalUsecases implements ICrudService<

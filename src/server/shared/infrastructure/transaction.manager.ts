@@ -1,6 +1,7 @@
 import { type EntityManager } from 'typeorm';
 import { AsyncLocalStorage } from 'async_hooks';
 import DBDataSource from '../../database/database-connection';
+import type { ITransactionManager } from '@common/models/transaction-manager.model';
 
 export const transactionStorage = new AsyncLocalStorage<EntityManager>();
 
@@ -8,7 +9,7 @@ export const getTransactionManager = (): EntityManager | undefined => {
   return transactionStorage.getStore();
 };
 
-export class TransactionManager {
+export class TypeormTransactionManager implements ITransactionManager {
   static async run<T>(callback: () => Promise<T>): Promise<T> {
     const currentTransaction = getTransactionManager();
 

@@ -1,36 +1,26 @@
-import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
-import type { UnregularEntryLocalRepository } from '@frontend/entities/unregular-entry/unregular-entry.local.repository';
-import type { DatabaseLocalService } from '@frontend/database/database.local.service';
-import { Tables } from '@frontend/shared/constants/database.constants';
+import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
+import type { BudgetPlan } from '@common/records/budget-plan.record';
+import type { ICrudService } from '@common/models/crud-service.model';
+import type { UnregularEntry } from '@common/records/unregular-entry.record';
 
-export class DeleteBudgetPlanLocalUseCase {
+export class DeleteBudgetPlanLocalUseCase extends TransactionalUseCase<number, true> {
   constructor(
-    private budgetPlanLocalRepository: BudgetPlanLocalRepository,
-    private unregularEntryLocalRepository: UnregularEntryLocalRepository,
-    private databaseLocalService: DatabaseLocalService,
-  ) {}
+    transactionManager: ITransactionManager,
+    private budgetPlanRepository: ICrudService<BudgetPlan>,
+    private unregularEntryRepository: ICrudService<UnregularEntry>,
+  ) {
+    super(transactionManager);
+  }
 
-  async execute(id: number): Promise<true> {
-    try {
-      const currentBudgetPlan = await this.budgetPlanLocalRepository.getItemById(id);
+  async handle(id: number): Promise<true> {
+    const currentBudgetPlan = await this.budgetPlanRepository.getItemById(id);
 
-      if (!currentBudgetPlan) {
-        throw Error(`Budget plan not found with id ${id}`);
-      }
-
-      this.databaseLocalService.runBatch([Tables.BudgetPlanTable, Tables.UnregularEntries]);
-
-      await Promise.all(currentBudgetPlan.otherEntryIds.map((id) => this.unregularEntryLocalRepository.deleteItem(id)));
-
-      const result = this.budgetPlanLocalRepository.deleteItem(id);
-
-      await this.databaseLocalService.doneBatch();
-
-      return result;
-    } catch (e: unknown) {
-      await this.databaseLocalService.revertBatch();
-
-      throw e;
+    if (!currentBudgetPlan) {
+      throw Error(`Budget plan not found with id ${id}`);
     }
+
+    await Promise.all(currentBudgetPlan.otherEntryIds.map((id) => this.unregularEntryRepository.deleteItem(id)));
+
+    return this.budgetPlanRepository.deleteItem(id);
   }
 }
