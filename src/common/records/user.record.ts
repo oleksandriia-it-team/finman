@@ -5,6 +5,8 @@ export interface User extends DefaultTableColumns {
   name: string;
   role: RoleEnum;
   email: string;
+  currencyCode: string;
+  locale: string;
 }
 
 export interface FullUserData extends User {
