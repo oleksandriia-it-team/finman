@@ -59,7 +59,7 @@ export class DatabaseLocalService {
   // -------------------------------------------------------------------------
 
   async connect(): Promise<void> {
-    this.db = new DexieService(this.databaseName, this.tables);
+    this.db = new DexieService(this.databaseName, this.tables, this.version);
     // Dexie opens the connection lazily on first operation; calling open()
     // here ensures errors surface early.
     await this.db.open();
@@ -87,22 +87,9 @@ export class DatabaseLocalService {
     includeSoftDeleted: boolean,
   ): Promise<T | null> {
     try {
-      const run = async () => {
-        const item = (await this.table<T>(tableName).get(id)) ?? null;
-        if (!includeSoftDeleted && item?.softDeleted) return null;
-        return item;
-      };
-
-      return this.#tx
-        ? await this.#tx.db
-            .table<T, number>(tableName)
-            .get(id)
-            .then((item) => {
-              if (!item) return null;
-              if (!includeSoftDeleted && item.softDeleted) return null;
-              return item;
-            })
-        : await run();
+      const item = (await this.table<T>(tableName).get(id)) ?? null;
+      if (!includeSoftDeleted && item?.softDeleted) return null;
+      return item;
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }
@@ -277,21 +264,12 @@ export class DatabaseLocalService {
   /**
    * Starts a read/write batch transaction covering the specified table(s).
    *
-   * While the batch is active every Dexie operation **inside the same
-   * transaction scope** participates in the same atomic unit.  Use
-   * `doneBatch()` to commit and `revertBatch()` to roll back.
-   *
    * @example
    * await dbService.runBatch(['budgetPlans', 'delayedExpenses'], async () => {
    *   await dbService.updateOrCreateItem('budgetPlans', plan);
    *   await dbService.updateOrCreateItem('delayedExpenses', expense);
    * });
    *
-   * @remarks
-   * Unlike the old idb implementation that stored `#tx` as a field and
-   * required manual `doneBatch()` calls, this version wraps the callback in
-   * `Dexie.transaction()` so the transaction lifecycle is managed
-   * automatically.  The `#tx` field is kept for compatibility checks only.
    */
   async runBatch<T>(tableNames: string | string[], work: () => Promise<T>): Promise<T> {
     if (this.#tx) {

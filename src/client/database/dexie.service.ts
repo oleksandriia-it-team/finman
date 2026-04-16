@@ -7,7 +7,7 @@ export class DexieService extends Dexie {
   // `Record<string, Table>` so the class compiles without listing every table.
   [key: string]: Table<RecordModel & DefaultTableColumns, number> | unknown;
 
-  constructor(name: string, tableNames: string[]) {
+  constructor(name: string, tableNames: string[], version: number) {
     super(name);
 
     const schema = tableNames.reduce<Record<string, string>>((acc, t) => {
@@ -15,6 +15,6 @@ export class DexieService extends Dexie {
       return acc;
     }, {});
 
-    this.version(1).stores(schema);
+    this.version(version).stores(schema);
   }
 }
