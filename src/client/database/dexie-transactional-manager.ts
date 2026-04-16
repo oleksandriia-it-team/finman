@@ -1,5 +1,6 @@
-import type { DatabaseLocalService } from './database.local.service';
+import { databaseLocalService, type DatabaseLocalService } from './database.local.service';
 import type { ITransactionManager } from '@common/models/transaction-manager.model';
+import { Tables } from '@frontend/shared/constants/database.constants';
 
 export class DexieTransactionManager implements ITransactionManager {
   constructor(
@@ -11,3 +12,5 @@ export class DexieTransactionManager implements ITransactionManager {
     return this.db.runBatch(this.tables, work);
   }
 }
+
+export const dexieTransactionManager = new DexieTransactionManager(databaseLocalService, Object.values(Tables));

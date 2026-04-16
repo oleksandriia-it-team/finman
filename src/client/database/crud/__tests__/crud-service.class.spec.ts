@@ -6,8 +6,8 @@ import { DatabaseLocalService } from '../../database.local.service';
 const tableName = 'TEST';
 
 class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
-  constructor(databaseService: DatabaseLocalService) {
-    super(databaseService, tableName);
+  constructor(databaseLocalService: DatabaseLocalService) {
+    super(databaseLocalService, tableName);
   }
 
   // eslint-disable-next-line

@@ -26,16 +26,16 @@ export abstract class CrudLocalService<
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
   protected constructor(
-    protected readonly databaseService: DatabaseLocalService,
+    protected readonly databaseLocalService: DatabaseLocalService,
     readonly tableName: string,
   ) {}
 
   getItemById(id: number): Promise<T | null> {
-    return this.databaseService.getItemById(this.tableName, id, false);
+    return this.databaseLocalService.getItemById(this.tableName, id, false);
   }
 
   async getItems(first: number, last: number): Promise<T[]> {
-    return this.databaseService.getItems(this.tableName, first, last, false);
+    return this.databaseLocalService.getItems(this.tableName, first, last, false);
   }
 
   abstract createItem(data: DTO): Promise<number>;
@@ -45,6 +45,6 @@ export abstract class CrudLocalService<
   abstract deleteItem(id: number): Promise<true>;
 
   getTotalCount(): Promise<number> {
-    return this.databaseService.getTotalCount(this.tableName, false);
+    return this.databaseLocalService.getTotalCount(this.tableName, false);
   }
 }
