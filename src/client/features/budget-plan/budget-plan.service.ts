@@ -1,11 +1,17 @@
-import { type BudgetPlanLocalRepository } from '../../entities/budget-plan/budget-plan.local.repository';
+import {
+  budgetPlanLocalRepository,
+  type BudgetPlanLocalRepository,
+} from '../../entities/budget-plan/budget-plan.local.repository';
 import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
 import type { ICrudService } from '@common/models/crud-service.model';
-import { type CreateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/create-budget-plan.local.use-case';
-import { type DeleteBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/delete-budget-plan.local.use-case';
-import { type GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-budget-plan.local.use-case';
-import { type UpdateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/update-budget-plan.local.use-case';
+import { CreateBudgetPlanCommonUseCase } from '@common/domains/budget-plan/use-cases/create-budget-plan.common.use-case';
+import { DeleteBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/delete-budget-plan.local.use-case';
+import { GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-budget-plan.local.use-case';
+import { UpdateBudgetPlanCommonUseCase } from '@common/domains/budget-plan/use-cases/update-budget-plan.common.use-case';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { dexieTransactionManager } from '@frontend/database/dexie-transactional-manager';
+import { unregularEntryLocalRepository } from '@frontend/entities/unregular-entry/unregular-entry.local.repository';
+import { regularEntryLocalRepository } from '@frontend/entities/regular-entry/regular-entry.local.repository';
 
 export class BudgetPlanLocalUsecases implements ICrudService<
   BudgetPlanDetailed,
@@ -13,10 +19,10 @@ export class BudgetPlanLocalUsecases implements ICrudService<
 > {
   constructor(
     private budgetPlanLocalRepository: BudgetPlanLocalRepository,
-    private createBudgetPlanLocalUseCase: CreateBudgetPlanLocalUseCase,
+    private createBudgetPlanLocalUseCase: CreateBudgetPlanCommonUseCase,
     private deleteBudgetPlanLocalUseCase: DeleteBudgetPlanLocalUseCase,
     private getBudgetPlanLocalUseCase: GetBudgetPlanLocalUseCase,
-    private updateBudgetPlanLocalUseCase: UpdateBudgetPlanLocalUseCase,
+    private updateBudgetPlanLocalUseCase: UpdateBudgetPlanCommonUseCase,
   ) {}
 
   async createItem(data: BudgetPlanDto): Promise<number> {
@@ -24,7 +30,7 @@ export class BudgetPlanLocalUsecases implements ICrudService<
   }
 
   async updateItem(id: number, data: BudgetPlanDto): Promise<true> {
-    return this.updateBudgetPlanLocalUseCase.execute(id, data);
+    return this.updateBudgetPlanLocalUseCase.execute({ id, ...data });
   }
 
   async getTotalCount(): Promise<number> {
@@ -44,3 +50,36 @@ export class BudgetPlanLocalUsecases implements ICrudService<
     return [];
   }
 }
+
+export const createBudgetPlanLocalUseCase = new CreateBudgetPlanCommonUseCase(
+  dexieTransactionManager,
+  budgetPlanLocalRepository,
+  unregularEntryLocalRepository,
+);
+
+export const deleteBudgetPlanLocalUseCase = new DeleteBudgetPlanLocalUseCase(
+  dexieTransactionManager,
+  budgetPlanLocalRepository,
+  unregularEntryLocalRepository,
+);
+
+export const getBudgetPlanLocalUseCase = new GetBudgetPlanLocalUseCase(
+  dexieTransactionManager,
+  budgetPlanLocalRepository,
+  unregularEntryLocalRepository,
+  regularEntryLocalRepository,
+);
+
+export const updateBudgetPlanCommonUseCase = new UpdateBudgetPlanCommonUseCase(
+  dexieTransactionManager,
+  budgetPlanLocalRepository,
+  unregularEntryLocalRepository,
+);
+
+export const budgetPlanLocalUsecases = new BudgetPlanLocalUsecases(
+  budgetPlanLocalRepository,
+  createBudgetPlanLocalUseCase,
+  deleteBudgetPlanLocalUseCase,
+  getBudgetPlanLocalUseCase,
+  updateBudgetPlanCommonUseCase,
+);

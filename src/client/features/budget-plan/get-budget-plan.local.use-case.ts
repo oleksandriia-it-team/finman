@@ -1,28 +1,32 @@
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
-import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
-import type { UnregularEntryLocalRepository } from '@frontend/entities/unregular-entry/unregular-entry.local.repository';
-import type { RegularEntryLocalRepository } from '@frontend/entities/regular-entry/regular-entry.local.repository';
+import type { BudgetPlan, BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
+import type { ICrudService } from '@common/models/crud-service.model';
+import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export class GetBudgetPlanLocalUseCase {
+export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<number, BudgetPlanDetailed | null> {
   constructor(
-    private budgetPlanLocalRepository: BudgetPlanLocalRepository,
-    private regularEntryLocalRepository: RegularEntryLocalRepository,
-    private unregularEntryLocalRepository: UnregularEntryLocalRepository,
-  ) {}
+    transactionManager: ITransactionManager,
+    private budgetPlanRepository: ICrudService<BudgetPlan>,
+    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private regularEntryRepository: ICrudService<RegularEntry>,
+  ) {
+    super(transactionManager);
+  }
 
-  async execute(id: number): Promise<BudgetPlanDetailed | null> {
-    const budgetPlan = await this.budgetPlanLocalRepository.getItemById(id);
+  async handle(id: number): Promise<BudgetPlanDetailed | null> {
+    const budgetPlan = await this.budgetPlanRepository.getItemById(id);
 
     if (!budgetPlan) {
       return null;
     }
 
     const otherEntries = (
-      await Promise.all(budgetPlan.otherEntryIds.map((id) => this.unregularEntryLocalRepository.getItemById(id)))
+      await Promise.all(budgetPlan.otherEntryIds.map((id) => this.unregularEntryRepository.getItemById(id)))
     ).filter((i) => !!i);
 
     const regularEntries = (
-      await Promise.all(budgetPlan.plannedRegularEntryIds.map((id) => this.regularEntryLocalRepository.getItemById(id)))
+      await Promise.all(budgetPlan.plannedRegularEntryIds.map((id) => this.regularEntryRepository.getItemById(id)))
     ).filter((i) => !!i);
 
     return {
