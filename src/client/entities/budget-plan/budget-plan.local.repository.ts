@@ -4,7 +4,7 @@ import { type DatabaseLocalService, databaseLocalService } from '../../database/
 import { Tables } from '../../shared/constants/database.constants';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
-export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan> {
+export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.BudgetPlanTable);
   }

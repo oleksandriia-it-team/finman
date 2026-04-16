@@ -4,7 +4,7 @@ import { databaseLocalService, type DatabaseLocalService } from '@frontend/datab
 import { Tables } from '@frontend/shared/constants/database.constants';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
-export class UnregularEntryLocalRepository extends CrudLocalService<UnregularEntry> {
+export class UnregularEntryLocalRepository extends CrudLocalService<UnregularEntry, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.UnregularEntries);
   }

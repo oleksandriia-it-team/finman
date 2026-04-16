@@ -2,6 +2,8 @@ import { type DatabaseLocalService } from '../database.local.service';
 import { type ICrudService } from '@common/models/crud-service.model';
 import { type RecordModel } from '@common/models/record.model';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
+import type { DeepPartial } from '@common/models/deep-partial.model';
+import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 
 /**
  * Abstract base class for CRUD operations on a specific IndexedDB table.
@@ -23,6 +25,7 @@ import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models
  */
 export abstract class CrudLocalService<
   T extends DefaultTableColumns,
+  F extends object,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
   protected constructor(
@@ -34,8 +37,8 @@ export abstract class CrudLocalService<
     return this.databaseLocalService.getItemById(this.tableName, id, false);
   }
 
-  async getItems(first: number, last: number): Promise<T[]> {
-    return this.databaseLocalService.getItems(this.tableName, first, last, false);
+  async getItems(first: number, last: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
+    return this.databaseLocalService.getItems(this.tableName, first, last, false, this.mapFilters(filters));
   }
 
   abstract createItem(data: DTO): Promise<number>;
@@ -44,7 +47,11 @@ export abstract class CrudLocalService<
 
   abstract deleteItem(id: number): Promise<true>;
 
-  getTotalCount(): Promise<number> {
-    return this.databaseLocalService.getTotalCount(this.tableName, false);
+  getTotalCount(filters?: DeepPartial<F> | undefined): Promise<number> {
+    return this.databaseLocalService.getTotalCount(this.tableName, false, this.mapFilters(filters));
+  }
+
+  protected mapFilters(_: DeepPartial<F> | undefined): FilterPredicate<T>[] {
+    return [];
   }
 }

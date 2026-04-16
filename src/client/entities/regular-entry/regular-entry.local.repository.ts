@@ -3,8 +3,11 @@ import { type DatabaseLocalService, databaseLocalService } from '../../database/
 import { Tables } from '../../shared/constants/database.constants';
 import { type RegularEntry } from '@common/records/regular-entry.record';
 import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
+import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
+import type { DeepPartial } from '@common/models/deep-partial.model';
 
-export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry> {
+export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry, RegularEntryFilter> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.RegularExpensesAndIncomesTable);
   }
@@ -23,6 +26,24 @@ export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry> 
 
   getItemsWithSoftDeleted(first: number, last: number): Promise<RegularEntry[]> {
     return this.databaseLocalService.getItems(this.tableName, first, last, true);
+  }
+
+  protected override mapFilters(filters: DeepPartial<RegularEntryFilter> | undefined): FilterPredicate<RegularEntry>[] {
+    const predicates: FilterPredicate<RegularEntry>[] = [];
+
+    if (!filters) {
+      return predicates;
+    }
+
+    if (filters.type) {
+      predicates.push((item) => item.type === filters.type);
+    }
+
+    if (filters.softDeleted !== undefined) {
+      predicates.push((item) => item.softDeleted === filters.softDeleted);
+    }
+
+    return predicates;
   }
 }
 

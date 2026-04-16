@@ -6,8 +6,7 @@ import { type DefaultTableColumns } from '@common/models/default-table-columns.m
 import { type RecordModel } from '@common/models/record.model';
 import { DexieService } from '@frontend/database/dexie.service';
 import { type Table, type Transaction } from 'dexie';
-import type { DeepPartial } from '@common/models/deep-partial.model';
-import type { FilterPredicate, LocalFilter } from '@frontend/shared/models/local-filter.model';
+import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -71,37 +70,6 @@ export class DatabaseLocalService {
   }
 
   // -------------------------------------------------------------------------
-  // Filter hook  (override in subclasses / repositories)
-  // -------------------------------------------------------------------------
-
-  /**
-   * Translates a domain filter object into a predicate that Dexie's
-   * `.filter()` can consume.
-   *
-   * The default implementation handles only the `softDeleted` flag that every
-   * table shares.  Override this method in a concrete repository to add
-   * domain-specific conditions:
-   *
-   * @example
-   * // In RegularEntryLocalRepository:
-   * protected override mapFilters(filters: DeepPartial<RegularEntryFilter>) {
-   *   return (item: RegularEntry) => {
-   *     if (filters.type !== undefined && item.type !== filters.type) return false;
-   *     if (filters.softDeleted !== undefined && item.softDeleted !== filters.softDeleted) return false;
-   *     return true;
-   *   };
-   * }
-   */
-  protected mapFilters<T extends DefaultTableColumns>(filters: DeepPartial<LocalFilter>): FilterPredicate<T> {
-    return (item: T) => {
-      if (filters.softDeleted !== undefined && item.softDeleted !== filters.softDeleted) {
-        return false;
-      }
-      return true;
-    };
-  }
-
-  // -------------------------------------------------------------------------
   // Helpers
   // -------------------------------------------------------------------------
 
@@ -143,19 +111,23 @@ export class DatabaseLocalService {
   /**
    * Returns a paginated slice of records.
    *
-   * @param tableName  - target object store
-   * @param start      - zero-based offset of the first record to return
-   * @param end        - zero-based offset of the last record to return (inclusive)
-   * @param includeSoftDeleted - when false, soft-deleted rows are skipped
-   * @param filters    - optional domain filter; translated via `mapFilters`
+   * @param tableName          - Target object store name.
+   * @param start              - Zero-based offset of the first record to return.
+   * @param end                - Zero-based offset of the last record to return (inclusive).
+   * @param includeSoftDeleted - When false, records with `softDeleted: 1` are skipped.
+   * @param mapFilters         - Optional array of predicate functions.
+   * A record is included only if ALL predicates return true.
+   * @returns                  - A promise that resolves to an array of filtered and paginated records.
    */
-  async getItems<T extends DefaultTableColumns, F extends LocalFilter = LocalFilter>(
+  async getItems<T extends DefaultTableColumns>(
     tableName: string,
     start: number,
     end: number,
     includeSoftDeleted: boolean,
-    filters?: DeepPartial<F>,
+    mapFilters?: FilterPredicate<T>[],
   ): Promise<T[]> {
+    const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
+
     try {
       const limit = end - start + 1;
 
@@ -167,9 +139,8 @@ export class DatabaseLocalService {
       }
 
       // Apply domain filters if provided
-      if (filters && !isEmpty(filters)) {
-        const predicate = this.mapFilters<T>(filters);
-        collection = collection.filter(predicate);
+      if (predicateFn) {
+        collection = collection.filter(predicateFn);
       }
 
       return await collection.offset(start).limit(limit).toArray();
@@ -179,19 +150,23 @@ export class DatabaseLocalService {
   }
 
   /**
-   * Returns the total number of records (optionally filtered).
+   * Returns the total number of records, optionally filtered.
    *
-   * @param tableName          - target object store
-   * @param includeSoftDeleted - when false, soft-deleted rows are excluded
-   * @param filters            - optional domain filter; translated via `mapFilters`
+   * @param tableName          - Target object store name.
+   * @param includeSoftDeleted - When false, records with `softDeleted: 1` are excluded from the count.
+   * @param mapFilters         - Optional array of predicate functions.
+   * If provided, triggers in-memory filtering (slower than indexed count).
+   * @returns                  - A promise that resolves to the total number of matching records.
    */
-  async getTotalCount<F extends LocalFilter = LocalFilter>(
+  async getTotalCount<T extends DefaultTableColumns>(
     tableName: string,
     includeSoftDeleted: boolean,
-    filters?: DeepPartial<F>,
+    mapFilters?: FilterPredicate<T>[],
   ): Promise<number> {
     try {
-      const hasExtraFilters = filters && !isEmpty(filters);
+      const predicateFn =
+        mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
+      const hasExtraFilters = !!predicateFn;
 
       // Fast path — no extra filters, use Dexie index
       if (!hasExtraFilters) {
@@ -202,14 +177,15 @@ export class DatabaseLocalService {
       }
 
       // Slow path — need in-memory filtering
-      let collection = this.table(tableName).toCollection();
+      let collection = this.table<T>(tableName).toCollection();
 
       if (!includeSoftDeleted) {
         collection = collection.filter((item) => item.softDeleted === 0);
       }
 
-      const predicate = this.mapFilters(filters!);
-      collection = collection.filter(predicate);
+      if (predicateFn) {
+        collection = collection.filter(predicateFn);
+      }
 
       return await collection.count();
     } catch (error) {

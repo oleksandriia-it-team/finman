@@ -4,7 +4,7 @@ import { Tables } from '../../shared/constants/database.constants';
 import { type DelayedExpense } from '@common/records/delayed-expenses.record';
 import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
-export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense> {
+export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.DelayedExpensesTable);
   }
