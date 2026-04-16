@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { DataSource, type DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
-import { EnvConfigConstant } from '@common/constants/env-config.constant';
+import { EnvConfigConstant } from '@backend/config/env-config.constant';
 
 const args = process.argv.slice(2);
 const synchronize = args.includes('--synchronize=true');
