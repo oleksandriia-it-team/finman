@@ -2,7 +2,7 @@ import { isEmpty } from '@common/utils/is-empty.util';
 import { useEffect, useMemo, useState } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
-import {
+import type {
   PaginationResource,
   PaginationResourceConfig,
 } from '@frontend/shared/hooks/pagination-resource/models/pagination-resource.model';
