@@ -5,7 +5,7 @@ import { DatabaseLocalService } from '../../database.local.service';
 
 const tableName = 'TEST';
 
-class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
+class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, tableName);
   }
@@ -31,14 +31,12 @@ class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns> {
     return Promise.resolve(true);
   }
 }
-
-describe('CrudService', () => {
+describe('CrudLocalService', () => {
   let dbService: DatabaseLocalService;
   let service: CrudServiceForUnitTest;
 
   beforeEach(() => {
-    dbService = new DatabaseLocalService('UNIT_TESTS', [], 1);
-
+    dbService = new DatabaseLocalService('UNIT_TESTS', [tableName], 1);
     service = new CrudServiceForUnitTest(dbService);
   });
 
@@ -48,7 +46,6 @@ describe('CrudService', () => {
     const result = await service.getItemById(1);
 
     expect(result).toBe(null);
-
     expect(dbService.getItemById).toHaveBeenCalledExactlyOnceWith(tableName, 1, false);
   });
 
@@ -59,7 +56,7 @@ describe('CrudService', () => {
 
     expect(result).toBe(0);
 
-    expect(dbService.getTotalCount).toHaveBeenCalledExactlyOnceWith(tableName, false);
+    expect(dbService.getTotalCount).toHaveBeenCalledExactlyOnceWith(tableName, false, []);
   });
 
   it('should call getItems from 1 to 12 indexes and return []', async () => {
@@ -69,6 +66,6 @@ describe('CrudService', () => {
 
     expect(result.length).toBe(0);
 
-    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false);
+    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false, []);
   });
 });

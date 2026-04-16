@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { type RecordModel } from '@common/models/record.model';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { ErrorTexts } from '@common/constants/error-texts.contant';
+import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 
 interface UnitTestUser extends RecordModel {
   id: number;
@@ -413,5 +414,99 @@ describe('DatabaseService', () => {
     const firstUser = await databaseLocalService.getFirstElement<UnitTestUser & DefaultTableColumns>('users', true);
 
     expect(firstUser?.id).toBe(1);
+  });
+
+  // -------------------------------------------------------------------------
+  // Filtering (mapFilters logic)
+  // -------------------------------------------------------------------------
+
+  describe('Filtering with Predicates', () => {
+    beforeEach(async () => {
+      await seedUsers(databaseLocalService, fiveUsers);
+    });
+
+    it('should filter users by age > 25 using a single predicate', async () => {
+      const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age > 25;
+
+      const result = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 0, 10, false, [
+        ageFilter,
+      ]);
+
+      expect(result.length).toBe(3);
+      expect(result.every((u) => u.age > 25)).toBe(true);
+      expect(result.map((u) => u.name)).toContain('Ivan');
+      expect(result.map((u) => u.name)).toContain('Serhii');
+    });
+
+    it('should filter users by multiple predicates (age > 25 AND name contains "n")', async () => {
+      const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age > 25;
+      const nameFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.name.includes('n');
+
+      const result = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 0, 10, false, [
+        ageFilter,
+        nameFilter,
+      ]);
+
+      expect(result.length).toBe(2);
+      expect(result.map((u) => u.name)).toEqual(['Ivan', 'Olena']);
+    });
+
+    it('should return correct totalCount with applied filters', async () => {
+      const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age < 25;
+
+      const count = await databaseLocalService.getTotalCount<UnitTestUser & DefaultTableColumns>('users', false, [
+        ageFilter,
+      ]);
+
+      expect(count).toBe(2);
+    });
+
+    it('should correctly combine pagination (limit/offset) with filters', async () => {
+      const manyUsers: UnitTestUser[] = Array.from({ length: 10 }, (_, i) => ({
+        id: i + 10,
+        name: `FilterUser${i}`,
+        email: `test${i}@test.com`,
+        age: 40,
+      }));
+      await seedUsers(databaseLocalService, manyUsers);
+
+      const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age === 40;
+
+      const result = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 3, 4, false, [
+        ageFilter,
+      ]);
+
+      expect(result.length).toBe(2);
+      expect(result[0].name).toBe('FilterUser3');
+      expect(result[1].name).toBe('FilterUser4');
+    });
+
+    it('should handle filters combined with softDelete correctly', async () => {
+      await databaseLocalService.deleteItem('users', 3, true);
+
+      const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age > 25;
+
+      const excluded = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 0, 10, false, [
+        ageFilter,
+      ]);
+      expect(excluded.length).toBe(2);
+      expect(excluded.map((u) => u.id)).not.toContain(3);
+
+      const included = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 0, 10, true, [
+        ageFilter,
+      ]);
+      expect(included.length).toBe(3);
+      expect(included.map((u) => u.id)).toContain(3);
+    });
+
+    it('should return empty array if no records match filters', async () => {
+      const impossibleFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age > 100;
+
+      const result = await databaseLocalService.getItems('users', 0, 10, false, [impossibleFilter]);
+      const count = await databaseLocalService.getTotalCount('users', false, [impossibleFilter]);
+
+      expect(result).toEqual([]);
+      expect(count).toBe(0);
+    });
   });
 });
