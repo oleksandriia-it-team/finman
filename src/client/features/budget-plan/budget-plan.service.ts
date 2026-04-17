@@ -46,7 +46,7 @@ export class BudgetPlanLocalUsecases implements ICrudService<
   }
 
   async getItems(): Promise<BudgetPlanDetailed[]> {
-    // The result is intentionally: we will not have the method for budget plans
+    // Intentionally unsupported: listing budget plans is not required by this service.
     return [];
   }
 }

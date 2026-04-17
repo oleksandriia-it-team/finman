@@ -9,15 +9,11 @@ export class BasicDataSource<
   T extends DefaultTableColumns,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
-  isOfflineMode: boolean;
-
   constructor(
     private localStorage: LocalStorageService,
     private local: ICrudService<T, DTO>,
     private apiClient: ICrudService<T, DTO>,
-  ) {
-    this.isOfflineMode = !this.localStorage.getItem<UserInformation>(UserInformationKey);
-  }
+  ) {}
 
   private get source(): ICrudService<T, DTO> {
     if (this.isOfflineMode) {
@@ -49,5 +45,9 @@ export class BasicDataSource<
 
   getTotalCount(): Promise<number> {
     return this.source.getTotalCount();
+  }
+
+  get isOfflineMode() {
+    return !this.localStorage.getItem<UserInformation>(UserInformationKey);
   }
 }

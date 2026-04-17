@@ -41,7 +41,7 @@ export class RegularEntryApiClient implements ICrudService<RegularEntry> {
       .then((r) => r.data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, 'id'>): Promise<true> {
+  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
     return fetchClient
       .put<ApiResultOperationSuccess<true>>(`/api/budget/regular-entry/update/${id}`, data)
       .then((r) => r.data);
