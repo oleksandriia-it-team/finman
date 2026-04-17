@@ -1,6 +1,6 @@
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type EntityTarget, type Repository } from 'typeorm';
-import DBDataSource from '../../database/database-connection';
+import DBDataSource from './database-connection';
 import { getTransactionManager } from './transaction.manager';
 import { type ConstructorModel } from '@common/models/constructor.model';
 

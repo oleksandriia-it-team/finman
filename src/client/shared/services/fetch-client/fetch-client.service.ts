@@ -1,13 +1,13 @@
 import { type RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
-import { EnvConfigConstant } from '@common/constants/env-config.constant';
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { isEmpty } from '@common/utils/is-empty.util';
+import { PublicEnvConfigConstant } from '@common/config/public-env-config.constant';
 
 class FetchClientService {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = EnvConfigConstant.NEXT_PUBLIC_API_URL;
+    this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
   }
 
   private async request<T, D = unknown>(
