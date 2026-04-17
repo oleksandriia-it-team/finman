@@ -1,6 +1,6 @@
 import { type EntityManager } from 'typeorm';
 import { AsyncLocalStorage } from 'async_hooks';
-import DBDataSource from '../../database/database-connection';
+import DBDataSource from './database-connection';
 import type { ITransactionManager } from '@common/models/transaction-manager.model';
 
 export const transactionStorage = new AsyncLocalStorage<EntityManager>();

@@ -130,7 +130,7 @@ const eslintConfig = [
             // ------------------------------------------
             {
               from: 'server-shared',
-              allow: ['common', 'server-db', 'server-config'],
+              allow: ['common', 'server-config'],
             },
             {
               from: 'server-entities',
@@ -140,7 +140,7 @@ const eslintConfig = [
               from: 'server-features',
               // Can import Kernel, Shared, Common.
               // Cannot import other features (implicit via whitelist).
-              allow: ['server-entities', 'server-shared', 'common', 'server-config'],
+              allow: ['server-entities', 'server-shared', 'client-db', 'common', 'server-config'],
             },
             {
               from: 'server-db',
