@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { UserRequirements } from '@common/domains/user/constants/user-requirements.constant';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 export const CreateUserSchema = z.object({
   email: z

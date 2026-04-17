@@ -4,7 +4,5 @@ export const UserRequirements = {
   MaxLoginLength: 40,
   MaxPasswordLength: 255,
   MaxEmailLength: 40,
-  MaxCurrencyLength: 30,
   MaxLanguageLength: 30,
-  MaxLocaleLength: 15,
 };
