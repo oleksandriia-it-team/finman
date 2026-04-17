@@ -22,6 +22,6 @@ export interface BudgetPlan extends BudgetPlanBase {
 
 export type BudgetPlanDto = Omit<BudgetPlanBase, DefaultColumnKeys> &
   RecordModel & {
-    otherEntries: PartialIdModel<UnregularEntry>[];
+    otherEntries: PartialIdModel<Omit<UnregularEntry, 'budgetPlanId'>>[];
     plannedRegularEntryIds: number[];
   };

@@ -13,10 +13,14 @@ export class CreateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
   }
 
   async handle({ otherEntries: otherEntriesDto, ...data }: BudgetPlanDto): Promise<number> {
+    const id = await this.budgetPlanRepository.createItem({ ...data, otherEntryIds: [] });
+
     const otherEntryIds = await Promise.all(
-      otherEntriesDto.map((dto) => this.unregularEntryRepository.createItem(dto)),
+      otherEntriesDto.map((dto) => this.unregularEntryRepository.createItem({ ...dto, budgetPlanId: id })),
     );
 
-    return await this.budgetPlanRepository.createItem({ ...data, otherEntryIds });
+    await this.budgetPlanRepository.updateItem(id, { ...data, otherEntryIds });
+
+    return id;
   }
 }

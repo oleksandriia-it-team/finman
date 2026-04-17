@@ -17,7 +17,7 @@ export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
     const currentBudgetPlan = await this.budgetPlanRepository.getItemById(id);
 
     if (!currentBudgetPlan) {
-      throw Error(`Budget plan not found with id ${id}`);
+      throw new Error(`Budget plan not found with id ${id}`);
     }
 
     const {
@@ -29,13 +29,15 @@ export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
     const remainedOtherEntries = otherEntriesDto.filter((i) => i.id && remainedOtherEntryIds.includes(i.id));
 
     await Promise.all(
-      remainedOtherEntries.map((dto) => this.unregularEntryRepository.updateItem(dto.id as number, dto)),
+      remainedOtherEntries.map((dto) =>
+        this.unregularEntryRepository.updateItem(dto.id as number, { ...dto, budgetPlanId: id }),
+      ),
     );
 
     await Promise.all(deletedOtherEntries.map((id) => this.unregularEntryRepository.deleteItem(id)));
 
     const newOtherEntryIds = await Promise.all(
-      newOtherEntries.map((dto) => this.unregularEntryRepository.createItem(dto)),
+      newOtherEntries.map((dto) => this.unregularEntryRepository.createItem({ ...dto, budgetPlanId: id })),
     );
 
     return await this.budgetPlanRepository.updateItem(id, {

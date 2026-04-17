@@ -10,13 +10,11 @@ export class UnregularEntryLocalRepository extends CrudLocalService<UnregularEnt
   }
 
   createItem(data: Omit<UnregularEntry, DefaultColumnKeys>): Promise<number> {
-    return this.databaseLocalService.updateOrCreateItem(Tables.UnregularEntries, data);
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
   updateItem(id: number, data: Omit<UnregularEntry, DefaultColumnKeys>): Promise<true> {
-    return this.databaseLocalService
-      .updateOrCreateItem(Tables.UnregularEntries, { id, ...data })
-      .then(() => true as const);
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, { id, ...data }).then(() => true as const);
   }
 
   deleteItem(id: number): Promise<true> {

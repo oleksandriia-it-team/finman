@@ -6,4 +6,5 @@ export interface UnregularEntry extends DefaultTableColumns {
   description: string;
   sum: number;
   regular: false;
+  budgetPlanId: number;
 }

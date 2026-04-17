@@ -16,10 +16,12 @@ export class DeleteBudgetPlanLocalUseCase extends TransactionalUseCase<number, t
     const currentBudgetPlan = await this.budgetPlanRepository.getItemById(id);
 
     if (!currentBudgetPlan) {
-      throw Error(`Budget plan not found with id ${id}`);
+      throw new Error(`Budget plan not found with id ${id}`);
     }
 
-    await Promise.all(currentBudgetPlan.otherEntryIds.map((id) => this.unregularEntryRepository.deleteItem(id)));
+    await Promise.all(
+      currentBudgetPlan.otherEntryIds.map((entryId) => this.unregularEntryRepository.deleteItem(entryId)),
+    );
 
     return this.budgetPlanRepository.deleteItem(id);
   }
