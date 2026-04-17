@@ -11,7 +11,7 @@ export function UiResponsiveMenuContent({ children, className, ...props }: Respo
     <>
       {!isMobile && (
         <UiPopoverContent
-          className={cn('!w-fit !p-0', className)}
+          className={cn('!w-fit !py-2 !px-3', className)}
           {...props}
         >
           {children}
@@ -20,10 +20,12 @@ export function UiResponsiveMenuContent({ children, className, ...props }: Respo
 
       {isMobile && (
         <UiSheetContent
-          className={className}
+          side="bottom"
+          showCloseButton={false}
+          className={cn('w-full !gap-0 py-2 px-3 items-center', className)}
           {...props}
         >
-          {children}
+          <div className="w-fit">{children}</div>
         </UiSheetContent>
       )}
     </>

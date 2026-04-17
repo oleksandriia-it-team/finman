@@ -11,6 +11,7 @@ import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
 import { UiResponsiveMenuContent } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-content';
 import { FinResponsiveMenuItem } from '@frontend/components/responsive-menu-item/fin-responsive-menu-item';
+import { UiResponsiveLabel } from '@frontend/ui/ui-responsive-menu/ui-responsive-label';
 
 export function IncomeExpenseCard({
   type,
@@ -52,6 +53,7 @@ export function IncomeExpenseCard({
               </UiResponsiveMenuTrigger>
 
               <UiResponsiveMenuContent>
+                <UiResponsiveLabel>Оберіть дію</UiResponsiveLabel>
                 <FinResponsiveMenuItem
                   name="Редагувати"
                   icon="pencil-fill"

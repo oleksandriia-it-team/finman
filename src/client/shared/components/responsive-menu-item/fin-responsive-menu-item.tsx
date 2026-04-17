@@ -10,6 +10,7 @@ export function FinResponsiveMenuItem({ className, icon, name, variant = 'defaul
       className={cn('list-none w-fit', className)}
     >
       <UiButton
+        paddingNone
         bgNone
         variant={variant}
       >
