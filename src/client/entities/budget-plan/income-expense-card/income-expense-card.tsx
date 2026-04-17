@@ -41,7 +41,6 @@ export function IncomeExpenseCard({
                 size="lg"
               />
             </div>
-
             <UiResponsiveMenu>
               <UiResponsiveMenuTrigger asChild>
                 <UiIconButton
@@ -58,6 +57,7 @@ export function IncomeExpenseCard({
                   icon="pencil-fill"
                 />
                 <FinResponsiveMenuItem
+                  variant="destructive"
                   name="Видалити"
                   icon="trash-fill"
                 />
