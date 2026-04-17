@@ -59,7 +59,6 @@ export function FinMultipleAutocomplete<T>({
         const remainValues = selectedDataFull.filter((v) => !removedValues?.length || !removedValues.includes(v.label));
         onChange([...remainValues, ...addedValues]);
       }}
-      disabled={disabled}
     >
       <UiComboboxChips
         onBlur={onBlur}
@@ -72,6 +71,7 @@ export function FinMultipleAutocomplete<T>({
           })}
 
           <UiComboboxChipsInput
+            disabled={disabled}
             className={className}
             ref={ref}
             id={id}
