@@ -49,10 +49,10 @@ export function FinAutocomplete<T>({
         }
         onChange(options.find((option) => option.label === label));
       }}
-      disabled={disabled}
       {...props}
     >
       <UiComboboxInput
+        disabled={disabled}
         className={className}
         data-invalid={dataInvalid}
         ref={ref}

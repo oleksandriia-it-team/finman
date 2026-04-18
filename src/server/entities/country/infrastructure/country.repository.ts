@@ -1,4 +1,4 @@
-import { CrudApiRepository } from '../../../shared/infrastructure/crud.api.repository';
+import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { CountryOrm } from './country.orm';
 import { type CountriesAndLocalesFilter } from '@common/domains/lookups/filters/countries-and-locales.filter';
 import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';

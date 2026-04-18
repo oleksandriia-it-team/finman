@@ -2,11 +2,11 @@
 
 import { useEffect } from 'react';
 import { type ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
-import { databaseService } from '@frontend/database/database.local.service';
+import { databaseLocalService } from '@frontend/database/database.local.service';
 
 export default function InitApplication({ children }: ChildrenComponentProps) {
   useEffect(() => {
-    databaseService.connect();
+    databaseLocalService.connect();
   }, []);
 
   return children;

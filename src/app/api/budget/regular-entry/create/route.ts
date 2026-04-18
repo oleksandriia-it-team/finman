@@ -14,11 +14,11 @@ export const POST = createRoute({
   execute: async ({ context, body }) => {
     const userId = context as number;
 
-    await regularEntryApiRepository.createItem({ ...body, userId });
+    const id = await regularEntryApiRepository.createItem({ ...body, userId });
 
     return {
       status: 200,
-      data: true,
+      data: id,
     };
   },
   filter: getDefaultApiErrorFilter,

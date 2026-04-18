@@ -15,7 +15,7 @@ export function GetIntegerParamPipe(value: string | string[], min?: number): num
   const result = schema.safeParse(val);
 
   if (!result.success) {
-    throw Error('Один з параметрів не є цілим числом');
+    throw new Error('Один з параметрів не є цілим числом');
   }
 
   return result.data as number;

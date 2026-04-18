@@ -20,6 +20,7 @@ export function FinDropdown<T>({
   className,
   placeholder,
   ref,
+  disabled,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultDropdownInputProps<T>) {
@@ -58,10 +59,12 @@ export function FinDropdown<T>({
         onChange(options.find((option) => option.label === label));
       }}
       open={show}
+      disabled={disabled ?? false}
       onOpenChange={setVisibility}
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        disabled={disabled ?? false}
         ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}
         className={className}
