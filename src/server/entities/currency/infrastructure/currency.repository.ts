@@ -18,14 +18,14 @@ export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyF
     if (filters.excludeIds?.length) {
       where.id = Not(In(filters.excludeIds));
     }
-    if (filters.currencyCode) {
-      where.currencyCode = ILike(`%${filters.currencyCode}%`);
+    if (filters.code) {
+      where.currencyCode = ILike(`%${filters.code}%`);
     }
-    if (filters.currencyName) {
-      where.currencyName = ILike(`%${filters.currencyName}%`);
+    if (filters.name) {
+      where.currencyName = ILike(`%${filters.name}%`);
     }
-    if (filters.currencySymbol) {
-      where.currencySymbol = ILike(`%${filters.currencySymbol}%`);
+    if (filters.symbol) {
+      where.currencySymbol = ILike(`%${filters.symbol}%`);
     }
     return where;
   }
