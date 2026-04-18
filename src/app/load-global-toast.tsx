@@ -27,7 +27,7 @@ export function LoadGlobalToast() {
             <UiIconButton
               icon="x"
               variant={toast.variant}
-              isOutlined={false}
+              isOutlined={0}
               aria-label="Закрити сповіщення"
               size="xs"
             />

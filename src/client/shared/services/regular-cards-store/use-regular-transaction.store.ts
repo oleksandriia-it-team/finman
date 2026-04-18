@@ -1,21 +1,21 @@
 import { create } from 'zustand';
 import { mockRegularTransactions } from '@frontend/shared/services/regular-cards-store/mock-card-data';
-import type { RegularTransactionRecord } from '@common/records/regular-transaction.record';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
 const RegularTransactionsKey = 'regular-transactions-storage';
 
-type CreatePaymentDto = Omit<RegularTransactionRecord, 'id' | 'softDeleted' | 'date'>;
+type CreatePaymentDto = Omit<RegularEntry, 'id' | 'softDeleted' | 'date'>;
 
 interface RegularTransactionStoreState {
-  payments: RegularTransactionRecord[];
-  create: (dto: CreatePaymentDto) => RegularTransactionRecord;
+  payments: RegularEntry[];
+  create: (dto: CreatePaymentDto) => RegularEntry;
   softDelete: (id: string) => void;
-  update: (payment: RegularTransactionRecord) => RegularTransactionRecord;
+  update: (payment: RegularEntry) => RegularEntry;
 }
 
-const getRegularTransactions = (): RegularTransactionRecord[] => {
-  const stored = localStorageService.getItem<RegularTransactionRecord[]>(RegularTransactionsKey);
+const getRegularTransactions = (): RegularEntry[] => {
+  const stored = localStorageService.getItem<RegularEntry[]>(RegularTransactionsKey);
 
   if (!stored || !Array.isArray(stored) || stored.length === 0) {
     return mockRegularTransactions;
@@ -23,7 +23,7 @@ const getRegularTransactions = (): RegularTransactionRecord[] => {
 
   return stored.map((item) => ({
     ...item,
-    date: new Date(item.date),
+    createdAt: new Date(item.createdAt),
   }));
 };
 
@@ -31,14 +31,14 @@ export const useRegularTransactionStore = create<RegularTransactionStoreState>((
   payments: getRegularTransactions(),
 
   create: (dto) => {
-    let newPayment: RegularTransactionRecord; // Declare outside to return it
+    let newPayment: RegularEntry;
 
     set((state) => {
       newPayment = {
         ...dto,
-        id: crypto.randomUUID(),
-        softDeleted: false,
-        date: new Date(),
+        id: Number(crypto.randomUUID()),
+        softDeleted: 0,
+        createdAt: new Date(),
       };
       const updatedPayments = [...state.payments, newPayment];
 

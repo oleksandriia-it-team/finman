@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { RegularPaymentFrequency } from '@frontend/shared/enums/regular-freequency.enum';
+import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 
 export const RegularPaymentFormSchema = z.object({
   subtitle: z.string().min(1, 'Опис обовʼязковий').max(100, 'Максимум 100 символів'),

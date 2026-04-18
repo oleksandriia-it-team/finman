@@ -2,8 +2,8 @@ import { IncomeExpenseCard } from '@frontend/entities/budget-plan/income-expense
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
-import type { RegularTransactionRecord } from '@common/records/regular-transaction.record';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
 export default function RegularIncomesExpensesPage() {
   const pageSize = 5;
@@ -30,15 +30,15 @@ export default function RegularIncomesExpensesPage() {
           {state === PromiseState.Loading && 'Завантаження'}
           {state === PromiseState.Error && (errorMessage || 'Помилка завантаження')}
 
-          {options.map((item: RegularTransactionRecord) => {
+          {options.map((item: RegularEntry) => {
             return (
               <IncomeExpenseCard
                 key={item.id}
                 category={item.category}
-                subtitle={item.subtitle}
+                subtitle={item.description}
                 type={item.type}
-                amount={item.amount}
-                date={item.date}
+                amount={item.sum}
+                date={item.createdAt}
               />
             );
           })}

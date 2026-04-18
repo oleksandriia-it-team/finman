@@ -7,12 +7,12 @@ import { FinControlledDropdown } from '@frontend/components/controlled-fields/fi
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { DayOfMonthOptions, FrequencyOptions } from '@frontend/shared/constants/regular-options.constant';
-import type { RegularTransactionRecord } from '@common/records/regular-transaction.record';
 import { useRegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-form.hook';
 import { CategoryPicker } from '@frontend/ui/ui-category-picker/ui-category-picker';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
 interface RegularPaymentFormProps {
-  initialData?: RegularTransactionRecord;
+  initialData?: RegularEntry;
   onSuccess?: () => void;
   onCancel?: () => void;
 }

@@ -1,4 +1,4 @@
-import { RegularPaymentFrequency } from '@frontend/shared/enums/regular-freequency.enum';
+import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 
 export const FrequencyOptions = [
   { label: 'Щодня', value: RegularPaymentFrequency.Daily },

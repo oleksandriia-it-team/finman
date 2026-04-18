@@ -4,11 +4,11 @@ import {
   type RegularPaymentFormData,
   RegularPaymentFormSchema,
 } from '@frontend/shared/schemas/regular-card-validation-schema';
-import type { RegularTransactionRecord } from '@common/records/regular-transaction.record';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export function useRegularPaymentForm(initialData?: RegularTransactionRecord, onSuccess?: () => void) {
+export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
   const showToast = useGlobalToast((state) => state.showToast);
   const isEdit = !!initialData;
@@ -17,12 +17,11 @@ export function useRegularPaymentForm(initialData?: RegularTransactionRecord, on
     resolver: zodResolver(RegularPaymentFormSchema),
     defaultValues: isEdit
       ? {
-          subtitle: initialData.subtitle,
+          subtitle: initialData.description,
           type: initialData.type,
           category: initialData.category,
-          amount: initialData.amount,
+          amount: initialData.sum,
           frequency: initialData.frequency,
-          dayOfMonth: initialData.dayOfMonth,
         }
       : {
           type: 'income',
