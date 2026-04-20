@@ -1,7 +1,9 @@
+'use client';
+
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiSheetContent } from '@frontend/ui/ui-sheet/ui-sheet-content';
-import { ResponsiveMenuContentProps } from '@frontend/ui/ui-responsive-menu/props/responsive-menu-content.props';
+import { type ResponsiveMenuContentProps } from '@frontend/ui/ui-responsive-menu/props/responsive-menu-content.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 export function UiResponsiveMenuContent({ children, className, ...props }: ResponsiveMenuContentProps) {

@@ -1,5 +1,7 @@
+'use client';
+
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
-import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
+import { type ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import { UiSheet } from '@frontend/ui/ui-sheet/ui-sheet';
 
