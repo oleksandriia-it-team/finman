@@ -26,10 +26,7 @@ function UiSheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         data-side={side}
-        className={cn(
-          'sheet-content',
-          className,
-        )}
+        className={cn('sheet-content', className)}
         {...props}
       >
         {children}
