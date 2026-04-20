@@ -17,10 +17,7 @@ function UiTooltipContent({
       <TooltipPrimitive.Content
         data-slot="tooltip-content"
         sideOffset={sideOffset}
-        className={cn(
-          'tooltip-content',
-          className,
-        )}
+        className={cn('tooltip-content', className)}
         {...props}
       >
         {children}

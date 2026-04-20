@@ -10,10 +10,7 @@ function UiSheetOverlay({ className, ...props }: React.ComponentProps<typeof She
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
-      className={cn(
-        'sheet-overlay',
-        className,
-      )}
+      className={cn('sheet-overlay', className)}
       {...props}
     />
   );

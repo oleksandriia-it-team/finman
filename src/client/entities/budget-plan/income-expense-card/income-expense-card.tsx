@@ -7,6 +7,11 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
+import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
+import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
+import { UiResponsiveMenuContent } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-content';
+import { FinResponsiveMenuItem } from '@frontend/components/responsive-menu-item/fin-responsive-menu-item';
+import { UiResponsiveLabel } from '@frontend/ui/ui-responsive-menu/ui-responsive-label';
 
 export function IncomeExpenseCard({
   type,
@@ -37,12 +42,29 @@ export function IncomeExpenseCard({
                 size="lg"
               />
             </div>
-            <UiIconButton
-              size="default"
-              icon="three-dots-vertical"
-              variant="muted"
-              className="!border-none"
-            />
+            <UiResponsiveMenu>
+              <UiResponsiveMenuTrigger asChild>
+                <UiIconButton
+                  size="default"
+                  icon="three-dots-vertical"
+                  variant="muted"
+                  className="!border-none"
+                />
+              </UiResponsiveMenuTrigger>
+
+              <UiResponsiveMenuContent>
+                <UiResponsiveLabel>Оберіть дію</UiResponsiveLabel>
+                <FinResponsiveMenuItem
+                  name="Редагувати"
+                  icon="pencil-fill"
+                />
+                <FinResponsiveMenuItem
+                  variant="destructive"
+                  name="Видалити"
+                  icon="trash-fill"
+                />
+              </UiResponsiveMenuContent>
+            </UiResponsiveMenu>
           </div>
           <CardTitle className="text-lg line-clamp-1"> {categoryStyles.label} </CardTitle>
         </div>

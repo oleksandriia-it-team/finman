@@ -1,5 +1,6 @@
 .tooltip-content {
   --tooltip-slide-animation: slideUpAndFade;
+
   &[data-state='delayed-open'],
   &[data-state='instant-open'] {
     animation-name: zoomIn, var(--tooltip-slide-animation);
@@ -7,6 +8,7 @@
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), cubic-bezier(0.16, 1, 0.3, 1);
     animation-fill-mode: forwards;
   }
+
   &[data-state='closed'] {
     animation-name: zoomOut;
   }
@@ -27,6 +29,7 @@
     --tooltip-slide-animation: slideRightAndFade;
   }
 }
+
 .tooltip-arrow {
   z-index: 50;
   width: 0.625rem;
