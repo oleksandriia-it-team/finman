@@ -77,6 +77,7 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
 
             <FinControlledInput
               label="Сума"
+              pattern={/^\d+$/}
               id="amount"
               name="amount"
               type="number"

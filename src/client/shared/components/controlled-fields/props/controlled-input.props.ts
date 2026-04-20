@@ -5,4 +5,5 @@ export type ControlledInputProps = InputDefaultProps &
   InputControlProps & {
     type?: 'text' | 'number' | 'email' | 'password';
     disabled?: boolean;
+    pattern?: RegExp | undefined;
   };
