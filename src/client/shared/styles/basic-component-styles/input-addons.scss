@@ -1,0 +1,48 @@
+.basic-input-addons {
+  display: flex;
+  height: auto;
+  cursor: text;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--secondary-foreground);
+  user-select: none;
+  font-size: 0.875rem;
+
+  i {
+    font-size: 0.875rem;
+  }
+
+  .input-group[data-disabled='true'] & {
+    opacity: 0.5;
+  }
+
+  & > kbd {
+    border-radius: calc(var(--radius) - 5px);
+  }
+
+  & > svg:not([class*='size-']) {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &[data-align='inline-start'] {
+    order: -1;
+  }
+
+  &[data-align='inline-end'] {
+    order: 1;
+  }
+
+  &[data-align='block-start'] {
+    order: -1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  &[data-align='block-end'] {
+    order: 1;
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

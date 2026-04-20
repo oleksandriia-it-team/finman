@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server';
-import { CountriesAndLocalesSchema } from '../shared/schemas/countries-and-locales.schema';
+import { CountriesAndLocalesSchema } from '@common/domains/lookups/schemas/countries-and-locales.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
@@ -7,10 +6,10 @@ import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-f
 export const POST = createRoute({
   schema: CountriesAndLocalesSchema.totalCountSchema,
   execute: async ({ body }) => {
-    return NextResponse.json({
+    return {
       status: 200,
       data: await countryRepository.getTotalCount(body.filters),
-    });
+    };
   },
   filter: getDefaultApiErrorFilter,
 });

@@ -3,7 +3,7 @@
 import '@frontend/shared/styles/globals.scss';
 
 import dynamic from 'next/dynamic';
-import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
+import { type ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { Inter } from 'next/font/google';
 import { cn } from '@frontend/shared/utils/cn.util';
 

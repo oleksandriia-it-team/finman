@@ -1,6 +1,6 @@
 import { cn } from '../../utils/cn.util';
 import { useStepper } from '@frontend/ui/ui-stepper/hooks/stepper-context.hook';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 export function UiStepperContent({ className, ...props }: ComponentProps<'div'>) {
   const { carouselRef, fullSize, orientation } = useStepper();

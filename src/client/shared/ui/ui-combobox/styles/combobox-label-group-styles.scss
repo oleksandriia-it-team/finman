@@ -1,0 +1,11 @@
+.combobox-group-label {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  font-weight: 500;
+
+  @media (pointer: coarse) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

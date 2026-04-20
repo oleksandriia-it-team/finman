@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { useStepper } from '@frontend/ui/ui-stepper/hooks/stepper-context.hook';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';

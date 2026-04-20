@@ -1,8 +1,8 @@
 import { CrudApiRepository } from '../../../shared/infrastructure/crud.api.repository';
 import { CountryOrm } from './country.orm';
-import { CountriesAndLocalesFilter } from '@common/domains/lookups/filters/countries-and-locales.filter';
-import { FindOptionsWhere, ILike, In, Not } from 'typeorm';
-import { DeepPartial } from '@common/models/deep-partial.model';
+import { type CountriesAndLocalesFilter } from '@common/domains/lookups/filters/countries-and-locales.filter';
+import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
+import { type DeepPartial } from '@common/models/deep-partial.model';
 
 export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAndLocalesFilter> {
   protected override mapFilters(

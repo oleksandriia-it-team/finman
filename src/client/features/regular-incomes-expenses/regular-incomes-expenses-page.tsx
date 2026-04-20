@@ -42,6 +42,7 @@ export default function RegularIncomesExpensesPage() {
         </div>
       </div>
       <FinPagination
+        className="pt-3"
         {...paginationRestProps}
         pageSize={pageSize}
       />

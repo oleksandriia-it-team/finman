@@ -3,7 +3,7 @@ import { isEmpty } from '@common/utils/is-empty.util';
 
 const intSchema = z.coerce.number().int();
 
-export function getIntegerParamPipe(value: string | string[], min?: number): number {
+export function GetIntegerParamPipe(value: string | string[], min?: number): number {
   const val = Array.isArray(value) ? value[0] : value;
 
   let schema = intSchema;
@@ -15,7 +15,7 @@ export function getIntegerParamPipe(value: string | string[], min?: number): num
   const result = schema.safeParse(val);
 
   if (!result.success) {
-    throw Error('One of params is invalid integer');
+    throw Error('Один з параметрів не є цілим числом');
   }
 
   return result.data as number;

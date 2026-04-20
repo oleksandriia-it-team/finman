@@ -1,6 +1,6 @@
 'use client';
 
-import { IconButtonProps } from './props/icon-button.props';
+import { type IconButtonProps } from './props/icon-button.props';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 import './styles/icon-button-variant.scss';

@@ -1,6 +1,6 @@
 export const enum TypeEntry {
-  Expense,
-  Income,
-  Credit,
-  Saving,
+  Expense = 'expense',
+  Income = 'income',
+  Credit = 'credit',
+  Saving = 'saving',
 }

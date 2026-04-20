@@ -1,4 +1,6 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
+import 'reflect-metadata';
+
+import { DataSource, type DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '@common/constants/env-config.constant';
@@ -9,7 +11,7 @@ const synchronize = args.includes('--synchronize=true');
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: EnvConfigConstant.DB_HOST,
-  port: Number(EnvConfigConstant.DB_PORT),
+  port: EnvConfigConstant.DB_PORT,
   username: EnvConfigConstant.DB_USERNAME,
   password: EnvConfigConstant.DB_PASSWORD,
   database: EnvConfigConstant.DB_DATABASE,

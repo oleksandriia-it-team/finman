@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import './styles/ui-field-error-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { FieldErrorProps } from '@frontend/ui/ui-field/props/field-error.props';
+import { type FieldErrorProps } from '@frontend/ui/ui-field/props/field-error.props';
 
 export function UiFieldError({ className, children, fieldState, ...props }: FieldErrorProps) {
   const showError = !!(fieldState.error?.message || fieldState.invalid);

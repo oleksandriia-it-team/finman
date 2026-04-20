@@ -1,4 +1,7 @@
-import { GlobalToastConfig, GlobalToastModel } from '@frontend/shared/hooks/global-toast/models/global-toast.model';
+import {
+  type GlobalToastConfig,
+  type GlobalToastModel,
+} from '@frontend/shared/hooks/global-toast/models/global-toast.model';
 import { create } from 'zustand/react';
 import { generateId } from '@common/utils/generate-id.util';
 

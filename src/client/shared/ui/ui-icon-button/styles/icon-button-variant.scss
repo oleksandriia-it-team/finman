@@ -1,5 +1,4 @@
 @use 'sass:list';
-
 @import '../../ui-button/styles/button-variants';
 
 .icon-btn {
@@ -7,7 +6,7 @@
     &[data-variant='#{$name}'] {
       @if $name == 'destructive' {
         &:focus-visible {
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive-foreground) 20%, transparent);
         }
       }
 
@@ -18,14 +17,16 @@
       &[data-outlined='true'] {
         @include btn-outline-variant(list.nth($colors, 1));
       }
-
     }
   }
 
-  &[data-rounded="true"] { border-radius: 9999px; }
+  &[data-rounded='true'] {
+    border-radius: 9999px;
+  }
 
-  &[data-bg-none="true"] {
+  &[data-bg-none='true'] {
     background-color: transparent !important;
+
     &:hover,
     &:active,
     &:focus-visible {

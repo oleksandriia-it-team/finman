@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 import './styles/ui-field-group-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';

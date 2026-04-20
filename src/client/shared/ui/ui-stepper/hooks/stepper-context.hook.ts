@@ -1,4 +1,4 @@
-import { StepperContextProps } from '@frontend/ui/ui-stepper/props/stepper-context.props';
+import { type StepperContextProps } from '@frontend/ui/ui-stepper/props/stepper-context.props';
 import { createContext, useContext } from 'react';
 
 export const StepperContext = createContext<StepperContextProps | null>(null);

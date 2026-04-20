@@ -1,6 +1,6 @@
 import { Column, Entity } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../shared/infrastructure/default-table-columns.orm';
-import { CountryAndLocale } from '@common/records/countries.record';
+import { type CountryAndLocale } from '@common/records/countries.record';
 import { CountryRequirementsConstant } from '@common/domains/lookups/constants/country-requirements.constant';
 
 @Entity('country')

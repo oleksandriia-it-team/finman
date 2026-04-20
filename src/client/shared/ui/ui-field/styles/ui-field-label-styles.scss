@@ -4,24 +4,24 @@
   gap: 0.5rem;
   line-height: 1.375;
 
-  :global(.group\/field)[data-disabled] & {
+  :global(.group\/field)[data-disabled='true'] & {
     opacity: 0.5;
   }
 
-  &:has(> [data-slot="field"]) {
+  &:has(> [data-slot='field']) {
     width: 100%;
     flex-direction: column;
     border-radius: 0.375rem;
     border: 1px solid var(--border);
 
     > * {
-      &[data-slot="field"] {
+      &[data-slot='field'] {
         padding: 1rem;
       }
     }
   }
 
-  &:has([data-state="checked"]) {
+  &:has([data-state='checked']) {
     border-color: var(--primary);
     background-color: color-mix(in srgb, var(--primary) 5%, transparent);
   }

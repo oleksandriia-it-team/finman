@@ -1,6 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiLabel } from '@frontend/ui/ui-label/ui-label';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 import './styles/ui-field-label-styles.scss';
 

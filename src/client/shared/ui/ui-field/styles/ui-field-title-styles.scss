@@ -7,7 +7,7 @@
   line-height: 1.375;
   font-weight: 500;
 
-  :global(.group\/field)[data-disabled] & {
+  :global(.group\/field)[data-disabled='true'] & {
     opacity: 0.5;
   }
 }

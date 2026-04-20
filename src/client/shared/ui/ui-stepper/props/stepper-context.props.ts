@@ -1,5 +1,5 @@
-import useEmblaCarousel from 'embla-carousel-react';
-import { StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
+import type useEmblaCarousel from 'embla-carousel-react';
+import { type StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
 
 export interface StepperContextProps extends StepperProps {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];

@@ -1,4 +1,4 @@
-import { vi, afterEach, expect } from 'vitest';
+import { afterEach, expect, vi } from 'vitest';
 
 afterEach(() => {
   const { assertionCalls } = expect.getState();

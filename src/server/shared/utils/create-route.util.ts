@@ -1,14 +1,19 @@
 import { NextResponse } from 'next/server';
-import { CreateRouteConfig, ReturnRouteExecute, RouteContext, RouteContextParams } from '../models/create-route.model';
-import { ApiResultOperation } from '@common/models/api-result-operation.model';
-import { z, ZodTypeAny } from 'zod';
-import { getZodErrorMessage } from './get-zod-error-message.util';
+import {
+  type CreateRouteConfig,
+  type ReturnRouteExecute,
+  type RouteContext,
+  type RouteContextParams,
+} from '../models/create-route.model';
+import { type ApiResultOperation } from '@common/models/api-result-operation.model';
+import { type z, type ZodTypeAny } from 'zod';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
   config: CreateRouteConfig<Schema, TR, BTR, R, TP>,
 ): ReturnRouteExecute<R> {
-  const { guards = [], guardsBeforeTransformers, schema, transformers, paramsTransformers, execute, filter } = config;
+  const { guards = [], contextFn, schema, dataFn, paramsFn, execute, filter } = config;
 
   return async (request: Request, context?: RouteContext): Promise<NextResponse<ApiResultOperation<R>>> => {
     let rawParams = context?.params || {};
@@ -19,8 +24,8 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
     let transformedParams = rawParams as unknown as TP;
 
     try {
-      if (paramsTransformers) {
-        const ptResult = paramsTransformers(rawParams as RouteContextParams);
+      if (paramsFn) {
+        const ptResult = paramsFn(rawParams as RouteContextParams);
         transformedParams = (ptResult instanceof Promise ? await ptResult : ptResult) as TP;
       }
     } catch (e) {
@@ -31,7 +36,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
       return NextResponse.json({ status: 500, message: getErrorMessage(e) }, { status: 500 });
     }
 
-    let resultBeforeTransformers = guardsBeforeTransformers?.(request, transformedParams);
+    let resultBeforeTransformers = contextFn?.(request, transformedParams);
 
     if (resultBeforeTransformers instanceof Promise) {
       resultBeforeTransformers = await resultBeforeTransformers;
@@ -49,34 +54,36 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         }
         body = schemaResult.data as z.infer<Schema>;
       } catch {
-        return NextResponse.json({ status: 400, message: 'Invalid JSON' }, { status: 400 });
+        return NextResponse.json({ status: 400, message: 'Невалідний JSON' }, { status: 400 });
       }
     }
 
     for (const guardFn of guards) {
       const result = await guardFn({
         request,
-        beforeGuardTransformers: resultBeforeTransformers as BTR,
+        context: resultBeforeTransformers as BTR,
         body: body as never,
         params: transformedParams,
       });
       if (result) return NextResponse.json(result, { status: result.status });
     }
 
-    let resultTransformers = transformers?.(request, body as never, transformedParams);
+    let resultTransformers = dataFn?.(request, body as never, transformedParams);
 
     if (resultTransformers instanceof Promise) {
       resultTransformers = await resultTransformers;
     }
 
     try {
-      return await execute({
+      const result = await execute({
         request,
         body: body as never,
-        transformers: resultTransformers as TR,
-        beforeGuardTransformers: resultBeforeTransformers as BTR,
+        data: resultTransformers as TR,
+        context: resultBeforeTransformers as BTR,
         params: transformedParams,
       });
+
+      return NextResponse.json(result, { status: result.status });
     } catch (e) {
       if (filter) {
         return filter(e as Error);

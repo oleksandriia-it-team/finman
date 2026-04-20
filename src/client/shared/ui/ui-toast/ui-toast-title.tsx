@@ -1,5 +1,5 @@
 import { cn } from '@frontend/shared/utils/cn.util';
-import { Toast } from 'radix-ui';
+import { type Toast } from 'radix-ui';
 
 export function UiToastTitle({ className, ...props }: Toast.ToastTitleProps) {
   return (

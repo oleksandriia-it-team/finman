@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CrudLocalService } from '../crud.local.service';
-import { DefaultColumnKeys, DefaultTableColumns } from '@common/models/default-table-columns.model';
+import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { DatabaseLocalService } from '../../database.local.service';
 
 const tableName = 'TEST';

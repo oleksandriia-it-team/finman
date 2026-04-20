@@ -1,4 +1,4 @@
-import { ToastVariant } from '@frontend/ui/ui-toast/props/toast-content.props';
+import { type ToastVariant } from '@frontend/ui/ui-toast/props/toast-content.props';
 
 export interface GlobalToastConfig {
   id: string;

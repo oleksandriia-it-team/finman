@@ -1,11 +1,11 @@
 export const ErrorTexts = {
-  UnknownError: 'Unknown Error.',
-  RecordDoesNotExist: 'Record does not exist.',
-  DataProvidedDoesntMeetRequirements: 'Unknown Error: Data provided to an operation does not meet requirements.',
-  PrevBatchIsNotDone: 'Previous batch is not done.',
+  UnknownError: 'Невідома помилка.',
+  RecordDoesNotExist: 'Запис не існує.',
+  DataProvidedDoesntMeetRequirements: 'Невідома помилка: надані дані не відповідають вимогам операції.',
+  PrevBatchIsNotDone: 'Попередню транзакцію ще не завершено.',
   AbortError: 'AbortError',
-  IncorrectIdProvided: 'Incorrect id provided.',
-  IncorrectTypeData: 'Incorrect type data provided.',
+  IncorrectIdProvided: 'Надано некоректний ід.',
+  IncorrectTypeData: 'Надано некоректний тип даних.',
 };
 
 export const ErrorDataBaseConnection = 'Error during database connection';

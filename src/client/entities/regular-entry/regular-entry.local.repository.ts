@@ -1,8 +1,8 @@
 import { CrudLocalService } from '../../database/crud/crud.local.service';
-import { DatabaseLocalService, databaseService } from '../../database/database.local.service';
+import { type DatabaseLocalService, databaseService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
-import { RegularEntry } from '@common/records/regular-entry.record';
-import { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { type RegularEntry } from '@common/records/regular-entry.record';
+import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry> {
   constructor(databaseService: DatabaseLocalService) {

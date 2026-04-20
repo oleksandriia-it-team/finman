@@ -1,6 +1,6 @@
-import { ApiResultOperation, ApiResultOperationError } from '@common/models/api-result-operation.model';
-import { NextResponse } from 'next/server';
-import { z, ZodTypeAny } from 'zod';
+import { type ApiResultOperation, type ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { type NextResponse } from 'next/server';
+import { type z, type ZodTypeAny } from 'zod';
 
 export type RouteContextParams = Record<string, string | string[]>;
 export type RouteContext = { params: Promise<RouteContextParams> };
@@ -24,30 +24,30 @@ export interface CreateRouteConfig<
   schema?: Schema;
   execute: RouteExecute<TR, BTR, BODY, R, TP>;
   guards?: RouteGuard<BTR, BODY, TP>[];
-  guardsBeforeTransformers?: (request: Request, params: TP) => BTR | Promise<BTR>;
-  transformers?: (request: Request, body: BODY, params: TP) => TR | Promise<TR>;
-  paramsTransformers?: (params: RouteContextParams) => TP | Promise<TP>;
+  contextFn?: (request: Request, params: TP) => BTR | Promise<BTR>;
+  dataFn?: (request: Request, body: BODY, params: TP) => TR | Promise<TR>;
+  paramsFn?: (params: RouteContextParams) => TP | Promise<TP>;
   filter?: FilterRouteExecute<R>;
 }
 
 export interface RouteParams<TR, BTR, BODY, TP> {
   request: Request;
   body: BODY;
-  beforeGuardTransformers: BTR;
-  transformers: TR;
+  context: BTR;
+  data: TR;
   params: TP;
 }
 
 export interface RouteGuardParams<BTR, BODY, TP> {
   request: Request;
   body: BODY;
-  beforeGuardTransformers: BTR;
+  context: BTR;
   params: TP;
 }
 
 export type RouteExecute<TR, BTR, BODY, R, TP> = (
   params: RouteParams<TR, BTR, BODY, TP>,
-) => Promise<NextResponse<ApiResultOperation<R>>> | NextResponse<ApiResultOperation<R>>;
+) => Promise<ApiResultOperation<R>> | ApiResultOperation<R>;
 
 export type FilterRouteExecute<R> = (
   err: Error,

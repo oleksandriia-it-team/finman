@@ -1,4 +1,4 @@
-import { TypeEntry } from '../enums/entry.enum';
+import { type TypeEntry } from '../enums/entry.enum';
 
 export interface UnregularEntry {
   type: TypeEntry;
