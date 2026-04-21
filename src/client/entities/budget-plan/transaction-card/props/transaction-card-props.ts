@@ -11,6 +11,5 @@ export interface TransactionCardProps extends RegularEntry {
 }
 
 export interface TransactionCardRegularProps extends TransactionCardProps {
-  date?: Date;
   category: AllCategories;
 }

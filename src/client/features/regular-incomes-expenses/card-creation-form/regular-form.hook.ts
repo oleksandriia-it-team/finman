@@ -7,6 +7,7 @@ import {
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
@@ -17,37 +18,41 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
     resolver: zodResolver(RegularPaymentFormSchema),
     defaultValues: isEdit
       ? {
-          subtitle: initialData.description,
+          title: initialData.title,
+          description: initialData.description,
           type: initialData.type,
           category: initialData.category,
-          amount: initialData.sum,
+          sum: initialData.sum,
           frequency: initialData.frequency,
+          dayOfMonth: 1,
         }
       : {
-          type: 'income',
+          type: TypeEntry.Income,
           dayOfMonth: 1,
         },
   });
 
   const submit = methods.handleSubmit(
-    (data: RegularPaymentFormData) => {
+    async (data: RegularPaymentFormData) => {
       try {
+        const { dayOfMonth, ...entryData } = data;
+
         if (isEdit && initialData) {
-          handleUpdate({ ...initialData, ...data });
+          await handleUpdate(initialData.id, { ...entryData, regular: true });
         } else {
-          handleCreate(data);
+          await handleCreate({ ...entryData, regular: true });
         }
         showToast({
           title: 'Успішно',
-          description: 'Картку успішно створено',
+          description: isEdit ? 'Картку успішно оновлено' : 'Картку успішно створено',
           variant: 'success',
         });
         onSuccess?.();
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Невідома помилка';
         showToast({
-          title: `Помилка ${message}`,
-          description: 'Під час заповнення форми виникла помилка',
+          title: `Помилка: ${message}`,
+          description: 'Під час збереження виникла помилка',
           variant: 'destructive',
         });
       }

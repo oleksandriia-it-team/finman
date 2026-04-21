@@ -1,8 +1,8 @@
 $variants: (
-  'default':     (var(--background),     var(--foreground)),
+  'default':     (var(--button-default-background),     var(--foreground)),
   'primary':     (var(--primary),     var(--primary-foreground)),
   'destructive': (var(--destructive), var(--destructive-foreground)),
-  'muted':       (var(--muted),       var(--muted-foreground)),
+  'muted':       (var(--button-default-background),       var(--muted-foreground)),
   'success':     (var(--success),     var(--success-foreground)),
   'warning':     (var(--warning),     var(--warning-foreground)),
   'purple':      (var(--purple),      var(--purple-foreground)),

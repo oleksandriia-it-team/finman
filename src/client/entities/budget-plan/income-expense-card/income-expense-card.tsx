@@ -10,11 +10,12 @@ import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 
 export function IncomeExpenseCard({
   type,
-  subtitle,
-  amount,
-  date,
+  description,
+  sum,
+  createdAt,
   className,
   category = 'misc',
+  title = '',
 }: TransactionCardRegularProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping.misc;
 
@@ -30,7 +31,8 @@ export function IncomeExpenseCard({
         <div className="flex flex-col items-start gap-3">
           <div className="flex between w-full justify-between">
             <div
-              className={cn('p-4 rounded-3xl flex justify-between', categoryStyles.bgColor, categoryStyles.textColor)}
+              className={cn('p-4 rounded-3xl flex justify-between')}
+              style={{ backgroundColor: categoryStyles.bgColor, color: categoryStyles.textColor }}
             >
               <UiSvgIcon
                 name={categoryStyles.icon}
@@ -40,14 +42,14 @@ export function IncomeExpenseCard({
             <UiIconButton
               size="default"
               icon="three-dots-vertical"
-              variant="muted"
+              variant="muted-foreground"
               className="!border-none"
             />
           </div>
-          <CardTitle className="text-lg line-clamp-1"> {categoryStyles.label} </CardTitle>
+          <CardTitle className="text-lg line-clamp-1"> {title || categoryStyles.label} </CardTitle>
         </div>
-        {subtitle ? (
-          <p className="text-sm text-muted-foreground line-clamp-2">{subtitle}</p>
+        {description ? (
+          <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
         ) : (
           <p className="text-xs italic text-muted-foreground/50">Немає опису</p>
         )}
@@ -62,7 +64,7 @@ export function IncomeExpenseCard({
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
             {type === 'expense' && '-'}{' '}
-            {Number(amount).toLocaleString('uk-UA', {
+            {Number(sum).toLocaleString('uk-UA', {
               style: 'currency',
               currency: 'UAH',
               currencyDisplay: 'narrowSymbol',
@@ -74,10 +76,10 @@ export function IncomeExpenseCard({
       <UiSeparator className="mx-6 !w-auto" />
 
       <CardFooter className=" flex justify-between items-center">
-        {date && (
+        {createdAt && (
           <UiTransformDate
             className="text-sm"
-            date={date}
+            date={createdAt}
             type={DateFormatType.ShortWithYear}
           />
         )}

@@ -14,7 +14,7 @@ const amountColorVariants: Record<TransactionType, string> = {
   expense: 'text-destructive-foreground',
 };
 
-export function TransactionCard({ icon, title, subtitle, amount, type, className, bgNone }: TransactionCardProps) {
+export function TransactionCard({ icon, title, description, sum, type, className, bgNone }: TransactionCardProps) {
   const wrapperClasses = useMemo(() => {
     return clsx(
       'flex items-center md:p-2 p-3 rounded-lg shadow-sm mb-2 border border-muted',
@@ -36,9 +36,9 @@ export function TransactionCard({ icon, title, subtitle, amount, type, className
       <div className={iconClasses}>{icon}</div>
       <div className="flex-grow">
         <p className="text-lg font-bold">{title}</p>
-        {subtitle && <small className="text-muted-foreground">{subtitle}</small>}
+        {description && <small className="text-muted-foreground">{description}</small>}
       </div>
-      {amount && <span className={amountClasses}>{amount}</span>}
+      {sum && <span className={amountClasses}>{sum}</span>}
     </div>
   );
 }

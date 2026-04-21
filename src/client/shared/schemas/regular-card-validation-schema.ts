@@ -1,19 +1,29 @@
 import { z } from 'zod';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 export const RegularPaymentFormSchema = z.object({
-  subtitle: z.string().min(1, 'Опис обовʼязковий').max(100, 'Максимум 100 символів'),
-  type: z.enum(['income', 'expense', 'credit', 'savings'], {
-    required_error: 'Оберіть тип платежу',
+  title: z.string().trim().min(1, 'Назва обовʼязкова').max(100, 'Максимум 100 символів'),
+
+  description: z.string().trim().optional(),
+
+  category: z.string().default('misc'),
+
+  type: z.nativeEnum(TypeEntry, {
+    error: () => ({ message: 'Оберіть тип платежу' }),
   }),
-  category: z.string().min(1, 'Оберіть категорію'),
-  amount: z
-    .string()
-    .min(1, 'Сума обовʼязкова')
-    .refine((val) => Number(val) >= 1, { message: 'Мінімальна сума — 1' }),
+
+  sum: z.coerce
+    .number({
+      invalid_type_error: 'Сума має бути числом',
+      required_error: 'Сума обовʼязкова',
+    })
+    .min(1, 'Мінімальна сума — 1'),
+
   frequency: z.nativeEnum(RegularPaymentFrequency, {
-    required_error: 'Оберіть частоту',
+    error: 'Оберіть частоту',
   }),
+
   dayOfMonth: z.coerce.number().min(1).max(31),
 });
 

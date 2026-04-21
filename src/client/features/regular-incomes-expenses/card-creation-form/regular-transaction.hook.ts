@@ -1,24 +1,47 @@
-import { useRegularTransactionStore } from '@frontend/shared/services/regular-cards-store/use-regular-transaction.store';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { regularEntryService } from '@frontend/features/regular-entry/regular-entry.service';
 
-type CreatePaymentDto = Omit<RegularEntry, 'id' | 'softDeleted' | 'date'>;
+export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;
 
 export function useRegularTransactions() {
-  const store = useRegularTransactionStore();
-
-  const payments = store.payments.filter((p) => !p.softDeleted);
-
-  const handleCreate = (dto: CreatePaymentDto): RegularEntry => {
-    return store.create(dto);
+  const stripDefaultColumns = (dto: object): CreateRegularEntryDto => {
+    const { id, softDeleted, createdAt, updatedAt, ...clean } = dto as RegularEntry;
+    return clean as CreateRegularEntryDto;
   };
 
-  const handleDelete = (id: string): void => {
-    store.softDelete(id);
+  const getPayments = (from: number, to: number): Promise<RegularEntry[]> => {
+    return regularEntryService.getItems(from, to).then((result) => result ?? []);
   };
 
-  const handleUpdate = (payment: RegularEntry): RegularEntry => {
-    return store.update(payment);
+  const getTotalCount = (): Promise<number> => {
+    return regularEntryService.getTotalCount().then((count) => count ?? 0);
   };
 
-  return { payments, handleCreate, handleDelete, handleUpdate };
+  const handleCreate = (dto: CreateRegularEntryDto): Promise<number> => {
+    const clean = stripDefaultColumns(dto);
+
+    const newId = Date.now();
+
+    const payload = {
+      ...clean,
+      id: newId,
+      softDeleted: 0,
+      createdAt: new Date(),
+    };
+
+    console.log('TO SERVICE:', payload);
+
+    return regularEntryService.createItem(payload as unknown as CreateRegularEntryDto);
+  };
+
+  const handleDelete = (id: number): Promise<true> => {
+    return regularEntryService.deleteItem(id);
+  };
+
+  const handleUpdate = (id: number, dto: CreateRegularEntryDto): Promise<true> => {
+    return regularEntryService.updateItem(id, stripDefaultColumns(dto));
+  };
+
+  return { getPayments, getTotalCount, handleCreate, handleDelete, handleUpdate };
 }
