@@ -23,7 +23,13 @@ import { UiTooltip, UiTooltipContent, UiTooltipTrigger } from '@frontend/ui/ui-t
 export default function RegistrationPage() {
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupRegistration(() => {
-    router.push('/login');
+    const workMode = localStorage.getItem('workMode');
+    const hasOfflineData = localStorage.getItem('userInfo');
+    if (workMode === WorkMode.Offline && hasOfflineData) {
+      router.push('/profile');
+    } else {
+      router.push('/login');
+    }
   });
 
   const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));

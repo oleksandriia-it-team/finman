@@ -16,15 +16,15 @@ export function useUserGuard(routePath?: string) {
 
     if (isOffline) {
       const localUser = localStorage.getItem('userInfo');
-      if (!localUser && pathName !== '/registration/form') {
-        router.push('/registration/form');
+      if (!localUser && pathName !== '/signup') {
+        router.push('/signup');
       }
       return;
     }
     const hasToken = document.cookie.includes('token=');
 
-    if (!user && !hasToken && pathName !== '/registration/form') {
-      router.push('/registration/form');
+    if (!user && !hasToken && pathName !== '/signup') {
+      router.push('/signup');
     } else if (routePath && (user || hasToken) && pathName !== routePath) {
       router.push(routePath);
     }
