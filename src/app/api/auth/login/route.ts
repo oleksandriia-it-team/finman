@@ -9,12 +9,14 @@ export const POST = createRoute({
   schema: LoginSchema,
   execute: async ({ body }) => {
     const user = await userApiRepository.findUserForLogin(body.login);
+    console.log(1);
     if (!user) {
       return {
         status: 401,
         message: 'Недійсні облікові дані',
       };
     }
+    console.log(2);
     const isMatch = await bcrypt.compare(body.password, user.password as string);
     if (!isMatch) {
       return {
@@ -22,6 +24,7 @@ export const POST = createRoute({
         message: 'Недійсні облікові дані',
       };
     }
+    console.log(3);
     const token = await createAccessToken({
       userId: user.id,
       role: user.role,

@@ -7,7 +7,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/user-information/props/auth-guard.props';
 
-export function AuthGuard({ children, routePath = '/registration/form' }: AuthGuardProps) {
+export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
   const { userInfoState, userInformation } = useUserInformation(
     useShallow((state) => ({ userInformation: state.userInformation, userInfoState: state.userInfoState })),
   );
@@ -15,9 +15,7 @@ export function AuthGuard({ children, routePath = '/registration/form' }: AuthGu
   const pathName = usePathname();
 
   useEffect(() => {
-    if (!userInformation && pathName != '/registration/form') {
-      router.push('/registration/form');
-    } else if (routePath && userInformation && pathName !== routePath) {
+    if (!userInformation && pathName != routePath) {
       router.push(routePath);
     }
   }, [routePath, router, userInformation, pathName]);
