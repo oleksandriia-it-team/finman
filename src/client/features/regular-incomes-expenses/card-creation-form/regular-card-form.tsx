@@ -28,7 +28,8 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
         <form
           noValidate
           onSubmit={submit}
-          className="p-4 overflow-y-auto flex flex-col flex-3 gap-6 w-full"
+          className="p-4 overflow-y-auto flex flex-col w-0 flex-1 gap-6"
+          style={{ minWidth: 'min(25rem, 100%)' }}
         >
           <div className="flex flex-col gap-1 mb-2">
             <h2 className="text-2xl font-bold text-foreground">Деталі платежу</h2>
@@ -137,7 +138,7 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
           </div>
         </form>
       </FormProvider>
-      <div className="size-full flex-5 max-md:hidden">
+      <div className="size-full flex-2 max-lg:hidden">
         <CardCreationFormSideBlock />
       </div>
     </div>

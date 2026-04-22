@@ -13,4 +13,8 @@ html {
   @include mediascreen('tablet') {
     font-size: 16px;
   }
+
+  @include mediascreen('pc') {
+    font-size: 18px;
+  }
 }
