@@ -1,4 +1,4 @@
-import { MobileNavbarItem } from '@frontend/components/mobile-navbar/props/mobile-navbar.props';
+import { type MobileNavbarItem } from '@frontend/components/mobile-navbar/props/mobile-navbar.props';
 import Link from 'next/link';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';

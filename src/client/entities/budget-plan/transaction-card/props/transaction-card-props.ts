@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
-import { type AllCategories } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import type { AllCategories } from '@common/enums/categories.enum';
 
 export type TransactionType = 'income' | 'expense' | 'credit' | 'savings';
 

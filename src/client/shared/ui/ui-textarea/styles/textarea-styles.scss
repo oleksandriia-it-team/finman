@@ -1,7 +1,14 @@
 .basic-textarea {
-  display: flex;
+  display: block;
+  height:auto !important;
   field-sizing: content;
   min-height: 4rem;
-  background-color: transparent;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.5rem 0.75rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  resize: vertical;
 }

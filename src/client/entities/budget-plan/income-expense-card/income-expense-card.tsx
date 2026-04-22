@@ -7,6 +7,7 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
+import { ExpenseCategories } from '@common/enums/categories.enum';
 
 export function IncomeExpenseCard({
   type,
@@ -14,10 +15,10 @@ export function IncomeExpenseCard({
   sum,
   createdAt,
   className,
-  category = 'misc',
+  category = ExpenseCategories.Misc,
   title = '',
 }: TransactionCardRegularProps) {
-  const categoryStyles = CategoriesMapping[category] || CategoriesMapping.misc;
+  const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
 
   return (
     <UiCard

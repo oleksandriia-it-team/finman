@@ -6,5 +6,9 @@ import { useAuthorizedUser } from '@frontend/shared/services/user-information/au
 export default function CreateCardForm() {
   const user = useAuthorizedUser();
 
-  return <RegularPaymentForm />;
+  return (
+    <div className="flex w-full h-screen">
+      <RegularPaymentForm />
+    </div>
+  );
 }

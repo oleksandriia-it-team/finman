@@ -1,7 +1,4 @@
-import type {
-  RegularExpensesCardCategories,
-  RegularIncomesCardCategories,
-} from '@frontend/entities/budget-plan/income-expense-card/card-categories';
+import { type AllCategories, ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 interface CategoryStyleI {
   bgColor: string;
@@ -10,113 +7,97 @@ interface CategoryStyleI {
   icon: string;
   label: string;
 }
-
-export const IncomeCategoryKeys: (keyof typeof CategoriesMapping)[] = [
-  'salary',
-  'investments',
-  'freelance',
-  'scholarship',
-];
-
-export const ExpenseCategoryKeys: (keyof typeof CategoriesMapping)[] = [
-  'groceries',
-  'housing',
-  'utilities',
-  'transport',
-  'entertainment',
-  'education',
-  'shopping',
-  'health',
-];
-
-export type AllCategories = RegularIncomesCardCategories | RegularExpensesCardCategories;
+export const IncomeCategoryValues = Object.values(IncomeCategories);
+export const ExpenseCategoryValues = Object.values(ExpenseCategories);
 
 export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
-  groceries: {
+  [ExpenseCategories.Groceries]: {
     borderColor: 'border-warning',
     textColor: 'var(--color-warning-muted-foreground)',
     bgColor: 'var(--color-warning-muted)',
     icon: 'basket',
     label: 'Продукти',
   },
-  housing: {
+  [ExpenseCategories.Housing]: {
     borderColor: 'border-destructive-foreground',
     textColor: 'var(--color-destructive-foreground)',
     bgColor: 'var(--color-destructive)',
     icon: 'house',
     label: 'Дім',
   },
-  utilities: {
+  [ExpenseCategories.Utilities]: {
     borderColor: 'border-aqua',
     textColor: 'var(--color-aqua-muted-foreground)',
     bgColor: 'var(--color-aqua-muted)',
     icon: 'plug',
     label: 'Комунальні',
   },
-  transport: {
+  [ExpenseCategories.Transport]: {
     borderColor: 'border-primary',
     textColor: 'var(--color-primary)',
     bgColor: 'var(--color-accent)',
     icon: 'bus-front',
     label: 'Транспорт',
   },
-  entertainment: {
+  [ExpenseCategories.Entertainment]: {
     borderColor: 'border-pink',
     textColor: 'var(--color-pink-muted-foreground)',
     bgColor: 'var(--color-pink-muted)',
     icon: 'film',
     label: 'Розваги',
   },
-  education: {
+  [ExpenseCategories.Education]: {
     borderColor: 'border-purple',
     textColor: 'var(--color-purple-muted-foreground)',
     bgColor: 'var(--color-purple-muted)',
     icon: 'book',
     label: 'Навчання',
   },
-  shopping: {
+  [ExpenseCategories.Shopping]: {
     borderColor: 'border-purple',
     textColor: 'var(--color-purple-muted-foreground)',
     bgColor: 'var(--color-purple-muted)',
     icon: 'bag-check',
     label: 'Покупки',
   },
-  health: {
+  [ExpenseCategories.Health]: {
     borderColor: 'border-teal',
     textColor: 'var(--color-teal-muted-foreground)',
     bgColor: 'var(--color-teal-muted)',
     icon: 'heart-pulse',
     label: 'Здоровʼя',
   },
-  misc: {
+  [ExpenseCategories.Misc]: {
     borderColor: 'border-muted',
     textColor: 'var(--color-muted-foreground)',
     bgColor: 'var(--color-secondary)',
     icon: 'three-dots',
     label: 'Інше',
   },
-  salary: {
+
+  // Доходи (Incomes)
+  [IncomeCategories.Salary]: {
     borderColor: 'border-success',
     textColor: 'var(--color-success-muted-foreground)',
     bgColor: 'var(--color-success-muted)',
     icon: 'cash-stack',
     label: 'Зарплата',
   },
-  investments: {
+  [IncomeCategories.Investments]: {
     borderColor: 'border-orange',
     textColor: 'var(--color-orange-muted-foreground)',
     bgColor: 'var(--color-orange-muted)',
     icon: 'graph-up',
     label: 'Інвестиції',
   },
-  freelance: {
+  [IncomeCategories.Freelance]: {
     borderColor: 'border-teal',
     textColor: 'var(--color-teal-muted-foreground)',
     bgColor: 'var(--color-teal-muted)',
     icon: 'laptop',
     label: 'Фріланс',
   },
-  scholarship: {
+  [IncomeCategories.Scholarship]: {
     borderColor: 'border-primary',
     textColor: 'var(--color-primary)',
     bgColor: 'var(--color-accent)',

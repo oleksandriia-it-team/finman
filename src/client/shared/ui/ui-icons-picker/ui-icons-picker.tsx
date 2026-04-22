@@ -1,5 +1,5 @@
-import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export interface UiIconItem {
   value: string;
@@ -22,22 +22,21 @@ export function UiIconsPicker({ items, value, onSelect }: UiIconsPickerProps) {
         const isSelected = value === item.value;
 
         return (
-          <UiIconButton
+          <button
+            type="button"
             key={item.value}
-            icon={item.icon}
             title={item.label}
-            isOutlined={false}
-            bgNone={false}
-            isRoundedFull={false}
             onClick={() => onSelect(item.value)}
             style={isSelected ? { backgroundColor: item.bgColor, color: item.textColor } : undefined}
             className={cn(
-              'p-3 rounded-2xl transition-all border-2',
+              'p-3 rounded-2xl transition-all border-2 cursor-pointer',
               isSelected
                 ? 'border-primary scale-110 shadow-md'
                 : 'bg-secondary text-muted-foreground border-transparent hover:bg-accent',
             )}
-          />
+          >
+            <UiSvgIcon name={item.icon} />
+          </button>
         );
       })}
     </div>
