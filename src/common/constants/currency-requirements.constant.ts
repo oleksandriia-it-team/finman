@@ -1,5 +1,5 @@
 export const CurrencyRequirements = {
-  MaxCurrencyCodeLength: 15,
+  MaxCurrencyCodeLength: 3,
   MaxCurrencyNameLength: 60,
   MaxCurrencySymbolLength: 15,
 };

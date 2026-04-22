@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
+import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
 
 export const CreateUserSchema = z.object({
   email: z
@@ -54,7 +55,10 @@ export const CreateUserSchema = z.object({
   currencyCode: z
     .string()
     .min(1, "Код валюти є обов'язковим")
-    .length(3, 'Код валюти повинен складатися з 3 символів (наприклад: UAH, USD, EUR)')
+    .length(
+      CurrencyRequirements.MaxCurrencyCodeLength,
+      'Код валюти повинен складатися з + CurrencyRequirements.MaxCurrencyCodeLength + символів (наприклад: UAH, USD, EUR)',
+    )
     .regex(/^[A-Z]{3}$/, 'Код валюти повинен містити лише великі латинські літери (наприклад: UAH, USD)'),
 });
 
