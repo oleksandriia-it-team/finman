@@ -1,17 +1,17 @@
-.svg-icon-container {
+.auth-image-container {
   display: none;
 
 }
 
 @media screen and (width >= 640px) {
-  .svg-icon-container {
+  .auth-image-container {
     display: flex;
     min-width: 55%;
   }
 }
 
 @media screen and (width >= 960px) {
-  .svg-icon-container {
+  .auth-image-container {
     display: flex;
     min-width: 65%;
   }

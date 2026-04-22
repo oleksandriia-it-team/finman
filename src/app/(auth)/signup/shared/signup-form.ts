@@ -9,7 +9,7 @@ import { WorkMode } from '@common/enums/work-mode.enum';
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
     async (data: GlobalRegisterDto) =>
-      await fetchClient.post<ApiResultOperation<boolean>, GlobalRegisterDto>('/api/auth/register', data),
+      await fetchClient.post<ApiResultOperation<boolean>, GlobalRegisterDto>('/api/auth/signup', data),
     {
       successMessage: 'Реєстрація успішна! Тепер ви можете увійти.',
       onSuccess: (result) => {

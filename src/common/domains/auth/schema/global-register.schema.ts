@@ -1,12 +1,18 @@
 import { z } from 'zod';
 import { CreateUserSchema } from '@common/domains/user/schema/user.schema';
 import { WorkMode } from '@common/enums/work-mode.enum';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
   .extend({
-    email: z.string().email('Неправильний формат email').optional().or(z.literal('')),
+    email: z
+      .string()
+      .email('Неправильний формат email')
+      .max(UserRequirements.MaxEmailLength)
+      .optional()
+      .or(z.literal('')),
 
-    password: z.string().optional().or(z.literal('')),
+    password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
 
     passwordConfirm: z.string().optional().or(z.literal('')),
     workMode: z.nativeEnum(WorkMode).optional(),

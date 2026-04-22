@@ -1,7 +1,7 @@
 'use client';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
-import './shared/svg-icon-container.scss';
+import '@frontend/shared/styles/auth-image-container.scss';
 
 export const AuthTemplate = ({ children }: ChildrenComponentProps) => {
   return (
@@ -10,7 +10,7 @@ export const AuthTemplate = ({ children }: ChildrenComponentProps) => {
         <div className="size-full max-w-[22rem] flex flex-col gap-6 overflow-auto no-scrollbar ">{children}</div>
       </div>
 
-      <div className="svg-icon-container flex flex-1 items-center justify-center bg-aqua-muted p-12">
+      <div className="auth-image-container flex flex-1 items-center justify-center bg-aqua-muted p-12">
         <div className="size-full max-w-lg flex items-center justify-center">
           <UiGraphic
             src="/pictures/login-picture.png"
