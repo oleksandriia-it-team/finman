@@ -57,9 +57,9 @@ export const CreateUserSchema = z.object({
     .min(1, "Код валюти є обов'язковим")
     .length(
       CurrencyRequirements.MaxCurrencyCodeLength,
-      'Код валюти повинен складатися з' +
+      'Код валюти повинен складатися з ' +
         CurrencyRequirements.MaxCurrencyCodeLength +
-        'символів (наприклад: UAH, USD, EUR)',
+        ' символів (наприклад: UAH, USD, EUR)',
     )
     .regex(/^[A-Z]{3}$/, 'Код валюти повинен містити лише великі латинські літери (наприклад: UAH, USD)'),
 });
