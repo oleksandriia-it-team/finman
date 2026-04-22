@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
@@ -16,31 +16,27 @@ function transformCurrenciesToOptions(currencies: Currency[]): DropdownOption<st
 
 export function useGetCurrenciesDropdown(currentValue?: string) {
   const [search, setSearch] = useState<string>('');
-  currentValue = currentValue ?? '';
 
-  const querySearch = useRef<string>(search);
-  if (currentValue !== search) {
-    querySearch.current = search;
-  }
-
-  const normalizedQuerySearch = querySearch.current.trim();
+  const normalizedCurrentValue = (currentValue ?? '').trim();
+  const normalizedSearch = search.trim();
 
   const resource = useOptionsResource<string>({
-    currentValue: currentValue,
+    currentValue: normalizedCurrentValue,
     getOptionsQuery: useQuery({
-      queryKey: ['get currency search', normalizedQuerySearch],
+      queryKey: ['get currency search', normalizedSearch],
       queryFn: () =>
         lookupsService.getItems(LookupsTypeEnum.Currency, 1, 10, {
-          code: normalizedQuerySearch,
+          code: normalizedSearch,
         }),
       select: transformCurrenciesToOptions,
     }),
     getLabelFn: async (code) => {
       if (isEmpty(code)) return undefined;
 
+      const trimmedCode = code.trim();
       const result = await lookupsService
-        .getItems(LookupsTypeEnum.Currency, 1, 2, { code: code.trim() })
-        .then((r) => r.find((c) => c.currencyCode === code));
+        .getItems(LookupsTypeEnum.Currency, 1, 2, { code: trimmedCode })
+        .then((r) => r.find((c) => c.currencyCode === trimmedCode));
 
       if (isEmpty(result)) return undefined;
 
@@ -55,7 +51,7 @@ export function useGetCurrenciesDropdown(currentValue?: string) {
       },
       [setSearch],
     ),
-    labelQueryKey: ['get currency multiple label', currentValue.trim()],
+    labelQueryKey: ['get currency multiple label', normalizedCurrentValue],
   });
 
   return {
