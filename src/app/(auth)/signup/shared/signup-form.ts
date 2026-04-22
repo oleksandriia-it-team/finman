@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
+import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
@@ -35,23 +36,26 @@ export function useSetupRegistration(onSuccessAction: () => void) {
   const submit = methods.handleSubmit((data) => {
     const { workMode } = data;
     if (!workMode) return;
+
     const apiData = { ...data } as Partial<GlobalRegisterDto>;
+
     delete apiData.workMode;
     delete apiData.passwordConfirm;
 
     if (workMode === WorkMode.Offline) {
       try {
-        localStorage.setItem('workMode', workMode);
-        localStorage.setItem('userInfo', JSON.stringify(apiData));
+        localStorageService.setItem('userInfo', apiData);
+        localStorageService.setItem('workMode', workMode);
+
         onSuccessAction();
       } catch (e) {
-        localStorage.removeItem('workMode');
-        localStorage.removeItem('userInfo');
-        console.error('Local save error', e);
+        localStorageService.removeItem('workMode');
+        localStorageService.removeItem('userInfo');
+        console.error('Offline save failed:', e);
       }
       return;
     }
-    localStorage.setItem('workMode', workMode);
+    localStorageService.setItem('workMode', workMode);
     mutate(apiData as RegisterDto);
   });
 
