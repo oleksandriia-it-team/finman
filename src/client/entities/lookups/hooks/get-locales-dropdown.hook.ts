@@ -51,7 +51,6 @@ export function useGetLocalesDropdown(currentValue?: string) {
     },
     onGetLabel: useCallback(
       ({ label }) => {
-        console.log(label);
         setSearch(label);
       },
       [setSearch],

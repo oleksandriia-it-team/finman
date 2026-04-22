@@ -15,10 +15,13 @@ export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
   const pathName = usePathname();
 
   useEffect(() => {
+    if (userInfoState !== PromiseState.Success) {
+      return;
+    }
     if (!userInformation && pathName != routePath) {
       router.push(routePath);
     }
-  }, [routePath, router, userInformation, pathName]);
+  }, [routePath, router, userInformation, pathName, userInfoState]);
 
   if (userInfoState === PromiseState.Loading) {
     return <span>Завантаження</span>;

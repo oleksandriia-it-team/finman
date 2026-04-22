@@ -6,9 +6,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
-import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
+import { useUserInformation } from '@frontend/entities/user-information/use-user-information.store';
 
 export function useSetupRegistration(onSuccessAction: () => void) {
+  const { setUserInformation, logOut } = useUserInformation();
+
   const { mutate, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
       await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data),
@@ -37,25 +39,22 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     const { workMode } = data;
     if (!workMode) return;
 
-    const apiData = { ...data } as Partial<GlobalRegisterDto>;
+    const apiData = { ...data } as GlobalRegisterDto;
 
     delete apiData.workMode;
     delete apiData.passwordConfirm;
 
     if (workMode === WorkMode.Offline) {
       try {
-        localStorageService.setItem('userInfo', apiData);
-        localStorageService.setItem('workMode', workMode);
+        setUserInformation({ ...apiData, language: 'uk', online: false });
 
         onSuccessAction();
       } catch (e) {
-        localStorageService.removeItem('workMode');
-        localStorageService.removeItem('userInfo');
+        logOut();
         console.error('Offline save failed:', e);
       }
       return;
     }
-    localStorageService.setItem('workMode', workMode);
     mutate(apiData as RegisterDto);
   });
 

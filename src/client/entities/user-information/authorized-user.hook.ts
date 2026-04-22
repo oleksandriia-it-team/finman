@@ -6,8 +6,6 @@ import { useUserInformation } from '@frontend/entities/user-information/use-user
 function useAuthorizedLogic() {
   const user = useUserInformation((state) => state.userInformation);
 
-  console.log(user);
-
   if (!user) {
     throw Error('User not found');
   }
