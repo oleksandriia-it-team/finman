@@ -1,4 +1,4 @@
-import { CrudApiRepository } from '../../../shared/infrastructure/crud.api.repository';
+import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { CurrencyOrm } from './currency.orm';
 import { type CurrencyFilter } from '@common/domains/lookups/filters/currency.filter';
 import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';

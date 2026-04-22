@@ -130,7 +130,7 @@ const eslintConfig = [
             // ------------------------------------------
             {
               from: 'server-shared',
-              allow: ['common', 'server-db', 'server-config'],
+              allow: ['common', 'server-config'],
             },
             {
               from: 'server-entities',

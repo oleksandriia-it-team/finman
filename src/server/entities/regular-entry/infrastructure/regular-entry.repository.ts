@@ -1,4 +1,4 @@
-import { CrudApiRepository } from '@backend/shared/infrastructure/crud.api.repository';
+import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
 import { type DeepPartial } from '@common/models/deep-partial.model';
 import { type FindOptionsWhere } from 'typeorm';

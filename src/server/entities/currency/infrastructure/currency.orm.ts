@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { DefaultTableColumnsOrm } from '../../../shared/infrastructure/default-table-columns.orm';
+import { DefaultTableColumnsOrm } from '../../../database/default-table-columns.orm';
 import { type Currency } from '@common/records/currencies.record';
 import { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
