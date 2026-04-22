@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useEffect } from 'react';
+import { WorkMode } from '@common/enums/work-mode.enum';
 
 export function useUserGuard(routePath?: string) {
   const user = useUserInformation((state) => state.userInformation);
@@ -10,9 +11,21 @@ export function useUserGuard(routePath?: string) {
   const pathName = usePathname();
 
   useEffect(() => {
-    if (!user && pathName != '/registration/form') {
+    const workMode = localStorage.getItem('workMode');
+    const isOffline = workMode === WorkMode.Offline;
+
+    if (isOffline) {
+      const localUser = localStorage.getItem('userInfo');
+      if (!localUser && pathName !== '/registration/form') {
+        router.push('/registration/form');
+      }
+      return;
+    }
+    const hasToken = document.cookie.includes('token=');
+
+    if (!user && !hasToken && pathName !== '/registration/form') {
       router.push('/registration/form');
-    } else if (routePath && user && pathName !== routePath) {
+    } else if (routePath && (user || hasToken) && pathName !== routePath) {
       router.push(routePath);
     }
   }, [routePath, router, user, pathName]);

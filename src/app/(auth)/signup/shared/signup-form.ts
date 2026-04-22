@@ -1,15 +1,15 @@
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { type RegisterDto, RegisterSchema } from '@common/domains/auth/schema/register.schema';
+import { type GlobalRegisterDto, GlobalRegisterSchema } from '@common/domains/auth/schema/global-register.schema';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { SupportLanguages } from '@common/enums/support-languages.enum';
+import { WorkMode } from '@common/enums/work-mode.enum';
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
-    async (data: RegisterDto) =>
-      await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/register', data),
+    async (data: GlobalRegisterDto) =>
+      await fetchClient.post<ApiResultOperation<boolean>, GlobalRegisterDto>('/api/auth/register', data),
     {
       successMessage: 'Реєстрація успішна! Тепер ви можете увійти.',
       onSuccess: (result) => {
@@ -20,8 +20,8 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     },
   );
 
-  const methods = useForm<RegisterDto>({
-    resolver: zodResolver(RegisterSchema),
+  const methods = useForm<GlobalRegisterDto>({
+    resolver: zodResolver(GlobalRegisterSchema),
     mode: 'onChange',
     defaultValues: {
       name: '',
@@ -30,12 +30,21 @@ export function useSetupRegistration(onSuccessAction: () => void) {
       passwordConfirm: '',
       locale: '',
       currencyCode: '',
-      language: SupportLanguages.Ukrainian,
-    } as RegisterDto,
+      workMode: undefined,
+    } as GlobalRegisterDto,
   });
 
   const submit = methods.handleSubmit((data) => {
-    mutate(data);
+    const { workMode, ...apiData } = data;
+    if (workMode) {
+      localStorage.setItem('workMode', workMode);
+    }
+    if (workMode === WorkMode.Offline) {
+      localStorage.setItem('userInfo', JSON.stringify(apiData));
+      onSuccessAction();
+      return;
+    }
+    mutate(apiData as unknown as GlobalRegisterDto);
   });
 
   return {

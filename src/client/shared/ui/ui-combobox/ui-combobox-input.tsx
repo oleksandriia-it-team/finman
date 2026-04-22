@@ -27,7 +27,12 @@ export function UiComboboxInput({
       data-invalid={dataInvalid}
     >
       <ComboboxPrimitive.Input
-        render={<UiInputGroupInput disabled={disabled} />}
+        render={
+          <UiInputGroupInput
+            className="w-full"
+            disabled={disabled}
+          />
+        }
         {...props}
       />
       <UiInputGroupAddon align="inline-end">

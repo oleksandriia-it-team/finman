@@ -11,12 +11,14 @@ import { FinControlledInput } from '@frontend/components/controlled-fields/fin-c
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
-import { SupportLanguagesLocale } from '@frontend/shared/constants/support-languages-locale.constant';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { useSetupRegistration } from './shared/signup-form';
 import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-currencies-dropdown.hook';
+import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
+import { WorkMode } from '@common/enums/work-mode.enum';
+import { UiTooltip, UiTooltipContent, UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -26,6 +28,9 @@ export default function RegistrationPage() {
 
   const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));
+  const workMode = methods.watch('workMode');
+  const isLocked = !workMode;
+  const isOffline = workMode === WorkMode.Offline;
 
   return (
     <AuthTemplate>
@@ -40,7 +45,7 @@ export default function RegistrationPage() {
           <UiFieldSet disabled={isLoading}>
             <UiFieldLegend
               size="xl"
-              className="flex flex-col items-start gap-0.5 mb-4"
+              className="flex flex-col items-start gap-0.5 mb-4 sticky top-0 bg-primary-foreground w-full z-10"
             >
               <div className="flex items-center gap-1.5">
                 <UiGraphic
@@ -55,31 +60,58 @@ export default function RegistrationPage() {
             </UiFieldLegend>
 
             <UiFieldGroup className="flex flex-col gap-2.5">
+              <div className="grid grid-cols-1 gap-2.5">
+                <UiTooltip>
+                  <UiTooltipTrigger asChild>
+                    <div>
+                      {' '}
+                      <FinControlledDropdown
+                        label="Режим роботи *"
+                        name="workMode"
+                        placeholder="Оберіть режим роботи"
+                        options={WORK_MODE_OPTIONS}
+                      />
+                    </div>
+                  </UiTooltipTrigger>
+                  <UiTooltipContent
+                    side="top"
+                    className="max-w-[200px] text-center"
+                  >
+                    <p>Онлайн: синхронізація з хмарою. Офлайн: дані тільки у вашому браузері.</p>
+                  </UiTooltipContent>
+                </UiTooltip>
+              </div>
+
               <FinControlledInput
                 name="name"
                 label="Ім'я користувача *"
                 placeholder="Мін. 8 символів"
+                disabled={isLocked}
               />
 
-              <FinControlledInput
-                name="email"
-                label="Email *"
-                placeholder="Введіть email"
-              />
-
-              <FinControlledPassword
-                name="password"
-                label="Пароль *"
-                placeholder="Мін. 8 символів"
-              />
-
-              <FinControlledPassword
-                name="passwordConfirm"
-                label="Підтвердження паролю *"
-                placeholder="Підтвердіть пароль"
-              />
-
-              <div className="grid grid-cols-2 gap-x-2.5">
+              {!isOffline && (
+                <>
+                  <FinControlledInput
+                    name="email"
+                    label="Email *"
+                    placeholder="Введіть email"
+                    disabled={isLocked}
+                  />
+                  <FinControlledPassword
+                    name="password"
+                    label="Пароль *"
+                    placeholder="Мін. 8 символів"
+                    disabled={isLocked}
+                  />
+                  <FinControlledPassword
+                    name="passwordConfirm"
+                    label="Підтвердження паролю *"
+                    placeholder="Підтвердіть пароль"
+                    disabled={isLocked}
+                  />
+                </>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
                 <FinControlledAutocomplete
                   label="Валюта *"
                   name="currencyCode"
@@ -91,15 +123,7 @@ export default function RegistrationPage() {
                   search={currencyDataResource.search}
                   onSearch={currencyDataResource.setSearch}
                 />
-                <FinControlledDropdown
-                  label="Мова інтерфейсу *"
-                  name="language"
-                  placeholder="Оберіть мову"
-                  options={SupportLanguagesLocale}
-                />
-              </div>
 
-              <div className="grid grid-cols-2 gap-x-2.5">
                 <FinControlledAutocomplete
                   label="Формат дат *"
                   name="locale"
@@ -111,20 +135,15 @@ export default function RegistrationPage() {
                   search={localeDataResource.search}
                   onSearch={localeDataResource.setSearch}
                 />
-                <FinControlledDropdown
-                  label="Режим роботи *"
-                  name="workMode"
-                  placeholder="Оберіть"
-                  options={[]}
-                />
               </div>
 
-              <div className="flex flex-col gap-2.5 mt-1">
+              <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full bg-primary-foreground pt-2">
                 <UiButton
                   type="submit"
                   className="w-full"
                   variant="primary"
                   size="sm"
+                  disabled={isLocked || isLoading}
                 >
                   {isLoading && <UiSpinner className="size-4" />}
                   {isLoading ? 'Реєстрація...' : 'Зареєструватися'}
