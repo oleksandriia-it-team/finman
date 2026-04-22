@@ -23,6 +23,7 @@ export function useSetupRegistration(onSuccessAction: () => void) {
   const methods = useForm<GlobalRegisterDto>({
     resolver: zodResolver(GlobalRegisterSchema),
     mode: 'onChange',
+    shouldUnregister: true,
     defaultValues: {
       name: '',
       email: '',
@@ -36,14 +37,17 @@ export function useSetupRegistration(onSuccessAction: () => void) {
 
   const submit = methods.handleSubmit((data) => {
     const { workMode, ...apiData } = data;
+
     if (workMode) {
       localStorage.setItem('workMode', workMode);
     }
+
     if (workMode === WorkMode.Offline) {
       localStorage.setItem('userInfo', JSON.stringify(apiData));
       onSuccessAction();
       return;
     }
+
     mutate(apiData as unknown as GlobalRegisterDto);
   });
 
