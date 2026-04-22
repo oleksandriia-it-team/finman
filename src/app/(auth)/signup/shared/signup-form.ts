@@ -5,12 +5,12 @@ import type { ApiResultOperation } from '@common/models/api-result-operation.mod
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { WorkMode } from '@common/enums/work-mode.enum';
-import type { ApiPayload } from '@common/models/api-signup-payload';
+import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
-    async (data: ApiPayload) =>
-      await fetchClient.post<ApiResultOperation<boolean>, ApiPayload>('/api/auth/signup', data),
+    async (data: RegisterDto) =>
+      await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data),
     {
       successMessage: 'Реєстрація успішна!',
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
@@ -35,26 +35,24 @@ export function useSetupRegistration(onSuccessAction: () => void) {
   const submit = methods.handleSubmit((data) => {
     const { workMode } = data;
     if (!workMode) return;
-
     const apiData = { ...data } as Partial<GlobalRegisterDto>;
-
     delete apiData.workMode;
     delete apiData.passwordConfirm;
 
-    localStorage.setItem('workMode', workMode);
-
     if (workMode === WorkMode.Offline) {
       try {
+        localStorage.setItem('workMode', workMode);
         localStorage.setItem('userInfo', JSON.stringify(apiData));
         onSuccessAction();
       } catch (e) {
         localStorage.removeItem('workMode');
+        localStorage.removeItem('userInfo');
         console.error('Local save error', e);
       }
       return;
     }
-
-    mutate(apiData as ApiPayload);
+    localStorage.setItem('workMode', workMode);
+    mutate(apiData as RegisterDto);
   });
 
   return { methods, submit, isLoading: isPending };
