@@ -49,4 +49,6 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
 
   @OneToMany('RegularEntryOrm', 'user')
   regularEntries!: RegularEntryOrm[];
+
+  online = true as const;
 }
