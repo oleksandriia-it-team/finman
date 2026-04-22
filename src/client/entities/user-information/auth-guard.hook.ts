@@ -13,19 +13,19 @@ export function useUserGuard(routePath?: string) {
   useEffect(() => {
     const workMode = localStorage.getItem('workMode');
     const isOffline = workMode === WorkMode.Offline;
+    const localUser = localStorage.getItem('userInfo');
+    const hasToken = document.cookie.includes('token=');
 
-    if (isOffline) {
-      const localUser = localStorage.getItem('userInfo');
-      if (!localUser && pathName !== '/signup') {
+    const isAuthenticated = isOffline ? !!localUser : !!user || hasToken;
+
+    if (!isAuthenticated) {
+      if (pathName !== '/signup') {
         router.push('/signup');
       }
       return;
     }
-    const hasToken = document.cookie.includes('token=');
 
-    if (!user && !hasToken && pathName !== '/signup') {
-      router.push('/signup');
-    } else if (routePath && (user || hasToken) && pathName !== routePath) {
+    if (routePath && pathName !== routePath) {
       router.push(routePath);
     }
   }, [routePath, router, user, pathName]);
