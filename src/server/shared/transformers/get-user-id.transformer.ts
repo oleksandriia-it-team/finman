@@ -1,6 +1,6 @@
 import { isEmpty } from '@common/utils/is-empty.util';
 import { jwtVerify } from 'jose';
-import { JwtSecretConstant } from '@backend/shared/constant/jwt-secret.constant';
+import { JwtSecretConstant } from '@backend/config/jwt-secret.constant';
 
 export async function GetUserIdTransformer(request: Request): Promise<number | null> {
   const token = request.headers.get('Authorization')?.split(' ')[1];

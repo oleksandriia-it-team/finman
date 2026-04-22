@@ -36,7 +36,7 @@ export function useSetupRegistration(onSuccessAction: () => void) {
   });
 
   const submit = methods.handleSubmit((data) => {
-    const { workMode, passwordConfirm, ...apiData } = data;
+    const { workMode, passwordConfirm: _passwordConfirm, ...apiData } = data;
     if (workMode) {
       localStorage.setItem('workMode', workMode);
     }
