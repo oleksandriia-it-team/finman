@@ -14,7 +14,8 @@ export function useUserGuard(routePath?: string) {
     const workMode = localStorage.getItem('workMode');
     const isOffline = workMode === WorkMode.Offline;
     const localUser = localStorage.getItem('userInfo');
-    const hasToken = document.cookie.includes('token=');
+
+    const hasToken = document.cookie.split(';').some((item) => item.trim().startsWith('token='));
 
     const isAuthenticated = isOffline ? !!localUser : !!user || hasToken;
 
