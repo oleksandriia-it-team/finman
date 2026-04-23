@@ -1,0 +1,17 @@
+.auth-image-container {
+  display: none;
+}
+
+@media screen and (width >= 640px) {
+  .auth-image-container {
+    display: flex;
+    min-width: 55%;
+  }
+}
+
+@media screen and (width >= 960px) {
+  .auth-image-container {
+    display: flex;
+    min-width: 65%;
+  }
+}

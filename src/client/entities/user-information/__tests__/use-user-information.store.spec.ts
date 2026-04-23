@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
-import { type UserInformation } from '@frontend/shared/services/user-information/models/user-infomation.model';
+import { type UserInformation } from '@frontend/entities/user-information/models/user-infomation.model';
 import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 
-import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/entities/user-information/use-user-information.store';
 
 describe('useUserInformation', () => {
   it('should add user information when call logIn', () => {

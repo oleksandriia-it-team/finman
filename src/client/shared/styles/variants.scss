@@ -1,20 +1,80 @@
 $variants: (
-  'default':     (var(--background),     var(--foreground)),
-  'primary':     (var(--primary),     var(--primary-foreground)),
-  'destructive': (var(--destructive), var(--destructive-foreground)),
-  'muted':       (var(--muted),       var(--muted-foreground)),
-  'success':     (var(--success),     var(--success-foreground)),
-  'warning':     (var(--warning),     var(--warning-foreground)),
-  'purple':      (var(--purple),      var(--purple-foreground)),
-  'pink':        (var(--pink),        var(--pink-foreground)),
-  'orange':      (var(--orange),      var(--orange-foreground)),
-  'teal':        (var(--teal),        var(--teal-foreground)),
+  'default': (
+    var(--background),
+    var(--foreground),
+  ),
+  'primary': (
+    var(--primary),
+    var(--primary-foreground),
+  ),
+  'destructive': (
+    var(--destructive),
+    var(--destructive-foreground),
+  ),
+  'muted': (
+    var(--muted),
+    var(--muted-foreground),
+  ),
+  'success': (
+    var(--success),
+    var(--success-foreground),
+  ),
+  'warning': (
+    var(--warning),
+    var(--warning-foreground),
+  ),
+  'purple': (
+    var(--purple),
+    var(--purple-foreground),
+  ),
+  'pink': (
+    var(--pink),
+    var(--pink-foreground),
+  ),
+  'orange': (
+    var(--orange),
+    var(--orange-foreground),
+  ),
+  'teal': (
+    var(--teal),
+    var(--teal-foreground),
+  ),
 );
 $sizes: (
-  'xs':      (0.875rem, 2rem,    0.75rem, 0.25rem),
-  'sm':      (0.875rem, 2.25rem, 1rem,    0.375rem),
-  'default': (1rem,     2.5rem,  1.25rem, 0.5rem),
-  'lg':      (1.125rem, 3rem,    1.75rem, 0.75rem),
-  'xl':      (1.5rem,   4.25rem, 2.5rem,  1rem),
-  'xxl':     (2rem,     5.5rem,  3.5rem,  1.25rem),
+  'xs': (
+    0.875rem,
+    2rem,
+    0.75rem,
+    0.25rem,
+  ),
+  'sm': (
+    0.875rem,
+    2.25rem,
+    1rem,
+    0.375rem,
+  ),
+  'default': (
+    1rem,
+    2.5rem,
+    1.25rem,
+    0.5rem,
+  ),
+  'lg': (
+    1.125rem,
+    3rem,
+    1.75rem,
+    0.75rem,
+  ),
+  'xl': (
+    1.5rem,
+    4.25rem,
+    2.5rem,
+    1rem,
+  ),
+  'xxl': (
+    2rem,
+    5.5rem,
+    3.5rem,
+    1.25rem,
+  ),
 );

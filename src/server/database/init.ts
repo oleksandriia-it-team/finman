@@ -13,7 +13,9 @@ async function init() {
       console.log('Database connected via DBDataSource');
     }
 
-    await Promise.all([countriesAndLocalesSeeder(), currencySeeder(), userSeeder()]);
+    await Promise.all([countriesAndLocalesSeeder(), currencySeeder()]);
+
+    await userSeeder();
 
     console.log('Done!');
   } catch (error) {
