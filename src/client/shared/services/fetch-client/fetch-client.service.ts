@@ -19,10 +19,12 @@ class FetchClientService {
     options: RequestOptions<D, T> = {},
   ): Promise<T> {
     const { params, body, signal, defaultValue, headers: customHeaders, skipAuth = false, ...restOptions } = options;
+    const headers = new Headers(customHeaders);
 
+    const hasAuthorizationHeader = Boolean(headers.get('Authorization')?.trim());
     const accessToken = this.authTokenService.getAccessToken();
 
-    if (!skipAuth && !accessToken) {
+    if (!skipAuth && !accessToken && !hasAuthorizationHeader) {
       throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
     }
 
@@ -35,7 +37,6 @@ class FetchClientService {
       });
     }
 
-    const headers = new Headers(customHeaders);
     const isFormData = body instanceof FormData;
     let requestBody: BodyInit | null = null;
 
@@ -46,7 +47,7 @@ class FetchClientService {
       requestBody = isFormData ? (body as FormData) : JSON.stringify(body);
     }
 
-    if (!skipAuth && accessToken) {
+    if (!skipAuth && accessToken && !hasAuthorizationHeader) {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
