@@ -1,6 +1,6 @@
 'use client';
 
-import { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
+import { type ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { useUserGuard } from '@frontend/entities/profile/auth-guard.hook';
 import { AuthorizedUserProvider } from '@frontend/shared/services/user-information/authorized-user.hook';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';

@@ -27,11 +27,15 @@ export function UiIconsPicker({ items, value, onSelect }: UiIconsPickerProps) {
             key={item.value}
             title={item.label}
             onClick={() => onSelect(item.value)}
-            style={isSelected ? { backgroundColor: item.bgColor, color: item.textColor } : undefined}
+            style={
+              isSelected
+                ? { backgroundColor: item.bgColor, color: item.textColor, borderColor: item.textColor }
+                : undefined
+            }
             className={cn(
               'p-3 rounded-2xl transition-all border-2 cursor-pointer',
               isSelected
-                ? 'border-primary scale-110 shadow-md'
+                ? 'scale-110 shadow-md'
                 : 'bg-secondary text-muted-foreground border-transparent hover:bg-accent',
             )}
           >

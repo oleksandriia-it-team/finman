@@ -1,20 +1,50 @@
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-export function ImageBlock() {
+interface ImageBlockProps {
+  image: string;
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function ImageBlock({ image, className, children }: ImageBlockProps) {
+  const classes = cn('relative size-full text-primary-foreground', className);
+
   return (
-    <div className="relative size-full text-primary-foreground">
+    <div className={classes}>
       <UiGraphic
-        src="/pictures/card-form-image.jpg"
+        src={image}
         size="100%"
         objectFit="cover"
       />
-      <div className="absolute bottom-0 w-full h-20 bg-muted bg-muted/50 backdrop-blur-[2px]">
-        <div className=" pl-3 size-full flex flex-col justify-center">
-          <h3>
-            <b>Плануйте фінанси розумно</b>
-          </h3>
-          <p>Регулярні платежі допомагають контролювати бюджет</p>
-        </div>
+      {children}
+    </div>
+  );
+}
+
+interface ImageBlockForegroundProps {
+  blurred?: boolean;
+  className?: string;
+  title?: string;
+  subtitle?: string;
+  textClassname?: string;
+}
+
+export function ImageBlockForeground({ blurred = false, title, subtitle, className }: ImageBlockForegroundProps) {
+  const wrapperClasses = cn(
+    'absolute bottom-0 w-full h-20 bg-muted bg-muted/50',
+    blurred && 'backdrop-blur-[2px]',
+    className,
+  );
+  const textClasses = cn('pl-3 size-full flex flex-col justify-center', className);
+
+  return (
+    <div className={wrapperClasses}>
+      <div className={textClasses}>
+        <h3>
+          <b>{title}</b>
+        </h3>
+        <p>{subtitle}</p>
       </div>
     </div>
   );

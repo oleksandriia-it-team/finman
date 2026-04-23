@@ -8,6 +8,7 @@ import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense
 import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { ExpenseCategories } from '@common/enums/categories.enum';
+import { UiTransformCurrency } from '@frontend/ui/ui-transform-currency/ui-transform-currency';
 
 export function IncomeExpenseCard({
   type,
@@ -64,12 +65,7 @@ export function IncomeExpenseCard({
           <span
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
-            {type === 'expense' && '-'}{' '}
-            {Number(sum).toLocaleString('uk-UA', {
-              style: 'currency',
-              currency: 'UAH',
-              currencyDisplay: 'narrowSymbol',
-            })}
+            <UiTransformCurrency value={sum} />
           </span>
         </div>
       </CardContent>

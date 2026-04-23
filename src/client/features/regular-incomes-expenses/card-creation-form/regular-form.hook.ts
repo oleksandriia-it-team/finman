@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   type RegularPaymentFormData,
@@ -15,15 +15,15 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const isEdit = !!initialData;
 
   const methods = useForm<RegularPaymentFormData>({
-    resolver: zodResolver(RegularPaymentFormSchema),
+    resolver: zodResolver(RegularPaymentFormSchema) as Resolver<RegularPaymentFormData>,
     defaultValues: isEdit
       ? {
           title: initialData.title,
-          description: initialData.description,
+          ...(initialData.description !== undefined && { description: initialData.description }),
           type: initialData.type,
-          category: initialData.category,
+          ...(initialData.category !== undefined && { category: initialData.category }),
           sum: initialData.sum,
-          frequency: initialData.frequency,
+          ...(initialData.frequency !== undefined && { frequency: initialData.frequency }),
           dayOfMonth: 1,
         }
       : {
@@ -38,9 +38,9 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         const { dayOfMonth, ...entryData } = data;
 
         if (isEdit && initialData) {
-          await handleUpdate(initialData.id, { ...entryData, regular: true });
+          await handleUpdate(initialData.id, { ...entryData, regular: true, description: entryData.description ?? '' });
         } else {
-          await handleCreate({ ...entryData, regular: true });
+          await handleCreate({ ...entryData, regular: true, description: entryData.description ?? '' });
         }
         showToast({
           title: 'Успішно',

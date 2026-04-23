@@ -29,7 +29,7 @@ export default function RegularIncomesExpensesPage() {
 
   const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['regular-transactions', refreshKey],
+    queryKey: ['regular-transactions', String(refreshKey)],
     getOptionsFn: async (page, pageSize) => {
       const start = (page - 1) * pageSize;
       const end = start + pageSize - 1;
@@ -45,7 +45,7 @@ export default function RegularIncomesExpensesPage() {
   if (showForm || editTarget) {
     return (
       <RegularPaymentForm
-        initialData={editTarget ?? undefined}
+        {...(editTarget && { initialData: editTarget })}
         onSuccess={() => {
           closeForm();
           refresh();
@@ -71,16 +71,10 @@ export default function RegularIncomesExpensesPage() {
             <p className="text-muted-foreground italic col-span-full">Немає регулярних платежів</p>
           )}
           {state === PromiseState.Success &&
-            options.map((item: TransactionCardRegularProps) => (
+            (options as TransactionCardRegularProps[]).map((item: TransactionCardRegularProps) => (
               <IncomeExpenseCard
                 key={item.id}
-                title={item.title}
-                category={item.category}
-                description={item.description}
-                type={item.type}
-                sum={item.sum}
-                createdAt={item.createdAt}
-                regular={item.regular}
+                {...item}
               />
             ))}
         </div>
