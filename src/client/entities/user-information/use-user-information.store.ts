@@ -11,6 +11,8 @@ import { authTokenService } from './auth-token.service';
 async function getUserInformation(): Promise<GetUser | null> {
   const user = localStorageService.getItem<OfflineUser>(UserInformationKey);
 
+  console.log(user);
+
   if (!user) {
     return profileApiClient.getProfile();
   }
@@ -23,17 +25,15 @@ export const useUserInformation = create<UserInformationStore>((set) => {
   async function loadUserInformation() {
     set({ userInfoState: PromiseState.Loading });
 
-    const user = await getUserInformation().catch(() => {
-      set({ userInfoState: PromiseState.Error });
+    await getUserInformation()
+      .then((user) => {
+        set({ userInformation: user, userInfoState: PromiseState.Success });
+      })
+      .catch(() => {
+        set({ userInformation: null, userInfoState: PromiseState.Error });
 
-      return null;
-    });
-
-    if (user) {
-      set({ userInformation: user, userInfoState: PromiseState.Success });
-    } else {
-      set({ userInformation: user });
-    }
+        return null;
+      });
   }
 
   loadUserInformation();

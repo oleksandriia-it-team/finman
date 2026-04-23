@@ -9,6 +9,8 @@ export class ProfileApiClient {
   async getProfile(): Promise<OnlineUser | null> {
     const accessToken = this.authTokenService.getAccessToken();
 
+    console.log(accessToken);
+
     if (!accessToken) {
       return null;
     }

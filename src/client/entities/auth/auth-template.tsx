@@ -7,7 +7,9 @@ export const AuthTemplate = ({ children }: ChildrenComponentProps) => {
   return (
     <div className="min-h-screen w-full flex flex-row bg-primary-foreground">
       <div className="flex flex-1 items-center justify-center p-6 md:p-9">
-        <div className="size-full max-w-[22rem] flex flex-col gap-6 overflow-auto no-scrollbar ">{children}</div>
+        <div className="justify-center size-full max-w-[22rem] flex flex-col gap-6 overflow-auto no-scrollbar p-1 ">
+          {children}
+        </div>
       </div>
 
       <div className="auth-image-container flex flex-1 items-center justify-center bg-aqua-muted p-12">

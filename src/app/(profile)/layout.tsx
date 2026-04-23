@@ -1,6 +1,6 @@
 import { AuthGuard } from '@frontend/entities/user-information/auth-guard';
-import { type ChildrenComponentProps } from '../../client/shared/models/component-with-chilren.model';
 import { AuthorizedUserProvider } from '@frontend/entities/user-information/authorized-user.hook';
+import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 
 export default function UserProfilePage({ children }: ChildrenComponentProps) {
   return (

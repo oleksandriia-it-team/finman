@@ -19,13 +19,15 @@ import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-c
 import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip, UiTooltipContent, UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip';
+import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
+import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export default function RegistrationPage() {
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupRegistration(() => {
-    const workMode = localStorage.getItem('workMode');
-    const hasOfflineData = localStorage.getItem('userInfo');
-    if (workMode === WorkMode.Offline && hasOfflineData) {
+    const hasOfflineData = localStorageService.getItem(UserInformationKey);
+    if (hasOfflineData) {
       router.push('/profile');
     } else {
       router.push('/login');
@@ -68,17 +70,24 @@ export default function RegistrationPage() {
             <UiFieldGroup className="flex flex-col gap-2.5">
               <div className="grid grid-cols-1 gap-2.5">
                 <UiTooltip>
-                  <UiTooltipTrigger asChild>
-                    <div>
-                      {' '}
-                      <FinControlledDropdown
-                        label="Режим роботи *"
-                        name="workMode"
-                        placeholder="Оберіть режим роботи"
-                        options={WORK_MODE_OPTIONS}
-                      />
-                    </div>
-                  </UiTooltipTrigger>
+                  <div>
+                    <FinControlledDropdown
+                      label={
+                        <>
+                          Режим роботи{' '}
+                          <UiTooltipTrigger asChild>
+                            <UiSvgIcon
+                              name={'info-circle'}
+                              size="sm"
+                            />
+                          </UiTooltipTrigger>
+                        </>
+                      }
+                      name="workMode"
+                      placeholder="Оберіть режим роботи"
+                      options={WORK_MODE_OPTIONS}
+                    />
+                  </div>
                   <UiTooltipContent
                     side="top"
                     className="max-w-[200px] text-center"

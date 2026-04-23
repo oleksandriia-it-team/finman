@@ -7,7 +7,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/user-information/props/auth-guard.props';
 
-export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
+export function NotAuthGuard({ children, routePath = '/profile' }: AuthGuardProps) {
   const { userInfoState, userInformation } = useUserInformation(
     useShallow((state) => ({ userInformation: state.userInformation, userInfoState: state.userInfoState })),
   );
@@ -19,7 +19,7 @@ export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
     if (userInfoState !== PromiseState.Success) {
       return;
     }
-    if (!userInformation) {
+    if (userInformation) {
       router.push(routePath);
     }
   }, [routePath, router, userInformation, pathName, userInfoState]);
@@ -32,8 +32,8 @@ export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
     return <span>Помилка завантаження користувача</span>;
   }
 
-  if (!userInformation) {
-    return <span>Ви не авторизовані. Переадресація...</span>;
+  if (userInformation) {
+    return <span>Ви авторизовані, тому не можете перейти до сторінки. Переадресація...</span>;
   }
 
   return children;

@@ -15,7 +15,7 @@ export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
     password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
 
     passwordConfirm: z.string().optional().or(z.literal('')),
-    workMode: z.nativeEnum(WorkMode).optional(),
+    workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
   })
   .superRefine((data, ctx) => {
     if (!data.workMode) {
