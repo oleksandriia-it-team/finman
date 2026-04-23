@@ -21,7 +21,7 @@ export default function UserLayoutPage({ children }: ChildrenComponentProps) {
       <div className={cn('size-full flex', isMobile && 'h-dvh overflow-hidden flex-col')}>
         {!isMobile && <ProfileSidebar />}
 
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 min-h-0">{children}</div>
 
         {isMobile && <ProfileMobileNavbar />}
       </div>

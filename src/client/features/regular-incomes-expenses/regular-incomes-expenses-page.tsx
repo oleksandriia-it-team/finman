@@ -56,7 +56,7 @@ export default function RegularIncomesExpensesPage() {
   }
 
   return (
-    <div className="w-full h-screen overflow-hidden flex flex-col pb-8 relative">
+    <div className="size-full overflow-hidden flex flex-col pb-8 relative">
       <p className="flex-none text-xl p-4">
         <b>Регулярні доходи та витрати</b>
       </p>
