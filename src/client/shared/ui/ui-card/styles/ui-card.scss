@@ -1,7 +1,6 @@
 .card-header {
   container-name: card-header;
   container-type: inline-size;
-
   display: grid;
   grid-auto-rows: min-content;
   grid-template-rows: auto auto;
@@ -11,6 +10,10 @@
 
   &:has([data-slot="card-action"]) {
     grid-template-columns: 1fr auto;
+  }
+
+  & > * {
+    min-width: 0;
   }
 
   &.border-b {

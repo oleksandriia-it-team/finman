@@ -24,12 +24,12 @@ export function IncomeExpenseCard({
   return (
     <UiCard
       className={cn(
-        'border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl',
+        'border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden',
         categoryStyles.borderColor,
         className,
       )}
     >
-      <CardHeader>
+      <CardHeader className="min-w-0 w-full overflow-hidden">
         <div className="flex flex-col items-start gap-3">
           <div className="flex between w-full justify-between">
             <div
@@ -51,7 +51,7 @@ export function IncomeExpenseCard({
           <CardTitle className="text-lg line-clamp-1"> {title || categoryStyles.label} </CardTitle>
         </div>
         {description ? (
-          <p className="text-sm text-muted-foreground line-clamp-2">{description}</p>
+          <p className="text-sm text-muted-foreground break-words w-full">{description}</p>
         ) : (
           <p className="text-xs italic text-muted-foreground/50">Немає опису</p>
         )}
