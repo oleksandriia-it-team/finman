@@ -1,11 +1,11 @@
-import { type UserInformationStore } from '@frontend/entities/user-information/models/user-infomation.model';
+import { type UserInformationStore } from '@frontend/shared/services/user-information/models/user-infomation.model';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
 import { userSchema } from '@frontend/shared/schemas/validation-schema';
 import type { GetUser, OfflineUser } from '@common/records/user.record';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { profileApiClient } from '@frontend/entities/user-information/profile.api.client';
+import { profileApiClient } from '@frontend/shared/services/user-information/profile.api.client';
 import { authTokenService } from './auth-token.service';
 
 async function getUserInformation(): Promise<GetUser | null> {

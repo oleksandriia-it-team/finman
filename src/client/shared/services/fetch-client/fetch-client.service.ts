@@ -2,11 +2,14 @@ import { type RequestOptions } from '@frontend/shared/services/fetch-client/mode
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PublicEnvConfigConstant } from '@common/config/public-env-config.constant';
+import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
+import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 class FetchClientService {
   private readonly baseUrl: string;
 
-  constructor() {
+  constructor(private authTokenService: AuthTokenModel) {
     this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
   }
 
@@ -15,7 +18,13 @@ class FetchClientService {
     method: string,
     options: RequestOptions<D, T> = {},
   ): Promise<T> {
-    const { params, body, signal, defaultValue, headers: customHeaders, ...restOptions } = options;
+    const { params, body, signal, defaultValue, headers: customHeaders, skipAuth = false, ...restOptions } = options;
+
+    const accessToken = this.authTokenService.getAccessToken();
+
+    if (!skipAuth && !accessToken) {
+      throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
+    }
 
     const url = new URL(`${this.baseUrl}${endpoint}`);
     if (params) {
@@ -35,6 +44,10 @@ class FetchClientService {
         headers.set('Content-Type', 'application/json');
       }
       requestBody = isFormData ? (body as FormData) : JSON.stringify(body);
+    }
+
+    if (!skipAuth && accessToken) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
     const response = await fetch(url.toString(), {
@@ -68,4 +81,4 @@ class FetchClientService {
   }
 }
 
-export const fetchClient = new FetchClientService();
+export const fetchClient = new FetchClientService(authTokenService);
