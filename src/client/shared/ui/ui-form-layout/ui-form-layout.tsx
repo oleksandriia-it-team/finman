@@ -4,7 +4,7 @@ function FormLayout({ className, children, ...props }: React.HTMLAttributes<HTML
   return (
     <form
       noValidate
-      className={cn('p-4 overflow-y-auto flex flex-col gap-6', className)}
+      className={cn('p-4 h-full overflow-y-auto flex flex-col gap-6', className)}
       {...props}
     >
       {children}

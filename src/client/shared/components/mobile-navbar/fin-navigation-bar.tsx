@@ -1,6 +1,6 @@
 'use client';
 
-import { MobileNavbarProps } from '@frontend/components/mobile-navbar/props/mobile-navbar.props';
+import { type MobileNavbarProps } from '@frontend/components/mobile-navbar/props/mobile-navbar.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { useGetActiveRoute } from '@frontend/shared/hooks/get-active-route/get-active-route.hook';
 import { FinNavigationBarItem } from '@frontend/components/mobile-navbar/fin-navbar-item';

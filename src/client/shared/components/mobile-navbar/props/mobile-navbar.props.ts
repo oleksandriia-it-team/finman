@@ -1,5 +1,5 @@
-import { ComponentProps } from 'react';
-import { SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { type ComponentProps } from 'react';
+import { type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
 export interface MobileNavbarProps extends ComponentProps<'nav'> {
   routes: SidebarItemModel[];
