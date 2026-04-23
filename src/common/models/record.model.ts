@@ -1,3 +1,2 @@
-export interface RecordModel {
-  [s: string]: unknown;
-}
+// eslint-disable-next-line
+export type RecordModel = {};

@@ -4,6 +4,8 @@ import { type SelectTriggerProps } from '@frontend/ui/ui-select/props/select-tri
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiInputGroupAddon } from '../ui-input-group/ui-input-group-addon';
 
+import './styles/select-trigger.scss';
+
 export function UiSelectTrigger({
   className,
   size = 'default',
@@ -19,7 +21,7 @@ export function UiSelectTrigger({
       <SelectPrimitive.Trigger
         data-invalid={dataInvalid}
         data-slot="select-trigger"
-        className={cn('flex w-fit items-center justify-between gap-2 basic-input', className)}
+        className={cn('flex w-fit items-center justify-between gap-2 basic-input select-trigger', className)}
         disabled={disabled}
         {...props}
       >
