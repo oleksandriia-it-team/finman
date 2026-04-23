@@ -1,7 +1,7 @@
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { OnlineUser } from '@common/records/user.record';
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
-import { authTokenService, type AuthTokenService } from '@frontend/entities/user-information/auth-token.service';
+import { authTokenService, type AuthTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 
 export class ProfileApiClient {
   constructor(private authTokenService: AuthTokenService) {}

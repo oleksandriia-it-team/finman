@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
-import { useUserInformation } from '@frontend/entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { setUserInformation, logOut } = useUserInformation();

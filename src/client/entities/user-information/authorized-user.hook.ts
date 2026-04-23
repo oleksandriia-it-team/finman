@@ -1,7 +1,7 @@
 'use client';
 
 import constate from 'constate';
-import { useUserInformation } from '@frontend/entities/user-information/use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 function useAuthorizedLogic() {
   const user = useUserInformation((state) => state.userInformation);

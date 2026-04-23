@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useUserInformation } from './use-user-information.store';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/user-information/props/auth-guard.props';
