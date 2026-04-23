@@ -1,16 +1,14 @@
 import { type ICrudService } from '@common/models/crud-service.model';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
-import { type LocalStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
-import type { UserInformation } from '@frontend/shared/services/user-information/models/user-infomation.model';
-import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 
 export class BasicDataSource<
   T extends DefaultTableColumns,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
   constructor(
-    private localStorage: LocalStorageService,
+    private authTokenService: AuthTokenModel,
     private local: ICrudService<T, DTO>,
     private apiClient: ICrudService<T, DTO>,
   ) {}
@@ -48,6 +46,6 @@ export class BasicDataSource<
   }
 
   get isOfflineMode() {
-    return !this.localStorage.getItem<UserInformation>(UserInformationKey);
+    return !this.authTokenService.getAccessToken();
   }
 }

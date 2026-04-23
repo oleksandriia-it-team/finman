@@ -1,4 +1,6 @@
-export class AuthTokenService {
+import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
+
+export class AuthTokenService implements AuthTokenModel {
   setAccessToken(token: string): void {
     document.cookie = `token=${token}; path=/; max-age=86400`;
   }
