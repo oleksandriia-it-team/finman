@@ -11,7 +11,7 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
   title!: string;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
-  description?: string | undefined;
+  description?: string | null;
 
   @Column({ type: 'enum', enum: [TypeEntry.Expense, TypeEntry.Income] })
   type!: TypeEntry.Expense | TypeEntry.Income;
