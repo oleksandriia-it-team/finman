@@ -234,6 +234,13 @@ export class DatabaseLocalService {
     try {
       const table = this.table(tableName);
       // `put` inside an active transaction automatically uses it
+      const exists = await table.get((data as Record<string, unknown>).id as number);
+
+      if (exists) {
+        await table.update((data as Record<string, unknown>).id as number, data);
+        return (data as Record<string, unknown>).id as number;
+      }
+
       return await table.put(data as DefaultTableColumns & RecordModel);
     } catch (error) {
       throw new Error(getErrorMessage(error));
