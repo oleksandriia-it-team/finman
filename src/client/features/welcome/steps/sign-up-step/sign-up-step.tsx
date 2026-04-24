@@ -83,7 +83,7 @@ export default function SignUpStep() {
           >
             <Link
               className="!text-inherit !no-underline"
-              href="/registration/form"
+              href="/signup"
             >
               Зареєструватися
             </Link>

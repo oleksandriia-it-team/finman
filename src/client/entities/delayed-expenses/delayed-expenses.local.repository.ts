@@ -1,25 +1,25 @@
 import { CrudLocalService } from '../../database/crud/crud.local.service';
-import { type DatabaseLocalService, databaseService } from '../../database/database.local.service';
+import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { type DelayedExpense } from '@common/records/delayed-expenses.record';
 import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
-export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense> {
-  constructor(databaseService: DatabaseLocalService) {
-    super(databaseService, Tables.DelayedExpensesTable);
+export class DelayedExpensesLocalRepository extends CrudLocalService<DelayedExpense, never> {
+  constructor(databaseLocalService: DatabaseLocalService) {
+    super(databaseLocalService, Tables.DelayedExpensesTable);
   }
 
   createItem(data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<number> {
-    return this.databaseService.updateOrCreateItem(this.tableName, data);
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
   async updateItem(id: number, data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<true> {
-    return this.databaseService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
   }
 
   deleteItem(id: number): Promise<true> {
-    return this.databaseService.deleteItem(this.tableName, id, false);
+    return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 }
 
-export const delayedExpensesLocalRepository = new DelayedExpensesLocalRepository(databaseService);
+export const delayedExpensesLocalRepository = new DelayedExpensesLocalRepository(databaseLocalService);

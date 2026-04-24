@@ -1,15 +1,24 @@
 import { type ICrudService } from '@common/models/crud-service.model';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
+import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 
 export class BasicDataSource<
   T extends DefaultTableColumns,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
-  constructor(private local: ICrudService<T, DTO>) {}
+  constructor(
+    private authTokenService: AuthTokenModel,
+    private local: ICrudService<T, DTO>,
+    private apiClient: ICrudService<T, DTO>,
+  ) {}
 
   private get source(): ICrudService<T, DTO> {
-    return this.local;
+    if (this.isOfflineMode) {
+      return this.local;
+    }
+
+    return this.apiClient;
   }
 
   getItemById(id: number): Promise<T | null> {
@@ -34,5 +43,9 @@ export class BasicDataSource<
 
   getTotalCount(): Promise<number> {
     return this.source.getTotalCount();
+  }
+
+  get isOfflineMode() {
+    return !this.authTokenService.getAccessToken();
   }
 }

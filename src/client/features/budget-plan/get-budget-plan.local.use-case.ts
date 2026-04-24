@@ -1,0 +1,43 @@
+import type { BudgetPlan, BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
+import type { ICrudService } from '@common/models/crud-service.model';
+import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { RegularEntry } from '@common/records/regular-entry.record';
+
+export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<number, BudgetPlanDetailed | null> {
+  constructor(
+    transactionManager: ITransactionManager,
+    private budgetPlanRepository: ICrudService<BudgetPlan>,
+    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private regularEntryRepository: ICrudService<RegularEntry>,
+  ) {
+    super(transactionManager);
+  }
+
+  async handle(id: number): Promise<BudgetPlanDetailed | null> {
+    const budgetPlan = await this.budgetPlanRepository.getItemById(id);
+
+    if (!budgetPlan) {
+      return null;
+    }
+
+    const otherEntries = (
+      await Promise.all(budgetPlan.otherEntryIds.map((id) => this.unregularEntryRepository.getItemById(id)))
+    ).filter((i) => !!i);
+
+    const regularEntries = (
+      await Promise.all(budgetPlan.plannedRegularEntryIds.map((id) => this.regularEntryRepository.getItemById(id)))
+    ).filter((i) => !!i);
+
+    return {
+      id: budgetPlan.id,
+      month: budgetPlan.month,
+      year: budgetPlan.year,
+      otherEntries: otherEntries,
+      plannedRegularEntries: regularEntries,
+      softDeleted: budgetPlan.softDeleted ?? 0,
+      updatedAt: budgetPlan.updatedAt,
+      createdAt: budgetPlan.createdAt,
+    };
+  }
+}

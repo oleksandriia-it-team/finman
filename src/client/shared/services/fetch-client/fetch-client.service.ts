@@ -1,13 +1,16 @@
 import { type RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
-import { EnvConfigConstant } from '@common/constants/env-config.constant';
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { isEmpty } from '@common/utils/is-empty.util';
+import { PublicEnvConfigConstant } from '@common/config/public-env-config.constant';
+import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
+import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 class FetchClientService {
   private readonly baseUrl: string;
 
-  constructor() {
-    this.baseUrl = EnvConfigConstant.NEXT_PUBLIC_API_URL;
+  constructor(private authTokenService: AuthTokenModel) {
+    this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
   }
 
   public get<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
@@ -35,7 +38,15 @@ class FetchClientService {
     method: string,
     options: RequestOptions<D, T> = {},
   ): Promise<T> {
-    const { params, body, signal, defaultValue, headers: customHeaders, ...restOptions } = options;
+    const { params, body, signal, defaultValue, headers: customHeaders, skipAuth = false, ...restOptions } = options;
+    const headers = new Headers(customHeaders);
+
+    const hasAuthorizationHeader = Boolean(headers.get('Authorization')?.trim());
+    const accessToken = this.authTokenService.getAccessToken();
+
+    if (!skipAuth && !accessToken && !hasAuthorizationHeader) {
+      throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
+    }
 
     const url = new URL(`${this.baseUrl}${endpoint}`);
     if (params) {
@@ -46,7 +57,6 @@ class FetchClientService {
       });
     }
 
-    const headers = new Headers(customHeaders);
     const isFormData = body instanceof FormData;
     let requestBody: BodyInit | null = null;
 
@@ -55,6 +65,10 @@ class FetchClientService {
         headers.set('Content-Type', 'application/json');
       }
       requestBody = isFormData ? (body as FormData) : JSON.stringify(body);
+    }
+
+    if (!skipAuth && accessToken && !hasAuthorizationHeader) {
+      headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
     const response = await fetch(url.toString(), {
@@ -68,4 +82,4 @@ class FetchClientService {
   }
 }
 
-export const fetchClient = new FetchClientService();
+export const fetchClient = new FetchClientService(authTokenService);

@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { type RegularApiEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { RegularEntryRequirements } from '@common/domains/regular-entry/constants/regular-entry-requirements.constant';
-import { DefaultTableColumnsOrm } from '@backend/shared/infrastructure/default-table-columns.orm';
+import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
 
 @Entity('regular-entry')
 export class RegularEntryOrm extends DefaultTableColumnsOrm implements RegularApiEntry {

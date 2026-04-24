@@ -1,4 +1,4 @@
-import { CrudApiRepository } from '../../../shared/infrastructure/crud.api.repository';
+import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { UserOrm } from './user.orm';
 import { type CreateUserDto } from '@common/domains/user/schema/user.schema';
 import bcrypt from 'bcrypt';

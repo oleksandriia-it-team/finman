@@ -1,0 +1,54 @@
+import { z } from 'zod';
+import { CreateUserSchema } from '@common/domains/user/schema/user.schema';
+import { WorkMode } from '@common/enums/work-mode.enum';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
+
+export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
+  .extend({
+    email: z
+      .string()
+      .email('Неправильний формат email')
+      .max(UserRequirements.MaxEmailLength)
+      .optional()
+      .or(z.literal('')),
+
+    password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
+
+    passwordConfirm: z.string().optional().or(z.literal('')),
+    workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.workMode) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Будь ласка, оберіть режим роботи',
+        path: ['workMode'],
+      });
+      return;
+    }
+    if (data.workMode === WorkMode.Online) {
+      if (!data.email || data.email.trim() === '') {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Email обов'язковий для онлайн-режиму",
+          path: ['email'],
+        });
+      }
+      if (!data.password || data.password.length < 8) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Пароль має бути не менше 8 символів',
+          path: ['password'],
+        });
+      }
+      if (data.password !== data.passwordConfirm) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Паролі не збігаються',
+          path: ['passwordConfirm'],
+        });
+      }
+    }
+  });
+
+export type GlobalRegisterDto = z.infer<typeof GlobalRegisterSchema>;

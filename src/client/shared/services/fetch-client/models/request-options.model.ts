@@ -5,4 +5,5 @@ export interface RequestOptions<D = unknown, T = unknown>
   params?: QueryParams | undefined;
   body?: D | undefined;
   defaultValue?: T | undefined;
+  skipAuth?: boolean;
 }
