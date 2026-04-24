@@ -47,9 +47,9 @@ export default function RegularIncomesExpensesScreen() {
             <p className="text-muted-foreground italic col-span-full">Немає регулярних платежів</p>
           )}
           {state === PromiseState.Success &&
-            (options as TransactionCardProps[]).map((item: TransactionCardProps) => (
+            (options as TransactionCardProps[]).map((item: TransactionCardProps, index) => (
               <IncomeExpenseCard
-                key={item.id}
+                key={item.id ?? index}
                 {...item}
               />
             ))}

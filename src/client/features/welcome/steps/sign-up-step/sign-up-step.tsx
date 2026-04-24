@@ -5,6 +5,7 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 export default function SignUpStep() {
   const checks = [
@@ -18,7 +19,7 @@ export default function SignUpStep() {
       ),
       title: 'Повний контроль коштів',
       subtitle: 'Ваші гроші під контролем',
-      type: 'income' as const,
+      type: TypeEntry.Income as const,
     },
     {
       id: 2,
@@ -30,7 +31,7 @@ export default function SignUpStep() {
       ),
       title: 'Аналітика витрат',
       subtitle: 'Детальні графіки та звіти',
-      type: 'income' as const,
+      type: TypeEntry.Income as const,
     },
   ];
 
@@ -65,9 +66,9 @@ export default function SignUpStep() {
               key={check.id}
               icon={check.icon}
               title={check.title}
-              subtitle={check.subtitle}
+              description={check.subtitle}
               type={check.type}
-              amount="✓"
+              sum={10000}
               className="step-card-item"
             />
           ))}

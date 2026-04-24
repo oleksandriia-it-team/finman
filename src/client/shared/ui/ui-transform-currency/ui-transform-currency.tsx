@@ -8,7 +8,7 @@ interface UiTransformCurrencyProps extends Omit<ComponentProps<'p'>, 'children'>
 }
 
 export function UiTransformCurrency({ value, currency, locale, ...props }: UiTransformCurrencyProps) {
-  const userLocale = useUserInformation((state) => state.userInformation)?.preferableLocale;
+  const userLocale = useUserInformation((state) => state.userInformation)?.locale;
 
   const formatted = useMemo(() => {
     return value.toLocaleString(locale ?? userLocale ?? 'uk-UA', {

@@ -29,8 +29,8 @@ export default function BenefitsExplanationStep() {
                 key={tx.id}
                 icon={tx.icon}
                 title={tx.title}
-                subtitle={tx.subtitle}
-                amount={tx.amount}
+                description={tx.subtitle}
+                sum={tx.amount}
                 type={tx.type}
               />
             ))}
