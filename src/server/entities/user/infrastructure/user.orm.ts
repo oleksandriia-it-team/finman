@@ -4,6 +4,7 @@ import { type FullUserData } from '@common/records/user.record';
 import { UserRequirements } from '@common/domains/user/constants/user-requirements.constant';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { type RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
+import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 
 @Entity('user')
 export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
@@ -21,4 +22,7 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
 
   @OneToMany('RegularEntryOrm', 'user')
   regularEntries!: RegularEntryOrm[];
+
+  @OneToMany('tracking-operation', 'user')
+  trackingOperations?: TrackingOperationOrm;
 }
