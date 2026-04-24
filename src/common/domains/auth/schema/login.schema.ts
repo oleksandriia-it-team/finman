@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserRequirements } from '@common/domains/user/constants/user-requirements.constant';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 export const LoginSchema = z.object({
   login: z
