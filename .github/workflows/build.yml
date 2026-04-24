@@ -26,3 +26,11 @@ jobs:
 
       - name: Run Next.js Build
         run: npm run build
+        env:
+          DB_HOST: "localhost"
+          DB_PORT: "5432"
+          DB_USERNAME: "finman"
+          DB_PASSWORD: "finman"
+          DB_DATABASE: "finman"
+          JWT_SECRET: "your_super_wwwwww_key_at_least_32_characters_long"
+          NEXT_PUBLIC_API_URL: "http://localhost:3000"
