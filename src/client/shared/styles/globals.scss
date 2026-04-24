@@ -18,3 +18,12 @@ html {
     font-size: 18px;
   }
 }
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none; /* IE та Edge */
+  scrollbar-width: none; /* Firefox */
+}

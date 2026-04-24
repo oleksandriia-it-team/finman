@@ -225,13 +225,22 @@ export class DatabaseLocalService {
       (data as Record<string, unknown>).softDeleted = 0;
     }
 
-    if (!('id' in data) || typeof data.id !== 'number') {
+    if (!('id' in data)) {
+      (data as Record<string, unknown>).id = Date.now() * 1000 + Math.floor(Math.random() * 1000); // Generate a unique ID based on timestamp and random number
+    } else if (typeof data.id !== 'number') {
       throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 
     try {
       const table = this.table(tableName);
       // `put` inside an active transaction automatically uses it
+      const exists = await table.get((data as Record<string, unknown>).id as number);
+
+      if (exists) {
+        await table.update((data as Record<string, unknown>).id as number, data);
+        return (data as Record<string, unknown>).id as number;
+      }
+
       return await table.put(data as DefaultTableColumns & RecordModel);
     } catch (error) {
       throw new Error(getErrorMessage(error));
@@ -303,6 +312,8 @@ export class DatabaseLocalService {
 
   async clearDatabase(): Promise<void> {
     try {
+      // eslint-disable-next-line
+      // @ts-ignore
       await this.db.transaction(
         'rw',
         this.tables.map((t) => this.db.table(t)),

@@ -10,7 +10,7 @@ export const getTransactionManager = (): EntityManager | undefined => {
 };
 
 export class TypeormTransactionManager implements ITransactionManager {
-  static async run<T>(callback: () => Promise<T>): Promise<T> {
+  async run<T>(callback: () => Promise<T>): Promise<T> {
     const currentTransaction = getTransactionManager();
 
     if (currentTransaction) {
@@ -36,3 +36,5 @@ export class TypeormTransactionManager implements ITransactionManager {
     }
   }
 }
+
+export const typeormTransactionManager = new TypeormTransactionManager();

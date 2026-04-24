@@ -14,4 +14,5 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   bgNone?: boolean;
   asChild?: boolean;
   borderNone?: boolean;
+  paddingNone?: boolean;
 }
