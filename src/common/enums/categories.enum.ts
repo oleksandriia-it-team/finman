@@ -15,6 +15,7 @@ export const IncomeCategories = {
   Investments: 'investments',
   Freelance: 'freelance',
   Scholarship: 'scholarship',
+  Misc: 'misc',
 } as const;
 
 export type ExpenseCategory = (typeof ExpenseCategories)[keyof typeof ExpenseCategories];
