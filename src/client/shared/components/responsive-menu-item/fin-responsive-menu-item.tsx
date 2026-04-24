@@ -3,7 +3,13 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { cn } from '@frontend/shared/utils/cn.util';
 
-export function FinResponsiveMenuItem({ className, icon, name, variant = 'default' }: FinResponsiveMenuItemProps) {
+export function FinResponsiveMenuItem({
+  className,
+  icon,
+  name,
+  variant = 'default',
+  onClick,
+}: FinResponsiveMenuItemProps) {
   return (
     <li
       key={name}
@@ -13,6 +19,7 @@ export function FinResponsiveMenuItem({ className, icon, name, variant = 'defaul
         paddingNone
         bgNone
         variant={variant}
+        onClick={onClick ? onClick : undefined}
       >
         <UiSvgIcon
           name={icon}

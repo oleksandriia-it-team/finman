@@ -5,4 +5,5 @@ export interface TransactionCardProps extends Partial<RegularEntry> {
   className?: string;
   bgNone?: boolean;
   check?: string;
+  handleDelete?: (id: number) => void;
 }

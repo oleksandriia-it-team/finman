@@ -14,8 +14,11 @@ import { UiResponsiveLabel } from '@frontend/ui/ui-responsive-menu/ui-responsive
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
+import { useRouter } from 'next/navigation';
+import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 
 export function IncomeExpenseCard({
+  id,
   type,
   description,
   sum,
@@ -23,9 +26,10 @@ export function IncomeExpenseCard({
   className,
   category = ExpenseCategories.Misc,
   title = '',
+  handleDelete,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
-
+  const router = useRouter();
   return (
     <UiCard
       className={cn(
@@ -61,16 +65,29 @@ export function IncomeExpenseCard({
                 <FinResponsiveMenuItem
                   name="Редагувати"
                   icon="pencil-fill"
+                  onClick={() => router.push(`regular-operations/edit/${id}`)}
                 />
-                <FinResponsiveMenuItem
-                  variant="destructive"
-                  name="Видалити"
-                  icon="trash-fill"
+                <UiConfirmModal
+                  onConfirm={() => {
+                    if (handleDelete) {
+                      handleDelete(id!);
+                    }
+                    router.refresh();
+                  }}
+                  title="Видалити платіж?"
+                  description="Після видалення відновити платіж буде неможливо."
+                  trigger={
+                    <FinResponsiveMenuItem
+                      variant="destructive"
+                      name="Видалити"
+                      icon="trash-fill"
+                    />
+                  }
                 />
               </UiResponsiveMenuContent>
             </UiResponsiveMenu>
           </div>
-          <CardTitle className="text-lg line-clamp-1"> {title || categoryStyles.label} </CardTitle>
+          <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>
         </div>
         {description ? (
           <p className="text-sm text-muted-foreground break-words w-full">{description}</p>
@@ -87,14 +104,14 @@ export function IncomeExpenseCard({
           <span
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
-            <FinTransformCurrency value={sum ? sum : 0} />
+            <FinTransformCurrency value={sum ?? 0} />
           </span>
         </div>
       </CardContent>
 
       <UiSeparator className="mx-6 !w-auto" />
 
-      <CardFooter className=" flex justify-between items-center">
+      <CardFooter className="flex justify-between items-center">
         {createdAt && (
           <FinTransformDate
             className="text-sm"

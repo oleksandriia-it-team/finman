@@ -13,7 +13,7 @@ import { useEffect } from 'react';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
-  const { getPayments, getTotalCount } = useRegularTransactions();
+  const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
 
   const router = useRouter();
 
@@ -55,6 +55,7 @@ export default function RegularIncomesExpensesScreen() {
             (options as TransactionCardProps[]).map((item: TransactionCardProps, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
+                handleDelete={handleDelete}
                 {...item}
               />
             ))}

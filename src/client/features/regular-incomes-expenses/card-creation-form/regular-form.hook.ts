@@ -5,6 +5,7 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { ExpenseCategories } from '@common/enums/categories.enum';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
@@ -33,13 +34,13 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
           await handleUpdate(initialData.id, {
             ...entryData,
             regular: true,
-            category: data.category ?? 'misc',
+            category: data.category ?? ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
         } else {
           await handleCreate({
             ...entryData,
-            category: data.category ?? 'misc',
+            category: data.category ?? ExpenseCategories.Misc,
             regular: true,
             description: entryData.description ?? '',
           });

@@ -5,4 +5,5 @@ export interface FinResponsiveMenuItemProps {
   name: string;
   className?: string;
   variant?: ButtonVariant;
+  onClick?: () => void;
 }
