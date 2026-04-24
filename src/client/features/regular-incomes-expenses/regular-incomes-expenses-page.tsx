@@ -2,14 +2,13 @@
 
 import { IncomeExpenseCard } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -44,20 +43,20 @@ export default function RegularIncomesExpensesScreen() {
 
       <div className="flex-1 overflow-y-auto min-h-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-          {state === PromiseState.Loading && <p className="text-muted-foreground col-span-full">Завантаження...</p>}
-          {state === PromiseState.Error && (
-            <p className="text-destructive-foreground col-span-full">{errorMessage || 'Помилка завантаження'}</p>
-          )}
-          {state === PromiseState.Success && options.length === 0 && (
-            <p className="text-muted-foreground italic col-span-full">Немає регулярних платежів</p>
-          )}
-          {state === PromiseState.Success &&
-            (options as TransactionCardProps[]).map((item: TransactionCardProps, index) => (
+          <FinListScreenHandler
+            state={state}
+            errorMessage={errorMessage}
+            hasData={!!options.length}
+            skeletonItems={pageSize}
+            skeletonClassName="h-72"
+          >
+            {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
                 {...item}
               />
             ))}
+          </FinListScreenHandler>
         </div>
       </div>
 
