@@ -21,7 +21,9 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
             className="rounded-full p-2 bg-primary size-8"
           />
           <div className="flex flex-col gap-3">
-            <span className="text-foreground text-xl text-lg">Код помилки: {status}</span>
+            <span className="text-foreground text-xl text-lg">
+              Код помилки: <b className="font-bold">{status}</b>
+            </span>
             <span className="text-muted-foreground text-sm">
               Якщо проблема повторюється, зверніться до служби підтримки.
             </span>
