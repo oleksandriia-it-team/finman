@@ -1,4 +1,4 @@
-import { SidebarContentProps } from '@frontend/components/sidebar-content/props/sidebar-content.props';
+import { type SidebarContentProps } from '@frontend/components/sidebar-content/props/sidebar-content.props';
 import { UiSidebarContent } from '@frontend/ui/ui-sidebar/ui-sidebar-content';
 import { UiSidebarGroup } from '@frontend/ui/ui-sidebar/ui-sidebar-group';
 import { UiSidebarGroupContent } from '@frontend/ui/ui-sidebar/ui-sidebar-group-content';

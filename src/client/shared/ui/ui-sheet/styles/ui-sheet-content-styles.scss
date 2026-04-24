@@ -7,7 +7,9 @@
   flex-direction: column;
   gap: 1rem;
   background-color: var(--background);
-  box-shadow: 0 10px 15px -3px getOpacity(var(--shadow-color), 90%), 0 4px 6px -4px getOpacity(var(--shadow-color), 90%);
+  box-shadow:
+    0 10px 15px -3px getOpacity(var(--shadow-color), 90%),
+    0 4px 6px -4px getOpacity(var(--shadow-color), 90%);
   transition-property: transform, opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -24,13 +26,13 @@
   }
 
   &[data-side='right'] {
-    inset-y: 0;
+    inset-block: 0;
     right: 0;
     height: 100%;
     width: 75%;
     border-left: 1px solid var(--border);
 
-    @media (min-width: 640px) {
+    @media (width >= 640px) {
       max-width: 24rem;
     }
 
@@ -44,13 +46,13 @@
   }
 
   &[data-side='left'] {
-    inset-y: 0;
+    inset-block: 0;
     left: 0;
     height: 100%;
     width: 75%;
     border-right: 1px solid var(--border);
 
-    @media (min-width: 640px) {
+    @media (width >= 640px) {
       max-width: 24rem;
     }
 
@@ -64,7 +66,7 @@
   }
 
   &[data-side='top'] {
-    inset-x: 0;
+    inset-inline: 0;
     top: 0;
     height: auto;
     border-bottom: 1px solid var(--border);
@@ -79,7 +81,7 @@
   }
 
   &[data-side='bottom'] {
-    inset-x: 0;
+    inset-inline: 0;
     bottom: 0;
     height: auto;
     border-top: 1px solid var(--border);
@@ -124,41 +126,81 @@
 }
 
 @keyframes slideInFromRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideOutToRight {
-  from { transform: translateX(0); }
-  to { transform: translateX(100%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes slideInFromLeft {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes slideOutToLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes slideInFromTop {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideOutToTop {
-  from { transform: translateY(0); }
-  to { transform: translateY(-100%); }
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-100%);
+  }
 }
 
 @keyframes slideInFromBottom {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideOutToBottom {
-  from { transform: translateY(0); }
-  to { transform: translateY(100%); }
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
 }

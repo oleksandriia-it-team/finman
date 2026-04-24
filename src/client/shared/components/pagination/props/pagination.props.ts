@@ -1,4 +1,4 @@
-import { ComponentProps, Dispatch } from 'react';
+import { type ComponentProps, type Dispatch } from 'react';
 
 export interface PaginationProps extends ComponentProps<'nav'> {
   setPage: Dispatch<number>;

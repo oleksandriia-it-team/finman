@@ -8,7 +8,7 @@
   gap: 0.5rem;
   padding-inline: 1.5rem;
 
-  &:has([data-slot="card-action"]) {
+  &:has([data-slot='card-action']) {
     grid-template-columns: 1fr auto;
   }
 

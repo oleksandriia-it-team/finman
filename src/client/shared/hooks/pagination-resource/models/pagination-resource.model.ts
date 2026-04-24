@@ -1,5 +1,5 @@
-import { PromiseState } from '../../../enums/promise-state.enum';
-import { Dispatch } from 'react';
+import { type PromiseState } from '../../../enums/promise-state.enum';
+import { type Dispatch } from 'react';
 
 export interface PaginationResourceConfig<T, F extends object> {
   getTotalCountFn: (filters?: F | undefined) => Promise<number>;
