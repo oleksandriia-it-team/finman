@@ -8,7 +8,7 @@ on:
 
 jobs:
   eslint:
-    name: Run ESLint
+    name: Run Build
     runs-on: ubuntu-latest
 
     steps:
