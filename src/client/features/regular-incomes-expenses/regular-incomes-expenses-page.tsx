@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { IncomeExpenseCard } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
@@ -8,28 +7,18 @@ import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import type { RegularEntry } from '@common/records/regular-entry.record';
-import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
-import type { TransactionCardRegularProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
+import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
+import { useRouter } from 'next/navigation';
 
-export default function RegularIncomesExpensesPage() {
+export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
   const { getPayments, getTotalCount } = useRegularTransactions();
 
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [editTarget, setEditTarget] = useState<RegularEntry | null>(null);
-  const [showForm, setShowForm] = useState(false);
-
-  const refresh = () => setRefreshKey((prev) => prev + 1);
-
-  const closeForm = () => {
-    setShowForm(false);
-    setEditTarget(null);
-  };
+  const router = useRouter();
 
   const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['regular-transactions', String(refreshKey)],
+    queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
       const start = (page - 1) * pageSize;
       const end = start + pageSize - 1;
@@ -41,19 +30,6 @@ export default function RegularIncomesExpensesPage() {
       return count ?? 0;
     },
   });
-
-  if (showForm || editTarget) {
-    return (
-      <RegularPaymentForm
-        {...(editTarget && { initialData: editTarget })}
-        onSuccess={() => {
-          closeForm();
-          refresh();
-        }}
-        onCancel={closeForm}
-      />
-    );
-  }
 
   return (
     <div className="size-full overflow-hidden flex flex-col pb-8 relative">
@@ -71,7 +47,7 @@ export default function RegularIncomesExpensesPage() {
             <p className="text-muted-foreground italic col-span-full">Немає регулярних платежів</p>
           )}
           {state === PromiseState.Success &&
-            (options as TransactionCardRegularProps[]).map((item: TransactionCardRegularProps) => (
+            (options as TransactionCardProps[]).map((item: TransactionCardProps) => (
               <IncomeExpenseCard
                 key={item.id}
                 {...item}
@@ -91,7 +67,7 @@ export default function RegularIncomesExpensesPage() {
           variant="primary"
           size="lg"
           className="rounded-full gap-2 shadow-xl"
-          onClick={() => setShowForm(true)}
+          onClick={() => router.push('./add')}
         >
           <UiSvgIcon
             name="plus"

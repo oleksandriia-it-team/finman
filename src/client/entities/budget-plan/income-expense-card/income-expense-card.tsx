@@ -2,13 +2,13 @@ import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { type TransactionCardRegularProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { UiTransformCurrency } from '@frontend/ui/ui-transform-currency/ui-transform-currency';
+import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 
 export function IncomeExpenseCard({
   type,
@@ -18,7 +18,7 @@ export function IncomeExpenseCard({
   className,
   category = ExpenseCategories.Misc,
   title = '',
-}: TransactionCardRegularProps) {
+}: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
 
   return (
@@ -44,7 +44,7 @@ export function IncomeExpenseCard({
             <UiIconButton
               size="default"
               icon="three-dots-vertical"
-              variant="muted-foreground"
+              variant="muted"
               className="!border-none"
             />
           </div>
