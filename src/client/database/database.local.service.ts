@@ -303,6 +303,8 @@ export class DatabaseLocalService {
 
   async clearDatabase(): Promise<void> {
     try {
+      // eslint-disable-next-line
+      // @ts-ignore
       await this.db.transaction(
         'rw',
         this.tables.map((t) => this.db.table(t)),

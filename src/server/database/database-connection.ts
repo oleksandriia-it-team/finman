@@ -20,6 +20,7 @@ const dataSourceOptions: DataSourceOptions = {
   migrationsRun: true,
   synchronize,
   logging: true,
+  schema: 'public',
 };
 
 const globalForTypeorm = global as unknown as { typeorm: DataSource };

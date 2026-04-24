@@ -13,5 +13,7 @@ export async function userSeeder() {
     name: 'Main-Admin',
     password: 'password123',
     role: RoleEnum.Admin,
+    locale: 'en-US',
+    currencyCode: 'USD',
   });
 }

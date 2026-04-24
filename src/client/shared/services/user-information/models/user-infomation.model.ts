@@ -1,14 +1,10 @@
-import { type ThemeEnum } from '../../../enums/theme.enum';
-
-export interface UserInformation {
-  userName?: string | undefined;
-  language?: string | undefined;
-  preferableLocale?: string | undefined;
-  mode?: ThemeEnum | undefined;
-}
+import type { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import type { GetUser } from '@common/records/user.record';
 
 export interface UserInformationStore {
-  userInformation: UserInformation | null;
-  setUserInformation: (userInformation: UserInformation) => void;
+  userInformation: GetUser | null;
+  setUserInformation: (userInformation: GetUser) => void;
   logOut: () => void;
+  userInfoState: PromiseState;
+  updateInformationState: PromiseState;
 }
