@@ -7,7 +7,7 @@ interface UiTransformCurrencyProps extends Omit<ComponentProps<'p'>, 'children'>
   currency?: string;
 }
 
-export function UiTransformCurrency({ value, currency, locale, ...props }: UiTransformCurrencyProps) {
+export function FinTransformCurrency({ value, currency, locale, ...props }: UiTransformCurrencyProps) {
   const userLocale = useUserInformation((state) => state.userInformation)?.locale;
 
   const formatted = useMemo(() => {

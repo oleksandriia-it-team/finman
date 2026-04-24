@@ -4,7 +4,7 @@ import { type TransactionCardProps } from './props/transaction-card-props';
 import { type TypeEntry } from '@common/enums/entry.enum';
 import { UiInfoBlock } from '@frontend/ui/ui-info-block/ui-info-block';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { UiTransformCurrency } from '@frontend/ui/ui-transform-currency/ui-transform-currency';
+import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 
 const iconBgVariants: Record<TypeEntry.Income | TypeEntry.Expense, string> = {
   income: 'bg-success/10 text-success',
@@ -43,7 +43,7 @@ export function TransactionCard({
 
       <div className="flex items-center gap-2">
         {sum && (
-          <UiTransformCurrency
+          <FinTransformCurrency
             value={sum}
             className={cn('font-bold', type && amountColorVariants[type])}
           />

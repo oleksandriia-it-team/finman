@@ -1,17 +1,16 @@
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { regularEntryService } from '@frontend/features/regular-entry/regular-entry.service';
+import constate from 'constate';
 
 export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;
 
-export function useRegularTransactions() {
-  const stripDefaultColumns = (dto: object): CreateRegularEntryDto => {
-    const { id, softDeleted, createdAt, updatedAt, ...clean } = dto as RegularEntry;
-    return clean as CreateRegularEntryDto;
-  };
-
+function useRegularTransactionsLogic() {
   const getPayments = (from: number, to: number): Promise<RegularEntry[]> => {
-    return regularEntryService.getItems(from, to).then((result) => result ?? []);
+    return regularEntryService.getItems(from, to).then((result) => {
+      console.log(result);
+      return result;
+    });
   };
 
   const getTotalCount = (): Promise<number> => {
@@ -27,8 +26,14 @@ export function useRegularTransactions() {
   };
 
   const handleUpdate = (id: number, dto: CreateRegularEntryDto): Promise<true> => {
-    return regularEntryService.updateItem(id, stripDefaultColumns(dto));
+    return regularEntryService.updateItem(id, dto);
   };
 
-  return { getPayments, getTotalCount, handleCreate, handleDelete, handleUpdate };
+  const getById = (id: number): Promise<RegularEntry | null> => {
+    return regularEntryService.getItemById(id);
+  };
+
+  return { getPayments, getTotalCount, handleCreate, handleDelete, handleUpdate, getById };
 }
+
+export const [RegularIncomesExpensesProvider, useRegularTransactions] = constate(useRegularTransactionsLogic);

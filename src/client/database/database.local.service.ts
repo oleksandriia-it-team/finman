@@ -47,7 +47,6 @@ export class DatabaseLocalService {
     const instance = new this(databaseName, tables, version);
     try {
       await instance.connect();
-      console.log('DB connection created');
       return instance;
     } catch {
       throw new Error(ErrorDataBaseConnection);

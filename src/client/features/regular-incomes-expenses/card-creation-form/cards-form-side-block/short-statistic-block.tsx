@@ -1,5 +1,5 @@
 import React from 'react';
-import { UiTransformCurrency } from '@frontend/ui/ui-transform-currency/ui-transform-currency';
+import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 
 interface ShortStatisticBlockProps {
   activePayments: number;
@@ -30,18 +30,18 @@ export function ShortStatisticBlock({
           label="Активних платежів"
         />
         <StatItem
-          value={<UiTransformCurrency value={totalMonthExpenses} />}
+          value={<FinTransformCurrency value={totalMonthExpenses} />}
           label="Щомісячні витрати"
         />
       </div>
 
       <div className="p-8 size-full flex flex-col justify-end">
         <StatItem
-          value={<UiTransformCurrency value={totalMonthIncomes} />}
+          value={<FinTransformCurrency value={totalMonthIncomes} />}
           label="Щомісячний дохід"
         />
         <StatItem
-          value={<UiTransformCurrency value={balance} />}
+          value={<FinTransformCurrency value={balance} />}
           label="Баланс"
         />
       </div>

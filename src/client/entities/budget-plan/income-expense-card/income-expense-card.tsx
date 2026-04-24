@@ -4,7 +4,7 @@ import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@fronten
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
-import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
+import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
@@ -12,7 +12,7 @@ import { UiResponsiveMenuContent } from '@frontend/ui/ui-responsive-menu/ui-resp
 import { FinResponsiveMenuItem } from '@frontend/components/responsive-menu-item/fin-responsive-menu-item';
 import { UiResponsiveLabel } from '@frontend/ui/ui-responsive-menu/ui-responsive-label';
 import { ExpenseCategories } from '@common/enums/categories.enum';
-import { UiTransformCurrency } from '@frontend/ui/ui-transform-currency/ui-transform-currency';
+import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 
 export function IncomeExpenseCard({
@@ -87,7 +87,7 @@ export function IncomeExpenseCard({
           <span
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
-            <UiTransformCurrency value={sum ? sum : 0} />
+            <FinTransformCurrency value={sum ? sum : 0} />
           </span>
         </div>
       </CardContent>
@@ -96,7 +96,7 @@ export function IncomeExpenseCard({
 
       <CardFooter className=" flex justify-between items-center">
         {createdAt && (
-          <UiTransformDate
+          <FinTransformDate
             className="text-sm"
             date={createdAt}
             type={DateFormatType.ShortWithYear}

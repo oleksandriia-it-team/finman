@@ -67,7 +67,7 @@ export default function RegularIncomesExpensesScreen() {
           variant="primary"
           size="lg"
           className="rounded-full gap-2 shadow-xl"
-          onClick={() => router.push('./add')}
+          onClick={() => router.push('./regular-operations/add')}
         >
           <UiSvgIcon
             name="plus"
