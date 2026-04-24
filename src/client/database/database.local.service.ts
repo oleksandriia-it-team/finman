@@ -225,7 +225,9 @@ export class DatabaseLocalService {
       (data as Record<string, unknown>).softDeleted = 0;
     }
 
-    if (!('id' in data) || typeof data.id !== 'number') {
+    if (!('id' in data)) {
+      (data as Record<string, unknown>).id = Date.now() * 1000 + Math.floor(Math.random() * 1000); // Generate a unique ID based on timestamp and random number
+    } else if (typeof data.id !== 'number') {
       throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 
