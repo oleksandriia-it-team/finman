@@ -3,6 +3,7 @@ import { use } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { z } from 'zod';
+import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 
 const intSchema = z.coerce.number().int();
 
@@ -21,7 +22,12 @@ export function FinFormScreenHandler<T>({
 
   if (!success) {
     if (!error) {
-      return <span>Виникла помилка...</span>;
+      return (
+        <FinErrorWidget
+          status={400}
+          message="ID є некоректним"
+        />
+      );
     }
 
     const Error = error({ status: 400, message: 'ID є некоректним' });
@@ -29,6 +35,7 @@ export function FinFormScreenHandler<T>({
     return Error;
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const item = useQuery({
     queryKey: [queryKey, stringId],
     queryFn: () => {
@@ -42,7 +49,12 @@ export function FinFormScreenHandler<T>({
 
   if (item.status === 'error') {
     if (!error) {
-      return <span>Виникла помилка...</span>;
+      return (
+        <FinErrorWidget
+          status={400}
+          message="ID є некоректним"
+        />
+      );
     }
 
     const Error = error(item.error as unknown as ApiResultOperationError);
@@ -51,7 +63,14 @@ export function FinFormScreenHandler<T>({
   }
 
   if (!item.data) {
-    return notItemFound ?? <span>Дані не знайдено...</span>;
+    return (
+      notItemFound ?? (
+        <FinErrorWidget
+          status={404}
+          message="Елемент не знайдено"
+        />
+      )
+    );
   }
 
   return render(item.data);
