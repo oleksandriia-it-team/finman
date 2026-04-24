@@ -17,15 +17,6 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
   type!: TypeEntry.Expense | TypeEntry.Income;
 
   @Column({
-    type: 'date',
-    transformer: {
-      from: (value: string | null) => (value ? new Date(`${value}T00:00:00Z`) : null),
-      to: (date: Date | null) => (date ? date.toISOString().split('T')[0] : null),
-    },
-  })
-  date!: Date;
-
-  @Column({
     type: 'numeric',
     transformer: {
       from: (value: string | null) => (value == null ? null : parseFloat(value)),
@@ -33,6 +24,15 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
     },
   })
   sum!: number;
+
+  @Column({
+    type: 'date',
+    transformer: {
+      from: (value: string | null) => (value ? new Date(`${value}T00:00:00Z`) : null),
+      to: (date: Date | null) => (date ? date.toISOString().split('T')[0] : null),
+    },
+  })
+  date!: Date;
 
   @Column({
     type: 'enum',
