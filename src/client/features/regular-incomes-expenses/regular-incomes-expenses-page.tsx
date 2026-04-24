@@ -1,20 +1,23 @@
 import { IncomeExpenseCard } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card';
-import { MOCK_ALL_CATEGORIES } from './mock-card-data';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
+import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
 export default function RegularIncomesExpensesPage() {
   const pageSize = 5;
+  const { payments } = useRegularTransactions();
+
   const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['test regular expenses and incomes'],
+    queryKey: ['regular-transactions', payments],
     getOptionsFn: (page, pageSize) => {
       const start = (page - 1) * pageSize,
         end = start + pageSize;
-      return Promise.resolve(MOCK_ALL_CATEGORIES.slice(start, end));
+      return Promise.resolve(payments.slice(start, end));
     },
-    getTotalCountFn: () => Promise.resolve(MOCK_ALL_CATEGORIES.length),
+    getTotalCountFn: () => Promise.resolve(payments.length),
   });
 
   return (
@@ -27,15 +30,15 @@ export default function RegularIncomesExpensesPage() {
           {state === PromiseState.Loading && 'Завантаження'}
           {state === PromiseState.Error && (errorMessage || 'Помилка завантаження')}
 
-          {options.map((item) => {
+          {options.map((item: RegularEntry) => {
             return (
               <IncomeExpenseCard
                 key={item.id}
                 category={item.category}
-                subtitle={item.subtitle}
+                subtitle={item.description}
                 type={item.type}
-                amount={item.amount}
-                date={item.date}
+                amount={item.sum}
+                date={item.createdAt}
               />
             );
           })}

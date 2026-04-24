@@ -1,6 +1,6 @@
 import {
-  RegularExpensesCardCategories,
-  RegularIncomesCardCategories,
+  type RegularExpensesCardCategories,
+  type RegularIncomesCardCategories,
 } from '@frontend/entities/budget-plan/income-expense-card/card-categories';
 
 interface CategoryStyleI {
@@ -10,6 +10,25 @@ interface CategoryStyleI {
   icon: string;
   label: string;
 }
+
+export const IncomeCategoryKeys: (keyof typeof CategoriesMapping)[] = [
+  'salary',
+  'investments',
+  'freelance',
+  'scholarship',
+];
+
+export const ExpenseCategoryKeys: (keyof typeof CategoriesMapping)[] = [
+  'groceries',
+  'housing',
+  'utilities',
+  'transport',
+  'entertainment',
+  'education',
+  'shopping',
+  'health',
+  'misc',
+];
 
 export type AllCategories = RegularIncomesCardCategories | RegularExpensesCardCategories;
 

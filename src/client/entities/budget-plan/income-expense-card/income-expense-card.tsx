@@ -2,7 +2,7 @@ import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
+import { type TransactionCardRegularProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { CategoriesMapping } from '@frontend/entities/budget-plan/income-expense-card/card-styles-mappings';
 import { UiTransformDate } from '@frontend/ui/ui-transform-date/ui-transform-date';
@@ -20,7 +20,7 @@ export function IncomeExpenseCard({
   date,
   className,
   category = 'misc',
-}: TransactionCardProps) {
+}: TransactionCardRegularProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping.misc;
 
   return (
