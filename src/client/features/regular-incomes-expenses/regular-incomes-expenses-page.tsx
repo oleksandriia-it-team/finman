@@ -7,7 +7,6 @@ import { useRegularTransactions } from '@frontend/features/regular-incomes-expen
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 
 export default function RegularIncomesExpensesScreen() {
@@ -16,7 +15,7 @@ export default function RegularIncomesExpensesScreen() {
 
   const router = useRouter();
 
-  const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
+  const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
@@ -29,11 +28,8 @@ export default function RegularIncomesExpensesScreen() {
       const count = await getTotalCount();
       return count ?? 0;
     },
+    clearCacheOnDestroy: true,
   });
-
-  useEffect(() => {
-    reload();
-  }, [reload]);
 
   return (
     <div className="size-full overflow-hidden flex flex-col pb-8 relative">

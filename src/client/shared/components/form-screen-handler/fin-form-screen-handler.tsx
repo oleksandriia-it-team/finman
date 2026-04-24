@@ -42,6 +42,7 @@ export function FinFormScreenHandler<T>({
     queryFn: () => {
       return getItemFn(id);
     },
+    staleTime: 0,
   });
 
   if (item.status === 'pending') {
