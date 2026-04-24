@@ -9,6 +9,7 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -16,7 +17,7 @@ export default function RegularIncomesExpensesScreen() {
 
   const router = useRouter();
 
-  const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
+  const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
@@ -30,6 +31,10 @@ export default function RegularIncomesExpensesScreen() {
       return count ?? 0;
     },
   });
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
   return (
     <div className="size-full overflow-hidden flex flex-col pb-8 relative">

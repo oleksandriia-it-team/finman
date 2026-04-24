@@ -11,7 +11,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const showToast = useGlobalToast((state) => state.showToast);
   const isEdit = !!initialData;
 
-  const methods = useForm({
+  const methods = useForm<RegularEntry>({
     resolver: zodResolver(RegularPaymentFormSchema) as never,
     defaultValues: {
       title: initialData?.title ?? '',

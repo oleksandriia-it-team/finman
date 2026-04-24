@@ -16,4 +16,5 @@ export interface PaginationResource<T> {
   options: T[];
   selectedPage: number;
   setPage: Dispatch<number>;
+  reload: () => void;
 }

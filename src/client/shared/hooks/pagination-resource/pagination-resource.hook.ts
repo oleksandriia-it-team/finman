@@ -1,5 +1,5 @@
 import { isEmpty } from '@common/utils/is-empty.util';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 import type {
@@ -59,6 +59,8 @@ export function usePaginationResource<T, F extends object>({
     return getErrorMessage(error);
   }, [getOptionsQuery.error, getTotalCountQuery.error]);
 
+  const reload = useCallback(() => getOptionsQuery.refetch(), [getOptionsQuery]);
+
   return {
     state,
     options: getOptionsQuery.data ?? [],
@@ -66,5 +68,6 @@ export function usePaginationResource<T, F extends object>({
     errorMessage,
     selectedPage,
     setPage,
+    reload,
   };
 }

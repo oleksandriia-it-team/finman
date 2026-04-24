@@ -8,7 +8,6 @@ export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;
 function useRegularTransactionsLogic() {
   const getPayments = (from: number, to: number): Promise<RegularEntry[]> => {
     return regularEntryService.getItems(from, to).then((result) => {
-      console.log(result);
       return result;
     });
   };
