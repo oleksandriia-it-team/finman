@@ -6,6 +6,7 @@ import { trackingOperationRepository } from '@backend/entities/tracking-operatio
 import { ExistTrackingOperationGuard } from '@backend/entities/tracking-operation/application/exist-tracking-operation.guard';
 import { OwnsTrackingOperationGuard } from '@backend/entities/tracking-operation/application/owns-tracking-operation.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 
 export const GET = createRoute({
   paramsFn: (context) => ({
@@ -13,12 +14,17 @@ export const GET = createRoute({
   }),
   contextFn: async (request, params) => ({
     userId: await GetUserIdTransformer(request),
-    op: await trackingOperationRepository.getItemById(params.id),
+    operationId: params.id, // Передаємо id через контекст
+    op: null as TrackingOperationOrm | null,
   }),
   guards: [
     AuthGuard,
+    async ({ context, params }) => {
+      context.op = await trackingOperationRepository.getItemById(params.id);
+      return null;
+    },
     ({ context }) => ExistTrackingOperationGuard(context.op),
-    ({ context: { userId, op } }) => OwnsTrackingOperationGuard(userId as number, op),
+    ({ context }) => OwnsTrackingOperationGuard(context.userId as number, context.op),
   ],
   execute: async ({ context }) => ({
     status: 200,

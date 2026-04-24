@@ -11,16 +11,18 @@ export const DELETE = createRoute({
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
-  contextFn: async (request, params) => ({
-    userId: await GetUserIdTransformer(request),
-    op: await trackingOperationRepository.getItemById(params.id),
-  }),
-  guards: [
-    AuthGuard,
-    ({ context }) => ExistTrackingOperationGuard(context.op),
-    ({ context: { userId, op } }) => OwnsTrackingOperationGuard(userId as number, op),
-  ],
-  execute: async ({ params: { id } }) => {
+  contextFn: GetUserIdTransformer,
+  guards: [AuthGuard],
+  execute: async ({ context, params: { id } }) => {
+    const userId = context as number;
+    const op = await trackingOperationRepository.getItemById(id);
+
+    const existError = ExistTrackingOperationGuard(op);
+    if (existError) return existError;
+
+    const ownsError = OwnsTrackingOperationGuard(userId as number, op);
+    if (ownsError) return ownsError;
+
     await trackingOperationRepository.deleteItem(id, true);
     return { status: 200, data: true };
   },

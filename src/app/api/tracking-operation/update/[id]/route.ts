@@ -7,27 +7,24 @@ import { trackingOperationRepository } from '@backend/entities/tracking-operatio
 import { ExistTrackingOperationGuard } from '@backend/entities/tracking-operation/application/exist-tracking-operation.guard';
 import { OwnsTrackingOperationGuard } from '@backend/entities/tracking-operation/application/owns-tracking-operation.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
-import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 
 export const PUT = createRoute({
   schema: TrackingOperationSchema.omit({ id: true }),
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
-  contextFn: async (request, params) => ({
-    userId: await GetUserIdTransformer(request),
-    op: await trackingOperationRepository.getItemById(params.id),
-  }),
-  guards: [
-    AuthGuard,
-    ({ context }) => ExistTrackingOperationGuard((context as { op: TrackingOperationOrm | null }).op),
-    ({ context }) => {
-      const { userId, op } = context as { userId: number; op: TrackingOperationOrm | null };
-      return OwnsTrackingOperationGuard(userId, op);
-    },
-  ],
+  contextFn: GetUserIdTransformer,
+  guards: [AuthGuard],
   execute: async ({ context, body, params: { id } }) => {
-    const userId = context.userId as number;
+    const userId = context as number;
+    const op = await trackingOperationRepository.getItemById(id);
+
+    const existError = ExistTrackingOperationGuard(op);
+    if (existError) return existError;
+
+    const ownsError = OwnsTrackingOperationGuard(userId as number, op);
+    if (ownsError) return ownsError;
+
     await trackingOperationRepository.updateItem(id, { ...body, userId });
     return { status: 200, data: true };
   },

@@ -13,9 +13,10 @@ export const POST = createRoute({
     const userId = context as number;
     const data = await trackingOperationRepository.searchItem(from, to, {
       ...filters,
-      softDeleted: filters?.softDeleted as 0 | 1 | undefined,
+      softDeleted: filters?.softDeleted,
       userId,
     });
+
     return {
       status: 200,
       data,

@@ -13,7 +13,7 @@ export const POST = createRoute({
     const userId = context as number;
     const count = await trackingOperationRepository.getTotalCountWithSearch({
       ...filters,
-      softDeleted: filters?.softDeleted as 0 | 1 | undefined,
+      softDeleted: filters?.softDeleted,
       userId,
     });
     return {
