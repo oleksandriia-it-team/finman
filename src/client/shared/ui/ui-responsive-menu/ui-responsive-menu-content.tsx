@@ -24,7 +24,7 @@ export function UiResponsiveMenuContent({ children, className, ...props }: Respo
         <UiSheetContent
           side="bottom"
           showCloseButton={false}
-          className={cn('w-full !gap-0 py-2 px-3 items-center', className)}
+          className={cn('w-full !gap-0 pt-2 pb-16 px-3 items-center', className)}
           {...props}
         >
           <div className="w-fit">{children}</div>
