@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { DefaultTableColumnsOrm } from '@backend/shared/infrastructure/default-table-columns.orm';
+import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
 import { type TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, AllCategoryValues, type AllCategories } from '@common/enums/categories.enum';
@@ -17,15 +17,6 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
   type!: TypeEntry.Expense | TypeEntry.Income;
 
   @Column({
-    type: 'numeric',
-    transformer: {
-      from: (value: string | null) => (value == null ? null : parseFloat(value)),
-      to: (value: number | null) => (value == null ? null : value.toString()),
-    },
-  })
-  sum!: number;
-
-  @Column({
     type: 'date',
     transformer: {
       from: (value: string | null) => (value ? new Date(`${value}T00:00:00Z`) : null),
@@ -33,6 +24,15 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
     },
   })
   date!: Date;
+
+  @Column({
+    type: 'numeric',
+    transformer: {
+      from: (value: string | null) => (value == null ? null : parseFloat(value)),
+      to: (value: number | null) => (value == null ? null : value.toString()),
+    },
+  })
+  sum!: number;
 
   @Column({
     type: 'enum',
