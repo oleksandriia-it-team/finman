@@ -5,15 +5,14 @@ interface UiInfoBlockProps extends UiSvgIconContainerProps {
   title: string;
   description?: string | null;
   className?: string;
+  iconClassName?: string;
 }
 
-export function UiInfoBlock({ title, description, className, ...props }: UiInfoBlockProps) {
-  const classes = cn('flex flex-row', className);
-
+export function UiInfoBlock({ title, description, className, iconClassName, ...props }: UiInfoBlockProps) {
   return (
-    <div className={classes}>
+    <div className={cn('flex flex-row items-center gap-3', className)}>
       <UiSvgIconContainer
-        className="self-center"
+        className={cn('shrink-0', iconClassName)}
         {...props}
       />
       <div className="flex flex-col">

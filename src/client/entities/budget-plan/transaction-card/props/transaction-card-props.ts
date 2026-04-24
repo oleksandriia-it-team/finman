@@ -1,10 +1,8 @@
-import { type ReactNode } from 'react';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export type TransactionType = 'income' | 'expense' | 'credit' | 'savings';
-
-export interface TransactionCardProps extends RegularEntry {
-  icon?: ReactNode;
+export interface TransactionCardProps extends Partial<RegularEntry> {
+  name?: string;
   className?: string;
   bgNone?: boolean;
+  check?: string;
 }

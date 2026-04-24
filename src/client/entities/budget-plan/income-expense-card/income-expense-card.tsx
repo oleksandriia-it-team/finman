@@ -65,7 +65,7 @@ export function IncomeExpenseCard({
           <span
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >
-            <UiTransformCurrency value={sum} />
+            <UiTransformCurrency value={sum ? sum : 0} />
           </span>
         </div>
       </CardContent>

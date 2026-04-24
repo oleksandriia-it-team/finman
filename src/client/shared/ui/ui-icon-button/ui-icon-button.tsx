@@ -38,7 +38,7 @@ export function UiIconButton({
       <UiSvgIcon
         aria-hidden
         name={icon}
-        size={size}
+        size={size ? size : 'default'}
       />
     </Comp>
   );

@@ -1,36 +1,26 @@
 'use client';
 import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
 import Link from 'next/link';
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 export default function SignUpStep() {
   const checks = [
     {
       id: 1,
-      icon: (
-        <UiSvgIcon
-          size="lg"
-          name="shield-check"
-        />
-      ),
+      icon: 'shield-check',
       title: 'Повний контроль коштів',
-      subtitle: 'Ваші гроші під контролем',
-      type: 'income' as const,
+      description: 'Ваші гроші під контролем',
+      type: TypeEntry.Income,
     },
     {
       id: 2,
-      icon: (
-        <UiSvgIcon
-          size="lg"
-          name="graph-up-arrow"
-        />
-      ),
+      icon: 'graph-up-arrow',
       title: 'Аналітика витрат',
-      subtitle: 'Детальні графіки та звіти',
-      type: 'income' as const,
+      description: 'Детальні графіки та звіти',
+      type: TypeEntry.Income,
     },
   ];
 
@@ -63,11 +53,11 @@ export default function SignUpStep() {
             <TransactionCard
               bgNone
               key={check.id}
-              icon={check.icon}
+              name={check.icon}
               title={check.title}
-              subtitle={check.subtitle}
-              type={check.type}
-              amount="✓"
+              description={check.description}
+              type={check.type as TypeEntry.Income | TypeEntry.Expense}
+              check="✓"
               className="step-card-item"
             />
           ))}
