@@ -11,7 +11,15 @@ export const POST = createRoute({
   guards: [AuthGuard],
   execute: async ({ context, body }) => {
     const userId = context as number;
-    const id = await trackingOperationRepository.createItem({ ...body, userId });
+
+    const { description, ...restBody } = body;
+
+    const id = await trackingOperationRepository.createItem({
+      ...restBody,
+      description: description ?? null,
+      userId,
+    });
+
     return { status: 200, data: id };
   },
   filter: getDefaultApiErrorFilter,

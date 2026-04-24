@@ -25,7 +25,14 @@ export const PUT = createRoute({
     const ownsError = OwnsTrackingOperationGuard(userId as number, op);
     if (ownsError) return ownsError;
 
-    await trackingOperationRepository.updateItem(id, { ...body, userId });
+    const { description, ...restBody } = body;
+
+    await trackingOperationRepository.updateItem(id, {
+      ...restBody,
+      description: description ?? null,
+      userId,
+    });
+
     return { status: 200, data: true };
   },
   filter: getDefaultApiErrorFilter,
