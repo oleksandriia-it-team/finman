@@ -51,8 +51,8 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
   @OneToMany('RegularEntryOrm', 'user')
   regularEntries!: RegularEntryOrm[];
 
-  @OneToMany('tracking-operation', 'user')
-  trackingOperations?: TrackingOperationOrm;
+  @OneToMany('TrackingOperationOrm', 'user')
+  trackingOperations?: TrackingOperationOrm[];
 
   online = true as const;
 }
