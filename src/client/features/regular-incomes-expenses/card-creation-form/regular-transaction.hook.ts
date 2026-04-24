@@ -19,14 +19,7 @@ export function useRegularTransactions() {
   };
 
   const handleCreate = (dto: CreateRegularEntryDto): Promise<number> => {
-    const clean = stripDefaultColumns(dto);
-    const payload = {
-      ...clean,
-      id: Date.now() * 1000 + Math.floor(Math.random() * 1000),
-      softDeleted: 0 as const,
-      createdAt: new Date(),
-    };
-    return regularEntryService.createItem(payload as unknown as CreateRegularEntryDto);
+    return regularEntryService.createItem(dto);
   };
 
   const handleDelete = (id: number): Promise<true> => {
