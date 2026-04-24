@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { AllCategoryValues } from '@common/enums/categories.enum';
 
 export const RegularPaymentFormSchema = z.object({
   title: z.string('Назва має бути рядком').trim().min(1, 'Назва обовʼязкова').max(20, 'Максимум 20 символів'),
@@ -12,7 +13,11 @@ export const RegularPaymentFormSchema = z.object({
     .optional()
     .or(z.literal('')),
 
-  category: z.string('Назва має бути рядком').default('misc'),
+  category: z
+    .enum(AllCategoryValues, {
+      error: () => ({ message: 'Оберіть категорію' }),
+    })
+    .default('misc'),
 
   type: z.enum([TypeEntry.Income, TypeEntry.Expense], {
     error: () => ({ message: 'Оберіть тип платежу' }),

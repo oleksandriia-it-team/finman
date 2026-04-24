@@ -24,7 +24,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
           ...(initialData.category !== undefined && { category: initialData.category }),
           sum: initialData.sum,
           ...(initialData.frequency !== undefined && { frequency: initialData.frequency }),
-          dayOfMonth: 1,
+          dayOfMonth: initialData.dayOfMonth ?? 1,
         }
       : {
           type: TypeEntry.Income,
@@ -35,7 +35,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const submit = methods.handleSubmit(
     async (data: RegularPaymentFormData) => {
       try {
-        const { dayOfMonth, ...entryData } = data;
+        const { ...entryData } = data;
 
         if (isEdit && initialData) {
           await handleUpdate(initialData.id, { ...entryData, regular: true, description: entryData.description ?? '' });

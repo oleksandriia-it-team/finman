@@ -30,8 +30,6 @@ export function useRegularTransactions() {
       createdAt: new Date(),
     };
 
-    console.log('TO SERVICE:', payload);
-
     return regularEntryService.createItem(payload as unknown as CreateRegularEntryDto);
   };
 

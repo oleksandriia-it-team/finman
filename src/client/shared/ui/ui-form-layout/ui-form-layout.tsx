@@ -12,30 +12,65 @@ function FormLayout({ className, children, ...props }: React.HTMLAttributes<HTML
   );
 }
 
-function FormHeader({ className, children }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('flex flex-col gap-1 mb-2', className)}>{children}</div>;
-}
-
-function FormTitle({ className, children }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h2 className={cn('text-2xl font-bold text-foreground', className)}>{children}</h2>;
-}
-
-function FormDescription({ className, children }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn('text-sm text-muted', className)}>{children}</p>;
-}
-
-function FormSection({ label, className, children }: React.HTMLAttributes<HTMLDivElement> & { label?: string }) {
+function FormHeader({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div
+      className={cn('flex flex-col gap-1 mb-2', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+function FormTitle({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h2
+      className={cn('text-2xl font-bold text-foreground', className)}
+      {...props}
+    >
+      {children}
+    </h2>
+  );
+}
+
+function FormDescription({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
+  return (
+    <p
+      className={cn('text-sm text-muted', className)}
+      {...props}
+    >
+      {children}
+    </p>
+  );
+}
+
+function FormSection({
+  label,
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { label?: string }) {
+  return (
+    <div
+      className={cn('flex flex-col gap-2', className)}
+      {...props}
+    >
       {label && <span className="text-sm font-medium text-foreground">{label}</span>}
       {children}
     </div>
   );
 }
 
-function FormGrid({ cols = 2, className, children }: React.HTMLAttributes<HTMLDivElement> & { cols?: number }) {
+function FormGrid({
+  cols = 2,
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { cols?: number }) {
   return (
     <div
+      {...props}
       className={cn('grid gap-4', className)}
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}
     >
@@ -44,8 +79,15 @@ function FormGrid({ cols = 2, className, children }: React.HTMLAttributes<HTMLDi
   );
 }
 
-function FormActions({ className, children }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('grid grid-cols-2 gap-4 mt-4', className)}>{children}</div>;
+function FormActions({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn('grid grid-cols-2 gap-4 mt-4', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  );
 }
 
 export const UiFormLayout = {

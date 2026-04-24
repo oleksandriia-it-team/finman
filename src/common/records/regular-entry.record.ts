@@ -11,6 +11,7 @@ export interface RegularEntry extends DefaultTableColumns {
   regular: true;
   category?: AllCategories;
   frequency?: RegularPaymentFrequency;
+  dayOfMonth?: number;
 }
 
 export type RegularApiEntry = Omit<RegularEntry, 'regular'>;

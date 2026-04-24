@@ -30,13 +30,15 @@ interface ImageBlockForegroundProps {
   textClassname?: string;
 }
 
-export function ImageBlockForeground({ blurred = false, title, subtitle, className }: ImageBlockForegroundProps) {
-  const wrapperClasses = cn(
-    'absolute bottom-0 w-full h-20 bg-muted bg-muted/50',
-    blurred && 'backdrop-blur-[2px]',
-    className,
-  );
-  const textClasses = cn('pl-3 size-full flex flex-col justify-center', className);
+export function ImageBlockForeground({
+  blurred = false,
+  title,
+  subtitle,
+  className,
+  textClassname,
+}: ImageBlockForegroundProps) {
+  const wrapperClasses = cn('absolute bottom-0 w-full h-20 bg-muted/50', blurred && 'backdrop-blur-[2px]', className);
+  const textClasses = cn('pl-3 size-full flex flex-col justify-center', textClassname);
 
   return (
     <div className={wrapperClasses}>
