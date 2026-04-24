@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { z } from 'zod';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
+import { FinLoader } from '@frontend/components/loader/fin-loader';
 
 const intSchema = z.coerce.number().int();
 
@@ -44,7 +45,7 @@ export function FinFormScreenHandler<T>({
   });
 
   if (item.status === 'pending') {
-    return loading ?? <span>Завантаження...</span>;
+    return loading ?? <FinLoader />;
   }
 
   if (item.status === 'error') {
