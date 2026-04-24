@@ -1,4 +1,4 @@
-name: Next.js ESLint
+name: Next.js Build
 
 on:
   push:
