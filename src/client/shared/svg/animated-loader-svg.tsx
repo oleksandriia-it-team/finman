@@ -11,18 +11,13 @@ export default function AnimatedWalletLogo() {
         fill="none"
       >
         <style>{`
-          /* Центр всієї композиції: 120px 125px */
           .orbit-outer { transform-origin: 120px 125px; animation: spin 24s linear infinite; }
-          .orbit-middle { transform-origin: 120px 125px; animation: spin-reverse 18s linear infinite; }
+          .orbit-middle { transform-origin: 120px 125px; animation: spinReverse 18s linear infinite; }
           .orbit-inner { transform-origin: 120px 125px; animation: spin 12s linear infinite; }
 
-          /* Зворотне обертання, щоб іконки залишалися вертикальними */
-          .keep-upright-outer { animation: spin-reverse 24s linear infinite; }
+          .keep-upright-outer { animation: spinReverse 24s linear infinite; }
           .keep-upright-middle { animation: spin 18s linear infinite; }
-          .keep-upright-inner { animation: spin-reverse 12s linear infinite; }
-
-          @keyframes spin { 100% { transform: rotate(360deg); } }
-          @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+          .keep-upright-inner { animation: spinReverse 12s linear infinite; }
         `}</style>
 
         <g className="orbit-outer">

@@ -12,19 +12,8 @@ export function UiBouncingDots({
       {...props}
     >
       <style>{`
-        @keyframes bounce-custom {
-          0%, 100% {
-            transform: translateY(0);
-            opacity: 0.5;
-          }
-          50% {
-            transform: translateY(-10px); /* Висота стрибка */
-            opacity: 1;
-          }
-        }
-
         .animate-bounce-custom {
-          animation: bounce-custom 0.8s infinite ease-in-out;
+          animation: bounceCustom 0.8s infinite ease-in-out;
         }
 
         .delay-100 { animation-delay: 0.1s; }

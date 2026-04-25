@@ -3,8 +3,11 @@ import { ErrorIconSvg } from '@frontend/shared/svg/error-icon-svg';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
+  const router = useRouter();
+
   return (
     <div className="size-full flex flex-col items-center justify-center">
       <div className="flex gap-6 flex-col  max-w-96 px-4 items-center justify-center flex-1">
@@ -21,7 +24,7 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
             className="rounded-full p-2 bg-primary size-8"
           />
           <div className="flex flex-col gap-3">
-            <span className="text-foreground text-xl text-lg">
+            <span className="text-foreground text-lg">
               Код помилки: <b className="font-bold">{status}</b>
             </span>
             <span className="text-muted-foreground text-sm">
@@ -33,6 +36,7 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
         <UiButton
           variant="primary"
           size="lg"
+          onClick={() => router.push('/')}
         >
           <UiSvgIcon name="house" />
           Повернутися на головну
