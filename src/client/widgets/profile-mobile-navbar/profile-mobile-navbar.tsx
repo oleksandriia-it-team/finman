@@ -4,7 +4,7 @@ import { profileNavRoutesMobile } from '@frontend/widgets/shared/profile-routes.
 export function ProfileMobileNavbar() {
   return (
     <FinNavigationBar
-      centerButton={{ icon: 'plus', url: './add' }}
+      centerButton={{ icon: 'plus', url: 'regular-operations/add' }}
       routes={profileNavRoutesMobile}
     />
   );

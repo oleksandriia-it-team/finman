@@ -6,11 +6,39 @@ interface UiInfoBlockProps extends UiSvgIconContainerProps {
   description?: string | null;
   className?: string;
   iconClassName?: string;
+  bgClassName?: string;
+  onClick?: () => void;
 }
 
-export function UiInfoBlock({ title, description, className, iconClassName, ...props }: UiInfoBlockProps) {
+export function UiInfoBlock({
+  title,
+  description,
+  className,
+  iconClassName,
+  bgClassName,
+  onClick,
+  ...props
+}: UiInfoBlockProps) {
+  const isClickable = !!onClick;
+
   return (
-    <div className={cn('flex flex-row items-center gap-3', className)}>
+    <div
+      className={cn(
+        'flex flex-row items-center gap-3 p-3 rounded-xl transition-all duration-200',
+        bgClassName,
+        isClickable && 'cursor-pointer hover:opacity-80 active:scale-[0.98]',
+        className,
+      )}
+      onClick={onClick}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+    >
       <UiSvgIconContainer
         className={cn('shrink-0', iconClassName)}
         {...props}

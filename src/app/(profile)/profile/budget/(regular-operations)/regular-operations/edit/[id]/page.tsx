@@ -5,8 +5,10 @@ import { useRegularTransactions } from '@frontend/features/regular-incomes-expen
 import { useRouter } from 'next/navigation';
 import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
 import { FinFormScreenHandler } from '@frontend/components/form-screen-handler/fin-form-screen-handler';
+import { useHidePlusButton } from '@frontend/components/mobile-navbar/use-hide-plus-button';
 
 export default function EditCardForm({ params }: IdPromiseParamsModel) {
+  useHidePlusButton();
   const router = useRouter();
   const { getById } = useRegularTransactions();
 

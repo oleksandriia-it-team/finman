@@ -38,14 +38,14 @@ export default function RegularIncomesExpensesScreen() {
       </p>
 
       <div className="flex-1 overflow-y-auto min-h-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-          <FinListScreenHandler
-            state={state}
-            errorMessage={errorMessage}
-            hasData={!!options.length}
-            skeletonItems={pageSize}
-            skeletonClassName="h-72"
-          >
+        <FinListScreenHandler
+          state={state}
+          errorMessage={errorMessage}
+          hasData={!!options.length}
+          skeletonItems={pageSize}
+          skeletonClassName="h-72"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
@@ -53,8 +53,8 @@ export default function RegularIncomesExpensesScreen() {
                 {...item}
               />
             ))}
-          </FinListScreenHandler>
-        </div>
+          </div>
+        </FinListScreenHandler>
       </div>
 
       <FinPagination

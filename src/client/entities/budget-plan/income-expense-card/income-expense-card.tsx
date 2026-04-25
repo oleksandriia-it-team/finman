@@ -8,14 +8,11 @@ import { FinTransformDate } from '@frontend/components/transform-date/fin-transf
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
-import { UiResponsiveMenuContent } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-content';
-import { FinResponsiveMenuItem } from '@frontend/components/responsive-menu-item/fin-responsive-menu-item';
-import { UiResponsiveLabel } from '@frontend/ui/ui-responsive-menu/ui-responsive-label';
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { useRouter } from 'next/navigation';
-import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
+import { IncomeExpenseCardPopover } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card-popover';
 
 export function IncomeExpenseCard({
   id,
@@ -30,6 +27,7 @@ export function IncomeExpenseCard({
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
   const router = useRouter();
+
   return (
     <UiCard
       className={cn(
@@ -50,41 +48,49 @@ export function IncomeExpenseCard({
                 size="lg"
               />
             </div>
+
             <UiResponsiveMenu>
               <UiResponsiveMenuTrigger asChild>
                 <UiIconButton
-                  size="default"
+                  size="lg"
                   icon="three-dots-vertical"
                   variant="muted"
                   className="!border-none"
                 />
               </UiResponsiveMenuTrigger>
 
-              <UiResponsiveMenuContent>
-                <UiResponsiveLabel>Оберіть дію</UiResponsiveLabel>
-                <FinResponsiveMenuItem
-                  name="Редагувати"
-                  icon="pencil-fill"
-                  onClick={() => router.push(`regular-operations/edit/${id}`)}
-                />
-                <UiConfirmModal
-                  onConfirm={() => {
-                    if (handleDelete) {
-                      handleDelete(id!);
-                    }
-                    router.refresh();
-                  }}
-                  title="Видалити платіж?"
-                  description="Після видалення відновити платіж буде неможливо."
-                  trigger={
-                    <FinResponsiveMenuItem
-                      variant="destructive"
-                      name="Видалити"
-                      icon="trash-fill"
-                    />
-                  }
-                />
-              </UiResponsiveMenuContent>
+              <IncomeExpenseCardPopover
+                icon={categoryStyles.icon}
+                iconSize="xxl"
+                title="Оберіть дію"
+                description={title || categoryStyles.label}
+                iconColor={categoryStyles.textColor}
+                actions={[
+                  {
+                    icon: 'pencil-fill',
+                    title: 'Редагувати',
+                    description: 'Змінити дані транзакції',
+                    variant: 'primary',
+                    bgClassName: 'bg-primary/10',
+                    onClick: () => router.push(`regular-operations/edit/${id}`),
+                  },
+                  {
+                    icon: 'trash-fill',
+                    title: 'Видалити',
+                    description: 'Назавжди видалити транзакцію',
+                    variant: 'destructive',
+                    onClick: () => {
+                      handleDelete?.(id!);
+                      router.refresh();
+                    },
+                    confirm: {
+                      title: 'Видалити платіж?',
+                      description: 'Після видалення відновити платіж буде неможливо.',
+                    },
+                    bgClassName: 'bg-destructive text-destructive-foreground',
+                  },
+                ]}
+              />
             </UiResponsiveMenu>
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>
