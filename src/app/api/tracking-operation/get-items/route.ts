@@ -1,5 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { TrackingOperationPaginationSchema } from '@common/domains/lookups/schemas/tracking-operation.schema';
+import { TrackingOperationPaginationSchema } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { trackingOperationRepository } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.repository';

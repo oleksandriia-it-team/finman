@@ -1,4 +1,4 @@
-import { TrackingOperationSchema } from '@common/domains/lookups/schemas/tracking-operation.schema';
+import { TrackingOperationSchema } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
