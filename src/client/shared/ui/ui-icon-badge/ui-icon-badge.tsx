@@ -11,6 +11,7 @@ export function UiIconBadge({
   variant = 'default',
   size = 'default',
   isRoundedFull,
+  isReversed,
   ...props
 }: IconBadgeProps) {
   return (
@@ -19,6 +20,7 @@ export function UiIconBadge({
       className={cn('icon-badge', className, isRoundedFull && '!rounded-full')}
       data-variant={variant}
       data-size={size}
+      data-reverse={isReversed ?? false}
       {...props}
     >
       {children}

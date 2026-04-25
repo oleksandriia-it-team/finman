@@ -1,7 +1,10 @@
-import { UiSvgIconContainer, type UiSvgIconContainerProps } from '@frontend/ui/ui-svg-icon/ui-svg-icon-container';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
+import { UiTitle } from '../ui-text/ui-title';
+import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 
-interface UiInfoBlockProps extends UiSvgIconContainerProps {
+interface UiInfoBlockProps {
+  name: string;
   title: string;
   description?: string | null;
   className?: string;
@@ -39,15 +42,16 @@ export function UiInfoBlock({
         }
       }}
     >
-      <UiSvgIconContainer
-        className={cn('shrink-0', iconClassName)}
+      <UiIconBadge
+        isReversed
+        variant="primary"
+        size="sm"
+        className={cn('shrink-0 !bg-muted/20', iconClassName)}
         {...props}
       />
       <div className="flex flex-col">
-        <h3 className="text-lg">
-          <b>{title}</b>
-        </h3>
-        {description && <p className="text-sm text-muted">{description}</p>}
+        <UiTitle size="lg">{title}</UiTitle>
+        <UiDescription size="default">{description}</UiDescription>
       </div>
     </div>
   );

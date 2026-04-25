@@ -7,8 +7,16 @@
 
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
-      background-color: list.nth($colors, 1);
-      color: list.nth($colors, 2);
+      &[data-reverse='false'] {
+        background-color: list.nth($colors, 1);
+        color: list.nth($colors, 2);
+      }
+
+      &[data-reverse='true'] {
+        color: list.nth($colors, 1);
+        background: list.nth($colors, 2);
+      }
+
     }
   }
 
