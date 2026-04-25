@@ -5,12 +5,9 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { useGetActiveRoute } from '@frontend/shared/hooks/get-active-route/get-active-route.hook';
 import { FinNavigationBarItem } from '@frontend/components/mobile-navbar/fin-navbar-item';
 import { FinNavbarCenterItem } from '@frontend/components/mobile-navbar/fin-navbar-center-item';
-import { useNavStore } from '@frontend/components/mobile-navbar/useNavStore';
 
 export function FinNavigationBar({ routes, className, centerButton, ...props }: MobileNavbarProps) {
   const activeRoute = useGetActiveRoute(routes);
-  const isPlusHidden = useNavStore((state) => state.isPlusHidden);
-
   return (
     <nav
       className={cn('sticky bottom-0 w-full bg-background border-t border-secondary flex items-center', className)}
@@ -24,7 +21,7 @@ export function FinNavigationBar({ routes, className, centerButton, ...props }: 
         />
       ))}
 
-      {!!centerButton && !isPlusHidden && <FinNavbarCenterItem {...centerButton} />}
+      {!!centerButton && <FinNavbarCenterItem {...centerButton} />}
     </nav>
   );
 }

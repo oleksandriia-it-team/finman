@@ -1,11 +1,11 @@
 import { create } from 'zustand/react';
 
-interface UseNavStoreModel {
+interface NavStoreModel {
   isPlusHidden: boolean;
   setPlusHidden: (hidden: boolean) => void;
 }
 
-export const useNavStore = create<UseNavStoreModel>((set) => ({
+export const useUserNavStoreHook = create<NavStoreModel>((set) => ({
   isPlusHidden: false,
   setPlusHidden: (hidden: boolean) => set({ isPlusHidden: hidden }),
 }));
