@@ -11,7 +11,7 @@ export const POST = createRoute({
   guards: [AuthGuard],
   execute: async ({ context, body: { filters } }) => {
     const userId = context as number;
-    const count = await trackingOperationRepository.getTotalCountWithSearch({
+    const count = await trackingOperationRepository.getTotalCount({
       ...filters,
       softDeleted: filters?.softDeleted,
       userId,

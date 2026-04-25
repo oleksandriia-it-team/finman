@@ -11,7 +11,7 @@ function escapeLike(value: string) {
 export class TrackingOperationRepository extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter> {
   protected override mapFilters(
     filters: DeepPartial<TrackingOperationApiFilter> | undefined,
-  ): FindOptionsWhere<TrackingOperationOrm> {
+  ): FindOptionsWhere<TrackingOperationOrm> | FindOptionsWhere<TrackingOperationOrm>[] {
     const where: FindOptionsWhere<TrackingOperationOrm> = {};
     if (!filters) {
       return where;
@@ -45,6 +45,10 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
       where.sum = LessThanOrEqual(filters.maxSum);
     }
 
+    if (filters.search) {
+      return this.buildSearchWhereClauses(where, filters.search);
+    }
+
     return where;
   }
 
@@ -57,36 +61,6 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
       { ...baseWhere, title: ILike(search) },
       { ...baseWhere, description: ILike(search) },
     ];
-  }
-
-  async searchItem(
-    from: number,
-    to: number,
-    filters: DeepPartial<TrackingOperationApiFilter>,
-  ): Promise<TrackingOperationOrm[]> {
-    const baseWhere = this.mapFilters(filters);
-
-    if (!filters.search) {
-      return this.getItems(from, to, filters);
-    }
-
-    return this.repository.find({
-      where: this.buildSearchWhereClauses(baseWhere, filters.search),
-      skip: from - 1,
-      take: to - from + 1,
-    });
-  }
-
-  async getTotalCountWithSearch(filters?: DeepPartial<TrackingOperationApiFilter>): Promise<number> {
-    const baseWhere = this.mapFilters(filters);
-
-    if (!filters?.search) {
-      return this.getTotalCount(filters);
-    }
-
-    return this.repository.count({
-      where: this.buildSearchWhereClauses(baseWhere, filters.search),
-    });
   }
 }
 

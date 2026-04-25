@@ -42,7 +42,7 @@ export abstract class CrudApiRepository<
 
     const where = filters ? this.mapFilters(filters) : {};
 
-    return this.repository.find({ skip, take, where: where as FindOptionsWhere<T> });
+    return this.repository.find({ skip, take, where: where as FindOptionsWhere<T> | FindOptionsWhere<T>[] });
   }
 
   async deleteItem(id: number, softDeleted?: boolean): Promise<true> {
@@ -63,7 +63,7 @@ export abstract class CrudApiRepository<
     return this.repository.count({ where });
   }
 
-  protected mapFilters(_: DeepPartial<F> | undefined): FindOptionsWhere<T> {
+  protected mapFilters(_: DeepPartial<F> | undefined): FindOptionsWhere<T> | FindOptionsWhere<T>[] {
     return {};
   }
 }

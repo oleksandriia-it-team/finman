@@ -11,7 +11,7 @@ export const POST = createRoute({
   guards: [AuthGuard],
   execute: async ({ context, body: { from, to, filters } }) => {
     const userId = context as number;
-    const data = await trackingOperationRepository.searchItem(from, to, {
+    const data = await trackingOperationRepository.getItems(from, to, {
       ...filters,
       softDeleted: filters?.softDeleted,
       userId,
