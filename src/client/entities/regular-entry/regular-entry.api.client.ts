@@ -3,8 +3,8 @@ import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
-import type { DeepPartial } from 'typeorm';
 import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
+import type { DeepPartial } from '@common/models/deep-partial.model';
 
 export class RegularEntryApiClient implements ICrudService<RegularEntry> {
   async createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {

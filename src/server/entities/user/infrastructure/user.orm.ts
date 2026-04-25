@@ -9,6 +9,7 @@ import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
 import { CountryRequirementsConstant } from '@common/constants/country-requirements.constant';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
+import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 
 @Entity('user')
 export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
@@ -49,6 +50,9 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
 
   @OneToMany('RegularEntryOrm', 'user')
   regularEntries!: RegularEntryOrm[];
+
+  @OneToMany('TrackingOperationOrm', 'user')
+  trackingOperations?: TrackingOperationOrm[];
 
   online = true as const;
 }
