@@ -17,6 +17,8 @@ export function UiButton({
   type,
   borderNone,
   paddingNone,
+  opacity,
+  heightAuto,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
@@ -31,7 +33,8 @@ export function UiButton({
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
       data-border-none={borderNone}
-      className={cn('btn cursor-pointer', paddingNone && '!p-0', className)}
+      data-opacity={opacity ?? false}
+      className={cn('btn cursor-pointer', paddingNone && '!p-0', heightAuto && '!h-auto', className)}
       {...props}
     />
   );

@@ -37,7 +37,7 @@ export default function RegularIncomesExpensesScreen() {
         <b>Регулярні доходи та витрати</b>
       </p>
 
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto min-h-0 p-4">
         <FinListScreenHandler
           state={state}
           errorMessage={errorMessage}
@@ -45,7 +45,7 @@ export default function RegularIncomesExpensesScreen() {
           skeletonItems={pageSize}
           skeletonClassName="h-72"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}

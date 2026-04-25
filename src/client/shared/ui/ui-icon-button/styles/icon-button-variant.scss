@@ -11,7 +11,7 @@
       }
 
       &[data-outlined='false'] {
-        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 0%);
       }
 
       &[data-outlined='true'] {

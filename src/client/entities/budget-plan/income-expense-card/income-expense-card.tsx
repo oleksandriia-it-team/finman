@@ -12,7 +12,10 @@ import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/budget-plan/transaction-card/props/transaction-card-props';
 import { useRouter } from 'next/navigation';
-import { IncomeExpenseCardPopover } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card-popover';
+import { IncomeExpenseCardActions } from '@frontend/entities/budget-plan/income-expense-card/income-expense-card-actions';
+import { UiActionButton } from '@frontend/ui/ui-action-button/ui-action-button';
+import { UiTitle } from '@frontend/ui/ui-text/ui-title';
+import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 
 export function IncomeExpenseCard({
   id,
@@ -58,39 +61,36 @@ export function IncomeExpenseCard({
                   className="!border-none"
                 />
               </UiResponsiveMenuTrigger>
-
-              <IncomeExpenseCardPopover
+              <IncomeExpenseCardActions
                 icon={categoryStyles.icon}
-                iconSize="xxl"
                 title="Оберіть дію"
                 description={title || categoryStyles.label}
-                iconColor={categoryStyles.textColor}
-                actions={[
-                  {
-                    icon: 'pencil-fill',
-                    title: 'Редагувати',
-                    description: 'Змінити дані транзакції',
-                    variant: 'primary',
-                    bgClassName: 'bg-primary/10',
-                    onClick: () => router.push(`regular-operations/edit/${id}`),
-                  },
-                  {
-                    icon: 'trash-fill',
-                    title: 'Видалити',
-                    description: 'Назавжди видалити транзакцію',
-                    variant: 'destructive',
-                    onClick: () => {
-                      handleDelete?.(id!);
-                      router.refresh();
-                    },
-                    confirm: {
-                      title: 'Видалити платіж?',
-                      description: 'Після видалення відновити платіж буде неможливо.',
-                    },
-                    bgClassName: 'bg-destructive text-destructive-foreground',
-                  },
-                ]}
-              />
+              >
+                <UiActionButton
+                  icon="pencil-fill"
+                  variant="muted"
+                  iconVariant="primary"
+                  size="sm"
+                  onClick={() => router.push(`regular-operations/edit/${id}`)}
+                >
+                  <UiTitle>Редагувати</UiTitle>
+                  <UiDescription>Змінити дані транзакції</UiDescription>
+                </UiActionButton>
+
+                <UiActionButton
+                  icon="pencil-fill"
+                  variant="destructive"
+                  iconVariant="destructive"
+                  size="sm"
+                  onClick={() => {
+                    handleDelete?.(id!);
+                    router.refresh();
+                  }}
+                >
+                  <UiTitle>Видалити</UiTitle>
+                  <UiDescription>Назавжди видалити транзакцію</UiDescription>
+                </UiActionButton>
+              </IncomeExpenseCardActions>
             </UiResponsiveMenu>
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>

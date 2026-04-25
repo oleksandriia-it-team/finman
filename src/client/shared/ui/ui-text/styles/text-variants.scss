@@ -1,0 +1,10 @@
+@use 'sass:list';
+@import '../../../styles/variants';
+
+.text {
+    @each $name, $size in $sizes {
+      &[data-size='#{$name}'] {
+        font-size: list.nth($size, 1);
+      }
+    }
+}

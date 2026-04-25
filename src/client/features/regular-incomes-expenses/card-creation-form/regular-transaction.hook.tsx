@@ -1,6 +1,6 @@
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
-import { regularEntryService } from '@frontend/features/regular-entry/regular-entry.service';
+import { regularEntryService } from '@frontend/features/regular-incomes-expenses/regular-entry.service';
 import constate from 'constate';
 
 export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;

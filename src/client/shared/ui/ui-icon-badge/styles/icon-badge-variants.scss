@@ -1,0 +1,21 @@
+@use 'sass:list';
+@import '../../../styles/variants';
+@import '../../../styles/functions';
+
+.icon-badge {
+  border-radius: var(--radius);
+
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      background-color: list.nth($colors, 1);
+      color: list.nth($colors, 2);
+    }
+  }
+
+  @each $name, $size in $sizes {
+    &[data-size='#{$name}'] {
+      font-size: list.nth($size, 1);
+      padding: list.nth($size, 4);
+    }
+  }
+}
