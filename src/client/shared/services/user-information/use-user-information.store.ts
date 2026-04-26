@@ -59,5 +59,6 @@ export const useUserInformation = create<UserInformationStore>((set) => {
     },
     userInfoState: PromiseState.Loading,
     updateInformationState: PromiseState.Loading,
+    refresh: () => loadUserInformation(),
   };
 });

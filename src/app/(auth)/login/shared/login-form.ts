@@ -8,7 +8,8 @@ import { type ApiResultOperation } from '@common/models/api-result-operation.mod
 
 export function useSetupLogin(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(
-    async (data: LoginDto) => await fetchClient.post<ApiResultOperation<LoginResponse>>('/api/auth/login', data),
+    async (data: LoginDto) =>
+      await fetchClient.post<ApiResultOperation<LoginResponse>>('/api/auth/login', data, { skipAuth: true }),
     {
       successMessage: 'Вхід виконано успішно!',
       onSuccess: (result) => {
