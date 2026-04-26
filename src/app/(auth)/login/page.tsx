@@ -12,7 +12,7 @@ import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { AuthTemplate } from '@frontend/entities/auth/auth-template';
+import { AuthLayout } from '@frontend/entities/auth/auth-template';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function LoginPage() {
   });
 
   return (
-    <AuthTemplate>
+    <AuthLayout imageSrc={'/pictures/login-picture.png'}>
       <FormProvider {...methods}>
         <form
           className="w-full flex flex-col gap-6"
@@ -106,6 +106,6 @@ export default function LoginPage() {
           </UiFieldSet>
         </form>
       </FormProvider>
-    </AuthTemplate>
+    </AuthLayout>
   );
 }

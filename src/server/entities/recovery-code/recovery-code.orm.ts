@@ -1,0 +1,20 @@
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
+import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
+
+@Entity('recovery_codes')
+export class RecoveryCode extends DefaultTableColumnsOrm {
+  @Column({ length: 6 })
+  code!: string;
+
+  @Column({ type: 'varchar', length: UserRequirements.MaxEmailLength })
+  email!: string;
+
+  @Column()
+  expiresAt!: Date;
+
+  @ManyToOne(() => UserOrm, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'email', referencedColumnName: 'email' })
+  user!: UserOrm;
+}
