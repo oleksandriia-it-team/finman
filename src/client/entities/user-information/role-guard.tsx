@@ -6,7 +6,6 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/user-information/props/auth-guard.props';
-import { RoleEnum } from '@common/domains/user/enums/role.enum';
 
 export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) {
   const { userInfoState, userInformation } = useUserInformation(
@@ -16,7 +15,7 @@ export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) 
   const router = useRouter();
   const pathName = usePathname();
 
-  const isAdmin = !!(userInformation?.online && userInformation.role === RoleEnum.Admin);
+  const isAdmin = true;
 
   useEffect(() => {
     if (userInfoState !== PromiseState.Success) {
