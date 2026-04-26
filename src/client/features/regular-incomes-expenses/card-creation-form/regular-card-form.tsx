@@ -3,7 +3,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { DayOfMonthOptions, FrequencyOptions } from '@frontend/shared/constants/regular-options.constant';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { useRegularPaymentForm } from './regular-form.hook';
-import { TransactionCategoryPicker } from '@frontend/entities/budget-plan/transaction-category-picker/transaction-category-picker';
+import { TransactionCategoryPicker } from '@frontend/entities/operations/transaction-category-picker/transaction-category-picker';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { CardCreationFormSideBlock } from './cards-form-side-block/form-side-block';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';

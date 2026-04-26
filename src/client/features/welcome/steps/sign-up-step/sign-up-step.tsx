@@ -1,5 +1,5 @@
 'use client';
-import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
+import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import Link from 'next/link';
 
 import './sign-up-step.scss';
