@@ -1,14 +1,14 @@
 import type { BudgetPlan, BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
-import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 
 export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<number, BudgetPlanDetailed | null> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: ICrudService<BudgetPlan>,
-    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private monthEntryRepository: ICrudService<MonthEntry>,
     private regularEntryRepository: ICrudService<RegularEntry>,
   ) {
     super(transactionManager);
@@ -22,7 +22,7 @@ export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<number, Budg
     }
 
     const otherEntries = (
-      await Promise.all(budgetPlan.otherEntryIds.map((id) => this.unregularEntryRepository.getItemById(id)))
+      await Promise.all(budgetPlan.otherEntryIds.map((id) => this.monthEntryRepository.getItemById(id)))
     ).filter((i) => !!i);
 
     const regularEntries = (

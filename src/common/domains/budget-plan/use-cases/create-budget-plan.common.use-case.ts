@@ -1,13 +1,13 @@
 import type { BudgetPlan, BudgetPlanDto } from '@common/records/budget-plan.record';
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
-import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { MonthEntry } from '@common/records/month-entry.record';
 
 export class CreateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPlanDto, number> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: ICrudService<BudgetPlan>,
-    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }
@@ -16,7 +16,7 @@ export class CreateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
     const id = await this.budgetPlanRepository.createItem({ ...data, otherEntryIds: [] });
 
     const otherEntryIds = await Promise.all(
-      otherEntriesDto.map((dto) => this.unregularEntryRepository.createItem({ ...dto, budgetPlanId: id })),
+      otherEntriesDto.map((dto) => this.monthEntryRepository.createItem({ ...dto, budgetPlanId: id })),
     );
 
     await this.budgetPlanRepository.updateItem(id, { ...data, otherEntryIds });
