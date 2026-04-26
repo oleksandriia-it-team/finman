@@ -14,8 +14,8 @@ import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { LookupStatusBadge } from '@frontend/entities/lookups/lookup-status-badge/lookup-status-badge';
 import { LookupPageHeader } from '@frontend/entities/lookups/lookup-page-header/lookup-page-header';
-import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
 import { LookupRowActions } from '@frontend/entities/lookups/lookup-row-actions/lookup-row-actions';
+import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
 
 function formatDate(date: Date | undefined) {
   if (!date) return '—';
@@ -28,7 +28,7 @@ function formatDate(date: Date | undefined) {
 }
 
 export function CurrenciesLookup() {
-  const { hasSelection, isSelected, toggleRow } = useLookupSelection();
+  const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
 
   const {
     data = [],
@@ -39,11 +39,24 @@ export function CurrenciesLookup() {
     queryFn: () => lookupsService.getItems(LookupsTypeEnum.Currency, 1, 300, {}),
   });
 
+  function handleAdd() {
+    // TODO: implement add currency
+    console.warn('TODO: add currency');
+  }
+
+  function handleDelete() {
+    // TODO: implement bulk delete
+    console.warn('TODO: delete selected currencies');
+    clearSelection();
+  }
+
   return (
     <div className="flex flex-col h-full">
       <LookupPageHeader
         title="Currencies"
         hasSelection={hasSelection}
+        onAdd={handleAdd}
+        onDelete={handleDelete}
       />
 
       <div className="flex-1 overflow-auto bg-white">
@@ -85,6 +98,7 @@ export function CurrenciesLookup() {
                   <UiTableCell className="pl-4 w-10">
                     <input
                       type="checkbox"
+                      aria-label={`Select ${item.currencyName}`}
                       checked={isSelected(item.id)}
                       onChange={() => toggleRow(item.id)}
                       className="w-4 h-4 rounded border-gray-300 accent-blue-500 cursor-pointer"
@@ -100,7 +114,10 @@ export function CurrenciesLookup() {
                   <UiTableCell className="text-sm text-blue-500">{formatDate(item.createdAt)}</UiTableCell>
                   <UiTableCell className="text-sm text-blue-500">{formatDate(item.updatedAt)}</UiTableCell>
                   <UiTableCell className="w-10">
-                    <LookupRowActions />
+                    <LookupRowActions
+                      onEdit={() => console.warn('TODO: edit currency', item.id)}
+                      onDelete={() => console.warn('TODO: delete currency', item.id)}
+                    />
                   </UiTableCell>
                 </UiTableRow>
               ))}
