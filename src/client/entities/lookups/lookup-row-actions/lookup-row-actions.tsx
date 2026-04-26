@@ -10,7 +10,11 @@ interface LookupRowActionsProps {
 export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
   return (
     <UiPopover>
-      <UiPopoverTrigger className="text-gray-400 hover:text-gray-600 text-lg px-1 cursor-pointer transition-colors">
+      <UiPopoverTrigger
+        aria-label="Row actions"
+        aria-haspopup="menu"
+        className="text-gray-400 hover:text-gray-600 text-lg px-1 cursor-pointer transition-colors"
+      >
         ···
       </UiPopoverTrigger>
 
@@ -19,10 +23,12 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
         className="w-36 p-1"
       >
         <button
+          type="button"
           onClick={onEdit}
           className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
         >
           <svg
+            aria-hidden="true"
             width="14"
             height="14"
             viewBox="0 0 24 24"
@@ -37,10 +43,12 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
         </button>
 
         <button
+          type="button"
           onClick={onDelete}
           className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors"
         >
           <svg
+            aria-hidden="true"
             width="14"
             height="14"
             viewBox="0 0 24 24"

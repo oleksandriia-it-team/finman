@@ -15,6 +15,7 @@ export function LookupStatusBadge({ softDeleted }: LookupStatusBadgeProps) {
       )}
     >
       <span
+        aria-hidden="true"
         className={cn(
           'w-4 h-4 rounded-full flex items-center justify-center text-white text-[10px]',
           isDeleted ? 'bg-red-500' : 'bg-green-500',
