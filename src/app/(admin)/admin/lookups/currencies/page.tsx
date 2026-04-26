@@ -1,5 +1,4 @@
 'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
@@ -10,6 +9,8 @@ const COLUMNS: LookupColumn<Currency>[] = [
   { key: 'currencyName', label: 'Назва' },
   { key: 'currencyCode', label: 'Код' },
   { key: 'currencySymbol', label: 'Символ' },
+  { key: 'createdAt', label: 'Створено' },
+  { key: 'updatedAt', label: 'Оновлено' },
 ];
 
 const PAGE_SIZE = 300;

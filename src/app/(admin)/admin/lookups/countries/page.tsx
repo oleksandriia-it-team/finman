@@ -1,5 +1,4 @@
 'use client';
-
 import { useQuery } from '@tanstack/react-query';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
@@ -9,6 +8,8 @@ import { LookupTable, type LookupColumn } from '@frontend/entities/lookups/looku
 const COLUMNS: LookupColumn<CountryAndLocale>[] = [
   { key: 'country', label: 'Країна' },
   { key: 'locale', label: 'Локаль' },
+  { key: 'createdAt', label: 'Створено' },
+  { key: 'updatedAt', label: 'Оновлено' },
 ];
 
 const PAGE_SIZE = 100;
