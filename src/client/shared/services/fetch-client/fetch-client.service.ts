@@ -13,6 +13,26 @@ class FetchClientService {
     this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
   }
 
+  public get<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
+    return this.request<T, never>(endpoint, 'GET', options);
+  }
+
+  public post<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'POST', { ...options, body });
+  }
+
+  public put<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'PUT', { ...options, body });
+  }
+
+  public patch<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
+    return this.request<T, D>(endpoint, 'PATCH', { ...options, body });
+  }
+
+  public delete<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
+    return this.request<T, never>(endpoint, 'DELETE', options);
+  }
+
   private async request<T, D = unknown>(
     endpoint: string,
     method: string,
@@ -59,26 +79,6 @@ class FetchClientService {
       signal: signal ?? null,
     });
     return handleResponse<T>(response, defaultValue);
-  }
-
-  public get<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
-    return this.request<T, never>(endpoint, 'GET', options);
-  }
-
-  public post<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
-    return this.request<T, D>(endpoint, 'POST', { ...options, body });
-  }
-
-  public put<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
-    return this.request<T, D>(endpoint, 'PUT', { ...options, body });
-  }
-
-  public patch<T, D = unknown>(endpoint: string, body?: D, options?: RequestOptions<D, T>): Promise<T> {
-    return this.request<T, D>(endpoint, 'PATCH', { ...options, body });
-  }
-
-  public delete<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
-    return this.request<T, never>(endpoint, 'DELETE', options);
   }
 }
 

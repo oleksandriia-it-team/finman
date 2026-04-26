@@ -48,8 +48,8 @@ export function FinControlledPassword({
                 icon={showPassword ? 'eye-slash' : 'eye'}
                 onClick={() => setShowPassword(!showPassword)}
                 size="sm"
-                variant="muted-foreground"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-foreground"
+                variant="muted"
+                className="absolute right-2 top-1/2 -translate-y-1/2"
                 title={showPassword ? 'Приховати' : 'Показати'}
               />
             </div>

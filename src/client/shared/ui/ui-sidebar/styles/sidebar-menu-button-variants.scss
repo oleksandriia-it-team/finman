@@ -1,0 +1,26 @@
+@use 'sass:list';
+@import './sidebar-menu-button-variant-mixin';
+
+.sidebar-menu-button {
+  @include sidebar-menu-button-base;
+
+  &[data-variant='default'] {
+    // defaults from base mixin apply here, as `default` variant was essentially just standard hover rules
+  }
+
+  &[data-variant='outline'] {
+    @include sidebar-menu-button-outline-variant;
+  }
+
+  &[data-size='default'] {
+    @include sidebar-menu-button-size(2rem, 0.875rem);
+  }
+
+  &[data-size='sm'] {
+    @include sidebar-menu-button-size(1.75rem, 0.75rem);
+  }
+
+  &[data-size='lg'] {
+    @include sidebar-menu-button-size(3rem, 0.875rem);
+  }
+}

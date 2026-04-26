@@ -19,9 +19,9 @@ export const IncomeCategories = {
 } as const;
 
 export type ExpenseCategory = (typeof ExpenseCategories)[keyof typeof ExpenseCategories];
-export type IncomeCategory = (typeof IncomeCategories)[keyof typeof IncomeCategories];
-export type AllCategories = ExpenseCategory | IncomeCategory;
 
-export const AllCategoryValues = Array.from(
-  new Set([...Object.values(ExpenseCategories), ...Object.values(IncomeCategories)]),
-) as [AllCategories, ...AllCategories[]];
+export type IncomeCategory = (typeof IncomeCategories)[keyof typeof IncomeCategories];
+
+export const AllCategoryValues = [...Object.values(ExpenseCategories), ...Object.values(IncomeCategories)] as const;
+
+export type AllCategories = ExpenseCategory | IncomeCategory;

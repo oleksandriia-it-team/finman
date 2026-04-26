@@ -1,7 +1,8 @@
 'use client';
 
 import { TransactionsData } from './transaction-data.constant';
-import { TransactionCard } from '@frontend/entities/budget-plan/transaction-card/transaction-card';
+import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
+import { type TypeEntry } from '@common/enums/entry.enum';
 
 export default function BenefitsExplanationStep() {
   return (
@@ -19,7 +20,7 @@ export default function BenefitsExplanationStep() {
           <div className="p-4 bg-card rounded-2xl shadow-sm border border-muted">
             <div className="flex justify-between items-center mb-4">
               <b className="text-muted-foreground">Сьогодні</b>
-              <span className="inline-block px-4 py-2 text-xs font-bold bg-destructive/25 text-destructive rounded-full text-center whitespace-nowrap align-baseline">
+              <span className="inline-block px-4 py-2 text-xs font-bold bg-destructive text-destructive-foreground rounded-full text-center whitespace-nowrap align-baseline">
                 - 724 ₴
               </span>
             </div>
@@ -27,11 +28,11 @@ export default function BenefitsExplanationStep() {
             {TransactionsData.map((tx) => (
               <TransactionCard
                 key={tx.id}
-                icon={tx.icon}
+                name={tx.icon}
                 title={tx.title}
-                subtitle={tx.subtitle}
-                amount={tx.amount}
-                type={tx.type}
+                description={tx.description}
+                check={tx.check}
+                type={tx.type as TypeEntry.Income | TypeEntry.Expense}
               />
             ))}
           </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthorizedUser } from '@frontend/entities/user-information/authorized-user.hook';
+import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 
 export default function UserProfilePage() {
   const user = useAuthorizedUser();

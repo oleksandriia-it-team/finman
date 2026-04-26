@@ -1,0 +1,11 @@
+@keyframes bounceCustom {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateY(-10px); /* Висота стрибка */
+    opacity: 1;
+  }
+}

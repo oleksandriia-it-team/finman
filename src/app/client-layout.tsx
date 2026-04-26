@@ -5,7 +5,8 @@ import InitApplication from './init-application';
 import LoadStylesComponent from '@frontend/widgets/load-styles/load-styles.component';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoadGlobalToast } from './load-global-toast';
-import { UiTooltipProvider } from '@frontend/ui/ui-tooltip/ui-tooltip';
+import { UiTooltipProvider } from '@frontend/ui/ui-tooltip/ui-tooltip-provider';
+import { IsMobileProvider } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,12 +22,14 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
   return (
     <LoadStylesComponent>
       <InitApplication>
-        <UiTooltipProvider>
-          <QueryClientProvider client={queryClient}>
-            <LoadGlobalToast />
-            {children}
-          </QueryClientProvider>
-        </UiTooltipProvider>
+        <QueryClientProvider client={queryClient}>
+          <UiTooltipProvider>
+            <IsMobileProvider>
+              <LoadGlobalToast />
+              {children}
+            </IsMobileProvider>
+          </UiTooltipProvider>
+        </QueryClientProvider>
       </InitApplication>
     </LoadStylesComponent>
   );
