@@ -7,4 +7,5 @@ export interface UserInformationStore {
   logOut: () => void;
   userInfoState: PromiseState;
   updateInformationState: PromiseState;
+  refresh: () => void;
 }
