@@ -57,7 +57,7 @@ export default function RegistrationPage() {
             >
               <div className="flex items-center gap-1.5">
                 <UiGraphic
-                  src="/logo/finman-icon.svg"
+                  src="/logo/logo.jpg"
                   size={36}
                   priority
                   alt="Finman Logo"

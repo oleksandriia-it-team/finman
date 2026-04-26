@@ -2,8 +2,16 @@
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import '@frontend/shared/styles/auth-image-container.scss';
 import type { AuthLayoutProps } from '@frontend/shared/models/auth-loyaut-component.model';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-export const AuthLayout = ({ children, imageSrc, rightSideTitle, rightSideDescription }: AuthLayoutProps) => {
+export const AuthLayout = ({
+  children,
+  imageSrc,
+  rightSideTitle,
+  rightSideDescription,
+  rightSideClassName,
+  rightSideImageClassName,
+}: AuthLayoutProps) => {
   return (
     <div className="min-h-screen w-full flex flex-row bg-primary-foreground">
       <div className="flex flex-1 items-center justify-center p-6 md:p-9">
@@ -12,9 +20,14 @@ export const AuthLayout = ({ children, imageSrc, rightSideTitle, rightSideDescri
         </div>
       </div>
 
-      <div className="auth-image-container hidden lg:flex flex-1 flex-col items-center justify-center bg-aqua-muted p-12">
+      <div
+        className={cn(
+          'auth-image-container hidden lg:flex flex-1 flex-col items-center justify-center bg-aqua-muted p-12',
+          rightSideClassName,
+        )}
+      >
         <div className="flex flex-col items-center justify-center w-full max-w-lg h-full max-h-screen">
-          <div className="w-full flex-1 min-h-0 flex items-center justify-center mb-10">
+          <div className={cn('w-full flex-1 min-h-0 flex items-center justify-center mb-10', rightSideImageClassName)}>
             <UiGraphic
               src={imageSrc}
               size="100%"
@@ -25,7 +38,7 @@ export const AuthLayout = ({ children, imageSrc, rightSideTitle, rightSideDescri
           {(rightSideTitle || rightSideDescription) && (
             <div className="flex flex-col gap-4 text-center pb-6">
               <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">{rightSideTitle}</h2>
-              <p className="text-slate-500 text-base max-w-xs mx-auto leading-relaxed">{rightSideDescription}</p>
+              <p className="text-slate-500 text-base max-w-sm mx-auto leading-relaxed">{rightSideDescription}</p>
             </div>
           )}
         </div>

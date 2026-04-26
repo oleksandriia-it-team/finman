@@ -4,4 +4,6 @@ export interface AuthLayoutProps extends ChildrenComponentProps {
   imageSrc: string;
   rightSideTitle?: string;
   rightSideDescription?: string;
+  rightSideClassName?: string;
+  rightSideImageClassName?: string;
 }

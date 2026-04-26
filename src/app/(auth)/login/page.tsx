@@ -37,7 +37,7 @@ export default function LoginPage() {
             >
               <div className="flex items-center gap-1">
                 <UiGraphic
-                  src="/logo/finman-icon.svg"
+                  src="/logo/logo.jpg"
                   size={48}
                   priority
                   alt="Finman Logo"
@@ -65,8 +65,7 @@ export default function LoginPage() {
                 />
                 <button
                   type="button"
-                  //TODO remove disabled state and implement forgot password functionality
-                  disabled={true}
+                  onClick={() => router.push('/recovery')}
                   className="absolute right-0 top-0 text-xs text-primary hover:underline"
                 >
                   Забули пароль?

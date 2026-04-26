@@ -24,11 +24,13 @@ export default function ForgotPasswordPage() {
       imageSrc="/pictures/recovery-picture.png"
       rightSideTitle="FinMan — відновлення доступу"
       rightSideDescription="Безпечне відновлення паролю з зашифрованим посиланням. Ваші дані захищені на всіх етапах."
+      rightSideClassName="bg-powder-muted"
+      rightSideImageClassName="max-h-[25rem]"
     >
       <div className="flex flex-col w-full h-full min-h-[inherit]">
         <div className="flex items-center gap-x-1.5">
           <UiGraphic
-            src="/logo/finman-icon.svg"
+            src="/logo/logo.jpg"
             size={36}
             priority
             alt="Finman Logo"
@@ -115,7 +117,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             className="text-primary font-medium hover:underline"
-            onClick={() => router.push('/register')}
+            onClick={() => router.push('/signup')}
           >
             Зареєструватись
           </button>
