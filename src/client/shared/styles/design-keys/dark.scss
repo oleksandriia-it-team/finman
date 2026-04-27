@@ -11,7 +11,8 @@
   --secondary-foreground: rgb(228 232 239);
   --muted: rgb(37 46 61);
   --muted-foreground: rgb(155 162 174);
-  --destructive: rgb(241 68 68);
+  --destructive-foreground: rgb(223 34 36);
+  --destructive: rgb(255 113 113);
   --accent: rgb(43 53 74);
   --accent-foreground: rgb(228 232 239);
   --border: rgb(47 59 80);
@@ -32,6 +33,7 @@
   --sidebar-ring: rgb(1 82 203);
   --overlay-background: rgb(0 0 0 / 50%);
   --shadow-color: rgb(255 0 0);
+  --button-default-background: rgb(0 0 0);
   --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
   --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
   --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);

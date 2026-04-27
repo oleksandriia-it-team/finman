@@ -9,12 +9,18 @@
     &[data-variant='#{$name}'] {
       @if $name == 'destructive' {
         &:focus-visible {
-          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive-foreground) 20%, transparent);
         }
       }
 
       &[data-outlined='false'] {
-        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+        &[data-opacity='true'] {
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 60%);
+        }
+
+        &[data-opacity='false'] {
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 0%);
+        }
       }
 
       &[data-outlined='true'] {
@@ -41,5 +47,9 @@
     &:focus-visible {
       background-color: transparent !important;
     }
+  }
+
+  &[data-border-none='true'] {
+    border: none !important;
   }
 }

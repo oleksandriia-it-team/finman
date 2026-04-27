@@ -1,3 +1,5 @@
+@import '../../../styles/functions';
+
 @mixin btn-base {
   display: inline-flex;
   flex-shrink: 0;
@@ -22,8 +24,8 @@
   }
 }
 
-@mixin btn-variant($bg, $text) {
-  background-color: $bg;
+@mixin btn-variant($bg, $text, $opacity) {
+  background-color: getOpacity($bg, $opacity);
   color: $text;
 
   &:hover {

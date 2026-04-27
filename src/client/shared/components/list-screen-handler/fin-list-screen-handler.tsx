@@ -44,14 +44,7 @@ export function FinListScreenHandler({
   }
 
   if (!hasData) {
-    return (
-      notItemFound ?? (
-        <FinErrorWidget
-          status={404}
-          message="Нічого не знайдено"
-        />
-      )
-    );
+    return notItemFound ?? <span className="italic">Дані не знайдено</span>;
   }
 
   return children;

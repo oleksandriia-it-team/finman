@@ -2,13 +2,13 @@ import type { BudgetPlan, BudgetPlanDto } from '@common/records/budget-plan.reco
 import { getNewAndDeletedRecords } from '@common/utils/get-new-and-deleted-record.util';
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
-import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { MonthEntry } from '@common/records/month-entry.record';
 
 export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPlanDto & { id: number }, true> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: ICrudService<BudgetPlan>,
-    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }
@@ -30,14 +30,14 @@ export class UpdateBudgetPlanCommonUseCase extends TransactionalUseCase<BudgetPl
 
     await Promise.all(
       remainedOtherEntries.map((dto) =>
-        this.unregularEntryRepository.updateItem(dto.id as number, { ...dto, budgetPlanId: id }),
+        this.monthEntryRepository.updateItem(dto.id as number, { ...dto, budgetPlanId: id }),
       ),
     );
 
-    await Promise.all(deletedOtherEntries.map((id) => this.unregularEntryRepository.deleteItem(id)));
+    await Promise.all(deletedOtherEntries.map((id) => this.monthEntryRepository.deleteItem(id)));
 
     const newOtherEntryIds = await Promise.all(
-      newOtherEntries.map((dto) => this.unregularEntryRepository.createItem({ ...dto, budgetPlanId: id })),
+      newOtherEntries.map((dto) => this.monthEntryRepository.createItem({ ...dto, budgetPlanId: id })),
     );
 
     return await this.budgetPlanRepository.updateItem(id, {

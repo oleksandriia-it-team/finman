@@ -13,7 +13,7 @@
   }
 
   &[data-variant='destructive'] {
-    color: var(--destructive);
+    color: var(--destructive-foreground);
   }
 
   @media (pointer: coarse) {

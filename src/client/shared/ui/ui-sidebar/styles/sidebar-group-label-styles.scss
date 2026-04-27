@@ -1,0 +1,32 @@
+.sidebar-group-label {
+  display: flex;
+  height: 2rem;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: var(--radius-md);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: rgb(from var(--sidebar-foreground) r g b / 70%);
+  outline-style: hidden;
+  transition-property: margin, opacity;
+  transition-timing-function: linear;
+  transition-duration: 200ms;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--sidebar-ring);
+  }
+
+  & > svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .group[data-collapsible='icon'] & {
+    margin-top: -2rem;
+    opacity: 0;
+  }
+}
