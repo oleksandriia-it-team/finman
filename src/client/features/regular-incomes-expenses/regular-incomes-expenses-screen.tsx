@@ -8,10 +8,19 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
+import { getErrorMessage } from '@common/utils/get-error-message.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
   const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
+
+  const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
+    onSuccess: () => {
+      reload();
+    },
+  });
 
   const router = useRouter();
 
@@ -38,26 +47,25 @@ export default function RegularIncomesExpensesScreen() {
       </p>
 
       <div className="flex-1 overflow-y-auto min-h-0 p-4">
-        <FinListScreenHandler
-          state={state}
-          errorMessage={errorMessage}
-          hasData={!!options.length}
-          skeletonItems={pageSize}
-          skeletonClassName="h-72"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <FinListScreenHandler
+            state={useCombineStates(onDelete.state, state)}
+            errorMessage={errorMessage ?? getErrorMessage(onDelete.error)}
+            hasData={!!options.length}
+            skeletonItems={pageSize}
+            skeletonClassName="h-72"
+          >
             {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
                 handleDelete={async (id) => {
-                  await handleDelete(id);
-                  reload();
+                  onDelete.mutate(id);
                 }}
                 {...item}
               />
             ))}
-          </div>
-        </FinListScreenHandler>
+          </FinListScreenHandler>
+        </div>
       </div>
 
       <FinPagination

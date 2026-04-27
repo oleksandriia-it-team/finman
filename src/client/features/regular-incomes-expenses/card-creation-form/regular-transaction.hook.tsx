@@ -20,7 +20,7 @@ function useRegularTransactionsLogic() {
     return regularEntryService.createItem(dto);
   };
 
-  const handleDelete = (id: number): Promise<true> => {
+  const handleDelete = (id: number) => {
     return regularEntryService.deleteItem(id);
   };
 
@@ -32,7 +32,14 @@ function useRegularTransactionsLogic() {
     return regularEntryService.getItemById(id);
   };
 
-  return { getPayments, getTotalCount, handleCreate, handleDelete, handleUpdate, getById };
+  return {
+    getPayments,
+    getTotalCount,
+    handleCreate,
+    handleDelete,
+    handleUpdate,
+    getById,
+  };
 }
 
 export const [RegularIncomesExpensesProvider, useRegularTransactions] = constate(useRegularTransactionsLogic);
