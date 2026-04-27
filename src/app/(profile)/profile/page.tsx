@@ -5,11 +5,5 @@ import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.ho
 export default function UserProfilePage() {
   const user = useAuthorizedUser();
 
-  return (
-    <div className="flex flex-col items-center justify-center p-5">
-      <p>{user.name}</p>
-      <p>{user.currencyCode}</p>
-      <p>{user.language}</p>
-    </div>
-  );
+  return <div className="flex flex-col items-center justify-center p-5">test</div>;
 }
