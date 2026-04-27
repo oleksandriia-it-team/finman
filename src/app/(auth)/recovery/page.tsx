@@ -16,7 +16,7 @@ export default function ForgotPasswordPage() {
   const router = useRouter();
 
   const { methods, submit, isLoading } = useSetupForgotPassword(() => {
-    router.push('/auth/recovery/confirm');
+    router.push('/confirm-code');
   });
 
   return (

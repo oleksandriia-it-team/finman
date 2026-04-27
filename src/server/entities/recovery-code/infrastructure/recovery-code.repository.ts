@@ -1,12 +1,12 @@
 import { type FindOptionsWhere, MoreThan } from 'typeorm';
-import { RecoveryCode } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
+import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import type { CreateRecoveryCodeDto } from '@common/domains/auth/schema/recovery-code.dto';
 import type { ValidationResult } from '@backend/entities/recovery-code/model/validation.model';
 
-export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCode, never, CreateRecoveryCodeDto> {
+export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, never, CreateRecoveryCodeDto> {
   constructor() {
-    super(RecoveryCode);
+    super(RecoveryCodeOrm);
   }
   async validateAndGetCode(email: string, code: string): Promise<ValidationResult> {
     const MAX_ATTEMPTS = 3;
@@ -36,7 +36,7 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCode, neve
     return { status: 'valid', record };
   }
   async deleteUserCodes(email: string): Promise<void> {
-    const whereCondition: FindOptionsWhere<RecoveryCode> = { email };
+    const whereCondition: FindOptionsWhere<RecoveryCodeOrm> = { email };
     await this.repository.delete(whereCondition);
   }
 }

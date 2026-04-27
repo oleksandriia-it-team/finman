@@ -18,7 +18,7 @@ export function useSetupConfirmCode(onSuccessAction: () => void) {
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: VerifyCodeDto) =>
-      await fetchClient.post<ApiResultOperation<boolean>>('/api/auth/recovery/verify', data),
+      await fetchClient.post<ApiResultOperation<boolean>>('/api/auth/recovery/verify', data, { skipAuth: true }),
     {
       onSuccess: (result) => {
         if (result.status === 200) {

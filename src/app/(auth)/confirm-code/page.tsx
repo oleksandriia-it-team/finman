@@ -17,7 +17,7 @@ export default function ConfirmCodePage() {
   const email = useRecoveryStore((state) => state.email);
 
   const { methods, submit, isLoading } = useSetupConfirmCode(() => {
-    router.push('/auth/reset-password');
+    router.push('/reset-password');
   });
 
   return (

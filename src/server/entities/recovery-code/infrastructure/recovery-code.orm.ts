@@ -4,7 +4,7 @@ import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 @Entity('recovery_codes')
-export class RecoveryCode extends DefaultTableColumnsOrm {
+export class RecoveryCodeOrm extends DefaultTableColumnsOrm {
   @Column({ length: 6 })
   code!: string;
 

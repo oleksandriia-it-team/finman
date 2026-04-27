@@ -1,3 +1,5 @@
+'use client';
+
 import type { RecoveryFlowGuardProps } from '@frontend/entities/auth/props/recovery-guard.props';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
@@ -10,15 +12,20 @@ export function RecoveryFlowGuard({ children, routePath = '/recovery' }: Recover
   const email = useRecoveryStore((state) => state.email);
   const code = useRecoveryStore((state) => state.code);
 
-  useEffect(() => {
-    if (pathname === '/auth/confirm-code' && !email) {
-      router.replace(routePath);
-    }
+  const isConfirmPage = pathname === '/confirm-code';
+  const isResetPage = pathname === '/reset-password';
 
-    if (pathname === '/auth/reset-password' && (!email || !code)) {
+  const isAccessDenied = (isConfirmPage && !email) || (isResetPage && (!email || !code));
+
+  useEffect(() => {
+    if (isAccessDenied) {
       router.replace(routePath);
     }
-  }, [pathname, email, code, router, routePath]);
+  }, [isAccessDenied, router, routePath]);
+
+  if (isAccessDenied) {
+    return null;
+  }
 
   return children;
 }
