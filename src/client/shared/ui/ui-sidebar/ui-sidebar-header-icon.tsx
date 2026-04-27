@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentProps, useState } from 'react';
+import { type ComponentProps, useState } from 'react';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { useSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar-provider';
 import { cn } from '@frontend/shared/utils/cn.util';

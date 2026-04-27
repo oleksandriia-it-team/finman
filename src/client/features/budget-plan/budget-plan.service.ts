@@ -10,7 +10,7 @@ import { GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-bu
 import { UpdateBudgetPlanCommonUseCase } from '@common/domains/budget-plan/use-cases/update-budget-plan.common.use-case';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { dexieTransactionManager } from '@frontend/database/dexie-transactional-manager';
-import { unregularEntryLocalRepository } from '@frontend/entities/unregular-entry/unregular-entry.local.repository';
+import { monthEntryLocalRepository } from '@frontend/entities/month-entry/month-entry.local.repository';
 import { regularEntryLocalRepository } from '@frontend/entities/regular-entry/regular-entry.local.repository';
 
 export class BudgetPlanLocalUsecases implements ICrudService<
@@ -54,26 +54,26 @@ export class BudgetPlanLocalUsecases implements ICrudService<
 export const createBudgetPlanLocalUseCase = new CreateBudgetPlanCommonUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
-  unregularEntryLocalRepository,
+  monthEntryLocalRepository,
 );
 
 export const deleteBudgetPlanLocalUseCase = new DeleteBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
-  unregularEntryLocalRepository,
+  monthEntryLocalRepository,
 );
 
 export const getBudgetPlanLocalUseCase = new GetBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
-  unregularEntryLocalRepository,
+  monthEntryLocalRepository,
   regularEntryLocalRepository,
 );
 
 export const updateBudgetPlanCommonUseCase = new UpdateBudgetPlanCommonUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
-  unregularEntryLocalRepository,
+  monthEntryLocalRepository,
 );
 
 export const budgetPlanLocalUsecases = new BudgetPlanLocalUsecases(

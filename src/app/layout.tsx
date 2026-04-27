@@ -10,7 +10,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 const ClientLayout = dynamic(() => import('./client-layout'), {
-  ssr: 0,
+  ssr: false,
 });
 
 export default function Layout({ children }: ChildrenComponentProps) {

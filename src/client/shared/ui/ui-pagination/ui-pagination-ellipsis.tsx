@@ -1,5 +1,5 @@
 import { cn } from '@frontend/shared/utils/cn.util';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export function UiPaginationEllipsis({ className, ...props }: ComponentProps<'span'>) {

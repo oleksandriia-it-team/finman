@@ -1,4 +1,4 @@
-import { PaginationItemProps } from '@frontend/ui/ui-pagination/props/pagination-item.props';
+import { type PaginationItemProps } from '@frontend/ui/ui-pagination/props/pagination-item.props';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
 export function UiPaginationItem({ isActive, onClick, children, disabled, ...props }: PaginationItemProps) {

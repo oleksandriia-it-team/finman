@@ -1,4 +1,4 @@
-import { PaginationProps } from '@frontend/components/pagination/props/pagination.props';
+import { type PaginationProps } from '@frontend/components/pagination/props/pagination.props';
 import { UiPagination } from '@frontend/ui/ui-pagination/ui-pagination';
 import { useMemo } from 'react';
 import { getTotalPages } from '@frontend/shared/utils/get-total-pages.util';

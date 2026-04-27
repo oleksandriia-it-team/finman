@@ -5,6 +5,7 @@
 @import 'key-frames';
 @import 'variants';
 @import 'basic-component-styles/index';
+@import 'animations/index';
 @import 'mixins';
 
 html {
@@ -12,6 +13,10 @@ html {
 
   @include mediascreen('tablet') {
     font-size: 16px;
+  }
+
+  @include mediascreen('pc') {
+    font-size: 18px;
   }
 }
 

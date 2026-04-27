@@ -12,6 +12,7 @@ export const UiGraphic = ({
   priority = false,
   type = 'icon',
   alt = type === 'icon' ? '' : 'Graphic element',
+  objectFit = 'contain',
 }: UiGraphicProps) => {
   const finalWidth = size || width || (type === 'icon' ? 24 : 500);
   const finalHeight = size || height || (type === 'icon' ? 24 : 500);
@@ -34,7 +35,7 @@ export const UiGraphic = ({
           fill
           priority={priority}
           unoptimized={typeof src === 'string' && src.endsWith('.svg')}
-          className="object-contain"
+          className={objectFit === 'contain' ? 'object-contain' : 'object-cover'}
         />
       </div>
     );

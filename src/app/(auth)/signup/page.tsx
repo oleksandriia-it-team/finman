@@ -5,7 +5,6 @@ import { AuthTemplate } from '@frontend/entities/auth/auth-template';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { FormProvider } from 'react-hook-form';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
-import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
@@ -24,6 +23,7 @@ import { UserInformationKey } from '@frontend/shared/constants/local-storage.con
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
+import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -58,11 +58,9 @@ export default function RegistrationPage() {
               className="flex flex-col items-start gap-0.5 mb-4 sticky top-0 bg-primary-foreground w-full z-10"
             >
               <div className="flex items-center gap-1.5">
-                <UiGraphic
-                  src="/logo/finman-icon.svg"
-                  size={36}
-                  priority
-                  alt="Finman Logo"
+                <LogoSvg
+                  width={36}
+                  height={36}
                 />
                 <span className="text-2xl text-foreground tracking-tighter font-bold">FINMAN</span>
               </div>

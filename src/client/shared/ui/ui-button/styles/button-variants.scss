@@ -14,7 +14,13 @@
       }
 
       &[data-outlined='false'] {
-        @include btn-variant(list.nth($colors, 1), list.nth($colors, 2));
+        &[data-opacity='true'] {
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 60%);
+        }
+
+        &[data-opacity='false'] {
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 0%);
+        }
       }
 
       &[data-outlined='true'] {

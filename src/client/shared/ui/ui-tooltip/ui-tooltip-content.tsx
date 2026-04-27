@@ -17,11 +17,11 @@ function UiTooltipContent({
       <TooltipPrimitive.Content
         data-slot="tooltip-content"
         sideOffset={sideOffset}
-        className={cn('tooltip-content', className)}
+        className={cn('tooltip-content z-1000', className)}
         {...props}
       >
         {children}
-        <TooltipPrimitive.Arrow className="tooltip-arrow" />
+        <TooltipPrimitive.Arrow />
       </TooltipPrimitive.Content>
     </TooltipPrimitive.Portal>
   );

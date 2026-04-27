@@ -1,4 +1,4 @@
-import { NavItemModel, SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { type NavItemModel, type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
 export const profileNavRoutesWindow: SidebarItemModel[] = [
   {
@@ -45,7 +45,7 @@ export const profileNavRoutesMobile: NavItemModel[] = [
     icon: 'house',
   },
   {
-    route: '/profile/budget/plans',
+    route: '/profile/budget/regular-operations',
     icon: 'pie-chart',
     name: 'Планування',
   },

@@ -9,4 +9,5 @@ export interface UiGraphicProps {
   className?: string;
   priority?: boolean;
   type?: 'icon' | 'illustration' | 'image';
+  objectFit?: 'contain' | 'cover';
 }

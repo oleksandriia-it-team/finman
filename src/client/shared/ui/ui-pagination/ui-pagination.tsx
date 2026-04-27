@@ -1,5 +1,5 @@
 import { cn } from '@frontend/shared/utils/cn.util';
-import { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 
 export function UiPagination({ className, ...props }: ComponentProps<'nav'>) {
   return (

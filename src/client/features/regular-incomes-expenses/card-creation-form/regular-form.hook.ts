@@ -1,53 +1,61 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type RegularPaymentFormData,
-  RegularPaymentFormSchema,
-} from '@frontend/shared/schemas/regular-card-validation-schema';
+import { RegularPaymentFormSchema } from '@frontend/shared/schemas/regular-card-validation-schema';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { ExpenseCategories } from '@common/enums/categories.enum';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
   const showToast = useGlobalToast((state) => state.showToast);
   const isEdit = !!initialData;
 
-  const methods = useForm<RegularPaymentFormData>({
-    resolver: zodResolver(RegularPaymentFormSchema),
-    defaultValues: isEdit
-      ? {
-          subtitle: initialData.description,
-          type: initialData.type,
-          category: initialData.category,
-          amount: initialData.sum,
-          frequency: initialData.frequency,
-        }
-      : {
-          type: 'income',
-          dayOfMonth: 1,
-        },
+  const methods = useForm<RegularEntry>({
+    resolver: zodResolver(RegularPaymentFormSchema) as never,
+    defaultValues: {
+      title: initialData?.title ?? '',
+      description: initialData?.description ?? '',
+      type: initialData?.type ?? TypeEntry.Income,
+      category: initialData?.category,
+      sum: initialData?.sum,
+      frequency: initialData?.frequency,
+      dayOfMonth: String(initialData?.dayOfMonth ?? 1),
+    } as never,
   });
 
   const submit = methods.handleSubmit(
-    (data: RegularPaymentFormData) => {
+    async (data: RegularEntry) => {
       try {
+        const { ...entryData } = data;
+
         if (isEdit && initialData) {
-          handleUpdate({ ...initialData, ...data });
+          await handleUpdate(initialData.id, {
+            ...entryData,
+            regular: true,
+            category: data.category ?? ExpenseCategories.Misc,
+            description: entryData.description ?? '',
+          });
         } else {
-          handleCreate(data);
+          await handleCreate({
+            ...entryData,
+            category: data.category ?? ExpenseCategories.Misc,
+            regular: true,
+            description: entryData.description ?? '',
+          });
         }
         showToast({
           title: 'Успішно',
-          description: 'Картку успішно створено',
+          description: isEdit ? 'Картку успішно оновлено' : 'Картку успішно створено',
           variant: 'success',
         });
         onSuccess?.();
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Невідома помилка';
         showToast({
-          title: `Помилка ${message}`,
-          description: 'Під час заповнення форми виникла помилка',
+          title: `Помилка: ${message}`,
+          description: 'Під час збереження виникла помилка',
           variant: 'destructive',
         });
       }

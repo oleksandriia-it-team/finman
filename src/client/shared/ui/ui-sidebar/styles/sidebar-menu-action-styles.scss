@@ -20,7 +20,7 @@
     position: absolute;
     inset: -0.5rem;
 
-    @media (min-width: 768px) {
+    @media (width >= 768px) {
       display: none;
     }
   }
@@ -61,7 +61,7 @@
   }
 
   &[data-show-on-hover='true'] {
-    @media (min-width: 768px) {
+    @media (width >= 768px) {
       opacity: 0;
     }
 

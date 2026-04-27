@@ -1,5 +1,5 @@
 import { usePathname } from 'next/navigation';
-import { NavItemModel, SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { type NavItemModel, type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 import { useMemo } from 'react';
 
 /**

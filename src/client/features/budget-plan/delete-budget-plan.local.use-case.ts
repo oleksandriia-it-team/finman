@@ -1,13 +1,13 @@
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { BudgetPlan } from '@common/records/budget-plan.record';
 import type { ICrudService } from '@common/models/crud-service.model';
-import type { UnregularEntry } from '@common/records/unregular-entry.record';
+import type { MonthEntry } from '@common/records/month-entry.record';
 
 export class DeleteBudgetPlanLocalUseCase extends TransactionalUseCase<number, true> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: ICrudService<BudgetPlan>,
-    private unregularEntryRepository: ICrudService<UnregularEntry>,
+    private monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }
@@ -19,9 +19,7 @@ export class DeleteBudgetPlanLocalUseCase extends TransactionalUseCase<number, t
       throw new Error(`Budget plan not found with id ${id}`);
     }
 
-    await Promise.all(
-      currentBudgetPlan.otherEntryIds.map((entryId) => this.unregularEntryRepository.deleteItem(entryId)),
-    );
+    await Promise.all(currentBudgetPlan.otherEntryIds.map((entryId) => this.monthEntryRepository.deleteItem(entryId)));
 
     return this.budgetPlanRepository.deleteItem(id);
   }
