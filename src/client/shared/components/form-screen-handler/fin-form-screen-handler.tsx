@@ -1,3 +1,5 @@
+'use client';
+
 import type { FormScreenHandlerProps } from '@frontend/components/form-screen-handler/props/form-screen-handler.props';
 import { use } from 'react';
 import { useQuery } from '@tanstack/react-query';

@@ -7,14 +7,14 @@ import { FinFormScreenHandler } from '@frontend/components/form-screen-handler/f
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
 import type { AppRoutes } from '.next/types/routes';
 
-export default function EditCardForm({ params }: PageProps<AppRoutes>) {
+export default function EditCardForm(props: PageProps<AppRoutes>) {
   useHidePlusButton();
   const router = useRouter();
   const { getById } = useRegularTransactions();
 
   return (
     <FinFormScreenHandler
-      params={params}
+      {...props}
       queryKey="regular-operations"
       getItemFn={getById}
       render={(regularEntry) => (
