@@ -10,8 +10,10 @@ import { UiSidebarMenuItem } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-item'
 import Link from 'next/link';
 import { SidebarCountriesSvg } from '@frontend/shared/svg/sidebar-countries-svg';
 import { SidebarCurrenciesSvg } from '@frontend/shared/svg/sidebar-currencies-svg';
-import { SidebarToggleSvg } from '@frontend/shared/svg/sidebar-toggle-svg';
-import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+
+interface AdminSidebarContentProps {
+  userName: string;
+}
 
 interface AdminNavItem {
   route: string;
@@ -20,11 +22,6 @@ interface AdminNavItem {
 }
 
 const ADMIN_NAV_ITEMS: AdminNavItem[] = [
-  {
-    route: '/profile',
-    Icon: SidebarToggleSvg,
-  },
-
   {
     route: '/admin/lookups/countries',
     name: 'Країни та локалі',
@@ -37,8 +34,7 @@ const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   },
 ];
 
-export function AdminSidebarContent() {
-  const userName = useAuthorizedUser()?.name;
+export function AdminSidebarContent({ userName }: AdminSidebarContentProps) {
   const pathname = usePathname();
 
   return (

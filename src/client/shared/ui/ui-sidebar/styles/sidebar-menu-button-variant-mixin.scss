@@ -8,6 +8,7 @@
   padding: 0.5rem;
   text-align: left;
   font-size: 0.875rem;
+  color: var(--sidebar-menu-item-foreground, var(--sidebar-foreground));
   outline-style: hidden;
   transition: width, height, padding;
 
@@ -33,7 +34,7 @@
 
   &[data-active='true'] {
     background-color: var(--sidebar-accent);
-    color: var(--sidebar-accent-foreground);
+    color: var(--sidebar-menu-item-active-foreground, var(--sidebar-accent-foreground));
     font-weight: 500;
   }
 

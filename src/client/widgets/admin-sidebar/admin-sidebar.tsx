@@ -5,36 +5,50 @@ import { UiSidebarHeader } from '@frontend/ui/ui-sidebar/ui-sidebar-header';
 import { UiSidebarHeaderTitle } from '@frontend/ui/ui-sidebar/ui-sidebar-header-title';
 import { UiSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
-import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
-import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
 import { AdminSidebarContent } from './admin-sidebar-content';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
 import { LogoInverseSvg } from '@frontend/shared/svg/logo-inverse-svg';
 
 export function AdminSidebar() {
+  const userName = useAuthorizedUser()?.name ?? 'Користувач';
+
   return (
     <UiSidebarProvider>
       <UiSidebar
         collapsible="icon"
-        className="[--sidebar:var(--primary)] [--sidebar-foreground:var(--primary-foreground)] [--sidebar-accent:rgb(255_255_255_/_0.16)] [--sidebar-accent-foreground:var(--primary-foreground)] [--sidebar-border:rgb(255_255_255_/_0.22)] [--sidebar-ring:var(--primary-foreground)] [--muted:rgb(255_255_255_/_0.2)] [--muted-foreground:var(--primary-foreground)]"
+        colorVariant="blue"
       >
-        <UiSidebarHeader>
-          <div className="flex gap-1 flex-1 items-center">
-            <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">
-              <LogoInverseSvg
-                width={28}
-                height={28}
-              />
-            </UiSidebarHeaderIcon>
+        <UiSidebarHeader className="flex flex-col gap-2">
+          <div className="flex">
+            <div className="flex gap-1 flex-1 items-center">
+              <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">
+                <LogoInverseSvg
+                  width={28}
+                  height={28}
+                />
+              </UiSidebarHeaderIcon>
 
-            <UiSidebarHeaderTitle>Finman</UiSidebarHeaderTitle>
+              <UiSidebarHeaderTitle>Finman</UiSidebarHeaderTitle>
+            </div>
+
+            <UiSidebarTrigger hideOnCollapse />
           </div>
 
-          <UiSidebarTrigger hideOnCollapse />
+          <div className="flex w-full items-center group-data-[collapsible=icon]:w-full">
+            <UiSvgIcon
+              name="person-circle"
+              className="!text-xl text-sidebar-foreground w-9"
+            />
+
+            <span className="text-sm font-medium text-sidebar-foreground group-data-[collapsible=icon]:hidden">
+              {userName}
+            </span>
+          </div>
         </UiSidebarHeader>
 
-        <UiSidebarSeparator />
-
-        <AdminSidebarContent />
+        <AdminSidebarContent userName={userName} />
       </UiSidebar>
     </UiSidebarProvider>
   );

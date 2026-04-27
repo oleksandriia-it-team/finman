@@ -1,3 +1,23 @@
+.group[data-color-variant='white'],
+[data-slot='sidebar'][data-color-variant='white'] {
+  --sidebar-menu-item-foreground: var(--sidebar-foreground);
+  --sidebar-menu-item-active-foreground: var(--sidebar-accent-foreground);
+}
+
+.group[data-color-variant='blue'],
+[data-slot='sidebar'][data-color-variant='blue'] {
+  --sidebar: var(--primary);
+  --sidebar-foreground: var(--primary-foreground);
+  --sidebar-accent: color-mix(in srgb, var(--background) 16%, transparent);
+  --sidebar-accent-foreground: var(--primary-foreground);
+  --sidebar-border: color-mix(in srgb, var(--background) 22%, transparent);
+  --sidebar-ring: var(--primary-foreground);
+  --muted: color-mix(in srgb, var(--background) 20%, transparent);
+  --muted-foreground: var(--primary-foreground);
+  --sidebar-menu-item-foreground: var(--primary-foreground);
+  --sidebar-menu-item-active-foreground: var(--aqua);
+}
+
 .sidebar {
   display: flex;
   height: 100%;
