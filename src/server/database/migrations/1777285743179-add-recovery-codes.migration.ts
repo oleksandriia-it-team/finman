@@ -51,7 +51,7 @@ export class AddRecoveryCodesTable1777285743179 implements MigrationInterface {
       new TableForeignKey({
         columnNames: ['email'],
         referencedColumnNames: ['email'],
-        referencedTableName: 'user',
+        referencedTableName: 'users',
         onDelete: 'CASCADE',
       }),
     );
