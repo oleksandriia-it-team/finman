@@ -10,19 +10,14 @@ export function LookupStatusBadge({ softDeleted }: LookupStatusBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 text-sm font-medium',
+        'inline-flex items-center gap-2 text-sm font-medium',
         isDeleted ? 'text-destructive' : 'text-foreground',
       )}
     >
       <span
         aria-hidden="true"
-        className={cn(
-          'flex h-4 w-4 items-center justify-center rounded-full text-[10px]',
-          isDeleted ? 'bg-destructive text-primary-foreground' : 'bg-success text-success-foreground',
-        )}
-      >
-        {isDeleted ? '✕' : '✓'}
-      </span>
+        className={cn('inline-flex h-2.5 w-2.5 rounded-full', isDeleted ? 'bg-destructive' : 'bg-success')}
+      />
       {isDeleted ? 'Deleted' : 'Active'}
     </span>
   );

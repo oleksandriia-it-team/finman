@@ -19,8 +19,29 @@ import { LookupRowActions } from '@frontend/entities/lookups/lookup-row-actions/
 import { formatLookupDate } from '@frontend/shared/utils/lookup-date.util';
 import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 
 const PAGE_SIZE = 20;
+
+type LookupCreatedByFields = {
+  createdByName?: string | null;
+  createdByAvatar?: string | null;
+  createdBy?: { name?: string | null; avatar?: string | null } | string | null;
+  userName?: string | null;
+  userAvatar?: string | null;
+};
+
+function getCreatedBy(item: Currency) {
+  const source = item as Currency & LookupCreatedByFields;
+  const nameFromObject = typeof source.createdBy === 'object' && source.createdBy ? source.createdBy.name : undefined;
+  const avatarFromObject =
+    typeof source.createdBy === 'object' && source.createdBy ? source.createdBy.avatar : undefined;
+
+  const name = source.createdByName ?? source.userName ?? nameFromObject ?? undefined;
+  const avatar = source.createdByAvatar ?? source.userAvatar ?? avatarFromObject ?? undefined;
+
+  return { name, avatar };
+}
 
 export function CurrenciesLookup() {
   const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
@@ -68,51 +89,93 @@ export function CurrenciesLookup() {
         {state === PromiseState.Success && (
           <UiTable>
             <UiTableHeader>
-              <UiTableRow className="border-b border-border hover:bg-transparent">
+              <UiTableRow className="border-b border-border/70 hover:bg-transparent">
                 <UiTableHead className="w-10 pl-4" />
-                <UiTableHead className="w-16 text-xs font-medium uppercase text-muted-foreground">ID</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Name</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Code</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Symbol</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Status</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Created at</UiTableHead>
-                <UiTableHead className="text-xs font-medium uppercase text-muted-foreground">Updated at</UiTableHead>
+                <UiTableHead className="h-9 w-16 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  ID
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Name
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Code
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Symbol
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Status
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Created at
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Created by
+                </UiTableHead>
+                <UiTableHead className="h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground">
+                  Updated at
+                </UiTableHead>
                 <UiTableHead className="w-10" />
               </UiTableRow>
             </UiTableHeader>
 
             <UiTableBody>
-              {options.map((item: Currency) => (
-                <UiTableRow
-                  key={item.id}
-                  className={cn('border-b border-border', isSelected(item.id) && 'bg-primary/10')}
-                >
-                  <UiTableCell className="pl-4 w-10">
-                    <input
-                      type="checkbox"
-                      aria-label={`Select ${item.currencyName}`}
-                      checked={isSelected(item.id)}
-                      onChange={() => toggleRow(item.id)}
-                      className="w-4 h-4 cursor-pointer rounded border-border accent-primary"
-                    />
-                  </UiTableCell>
-                  <UiTableCell className="w-16 text-sm text-muted-foreground">{item.id}</UiTableCell>
-                  <UiTableCell className="text-sm font-medium text-foreground">{item.currencyName}</UiTableCell>
-                  <UiTableCell className="text-sm text-muted-foreground">{item.currencyCode}</UiTableCell>
-                  <UiTableCell className="text-sm text-muted-foreground">{item.currencySymbol}</UiTableCell>
-                  <UiTableCell>
-                    <LookupStatusBadge softDeleted={item.softDeleted} />
-                  </UiTableCell>
-                  <UiTableCell className="text-sm text-primary">{formatLookupDate(item.createdAt)}</UiTableCell>
-                  <UiTableCell className="text-sm text-primary">{formatLookupDate(item.updatedAt)}</UiTableCell>
-                  <UiTableCell className="w-10">
-                    <LookupRowActions
-                      onEdit={() => console.warn('TODO: edit currency', item.id)}
-                      onDelete={() => console.warn('TODO: delete currency', item.id)}
-                    />
-                  </UiTableCell>
-                </UiTableRow>
-              ))}
+              {options.map((item: Currency) => {
+                const createdBy = getCreatedBy(item);
+
+                return (
+                  <UiTableRow
+                    key={item.id}
+                    className={cn('border-b border-border/60', isSelected(item.id) && 'bg-primary/10')}
+                  >
+                    <UiTableCell className="w-10 py-2 pl-4">
+                      <input
+                        type="checkbox"
+                        aria-label={`Select ${item.currencyName}`}
+                        checked={isSelected(item.id)}
+                        onChange={() => toggleRow(item.id)}
+                        className="w-4 h-4 cursor-pointer rounded border-border accent-primary"
+                      />
+                    </UiTableCell>
+                    <UiTableCell className="w-16 py-2 text-sm text-muted-foreground">{item.id}</UiTableCell>
+                    <UiTableCell className="py-2 text-sm font-medium text-foreground">{item.currencyName}</UiTableCell>
+                    <UiTableCell className="py-2 text-sm text-muted-foreground">{item.currencyCode}</UiTableCell>
+                    <UiTableCell className="py-2 text-sm text-muted-foreground">{item.currencySymbol}</UiTableCell>
+                    <UiTableCell className="py-2">
+                      <LookupStatusBadge softDeleted={item.softDeleted} />
+                    </UiTableCell>
+                    <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.createdAt)}</UiTableCell>
+                    <UiTableCell className="py-2">
+                      {createdBy.name ? (
+                        <div className="flex items-center gap-2">
+                          {createdBy.avatar ? (
+                            <UiGraphic
+                              src={createdBy.avatar}
+                              alt={createdBy.name}
+                              size={20}
+                              className="rounded-full"
+                            />
+                          ) : (
+                            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-muted-foreground">
+                              {createdBy.name.charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                          <span className="text-sm text-muted-foreground">{createdBy.name}</span>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-muted-foreground">—</span>
+                      )}
+                    </UiTableCell>
+                    <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.updatedAt)}</UiTableCell>
+                    <UiTableCell className="w-10 py-2">
+                      <LookupRowActions
+                        onEdit={() => console.warn('TODO: edit currency', item.id)}
+                        onDelete={() => console.warn('TODO: delete currency', item.id)}
+                      />
+                    </UiTableCell>
+                  </UiTableRow>
+                );
+              })}
             </UiTableBody>
           </UiTable>
         )}

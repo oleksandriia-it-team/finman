@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
-import { UiTransformDate } from '@frontend/shared/ui/ui-transform-date/ui-transform-date';
+import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 
 export function formatLookupDate(date: Date | string | number | undefined): ReactNode {
   if (!date) {
@@ -8,7 +8,7 @@ export function formatLookupDate(date: Date | string | number | undefined): Reac
   }
 
   return (
-    <UiTransformDate
+    <FinTransformDate
       date={date}
       type={DateFormatType.ShortWithYear}
       className="text-sm text-primary"

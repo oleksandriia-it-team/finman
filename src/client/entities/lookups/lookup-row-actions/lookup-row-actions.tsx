@@ -13,7 +13,7 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
       <UiPopoverTrigger
         aria-label="Row actions"
         aria-haspopup="menu"
-        className="cursor-pointer px-1 text-lg text-muted transition-colors hover:text"
+        className="cursor-pointer px-1 text-lg text-muted-foreground transition-colors hover:text-foreground"
       >
         ···
       </UiPopoverTrigger>
@@ -25,7 +25,7 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
         <button
           type="button"
           onClick={onEdit}
-          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text transition-colors hover:bg-muted"
+          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground transition-colors hover:bg-muted"
         >
           <svg
             aria-hidden="true"

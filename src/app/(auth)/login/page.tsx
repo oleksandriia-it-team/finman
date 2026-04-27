@@ -13,6 +13,7 @@ import { FinControlledPassword } from '@frontend/components/controlled-fields/fi
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { AuthTemplate } from '@frontend/entities/auth/auth-template';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);

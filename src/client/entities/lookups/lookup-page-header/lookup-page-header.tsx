@@ -9,7 +9,7 @@ interface LookupPageHeaderProps {
 
 export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: LookupPageHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-border bg-card px-6 py-3">
+    <div className="flex items-center justify-between border-b border-border/70 bg-card px-4 py-2.5">
       <nav aria-label="Breadcrumb">
         <ol className="flex items-center gap-2 text-sm text-muted-foreground">
           <li>
@@ -25,18 +25,18 @@ export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: Looku
         </ol>
       </nav>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5">
         {hasSelection && (
           <button
             type="button"
             aria-label="Delete selected"
             onClick={onDelete}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-destructive text-primary-foreground transition-colors hover:bg-destructive/90"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive text-primary-foreground transition-colors hover:bg-destructive/90"
           >
             <svg
               aria-hidden="true"
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -53,16 +53,16 @@ export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: Looku
           type="button"
           aria-label="Add new"
           onClick={onAdd}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
+          className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
         >
           <svg
             aria-hidden="true"
-            width="18"
-            height="18"
+            width="15"
+            height="15"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2.5"
+            strokeWidth="2.25"
           >
             <line
               x1="12"
