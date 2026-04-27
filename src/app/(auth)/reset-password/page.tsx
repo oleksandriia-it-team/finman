@@ -14,7 +14,7 @@ export default function ResetPasswordPage() {
   const router = useRouter();
 
   const { methods, submit, isLoading } = useSetupResetPassword(() => {
-    router.push('/auth/login');
+    router.push('/login');
   });
 
   return (
