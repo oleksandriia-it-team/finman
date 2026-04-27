@@ -7,7 +7,7 @@ export const ExpenseCategories = {
   Education: 'education',
   Shopping: 'shopping',
   Health: 'health',
-  Misc: 'misc',
+  Misc: 'expense-misc',
 } as const;
 
 export const IncomeCategories = {
@@ -15,7 +15,7 @@ export const IncomeCategories = {
   Investments: 'investments',
   Freelance: 'freelance',
   Scholarship: 'scholarship',
-  Misc: 'misc',
+  Misc: 'income-misc',
 } as const;
 
 export type ExpenseCategory = (typeof ExpenseCategories)[keyof typeof ExpenseCategories];
@@ -25,3 +25,7 @@ export type IncomeCategory = (typeof IncomeCategories)[keyof typeof IncomeCatego
 export const AllCategoryValues = [...Object.values(ExpenseCategories), ...Object.values(IncomeCategories)] as const;
 
 export type AllCategories = ExpenseCategory | IncomeCategory;
+
+export const AllCategoryValues = Array.from(
+  new Set([...Object.values(ExpenseCategories), ...Object.values(IncomeCategories)]),
+) as [AllCategories, ...AllCategories[]];

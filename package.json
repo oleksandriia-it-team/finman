@@ -8,6 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "database:migrate": "tsx src/server/database/migrate.ts",
     "lint": "next lint && prettier --write 'src/**/*.scss' && stylelint 'src/**/*.scss' --fix",
     "test": "vitest",
     "database:init": "tsx src/server/database/init.ts -- --synchronize=true",
