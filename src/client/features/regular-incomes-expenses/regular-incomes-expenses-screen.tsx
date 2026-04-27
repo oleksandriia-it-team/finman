@@ -15,7 +15,7 @@ export default function RegularIncomesExpensesScreen() {
 
   const router = useRouter();
 
-  const { options, state, errorMessage, ...paginationRestProps } = usePaginationResource({
+  const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
@@ -49,7 +49,10 @@ export default function RegularIncomesExpensesScreen() {
             {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
-                handleDelete={handleDelete}
+                handleDelete={async (id) => {
+                  await handleDelete(id);
+                  reload();
+                }}
                 {...item}
               />
             ))}

@@ -92,7 +92,6 @@ export function IncomeExpenseCard({
                   }
                   onConfirm={() => {
                     handleDelete?.(id!);
-                    router.refresh();
                   }}
                 />
               </IncomeExpenseCardActions>
