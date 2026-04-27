@@ -17,4 +17,7 @@ export class RecoveryCode extends DefaultTableColumnsOrm {
   @ManyToOne(() => UserOrm, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'email', referencedColumnName: 'email' })
   user!: UserOrm;
+
+  @Column({ type: 'int', default: 0 })
+  attempts!: number;
 }
