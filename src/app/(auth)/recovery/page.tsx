@@ -63,14 +63,16 @@ export default function ForgotPasswordPage() {
                         label="Email*"
                         placeholder="Введіть ваш email"
                         type="email"
+                        description={
+                          <>
+                            <UiSvgIcon
+                              name="info-circle"
+                              size="xs"
+                            />
+                            Ми надішлемо інструкції на вашу пошту
+                          </>
+                        }
                       />
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <UiSvgIcon
-                          name="info-circle"
-                          size="xs"
-                        />
-                        Ми надішлемо інструкції на вашу пошту
-                      </span>
                     </div>
 
                     <div className="flex flex-col gap-2.5 mt-2">
