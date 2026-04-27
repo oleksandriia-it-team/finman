@@ -16,6 +16,7 @@ import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-e
 import { UiActionButton } from '@frontend/ui/ui-action-button/ui-action-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
+import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 
 export function IncomeExpenseCard({
   id,
@@ -77,19 +78,23 @@ export function IncomeExpenseCard({
                   <UiDescription>Змінити дані транзакції</UiDescription>
                 </UiActionButton>
 
-                <UiActionButton
-                  icon="pencil-fill"
-                  variant="destructive"
-                  iconVariant="destructive"
-                  size="sm"
-                  onClick={() => {
+                <UiConfirmModal
+                  trigger={
+                    <UiActionButton
+                      icon="pencil-fill"
+                      variant="destructive"
+                      iconVariant="destructive"
+                      size="sm"
+                    >
+                      <UiTitle>Видалити</UiTitle>
+                      <UiDescription>Назавжди видалити транзакцію</UiDescription>
+                    </UiActionButton>
+                  }
+                  onConfirm={() => {
                     handleDelete?.(id!);
                     router.refresh();
                   }}
-                >
-                  <UiTitle>Видалити</UiTitle>
-                  <UiDescription>Назавжди видалити транзакцію</UiDescription>
-                </UiActionButton>
+                />
               </IncomeExpenseCardActions>
             </UiResponsiveMenu>
           </div>

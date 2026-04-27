@@ -1,9 +1,9 @@
 import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export interface TransactionCardProps extends Partial<RegularEntry> {
+export type TransactionCardProps = Partial<RegularEntry> & {
   name?: string;
   className?: string;
   bgNone?: boolean;
   check?: string;
   handleDelete?: (id: number) => void;
-}
+};
