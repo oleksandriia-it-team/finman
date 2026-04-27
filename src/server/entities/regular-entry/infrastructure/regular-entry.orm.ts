@@ -3,7 +3,7 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
 import { type RegularEntry } from '@common/records/regular-entry.record';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { BasicEntryOrm } from '@backend/entities/basic-entry/basic-entry.orm';
-import { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
+import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 
 @Entity('regular-entry')
 export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
@@ -20,6 +20,6 @@ export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
 
-  @ManyToMany(() => BudgetPlanOrm, (budgetPlan) => budgetPlan.plannedRegularEntries)
+  @ManyToMany('BudgetPlanOrm', 'plannedRegularEntries')
   budgetPlans?: BudgetPlanOrm[];
 }
