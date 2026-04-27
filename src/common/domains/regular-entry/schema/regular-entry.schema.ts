@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { RegularEntryRequirements } from '@common/domains/regular-entry/constants/regular-entry-requirements.constant';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 import { AllCategoryValues } from '@common/enums/categories.enum';
+import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
+import { MonthEntryRequirements } from '@common/domains/basic-entry/constants/basic-entry.constant';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
@@ -12,29 +12,33 @@ export const RegularEntrySchema = z.object({
 
   title: z
     .string('Назва має бути строкою')
+    .trim()
     .min(1, { message: "Назва обов'язкова" })
-    .max(RegularEntryRequirements.MaxTitleLength, {
-      message: `Назва не може бути довшою за ${RegularEntryRequirements.MaxTitleLength} символів`,
+    .max(MonthEntryRequirements.MaxTitleLength, {
+      message: `Назва не може бути довшою за ${MonthEntryRequirements.MaxTitleLength} символів`,
     }),
 
   description: z
     .string('Опис має бути строкою')
+    .trim()
     .min(1, { message: "Опис обов'язковий" })
-    .max(RegularEntryRequirements.MaxDescriptionLength, {
-      message: `Опис не може бути довшим за ${RegularEntryRequirements.MaxDescriptionLength} символів`,
+    .max(MonthEntryRequirements.MaxDescriptionLength, {
+      message: `Опис не може бути довшим за ${MonthEntryRequirements.MaxDescriptionLength} символів`,
     }),
 
-  sum: z.number({ message: 'Сума має бути числом' }).min(RegularEntryRequirements.MinSumValue, {
-    message: `Мінімальна сума: ${RegularEntryRequirements.MinSumValue}`,
+  sum: z.number({ message: 'Сума має бути числом' }).min(MonthEntryRequirements.MinSumValue, {
+    message: `Мінімальна сума: ${MonthEntryRequirements.MinSumValue}`,
+  }),
+
+  frequency: z.enum(RegularPaymentFrequency, {
+    error: 'Оберіть частоту',
   }),
 
   type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }),
 
   category: z.enum(AllCategoryValues, { message: 'Оберіть коректну категорію' }),
 
-  frequency: z.nativeEnum(RegularPaymentFrequency, { message: 'Оберіть коректну частоту' }),
-
-  dayOfMonth: z
+  dayOfMonth: z.coerce
     .number({ message: 'День місяця має бути числом' })
     .int({ message: 'День місяця має бути цілим числом' })
     .min(1, { message: 'День місяця не може бути менше 1' })

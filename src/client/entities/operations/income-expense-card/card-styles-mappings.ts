@@ -109,6 +109,6 @@ export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
     textColor: 'var(--color-muted-foreground)',
     bgColor: 'var(--color-secondary)',
     icon: 'three-dots',
-    label: 'Інший дохід',
+    label: 'Інше',
   },
 };
