@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { cn } from '@frontend/shared/utils/cn.util';
 
-const LOOKUP_NAV_ITEMS = [
+const LookupNavItems = [
   { label: 'Країни та локалі', href: '/admin/lookups/countries' },
   { label: 'Валюти', href: '/admin/lookups/currencies' },
 ];
@@ -31,7 +31,7 @@ export function AdminSidebar() {
       >
         <p className="px-2 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Довідники</p>
 
-        {LOOKUP_NAV_ITEMS.map((item) => {
+        {LookupNavItems.map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link

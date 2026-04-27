@@ -9,19 +9,19 @@ interface LookupPageHeaderProps {
 
 export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: LookupPageHeaderProps) {
   return (
-    <div className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200">
+    <div className="flex items-center justify-between border-b border-border bg-card px-6 py-3">
       <nav aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm text-gray-500">
+        <ol className="flex items-center gap-2 text-sm text-muted-foreground">
           <li>
             <Link
               href="/admin/lookups"
-              className="hover:text-gray-700 transition-colors"
+              className="transition-colors hover:text-foreground"
             >
               Lookups
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="font-semibold text-gray-900">{title}</li>
+          <li className="font-semibold text-foreground">{title}</li>
         </ol>
       </nav>
 
@@ -31,7 +31,7 @@ export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: Looku
             type="button"
             aria-label="Delete selected"
             onClick={onDelete}
-            className="flex items-center justify-center w-9 h-9 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-destructive text-primary-foreground transition-colors hover:bg-destructive/90"
           >
             <svg
               aria-hidden="true"
@@ -53,7 +53,7 @@ export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: Looku
           type="button"
           aria-label="Add new"
           onClick={onAdd}
-          className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
         >
           <svg
             aria-hidden="true"

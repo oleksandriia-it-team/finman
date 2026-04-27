@@ -11,14 +11,14 @@ export function LookupStatusBadge({ softDeleted }: LookupStatusBadgeProps) {
     <span
       className={cn(
         'inline-flex items-center gap-1.5 text-sm font-medium',
-        isDeleted ? 'text-red-500' : 'text-gray-800',
+        isDeleted ? 'text-destructive' : 'text-foreground',
       )}
     >
       <span
         aria-hidden="true"
         className={cn(
-          'w-4 h-4 rounded-full flex items-center justify-center text-white text-[10px]',
-          isDeleted ? 'bg-red-500' : 'bg-green-500',
+          'flex h-4 w-4 items-center justify-center rounded-full text-[10px]',
+          isDeleted ? 'bg-destructive text-primary-foreground' : 'bg-success text-success-foreground',
         )}
       >
         {isDeleted ? '✕' : '✓'}
