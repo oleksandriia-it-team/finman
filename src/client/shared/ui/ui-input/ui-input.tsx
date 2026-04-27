@@ -16,7 +16,7 @@ export function UiInput({
   pattern,
   ref,
   ...props
-}: InputProps<string> & Omit<ComponentProps<'input'>, 'onChange'>) {
+}: InputProps<string> & Omit<ComponentProps<'input'>, 'onChange' | 'pattern'>) {
   const regexp = typeof pattern === 'string' ? new RegExp(pattern) : pattern;
 
   const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
@@ -25,7 +25,7 @@ export function UiInput({
     const handler = (e: Event) => {
       const value = getAfterInputValue(e as InputEvent);
 
-      if (!regexp?.test(value)) {
+      if (regexp && !regexp.test(value)) {
         e.preventDefault();
       }
     };

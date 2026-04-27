@@ -91,7 +91,7 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
 }
 
 interface CardsFormInputsTemplateProps {
-  children?: React.ReactNode | Promise<ReactNode>;
+  children?: ReactNode | Promise<ReactNode>;
 }
 
 export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplateProps) {
@@ -114,6 +114,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
       <FinControlledInput
         label="Сума"
         id="sum"
+        pattern={/[0-9]*/}
         name="sum"
         type="number"
         placeholder="0.00"

@@ -8,17 +8,18 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 export const POST = createRoute({
-  schema: RegularEntrySchema.omit({
-    id: true,
-  }),
+  schema: RegularEntrySchema,
   contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
   execute: async ({ context, body }) => {
     const userId = context as number;
 
+    const defCategory =
+      'type' in body && body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
+
     const id = await regularEntryApiRepository.createItem({
       ...body,
-      category: body.category ?? (body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc),
+      category: body.category ?? defCategory,
       userId,
     });
 

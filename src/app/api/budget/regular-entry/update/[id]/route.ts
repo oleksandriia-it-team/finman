@@ -10,9 +10,7 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 export const PUT = createRoute({
-  schema: RegularEntrySchema.omit({
-    id: true,
-  }),
+  schema: RegularEntrySchema,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
@@ -24,9 +22,12 @@ export const PUT = createRoute({
   execute: async ({ context, body, params: { id } }) => {
     const userId = context.userId as number;
 
+    const defCategory =
+      'type' in body && body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
+
     await regularEntryApiRepository.updateItem(id, {
       ...body,
-      category: body.category ?? (body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc),
+      category: body.category ?? defCategory,
       userId,
     });
 
