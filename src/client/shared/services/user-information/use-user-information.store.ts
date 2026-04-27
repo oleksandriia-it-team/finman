@@ -11,8 +11,6 @@ import { authTokenService } from './auth-token.service';
 async function getUserInformation(): Promise<GetUser | null> {
   const user = localStorageService.getItem<OfflineUser>(UserInformationKey);
 
-  console.log(user);
-
   if (!user) {
     return profileApiClient.getProfile();
   }
@@ -59,5 +57,6 @@ export const useUserInformation = create<UserInformationStore>((set) => {
     },
     userInfoState: PromiseState.Loading,
     updateInformationState: PromiseState.Loading,
+    refresh: () => loadUserInformation(),
   };
 });

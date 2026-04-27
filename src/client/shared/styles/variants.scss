@@ -1,6 +1,6 @@
 $variants: (
   'default': (
-    var(--background),
+    var(--button-default-background),
     var(--foreground),
   ),
   'primary': (
@@ -76,5 +76,29 @@ $sizes: (
     5.5rem,
     3.5rem,
     1.25rem,
+  ),
+  '3xl': (
+    2.5rem,
+    7rem,
+    4.5rem,
+    1.5rem,
+  ),
+  '4xl': (
+    3.25rem,
+    8.75rem,
+    5.75rem,
+    1.75rem,
+  ),
+  '5xl': (
+    4rem,
+    11rem,
+    7.25rem,
+    2.25rem,
+  ),
+  '6xl': (
+    5rem,
+    13.5rem,
+    9rem,
+    2.75rem,
   ),
 );

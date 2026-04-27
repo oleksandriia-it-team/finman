@@ -6,11 +6,11 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 export const PUT = createRoute({
-  schema: RegularEntrySchema.omit({
-    id: true,
-  }),
+  schema: RegularEntrySchema,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
@@ -22,7 +22,14 @@ export const PUT = createRoute({
   execute: async ({ context, body, params: { id } }) => {
     const userId = context.userId as number;
 
-    await regularEntryApiRepository.updateItem(id, { ...body, userId });
+    const defCategory =
+      'type' in body && body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
+
+    await regularEntryApiRepository.updateItem(id, {
+      ...body,
+      category: body.category ?? defCategory,
+      userId,
+    });
 
     return {
       status: 200,

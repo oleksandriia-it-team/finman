@@ -8,15 +8,19 @@ import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
-import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
 
 export default function LoginPage() {
+  const refreshUser = useUserInformation((state) => state.refresh);
+
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupLogin(() => {
+    refreshUser();
     router.push('/profile');
   });
 
@@ -36,11 +40,9 @@ export default function LoginPage() {
               className="text-center flex flex-col items-center gap-1 mb-10"
             >
               <div className="flex items-center gap-1">
-                <UiGraphic
-                  src="/logo/logo.jpg"
-                  size={48}
-                  priority
-                  alt="Finman Logo"
+                <LogoSvg
+                  width={48}
+                  height={48}
                 />
                 <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
               </div>

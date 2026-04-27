@@ -57,7 +57,7 @@ export function FinAutocomplete<T>({
         data-invalid={dataInvalid}
         ref={ref}
         id={id}
-        onBlur={onBlur}
+        onBlur={(e) => onBlur?.(e.nativeEvent)}
         hasValue={!!search || !!customInputValue}
         placeholder={placeholder}
         onClear={() => onChange(undefined)}

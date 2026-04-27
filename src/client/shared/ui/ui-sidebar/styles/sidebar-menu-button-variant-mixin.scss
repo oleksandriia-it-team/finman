@@ -1,0 +1,74 @@
+@mixin sidebar-menu-button-base {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 0.875rem;
+  outline-style: hidden;
+  transition: width, height, padding;
+
+  &:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--sidebar-ring);
+  }
+
+  &:active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[data-active='true'] {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+    font-weight: 500;
+  }
+
+  &[data-state='open'] {
+    &:hover {
+      background-color: var(--sidebar-accent);
+      color: var(--sidebar-accent-foreground);
+    }
+  }
+
+  & > span:last-child {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  & > svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+}
+
+@mixin sidebar-menu-button-outline-variant {
+  background-color: var(--background);
+  box-shadow: 0 0 0 1px hsl(var(--sidebar-border));
+
+  &:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+    box-shadow: 0 0 0 1px hsl(var(--sidebar-accent));
+  }
+}
+
+@mixin sidebar-menu-button-size($height, $font-size) {
+  height: $height;
+  font-size: $font-size;
+}

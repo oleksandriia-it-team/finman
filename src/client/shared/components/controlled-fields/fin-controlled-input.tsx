@@ -37,7 +37,7 @@ export function FinControlledInput({
               id={id}
               onChange={(value) => field.onChange(value)}
               className={className}
-              value={field.value ?? ''}
+              value={String(field.value ?? '')}
             />
             {showErrors && <UiFieldError fieldState={fieldState} />}
             {!showError && !!description && (

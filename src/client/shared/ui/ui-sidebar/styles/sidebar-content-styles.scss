@@ -1,0 +1,12 @@
+.sidebar-content {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: auto;
+
+  .group[data-collapsible='icon'] & {
+    overflow: hidden;
+  }
+}
