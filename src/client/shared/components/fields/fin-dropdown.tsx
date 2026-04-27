@@ -21,6 +21,7 @@ export function FinDropdown<T>({
   placeholder,
   ref,
   disabled,
+  onBlur,
   'data-invalid': dataInvalid,
   ...props
 }: DefaultDropdownInputProps<T>) {
@@ -77,6 +78,7 @@ export function FinDropdown<T>({
 
       <UiSelectContent
         {...props}
+        onBlur={(e) => onBlur?.(e.nativeEvent)}
         className={className}
       >
         {optionsTemplate}

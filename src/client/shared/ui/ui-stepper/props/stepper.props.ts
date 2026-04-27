@@ -1,6 +1,6 @@
 import { type ComponentDefaultProps } from '../../../props/component.props';
-import {type UseEmblaCarouselType} from 'embla-carousel-react';
 import type useEmblaCarousel from 'embla-carousel-react';
+import { type UseEmblaCarouselType } from 'embla-carousel-react';
 
 export type StepperApi = UseEmblaCarouselType[1];
 export type UseStepperParameters = Parameters<typeof useEmblaCarousel>;

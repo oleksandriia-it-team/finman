@@ -46,7 +46,7 @@
   }
 
   &[data-invalid='true'] {
-    border-color: var(--destructive) !important;
+    border-color: var(--destructive-foreground) !important;
 
     &:focus-within,
     &:focus-visible,

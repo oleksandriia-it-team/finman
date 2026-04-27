@@ -7,9 +7,10 @@ import { type DropdownOption } from '@frontend/shared/models/dropdown-option.mod
 export interface InputProps<T> extends InputDefaultProps {
   onChange: Dispatch<T | undefined>;
   ref?: Ref<HTMLInputElement>;
+  pattern?: RegExp | string | undefined;
 }
 
-export type DefaultDropdownInputProps<T> = Omit<InputProps<T>, 'value' | 'ref' | 'onChange'> &
+export type DefaultDropdownInputProps<T> = Omit<InputDefaultProps, 'value'> &
   DropdownDefaultProps<T> & {
     value?: T | undefined | null;
     customInputValue?: string | undefined | null;

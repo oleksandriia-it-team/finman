@@ -2,6 +2,8 @@ import { type MutationFunction, useMutation, type UseMutationOptions } from '@ta
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { type ApiError } from '@frontend/shared/models/api-error.model';
+import { useMemo } from 'react';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 
 export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
@@ -9,7 +11,7 @@ export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables 
 ) {
   const showToast = useGlobalToast((state) => state.showToast);
 
-  return useMutation<TData, TError, TVariables, TContext>({
+  const mutation = useMutation<TData, TError, TVariables, TContext>({
     ...options,
     mutationFn,
 
@@ -40,4 +42,21 @@ export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables 
       options?.onSettled?.(data, error, variables, onMutateResult, meta);
     },
   });
+
+  const state = useMemo(() => {
+    if (mutation.status === 'error') {
+      return PromiseState.Error;
+    }
+
+    if (mutation.status === 'pending') {
+      return PromiseState.Loading;
+    }
+
+    return PromiseState.Success;
+  }, [mutation]);
+
+  return {
+    ...mutation,
+    state,
+  };
 }

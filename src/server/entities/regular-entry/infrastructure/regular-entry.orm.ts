@@ -1,23 +1,17 @@
 import type { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { type RegularApiEntry } from '@common/records/regular-entry.record';
-import { TypeEntry } from '@common/enums/entry.enum';
-import { RegularEntryRequirements } from '@common/domains/regular-entry/constants/regular-entry-requirements.constant';
-import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { type RegularEntry } from '@common/records/regular-entry.record';
+import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
+import { BasicEntryOrm } from '@backend/entities/basic-entry/basic-entry.orm';
+import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 
 @Entity('regular-entry')
-export class RegularEntryOrm extends DefaultTableColumnsOrm implements RegularApiEntry {
-  @Column({ type: 'varchar', length: RegularEntryRequirements.MaxTitleLength, unique: true })
-  title!: string;
+export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
+  @Column({ type: 'int', default: 1 })
+  dayOfMonth!: number;
 
-  @Column({ type: 'varchar', length: RegularEntryRequirements.MaxDescriptionLength, unique: true })
-  description!: string;
-
-  @Column({ type: 'int' })
-  sum!: number;
-
-  @Column({ type: 'enum', enum: [TypeEntry.Expense, TypeEntry.Income] })
-  type!: TypeEntry.Expense | TypeEntry.Income;
+  @Column({ type: 'enum', enum: Object.values(RegularPaymentFrequency), default: RegularPaymentFrequency.Monthly })
+  frequency!: RegularPaymentFrequency;
 
   @Column({ type: 'int' })
   userId!: number;
@@ -25,4 +19,7 @@ export class RegularEntryOrm extends DefaultTableColumnsOrm implements RegularAp
   @ManyToOne('UserOrm', 'regularEntries')
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
+
+  @ManyToMany('BudgetPlanOrm', 'plannedRegularEntries')
+  budgetPlans?: BudgetPlanOrm[];
 }

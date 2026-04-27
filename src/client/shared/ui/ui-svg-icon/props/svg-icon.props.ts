@@ -4,6 +4,6 @@ import { type SizeVariantModel } from '@frontend/shared/models/size-variant.mode
 export type IconSize = SizeVariantModel;
 
 export interface SvgIconProps extends ComponentPropsWithoutRef<'i'> {
-  size?: IconSize;
+  size?: IconSize | undefined;
   name: string;
 }
