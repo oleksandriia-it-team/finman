@@ -1,15 +1,9 @@
-import z from 'zod';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-const ForgotPasswordSchema = z.object({
-  email: z.string().email('Некоректний формат email').min(1, "Email обов'язковий"),
-});
-
-export type ForgotPasswordDto = z.infer<typeof ForgotPasswordSchema>;
+import { type ForgotPasswordDto, ForgotPasswordSchema } from '@common/domains/auth/schema/forgot-password.schema';
 
 export function useSetupForgotPassword(onSuccessAction: () => void) {
   const { mutate, isPending } = useSendDataFetch(

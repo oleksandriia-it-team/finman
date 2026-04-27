@@ -19,4 +19,5 @@ export const serverSchema = z.object({
     .refine((s) => !s.includes('secret') && !s.includes('password'), {
       message: "JWT_SECRET занадто слабкий: уникайте використання поширених слів, таких як 'secret' або 'password'",
     }),
+  RESEND_API_KEY: z.string().min(1, "API-ключ для Resend є обов'язковим"),
 });
