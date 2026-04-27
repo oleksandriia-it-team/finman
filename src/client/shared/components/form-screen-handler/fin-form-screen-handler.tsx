@@ -17,9 +17,9 @@ export function FinFormScreenHandler<T>({
   error,
   queryKey,
 }: FormScreenHandlerProps<T>) {
-  const { id: stringId } = use(params);
+  const usedParams = use(params);
 
-  const { data: id, success } = intSchema.safeParse(stringId);
+  const { data: id, success } = intSchema.safeParse('id' in usedParams ? usedParams.id : null);
 
   if (!success) {
     if (!error) {
@@ -38,7 +38,7 @@ export function FinFormScreenHandler<T>({
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const item = useQuery({
-    queryKey: [queryKey, stringId],
+    queryKey: [queryKey, String(id)],
     queryFn: () => {
       return getItemFn(id);
     },

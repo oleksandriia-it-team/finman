@@ -1,13 +1,13 @@
 'use client';
 
-import type { IdPromiseParamsModel } from '@frontend/shared/models/id-params.model';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { useRouter } from 'next/navigation';
 import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
 import { FinFormScreenHandler } from '@frontend/components/form-screen-handler/fin-form-screen-handler';
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
+import type { AppRoutes } from '.next/types/routes';
 
-export default function EditCardForm({ params }: IdPromiseParamsModel) {
+export default function EditCardForm({ params }: PageProps<AppRoutes>) {
   useHidePlusButton();
   const router = useRouter();
   const { getById } = useRegularTransactions();

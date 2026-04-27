@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegularPaymentFormSchema } from '@frontend/shared/schemas/regular-card-validation-schema';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories } from '@common/enums/categories.enum';
+import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
@@ -13,7 +13,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const isEdit = !!initialData;
 
   const methods = useForm<RegularEntry>({
-    resolver: zodResolver(RegularPaymentFormSchema) as never,
+    resolver: zodResolver(RegularEntrySchema) as never,
     defaultValues: {
       title: initialData?.title ?? '',
       description: initialData?.description ?? '',

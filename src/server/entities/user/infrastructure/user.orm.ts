@@ -10,8 +10,9 @@ import { CurrencyRequirements } from '@common/constants/currency-requirements.co
 import { CountryRequirementsConstant } from '@common/constants/country-requirements.constant';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
+import { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 
-@Entity('user')
+@Entity('users')
 export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
   @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.User })
   role!: RoleEnum;
@@ -53,6 +54,9 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
 
   @OneToMany('TrackingOperationOrm', 'user')
   trackingOperations?: TrackingOperationOrm[];
+
+  @OneToMany(() => BudgetPlanOrm, (budgetPlan) => budgetPlan.user)
+  budgetPlans?: BudgetPlanOrm[];
 
   online = true as const;
 }
