@@ -7,6 +7,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/profile/props/auth-guard.props';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
+import { FinLoader } from '@frontend/shared/components/loader/fin-loader';
 
 export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) {
   const { userInfoState, userInformation } = useUserInformation(
@@ -27,15 +28,15 @@ export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) 
   }, [routePath, router, userInformation, userInfoState, isAdmin]);
 
   if (userInfoState === PromiseState.Loading) {
-    return <span>Завантаження</span>;
+    return <FinLoader />;
   }
 
   if (userInfoState === PromiseState.Error) {
-    return <span>Помилка завантаження користувача</span>;
+    return <FinLoader />;
   }
 
   if (!userInformation || !isAdmin) {
-    return <span>Доступ заборонено. Переадресація...</span>;
+    return <FinLoader />;
   }
 
   return children;
