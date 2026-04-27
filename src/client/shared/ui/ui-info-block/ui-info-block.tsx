@@ -2,6 +2,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiTitle } from '../ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
+import type { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
 
 interface UiInfoBlockProps {
   name: string;
@@ -11,6 +12,7 @@ interface UiInfoBlockProps {
   iconClassName?: string;
   bgClassName?: string;
   onClick?: () => void;
+  size?: SizeVariantModel;
 }
 
 export function UiInfoBlock({
@@ -20,6 +22,7 @@ export function UiInfoBlock({
   iconClassName,
   bgClassName,
   onClick,
+  size = 'default',
   ...props
 }: UiInfoBlockProps) {
   const isClickable = !!onClick;
@@ -45,7 +48,7 @@ export function UiInfoBlock({
       <UiIconBadge
         isReversed
         variant="primary"
-        size="sm"
+        size={size}
         className={cn('shrink-0 !bg-muted/20', iconClassName)}
         {...props}
       />

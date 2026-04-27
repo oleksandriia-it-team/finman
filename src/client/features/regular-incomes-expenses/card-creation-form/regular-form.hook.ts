@@ -33,7 +33,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         if (isEdit && initialData) {
           await handleUpdate(initialData.id, {
             ...entryData,
-            regular: true,
             category: data.category ?? ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
@@ -41,7 +40,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
           await handleCreate({
             ...entryData,
             category: data.category ?? ExpenseCategories.Misc,
-            regular: true,
             description: entryData.description ?? '',
           });
         }
