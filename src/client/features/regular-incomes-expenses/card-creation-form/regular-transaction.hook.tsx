@@ -7,13 +7,13 @@ export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;
 
 function useRegularTransactionsLogic() {
   const getPayments = (from: number, to: number): Promise<RegularEntry[]> => {
-    return regularEntryService.getItems(from, to).then((result) => {
+    return regularEntryService.getItems(from, to, { softDeleted: 0 }).then((result) => {
       return result;
     });
   };
 
   const getTotalCount = (): Promise<number> => {
-    return regularEntryService.getTotalCount().then((count) => count ?? 0);
+    return regularEntryService.getTotalCount({ softDeleted: 0 }).then((count) => count ?? 0);
   };
 
   const handleCreate = (dto: CreateRegularEntryDto): Promise<number> => {

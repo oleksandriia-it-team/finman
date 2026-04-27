@@ -11,6 +11,8 @@ import { FinListScreenHandler } from '@frontend/components/list-screen-handler/f
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -28,8 +30,9 @@ export default function RegularIncomesExpensesScreen() {
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
-      const start = (page - 1) * pageSize;
-      const end = start + pageSize - 1;
+      const start = (page - 1) * pageSize + 1;
+      const end = start + pageSize;
+
       const result = await getPayments(start, end);
       return result ?? [];
     },
@@ -47,7 +50,7 @@ export default function RegularIncomesExpensesScreen() {
       </p>
 
       <div className="flex-1 overflow-y-auto min-h-0 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
           <FinListScreenHandler
             state={useCombineStates(onDelete.state, state)}
             errorMessage={errorMessage ?? getErrorMessage(onDelete.error)}
