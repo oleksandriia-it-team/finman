@@ -1,54 +1,54 @@
-import { usePathname } from 'next/navigation';
-import { type NavItemModel, type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 import { useMemo } from 'react';
+import { usePathname } from 'next/navigation';
+import type { NavItemModel, SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
-/**
- * Returns all routes associated with a nav item, including inner item routes.
- */
-function getAllRoutesByNavItem<T extends NavItemModel | SidebarItemModel>(route: T) {
-  if ('innerItems' in route && route.innerItems?.length) {
-    return [route.route, ...route.innerItems.map((item) => route.route + item.route)];
-  }
-
-  return [route.route];
+interface ActiveRouteResult<T> {
+  activeItem: T | undefined;
+  activeSubItem: NavItemModel | undefined;
 }
 
-/**
- * Returns the active nav/sidebar item based on the current pathname.
- *
- * Exact match takes priority over prefix match.
- * If no exact match is found, returns the first item whose route is a prefix of the current path.
- *
- * @param routes - List of nav or sidebar items to match against.
- * @returns The matched item, or `undefined` if no match found.
- *
- * @example
- * const activeRoute = useGetActiveRoute(sidebarRoutes);
- */
-export function useGetActiveRoute<T extends NavItemModel | SidebarItemModel>(routes: T[]): T | undefined {
+export function useGetActiveRoute<T extends SidebarItemModel | NavItemModel>(routes: T[]): ActiveRouteResult<T> {
   const pathname = usePathname();
 
   return useMemo(() => {
-    let currentRoute: T | undefined;
-    let bestPrefixLength = -1;
+    let bestMatch: { item: T; subItem?: NavItemModel | undefined; length: number } | null = null;
+
     const isSegmentPrefix = (current: string, candidate: string) =>
       current === candidate || current.startsWith(`${candidate}/`);
 
-    const routeMap = new Map<T, string[]>(routes.map((route) => [route, getAllRoutesByNavItem(route)]));
+    for (const item of routes) {
+      const sidebarItem = item as SidebarItemModel;
 
-    for (const [key, paths] of routeMap) {
-      if (paths.includes(pathname)) {
-        return key;
-      } else {
-        const matched = paths.filter((path) => isSegmentPrefix(pathname, path));
-        const longest = matched.reduce((acc, p) => Math.max(acc, p.length), -1);
-        if (longest > bestPrefixLength) {
-          bestPrefixLength = longest;
-          currentRoute = key;
+      if (sidebarItem.innerItems?.length) {
+        for (const subItem of sidebarItem.innerItems) {
+          const fullSubRoute = item.route + subItem.route;
+
+          if (pathname === fullSubRoute) {
+            return { activeItem: item, activeSubItem: subItem };
+          }
+
+          if (isSegmentPrefix(pathname, fullSubRoute)) {
+            if (!bestMatch || fullSubRoute.length > bestMatch.length) {
+              bestMatch = { item, subItem, length: fullSubRoute.length };
+            }
+          }
+        }
+      }
+
+      if (pathname === item.route) {
+        return { activeItem: item, activeSubItem: undefined };
+      }
+
+      if (isSegmentPrefix(pathname, item.route)) {
+        if (!bestMatch || item.route.length > bestMatch.length) {
+          bestMatch = { item, subItem: undefined, length: item.route.length };
         }
       }
     }
 
-    return currentRoute;
+    return {
+      activeItem: bestMatch?.item,
+      activeSubItem: bestMatch?.subItem,
+    };
   }, [pathname, routes]);
 }

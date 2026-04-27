@@ -7,7 +7,7 @@ import { FinNavigationBarItem } from '@frontend/components/mobile-navbar/fin-nav
 import { FinNavbarCenterItem } from '@frontend/components/mobile-navbar/fin-navbar-center-item';
 
 export function FinNavigationBar({ routes, className, centerButton, ...props }: MobileNavbarProps) {
-  const activeRoute = useGetActiveRoute(routes);
+  const { activeItem: activeRoute } = useGetActiveRoute(routes);
   return (
     <nav
       className={cn('sticky bottom-0 w-full bg-background border-t border-secondary flex items-center', className)}
