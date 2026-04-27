@@ -14,9 +14,6 @@ export const POST = createRoute({
   execute: async ({ context, body }) => {
     const userId = context as number;
 
-    // TODO: fix later
-    // eslint-disable-next-line
-    // @ts-ignore
     const id = await regularEntryApiRepository.createItem({ ...body, userId });
 
     return {

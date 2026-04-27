@@ -22,9 +22,6 @@ export const PUT = createRoute({
   execute: async ({ context, body, params: { id } }) => {
     const userId = context.userId as number;
 
-    // TODO: fix later
-    // eslint-disable-next-line
-    // @ts-ignore
     await regularEntryApiRepository.updateItem(id, { ...body, userId });
 
     return {
