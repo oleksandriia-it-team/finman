@@ -104,4 +104,11 @@ export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
     icon: 'mortarboard',
     label: 'Стипендія',
   },
+  [IncomeCategories.Misc]: {
+    borderColor: 'border-muted',
+    textColor: 'var(--color-muted-foreground)',
+    bgColor: 'var(--color-secondary)',
+    icon: 'three-dots',
+    label: 'Інший дохід',
+  },
 };

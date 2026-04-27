@@ -17,7 +17,7 @@ export const RegularPaymentFormSchema = z.object({
     .enum(AllCategoryValues, {
       error: () => ({ message: 'Оберіть категорію' }),
     })
-    .default('misc'),
+    .default('expense-misc'),
 
   type: z.enum([TypeEntry.Income, TypeEntry.Expense], {
     error: () => ({ message: 'Оберіть тип платежу' }),

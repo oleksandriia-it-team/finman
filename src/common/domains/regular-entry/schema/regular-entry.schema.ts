@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { RegularEntryRequirements } from '@common/domains/regular-entry/constants/regular-entry-requirements.constant';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
+import { AllCategoryValues } from '@common/enums/categories.enum';
+import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
@@ -27,6 +29,16 @@ export const RegularEntrySchema = z.object({
   }),
 
   type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }),
+
+  category: z.enum(AllCategoryValues, { message: 'Оберіть коректну категорію' }),
+
+  frequency: z.nativeEnum(RegularPaymentFrequency, { message: 'Оберіть коректну частоту' }),
+
+  dayOfMonth: z
+    .number({ message: 'День місяця має бути числом' })
+    .int({ message: 'День місяця має бути цілим числом' })
+    .min(1, { message: 'День місяця не може бути менше 1' })
+    .max(31, { message: 'День місяця не може бути більше 31' }),
 });
 
 export const RegularEntryFilterSchema = z.object({

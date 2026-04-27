@@ -8,9 +8,10 @@
   box-shadow: var(--shadow-xs);
   font-size: 0.875rem;
   color: var(--secondary-foreground);
-  transition: color 0.2s,
-  box-shadow 0.2s,
-  border-color 0.2s;
+  transition:
+    color 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
   padding: 0.375rem 0.5rem;
   height: 2.25rem;
 
