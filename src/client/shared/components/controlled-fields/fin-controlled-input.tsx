@@ -16,7 +16,6 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
         return (
           <UiField>
             {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
-
             <UiInput
               {...props}
               {...field}
@@ -29,9 +28,8 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
               id={id}
               onChange={(value) => field.onChange(value)}
               className={className}
-              value={field.value ?? ''}
+              value={String(field.value ?? '')}
             />
-
             {showErrors && <UiFieldError fieldState={fieldState} />}
           </UiField>
         );

@@ -9,5 +9,5 @@ export const FrequencyOptions = [
 
 export const DayOfMonthOptions = Array.from({ length: 31 }, (_, i) => ({
   label: String(i + 1),
-  value: String(i + 1),
+  value: i + 1,
 }));
