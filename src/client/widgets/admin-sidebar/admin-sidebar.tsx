@@ -1,14 +1,13 @@
 'use client';
 
 import { UiSidebarProvider } from '@frontend/ui/ui-sidebar/ui-sidebar-provider';
-import { FinSidebarContent } from '@frontend/components/sidebar-content/fin-sidebar-content';
 import { UiSidebarHeader } from '@frontend/ui/ui-sidebar/ui-sidebar-header';
 import { UiSidebarHeaderTitle } from '@frontend/ui/ui-sidebar/ui-sidebar-header-title';
 import { UiSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
 import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
-import { adminNavRoutes } from '@frontend/widgets/shared/admin-routes.constant';
+import { AdminSidebarContent } from './admin-sidebar-content';
 import { LogoInverseSvg } from '@frontend/shared/svg/logo-inverse-svg';
 
 export function AdminSidebar() {
@@ -35,7 +34,7 @@ export function AdminSidebar() {
 
         <UiSidebarSeparator />
 
-        <FinSidebarContent routes={adminNavRoutes} />
+        <AdminSidebarContent />
       </UiSidebar>
     </UiSidebarProvider>
   );
