@@ -49,7 +49,6 @@ export default function ResetPasswordPage() {
               >
                 <UiFieldSet disabled={isLoading}>
                   <UiFieldGroup className="flex flex-col gap-5">
-                    {/* Приховані поля, щоб React Hook Form бачила дані зі стору */}
                     <input
                       type="hidden"
                       {...methods.register('email')}
@@ -84,7 +83,7 @@ export default function ResetPasswordPage() {
                       <button
                         type="button"
                         className="text-sm text-muted-foreground hover:text-primary transition-colors text-center"
-                        onClick={() => router.push('/auth/login')}
+                        onClick={() => router.push('/login')}
                       >
                         Скасувати
                       </button>
