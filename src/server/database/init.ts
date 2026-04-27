@@ -13,8 +13,10 @@ async function init() {
       console.log('Database connected via DBDataSource');
     }
 
-    await Promise.all([countriesAndLocalesSeeder(), currencySeeder()]);
+    await DBDataSource.runMigrations();
+    console.log('Migrations done!');
 
+    await Promise.all([countriesAndLocalesSeeder(), currencySeeder()]);
     await userSeeder();
 
     console.log('Done!');

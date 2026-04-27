@@ -13,7 +13,7 @@ export function useSetupRegistration(onSuccessAction: () => void) {
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
-      await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data),
+      await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data, { skipAuth: true }),
     {
       successMessage: 'Реєстрація успішна!',
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
