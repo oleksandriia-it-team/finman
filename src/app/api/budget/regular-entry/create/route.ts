@@ -4,6 +4,8 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 export const POST = createRoute({
   schema: RegularEntrySchema.omit({
@@ -14,7 +16,11 @@ export const POST = createRoute({
   execute: async ({ context, body }) => {
     const userId = context as number;
 
-    const id = await regularEntryApiRepository.createItem({ ...body, userId });
+    const id = await regularEntryApiRepository.createItem({
+      ...body,
+      category: body.category ?? (body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc),
+      userId,
+    });
 
     return {
       status: 200,

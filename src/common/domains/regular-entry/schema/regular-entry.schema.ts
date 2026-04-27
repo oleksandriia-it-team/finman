@@ -3,42 +3,33 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { MonthEntryRequirements } from '@common/domains/basic-entry/constants/basic-entry.constant';
+import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
-export const RegularEntrySchema = z.object({
-  id: z.number().int({ message: 'ID має бути цілим числом' }).min(1, { message: 'ID не може бути менше 1' }),
-
-  title: z
-    .string('Назва має бути строкою')
-    .trim()
-    .min(1, { message: "Назва обов'язкова" })
-    .max(MonthEntryRequirements.MaxTitleLength, {
-      message: `Назва не може бути довшою за ${MonthEntryRequirements.MaxTitleLength} символів`,
-    }),
-
-  description: z
-    .string('Опис має бути строкою')
-    .trim()
-    .min(1, { message: "Опис обов'язковий" })
-    .max(MonthEntryRequirements.MaxDescriptionLength, {
-      message: `Опис не може бути довшим за ${MonthEntryRequirements.MaxDescriptionLength} символів`,
-    }),
-
-  sum: z.number({ message: 'Сума має бути числом' }).min(MonthEntryRequirements.MinSumValue, {
-    message: `Мінімальна сума: ${MonthEntryRequirements.MinSumValue}`,
-  }),
-
-  type: z.enum([TypeEntry.Income, TypeEntry.Expense], {
-    error: () => ({ message: 'Оберіть тип платежу' }),
-  }),
-
-  frequency: z.enum(RegularPaymentFrequency, {
-    error: 'Оберіть частоту',
-  }),
-
+const BaseEntry = z.object({
+  id: z.number().int().min(1),
+  title: z.string().trim().min(1).max(MonthEntryRequirements.MaxTitleLength),
+  description: z.string().trim().min(1).max(MonthEntryRequirements.MaxDescriptionLength),
+  sum: z.number().min(MonthEntryRequirements.MinSumValue),
+  frequency: z.enum(RegularPaymentFrequency),
   dayOfMonth: z.coerce.number().min(1).max(31),
 });
+
+export const RegularEntrySchema = z.discriminatedUnion('type', [
+  BaseEntry.extend({
+    type: z.literal(TypeEntry.Income),
+    category: z.enum(Object.values(IncomeCategories), {
+      error: 'Оберіть категорію доходів',
+    }),
+  }),
+  BaseEntry.extend({
+    type: z.literal(TypeEntry.Expense),
+    category: z.enum(Object.values(ExpenseCategories), {
+      error: 'Оберіть категорію витрат',
+    }),
+  }),
+]);
 
 export const RegularEntryFilterSchema = z.object({
   type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }).optional(),
