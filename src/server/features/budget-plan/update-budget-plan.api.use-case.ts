@@ -14,7 +14,9 @@ import {
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { typeormTransactionManager } from '@backend/database/transaction.manager';
 
-export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<BudgetPlanDto & { id: number }, true> {
+type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number };
+
+export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudgetPlanInput, true> {
   constructor(
     private budgetPlanRepository: BudgetPlanRepository,
     private monthEntryRepository: MonthEntryRepository,
@@ -28,7 +30,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<BudgetPlanD
     plannedRegularEntryIds,
     otherEntries,
     ...input
-  }: BudgetPlanDto & { id: number }): Promise<true> {
+  }: UpdateBudgetPlanInput): Promise<true> {
     const data = this.budgetPlanRepository.repository.create({
       ...input,
       plannedRegularEntries: plannedRegularEntryIds.map((id) =>

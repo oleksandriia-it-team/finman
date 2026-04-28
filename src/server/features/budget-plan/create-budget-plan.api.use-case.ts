@@ -15,7 +15,9 @@ import {
 import { typeormTransactionManager } from '@backend/database/transaction.manager';
 import { UpdateBudgetPlanApiUseCase } from '@backend/features/budget-plan/update-budget-plan.api.use-case';
 
-export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<BudgetPlanDto, number> {
+type CreateBudgetPlanInput = Omit<BudgetPlanDto, 'id'> & { userId: number };
+
+export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudgetPlanInput, number> {
   constructor(
     private budgetPlanRepository: BudgetPlanRepository,
     private monthEntryRepository: MonthEntryRepository,
@@ -25,7 +27,11 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<BudgetPlanD
     super(transactionManager);
   }
 
-  protected override async handle({ plannedRegularEntryIds, otherEntries, ...input }: BudgetPlanDto): Promise<number> {
+  protected override async handle({
+    plannedRegularEntryIds,
+    otherEntries,
+    ...input
+  }: CreateBudgetPlanInput): Promise<number> {
     const data = this.budgetPlanRepository.repository.create({
       ...input,
       plannedRegularEntries: plannedRegularEntryIds.map((id) =>

@@ -1,38 +1,18 @@
 import { z } from 'zod';
-import { TypeEntry } from '@common/enums/entry.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
+import { createEntrySchema } from '@common/domains/entry-base/entry-base.schema';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
-import { MonthEntryRequirements } from '@common/domains/basic-entry/constants/basic-entry.constant';
-import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
-const BaseEntry = z.object({
-  title: z.string({ error: 'Введіть назву' }).trim().min(1).max(MonthEntryRequirements.MaxTitleLength),
-  description: z.string().trim().min(1).max(MonthEntryRequirements.MaxDescriptionLength),
-  sum: z.coerce.number({ error: 'Введіть суму' }).min(MonthEntryRequirements.MinSumValue),
-  frequency: z.enum(RegularPaymentFrequency),
-  dayOfMonth: z.number().min(1).max(31),
+export const RegularEntrySchema = createEntrySchema({
+  frequency: z.enum(RegularPaymentFrequency, { error: 'Введіть коректну частосу' }),
+  dayOfMonth: z
+    .number({ error: 'День місяця має бути числом' })
+    .min(1, { error: 'День місяця має бути мінімум першого числа' })
+    .max(31, { error: 'День місяця має бути максимум 31 числа' }),
 });
-
-export const RegularEntrySchema = z.discriminatedUnion('type', [
-  BaseEntry.extend({
-    type: z.literal(TypeEntry.Income),
-    category: z
-      .enum(Object.values(IncomeCategories), {
-        error: 'Оберіть коректну категорію доходів',
-      })
-      .optional(),
-  }),
-  BaseEntry.extend({
-    type: z.literal(TypeEntry.Expense),
-    category: z
-      .enum(Object.values(ExpenseCategories), {
-        error: 'Оберіть коректну категорію витрат',
-      })
-      .optional(),
-  }),
-]);
 
 export const RegularEntryFilterSchema = z.object({
   type: z.enum(RegularEntryTypes, { message: 'Оберіть коректний тип операції (дохід або витрата)' }).optional(),
