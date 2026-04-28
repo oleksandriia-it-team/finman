@@ -29,7 +29,10 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
           />
           <CardsFormTemplatePickers
             selectedType={selectedType}
-            setValue={(value) => methods.setValue('type', value, { shouldValidate: true })}
+            setValue={(value) => {
+              methods.setValue('category', undefined as never, { shouldValidate: true });
+              methods.setValue('type', value, { shouldValidate: true });
+            }}
           />
           <CardsFormTemplateInputs>
             <UiFormLayout.Grid>

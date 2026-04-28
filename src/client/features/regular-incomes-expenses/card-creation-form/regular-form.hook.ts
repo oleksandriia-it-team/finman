@@ -18,12 +18,14 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
       title: initialData?.title ?? '',
       description: initialData?.description ?? '',
       type: initialData?.type ?? TypeEntry.Income,
-      category: initialData?.category ? initialData.category : IncomeCategories.Misc,
+      category: initialData?.category,
       sum: initialData?.sum,
       frequency: initialData?.frequency,
       dayOfMonth: initialData?.dayOfMonth ?? 1,
     } as never,
   });
+
+  console.log(methods.formState);
 
   const submit = methods.handleSubmit(
     async (data: RegularEntry) => {
@@ -50,6 +52,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         });
         onSuccess?.();
       } catch (err) {
+        console.log(err);
         const message = err instanceof Error ? err.message : 'Невідома помилка';
         showToast({
           title: `Помилка: ${message}`,
@@ -58,7 +61,8 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         });
       }
     },
-    () => {
+    (errors) => {
+      console.log(errors);
       showToast({
         title: 'Перевірте правильність заповнення форми',
         description: 'Форма заповнена некоректно',
