@@ -24,8 +24,11 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
+import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
+import { useEffect } from 'react';
 
 export default function RegistrationPage() {
+  const setNavigating = useRecoveryStore((state) => state.setNavigating);
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupRegistration(() => {
     const hasOfflineData = localStorageService.getItem(UserInformationKey);
@@ -35,6 +38,10 @@ export default function RegistrationPage() {
       router.push('/login');
     }
   });
+
+  useEffect(() => {
+    setNavigating(false);
+  }, [setNavigating]);
 
   const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));

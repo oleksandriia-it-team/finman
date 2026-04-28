@@ -5,9 +5,14 @@ import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-da
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
+import { useEffect } from 'react';
 
 export function useSetupResetPassword(onSuccessAction: () => void) {
-  const { email, code, clear } = useRecoveryStore();
+  const { email, code, clear, setNavigating } = useRecoveryStore();
+
+  useEffect(() => {
+    setNavigating(false);
+  }, [setNavigating]);
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: ResetPasswordDto) =>

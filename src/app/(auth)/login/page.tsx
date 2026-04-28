@@ -14,9 +14,16 @@ import { FinControlledInput } from '@frontend/components/controlled-fields/fin-c
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
+import { useEffect } from 'react';
+import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
+  const setNavigating = useRecoveryStore((state) => state.setNavigating);
+
+  useEffect(() => {
+    setNavigating(false);
+  }, [setNavigating]);
 
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupLogin(() => {
