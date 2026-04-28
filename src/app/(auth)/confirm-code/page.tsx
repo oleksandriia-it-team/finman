@@ -15,7 +15,6 @@ import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 export default function ConfirmCodePage() {
   const router = useRouter();
   const email = useRecoveryStore((state) => state.email);
-
   const { methods, submit, isLoading } = useSetupConfirmCode(() => {
     router.push('/reset-password');
   });
@@ -80,7 +79,7 @@ export default function ConfirmCodePage() {
                       <button
                         type="button"
                         className="flex items-center justify-center gap-2 text-sm text-primary font-medium hover:underline"
-                        onClick={() => router.push('/auth/forgot-password')}
+                        onClick={() => router.push('/recovery')}
                       >
                         <UiSvgIcon
                           name="arrow-left"

@@ -17,7 +17,6 @@ import { AuthLayout } from '@frontend/entities/auth/auth-template';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
-
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupLogin(() => {
     refreshUser();

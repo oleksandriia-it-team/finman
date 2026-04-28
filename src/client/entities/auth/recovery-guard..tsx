@@ -3,7 +3,8 @@
 import type { RecoveryFlowGuardProps } from '@frontend/entities/auth/props/recovery-guard.props';
 import { usePathname, useRouter } from 'next/navigation';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 export function RecoveryFlowGuard({ children, routePath = '/recovery' }: RecoveryFlowGuardProps) {
   const router = useRouter();
@@ -11,21 +12,32 @@ export function RecoveryFlowGuard({ children, routePath = '/recovery' }: Recover
 
   const email = useRecoveryStore((state) => state.email);
   const code = useRecoveryStore((state) => state.code);
+  const isConfirmPage = pathname.startsWith('/confirm-code');
+  const isResetPage = pathname.startsWith('/reset-password');
 
-  const isConfirmPage = pathname === '/confirm-code';
-  const isResetPage = pathname === '/reset-password';
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hasEverythingForReset = useMemo(() => isResetPage && !!code && !!email, [isResetPage]);
 
-  const isAccessDenied = (isConfirmPage && !email) || (isResetPage && (!email || !code));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hasEverythingForConfirm = useMemo(() => isConfirmPage && !code && !!email, [isConfirmPage]);
+
+  const hasEverything = hasEverythingForReset || hasEverythingForConfirm;
+  const correclyLocatedInAnotherPage = useMemo(
+    () => !isConfirmPage && !isResetPage && isEmpty(email) && isEmpty(code),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isConfirmPage, isResetPage],
+  );
 
   useEffect(() => {
-    if (isAccessDenied) {
-      router.replace(routePath);
+    if (hasEverything || correclyLocatedInAnotherPage || pathname === routePath) {
+      return;
     }
-  }, [isAccessDenied, router, routePath]);
+    router.push(routePath);
+  }, [hasEverything, correclyLocatedInAnotherPage, router, routePath, pathname]);
 
-  if (isAccessDenied) {
-    return null;
+  if (hasEverything || correclyLocatedInAnotherPage || pathname === routePath) {
+    return children;
   }
 
-  return children;
+  return null;
 }
