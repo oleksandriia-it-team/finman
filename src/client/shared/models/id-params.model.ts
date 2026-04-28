@@ -1,5 +1,7 @@
+import type { Usable } from 'react';
+
 export type IdPromiseParamsModel = {
-  params: Promise<{
+  params: Usable<{
     id: string;
   }>;
 };

@@ -15,17 +15,17 @@ const pageSize = 20;
 
 const Columns: LookupColumnDef<Currency>[] = [
   {
-    header: 'Name',
+    header: "Ім'я",
     cellClassName: 'py-2 text-sm font-medium text-foreground',
     cell: (item) => item.currencyName,
   },
   {
-    header: 'Code',
+    header: 'Код',
     cellClassName: 'py-2 text-sm text-muted-foreground',
     cell: (item) => item.currencyCode,
   },
   {
-    header: 'Symbol',
+    header: 'Символ',
     cellClassName: 'py-2 text-sm text-muted-foreground',
     cell: (item) => item.currencySymbol,
   },

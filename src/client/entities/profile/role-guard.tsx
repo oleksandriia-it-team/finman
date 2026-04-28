@@ -8,6 +8,7 @@ import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/profile/props/auth-guard.props';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { FinLoader } from '@frontend/shared/components/loader/fin-loader';
+import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 
 export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) {
   const { userInfoState, userInformation } = useUserInformation(
@@ -32,7 +33,12 @@ export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) 
   }
 
   if (userInfoState === PromiseState.Error) {
-    return <FinLoader />;
+    return (
+      <FinErrorWidget
+        status={500}
+        message="Помилка завантаження користувача"
+      />
+    );
   }
 
   if (!userInformation || !isAdmin) {
