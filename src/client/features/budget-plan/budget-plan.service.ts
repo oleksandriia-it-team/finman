@@ -4,10 +4,10 @@ import {
 } from '../../entities/budget-plan/budget-plan.local.repository';
 import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
 import type { ICrudService } from '@common/models/crud-service.model';
-import { CreateBudgetPlanCommonUseCase } from '@common/domains/budget-plan/use-cases/create-budget-plan.common.use-case';
+import { CreateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/create-budget-plan.local.use-case';
 import { DeleteBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/delete-budget-plan.local.use-case';
 import { GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-budget-plan.local.use-case';
-import { UpdateBudgetPlanCommonUseCase } from '@common/domains/budget-plan/use-cases/update-budget-plan.common.use-case';
+import { UpdateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/update-budget-plan.local.use-case';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { dexieTransactionManager } from '@frontend/database/dexie-transactional-manager';
 import { monthEntryLocalRepository } from '@frontend/entities/month-entry/month-entry.local.repository';
@@ -19,10 +19,10 @@ export class BudgetPlanLocalUsecases implements ICrudService<
 > {
   constructor(
     private budgetPlanLocalRepository: BudgetPlanLocalRepository,
-    private createBudgetPlanLocalUseCase: CreateBudgetPlanCommonUseCase,
+    private createBudgetPlanLocalUseCase: CreateBudgetPlanLocalUseCase,
     private deleteBudgetPlanLocalUseCase: DeleteBudgetPlanLocalUseCase,
     private getBudgetPlanLocalUseCase: GetBudgetPlanLocalUseCase,
-    private updateBudgetPlanLocalUseCase: UpdateBudgetPlanCommonUseCase,
+    private updateBudgetPlanLocalUseCase: UpdateBudgetPlanLocalUseCase,
   ) {}
 
   async createItem(data: BudgetPlanDto): Promise<number> {
@@ -51,7 +51,7 @@ export class BudgetPlanLocalUsecases implements ICrudService<
   }
 }
 
-export const createBudgetPlanLocalUseCase = new CreateBudgetPlanCommonUseCase(
+export const createBudgetPlanLocalUseCase = new CreateBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
   monthEntryLocalRepository,
@@ -70,7 +70,7 @@ export const getBudgetPlanLocalUseCase = new GetBudgetPlanLocalUseCase(
   regularEntryLocalRepository,
 );
 
-export const updateBudgetPlanCommonUseCase = new UpdateBudgetPlanCommonUseCase(
+export const updateBudgetPlanCommonUseCase = new UpdateBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
   monthEntryLocalRepository,
