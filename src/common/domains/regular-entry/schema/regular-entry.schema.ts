@@ -8,11 +8,18 @@ import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.en
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
 const BaseEntry = z.object({
-  title: z.string({ error: 'Введіть назву' }).trim().min(1).max(MonthEntryRequirements.MaxTitleLength),
-  description: z.string().trim().min(1).max(MonthEntryRequirements.MaxDescriptionLength),
+  title: z
+    .string({ error: 'Введіть назву' })
+    .trim()
+    .min(1, { error: 'Введіть назву' })
+    .max(MonthEntryRequirements.MaxTitleLength),
+  description: z
+    .string()
+    .trim()
+    .max(MonthEntryRequirements.MaxDescriptionLength, { error: 'Опис має бути менше 100 символів' }),
   sum: z.coerce.number({ error: 'Введіть суму' }).min(MonthEntryRequirements.MinSumValue),
-  frequency: z.enum(RegularPaymentFrequency),
-  dayOfMonth: z.number().min(1).max(31),
+  frequency: z.enum(Object.values(RegularPaymentFrequency), { error: 'Оберіть частоту платежу' }),
+  dayOfMonth: z.coerce.number().min(1, { error: 'Оберіть день' }).max(31),
 });
 
 export const RegularEntrySchema = z.discriminatedUnion('type', [

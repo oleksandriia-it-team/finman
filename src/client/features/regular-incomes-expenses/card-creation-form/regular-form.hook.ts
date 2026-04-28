@@ -4,7 +4,7 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories } from '@common/enums/categories.enum';
+import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
@@ -18,10 +18,10 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
       title: initialData?.title ?? '',
       description: initialData?.description ?? '',
       type: initialData?.type ?? TypeEntry.Income,
-      category: initialData?.category,
+      category: initialData?.category ? initialData.category : IncomeCategories.Misc,
       sum: initialData?.sum,
       frequency: initialData?.frequency,
-      dayOfMonth: String(initialData?.dayOfMonth ?? 1),
+      dayOfMonth: initialData?.dayOfMonth ?? 1,
     } as never,
   });
 
@@ -33,13 +33,13 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         if (isEdit && initialData) {
           await handleUpdate(initialData.id, {
             ...entryData,
-            category: data.category ?? ExpenseCategories.Misc,
+            category: entryData.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
         } else {
           await handleCreate({
             ...entryData,
-            category: data.category ?? ExpenseCategories.Misc,
+            category: entryData.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
         }
