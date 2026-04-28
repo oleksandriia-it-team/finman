@@ -5,6 +5,7 @@ import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 
 export class BasicDataSource<
   T extends DefaultTableColumns,
+  F extends object,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
 > implements ICrudService<T, DTO> {
   constructor(
@@ -25,8 +26,8 @@ export class BasicDataSource<
     return this.source.getItemById(id);
   }
 
-  getItems(first: number, last: number): Promise<T[]> {
-    return this.source.getItems(first, last);
+  getItems(first: number, last: number, filters?: F | undefined): Promise<T[]> {
+    return this.source.getItems(first, last, (filters ?? {}) as F);
   }
 
   createItem(data: DTO): Promise<number> {
@@ -41,8 +42,8 @@ export class BasicDataSource<
     return this.source.deleteItem(id);
   }
 
-  getTotalCount(): Promise<number> {
-    return this.source.getTotalCount();
+  getTotalCount(filters?: F | undefined): Promise<number> {
+    return this.source.getTotalCount(filters ?? ({} as F));
   }
 
   get isOfflineMode() {

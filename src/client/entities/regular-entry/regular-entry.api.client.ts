@@ -37,7 +37,7 @@ export class RegularEntryApiClient implements ICrudService<RegularEntry> {
 
   async getTotalCount(filters?: DeepPartial<RegularEntryFilter>): Promise<number> {
     return fetchClient
-      .post<ApiResultOperationSuccess<number>>('/api/budget/regular-entry/get-total-count', { filters })
+      .post<ApiResultOperationSuccess<number>>('/api/budget/regular-entry/get-total-items', { filters })
       .then((r) => r.data);
   }
 

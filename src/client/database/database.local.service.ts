@@ -115,7 +115,7 @@ export class DatabaseLocalService {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
-      const limit = end - start + 1;
+      const limit = end - start;
 
       let collection = this.table<T>(tableName).toCollection();
 
@@ -129,7 +129,10 @@ export class DatabaseLocalService {
         collection = collection.filter(predicateFn);
       }
 
-      return await collection.offset(start).limit(limit).toArray();
+      return await collection
+        .offset(start - 1)
+        .limit(limit)
+        .toArray();
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }

@@ -8,15 +8,12 @@ import { UiSidebarMenuSub } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-sub';
 import { UiSidebarMenuSubItem } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-sub-item';
 import { UiSidebarMenuSubButton } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-sub-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { useGetActiveRoute } from '@frontend/shared/hooks/get-active-route/get-active-route.hook';
 
 export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
-  const pathname = usePathname();
-
-  const activeRoute = useGetActiveRoute(routes);
+  const { activeItem: activeRoute, activeSubItem } = useGetActiveRoute(routes);
 
   return (
     <UiSidebarContent {...props}>
@@ -50,7 +47,7 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
                       return (
                         <UiSidebarMenuSubItem key={index}>
                           <UiSidebarMenuSubButton
-                            isActive={pathname === path}
+                            isActive={item === activeSubItem}
                             asChild
                           >
                             <Link href={path}>

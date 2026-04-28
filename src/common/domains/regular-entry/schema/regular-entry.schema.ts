@@ -18,15 +18,19 @@ const BaseEntry = z.object({
 export const RegularEntrySchema = z.discriminatedUnion('type', [
   BaseEntry.extend({
     type: z.literal(TypeEntry.Income),
-    category: z.enum(Object.values(IncomeCategories), {
-      error: 'Оберіть категорію доходів',
-    }),
+    category: z
+      .enum(Object.values(IncomeCategories), {
+        error: 'Оберіть коректну категорію доходів',
+      })
+      .optional(),
   }),
   BaseEntry.extend({
     type: z.literal(TypeEntry.Expense),
-    category: z.enum(Object.values(ExpenseCategories), {
-      error: 'Оберіть категорію витрат',
-    }),
+    category: z
+      .enum(Object.values(ExpenseCategories), {
+        error: 'Оберіть коректну категорію витрат',
+      })
+      .optional(),
   }),
 ]);
 
