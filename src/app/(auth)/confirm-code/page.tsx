@@ -11,17 +11,10 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { useSetupConfirmCode } from './shared/confirm-code-form';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
-import { useEffect } from 'react';
 
 export default function ConfirmCodePage() {
   const router = useRouter();
   const email = useRecoveryStore((state) => state.email);
-  const setNavigating = useRecoveryStore((state) => state.setNavigating);
-
-  useEffect(() => {
-    setNavigating(false);
-  }, [setNavigating]);
-
   const { methods, submit, isLoading } = useSetupConfirmCode(() => {
     router.push('/reset-password');
   });

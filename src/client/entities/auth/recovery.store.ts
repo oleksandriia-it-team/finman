@@ -4,14 +4,11 @@ import type { RecoveryState } from '@frontend/entities/auth/shared/model/recover
 export const useRecoveryStore = create<RecoveryState>((set) => ({
   email: '',
   code: '',
-  isNavigating: false,
-  setEmail: (email) => set({ email, isNavigating: true }),
-  setCode: (code) => set({ code, isNavigating: true }),
-  setNavigating: (value) => set({ isNavigating: value }),
+  setEmail: (email) => set({ email }),
+  setCode: (code) => set({ code }),
   clear: () =>
     set({
       email: '',
       code: '',
-      isNavigating: true,
     }),
 }));
