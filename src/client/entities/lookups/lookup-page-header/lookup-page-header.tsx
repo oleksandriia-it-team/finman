@@ -31,7 +31,7 @@ export function LookupPageHeader({ title, hasSelection, onAdd, onDelete }: Looku
             type="button"
             aria-label="Delete selected"
             onClick={onDelete}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive text-primary-foreground transition-colors hover:bg-destructive/90"
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-destructive-foreground text-primary-foreground transition-colors hover:bg-destructive/90"
           >
             <svg
               aria-hidden="true"

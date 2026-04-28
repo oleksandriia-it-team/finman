@@ -40,8 +40,6 @@ export function LookupTableRow<T extends DefaultTableColumns>({
         />
       </UiTableCell>
 
-      <UiTableCell className="w-16 py-2 text-sm text-muted-foreground">{item.id}</UiTableCell>
-
       {columns.map((col, index) => (
         <UiTableCell
           key={index}

@@ -5,27 +5,25 @@ interface LookupTableHeadProps<T> {
   columns: LookupColumnDef<T>[];
 }
 
-const HEAD_CLASS = 'h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground';
-
 export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
+  const head = 'h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground';
   return (
     <>
       <UiTableHead className="w-10 pl-4" />
-      <UiTableHead className={`w-16 ${HEAD_CLASS}`}>ID</UiTableHead>
 
       {columns.map((col, index) => (
         <UiTableHead
           key={index}
-          className={col.headerClassName ?? HEAD_CLASS}
+          className={col.headerClassName ?? head}
         >
           {col.header}
         </UiTableHead>
       ))}
 
-      <UiTableHead className={HEAD_CLASS}>Статус</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Створено</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Створив</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Оновлено</UiTableHead>
+      <UiTableHead className={head}>Статус</UiTableHead>
+      <UiTableHead className={head}>Створено</UiTableHead>
+      <UiTableHead className={head}>Створив</UiTableHead>
+      <UiTableHead className={head}>Оновлено</UiTableHead>
       <UiTableHead className="w-10" />
     </>
   );

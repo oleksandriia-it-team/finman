@@ -3,7 +3,7 @@ import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 
 export function formatLookupDate(date: Date | string | number | undefined): ReactNode {
-  if (!date) {
+  if (date === undefined || date === null || date === '') {
     return '—';
   }
 

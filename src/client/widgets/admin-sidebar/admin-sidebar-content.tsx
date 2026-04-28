@@ -46,7 +46,7 @@ export function AdminSidebarContent() {
         <UiSidebarGroupContent>
           <UiSidebarMenu>
             {adminNavRoutesWindow.map((item) => {
-              const isActive = pathname.startsWith(item.route);
+              const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`);
               const Icon = item.Icon;
 
               return (
