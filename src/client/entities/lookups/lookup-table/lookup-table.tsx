@@ -31,9 +31,9 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   pageSize: number;
   totalCount: number;
 
-  withSelection?: boolean; // вимикає колонку з чекбоксами
-  withAuditColumns?: boolean; // вимикає Status, Created, Updated
-  withActions?: boolean; // вимикає три крапки в кінці
+  withSelection?: boolean;
+  withAuditColumns?: boolean;
+  withActions?: boolean;
 }
 
 export function LookupTable<T extends DefaultTableColumns>({
