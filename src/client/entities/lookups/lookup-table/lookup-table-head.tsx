@@ -22,10 +22,10 @@ export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
         </UiTableHead>
       ))}
 
-      <UiTableHead className={HEAD_CLASS}>Status</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Created at</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Created by</UiTableHead>
-      <UiTableHead className={HEAD_CLASS}>Updated at</UiTableHead>
+      <UiTableHead className={HEAD_CLASS}>Статус</UiTableHead>
+      <UiTableHead className={HEAD_CLASS}>Створено</UiTableHead>
+      <UiTableHead className={HEAD_CLASS}>Створив</UiTableHead>
+      <UiTableHead className={HEAD_CLASS}>Оновлено</UiTableHead>
       <UiTableHead className="w-10" />
     </>
   );

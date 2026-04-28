@@ -19,8 +19,8 @@ export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
 
   const router = useRouter();
-  const { methods, submit, isLoading } = useSetupLogin(() => {
-    refreshUser();
+  const { methods, submit, isLoading } = useSetupLogin(async () => {
+    await refreshUser();
     router.push('/profile');
   });
 

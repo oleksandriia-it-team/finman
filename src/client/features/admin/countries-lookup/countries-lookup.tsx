@@ -15,12 +15,12 @@ const PAGE_SIZE = 20;
 
 const Columns: LookupColumnDef<CountryAndLocale>[] = [
   {
-    header: 'Country',
+    header: 'Країна ',
     cellClassName: 'py-2 text-sm font-medium text-foreground',
     cell: (item) => item.country,
   },
   {
-    header: 'Locale',
+    header: 'Локаль',
     cellClassName: 'py-2 text-sm text-muted-foreground',
     cell: (item) => item.locale,
   },
