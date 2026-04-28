@@ -47,7 +47,6 @@ export class DatabaseLocalService {
     const instance = new this(databaseName, tables, version);
     try {
       await instance.connect();
-      console.log('DB connection created');
       return instance;
     } catch {
       throw new Error(ErrorDataBaseConnection);
@@ -116,7 +115,7 @@ export class DatabaseLocalService {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
-      const limit = end - start + 1;
+      const limit = end - start;
 
       let collection = this.table<T>(tableName).toCollection();
 
@@ -130,7 +129,10 @@ export class DatabaseLocalService {
         collection = collection.filter(predicateFn);
       }
 
-      return await collection.offset(start).limit(limit).toArray();
+      return await collection
+        .offset(start - 1)
+        .limit(limit)
+        .toArray();
     } catch (error) {
       throw new Error(getErrorMessage(error));
     }
@@ -225,13 +227,22 @@ export class DatabaseLocalService {
       (data as Record<string, unknown>).softDeleted = 0;
     }
 
-    if (!('id' in data) || typeof data.id !== 'number') {
+    if (!('id' in data)) {
+      (data as Record<string, unknown>).id = Date.now() * 1000 + Math.floor(Math.random() * 1000); // Generate a unique ID based on timestamp and random number
+    } else if (typeof data.id !== 'number') {
       throw new Error(ErrorTexts.IncorrectIdProvided);
     }
 
     try {
       const table = this.table(tableName);
       // `put` inside an active transaction automatically uses it
+      const exists = await table.get((data as Record<string, unknown>).id as number);
+
+      if (exists) {
+        await table.update((data as Record<string, unknown>).id as number, data);
+        return (data as Record<string, unknown>).id as number;
+      }
+
       return await table.put(data as DefaultTableColumns & RecordModel);
     } catch (error) {
       throw new Error(getErrorMessage(error));

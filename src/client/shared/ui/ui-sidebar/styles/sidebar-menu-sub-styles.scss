@@ -1,0 +1,16 @@
+.sidebar-menu-sub {
+  margin-left: 0.875rem;
+  display: flex;
+  min-width: 0;
+  transform: translateX(1px);
+  flex-direction: column;
+  gap: 0.25rem;
+  border-left: 1px solid var(--sidebar-border);
+  padding-left: 0.625rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+
+  .group[data-collapsible='icon'] & {
+    display: none;
+  }
+}

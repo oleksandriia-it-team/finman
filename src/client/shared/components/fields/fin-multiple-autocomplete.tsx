@@ -61,7 +61,7 @@ export function FinMultipleAutocomplete<T>({
       }}
     >
       <UiComboboxChips
-        onBlur={onBlur}
+        onBlur={(e) => onBlur?.(e.nativeEvent)}
         data-invalid={dataInvalid}
         className="w-full max-w-xs"
       >

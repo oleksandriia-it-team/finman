@@ -44,7 +44,7 @@ export default function MainWelcomeStep() {
               <UiGlassCard
                 icon="☕"
                 title="Кав'ярня"
-                value={<span className="text-destructive">- 85 ₴</span>}
+                value={<span className="text-destructive-foreground">- 85 ₴</span>}
                 rotationClass="-rotate-2"
               />
             </div>
