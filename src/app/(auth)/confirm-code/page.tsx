@@ -79,7 +79,7 @@ export default function ConfirmCodePage() {
                       <button
                         type="button"
                         className="flex items-center justify-center gap-2 text-sm text-primary font-medium hover:underline"
-                        onClick={() => router.push('/auth/forgot-password')}
+                        onClick={() => router.push('/recovery')}
                       >
                         <UiSvgIcon
                           name="arrow-left"
