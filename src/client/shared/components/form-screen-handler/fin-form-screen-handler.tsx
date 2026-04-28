@@ -19,7 +19,7 @@ export function FinFormScreenHandler<T>({
   error,
   queryKey,
 }: FormScreenHandlerProps<T>) {
-  const usedParams = use(params);
+  const usedParams = use(params) as object;
 
   const { data: id, success } = intSchema.safeParse('id' in usedParams ? usedParams.id : null);
 

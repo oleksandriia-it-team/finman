@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
-import type { AppRoutes } from '.next/types/routes';
 
-export interface FormScreenHandlerProps<T> extends PageProps<AppRoutes> {
+export interface FormScreenHandlerProps<T> extends PageProps<never> {
   loading?: ReactNode;
   error?: (error: ApiResultOperationError) => ReactNode;
   notItemFound?: ReactNode;
