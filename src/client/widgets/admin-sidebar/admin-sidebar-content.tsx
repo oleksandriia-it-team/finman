@@ -8,33 +8,9 @@ import { UiSidebarMenu } from '@frontend/ui/ui-sidebar/ui-sidebar-menu';
 import { UiSidebarMenuButton } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-button';
 import { UiSidebarMenuItem } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-item';
 import Link from 'next/link';
-import { SidebarCountriesSvg } from '@frontend/shared/svg/sidebar-countries-svg';
-import { SidebarCurrenciesSvg } from '@frontend/shared/svg/sidebar-currencies-svg';
+import { adminNavRoutesWindow } from '@frontend/widgets/shared/admin-routes.constant';
 
-interface AdminSidebarContentProps {
-  userName: string;
-}
-
-interface AdminNavItem {
-  route: string;
-  name?: string;
-  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-}
-
-const ADMIN_NAV_ITEMS: AdminNavItem[] = [
-  {
-    route: '/admin/lookups/countries',
-    name: 'Країни та локалі',
-    Icon: SidebarCountriesSvg,
-  },
-  {
-    route: '/admin/lookups/currencies',
-    name: 'Валюти',
-    Icon: SidebarCurrenciesSvg,
-  },
-];
-
-export function AdminSidebarContent({ userName }: AdminSidebarContentProps) {
+export function AdminSidebarContent() {
   const pathname = usePathname();
 
   return (
@@ -42,7 +18,7 @@ export function AdminSidebarContent({ userName }: AdminSidebarContentProps) {
       <UiSidebarGroup>
         <UiSidebarGroupContent>
           <UiSidebarMenu>
-            {ADMIN_NAV_ITEMS.map((item) => {
+            {adminNavRoutesWindow.map((item) => {
               const isActive = pathname.startsWith(item.route);
               const Icon = item.Icon;
 
@@ -51,11 +27,11 @@ export function AdminSidebarContent({ userName }: AdminSidebarContentProps) {
                   <UiSidebarMenuButton
                     asChild
                     isActive={isActive}
-                    tooltip={item.name ? item.name : userName}
+                    tooltip={item.name as string}
                   >
                     <Link href={item.route}>
                       <Icon className="w-5 h-5" />
-                      <span>{item.name ? item.name : userName}</span>
+                      <span>{item.name}</span>
                     </Link>
                   </UiSidebarMenuButton>
                 </UiSidebarMenuItem>

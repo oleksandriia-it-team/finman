@@ -1,16 +1,16 @@
-import { type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { SidebarCountriesSvg } from '@frontend/shared/svg/sidebar-countries-svg';
+import { SidebarCurrenciesSvg } from '@frontend/shared/svg/sidebar-currencies-svg';
+import type { AdminNavItem } from '@frontend/shared/models/admin-nav-item.model';
 
-export const adminNavRoutes: SidebarItemModel[] = [
+export const adminNavRoutesWindow: AdminNavItem[] = [
   {
     route: '/admin/lookups/countries',
     name: 'Країни та локалі',
-    icon: 'globe',
-    innerItems: [],
+    Icon: SidebarCountriesSvg,
   },
   {
     route: '/admin/lookups/currencies',
     name: 'Валюти',
-    icon: 'coin',
-    innerItems: [],
+    Icon: SidebarCurrenciesSvg,
   },
 ];

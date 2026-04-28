@@ -48,7 +48,7 @@ export function AdminSidebar() {
           </div>
         </UiSidebarHeader>
 
-        <AdminSidebarContent userName={userName} />
+        <AdminSidebarContent />
       </UiSidebar>
     </UiSidebarProvider>
   );
