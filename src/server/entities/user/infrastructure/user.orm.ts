@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { DefaultTableColumnsOrm } from '../../../database/default-table-columns.orm';
+import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
 import { type FullUserData } from '@common/records/user.record';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { type RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';

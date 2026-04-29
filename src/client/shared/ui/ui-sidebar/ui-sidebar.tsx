@@ -14,6 +14,7 @@ import { UiSheetDescription } from '@frontend/ui/ui-sheet/ui-sheet-description';
 export function UiSidebar({
   side = 'left',
   variant = 'sidebar',
+  colorVariant = 'white',
   collapsible = 'offcanvas',
   className,
   children,
@@ -21,6 +22,7 @@ export function UiSidebar({
 }: React.ComponentProps<'div'> & {
   side?: 'left' | 'right';
   variant?: 'sidebar' | 'floating' | 'inset';
+  colorVariant?: 'white' | 'blue';
   collapsible?: 'offcanvas' | 'icon' | 'none';
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
@@ -29,6 +31,7 @@ export function UiSidebar({
     return (
       <div
         data-slot="sidebar"
+        data-color-variant={colorVariant}
         className={cn('sidebar', className)}
         {...props}
       >
@@ -48,6 +51,7 @@ export function UiSidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
+          data-color-variant={colorVariant}
           className="w-(--sidebar-width) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
           style={
             {
@@ -72,6 +76,7 @@ export function UiSidebar({
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
       data-variant={variant}
+      data-color-variant={colorVariant}
       data-side={side}
       data-slot="sidebar"
     >
@@ -84,6 +89,7 @@ export function UiSidebar({
         data-slot="sidebar-container"
         data-side={side}
         data-variant={variant}
+        data-color-variant={colorVariant}
         className={cn('sidebar-container', className)}
         {...props}
       >
