@@ -1,25 +1,25 @@
+'use client';
+
 import { UiSidebarProvider } from '@frontend/ui/ui-sidebar/ui-sidebar-provider';
-import { FinSidebarContent } from '@frontend/components/sidebar-content/fin-sidebar-content';
 import { UiSidebarHeader } from '@frontend/ui/ui-sidebar/ui-sidebar-header';
 import { UiSidebarHeaderTitle } from '@frontend/ui/ui-sidebar/ui-sidebar-header-title';
 import { UiSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
+import { AdminSidebarContent } from './admin-sidebar-content';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
-import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
-import { profileNavRoutesWindow } from '@frontend/widgets/shared/profile-routes.constant';
-import { LogoSvg } from '@frontend/shared/svg/logo-svg';
+import { LogoInverseSvg } from '@frontend/shared/svg/logo-inverse-svg';
 
-export function ProfileSidebar() {
+export function AdminSidebar() {
   return (
     <UiSidebarProvider>
       <UiSidebar
         collapsible="icon"
-        colorVariant="white"
+        colorVariant="blue"
       >
         <UiSidebarHeader>
           <div className="flex gap-1 flex-1 items-center">
             <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">
-              <LogoSvg
+              <LogoInverseSvg
                 width={28}
                 height={28}
               />
@@ -31,9 +31,7 @@ export function ProfileSidebar() {
           <UiSidebarTrigger hideOnCollapse />
         </UiSidebarHeader>
 
-        <UiSidebarSeparator />
-
-        <FinSidebarContent routes={profileNavRoutesWindow} />
+        <AdminSidebarContent />
       </UiSidebar>
     </UiSidebarProvider>
   );

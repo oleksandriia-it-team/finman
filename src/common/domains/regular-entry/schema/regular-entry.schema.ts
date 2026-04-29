@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
-import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { MonthEntryRequirements } from '@common/domains/basic-entry/constants/basic-entry.constant';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 

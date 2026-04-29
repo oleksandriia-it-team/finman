@@ -1,0 +1,31 @@
+'use client';
+
+import { useState } from 'react';
+
+export function useLookupSelection() {
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+
+  function toggleRow(id: number) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  function clearSelection() {
+    setSelected(new Set());
+  }
+
+  return {
+    selected,
+    hasSelection: selected.size > 0,
+    isSelected: (id: number) => selected.has(id),
+    toggleRow,
+    clearSelection,
+  };
+}
