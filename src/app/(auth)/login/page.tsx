@@ -12,15 +12,15 @@ import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { AuthTemplate } from '@frontend/entities/auth/auth-template';
-import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
 
   const router = useRouter();
-  const { methods, submit, isLoading } = useSetupLogin(() => {
-    refreshUser();
+  const { methods, submit, isLoading } = useSetupLogin(async () => {
+    await refreshUser();
     router.push('/profile');
   });
 

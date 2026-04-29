@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
-import { createEntrySchema } from '@common/domains/entry-base/entry-base.schema';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { createEntrySchema } from '@common/domains/entry-base/entry-base.schema';
 
 const RegularEntryTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
