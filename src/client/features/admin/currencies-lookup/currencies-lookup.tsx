@@ -92,6 +92,10 @@ export function CurrenciesLookup() {
     }
   };
 
+  const handleBulkDeleteClick = () => {
+    setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+  };
+
   return (
     <>
       <LookupTable
@@ -101,7 +105,7 @@ export function CurrenciesLookup() {
           setEditingItem(undefined);
           setIsFormOpen(true);
         }}
-        onDelete={confirmBulkDelete}
+        onDelete={handleBulkDeleteClick}
         columns={Columns}
         state={state}
         hasData={!!options.length}

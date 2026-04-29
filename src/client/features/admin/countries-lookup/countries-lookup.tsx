@@ -85,6 +85,9 @@ export function CountriesLookup() {
       setItemToDelete(null);
     }
   };
+  const handleBulkDeleteClick = () => {
+    setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+  };
 
   return (
     <>
@@ -95,7 +98,7 @@ export function CountriesLookup() {
           setEditingItem(undefined);
           setIsFormOpen(true);
         }}
-        onDelete={confirmBulkDelete}
+        onDelete={handleBulkDeleteClick}
         columns={Columns}
         state={state}
         hasData={!!options.length}
