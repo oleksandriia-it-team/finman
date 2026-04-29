@@ -7,29 +7,30 @@ import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.en
 import { BudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import type { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
-import type { Month } from '@common/enums/month.enum';
 import { ExistBudgetPlanGuard } from '@backend/entities/budget-plan/application/exist-budget-plan.guard';
 import { updateBudgetPlanApiUseCase } from '@backend/features/budget-plan/update-budget-plan.api.use-case';
+import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
+import type { BudgetPlanContext } from '../current-month-context.model';
 
 export const PUT = createRoute({
   schema: BudgetPlanSchema,
-  contextFn: async (request): Promise<{ userId: number | null; budgetPlan: BudgetPlanOrm | null }> => {
+  contextFn: async (request): Promise<BudgetPlanContext> => {
     const userId = await GetUserIdTransformer(request);
+
+    const date = getCurrentMonthDate();
 
     if (!userId) {
       return {
+        ...date,
         userId,
         budgetPlan: null,
       };
     }
 
-    const budgetPlan = await budgetPlanRepository.getItem(
-      new Date().getUTCMonth() as unknown as Month,
-      new Date().getUTCFullYear(),
-      userId,
-    );
+    const budgetPlan = await budgetPlanRepository.getItem(date, userId);
 
     return {
+      ...date,
       userId,
       budgetPlan,
     };

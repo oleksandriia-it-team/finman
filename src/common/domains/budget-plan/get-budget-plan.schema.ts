@@ -8,3 +8,5 @@ export const GetBudgetPlanSchema = z.object({
     'Невірний місяць',
   ),
 });
+
+export type GetBudgetPlanModel = z.infer<typeof GetBudgetPlanSchema>;

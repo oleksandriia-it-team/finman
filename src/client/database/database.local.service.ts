@@ -28,7 +28,7 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
  * const user = await dbService.getItemById<User>('users', 1, false);
  */
 export class DatabaseLocalService {
-  protected db!: DexieService;
+  public db!: DexieService;
 
   /** Active Dexie transaction scope (null when no batch is running). */
   #tx: Transaction | null = null;
@@ -72,7 +72,7 @@ export class DatabaseLocalService {
   // Helpers
   // -------------------------------------------------------------------------
 
-  private table<T extends DefaultTableColumns>(name: string): Table<T, number> {
+  public table<T extends DefaultTableColumns>(name: string): Table<T, number> {
     return this.db.table<T, number>(name);
   }
 

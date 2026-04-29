@@ -3,6 +3,7 @@ import { type BudgetPlan } from '@common/records/budget-plan.record';
 import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
 
 export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
@@ -19,6 +20,10 @@ export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, neve
 
   deleteItem(id: number): Promise<true> {
     return this.databaseLocalService.deleteItem(this.tableName, id, false);
+  }
+
+  async getItem({ month, year }: GetBudgetPlanModel): Promise<BudgetPlan | null> {
+    return (await this.table.filter((plan) => plan.year === year && plan.month === month).first()) ?? null;
   }
 }
 

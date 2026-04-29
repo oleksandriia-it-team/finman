@@ -13,7 +13,6 @@ import {
   type RegularEntryApiRepository,
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { typeormTransactionManager } from '@backend/database/transaction.manager';
-import { UpdateBudgetPlanApiUseCase } from '@backend/features/budget-plan/update-budget-plan.api.use-case';
 
 type CreateBudgetPlanInput = Omit<BudgetPlanDto, 'id'> & { userId: number };
 
@@ -46,7 +45,7 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
   }
 }
 
-export const createBudgetPlanApiUseCase = new UpdateBudgetPlanApiUseCase(
+export const createBudgetPlanApiUseCase = new CreateBudgetPlanApiUseCase(
   budgetPlanRepository,
   monthEntryRepository,
   regularEntryApiRepository,

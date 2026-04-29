@@ -3,33 +3,33 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
-import type { Month } from '@common/enums/month.enum';
 import { BudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import { NotExistBudgetPlanGuard } from '@backend/entities/budget-plan/application/not-exist-budget-plan.guard';
-import type { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { createBudgetPlanApiUseCase } from '@backend/features/budget-plan/create-budget-plan.api.use-case';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
+import type { BudgetPlanContext } from '../current-month-context.model';
 
 export const POST = createRoute({
-  schema: BudgetPlanSchema,
-  contextFn: async (request): Promise<{ userId: number | null; budgetPlan: BudgetPlanOrm | null }> => {
+  schema: BudgetPlanSchema.omit({ year: true, month: true }),
+  contextFn: async (request): Promise<BudgetPlanContext> => {
     const userId = await GetUserIdTransformer(request);
+
+    const date = getCurrentMonthDate();
 
     if (!userId) {
       return {
+        ...date,
         userId,
         budgetPlan: null,
       };
     }
 
-    const budgetPlan = await budgetPlanRepository.getItem(
-      new Date().getUTCMonth() as unknown as Month,
-      new Date().getUTCFullYear(),
-      userId,
-    );
+    const budgetPlan = await budgetPlanRepository.getItem(date, userId);
 
     return {
+      ...date,
       userId,
       budgetPlan,
     };
@@ -38,7 +38,9 @@ export const POST = createRoute({
   execute: async ({ context, body }) => {
     const userId = context.userId as number;
 
-    const id = await createBudgetPlanApiUseCase.execute({
+    const result = await createBudgetPlanApiUseCase.execute({
+      month: context.month,
+      year: context.year,
       ...body,
       otherEntries: body.otherEntries.map((entry) => {
         const defCategory =
@@ -53,7 +55,7 @@ export const POST = createRoute({
     });
     return {
       status: 200,
-      data: id,
+      data: result,
     };
   },
   filter: getDefaultApiErrorFilter,
