@@ -3,16 +3,15 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
-import { BudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
+import { CreateBudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import { NotExistBudgetPlanGuard } from '@backend/entities/budget-plan/application/not-exist-budget-plan.guard';
 import { createBudgetPlanApiUseCase } from '@backend/features/budget-plan/create-budget-plan.api.use-case';
-import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import type { BudgetPlanContext } from '../current-month-context.model';
+import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 
 export const POST = createRoute({
-  schema: BudgetPlanSchema.omit({ year: true, month: true }),
+  schema: CreateBudgetPlanSchema,
   contextFn: async (request): Promise<BudgetPlanContext> => {
     const userId = await GetUserIdTransformer(request);
 
@@ -43,8 +42,7 @@ export const POST = createRoute({
       year: context.year,
       ...body,
       otherEntries: body.otherEntries.map((entry) => {
-        const defCategory =
-          'type' in entry && entry.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
+        const defCategory = getDefaultCategory(entry.type);
 
         return {
           ...entry,

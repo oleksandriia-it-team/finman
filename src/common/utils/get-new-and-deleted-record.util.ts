@@ -1,6 +1,6 @@
 import { sortByHavingId } from '@common/utils/sort-by-having-id.util';
 
-export function getNewAndDeletedRecords<T extends { id?: number }, S extends { id: number } | number>(
+export function getNewAndDeletedRecords<T extends { id?: number | undefined }, S extends { id: number } | number>(
   dto: T[],
   currentSaved: S[],
 ) {

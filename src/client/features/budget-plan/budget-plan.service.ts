@@ -1,12 +1,10 @@
 import { type AuthTokenService, authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { budgetPlanApiClient } from '@frontend/entities/budget-plan/budget-plan.api.client';
 import { budgetPlanLocalUsecases } from './budget-plan.local.use-cases';
-import type {
-  IBudgetPlanRepository,
-  UpdateBudgetPlanModel,
-} from '@common/domains/budget-plan/budget-plan.repository.model';
+import type { IBudgetPlanRepository } from '@common/domains/budget-plan/budget-plan.repository.model';
 import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
-import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import type { CreateBudgetPlanModel, UpdateBudgetPlanModel } from '@common/domains/budget-plan/budget-plan.schema';
 
 export class BudgetPlanDataSource implements IBudgetPlanRepository {
   constructor(
@@ -27,7 +25,7 @@ export class BudgetPlanDataSource implements IBudgetPlanRepository {
     return this.source.getItem(input);
   }
 
-  createItem(input: Omit<BudgetPlanDto, keyof GetBudgetPlanModel> & Partial<GetBudgetPlanModel>): Promise<number> {
+  createItem(input: CreateBudgetPlanModel): Promise<number> {
     return this.source.createItem(input);
   }
 

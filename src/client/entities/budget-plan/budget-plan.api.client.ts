@@ -1,14 +1,12 @@
-import type {
-  IBudgetPlanRepository,
-  UpdateBudgetPlanModel,
-} from '@common/domains/budget-plan/budget-plan.repository.model';
-import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
+import type { IBudgetPlanRepository } from '@common/domains/budget-plan/budget-plan.repository.model';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
+import type { CreateBudgetPlanModel, UpdateBudgetPlanModel } from '@common/domains/budget-plan/budget-plan.schema';
 
 export class BudgetPlanApiClient implements IBudgetPlanRepository {
-  createItem(input: BudgetPlanDto): Promise<number> {
+  createItem(input: CreateBudgetPlanModel): Promise<number> {
     return fetchClient
       .post<ApiResultOperationSuccess<number>>('/api/budget/plan/create-current-month', input)
       .then((r) => r.data);

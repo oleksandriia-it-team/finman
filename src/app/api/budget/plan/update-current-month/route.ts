@@ -2,18 +2,17 @@ import { createRoute } from '@backend/shared/utils/create-route.util';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
-import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
-import { BudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
+import { UpdateBudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import type { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
 import { ExistBudgetPlanGuard } from '@backend/entities/budget-plan/application/exist-budget-plan.guard';
 import { updateBudgetPlanApiUseCase } from '@backend/features/budget-plan/update-budget-plan.api.use-case';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import type { BudgetPlanContext } from '../current-month-context.model';
+import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 
 export const PUT = createRoute({
-  schema: BudgetPlanSchema,
+  schema: UpdateBudgetPlanSchema,
   contextFn: async (request): Promise<BudgetPlanContext> => {
     const userId = await GetUserIdTransformer(request);
 
@@ -41,11 +40,12 @@ export const PUT = createRoute({
     const budgetPlan = context.budgetPlan as BudgetPlanOrm;
 
     const result = await updateBudgetPlanApiUseCase.execute({
+      month: context.month,
+      year: context.year,
       ...body,
       id: budgetPlan.id,
       otherEntries: body.otherEntries.map((entry) => {
-        const defCategory =
-          'type' in entry && entry.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
+        const defCategory = getDefaultCategory(entry.type);
 
         return {
           ...entry,

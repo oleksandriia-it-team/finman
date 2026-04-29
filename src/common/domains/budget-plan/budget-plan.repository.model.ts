@@ -1,10 +1,9 @@
-import type { BudgetPlanDetailed, BudgetPlanDto } from '@common/records/budget-plan.record';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
+import type { CreateBudgetPlanModel, UpdateBudgetPlanModel } from './budget-plan.schema';
 
 export interface IBudgetPlanRepository {
-  createItem(input: Omit<BudgetPlanDto, keyof GetBudgetPlanModel> & Partial<GetBudgetPlanModel>): Promise<number>;
+  createItem(input: CreateBudgetPlanModel): Promise<number>;
   updateItem(input: UpdateBudgetPlanModel): Promise<true>;
   getItem(input: GetBudgetPlanModel): Promise<BudgetPlanDetailed | null>;
 }
-
-export type UpdateBudgetPlanModel = BudgetPlanDto & { id: number };
