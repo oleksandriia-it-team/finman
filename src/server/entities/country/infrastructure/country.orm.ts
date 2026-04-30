@@ -12,6 +12,9 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
   @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxLocaleLength, unique: true })
   locale!: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true, default: null })
+  adminName: string | null = null;
+
   @OneToMany('UserOrm', 'country')
   users!: UserOrm[];
 }

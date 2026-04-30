@@ -1,44 +1,44 @@
 'use client';
 
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { UiAdminModal } from '@frontend/components/admin-modal/fin-admin-modal';
+import { UiAdminModal } from '@frontend/shared/components/admin-modal/fin-admin-modal';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
-
-const currencySchema = z.object({
-  name: z.string().min(1, "Обов'язкове поле"),
-  code: z.string().length(3, 'Код повинен містити рівно 3 символи'),
-  symbol: z.string().min(1, "Обов'язкове поле"),
-});
-
-type CurrencyFormData = z.infer<typeof currencySchema>;
+import { CurrencyFormSchema, type CurrencyFormData } from '@common/domains/lookups/schemas/lookups-form.schema';
+import { useCurrencyMutations } from '@frontend/features/admin/lookups/hooks/use-currency-mutations.hook';
+import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   initialData?: (CurrencyFormData & { id: number }) | undefined;
+  onSuccessCallback?: () => void;
 }
 
-export function CurrencyFormModal({ isOpen, onClose, initialData }: Props) {
+export function CurrencyFormModal({ isOpen, onClose, initialData, onSuccessCallback }: Props) {
+  const { showToast } = useGlobalToast();
+
   const methods = useForm<CurrencyFormData>({
-    resolver: zodResolver(currencySchema),
-    defaultValues: initialData || { name: '', code: '', symbol: '' },
+    resolver: zodResolver(CurrencyFormSchema),
+    defaultValues: { name: '', code: '', symbol: '' },
   });
 
-  const { mutate, isPending } = useSendDataFetch(
-    async (data: CurrencyFormData) => {
-      if (initialData) {
-        return fetchClient.put(`/api/lookups/update/${initialData.id}`, data);
-      }
-      return fetchClient.post('/api/lookups/create', data);
-    },
-    {
-      /* ... */
-    },
-  );
+  useEffect(() => {
+    if (isOpen) {
+      methods.reset(initialData ?? { name: '', code: '', symbol: '' });
+    }
+  }, [isOpen, initialData, methods]);
+
+  const { submitMutation } = useCurrencyMutations(() => {
+    showToast({
+      title: 'Успішно',
+      description: initialData ? 'Дані оновлено' : 'Запис додано',
+      variant: 'default',
+    });
+    onSuccessCallback?.();
+    onClose();
+  });
 
   return (
     <UiAdminModal
@@ -46,28 +46,28 @@ export function CurrencyFormModal({ isOpen, onClose, initialData }: Props) {
       onClose={onClose}
       title={initialData ? 'Редагувати валюту' : 'Додати валюту'}
       formId="currency-form"
-      isLoading={isPending}
+      isLoading={submitMutation.isPending}
     >
       <FormProvider {...methods}>
         <form
           id="currency-form"
-          onSubmit={methods.handleSubmit((d) => mutate(d))}
+          onSubmit={methods.handleSubmit((data) => submitMutation.mutate({ id: initialData?.id, data }))}
           className="space-y-4"
         >
           <FinControlledInput
             name="name"
-            label="Ім'я"
-            placeholder="Наприклад: Долар США"
+            label="Назва *"
+            placeholder="Наприклад: Долар США *"
           />
           <FinControlledInput
             name="code"
-            label="Код"
-            placeholder="USD"
+            label="Код *"
+            placeholder="Наприклад: USD *"
           />
           <FinControlledInput
             name="symbol"
-            label="Символ"
-            placeholder="$"
+            label="Символ *"
+            placeholder="Наприклад: $ *"
           />
         </form>
       </FormProvider>

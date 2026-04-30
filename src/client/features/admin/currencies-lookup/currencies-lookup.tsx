@@ -10,13 +10,13 @@ import { LookupTableRow } from '@frontend/entities/lookups/lookup-table/lookup-t
 import { LookupRowSkeleton } from '@frontend/entities/lookups/lookup-table/lookup-row-skeleton';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
-
 import { CurrencyFormModal } from '@frontend/features/admin/lookups/currencies/currency-form-modal';
-import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
+import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-confirm-modal';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
+import { useCurrencyMutations } from '@frontend/features/admin/lookups/hooks/use-currency-mutations.hook';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
-const pageSize = 20;
+const PAGE_SIZE = 20;
 
 const Columns: LookupColumnDef<Currency>[] = [
   {
@@ -36,40 +36,51 @@ const Columns: LookupColumnDef<Currency>[] = [
   },
 ];
 
-const skeletonWidths = ['w-32', 'w-20', 'w-12', 'w-24', 'w-24', 'w-24'];
+const skeletonWidths = ['w-32', 'w-20', 'w-12'];
 
 function CurrencyRowSkeleton() {
   return <LookupRowSkeleton columnWidths={skeletonWidths} />;
 }
 
 export function CurrenciesLookup() {
-  const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
+  const { hasSelection, isSelected, toggleRow, clearSelection, selected } = useLookupSelection();
   const { showToast } = useGlobalToast();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<Currency | undefined>(undefined);
-
   const [itemToDelete, setItemToDelete] = useState<Currency | null>(null);
 
   const singleDeleteTriggerRef = useRef<HTMLButtonElement>(null);
   const bulkDeleteTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const { options, state, selectedPage, setPage, totalCount } = usePaginationResource<Currency, object>({
+  const { options, state, selectedPage, setPage, totalCount, reload } = usePaginationResource<Currency, object>({
     queryKey: ['admin', 'lookups', 'currencies'],
-    pageSize: pageSize,
+    pageSize: PAGE_SIZE,
     getOptionsFn: (page) =>
-      lookupsService.getItems(LookupsTypeEnum.Currency, (page - 1) * pageSize + 1, page * pageSize, {}),
+      lookupsService.getItems(LookupsTypeEnum.Currency, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
     getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.Currency, {}),
   });
 
-  const confirmBulkDelete = async () => {
-    try {
-      showToast({ title: 'Success', description: 'Вибрані записи успішно видалено', variant: 'default' });
-      clearSelection();
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Помилка видалення';
-      showToast({ title: 'Error', description: msg, variant: 'destructive' });
+  const { deleteMutation: bulkDeleteMutation } = useCurrencyMutations(() => {
+    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    clearSelection();
+    reload();
+  });
+
+  const { deleteMutation: singleDeleteMutation } = useCurrencyMutations(() => {
+    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+    setItemToDelete(null);
+    reload();
+  });
+
+  const handleBulkDeleteClick = () => {
+    if (hasSelection) {
+      setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
     }
+  };
+
+  const confirmBulkDelete = async () => {
+    await Promise.all(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
   };
 
   const handleSingleDeleteClick = (item: Currency) => {
@@ -79,21 +90,7 @@ export function CurrenciesLookup() {
 
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
-    try {
-      await fetchClient.patch(`/api/lookups/currencies/update/${itemToDelete.id}`, {
-        softDeleted: 1,
-      });
-      showToast({ title: 'Success', description: 'Запис успішно видалено', variant: 'default' });
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Помилка видалення';
-      showToast({ title: 'Error', description: msg, variant: 'destructive' });
-    } finally {
-      setItemToDelete(null);
-    }
-  };
-
-  const handleBulkDeleteClick = () => {
-    setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+    await singleDeleteMutation.mutateAsync(itemToDelete.id);
   };
 
   return (
@@ -109,11 +106,11 @@ export function CurrenciesLookup() {
         columns={Columns}
         state={state}
         hasData={!!options.length}
-        skeletonItems={pageSize}
+        skeletonItems={PAGE_SIZE}
         skeleton={CurrencyRowSkeleton}
         selectedPage={selectedPage}
         setPage={setPage}
-        pageSize={pageSize}
+        pageSize={PAGE_SIZE}
         totalCount={totalCount}
       >
         {options.map((item) => (
@@ -136,6 +133,7 @@ export function CurrenciesLookup() {
       <CurrencyFormModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
+        onSuccessCallback={() => reload()}
         initialData={
           editingItem
             ? {
@@ -151,7 +149,7 @@ export function CurrenciesLookup() {
       <div className="hidden">
         <UiConfirmModal
           trigger={
-            <button
+            <UiButton
               ref={singleDeleteTriggerRef}
               type="button"
               aria-hidden="true"
@@ -164,7 +162,7 @@ export function CurrenciesLookup() {
 
         <UiConfirmModal
           trigger={
-            <button
+            <UiButton
               ref={bulkDeleteTriggerRef}
               type="button"
               aria-hidden="true"

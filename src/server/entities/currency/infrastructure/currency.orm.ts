@@ -15,6 +15,9 @@ export class CurrencyOrm extends DefaultTableColumnsOrm implements Currency {
   @Column({ type: 'varchar', length: CurrencyRequirements.MaxCurrencySymbolLength })
   currencySymbol!: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true, default: null })
+  adminName: string | null = null;
+
   @OneToMany('UserOrm', 'currency')
   users!: UserOrm[];
 }

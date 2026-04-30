@@ -11,9 +11,10 @@ import { LookupRowSkeleton } from '@frontend/entities/lookups/lookup-table/looku
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
 import { CountryFormModal } from '@frontend/features/admin/lookups/countries/country-form-modal';
-import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
+import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-confirm-modal';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
+import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
 const PAGE_SIZE = 20;
 
@@ -30,40 +31,53 @@ const Columns: LookupColumnDef<CountryAndLocale>[] = [
   },
 ];
 
-const skeletonWidths = ['w-32', 'w-24', 'w-24', 'w-24', 'w-24'];
+const skeletonWidths = ['w-32', 'w-24'];
 
 function CountryRowSkeleton() {
   return <LookupRowSkeleton columnWidths={skeletonWidths} />;
 }
 
 export function CountriesLookup() {
-  const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
+  const { hasSelection, isSelected, toggleRow, clearSelection, selected } = useLookupSelection();
   const { showToast } = useGlobalToast();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<CountryAndLocale | undefined>(undefined);
-
   const [itemToDelete, setItemToDelete] = useState<CountryAndLocale | null>(null);
 
   const singleDeleteTriggerRef = useRef<HTMLButtonElement>(null);
   const bulkDeleteTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const { options, state, selectedPage, setPage, totalCount } = usePaginationResource<CountryAndLocale, object>({
-    queryKey: ['admin', 'lookups', 'countries'],
-    pageSize: PAGE_SIZE,
-    getOptionsFn: (page) =>
-      lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
-    getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
+  const { options, state, selectedPage, setPage, totalCount, reload } = usePaginationResource<CountryAndLocale, object>(
+    {
+      queryKey: ['admin', 'lookups', 'countries'],
+      pageSize: PAGE_SIZE,
+      getOptionsFn: (page) =>
+        lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
+      getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
+    },
+  );
+
+  const { deleteMutation: bulkDeleteMutation } = useCountryMutations(() => {
+    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    clearSelection();
+    reload();
   });
 
-  const confirmBulkDelete = async () => {
-    try {
-      showToast({ title: 'Success', description: 'Вибрані записи успішно видалено', variant: 'default' });
-      clearSelection();
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Помилка видалення';
-      showToast({ title: 'Error', description: msg, variant: 'destructive' });
+  const { deleteMutation: singleDeleteMutation } = useCountryMutations(() => {
+    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+    setItemToDelete(null);
+    reload();
+  });
+
+  const handleBulkDeleteClick = () => {
+    if (hasSelection) {
+      setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
     }
+  };
+
+  const confirmBulkDelete = async () => {
+    await Promise.all(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
   };
 
   const handleSingleDeleteClick = (item: CountryAndLocale) => {
@@ -73,20 +87,7 @@ export function CountriesLookup() {
 
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
-    try {
-      await fetchClient.patch(`/api/lookups/countries/update/${itemToDelete.id}`, {
-        softDeleted: 1,
-      });
-      showToast({ title: 'Success', description: 'Запис успішно видалено', variant: 'default' });
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Помилка видалення';
-      showToast({ title: 'Error', description: msg, variant: 'destructive' });
-    } finally {
-      setItemToDelete(null);
-    }
-  };
-  const handleBulkDeleteClick = () => {
-    setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+    await singleDeleteMutation.mutateAsync(itemToDelete.id);
   };
 
   return (
@@ -129,6 +130,7 @@ export function CountriesLookup() {
       <CountryFormModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
+        onSuccessCallback={() => reload()}
         initialData={
           editingItem
             ? {
@@ -143,7 +145,7 @@ export function CountriesLookup() {
       <div className="hidden">
         <UiConfirmModal
           trigger={
-            <button
+            <UiButton
               ref={singleDeleteTriggerRef}
               type="button"
               aria-hidden="true"
@@ -156,7 +158,7 @@ export function CountriesLookup() {
 
         <UiConfirmModal
           trigger={
-            <button
+            <UiButton
               ref={bulkDeleteTriggerRef}
               type="button"
               aria-hidden="true"
