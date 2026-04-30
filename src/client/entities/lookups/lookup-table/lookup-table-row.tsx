@@ -7,18 +7,11 @@ import { LookupCreatedByCell } from '@frontend/entities/lookups/lookup-created-b
 import { formatLookupDate } from '@frontend/shared/utils/lookup-date.util';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
-import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
-import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
-import type { ApiResultOperation, ApiResultOperationError } from '@common/models/api-result-operation.model';
-import type { CountryAndLocale } from '@common/records/countries.record';
+import { getCreatedBy } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by.util';
 
-interface UserNameResponse {
-  name: string;
-}
-
-interface LookupTableRowProps extends DefaultTableColumns {
-  item: CountryAndLocale;
-  columns: LookupColumnDef<CountryAndLocale>[];
+interface LookupTableRowProps<T extends DefaultTableColumns> {
+  item: T;
+  columns: LookupColumnDef<T>[];
   ariaLabel: string;
   isSelected: boolean;
   onToggle: () => void;
@@ -26,7 +19,7 @@ interface LookupTableRowProps extends DefaultTableColumns {
   onDelete: () => void;
 }
 
-export function LookupTableRow({
+export function LookupTableRow<T extends DefaultTableColumns>({
   item,
   columns,
   ariaLabel,
@@ -34,14 +27,7 @@ export function LookupTableRow({
   onToggle,
   onEdit,
   onDelete,
-}: LookupTableRowProps) {
-  // async function userName(id: number) {
-  //   const result = await fetchClient.get<ApiResultOperation<UserNameResponse>>(`/lookups/user/get-by-id/${id}`);
-  //   if (result.status === 200) {
-  //     return result.data.name;
-  //   }
-  //   return null;
-  // }
+}: LookupTableRowProps<T>) {
   return (
     <UiTableRow className={cn('border-b border-border/60', isSelected && 'bg-primary/10')}>
       <UiTableCell className="w-10 py-2 pl-4">
@@ -69,7 +55,9 @@ export function LookupTableRow({
 
       <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.createdAt)}</UiTableCell>
 
-      <UiTableCell className="py-2">{/*<LookupCreatedByCell name={userName(1) ?? null} />*/}</UiTableCell>
+      <UiTableCell className="py-2">
+        <LookupCreatedByCell {...getCreatedBy(item)} />
+      </UiTableCell>
 
       <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.updatedAt)}</UiTableCell>
 

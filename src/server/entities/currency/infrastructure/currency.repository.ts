@@ -7,28 +7,31 @@ import { type DeepPartial } from '@common/models/deep-partial.model';
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
   protected override mapFilters(filters: DeepPartial<CurrencyFilter> | undefined): FindOptionsWhere<CurrencyOrm> {
     const where: FindOptionsWhere<CurrencyOrm> = {};
+    if (!filters) return where;
 
-    if (!filters) {
-      return where;
-    }
-
-    if (filters.ids?.length) {
-      where.id = In(filters.ids);
-    }
-    if (filters.excludeIds?.length) {
-      where.id = Not(In(filters.excludeIds));
-    }
-    if (filters.code) {
-      where.currencyCode = ILike(`%${filters.code}%`);
-    }
-    if (filters.name) {
-      where.currencyName = ILike(`%${filters.name}%`);
-    }
-    if (filters.symbol) {
-      where.currencySymbol = ILike(`%${filters.symbol}%`);
-    }
+    if (filters.ids?.length) where.id = In(filters.ids);
+    if (filters.excludeIds?.length) where.id = Not(In(filters.excludeIds));
+    if (filters.code) where.currencyCode = ILike(`%${filters.code}%`);
+    if (filters.name) where.currencyName = ILike(`%${filters.name}%`);
+    if (filters.symbol) where.currencySymbol = ILike(`%${filters.symbol}%`);
 
     return where;
+  }
+
+  override async getItems(from: number, to: number, filters?: DeepPartial<CurrencyFilter>): Promise<CurrencyOrm[]> {
+    const skip = from - 1;
+    const take = to - from + 1;
+
+    const results = await this.repository.find({
+      where: this.mapFilters(filters),
+      skip,
+      take,
+      relations: ['admin'],
+    });
+    return results.map((item) => ({
+      ...item,
+      adminName: item.admin?.name ?? null,
+    })) as CurrencyOrm[];
   }
 }
 

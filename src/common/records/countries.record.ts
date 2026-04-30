@@ -4,4 +4,5 @@ export interface CountryAndLocale extends DefaultTableColumns {
   country: string;
   locale: string;
   adminId?: number | null;
+  adminName?: string | null;
 }
