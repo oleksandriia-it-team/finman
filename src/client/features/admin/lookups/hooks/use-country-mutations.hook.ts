@@ -21,7 +21,6 @@ export function useCountryMutations(onSuccessCallback?: () => void) {
     },
     {
       ...(onSuccessCallback ? { onSuccess: onSuccessCallback } : {}),
-      successMessage: 'Запис успішно видалено',
     },
   );
 

@@ -4,6 +4,7 @@ export type LookupCreatedByFields = {
   createdBy?: { name?: string | null; avatar?: string | null } | string | null;
   userName?: string | null;
   userAvatar?: string | null;
+  adminName?: string | null;
 };
 
 export type LookupCreatedBy = {

@@ -21,7 +21,6 @@ export function useCurrencyMutations(onSuccessCallback?: () => void) {
     },
     {
       ...(onSuccessCallback ? { onSuccess: onSuccessCallback } : {}),
-      successMessage: 'Запис успішно видалено',
     },
   );
 

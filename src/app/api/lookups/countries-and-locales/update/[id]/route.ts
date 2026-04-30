@@ -5,20 +5,14 @@ import { countryRepository } from '@backend/entities/country/infrastructure/coun
 import { UpdateCountrySchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
-import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 
 export const PATCH = createRoute({
   schema: UpdateCountrySchema,
   paramsFn: (context) => ({ id: GetIntegerParamPipe(context.id, 1) }),
   contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
-  execute: async ({ body, params: { id }, context }) => {
-    const userId = context as number;
-    const admin = await userApiRepository.getItemById(userId);
-
-    const updateData: Record<string, unknown> = {
-      adminName: admin?.name ?? 'System',
-    };
+  execute: async ({ body, params: { id } }) => {
+    const updateData: Record<string, unknown> = {};
 
     if (body.countryName !== undefined) updateData.country = body.countryName;
     if (body.localeName !== undefined) updateData.locale = body.localeName;

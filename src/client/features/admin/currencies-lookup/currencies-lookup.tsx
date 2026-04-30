@@ -61,11 +61,7 @@ export function CurrenciesLookup() {
     getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.Currency, {}),
   });
 
-  const { deleteMutation: bulkDeleteMutation } = useCurrencyMutations(() => {
-    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
-    clearSelection();
-    reload();
-  });
+  const { deleteMutation: bulkDeleteMutation } = useCurrencyMutations();
 
   const { deleteMutation: singleDeleteMutation } = useCurrencyMutations(() => {
     showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
@@ -81,6 +77,9 @@ export function CurrenciesLookup() {
 
   const confirmBulkDelete = async () => {
     await Promise.all(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
+    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    clearSelection();
+    reload();
   };
 
   const handleSingleDeleteClick = (item: Currency) => {

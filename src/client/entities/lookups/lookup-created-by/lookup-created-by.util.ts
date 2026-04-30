@@ -7,7 +7,7 @@ export function getCreatedBy<T>(item: T): LookupCreatedBy {
   const avatarFromObject =
     typeof source.createdBy === 'object' && source.createdBy ? source.createdBy.avatar : undefined;
 
-  const name = source.createdByName ?? source.userName ?? nameFromObject ?? undefined;
+  const name = source.createdByName ?? source.userName ?? nameFromObject ?? source.adminName ?? undefined;
   const avatar = source.createdByAvatar ?? source.userAvatar ?? avatarFromObject ?? undefined;
 
   return { name, avatar };

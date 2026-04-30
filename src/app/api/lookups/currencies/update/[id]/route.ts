@@ -4,21 +4,13 @@ import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-f
 import { currencyRepository } from '@backend/entities/currency/infrastructure/currency.repository';
 import { UpdateCurrencySchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
-import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
-import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 
 export const PATCH = createRoute({
   schema: UpdateCurrencySchema,
   paramsFn: (context) => ({ id: GetIntegerParamPipe(context.id, 1) }),
-  contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
-  execute: async ({ body, params: { id }, context }) => {
-    const userId = context as number;
-    const admin = await userApiRepository.getItemById(userId);
-
-    const updateData: Record<string, unknown> = {
-      adminName: admin?.name ?? 'System',
-    };
+  execute: async ({ body, params: { id } }) => {
+    const updateData: Record<string, unknown> = {};
 
     if (body.name !== undefined) updateData.currencyName = body.name;
     if (body.code !== undefined) updateData.currencyCode = body.code;

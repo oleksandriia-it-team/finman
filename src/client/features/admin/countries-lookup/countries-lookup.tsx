@@ -58,11 +58,7 @@ export function CountriesLookup() {
     },
   );
 
-  const { deleteMutation: bulkDeleteMutation } = useCountryMutations(() => {
-    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
-    clearSelection();
-    reload();
-  });
+  const { deleteMutation: bulkDeleteMutation } = useCountryMutations();
 
   const { deleteMutation: singleDeleteMutation } = useCountryMutations(() => {
     showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
@@ -78,6 +74,9 @@ export function CountriesLookup() {
 
   const confirmBulkDelete = async () => {
     await Promise.all(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
+    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    clearSelection();
+    reload();
   };
 
   const handleSingleDeleteClick = (item: CountryAndLocale) => {
