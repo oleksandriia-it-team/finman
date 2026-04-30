@@ -16,7 +16,7 @@ export class CurrencyOrm extends DefaultTableColumnsOrm implements Currency {
   currencySymbol!: string;
 
   @Column({ type: 'int', nullable: true, default: null })
-  adminId: number | null = null;
+  adminId?: number | null = null;
 
   @ManyToOne('UserOrm', { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'adminId' })

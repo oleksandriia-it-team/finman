@@ -83,7 +83,7 @@ export function CountriesLookup() {
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
     await singleDeleteMutation.mutateAsync(itemToDelete.id);
-    deselect(itemToDelete.id); // <- прибрати з bulk selection
+    deselect(itemToDelete.id);
     showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
     setItemToDelete(null);
     reload();
