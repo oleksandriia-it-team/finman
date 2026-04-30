@@ -1,16 +1,19 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../database/default-table-columns.orm';
-import { type CountryAndLocale } from '@common/records/countries.record';
+import { type Currency } from '@common/records/currencies.record';
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
-import { CountryRequirementsConstant } from '@common/constants/country-requirements.constant';
+import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
 
-@Entity('country')
-export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLocale {
-  @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxCountryLength })
-  country!: string;
+@Entity('currency')
+export class CurrencyOrm extends DefaultTableColumnsOrm implements Currency {
+  @Column({ type: 'varchar', length: CurrencyRequirements.MaxCurrencyNameLength })
+  currencyName!: string;
 
-  @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxLocaleLength, unique: true })
-  locale!: string;
+  @Column({ type: 'varchar', length: CurrencyRequirements.MaxCurrencyCodeLength, unique: true })
+  currencyCode!: string;
+
+  @Column({ type: 'varchar', length: CurrencyRequirements.MaxCurrencySymbolLength })
+  currencySymbol!: string;
 
   @Column({ type: 'int', nullable: true, default: null })
   adminId: number | null = null;
@@ -19,6 +22,6 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
   @JoinColumn({ name: 'adminId' })
   admin?: UserOrm;
 
-  @OneToMany('UserOrm', 'country')
+  @OneToMany('UserOrm', 'currency')
   users?: UserOrm[];
 }
