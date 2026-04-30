@@ -5,20 +5,23 @@ import { countryRepository } from '@backend/entities/country/infrastructure/coun
 import { UpdateCountrySchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
+import { ExistCountryGuard } from '@backend/entities/country/application/exist-country.guard';
 
-export const PATCH = createRoute({
+export const PUT = createRoute({
   schema: UpdateCountrySchema,
   paramsFn: (context) => ({ id: GetIntegerParamPipe(context.id, 1) }),
-  contextFn: GetUserIdTransformer,
-  guards: [AuthGuard],
-  execute: async ({ body, params: { id } }) => {
-    const updateData: Record<string, unknown> = {};
+  contextFn: async (request, params) => ({
+    userId: await GetUserIdTransformer(request),
+    country: await countryRepository.getItemById(params.id),
+  }),
+  guards: [AuthGuard, ({ context }) => ExistCountryGuard(context.country)],
+  execute: async ({ body, context, params: { id } }) => {
+    const existing = context.country!;
 
-    if (body.countryName !== undefined) updateData.country = body.countryName;
-    if (body.localeName !== undefined) updateData.locale = body.localeName;
-    if (body.softDeleted !== undefined) updateData.softDeleted = body.softDeleted;
-
-    await countryRepository.updateItem(id, updateData as unknown as Parameters<typeof countryRepository.updateItem>[1]);
+    await countryRepository.updateItem(id, {
+      country: body.countryName ?? existing.country,
+      locale: body.localeName ?? existing.locale,
+    });
 
     return { status: 200, data: true };
   },

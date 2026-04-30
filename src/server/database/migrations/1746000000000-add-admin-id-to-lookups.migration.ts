@@ -1,15 +1,14 @@
 import { type MigrationInterface, type QueryRunner, TableColumn } from 'typeorm';
 
-export class AddAdminNameToLookups1746000000000 implements MigrationInterface {
+export class AddAdminIdToLookups1746100000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const currencyTable = await queryRunner.getTable('currency');
-    if (currencyTable && !currencyTable.findColumnByName('adminName')) {
+    if (currencyTable && !currencyTable.findColumnByName('adminId')) {
       await queryRunner.addColumn(
         'currency',
         new TableColumn({
-          name: 'adminName',
-          type: 'varchar',
-          length: '100',
+          name: 'adminId',
+          type: 'int',
           isNullable: true,
           default: null,
         }),
@@ -17,13 +16,12 @@ export class AddAdminNameToLookups1746000000000 implements MigrationInterface {
     }
 
     const countryTable = await queryRunner.getTable('country');
-    if (countryTable && !countryTable.findColumnByName('adminName')) {
+    if (countryTable && !countryTable.findColumnByName('adminId')) {
       await queryRunner.addColumn(
         'country',
         new TableColumn({
-          name: 'adminName',
-          type: 'varchar',
-          length: '100',
+          name: 'adminId',
+          type: 'int',
           isNullable: true,
           default: null,
         }),
@@ -33,13 +31,12 @@ export class AddAdminNameToLookups1746000000000 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const currencyTable = await queryRunner.getTable('currency');
-    if (currencyTable?.findColumnByName('adminName')) {
-      await queryRunner.dropColumn('currency', 'adminName');
+    if (currencyTable?.findColumnByName('adminId')) {
+      await queryRunner.dropColumn('currency', 'adminId');
     }
-
     const countryTable = await queryRunner.getTable('country');
-    if (countryTable?.findColumnByName('adminName')) {
-      await queryRunner.dropColumn('country', 'adminName');
+    if (countryTable?.findColumnByName('adminId')) {
+      await queryRunner.dropColumn('country', 'adminId');
     }
   }
 }

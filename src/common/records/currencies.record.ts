@@ -4,5 +4,5 @@ export interface Currency extends DefaultTableColumns {
   currencyCode: string;
   currencyName: string;
   currencySymbol: string;
-  adminName?: string | null;
+  adminId?: number | null;
 }

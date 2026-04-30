@@ -27,6 +27,7 @@ export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyF
     if (filters.symbol) {
       where.currencySymbol = ILike(`%${filters.symbol}%`);
     }
+
     return where;
   }
 }
