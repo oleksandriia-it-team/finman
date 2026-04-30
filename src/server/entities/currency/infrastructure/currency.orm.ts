@@ -19,5 +19,5 @@ export class CurrencyOrm extends DefaultTableColumnsOrm implements Currency {
   adminName: string | null = null;
 
   @OneToMany('UserOrm', 'currency')
-  users!: UserOrm[];
+  users?: UserOrm[];
 }

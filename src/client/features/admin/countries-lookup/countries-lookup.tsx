@@ -38,7 +38,7 @@ function CountryRowSkeleton() {
 }
 
 export function CountriesLookup() {
-  const { hasSelection, isSelected, toggleRow, clearSelection, selected } = useLookupSelection();
+  const { hasSelection, isSelected, toggleRow, clearSelection, selected, deselect } = useLookupSelection();
   const { showToast } = useGlobalToast();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -60,15 +60,11 @@ export function CountriesLookup() {
 
   const { deleteMutation: bulkDeleteMutation } = useCountryMutations();
 
-  const { deleteMutation: singleDeleteMutation } = useCountryMutations(() => {
-    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
-    setItemToDelete(null);
-    reload();
-  });
+  const { deleteMutation: singleDeleteMutation } = useCountryMutations();
 
   const handleBulkDeleteClick = () => {
     if (hasSelection) {
-      setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+      bulkDeleteTriggerRef.current?.click();
     }
   };
 
@@ -81,12 +77,16 @@ export function CountriesLookup() {
 
   const handleSingleDeleteClick = (item: CountryAndLocale) => {
     setItemToDelete(item);
-    setTimeout(() => singleDeleteTriggerRef.current?.click(), 0);
+    singleDeleteTriggerRef.current?.click();
   };
 
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
     await singleDeleteMutation.mutateAsync(itemToDelete.id);
+    deselect(itemToDelete.id); // <- прибрати з bulk selection
+    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+    setItemToDelete(null);
+    reload();
   };
 
   return (

@@ -6,7 +6,7 @@ export function useCountryMutations(onSuccessCallback?: () => void) {
   const submitMutation = useSendDataFetch(
     async ({ id, data }: { id?: number | undefined; data: CountryFormData }) => {
       if (id) {
-        return fetchClient.patch(`/api/lookups/countries-and-locales/update/${id}`, data);
+        return fetchClient.put(`/api/lookups/countries-and-locales/update/${id}`, data);
       }
       return fetchClient.post('/api/lookups/countries-and-locales/create', data);
     },
@@ -17,7 +17,7 @@ export function useCountryMutations(onSuccessCallback?: () => void) {
 
   const deleteMutation = useSendDataFetch(
     async (id: number) => {
-      return fetchClient.patch(`/api/lookups/countries-and-locales/update/${id}`, { softDeleted: 1 });
+      return fetchClient.delete(`/api/lookups/countries-and-locales/remove/${id}`);
     },
     {
       ...(onSuccessCallback ? { onSuccess: onSuccessCallback } : {}),

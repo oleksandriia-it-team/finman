@@ -8,9 +8,7 @@ export const CurrencyFormSchema = z.object({
 
 export type CurrencyFormData = z.infer<typeof CurrencyFormSchema>;
 
-export const UpdateCurrencySchema = CurrencyFormSchema.partial().extend({
-  softDeleted: z.union([z.literal(0), z.literal(1)]).optional(),
-});
+export const UpdateCurrencySchema = CurrencyFormSchema.partial();
 
 export type UpdateCurrencyData = z.infer<typeof UpdateCurrencySchema>;
 
@@ -21,8 +19,6 @@ export const CountryFormSchema = z.object({
 
 export type CountryFormData = z.infer<typeof CountryFormSchema>;
 
-export const UpdateCountrySchema = CountryFormSchema.partial().extend({
-  softDeleted: z.union([z.literal(0), z.literal(1)]).optional(),
-});
+export const UpdateCountrySchema = CountryFormSchema.partial();
 
 export type UpdateCountryData = z.infer<typeof UpdateCountrySchema>;

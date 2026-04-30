@@ -16,5 +16,5 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
   adminName: string | null = null;
 
   @OneToMany('UserOrm', 'country')
-  users!: UserOrm[];
+  users?: UserOrm[];
 }

@@ -21,11 +21,20 @@ export function useLookupSelection() {
     setSelected(new Set());
   }
 
+  function deselect(id: number) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  }
+
   return {
     selected,
     hasSelection: selected.size > 0,
     isSelected: (id: number) => selected.has(id),
     toggleRow,
     clearSelection,
+    deselect,
   };
 }

@@ -43,7 +43,7 @@ function CurrencyRowSkeleton() {
 }
 
 export function CurrenciesLookup() {
-  const { hasSelection, isSelected, toggleRow, clearSelection, selected } = useLookupSelection();
+  const { hasSelection, isSelected, toggleRow, clearSelection, selected, deselect } = useLookupSelection();
   const { showToast } = useGlobalToast();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -62,34 +62,38 @@ export function CurrenciesLookup() {
   });
 
   const { deleteMutation: bulkDeleteMutation } = useCurrencyMutations();
-
-  const { deleteMutation: singleDeleteMutation } = useCurrencyMutations(() => {
-    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
-    setItemToDelete(null);
-    reload();
-  });
+  const { deleteMutation: singleDeleteMutation } = useCurrencyMutations();
 
   const handleBulkDeleteClick = () => {
     if (hasSelection) {
-      setTimeout(() => bulkDeleteTriggerRef.current?.click(), 0);
+      bulkDeleteTriggerRef.current?.click();
     }
   };
 
   const confirmBulkDelete = async () => {
-    await Promise.all(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
-    showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    const results = await Promise.allSettled(Array.from(selected).map((id) => bulkDeleteMutation.mutateAsync(id)));
+    const hasFailed = results.some((r) => r.status === 'rejected');
+    if (hasFailed) {
+      showToast({ title: 'Помилка', description: 'Деякі записи не вдалось видалити', variant: 'destructive' });
+    } else {
+      showToast({ title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' });
+    }
     clearSelection();
     reload();
   };
 
   const handleSingleDeleteClick = (item: Currency) => {
     setItemToDelete(item);
-    setTimeout(() => singleDeleteTriggerRef.current?.click(), 0);
+    singleDeleteTriggerRef.current?.click();
   };
 
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
     await singleDeleteMutation.mutateAsync(itemToDelete.id);
+    deselect(itemToDelete.id);
+    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+    setItemToDelete(null);
+    reload();
   };
 
   return (

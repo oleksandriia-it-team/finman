@@ -6,7 +6,7 @@ export function useCurrencyMutations(onSuccessCallback?: () => void) {
   const submitMutation = useSendDataFetch(
     async ({ id, data }: { id?: number | undefined; data: CurrencyFormData }) => {
       if (id) {
-        return fetchClient.patch(`/api/lookups/currencies/update/${id}`, data);
+        return fetchClient.put(`/api/lookups/currencies/update/${id}`, data);
       }
       return fetchClient.post('/api/lookups/currencies/create', data);
     },
@@ -17,7 +17,7 @@ export function useCurrencyMutations(onSuccessCallback?: () => void) {
 
   const deleteMutation = useSendDataFetch(
     async (id: number) => {
-      return fetchClient.patch(`/api/lookups/currencies/update/${id}`, { softDeleted: 1 });
+      return fetchClient.delete(`/api/lookups/currencies/remove/${id}`);
     },
     {
       ...(onSuccessCallback ? { onSuccess: onSuccessCallback } : {}),
