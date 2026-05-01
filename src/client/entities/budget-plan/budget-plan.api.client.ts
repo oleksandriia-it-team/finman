@@ -20,7 +20,7 @@ export class BudgetPlanApiClient implements IBudgetPlanRepository {
 
   updateItem(input: UpdateBudgetPlanModel): Promise<true> {
     return fetchClient
-      .post<ApiResultOperationSuccess<true>>('/api/budget/plan/update-current-month', input)
+      .put<ApiResultOperationSuccess<true>>('/api/budget/plan/update-current-month', input)
       .then((r) => r.data);
   }
 }

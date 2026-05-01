@@ -14,10 +14,10 @@ const EntryBaseSchemaFirstPart = z.object({
   description: z
     .string()
     .trim()
-    .min(1)
     .max(MonthEntryRequirements.MaxDescriptionLength, {
       error: `Максимальна довжина опису: ${MonthEntryRequirements.MaxDescriptionLength} символів`,
-    }),
+    })
+    .default(''),
   sum: z.coerce.number({ error: 'Введіть суму' }).min(MonthEntryRequirements.MinSumValue, {
     error: `Мінімальна довжина суми: ${MonthEntryRequirements.MinSumValue}`,
   }),

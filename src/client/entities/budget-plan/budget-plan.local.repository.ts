@@ -23,7 +23,10 @@ export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, neve
   }
 
   async getItem({ month, year }: GetBudgetPlanModel): Promise<BudgetPlan | null> {
-    return (await this.table.filter((plan) => plan.year === year && plan.month === month).first()) ?? null;
+    return (
+      (await this.table.filter((plan) => plan.year === year && plan.month === month && !plan.softDeleted).first()) ??
+      null
+    );
   }
 }
 

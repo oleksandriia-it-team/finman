@@ -19,7 +19,7 @@ export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBud
     const date = getCurrentMonthDate();
     const exist = await this.budgetPlanRepository.getItem(date);
 
-    if (exist) {
+    if (exist && !exist.softDeleted) {
       throw Error('Budget plan should not be existed');
     }
 

@@ -4,7 +4,7 @@ import type { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure
 export function NotExistBudgetPlanGuard(budgetPlan: BudgetPlanOrm | null): ApiResultOperationError | null {
   if (budgetPlan && !budgetPlan.softDeleted) {
     return {
-      status: 404,
+      status: 409,
       message: 'Бюджетний план вже існує',
     };
   }

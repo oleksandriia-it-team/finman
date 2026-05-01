@@ -14,7 +14,7 @@ export const POST = createRoute({
 
     return {
       status: 200,
-      data: await budgetPlanRepository.getItem(body, userId),
+      data: await budgetPlanRepository.getItem({ ...body, userId }),
     };
   },
   filter: getDefaultApiErrorFilter,
