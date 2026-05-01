@@ -1,9 +1,9 @@
 import { type MutationFunction, useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { type ApiError } from '@frontend/shared/models/api-error.model';
 import { useMemo } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { getErrorMessage } from '@common/utils/get-error-message.util';
 
 export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,

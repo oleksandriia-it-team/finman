@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { getErrorMessage } from '@common/utils/get-error-message.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;

@@ -1,4 +1,3 @@
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.contant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
@@ -7,6 +6,7 @@ import { type RecordModel } from '@common/models/record.model';
 import { DexieService } from '@frontend/database/dexie.service';
 import Dexie, { type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -90,7 +90,7 @@ export class DatabaseLocalService {
       if (!includeSoftDeleted && item?.softDeleted) return null;
       return item;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -134,7 +134,7 @@ export class DatabaseLocalService {
         .limit(limit)
         .toArray();
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -178,7 +178,7 @@ export class DatabaseLocalService {
 
       return await collection.count();
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -200,7 +200,7 @@ export class DatabaseLocalService {
 
       return (await collection.filter((item) => item.softDeleted === 0).first()) ?? null;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -214,7 +214,7 @@ export class DatabaseLocalService {
       }
       return (await this.table<T>(tableName).where('softDeleted').equals(0).first()) ?? null;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -245,7 +245,7 @@ export class DatabaseLocalService {
 
       return await table.put(data as DefaultTableColumns & RecordModel);
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 
@@ -264,7 +264,7 @@ export class DatabaseLocalService {
 
       return true;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new Error(getSafeErrorMessage(error));
     }
   }
 

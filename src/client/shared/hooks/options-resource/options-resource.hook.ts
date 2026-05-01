@@ -3,8 +3,8 @@ import { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { PromiseState } from '../../enums/promise-state.enum';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import { getErrorMessage } from '@common/utils/get-error-message.util';
 
 export function useOptionsResource<T, Multiple extends boolean = false>({
   multiple,

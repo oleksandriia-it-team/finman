@@ -7,7 +7,7 @@ import {
 } from '../models/create-route.model';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 import { type z, type ZodTypeAny } from 'zod';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
@@ -33,7 +33,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         return filter(e as Error);
       }
 
-      return NextResponse.json({ status: 500, message: getErrorMessage(e) }, { status: 500 });
+      return NextResponse.json({ status: 500, message: getSafeErrorMessage(e) }, { status: 500 });
     }
 
     let resultBeforeTransformers = contextFn?.(request, transformedParams);
@@ -89,7 +89,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         return filter(e as Error);
       }
 
-      return NextResponse.json({ status: 500, message: getErrorMessage(e) }, { status: 500 });
+      return NextResponse.json({ status: 500, message: getSafeErrorMessage(e) }, { status: 500 });
     }
   };
 }
