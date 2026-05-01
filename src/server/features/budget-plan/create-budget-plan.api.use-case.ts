@@ -42,7 +42,9 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
     const result = await this.budgetPlanRepository.repository.save(data);
 
     await this.monthEntryRepository.repository.save(
-      otherEntries.map((entry) => this.monthEntryRepository.repository.create({ ...entry, budgetPlanId: result.id })),
+      otherEntries.map(({ id: _, ...entry }) =>
+        this.monthEntryRepository.repository.create({ ...entry, budgetPlanId: result.id }),
+      ),
     );
 
     return result.id;
