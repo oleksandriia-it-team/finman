@@ -38,13 +38,22 @@ class FetchClientService {
     method: string,
     options: RequestOptions<D, T> = {},
   ): Promise<T> {
-    const { params, body, signal, defaultValue, headers: customHeaders, skipAuth = false, ...restOptions } = options;
+    const {
+      params,
+      body,
+      signal,
+      defaultValue,
+      headers: customHeaders,
+      skipAuth = false,
+      throwErrorIfNotAuth = true,
+      ...restOptions
+    } = options;
     const headers = new Headers(customHeaders);
 
     const hasAuthorizationHeader = Boolean(headers.get('Authorization')?.trim());
     const accessToken = this.authTokenService.getAccessToken();
 
-    if (!skipAuth && !accessToken && !hasAuthorizationHeader) {
+    if (!skipAuth && !accessToken && !hasAuthorizationHeader && throwErrorIfNotAuth) {
       throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
     }
 

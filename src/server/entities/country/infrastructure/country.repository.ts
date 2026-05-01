@@ -33,21 +33,17 @@ export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAn
     from: number,
     to: number,
     filters?: DeepPartial<CountriesAndLocalesFilter>,
+    getCreatedBy?: boolean,
   ): Promise<CountryOrm[]> {
     const skip = from - 1;
     const take = to - from + 1;
 
-    const results = await this.repository.find({
+    return await this.repository.find({
       where: this.mapFilters(filters),
       skip,
       take,
-      relations: ['admin'],
+      relations: { admin: getCreatedBy ?? false },
     });
-
-    return results.map((item) => ({
-      ...item,
-      adminName: item.admin?.name ?? null,
-    })) as CountryOrm[];
   }
 }
 

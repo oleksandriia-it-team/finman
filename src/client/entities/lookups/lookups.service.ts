@@ -5,6 +5,7 @@ import { LookupsTypeRequest } from '@common/domains/lookups/enums/lookups-type-r
 import { type LookupsResponseResult } from '@common/domains/lookups/models/get-lookups-items-result';
 import { type LookupsDto } from '@common/domains/lookups/models/lookups-dto';
 import { type ApiResultOperation, type ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
+import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 
 /**
  * Service for handling lookup operations
@@ -42,13 +43,13 @@ export class LookupsService {
     let result: Response;
 
     if (typeRequest !== LookupsTypeRequest.GetById) {
-      result = await fetch(`/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        signal: abortSignal ?? null,
-      });
+      result = await fetchClient.post(
+        `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`,
+        payload,
+        { signal: abortSignal ?? null },
+      );
     } else {
-      result = await fetch(
+      result = await fetchClient.get(
         `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}/${
           (
             payload as {
@@ -57,8 +58,9 @@ export class LookupsService {
           ).id
         }`,
         {
-          method: 'GET',
           signal: abortSignal ?? null,
+          skipAuth: false,
+          throwErrorIfNotAuth: false,
         },
       );
     }

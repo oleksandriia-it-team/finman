@@ -5,11 +5,11 @@ import { UiTable } from '@frontend/shared/ui/ui-table/ui-table';
 import { UiTableHeader } from '@frontend/shared/ui/ui-table/ui-table-header';
 import { UiTableBody } from '@frontend/shared/ui/ui-table/ui-table-body';
 import { UiTableRow } from '@frontend/shared/ui/ui-table/ui-table-row';
-import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { LookupPageHeader } from '@frontend/entities/lookups/lookup-page-header/lookup-page-header';
 import { LookupTableHead } from './lookup-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
+import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
 
 interface LookupTableProps<T extends DefaultTableColumns> {
   title: string;
@@ -20,9 +20,9 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   columns: LookupColumnDef<T>[];
 
   state: PromiseState;
+  errorMessage: string | undefined;
   hasData: boolean;
   skeletonItems: number;
-  skeleton: () => ReactNode;
 
   children: ReactNode;
 
@@ -45,10 +45,10 @@ export function LookupTable<T extends DefaultTableColumns>({
   state,
   hasData,
   skeletonItems,
-  skeleton,
   children,
   selectedPage,
   setPage,
+  errorMessage,
   pageSize,
   totalCount,
 }: LookupTableProps<T>) {
@@ -62,7 +62,10 @@ export function LookupTable<T extends DefaultTableColumns>({
       />
 
       <div className="flex-1 overflow-auto bg-background">
-        <UiTable>
+        <UiTable
+          className="h-full"
+          containerClassName="h-full"
+        >
           <UiTableHeader>
             <UiTableRow className="border-b border-border/70 hover:bg-transparent">
               <LookupTableHead columns={columns} />
@@ -70,14 +73,18 @@ export function LookupTable<T extends DefaultTableColumns>({
           </UiTableHeader>
 
           <UiTableBody>
-            <FinListScreenHandler
+            <FinTableScreenHandler
               state={state}
               hasData={hasData}
+              errorMessage={errorMessage}
               skeletonItems={skeletonItems}
-              skeleton={skeleton}
+              skeletonClassName="h-4"
+              totalColumns={
+                columns.length + 6 /* selection + status + created at + created by + updated at + actions */
+              }
             >
               {children}
-            </FinListScreenHandler>
+            </FinTableScreenHandler>
           </UiTableBody>
         </UiTable>
       </div>
