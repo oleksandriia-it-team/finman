@@ -7,8 +7,8 @@ import {
 } from '../models/create-route.model';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 import { type z, type ZodTypeAny } from 'zod';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
+import { ErrorTexts } from '@common/constants/error-texts.contant';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
   config: CreateRouteConfig<Schema, TR, BTR, R, TP>,
@@ -33,7 +33,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         return filter(e as Error);
       }
 
-      return NextResponse.json({ status: 500, message: getSafeErrorMessage(e) }, { status: 500 });
+      return NextResponse.json({ status: 500, message: ErrorTexts.UnknownError }, { status: 500 });
     }
 
     let resultBeforeTransformers = contextFn?.(request, transformedParams);
@@ -89,7 +89,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         return filter(e as Error);
       }
 
-      return NextResponse.json({ status: 500, message: getSafeErrorMessage(e) }, { status: 500 });
+      return NextResponse.json({ status: 500, message: ErrorTexts.UnknownError }, { status: 500 });
     }
   };
 }
