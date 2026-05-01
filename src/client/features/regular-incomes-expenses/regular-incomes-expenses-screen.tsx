@@ -12,7 +12,7 @@ import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -53,7 +53,7 @@ export default function RegularIncomesExpensesScreen() {
         <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
           <FinListScreenHandler
             state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getErrorMessage(onDelete.error)}
+            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="h-72"

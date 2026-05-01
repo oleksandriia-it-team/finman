@@ -1,9 +1,9 @@
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { ErrorTexts } from '@common/constants/error-texts.contant';
-import { checkIsApiError } from '@common/utils/check-is-api-error.util';
+import { checkIsApiErrorObj } from '@common/utils/check-is-api-error.util';
 
 export function getApiErrorMessage(error: unknown): ApiResultOperationError {
-  const isApiError = checkIsApiError(error);
+  const isApiError = checkIsApiErrorObj(error);
 
   if (isApiError) {
     return {

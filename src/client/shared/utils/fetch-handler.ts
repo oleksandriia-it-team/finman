@@ -1,4 +1,5 @@
-import { type ApiError } from '@frontend/shared/models/api-error.model';
+import { checkIsApiErrorObj } from '@common/utils/check-is-api-error.util';
+import { AppError } from '@common/classes/api-error.class';
 
 /**
  * Handles the fetch API response, parsing JSON and managing empty bodies or errors.
@@ -8,30 +9,21 @@ import { type ApiError } from '@frontend/shared/models/api-error.model';
  * @param {T} [defaultValue] - Optional value to return if the response body is empty.
  * If not provided and the body is empty, an error will be thrown.
  * @returns {Promise<T>} - Resolves to the parsed data or the provided default value.
- * @throws {ApiError} - Thrown for HTTP errors, domain-specific error statuses, or missing required bodies.
+ * @throws {AppError} - Thrown for HTTP errors, domain-specific error statuses, or missing required bodies.
  */
 export async function handleResponse<T>(response: Response, defaultValue?: T): Promise<T> {
   const isJson = response.headers.get('content-type')?.includes('application/json');
   const data = isJson ? await response.json() : null;
 
   if (!response.ok || (data && data.status >= 400)) {
-    const error: ApiError = {
-      message: data?.message || response.statusText || 'Помилка запиту',
-      status: data?.status || response.status,
-      code: data?.code,
-    };
-    throw error;
+    if (checkIsApiErrorObj(data)) throw new AppError(data.message, data.status);
   }
   if (data === null) {
     if (defaultValue !== undefined) {
       return defaultValue;
     }
 
-    const error: ApiError = {
-      message: 'Expected JSON body for successful response',
-      status: response.status,
-    };
-    throw error;
+    throw new AppError('Неочікувана помилка з обробкою запиту. Спробуйте пізніше', 500);
   }
 
   return data as T;
