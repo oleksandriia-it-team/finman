@@ -11,12 +11,16 @@ export function LookupCreatedByCell({ name, avatar }: LookupCreatedBy) {
       {avatar ? (
         <UiGraphic
           src={avatar}
-          alt={name}
+          alt=""
+          aria-hidden="true"
           size={20}
           className="rounded-full"
         />
       ) : (
-        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted font-semibold text-muted-foreground">
+        <span
+          aria-hidden="true"
+          className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-muted font-semibold text-muted-foreground"
+        >
           {name.charAt(0).toUpperCase()}
         </span>
       )}
