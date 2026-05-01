@@ -1,6 +1,6 @@
 import { type MigrationInterface, type QueryRunner, TableColumn } from 'typeorm';
 
-export class AddAdminIdToLookups1746100000000 implements MigrationInterface {
+export class AddAdminIdToLookups1746000000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const currencyTable = await queryRunner.getTable('currency');
     if (currencyTable && !currencyTable.findColumnByName('adminId')) {

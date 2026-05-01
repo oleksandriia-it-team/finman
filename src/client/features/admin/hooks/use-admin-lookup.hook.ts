@@ -75,11 +75,16 @@ export function useAdminLookup<T extends DefaultTableColumns>({
   const confirmSingleDelete = async () => {
     if (!itemToDelete) return;
 
-    await deleteMutation.mutateAsync(itemToDelete.id);
-    selection.deselect(itemToDelete.id);
-    showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
-    setItemToDelete(null);
-    pagination.reload();
+    try {
+      await deleteMutation.mutateAsync(itemToDelete.id);
+      selection.deselect(itemToDelete.id);
+      showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+    } catch {
+      return;
+    } finally {
+      setItemToDelete(null);
+      pagination.reload();
+    }
   };
 
   const confirmBulkDelete = async () => {

@@ -18,6 +18,10 @@ export const PUT = createRoute({
   execute: async ({ body, context, params: { id } }) => {
     const existing = context.currency!;
 
+    if (body.name === undefined && body.code === undefined && body.symbol === undefined) {
+      return { status: 400, message: 'Не передано дані для оновлення' };
+    }
+
     await currencyRepository.updateItem(id, {
       currencyName: body.name ?? existing.currencyName,
       currencyCode: body.code ?? existing.currencyCode,
