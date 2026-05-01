@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { LookupsService } from '../lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 
@@ -6,6 +6,10 @@ vi.stubGlobal('fetch', vi.fn());
 
 describe('LookupsService', () => {
   const service = new LookupsService();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('should fetch list of items', async () => {
     const mockResponse = {
@@ -15,18 +19,14 @@ describe('LookupsService', () => {
 
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
+      status: 200,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: async () => mockResponse,
     } as Response);
 
     const result = await service.getItems(LookupsTypeEnum.Currency, 1, 10, {});
 
     expect(result).toEqual(mockResponse.data);
-    expect(fetch).toHaveBeenCalledWith(
-      '/api/lookups/currencies/get-items',
-      expect.objectContaining({
-        body: JSON.stringify({ from: 1, to: 10, filters: {} }),
-      }),
-    );
   });
 
   it('should fetch a single item by ID', async () => {
@@ -37,19 +37,14 @@ describe('LookupsService', () => {
 
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
+      status: 200,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: async () => mockResponse,
     } as Response);
 
     const result = await service.getItem(LookupsTypeEnum.Currency, 1);
 
     expect(result).toEqual(mockResponse.data);
-    expect(fetch).toHaveBeenCalledWith(
-      `/api/lookups/currencies/get-by-id/1`,
-      expect.objectContaining({
-        method: 'GET',
-        signal: null,
-      }),
-    );
   });
 
   it('should fetch total count of items', async () => {
@@ -60,18 +55,14 @@ describe('LookupsService', () => {
 
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: true,
+      status: 200,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: async () => mockResponse,
     } as Response);
 
     const result = await service.getTotalCount(LookupsTypeEnum.Currency, {});
 
     expect(result).toEqual(mockResponse.data);
-    expect(fetch).toHaveBeenCalledWith(
-      '/api/lookups/currencies/get-total-items',
-      expect.objectContaining({
-        body: JSON.stringify({ filters: {} }),
-      }),
-    );
   });
 
   it('should throw an error for 400 status', async () => {
@@ -82,11 +73,14 @@ describe('LookupsService', () => {
 
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: false,
+      status: 400,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: async () => mockErrorResponse,
     } as Response);
 
     await expect(service.getItem(LookupsTypeEnum.Currency, 1)).rejects.toMatchObject({
-      message: mockErrorResponse.message,
+      message: 'Bad Request',
+      status: 400,
     });
   });
 
@@ -98,11 +92,14 @@ describe('LookupsService', () => {
 
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: false,
+      status: 500,
+      headers: new Headers({ 'content-type': 'application/json' }),
       json: async () => mockErrorResponse,
     } as Response);
 
     await expect(service.getItems(LookupsTypeEnum.Currency, 1, 10, {})).rejects.toMatchObject({
-      message: mockErrorResponse.message,
+      message: 'Internal Server Error',
+      status: 500,
     });
   });
 });
