@@ -80,6 +80,7 @@ export function useAdminLookup<T extends DefaultTableColumns>({
       selection.deselect(itemToDelete.id);
       showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
     } catch {
+      showToast({ title: 'Помилка', description: 'Запис не вдалося видалити', variant: 'destructive' });
       return;
     } finally {
       setItemToDelete(null);

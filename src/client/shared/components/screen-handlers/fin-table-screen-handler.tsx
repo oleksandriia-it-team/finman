@@ -45,11 +45,23 @@ export function FinTableScreenHandler({
     );
   }, [error, errorMessage, totalColumns]);
 
+  const tableEmpty = useMemo(
+    () => (
+      <UiTableRow>
+        <UiTableCell colSpan={totalColumns}>
+          <span className="italic">Дані не знайдено</span>
+        </UiTableCell>
+      </UiTableRow>
+    ),
+    [totalColumns],
+  );
+
   return (
     <FinListScreenHandler
       {...props}
       skeleton={tableSkeleton}
       error={tableError}
+      notItemFound={props.notItemFound ?? tableEmpty}
       errorMessage={errorMessage}
     />
   );

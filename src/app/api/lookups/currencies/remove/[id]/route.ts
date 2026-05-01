@@ -5,14 +5,18 @@ import { currencyRepository } from '@backend/entities/currency/infrastructure/cu
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { ExistCurrencyGuard } from '@backend/entities/currency/application/exist-currency.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
+import { GetUserRoleTransformer } from '@backend/shared/transformers/get-user-role.transformer';
+import { RoleGuard } from '@backend/entities/user/infrastructure/role.guard';
+import { RoleEnum } from '@common/domains/user/enums/role.enum';
 
 export const DELETE = createRoute({
   paramsFn: (context) => ({ id: GetIntegerParamPipe(context.id, 1) }),
   contextFn: async (request, params) => ({
     userId: await GetUserIdTransformer(request),
+    role: await GetUserRoleTransformer(request),
     currency: await currencyRepository.getItemById(params.id),
   }),
-  guards: [AuthGuard, ({ context }) => ExistCurrencyGuard(context.currency)],
+  guards: [AuthGuard, RoleGuard(RoleEnum.Admin), ({ context }) => ExistCurrencyGuard(context.currency)],
   execute: async ({ params: { id } }) => {
     await currencyRepository.deleteItem(id, true);
     return { status: 200, data: true };
