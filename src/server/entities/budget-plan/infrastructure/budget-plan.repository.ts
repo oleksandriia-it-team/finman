@@ -8,7 +8,13 @@ export type GetApiBudgetPlanInput = GetBudgetPlanModel & { userId: number };
 export class BudgetPlanRepository extends CrudApiRepository<BudgetPlanOrm, never, BudgetPlanDto> {
   async getItem({ month, year, userId }: GetApiBudgetPlanInput) {
     if (userId) {
-      return this.repository.findOne({ where: { month, year, userId } });
+      return this.repository.findOne({
+        where: { month, year, userId },
+        relations: {
+          plannedRegularEntries: true,
+          otherEntries: true,
+        },
+      });
     }
     return this.repository.findOne({ where: { month, year } });
   }

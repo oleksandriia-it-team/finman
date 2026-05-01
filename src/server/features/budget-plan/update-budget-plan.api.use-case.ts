@@ -84,8 +84,8 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
     }
 
     await this.budgetPlanRepository.repository.save({
-      ...currentBudgetPlan,
       ...data,
+      id: budgetPlanId,
       plannedRegularEntries: plannedRegularEntryIds.map((id) =>
         this.plannedRegularEntryRepository.repository.create({ id }),
       ),
