@@ -12,7 +12,7 @@ export class UpdateRegularEntryCommonUseCase implements IUseCase<UpdateRegularEn
   async execute({ id, ...input }: UpdateRegularEntryInput): Promise<true> {
     const exist = await this.regularEntryRepository.findByTitle(input);
 
-    if (exist) {
+    if (!exist) {
       throw new AppError('Регулярна операція з даним заголовком вже існує. Оберіть інший');
     }
 
