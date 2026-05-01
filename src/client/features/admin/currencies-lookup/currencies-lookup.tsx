@@ -48,7 +48,10 @@ export function CurrenciesLookup() {
   const singleDeleteTriggerRef = useRef<HTMLButtonElement>(null);
   const bulkDeleteTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const { options, state, selectedPage, setPage, totalCount, reload } = usePaginationResource<Currency, object>({
+  const { options, state, selectedPage, setPage, errorMessage, totalCount, reload } = usePaginationResource<
+    Currency,
+    object
+  >({
     queryKey: ['admin', 'lookups', 'currencies'],
     pageSize: PAGE_SIZE,
     getOptionsFn: (page) =>
@@ -101,6 +104,7 @@ export function CurrenciesLookup() {
           setIsFormOpen(true);
         }}
         onDelete={handleBulkDeleteClick}
+        errorMessage={errorMessage}
         columns={Columns}
         state={state}
         hasData={!!options.length}

@@ -20,7 +20,7 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   columns: LookupColumnDef<T>[];
 
   state: PromiseState;
-  errorMessage: string | undefined;
+  errorMessage: string | null | undefined;
   hasData: boolean;
   skeletonItems: number;
 

@@ -95,6 +95,7 @@ export function CountriesLookup() {
           setIsFormOpen(true);
         }}
         onDelete={handleBulkDeleteClick}
+        errorMessage={errorMessage}
         columns={Columns}
         state={state}
         hasData={!!options.length}
