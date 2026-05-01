@@ -30,10 +30,6 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   setPage: (page: number) => void;
   pageSize: number;
   totalCount: number;
-
-  withSelection?: boolean;
-  withAuditColumns?: boolean;
-  withActions?: boolean;
 }
 
 export function LookupTable<T extends DefaultTableColumns>({
@@ -62,31 +58,33 @@ export function LookupTable<T extends DefaultTableColumns>({
       />
 
       <div className="flex-1 overflow-auto bg-background">
-        <UiTable
-          className="h-full"
-          containerClassName="h-full"
-        >
-          <UiTableHeader>
-            <UiTableRow className="border-b border-border/70 hover:bg-transparent">
-              <LookupTableHead columns={columns} />
-            </UiTableRow>
-          </UiTableHeader>
+        <div className="flex flex-col h-max">
+          <UiTable
+            className="h-full"
+            containerClassName="h-full"
+          >
+            <UiTableHeader>
+              <UiTableRow className="border-b border-border/70 hover:bg-transparent">
+                <LookupTableHead columns={columns} />
+              </UiTableRow>
+            </UiTableHeader>
 
-          <UiTableBody>
-            <FinTableScreenHandler
-              state={state}
-              hasData={hasData}
-              errorMessage={errorMessage}
-              skeletonItems={skeletonItems}
-              skeletonClassName="h-4"
-              totalColumns={
-                columns.length + 6 /* selection + status + created at + created by + updated at + actions */
-              }
-            >
-              {children}
-            </FinTableScreenHandler>
-          </UiTableBody>
-        </UiTable>
+            <UiTableBody>
+              <FinTableScreenHandler
+                state={state}
+                hasData={hasData}
+                errorMessage={errorMessage}
+                skeletonItems={skeletonItems}
+                skeletonClassName="h-4"
+                totalColumns={
+                  columns.length + 6 /* selection + status + created at + created by + updated at + actions */
+                }
+              >
+                {children}
+              </FinTableScreenHandler>
+            </UiTableBody>
+          </UiTable>
+        </div>
       </div>
 
       <div className="border-t border-border bg-background px-6 py-3">

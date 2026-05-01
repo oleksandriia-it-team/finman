@@ -4,10 +4,10 @@ export type LookupCreatedBy = {
 };
 
 export function getCreatedBy(item: unknown): LookupCreatedBy {
-  const source = item as { adminName?: string | null };
+  const source = item as { admin?: { name?: string | null } | null };
 
   return {
-    name: source.adminName ?? null,
+    name: source.admin?.name ?? null,
     avatar: null,
   };
 }

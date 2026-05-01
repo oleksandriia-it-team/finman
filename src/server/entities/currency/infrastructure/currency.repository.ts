@@ -18,20 +18,21 @@ export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyF
     return where;
   }
 
-  override async getItems(from: number, to: number, filters?: DeepPartial<CurrencyFilter>): Promise<CurrencyOrm[]> {
+  override async getItems(
+    from: number,
+    to: number,
+    filters?: DeepPartial<CurrencyFilter>,
+    getCreatedBy?: boolean,
+  ): Promise<CurrencyOrm[]> {
     const skip = from - 1;
     const take = to - from + 1;
 
-    const results = await this.repository.find({
+    return await this.repository.find({
       where: this.mapFilters(filters),
       skip,
       take,
-      relations: ['admin'],
+      relations: { admin: getCreatedBy ?? false },
     });
-    return results.map((item) => ({
-      ...item,
-      adminName: item.admin?.name ?? null,
-    })) as CurrencyOrm[];
   }
 }
 
