@@ -3,8 +3,16 @@ import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/
 import { type DeepPartial } from '@common/models/deep-partial.model';
 import { type FindOptionsWhere } from 'typeorm';
 import { type RegularEntryApiFilter } from '@backend/entities/regular-entry/domain/regular-entry-api.filter';
+import type {
+  FindRegularEntryByTitleInput,
+  IRegularEntryRepository,
+} from '@common/domains/regular-entry/models/regular-entry-repository.model';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
-export class RegularEntryApiRepository extends CrudApiRepository<RegularEntryOrm, RegularEntryApiFilter> {
+export class RegularEntryApiRepository
+  extends CrudApiRepository<RegularEntryOrm, RegularEntryApiFilter>
+  implements IRegularEntryRepository
+{
   protected override mapFilters(
     filters: DeepPartial<RegularEntryApiFilter> | undefined,
   ): FindOptionsWhere<RegularEntryOrm> {
@@ -27,6 +35,10 @@ export class RegularEntryApiRepository extends CrudApiRepository<RegularEntryOrm
     }
 
     return where;
+  }
+
+  findByTitle(input: FindRegularEntryByTitleInput): Promise<RegularEntry | null> {
+    return this.repository.findOne({ where: input });
   }
 }
 
