@@ -6,6 +6,7 @@ import { TransactionCategoryPicker } from '@frontend/entities/operations/transac
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { FinControlledTextarea } from '@frontend/components/controlled-fields/fin-controlled-textarea';
 import type { ReactNode } from 'react';
+import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constant';
 
 interface CardsFormTemplateProps {
   submit: () => void;
@@ -114,7 +115,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
       <FinControlledInput
         label="Сума"
         id="sum"
-        pattern={/[0-9]*/}
+        pattern={NumberOnlyPattern}
         name="sum"
         type="number"
         placeholder="0.00"

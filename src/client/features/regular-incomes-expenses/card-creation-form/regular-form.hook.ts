@@ -25,8 +25,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
     } as never,
   });
 
-  console.log(methods.formState);
-
   const submit = methods.handleSubmit(
     async (data: RegularEntry) => {
       try {
@@ -35,13 +33,11 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         if (isEdit && initialData) {
           await handleUpdate(initialData.id, {
             ...entryData,
-            category: entryData.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
         } else {
           await handleCreate({
             ...entryData,
-            category: entryData.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc,
             description: entryData.description ?? '',
           });
         }

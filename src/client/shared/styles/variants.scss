@@ -2,14 +2,15 @@ $variants: (
   'default': (
     var(--button-default-background),
     var(--foreground),
+    var(--muted),
   ),
   'primary': (
     var(--primary),
     var(--primary-foreground),
   ),
   'destructive': (
-    var(--destructive),
     var(--destructive-foreground),
+    var(--destructive),
   ),
   'muted': (
     var(--muted),
@@ -38,6 +39,10 @@ $variants: (
   'teal': (
     var(--teal),
     var(--teal-foreground),
+  ),
+  'aqua':(
+    var(--aqua),
+    var(--aqua-foreground),
   ),
 );
 $sizes: (

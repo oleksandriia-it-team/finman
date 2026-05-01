@@ -1,12 +1,13 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import type { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
 export interface UiIconItem {
   value: string;
   label: string;
   icon: string;
-  bgColor: string;
-  textColor: string;
+  variant: ColorVariantModel;
 }
 
 interface UiIconsPickerProps {
@@ -22,25 +23,17 @@ export function UiIconsPicker({ items, value, onSelect }: UiIconsPickerProps) {
         const isSelected = value === item.value;
 
         return (
-          <button
-            type="button"
+          <UiButton
             key={item.value}
             title={item.label}
             onClick={() => onSelect(item.value)}
-            style={
-              isSelected
-                ? { backgroundColor: item.bgColor, color: item.textColor, borderColor: item.textColor }
-                : undefined
-            }
-            className={cn(
-              'p-3 rounded-2xl transition-all border-2 cursor-pointer',
-              isSelected
-                ? 'scale-110 shadow-md'
-                : 'bg-secondary text-muted-foreground border-transparent hover:bg-accent',
-            )}
+            variant={item.variant}
+            borderNone={isSelected}
+            isOutlined={!isSelected}
+            className="!size-12"
           >
             <UiSvgIcon name={item.icon} />
-          </button>
+          </UiButton>
         );
       })}
     </div>

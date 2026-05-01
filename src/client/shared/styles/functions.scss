@@ -1,3 +1,13 @@
+@use 'sass:list';
+
 @function getOpacity($color, $opacity) {
   @return color-mix(in srgb, #{$color}, transparent #{$opacity});
+}
+
+@function getSafeNth($list, $index, $default: null) {
+  @if list.length($list) >= $index {
+    @return list.nth($list, $index);
+  }
+
+  @return $default;
 }

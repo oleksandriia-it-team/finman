@@ -96,35 +96,6 @@
   }
 }
 
-.sheet-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  border-radius: 0.125rem;
-  opacity: 0.7;
-  outline-offset: 2px;
-  transition-property: opacity;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--ring);
-  }
-
-  &:disabled {
-    pointer-events: none;
-  }
-
-  .sheet-content[data-state='open'] & {
-    background-color: var(--secondary);
-  }
-}
-
 @keyframes slideInFromRight {
   from {
     transform: translateX(100%);

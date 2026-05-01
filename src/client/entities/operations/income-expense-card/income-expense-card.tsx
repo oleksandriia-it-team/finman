@@ -3,7 +3,7 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
-import { CategoriesMapping } from '@frontend/entities/operations/income-expense-card/card-styles-mappings';
+import { CategoriesMapping } from '@frontend/entities/operations/card-styles-mappings';
 import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';

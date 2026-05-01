@@ -29,7 +29,7 @@ export function TransactionCard({
   return (
     <div
       className={cn(
-        'flex items-center justify-between md:p-3 p-2 rounded-4xl shadow-lg mb-2 ',
+        'w-full flex items-center justify-between md:p-3 p-2 rounded-4xl shadow-lg mb-2 ',
         bgNone ? 'bg-transparent' : 'bg-card',
         className,
       )}

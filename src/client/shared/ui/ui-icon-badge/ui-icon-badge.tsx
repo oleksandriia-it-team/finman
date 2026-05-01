@@ -12,12 +12,13 @@ export function UiIconBadge({
   size = 'default',
   isRoundedFull,
   isReversed,
+  bgNone,
   ...props
 }: IconBadgeProps) {
   return (
     <UiSvgIcon
       name={name}
-      className={cn('icon-badge', className, isRoundedFull && '!rounded-full')}
+      className={cn('icon-badge', isRoundedFull && '!rounded-full', bgNone && '!bg-[transparent]', className)}
       data-variant={variant}
       data-size={size}
       data-reverse={isReversed ?? false}

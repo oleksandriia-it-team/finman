@@ -17,6 +17,7 @@ export function UiActionButton({
 }: ActionsButtonProps) {
   return (
     <UiButton
+      borderNone
       type={type}
       variant={variant}
       size={size}

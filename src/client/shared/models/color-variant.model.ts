@@ -8,4 +8,5 @@ export type ColorVariantModel =
   | 'purple'
   | 'pink'
   | 'orange'
-  | 'teal';
+  | 'teal'
+  | 'aqua';

@@ -8,4 +8,5 @@ export interface IconBadgeProps extends ComponentProps<'div'> {
   size?: SizeVariantModel | undefined;
   isRoundedFull?: boolean;
   isReversed?: boolean;
+  bgNone?: boolean;
 }
