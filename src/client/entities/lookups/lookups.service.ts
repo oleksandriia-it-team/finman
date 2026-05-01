@@ -40,16 +40,16 @@ export class LookupsService {
     abortSignal: AbortSignal | undefined,
     payload: unknown,
   ): Promise<LookupsResponseResult<LookupsDto[LT]>[LTR]> {
-    let result: Response;
+    let result: ApiResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]>;
 
     if (typeRequest !== LookupsTypeRequest.GetById) {
-      result = await fetchClient.post(
+      result = await fetchClient.post<ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>>(
         `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`,
         payload,
         { signal: abortSignal ?? null },
       );
     } else {
-      result = await fetchClient.get(
+      result = await fetchClient.get<ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>>(
         `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}/${
           (
             payload as {
@@ -65,13 +65,7 @@ export class LookupsService {
       );
     }
 
-    const body: ApiResultOperation<LookupsResponseResult<LookupsDto[LT]>[LTR]> = await result.json();
-
-    if (body.status === 400 || body.status === 500) {
-      throw new Error(body.message);
-    }
-
-    return (body as ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>).data;
+    return result.data;
   }
 }
 
