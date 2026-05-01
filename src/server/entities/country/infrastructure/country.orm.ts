@@ -17,7 +17,7 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
 
   @ManyToOne('UserOrm', { nullable: true, onDelete: 'SET NULL' })
   @JoinColumn({ name: 'adminId' })
-  admin?: UserOrm;
+  admin?: UserOrm | null = null;
 
   @OneToMany('UserOrm', 'country')
   users?: UserOrm[];

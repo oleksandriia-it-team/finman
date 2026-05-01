@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import type { CountryAndLocale } from '@common/records/countries.record';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { LookupTable } from '@frontend/entities/lookups/lookup-table/lookup-table';
 import { LookupTableRow } from '@frontend/entities/lookups/lookup-table/lookup-table-row';
-import { LookupRowSkeleton } from '@frontend/entities/lookups/lookup-table/lookup-row-skeleton';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
 import { CountryFormModal } from '@frontend/features/admin/lookups/countries/country-form-modal';
@@ -31,12 +30,6 @@ const Columns: LookupColumnDef<CountryAndLocale>[] = [
   },
 ];
 
-const skeletonWidths = ['w-32', 'w-24'];
-
-function CountryRowSkeleton() {
-  return <LookupRowSkeleton columnWidths={skeletonWidths} />;
-}
-
 export function CountriesLookup() {
   const { hasSelection, isSelected, toggleRow, clearSelection, selected, deselect } = useLookupSelection();
   const { showToast } = useGlobalToast();
@@ -48,15 +41,18 @@ export function CountriesLookup() {
   const singleDeleteTriggerRef = useRef<HTMLButtonElement>(null);
   const bulkDeleteTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const { options, state, selectedPage, setPage, totalCount, reload } = usePaginationResource<CountryAndLocale, object>(
-    {
-      queryKey: ['admin', 'lookups', 'countries'],
-      pageSize: PAGE_SIZE,
-      getOptionsFn: (page) =>
-        lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
-      getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
-    },
-  );
+  const { options, state, selectedPage, errorMessage, setPage, totalCount, reload } = usePaginationResource<
+    CountryAndLocale,
+    object
+  >({
+    queryKey: ['admin', 'lookups', 'countries'],
+    pageSize: PAGE_SIZE,
+    getOptionsFn: (page) =>
+      lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
+    getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
+  });
+
+  console.log(state);
 
   const { deleteMutation: bulkDeleteMutation } = useCountryMutations();
 
@@ -99,11 +95,11 @@ export function CountriesLookup() {
           setIsFormOpen(true);
         }}
         onDelete={handleBulkDeleteClick}
+        errorMessage={errorMessage}
         columns={Columns}
         state={state}
         hasData={!!options.length}
         skeletonItems={PAGE_SIZE}
-        skeleton={CountryRowSkeleton}
         selectedPage={selectedPage}
         setPage={setPage}
         pageSize={PAGE_SIZE}
