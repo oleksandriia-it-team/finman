@@ -4,10 +4,10 @@ import { UiTableRow } from '@frontend/shared/ui/ui-table/ui-table-row';
 import { LookupStatusBadge } from '@frontend/entities/lookups/lookup-status-badge/lookup-status-badge';
 import { LookupRowActions } from '@frontend/entities/lookups/lookup-row-actions/lookup-row-actions';
 import { LookupCreatedByCell } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by-cell';
-import { getCreatedBy } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by.util';
 import { formatLookupDate } from '@frontend/shared/utils/lookup-date.util';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
+import { getCreatedBy, type ItemWithAdmin } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by.util';
 
 interface LookupTableRowProps<T extends DefaultTableColumns> {
   item: T;
@@ -19,7 +19,7 @@ interface LookupTableRowProps<T extends DefaultTableColumns> {
   onDelete: () => void;
 }
 
-export function LookupTableRow<T extends DefaultTableColumns>({
+export function LookupTableRow<T extends DefaultTableColumns & ItemWithAdmin>({
   item,
   columns,
   ariaLabel,
@@ -56,7 +56,7 @@ export function LookupTableRow<T extends DefaultTableColumns>({
       <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.createdAt)}</UiTableCell>
 
       <UiTableCell className="py-2">
-        <LookupCreatedByCell createdBy={getCreatedBy(item)} />
+        <LookupCreatedByCell {...getCreatedBy(item)} />
       </UiTableCell>
 
       <UiTableCell className="py-2 text-sm text-primary">{formatLookupDate(item.updatedAt)}</UiTableCell>

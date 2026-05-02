@@ -1,4 +1,4 @@
-import type { ListScreenHandlerProps } from '@frontend/components/list-screen-handler/props/list-screen-handler.props';
+import type { ListScreenHandlerProps } from '@frontend/components/screen-handlers/props/list-screen-handler.props';
 import { FinErrorWidget } from '../error/fin-error-widget';
 import { useMemo } from 'react';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';

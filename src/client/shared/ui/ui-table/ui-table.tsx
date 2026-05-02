@@ -2,11 +2,15 @@ import { type ComponentProps } from 'react';
 
 import { cn } from '@frontend/shared/utils/cn.util';
 
-export function UiTable({ className, ...props }: ComponentProps<'table'>) {
+export function UiTable({
+  className,
+  containerClassName,
+  ...props
+}: ComponentProps<'table'> & { containerClassName?: string }) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className={cn('relative w-full overflow-x-auto', containerClassName)}
     >
       <table
         data-slot="table"

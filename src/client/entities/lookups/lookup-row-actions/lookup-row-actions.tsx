@@ -35,7 +35,7 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
         <UiButton
           variant="default"
           size="sm"
-          bgNone
+          opacity
           className="w-full justify-start gap-2"
           onClick={onEdit}
         >

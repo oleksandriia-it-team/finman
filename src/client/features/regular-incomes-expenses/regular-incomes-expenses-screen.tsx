@@ -7,7 +7,7 @@ import { useRegularTransactions } from '@frontend/features/regular-incomes-expen
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
-import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
+import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
