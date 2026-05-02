@@ -1,5 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { type ReactNode } from 'react';
+import { CardContent, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 
 interface ProfileSectionProps {
   title: string;
@@ -9,9 +10,9 @@ interface ProfileSectionProps {
 
 export function ProfileSection({ title, children, className }: ProfileSectionProps) {
   return (
-    <section className={cn('rounded-lg border border-border bg-background p-5 shadow-sm', className)}>
-      <h2 className="mb-5 text-base font-semibold text-foreground">{title}</h2>
-      <div className="space-y-4">{children}</div>
-    </section>
+    <UiCard className={cn('gap-5 rounded-lg border border-border p-5 py-5', className)}>
+      <CardTitle className="text-base">{title}</CardTitle>
+      <CardContent className="space-y-4 px-0">{children}</CardContent>
+    </UiCard>
   );
 }

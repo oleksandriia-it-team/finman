@@ -1,3 +1,5 @@
+'use client';
+
 import { ThemeKey } from '@frontend/shared/constants/local-storage.contants';
 import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
@@ -9,6 +11,7 @@ import constate from 'constate';
 function useProfileSettingsLogic() {
   const router = useRouter();
   const userInformation = useUserInformation((state) => state.userInformation);
+  const userInfoState = useUserInformation((state) => state.userInfoState);
   const setUserInformation = useUserInformation((state) => state.setUserInformation);
   const refresh = useUserInformation((state) => state.refresh);
   const logOut = useUserInformation((state) => state.logOut);
@@ -31,6 +34,7 @@ function useProfileSettingsLogic() {
 
   return {
     userInformation,
+    userInfoState,
     setUserInformation,
     refresh,
     theme,

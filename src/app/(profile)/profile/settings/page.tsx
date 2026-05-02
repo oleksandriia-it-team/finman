@@ -1,3 +1,10 @@
-import SettingPage from '@frontend/features/setting-page/page';
+import { ProfileSettingsProvider } from '@frontend/features/setting-page/profile-settings.hook';
+import { ProfileSettingsScreen } from '@frontend/features/setting-page/profile-settings-screen';
 
-export default SettingPage;
+export default function SettingPage() {
+  return (
+    <ProfileSettingsProvider>
+      <ProfileSettingsScreen />
+    </ProfileSettingsProvider>
+  );
+}
