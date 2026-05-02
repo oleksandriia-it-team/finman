@@ -16,7 +16,6 @@ import {
   type RegularEntryApiRepository,
   regularEntryApiRepository,
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
-import { Not } from 'typeorm';
 
 type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number };
 
@@ -54,12 +53,13 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       remainedRecords: remainedIds,
     } = getNewAndDeletedRecords(otherEntriesDto, currentEntryIds);
 
-    const monthEntriesFromAnotherBudgetPlan = await this.monthEntryRepository.repository.find({
-      where: remainedIds.map((id) => ({ id, budgetPlanId: Not(budgetPlanId) })),
-    });
+    const monthEntriesFromAnotherBudgetPlan = remainedIds.filter((id) => !currentEntryIds.includes(id));
 
     if (monthEntriesFromAnotherBudgetPlan.length > 0) {
-      throw new AppError("Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану");
+      throw new AppError(
+        "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
+        403,
+      );
     }
 
     const remainedEntriesDto = otherEntriesDto.filter((dto) => dto.id && remainedIds.includes(dto.id));
