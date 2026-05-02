@@ -14,7 +14,7 @@ export class RecoveryCodeOrm extends DefaultTableColumnsOrm {
   @Column()
   expiresAt!: Date;
 
-  @ManyToOne(() => UserOrm, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UserOrm, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'email', referencedColumnName: 'email' })
   user!: UserOrm;
 
