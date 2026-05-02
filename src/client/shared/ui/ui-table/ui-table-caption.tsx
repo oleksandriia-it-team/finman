@@ -11,4 +11,3 @@ export function UiTableCaption({ className, ...props }: ComponentProps<'caption'
     />
   );
 }
-

@@ -1,11 +1,12 @@
 import type { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, Unique } from 'typeorm';
 import { type RegularEntry } from '@common/records/regular-entry.record';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { BasicEntryOrm } from '@backend/entities/basic-entry/basic-entry.orm';
 import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 
 @Entity('regular-entry')
+@Unique(['title', 'userId'])
 export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
   @Column({ type: 'int', default: 1 })
   dayOfMonth!: number;

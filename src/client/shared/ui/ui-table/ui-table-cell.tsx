@@ -14,4 +14,3 @@ export function UiTableCell({ className, ...props }: ComponentProps<'td'>) {
     />
   );
 }
-

@@ -6,8 +6,15 @@ import { type DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
+import type {
+  FindRegularEntryByTitleInput,
+  IRegularEntryRepository,
+} from '@common/domains/regular-entry/models/regular-entry-repository.model';
 
-export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry, RegularEntryFilter> {
+export class RegularEntryLocalRepository
+  extends CrudLocalService<RegularEntry, RegularEntryFilter>
+  implements IRegularEntryRepository
+{
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.RegularExpensesAndIncomesTable);
   }
@@ -44,6 +51,13 @@ export class RegularEntryLocalRepository extends CrudLocalService<RegularEntry, 
     }
 
     return predicates;
+  }
+
+  findByTitle(input: FindRegularEntryByTitleInput): Promise<RegularEntry | null> {
+    return this.table
+      .filter((item) => item.title === input.title)
+      .first()
+      .then((r) => r ?? null);
   }
 }
 

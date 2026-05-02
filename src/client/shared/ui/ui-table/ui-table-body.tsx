@@ -11,4 +11,3 @@ export function UiTableBody({ className, ...props }: ComponentProps<'tbody'>) {
     />
   );
 }
-
