@@ -5,7 +5,7 @@ import type { ApiResultOperation } from '@common/models/api-result-operation.mod
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { z } from 'zod';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
-import type { VerifyCodeDto } from '@common/domains/auth/models/recovery.dto';
+import type { VerifyCodeDto } from '@common/domains/auth/schema/recovery.schema';
 
 const ConfirmCodeSchema = z.object({
   code: z.string().length(6, 'Введіть усі 6 цифр'),

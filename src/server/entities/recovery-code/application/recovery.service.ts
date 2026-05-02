@@ -1,8 +1,8 @@
 import { Resend } from 'resend';
 import { randomInt } from 'node:crypto';
+import { EnvConfigConstant } from '@backend/config/env-config.constant';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
+const resend = new Resend(EnvConfigConstant.RESEND_API_KEY);
 export const RecoveryService = {
   generateCode() {
     return randomInt(100000, 1000000).toString();
@@ -10,7 +10,7 @@ export const RecoveryService = {
 
   async sendEmail(email: string, code: string) {
     return await resend.emails.send({
-      from: 'Finman Auth <onboarding@resend.dev>',
+      from: `Finman Auth <${EnvConfigConstant.RESEND_FROM}>`,
       to: [email],
       subject: 'Код відновлення паролю',
       html: `

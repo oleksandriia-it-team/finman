@@ -1,5 +1,5 @@
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
-import type { VerifyCodeDto } from '@common/domains/auth/models/recovery.dto';
+import type { VerifyCodeDto } from '@common/domains/auth/schema/recovery.schema';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 export async function ValidCodeGuard(body: VerifyCodeDto): Promise<ApiResultOperationError | null> {

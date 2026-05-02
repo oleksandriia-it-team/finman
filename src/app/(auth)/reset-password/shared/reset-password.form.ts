@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type ResetPasswordDto, ResetPasswordSchema } from '@common/domains/auth/schema/recovery.schema';
 import { useForm } from 'react-hook-form';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
+import { type ResetPasswordDto, ResetPasswordSchema } from '@common/domains/auth/schema/reset-password.schema';
 
 export function useSetupResetPassword(onSuccessAction: () => void) {
   const { email, code, clear } = useRecoveryStore();

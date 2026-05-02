@@ -1,7 +1,7 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
-import { VerifyCodeSchema } from '@common/domains/auth/models/recovery.dto';
+import { VerifyCodeSchema } from '@common/domains/auth/schema/recovery.schema';
 
 export const POST = createRoute({
   schema: VerifyCodeSchema,

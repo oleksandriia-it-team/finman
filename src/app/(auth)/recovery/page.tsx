@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-normal text-foreground leading-tight">Відновлення паролю</h1>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Введіть email, пов`язаний з вашим акаунтом, і ми надішлемо посилання для скидання паролю.
+                Введіть email, пов&#39;язаний з вашим акаунтом, і ми надішлемо посилання для скидання паролю.
               </p>
             </div>
 
