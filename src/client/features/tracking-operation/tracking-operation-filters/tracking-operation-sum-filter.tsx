@@ -1,3 +1,5 @@
+'use client';
+
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/filters-default.props';
