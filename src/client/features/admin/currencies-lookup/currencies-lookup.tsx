@@ -2,16 +2,14 @@
 
 import type { Currency } from '@common/records/currencies.record';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
-import { lookupsService } from '@frontend/entities/lookups/lookups.service';
-import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { LookupTable } from '@frontend/entities/lookups/lookup-table/lookup-table';
 import { LookupTableRow } from '@frontend/entities/lookups/lookup-table/lookup-table-row';
-import { LookupRowSkeleton } from '@frontend/entities/lookups/lookup-table/lookup-row-skeleton';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
-import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
-import { useRouter } from 'next/navigation';
-
-const pageSize = 20;
+import { CurrencyFormModal } from '@frontend/features/admin/lookups/currencies/currency-form-modal';
+import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-confirm-modal';
+import { useCurrencyMutations } from '@frontend/features/admin/lookups/hooks/use-currency-mutations.hook';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { useAdminLookup } from '../hooks/use-admin-lookup.hook';
 
 const Columns: LookupColumnDef<Currency>[] = [
   {
@@ -31,57 +29,89 @@ const Columns: LookupColumnDef<Currency>[] = [
   },
 ];
 
-const skeletonWidths = ['w-32', 'w-20', 'w-12'];
-
-function CurrencyRowSkeleton() {
-  return <LookupRowSkeleton columnWidths={skeletonWidths} />;
-}
-
 export function CurrenciesLookup() {
-  const router = useRouter();
-  const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
-
-  const { options, state, selectedPage, setPage, totalCount } = usePaginationResource<Currency, object>({
+  const lookup = useAdminLookup<Currency>({
+    lookupType: LookupsTypeEnum.Currency,
     queryKey: ['admin', 'lookups', 'currencies'],
-    pageSize: pageSize,
-    getOptionsFn: (page) =>
-      lookupsService.getItems(LookupsTypeEnum.Currency, (page - 1) * pageSize + 1, page * pageSize, {}),
-    getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.Currency, {}),
+    useMutations: useCurrencyMutations,
+    getDeleteName: (item) => item.currencyName,
+    singleDeleteDescription: (name) => `Ви впевнені, що хочете видалити валюту "${name}"?`,
   });
 
-  function handleDelete() {
-    console.warn('TODO: delete selected currencies');
-    clearSelection();
-  }
-
   return (
-    <LookupTable
-      title="Currencies"
-      hasSelection={hasSelection}
-      onAdd={() => console.warn('TODO: add currency')}
-      onDelete={handleDelete}
-      columns={Columns}
-      state={state}
-      hasData={!!options.length}
-      skeletonItems={pageSize}
-      skeleton={CurrencyRowSkeleton}
-      selectedPage={selectedPage}
-      setPage={setPage}
-      pageSize={pageSize}
-      totalCount={totalCount}
-    >
-      {options.map((item) => (
-        <LookupTableRow
-          key={item.id}
-          item={item}
-          columns={Columns}
-          ariaLabel={`Select ${item.currencyName}`}
-          isSelected={isSelected(item.id)}
-          onToggle={() => toggleRow(item.id)}
-          onEdit={() => router.push(`/admin/lookups/currencies/edit/${item.id}`)}
-          onDelete={() => console.warn('TODO: delete currency', item.id)}
+    <>
+      <LookupTable
+        title="Currencies"
+        hasSelection={lookup.selection.hasSelection}
+        onAdd={lookup.openCreateForm}
+        onDelete={lookup.requestBulkDelete}
+        errorMessage={lookup.errorMessage}
+        columns={Columns}
+        state={lookup.state}
+        hasData={!!lookup.options.length}
+        skeletonItems={lookup.pageSize}
+        selectedPage={lookup.selectedPage}
+        setPage={lookup.setPage}
+        pageSize={lookup.pageSize}
+        totalCount={lookup.totalCount}
+      >
+        {lookup.options.map((item) => (
+          <LookupTableRow
+            key={item.id}
+            item={item}
+            columns={Columns}
+            ariaLabel={`Select ${item.currencyName}`}
+            isSelected={lookup.selection.isSelected(item.id)}
+            onToggle={() => lookup.selection.toggleRow(item.id)}
+            onEdit={() => lookup.openEditForm(item)}
+            onDelete={() => lookup.requestSingleDelete(item)}
+          />
+        ))}
+      </LookupTable>
+
+      <CurrencyFormModal
+        isOpen={lookup.isFormOpen}
+        onClose={() => lookup.setIsFormOpen(false)}
+        onSuccessCallback={() => lookup.reload()}
+        initialData={
+          lookup.editingItem
+            ? {
+                id: lookup.editingItem.id,
+                name: lookup.editingItem.currencyName,
+                code: lookup.editingItem.currencyCode,
+                symbol: lookup.editingItem.currencySymbol,
+              }
+            : undefined
+        }
+      />
+
+      <div className="hidden">
+        <UiConfirmModal
+          trigger={
+            <UiButton
+              ref={lookup.singleDeleteTriggerRef}
+              type="button"
+              aria-hidden="true"
+            />
+          }
+          onConfirm={lookup.confirmSingleDelete}
+          title="Підтвердження видалення"
+          description={lookup.singleDeleteDescription}
         />
-      ))}
-    </LookupTable>
+
+        <UiConfirmModal
+          trigger={
+            <UiButton
+              ref={lookup.bulkDeleteTriggerRef}
+              type="button"
+              aria-hidden="true"
+            />
+          }
+          onConfirm={lookup.confirmBulkDelete}
+          title="Підтвердження масового видалення"
+          description="Ви впевнені, що хочете видалити всі вибрані записи?"
+        />
+      </div>
+    </>
   );
 }

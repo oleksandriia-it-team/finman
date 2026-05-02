@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../database/default-table-columns.orm';
 import { type Currency } from '@common/records/currencies.record';
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
@@ -15,6 +15,13 @@ export class CurrencyOrm extends DefaultTableColumnsOrm implements Currency {
   @Column({ type: 'varchar', length: CurrencyRequirements.MaxCurrencySymbolLength })
   currencySymbol!: string;
 
+  @Column({ type: 'int', nullable: true, default: null })
+  adminId?: number | null = null;
+
+  @ManyToOne('UserOrm', { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'adminId' })
+  admin?: UserOrm;
+
   @OneToMany('UserOrm', 'currency')
-  users!: UserOrm[];
+  users?: UserOrm[];
 }

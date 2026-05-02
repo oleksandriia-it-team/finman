@@ -5,11 +5,11 @@ import { UiTable } from '@frontend/shared/ui/ui-table/ui-table';
 import { UiTableHeader } from '@frontend/shared/ui/ui-table/ui-table-header';
 import { UiTableBody } from '@frontend/shared/ui/ui-table/ui-table-body';
 import { UiTableRow } from '@frontend/shared/ui/ui-table/ui-table-row';
-import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { LookupPageHeader } from '@frontend/entities/lookups/lookup-page-header/lookup-page-header';
 import { LookupTableHead } from './lookup-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
+import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
 
 interface LookupTableProps<T extends DefaultTableColumns> {
   title: string;
@@ -20,9 +20,9 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   columns: LookupColumnDef<T>[];
 
   state: PromiseState;
+  errorMessage: string | null | undefined;
   hasData: boolean;
   skeletonItems: number;
-  skeleton: () => ReactNode;
 
   children: ReactNode;
 
@@ -30,10 +30,6 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   setPage: (page: number) => void;
   pageSize: number;
   totalCount: number;
-
-  withSelection?: boolean;
-  withAuditColumns?: boolean;
-  withActions?: boolean;
 }
 
 export function LookupTable<T extends DefaultTableColumns>({
@@ -45,10 +41,10 @@ export function LookupTable<T extends DefaultTableColumns>({
   state,
   hasData,
   skeletonItems,
-  skeleton,
   children,
   selectedPage,
   setPage,
+  errorMessage,
   pageSize,
   totalCount,
 }: LookupTableProps<T>) {
@@ -62,24 +58,33 @@ export function LookupTable<T extends DefaultTableColumns>({
       />
 
       <div className="flex-1 overflow-auto bg-background">
-        <UiTable>
-          <UiTableHeader>
-            <UiTableRow className="border-b border-border/70 hover:bg-transparent">
-              <LookupTableHead columns={columns} />
-            </UiTableRow>
-          </UiTableHeader>
+        <div className="flex flex-col h-max">
+          <UiTable
+            className="h-full"
+            containerClassName="h-full"
+          >
+            <UiTableHeader>
+              <UiTableRow className="border-b border-border/70 hover:bg-transparent">
+                <LookupTableHead columns={columns} />
+              </UiTableRow>
+            </UiTableHeader>
 
-          <UiTableBody>
-            <FinListScreenHandler
-              state={state}
-              hasData={hasData}
-              skeletonItems={skeletonItems}
-              skeleton={skeleton}
-            >
-              {children}
-            </FinListScreenHandler>
-          </UiTableBody>
-        </UiTable>
+            <UiTableBody>
+              <FinTableScreenHandler
+                state={state}
+                hasData={hasData}
+                errorMessage={errorMessage}
+                skeletonItems={skeletonItems}
+                skeletonClassName="h-4"
+                totalColumns={
+                  columns.length + 6 /* selection + status + created at + created by + updated at + actions */
+                }
+              >
+                {children}
+              </FinTableScreenHandler>
+            </UiTableBody>
+          </UiTable>
+        </div>
       </div>
 
       <div className="border-t border-border bg-background px-6 py-3">

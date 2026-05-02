@@ -6,7 +6,7 @@ interface LookupTableHeadProps<T> {
 }
 
 export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
-  const head = 'h-9 py-1 text-[11px] font-medium uppercase text-muted-foreground';
+  const head = 'h-9 py-1 text-xs font-medium uppercase   text-muted-foreground';
   return (
     <>
       <UiTableHead className="w-10 pl-4" />

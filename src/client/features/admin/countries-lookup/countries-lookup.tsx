@@ -2,20 +2,18 @@
 
 import type { CountryAndLocale } from '@common/records/countries.record';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
-import { lookupsService } from '@frontend/entities/lookups/lookups.service';
-import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { LookupTable } from '@frontend/entities/lookups/lookup-table/lookup-table';
 import { LookupTableRow } from '@frontend/entities/lookups/lookup-table/lookup-table-row';
-import { LookupRowSkeleton } from '@frontend/entities/lookups/lookup-table/lookup-row-skeleton';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
-import { useLookupSelection } from '../hooks/use-lookup-selection.hook';
-import { useRouter } from 'next/navigation';
-
-const PAGE_SIZE = 20;
+import { CountryFormModal } from '@frontend/features/admin/lookups/countries/country-form-modal';
+import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-confirm-modal';
+import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { useAdminLookup } from '../hooks/use-admin-lookup.hook';
 
 const Columns: LookupColumnDef<CountryAndLocale>[] = [
   {
-    header: 'Країна ',
+    header: 'Країна',
     cellClassName: 'py-2 text-sm font-medium text-foreground',
     cell: (item) => item.country,
   },
@@ -26,57 +24,88 @@ const Columns: LookupColumnDef<CountryAndLocale>[] = [
   },
 ];
 
-const skeletonWidths = ['w-32', 'w-24'];
-
-function CountryRowSkeleton() {
-  return <LookupRowSkeleton columnWidths={skeletonWidths} />;
-}
-
 export function CountriesLookup() {
-  const router = useRouter();
-  const { hasSelection, isSelected, toggleRow, clearSelection } = useLookupSelection();
-
-  const { options, state, selectedPage, setPage, totalCount } = usePaginationResource<CountryAndLocale, object>({
+  const lookup = useAdminLookup<CountryAndLocale>({
+    lookupType: LookupsTypeEnum.CountriesAndLocales,
     queryKey: ['admin', 'lookups', 'countries'],
-    pageSize: PAGE_SIZE,
-    getOptionsFn: (page) =>
-      lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {}),
-    getTotalCountFn: () => lookupsService.getTotalCount(LookupsTypeEnum.CountriesAndLocales, {}),
+    useMutations: useCountryMutations,
+    getDeleteName: (item) => item.country,
+    singleDeleteDescription: (name) => `Ви впевнені, що хочете видалити країну "${name}"?`,
   });
 
-  function handleDelete() {
-    console.warn('TODO: delete selected countries');
-    clearSelection();
-  }
-
   return (
-    <LookupTable
-      title="Countries and locales"
-      hasSelection={hasSelection}
-      onAdd={() => console.warn('TODO: add country')}
-      onDelete={handleDelete}
-      columns={Columns}
-      state={state}
-      hasData={!!options.length}
-      skeletonItems={PAGE_SIZE}
-      skeleton={CountryRowSkeleton}
-      selectedPage={selectedPage}
-      setPage={setPage}
-      pageSize={PAGE_SIZE}
-      totalCount={totalCount}
-    >
-      {options.map((item) => (
-        <LookupTableRow
-          key={item.id}
-          item={item}
-          columns={Columns}
-          ariaLabel={`Select ${item.country}`}
-          isSelected={isSelected(item.id)}
-          onToggle={() => toggleRow(item.id)}
-          onEdit={() => router.push(`/admin/lookups/countries/edit/${item.id}`)}
-          onDelete={() => console.warn('TODO: delete country', item.id)}
+    <>
+      <LookupTable
+        title="Countries and locales"
+        hasSelection={lookup.selection.hasSelection}
+        onAdd={lookup.openCreateForm}
+        onDelete={lookup.requestBulkDelete}
+        errorMessage={lookup.errorMessage}
+        columns={Columns}
+        state={lookup.state}
+        hasData={!!lookup.options.length}
+        skeletonItems={lookup.pageSize}
+        selectedPage={lookup.selectedPage}
+        setPage={lookup.setPage}
+        pageSize={lookup.pageSize}
+        totalCount={lookup.totalCount}
+      >
+        {lookup.options.map((item) => (
+          <LookupTableRow
+            key={item.id}
+            item={item}
+            columns={Columns}
+            ariaLabel={`Select ${item.country}`}
+            isSelected={lookup.selection.isSelected(item.id)}
+            onToggle={() => lookup.selection.toggleRow(item.id)}
+            onEdit={() => lookup.openEditForm(item)}
+            onDelete={() => lookup.requestSingleDelete(item)}
+          />
+        ))}
+      </LookupTable>
+
+      <CountryFormModal
+        isOpen={lookup.isFormOpen}
+        onClose={() => lookup.setIsFormOpen(false)}
+        onSuccessCallback={() => lookup.reload()}
+        initialData={
+          lookup.editingItem
+            ? {
+                id: lookup.editingItem.id,
+                countryName: lookup.editingItem.country,
+                localeName: lookup.editingItem.locale,
+              }
+            : undefined
+        }
+      />
+
+      <div className="hidden">
+        <UiConfirmModal
+          trigger={
+            <UiButton
+              ref={lookup.singleDeleteTriggerRef}
+              type="button"
+              aria-hidden="true"
+            />
+          }
+          onConfirm={lookup.confirmSingleDelete}
+          title="Підтвердження видалення"
+          description={lookup.singleDeleteDescription}
         />
-      ))}
-    </LookupTable>
+
+        <UiConfirmModal
+          trigger={
+            <UiButton
+              ref={lookup.bulkDeleteTriggerRef}
+              type="button"
+              aria-hidden="true"
+            />
+          }
+          onConfirm={lookup.confirmBulkDelete}
+          title="Підтвердження масового видалення"
+          description="Ви впевнені, що хочете видалити всі вибрані записи?"
+        />
+      </div>
+    </>
   );
 }
