@@ -1,9 +1,9 @@
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 const AllowedApiStatuses = new Set<ApiResultOperationError['status']>([400, 401, 403, 404, 409, 500, 503]);
 
-export function checkIsApiErrorObj(error: unknown): error is ApiResultOperationError {
+export function checkIsAppErrorObj(error: unknown): error is ApiResultOperationError {
   if (error instanceof AppError) {
     return true;
   } else if (typeof error === 'object' && error !== null) {

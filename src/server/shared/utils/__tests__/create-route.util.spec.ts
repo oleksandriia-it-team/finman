@@ -3,7 +3,7 @@ import { createRoute } from '../create-route.util';
 import { type RouteContext } from '../../models/create-route.model';
 import { getDefaultApiErrorFilter } from '../../filter/get-api-error-filter.util';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 
 describe('createRoute with params', () => {
   let request: Request;

@@ -6,7 +6,7 @@ import type { UpdateBudgetPlanModel } from '@common/domains/budget-plan/budget-p
 import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 
 export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanModel, true> {
   constructor(

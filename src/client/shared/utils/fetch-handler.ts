@@ -1,5 +1,5 @@
-import { checkIsApiErrorObj } from '@common/utils/check-is-api-error.util';
-import { AppError } from '@common/classes/api-error.class';
+import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
+import { AppError } from '@common/classes/app-error.class';
 
 /**
  * Handles the fetch API response, parsing JSON and managing empty bodies or errors.
@@ -16,8 +16,8 @@ export async function handleResponse<T>(response: Response, defaultValue?: T): P
   const data = isJson ? await response.json() : null;
 
   if (!response.ok || (data && data.status >= 400)) {
-    if (checkIsApiErrorObj(data)) throw new AppError(data.message, data.status);
-    if (checkIsApiErrorObj(data)) {
+    if (checkIsAppErrorObj(data)) throw new AppError(data.message, data.status);
+    if (checkIsAppErrorObj(data)) {
       throw new AppError(data.message, data.status);
     }
 

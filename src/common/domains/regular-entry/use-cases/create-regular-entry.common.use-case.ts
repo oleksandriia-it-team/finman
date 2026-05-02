@@ -2,7 +2,7 @@ import type { IUseCase } from '@common/models/use-case.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { IRegularEntryRepository } from '@common/domains/regular-entry/models/regular-entry-repository.model';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 
 export type CreateRegularEntryInput = Omit<RegularEntry, DefaultColumnKeys> & { userId?: number };
 

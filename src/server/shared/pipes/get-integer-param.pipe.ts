@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 
 const intSchema = z.coerce.number().int();
 

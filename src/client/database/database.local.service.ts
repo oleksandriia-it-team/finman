@@ -7,7 +7,7 @@ import { DexieService } from '@frontend/database/dexie.service';
 import Dexie, { type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.

@@ -8,7 +8,7 @@ import {
   monthEntryRepository,
   type MonthEntryRepository,
 } from '@backend/entities/month-entry/infrastructure/month-entry.repository';
-import { AppError } from '@common/classes/api-error.class';
+import { AppError } from '@common/classes/app-error.class';
 import { getNewAndDeletedRecords } from '@common/utils/get-new-and-deleted-record.util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { typeormTransactionManager } from '@backend/database/transaction.manager';

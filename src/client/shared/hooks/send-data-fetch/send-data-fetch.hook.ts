@@ -3,7 +3,7 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import { useMemo } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
-import type { AppError } from '@common/classes/api-error.class';
+import type { AppError } from '@common/classes/app-error.class';
 
 export function useSendDataFetch<TData = unknown, TError = AppError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
