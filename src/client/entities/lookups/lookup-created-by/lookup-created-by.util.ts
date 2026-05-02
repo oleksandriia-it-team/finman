@@ -3,11 +3,13 @@ export type LookupCreatedBy = {
   avatar?: string | null;
 };
 
-export function getCreatedBy(item: unknown): LookupCreatedBy {
-  const source = item as { admin?: { name?: string | null } | null };
+type ItemWithAdmin = {
+  admin?: { name?: string | null } | null;
+};
 
+export function getCreatedBy(item: ItemWithAdmin): LookupCreatedBy {
   return {
-    name: source.admin?.name ?? null,
+    name: item.admin?.name ?? null,
     avatar: null,
   };
 }

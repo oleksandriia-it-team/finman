@@ -57,17 +57,17 @@ export function CurrencyFormModal({ isOpen, onClose, initialData, onSuccessCallb
           <FinControlledInput
             name="name"
             label="Назва *"
-            placeholder="Наприклад: Долар США *"
+            placeholder="Наприклад: Долар США"
           />
           <FinControlledInput
             name="code"
             label="Код *"
-            placeholder="Наприклад: USD *"
+            placeholder="Наприклад: USD"
           />
           <FinControlledInput
             name="symbol"
             label="Символ *"
-            placeholder="Наприклад: $ *"
+            placeholder="Наприклад: $"
           />
         </form>
       </FormProvider>

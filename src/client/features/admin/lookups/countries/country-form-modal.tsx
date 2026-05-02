@@ -57,12 +57,12 @@ export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallba
           <FinControlledInput
             name="countryName"
             label="Країна *"
-            placeholder="Наприклад: Україна *"
+            placeholder="Наприклад: Україна"
           />
           <FinControlledInput
             name="localeName"
             label="Локаль *"
-            placeholder="Наприклад: uk-UA *"
+            placeholder="Наприклад: uk-UA"
           />
         </form>
       </FormProvider>
