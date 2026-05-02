@@ -7,7 +7,7 @@ import { LookupCreatedByCell } from '@frontend/entities/lookups/lookup-created-b
 import { formatLookupDate } from '@frontend/shared/utils/lookup-date.util';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
-import { getCreatedBy } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by.util';
+import { getCreatedBy, type ItemWithAdmin } from '@frontend/entities/lookups/lookup-created-by/lookup-created-by.util';
 
 interface LookupTableRowProps<T extends DefaultTableColumns> {
   item: T;
@@ -19,7 +19,7 @@ interface LookupTableRowProps<T extends DefaultTableColumns> {
   onDelete: () => void;
 }
 
-export function LookupTableRow<T extends DefaultTableColumns>({
+export function LookupTableRow<T extends DefaultTableColumns & ItemWithAdmin>({
   item,
   columns,
   ariaLabel,

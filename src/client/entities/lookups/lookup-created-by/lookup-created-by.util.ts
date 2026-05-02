@@ -3,11 +3,11 @@ export type LookupCreatedBy = {
   avatar?: string | null;
 };
 
-type ItemWithAdmin = {
+export type ItemWithAdmin = {
   admin?: { name?: string | null } | null;
 };
 
-export function getCreatedBy(item: ItemWithAdmin): LookupCreatedBy {
+export function getCreatedBy<T extends ItemWithAdmin>(item: T): LookupCreatedBy {
   return {
     name: item.admin?.name ?? null,
     avatar: null,
