@@ -3,6 +3,7 @@ import { CountryOrm } from './country.orm';
 import { type CountriesAndLocalesFilter } from '@common/domains/lookups/filters/countries-and-locales.filter';
 import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
 import { type DeepPartial } from '@common/models/deep-partial.model';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAndLocalesFilter> {
   protected override mapFilters(
@@ -35,8 +36,7 @@ export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAn
     filters?: DeepPartial<CountriesAndLocalesFilter>,
     getCreatedBy?: boolean,
   ): Promise<CountryOrm[]> {
-    const skip = from - 1;
-    const take = to - from + 1;
+    const { skip, take } = calculateSkipAndLimit(from, to);
 
     return await this.repository.find({
       where: this.mapFilters(filters),

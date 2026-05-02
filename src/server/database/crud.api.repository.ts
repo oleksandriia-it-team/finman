@@ -3,6 +3,7 @@ import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models
 import { type ICrudService } from '@common/models/crud-service.model';
 import { OrmRepository } from './orm.repository';
 import { type DeepPartial } from '@common/models/deep-partial.model';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export abstract class CrudApiRepository<
   T extends ObjectLiteral & DefaultTableColumns,
@@ -36,9 +37,8 @@ export abstract class CrudApiRepository<
     return this.repository.findOneBy({ id } as FindOptionsWhere<T>);
   }
 
-  async getItems(first: number, last: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
-    const skip = first - 1;
-    const take = last - first + 1;
+  async getItems(from: number, to: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
+    const { skip, take } = calculateSkipAndLimit(from, to);
 
     const where = filters ? this.mapFilters(filters) : {};
 

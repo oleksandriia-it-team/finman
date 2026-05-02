@@ -13,6 +13,7 @@ import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-da
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -30,11 +31,10 @@ export default function RegularIncomesExpensesScreen() {
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
-      const start = (page - 1) * pageSize + 1;
-      const end = start + pageSize;
+      const { from, to } = calculateFromAndTo(page, pageSize);
 
-      const result = await getPayments(start, end);
-      return result ?? [];
+      const result = await getPayments(from, to);
+      return result;
     },
     getTotalCountFn: async () => {
       const count = await getTotalCount();

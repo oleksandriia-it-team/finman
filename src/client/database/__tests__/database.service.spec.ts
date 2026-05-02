@@ -202,7 +202,7 @@ describe('DatabaseService', () => {
 
     await seedUsers(databaseLocalService, allUsers);
 
-    const result = await databaseLocalService.getItems('users', 5, 11, false);
+    const result = await databaseLocalService.getItems('users', 5, 10, false);
 
     expect(JSON.stringify(result)).toBe(JSON.stringify(allUsers.slice(4, 10)));
   });
@@ -232,7 +232,7 @@ describe('DatabaseService', () => {
           });
         }
 
-        const result = await databaseLocalService.getItems('users', 1, 6, test.getSoftDeleted);
+        const result = await databaseLocalService.getItems('users', 1, 5, test.getSoftDeleted);
 
         if (test.softDeleted && test.getSoftDeleted) {
           expect(JSON.stringify(result)).toBe(JSON.stringify(allUsers.slice(0, 5)));
@@ -472,7 +472,7 @@ describe('DatabaseService', () => {
 
       const ageFilter: FilterPredicate<UnitTestUser & DefaultTableColumns> = (item) => item.age === 40;
 
-      const result = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 4, 6, false, [
+      const result = await databaseLocalService.getItems<UnitTestUser & DefaultTableColumns>('users', 4, 5, false, [
         ageFilter,
       ]);
 

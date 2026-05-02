@@ -62,7 +62,10 @@ export function usePaginationResource<T, F extends object>({
     return getSafeErrorMessage(error);
   }, [getOptionsQuery.error, getTotalCountQuery.error]);
 
-  const reload = useCallback(() => getOptionsQuery.refetch(), [getOptionsQuery]);
+  const reload = useCallback(() => {
+    getOptionsQuery.refetch();
+    getTotalCountQuery.refetch();
+  }, [getOptionsQuery, getTotalCountQuery]);
 
   return {
     state,

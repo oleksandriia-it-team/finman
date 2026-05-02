@@ -5,11 +5,11 @@ import { Slot } from 'radix-ui';
 
 import { cn } from '@frontend/shared/utils/cn.util';
 import { useSidebar } from './ui-sidebar-provider';
-
-import './styles/sidebar-menu-button-variants.scss';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
+
+import './styles/sidebar-menu-button-variants.scss';
 
 export interface UiSidebarMenuButtonProps extends React.ComponentProps<'button'> {
   asChild?: boolean;

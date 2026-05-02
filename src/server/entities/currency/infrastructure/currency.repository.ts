@@ -3,6 +3,7 @@ import { CurrencyOrm } from './currency.orm';
 import { type CurrencyFilter } from '@common/domains/lookups/filters/currency.filter';
 import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
 import { type DeepPartial } from '@common/models/deep-partial.model';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
   protected override mapFilters(filters: DeepPartial<CurrencyFilter> | undefined): FindOptionsWhere<CurrencyOrm> {
@@ -24,8 +25,7 @@ export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyF
     filters?: DeepPartial<CurrencyFilter>,
     getCreatedBy?: boolean,
   ): Promise<CurrencyOrm[]> {
-    const skip = from - 1;
-    const take = to - from + 1;
+    const { skip, take } = calculateSkipAndLimit(from, to);
 
     return await this.repository.find({
       where: this.mapFilters(filters),

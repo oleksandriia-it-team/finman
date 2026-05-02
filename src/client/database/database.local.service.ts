@@ -8,6 +8,7 @@ import Dexie, { type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { AppError } from '@common/classes/app-error.class';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -108,15 +109,15 @@ export class DatabaseLocalService {
    */
   async getItems<T extends DefaultTableColumns>(
     tableName: string,
-    start: number,
-    end: number,
+    from: number,
+    to: number,
     includeSoftDeleted: boolean,
     mapFilters?: FilterPredicate<T>[],
   ): Promise<T[]> {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
-      const limit = end - start;
+      const { skip, take } = calculateSkipAndLimit(from, to);
 
       let collection = this.table<T>(tableName).toCollection();
 
@@ -130,10 +131,7 @@ export class DatabaseLocalService {
         collection = collection.filter(predicateFn);
       }
 
-      return await collection
-        .offset(start - 1)
-        .limit(limit)
-        .toArray();
+      return await collection.offset(skip).limit(take).toArray();
     } catch (error) {
       throw new AppError(getSafeErrorMessage(error));
     }

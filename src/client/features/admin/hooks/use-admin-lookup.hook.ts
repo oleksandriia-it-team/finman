@@ -5,6 +5,7 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { useRef, useState } from 'react';
 import { useLookupSelection } from './use-lookup-selection.hook';
+import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 
 const PAGE_SIZE = 20;
 
@@ -44,8 +45,11 @@ export function useAdminLookup<T extends DefaultTableColumns>({
   const pagination = usePaginationResource<T, object>({
     queryKey,
     pageSize: PAGE_SIZE,
-    getOptionsFn: async (page) =>
-      (await lookupsService.getItems(lookupType, (page - 1) * PAGE_SIZE + 1, page * PAGE_SIZE, {})) as unknown as T[],
+    getOptionsFn: async (page) => {
+      const { from, to } = calculateFromAndTo(page, PAGE_SIZE);
+
+      return (await lookupsService.getItems(lookupType, from, to, {})) as unknown as T[];
+    },
     getTotalCountFn: () => lookupsService.getTotalCount(lookupType, {}),
   });
 
