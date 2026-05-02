@@ -17,11 +17,11 @@ export const regularEntryLocalUsecases: ICrudService<
   Omit<RegularEntry, DefaultColumnKeys>,
   RegularEntryFilter
 > = {
-  deleteItem: regularEntryLocalRepository.deleteItem,
-  getItems: regularEntryLocalRepository.getItems,
-  getItemById: regularEntryLocalRepository.getItemById,
-  getTotalCount: regularEntryLocalRepository.getTotalCount,
-  createItem: createRegularEntryLocalUsecase.execute,
+  deleteItem: regularEntryLocalRepository.deleteItem.bind(regularEntryLocalRepository),
+  getItems: regularEntryLocalRepository.getItems.bind(regularEntryLocalRepository),
+  getItemById: regularEntryLocalRepository.getItemById.bind(regularEntryLocalRepository),
+  getTotalCount: regularEntryLocalRepository.getTotalCount.bind(regularEntryLocalRepository),
+  createItem: createRegularEntryLocalUsecase.execute.bind(createRegularEntryLocalUsecase),
   updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
     return updateRegularEntryLocalUsecase.execute({ id, ...data });
   },

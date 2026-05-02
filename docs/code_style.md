@@ -20,7 +20,7 @@ This document covers rules that are **not** enforced by ESLint. For architectura
 *   **Strict Instance Rule**: Never `throw { status, message }`. Always throw an instance:
     *   ✅ `throw new AppError('Message', 400)`
     *   ✅ `throw new Error('Unexpected crash')`
-*   **Extraction**: Use the `getErrorMessage(error)` utility in UI components to ensure safe string rendering.
+*   **Extraction**: Use the `getSafeErrorMessage(error)` utility in UI components to ensure safe string rendering.
 
 ---
 

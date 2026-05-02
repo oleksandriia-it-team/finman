@@ -78,7 +78,7 @@ reviews:
     ## Error Handling
     - All thrown errors must be `AppError` (or subclass) — never plain objects or generic `Error`
       from business code.
-    - UI components must use `getErrorMessage(error: unknown)` for display — never access
+    - UI components must use `getSafeErrorMessage(error: unknown)` for display — never access
       `.message` directly.
 
     ## Screen State
