@@ -23,7 +23,6 @@ export function UiResponsiveMenuContent({ children, className, ...props }: Respo
       {isMobile && (
         <UiSheetContent
           side="bottom"
-          showCloseButton={false}
           className="w-full !gap-0 pt-4 pb-8 px-3 items-center"
           {...props}
         >
