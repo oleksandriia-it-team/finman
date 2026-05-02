@@ -25,10 +25,33 @@ This document covers rules that are **not** enforced by ESLint. For architectura
 ---
 
 ## 3. Responsibility Split: Guards vs. Use Cases
+
 *Architectural "intent" requires manual review:*
-*   **Guards**: Handle "Entry Level" checks (Authentication, resource existence, top-level ownership via URL IDs).
-*   **Use Cases**: Handle "Integrity Level" logic (Deep ownership of nested IDs in request bodies, data diffing, transactions).
+
+*   **Guards**: Handle "Entry Level" checks:
+    *   Authentication (is the user logged in?)
+    *   Resource existence (does this record exist?)
+    *   Top-level ownership via URL IDs (does this record belong to this user?)
+
+*   **Use Cases**: Handle "Integrity Level" logic:
+    *   Deep ownership of nested IDs in request bodies
+    *   Data diffing and transactions
+    *   Business uniqueness rules (e.g., duplicate title check)
+    *   Domain validation (e.g., does a budget plan already exist for this month?)
     *   *Rule of thumb*: If you need to map/filter an array from the `body` to check IDs, do it in the **Use Case**, not the Guard.
+
+*   **Quick decision criteria**:
+    *   "Does this user have **access** to this resource?" → **Guard**
+    *   "Is this action **valid** according to domain rules?" → **Use Case**
+
+    | Check | Where |
+        |---|---|
+    | Is user authenticated? | Guard |
+    | Does regularEntry with this id exist? | Guard |
+    | Does regularEntry belong to this user? | Guard |
+    | Is regularEntry title unique? | Use Case |
+    | Does budget plan already exist for this month? | Use Case |
+    | Are nested entry IDs valid? | Use Case |
 
 ---
 

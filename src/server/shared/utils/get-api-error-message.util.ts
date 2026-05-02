@@ -13,7 +13,7 @@ export function getApiErrorMessage(error: unknown): ApiResultOperationError {
   }
 
   return {
-    status: 400,
+    status: 500,
     message: ErrorTexts.UnknownError,
   };
 }

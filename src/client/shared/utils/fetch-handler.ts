@@ -17,6 +17,14 @@ export async function handleResponse<T>(response: Response, defaultValue?: T): P
 
   if (!response.ok || (data && data.status >= 400)) {
     if (checkIsApiErrorObj(data)) throw new AppError(data.message, data.status);
+    if (checkIsApiErrorObj(data)) {
+      throw new AppError(data.message, data.status);
+    }
+
+    throw new AppError(
+      'Неочікувана помилка з обробкою запиту. Спробуйте пізніше',
+      response.status >= 400 ? response.status : 500,
+    );
   }
   if (data === null) {
     if (defaultValue !== undefined) {

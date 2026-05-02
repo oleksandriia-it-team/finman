@@ -19,6 +19,7 @@ export const PUT = createRoute({
     const result = await updateBudgetPlanApiUseCase.execute({
       month: context.month,
       year: context.year,
+      currentOtherEntries: budgetPlan.otherEntries,
       ...body,
       id: budgetPlan.id,
       otherEntries: body.otherEntries.map((entry) => {

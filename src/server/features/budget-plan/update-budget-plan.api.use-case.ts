@@ -16,8 +16,9 @@ import {
   type RegularEntryApiRepository,
   regularEntryApiRepository,
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
+import type { MonthEntry } from '@common/records/month-entry.record';
 
-type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number };
+type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number; currentOtherEntries: MonthEntry[] };
 
 export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudgetPlanInput, true> {
   constructor(
@@ -32,20 +33,11 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
   protected override async handle({
     otherEntries: otherEntriesDto,
     plannedRegularEntryIds,
-    userId,
+    currentOtherEntries,
     id: budgetPlanId,
     ...data
   }: UpdateBudgetPlanInput): Promise<true> {
-    const currentBudgetPlan = await this.budgetPlanRepository.repository.findOne({
-      where: { id: budgetPlanId, userId },
-      relations: ['otherEntries'],
-    });
-
-    if (!currentBudgetPlan) {
-      throw new AppError('Бюджетний план не найдено', 404);
-    }
-
-    const currentEntryIds = currentBudgetPlan.otherEntries.map((e) => e.id);
+    const currentEntryIds = currentOtherEntries.map((e) => e.id);
 
     const {
       deletedRecords: deletedIds,
@@ -71,7 +63,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
           ...dto,
           id: dto.id as number,
           category: dto.category ?? defCategory,
-          budgetPlanId: currentBudgetPlan.id,
+          budgetPlanId: budgetPlanId,
         });
       }),
     );
@@ -86,7 +78,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
         return this.monthEntryRepository.repository.create({
           ...dto,
           category: dto.category ?? defCategory,
-          budgetPlanId: currentBudgetPlan.id,
+          budgetPlanId: budgetPlanId,
         });
       });
       await this.monthEntryRepository.repository.save(newEntries);

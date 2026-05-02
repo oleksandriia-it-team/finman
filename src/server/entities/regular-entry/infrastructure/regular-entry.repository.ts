@@ -8,6 +8,7 @@ import type {
   IRegularEntryRepository,
 } from '@common/domains/regular-entry/models/regular-entry-repository.model';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 export class RegularEntryApiRepository
   extends CrudApiRepository<RegularEntryOrm, RegularEntryApiFilter>
@@ -37,8 +38,8 @@ export class RegularEntryApiRepository
     return where;
   }
 
-  findByTitle(input: FindRegularEntryByTitleInput): Promise<RegularEntry | null> {
-    return this.repository.findOne({ where: input });
+  findByTitle({ userId, title }: FindRegularEntryByTitleInput): Promise<RegularEntry | null> {
+    return this.repository.findOne({ where: isEmpty(userId) ? { title } : { title, userId } });
   }
 }
 
