@@ -23,17 +23,26 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, n
       return { status: 'attempts_exceeded' };
     }
 
-    if (record.code !== code) {
-      const newAttempts = record.attempts + 1;
-
-      if (newAttempts >= MAX_ATTEMPTS) {
-        await this.repository.delete(record.id);
-        return { status: 'attempts_exceeded' };
-      }
-      await this.repository.update(record.id, { attempts: newAttempts });
-      return { status: 'invalid_code', remainingAttempts: MAX_ATTEMPTS - newAttempts };
+    if (record.code === code) {
+      return { status: 'valid', record };
     }
-    return { status: 'valid', record };
+
+    const updateResult = await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ attempts: () => 'attempts + 1' })
+      .where('id = :id', { id: record.id })
+      .andWhere('attempts < :maxAttempts', { maxAttempts: MAX_ATTEMPTS })
+      .returning('attempts')
+      .execute();
+
+    const updatedRow = updateResult.raw[0];
+    if (!updatedRow || updatedRow.attempts >= MAX_ATTEMPTS) {
+      await this.repository.delete(record.id);
+      return { status: 'attempts_exceeded' };
+    }
+    const remaining = MAX_ATTEMPTS - updatedRow.attempts;
+    return { status: 'invalid_code', remainingAttempts: remaining };
   }
   async deleteUserCodes(email: string): Promise<void> {
     const whereCondition: FindOptionsWhere<RecoveryCodeOrm> = { email };
