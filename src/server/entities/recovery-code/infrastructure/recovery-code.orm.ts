@@ -5,13 +5,13 @@ import type { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
 
 @Entity('recovery_codes')
 export class RecoveryCodeOrm extends DefaultTableColumnsOrm {
-  @Column({ length: 6 })
+  @Column({ type: 'varchar', length: 6 })
   code!: string;
 
   @Column({ type: 'varchar', length: UserRequirements.MaxEmailLength })
   email!: string;
 
-  @Column()
+  @Column({ type: 'date' })
   expiresAt!: Date;
 
   @ManyToOne(`UserOrm`, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
