@@ -15,6 +15,10 @@ export function RecoveryFlowGuard({ children, routePath = '/recovery' }: Recover
   const isConfirmPage = pathname.startsWith('/confirm-code');
   const isResetPage = pathname.startsWith('/reset-password');
 
+  // Intentional: dependencies are scoped to pathname only.
+  // email/code are deliberately excluded to prevent re-evaluation
+  // when the store updates mid-flow (e.g. after code verification),
+  // which would cause a premature redirect before navigation completes.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const hasEverythingForReset = useMemo(() => isResetPage && !!code && !!email, [isResetPage]);
 

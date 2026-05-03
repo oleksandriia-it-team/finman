@@ -6,8 +6,10 @@ import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-da
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { VerifyCodeDto } from '@common/domains/auth/schema/recovery.schema';
 import { type ConfirmCodeDto, ConfirmCodeSchema } from '@common/domains/auth/schema/confirm-code.schema';
+import { useRouter } from 'next/navigation';
 
-export function useSetupConfirmCode(onSuccessAction: () => void) {
+export function useConfirmCode() {
+  const router = useRouter();
   const { email, setCode } = useRecoveryStore();
 
   const { mutate, isPending } = useSendDataFetch(
@@ -17,7 +19,7 @@ export function useSetupConfirmCode(onSuccessAction: () => void) {
       onSuccess: (result) => {
         if (result.status === 200) {
           setCode(methods.getValues('code'));
-          onSuccessAction();
+          router.push('/reset-password');
         }
       },
     },
@@ -31,5 +33,15 @@ export function useSetupConfirmCode(onSuccessAction: () => void) {
     mutate({ code: data.code, email });
   });
 
-  return { methods, submit, isLoading: isPending };
+  const handleGoBack = () => {
+    router.push('/recovery');
+  };
+
+  return {
+    methods,
+    submit,
+    isLoading: isPending,
+    email,
+    handleGoBack,
+  };
 }

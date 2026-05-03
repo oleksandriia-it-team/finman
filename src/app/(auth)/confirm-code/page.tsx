@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { FormProvider } from 'react-hook-form';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
@@ -9,15 +8,10 @@ import { FinControlledOtp } from '@frontend/components/controlled-fields/fin-con
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
-import { useSetupConfirmCode } from './shared/confirm-code-form';
-import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
+import { useConfirmCode } from './shared/confirm-code-form';
 
 export default function ConfirmCodePage() {
-  const router = useRouter();
-  const email = useRecoveryStore((state) => state.email);
-  const { methods, submit, isLoading } = useSetupConfirmCode(() => {
-    router.push('/reset-password');
-  });
+  const { methods, submit, isLoading, email, handleGoBack } = useConfirmCode();
 
   return (
     <AuthLayout
@@ -79,7 +73,7 @@ export default function ConfirmCodePage() {
                       <button
                         type="button"
                         className="flex items-center justify-center gap-2 text-sm text-primary font-medium hover:underline"
-                        onClick={() => router.push('/recovery')}
+                        onClick={handleGoBack}
                       >
                         <UiSvgIcon
                           name="arrow-left"
