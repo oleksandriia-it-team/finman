@@ -1,11 +1,18 @@
 import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { CurrencyOrm } from './currency.orm';
 import { type CurrencyFilter } from '@common/domains/lookups/filters/currency.filter';
-import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
+import { type FindOptionsWhere, ILike, In, Not, type QueryDeepPartialEntity } from 'typeorm';
 import { type DeepPartial } from '@common/models/deep-partial.model';
+import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
+  override async updateItem(id: number, data: Omit<CurrencyOrm, DefaultColumnKeys>): Promise<true> {
+    await this.repository.update({ id }, data as QueryDeepPartialEntity<CurrencyOrm>);
+
+    return true;
+  }
+
   protected override mapFilters(filters: DeepPartial<CurrencyFilter> | undefined): FindOptionsWhere<CurrencyOrm> {
     const where: FindOptionsWhere<CurrencyOrm> = {};
     if (!filters) return where;

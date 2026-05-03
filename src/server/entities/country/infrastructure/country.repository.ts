@@ -1,11 +1,18 @@
 import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { CountryOrm } from './country.orm';
 import { type CountriesAndLocalesFilter } from '@common/domains/lookups/filters/countries-and-locales.filter';
-import { type FindOptionsWhere, ILike, In, Not } from 'typeorm';
+import { type FindOptionsWhere, ILike, In, Not, type QueryDeepPartialEntity } from 'typeorm';
 import { type DeepPartial } from '@common/models/deep-partial.model';
+import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAndLocalesFilter> {
+  override async updateItem(id: number, data: Omit<CountryOrm, DefaultColumnKeys>): Promise<true> {
+    await this.repository.update({ id }, data as QueryDeepPartialEntity<CountryOrm>);
+
+    return true;
+  }
+
   protected override mapFilters(
     filters: DeepPartial<CountriesAndLocalesFilter> | undefined,
   ): FindOptionsWhere<CountryOrm> {
