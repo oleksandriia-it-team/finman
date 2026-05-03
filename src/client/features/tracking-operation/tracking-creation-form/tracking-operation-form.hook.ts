@@ -18,10 +18,10 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
     resolver: zodResolver(TrackingOperationFormSchema) as never,
     defaultValues: {
       title: initialData?.title ?? '',
-      description: initialData?.description ?? '',
+      description: initialData?.description ?? 'Немає опису',
       type: initialData?.type ?? TypeEntry.Expense,
       category: initialData?.category,
-      sum: initialData?.sum ?? 0,
+      sum: Number(initialData?.sum) ?? 0,
       date: initialData?.date ? new Date(initialData.date) : new Date(),
     } as never,
   });

@@ -2,7 +2,7 @@ import {
   CategoriesMapping,
   ExpenseCategoryValues,
   IncomeCategoryValues,
-} from '@frontend/entities/operations/card-styles-mappings';
+} from '@frontend/shared/styles/card-styles-mappings';
 import { useFormContext } from 'react-hook-form';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { IconPickerField } from '@frontend/ui/ui-icons-picker/fin-icons-picker-field';

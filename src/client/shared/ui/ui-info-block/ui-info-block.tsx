@@ -2,18 +2,8 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiTitle } from '../ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
-import type { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
-
-interface UiInfoBlockProps {
-  name: string;
-  title: string;
-  description?: string | null;
-  className?: string;
-  iconClassName?: string;
-  bgClassName?: string;
-  onClick?: () => void;
-  size?: SizeVariantModel;
-}
+import type { UiInfoBlockProps } from '@frontend/ui/ui-info-block/ui-info-block-props';
+import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 
 export function UiInfoBlock({
   title,
@@ -23,10 +13,12 @@ export function UiInfoBlock({
   bgClassName,
   onClick,
   size = 'default',
-  ...props
+  category = 'expense-misc',
+  isIconRoundedFull = false,
 }: UiInfoBlockProps) {
-  const isClickable = !!onClick;
+  const { variant, icon, label } = CategoriesMapping[category];
 
+  const isClickable = !!onClick;
   return (
     <div
       className={cn(
@@ -46,11 +38,13 @@ export function UiInfoBlock({
       }}
     >
       <UiIconBadge
+        name={icon}
+        title={label}
         isReversed
-        variant="primary"
+        variant={variant}
         size={size}
-        className={cn('shrink-0 !bg-muted/20', iconClassName)}
-        {...props}
+        className={cn('shrink-0', iconClassName || 'bg-muted/20')}
+        isRoundedFull={isIconRoundedFull}
       />
       <div className="flex flex-col">
         <UiTitle size="lg">{title}</UiTitle>

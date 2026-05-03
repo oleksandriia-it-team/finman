@@ -16,7 +16,7 @@ export const TrackingOperationSchema = z.object({
     message: 'Тип має бути expense або income',
   }),
   date: z.coerce.date({ message: "Обов'язкова дата" }),
-  sum: z.number().min(1, { message: 'Сума має бути не менше 1' }),
+  sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
   category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
 });
 
@@ -30,8 +30,8 @@ export const filterSchema = z
     type: z.enum(TrackingOperationTypes).optional(),
     search: z.string().optional(),
     softDeleted: z.union([z.literal(0), z.literal(1)]).optional(),
-    minSum: z.number().optional(),
-    maxSum: z.number().optional(),
+    minSum: z.coerce.number().optional(),
+    maxSum: z.coerce.number().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.dateFrom && data.dateTo && data.dateFrom > data.dateTo) {

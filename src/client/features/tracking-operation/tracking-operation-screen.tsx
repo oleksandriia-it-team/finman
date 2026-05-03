@@ -16,7 +16,7 @@ import { TrackingOperationHeader } from '@frontend/features/tracking-operation/t
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 
 export function TrackingOperationScreen() {
-  const pageSize = 5;
+  const pageSize = 10;
   const { getOperations, getTotalCount, handleDelete } = useTrackingOperations();
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
@@ -29,7 +29,7 @@ export function TrackingOperationScreen() {
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['regular-transactions'],
+    queryKey: ['tracking-operations'],
     getOptionsFn: async (page, pageSize) => {
       const start = (page - 1) * pageSize + 1;
       const end = start + pageSize;
@@ -85,7 +85,7 @@ export function TrackingOperationScreen() {
             variant="primary"
             size="lg"
             className="rounded-full gap-2 shadow-xl"
-            onClick={() => router.push('./tracking-operations/add')}
+            onClick={() => router.push('./profile/tracking-operations/add')}
           >
             <UiSvgIcon
               name="plus"
