@@ -16,11 +16,13 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
 
     return super.createItem({
       ...data,
+      email: data.email.trim().toLowerCase(),
       password: hashedPassword,
     });
   }
 
-  async findUserForLogin(login: string): Promise<UserOrm | null> {
+  async findUserForLogin(loginRaw: string): Promise<UserOrm | null> {
+    const login = loginRaw.trim().toLowerCase();
     return await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
@@ -28,9 +30,10 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       .getOne();
   }
 
-  async resetPassword(email: string, newPasswordRaw: string): Promise<boolean> {
+  async resetPassword(emailRaw: string, newPasswordRaw: string): Promise<boolean> {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(newPasswordRaw, saltRounds);
+    const email = emailRaw.trim().toLowerCase();
     const whereCondition: FindOptionsWhere<UserOrm> = { email };
     const updateData: QueryDeepPartialEntity<UserOrm> = { password: hashedPassword };
     const result = await this.repository.update(whereCondition, updateData);
