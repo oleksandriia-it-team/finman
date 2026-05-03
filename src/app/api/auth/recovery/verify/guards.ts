@@ -26,5 +26,8 @@ export async function ValidCodeGuard(body: VerifyCodeDto): Promise<ApiResultOper
 
     case 'valid':
       return null;
+    default: {
+      return null;
+    }
   }
 }

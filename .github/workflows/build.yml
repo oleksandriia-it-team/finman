@@ -34,4 +34,5 @@ jobs:
           DB_DATABASE: "finman"
           JWT_SECRET: "your_super_wwwwww_key_at_least_32_characters_long"
           NEXT_PUBLIC_API_URL: "http://localhost:3000"
+          RESEND_FROM: "noreply@yourdomain"
           RESEND_API_KEY: "your_resend_api_key"

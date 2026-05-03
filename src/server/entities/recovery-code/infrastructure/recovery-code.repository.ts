@@ -2,7 +2,7 @@ import { type FindOptionsWhere, MoreThan } from 'typeorm';
 import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import type { CreateRecoveryCodeDto } from '@common/domains/auth/schema/recovery-code.dto';
-import type { ValidationResult } from '@backend/entities/recovery-code/model/validation.model';
+import type { ValidationResult } from '@backend/entities/recovery-code/application/validation.model';
 
 export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, never, CreateRecoveryCodeDto> {
   constructor() {
