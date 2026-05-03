@@ -11,13 +11,12 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { AuthTemplate } from '@frontend/entities/auth/auth-template';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { AuthLayout } from '@frontend/entities/auth/auth-template';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
-
   const router = useRouter();
   const { methods, submit, isLoading } = useSetupLogin(async () => {
     await refreshUser();
@@ -25,7 +24,7 @@ export default function LoginPage() {
   });
 
   return (
-    <AuthTemplate>
+    <AuthLayout imageSrc={'/pictures/login-picture.png'}>
       <FormProvider {...methods}>
         <form
           className="w-full flex flex-col gap-6"
@@ -67,8 +66,7 @@ export default function LoginPage() {
                 />
                 <button
                   type="button"
-                  //TODO remove disabled state and implement forgot password functionality
-                  disabled={true}
+                  onClick={() => router.push('/recovery')}
                   className="absolute right-0 top-0 text-xs text-primary hover:underline"
                 >
                   Забули пароль?
@@ -108,6 +106,6 @@ export default function LoginPage() {
           </UiFieldSet>
         </form>
       </FormProvider>
-    </AuthTemplate>
+    </AuthLayout>
   );
 }

@@ -2,6 +2,7 @@ import { CrudApiRepository } from '../../../database/crud.api.repository';
 import { UserOrm } from './user.orm';
 import { type CreateUserDto } from '@common/domains/user/schema/user.schema';
 import bcrypt from 'bcrypt';
+import type { FindOptionsWhere, QueryDeepPartialEntity } from 'typeorm';
 
 export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateUserDto> {
   constructor() {
@@ -15,29 +16,28 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
 
     return super.createItem({
       ...data,
+      email: data.email.trim().toLowerCase(),
       password: hashedPassword,
     });
   }
 
-  async findUserForLogin(login: string): Promise<UserOrm | null> {
+  async findUserForLogin(loginRaw: string): Promise<UserOrm | null> {
+    const login = loginRaw.trim().toLowerCase();
     return await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }
-  async getUserNameById(id: number): Promise<string | null> {
-    const user = await this.repository
-      .createQueryBuilder('user')
-      .select('user.name')
-      .where('user.id = :id', { id })
-      .getOne();
+  async resetPassword(emailRaw: string, newPasswordRaw: string): Promise<boolean> {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPasswordRaw, saltRounds);
+    const email = emailRaw.trim().toLowerCase();
+    const whereCondition: FindOptionsWhere<UserOrm> = { email };
+    const updateData: QueryDeepPartialEntity<UserOrm> = { password: hashedPassword };
+    const result = await this.repository.update(whereCondition, updateData);
 
-    if (!user) {
-      return null;
-    }
-
-    return user.name;
+    return (result.affected ?? 0) > 0;
   }
 }
 

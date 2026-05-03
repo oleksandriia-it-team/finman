@@ -1,7 +1,7 @@
 'use client';
 import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { useRouter } from 'next/navigation';
-import { AuthTemplate } from '@frontend/entities/auth/auth-template';
+import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { FormProvider } from 'react-hook-form';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
@@ -21,9 +21,9 @@ import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
-import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function RegistrationPage() {
   const isOffline = workMode === WorkMode.Offline;
 
   return (
-    <AuthTemplate>
+    <AuthLayout imageSrc={'/pictures/login-picture.png'}>
       <FormProvider {...methods}>
         <form
           className="w-full flex flex-col gap-3"
@@ -185,6 +185,6 @@ export default function RegistrationPage() {
           </UiFieldSet>
         </form>
       </FormProvider>
-    </AuthTemplate>
+    </AuthLayout>
   );
 }

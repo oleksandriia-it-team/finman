@@ -5,7 +5,15 @@ import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 
-export function FinControlledInput({ name, className, showErrors = true, label, id, ...props }: ControlledInputProps) {
+export function FinControlledInput({
+  name,
+  className,
+  showErrors = true,
+  label,
+  description,
+  id,
+  ...props
+}: ControlledInputProps) {
   const { control } = useFormContext();
 
   return (
@@ -13,6 +21,7 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
       name={name}
       control={control}
       render={({ field, fieldState }) => {
+        const showError = !!(fieldState.error?.message || fieldState.invalid);
         return (
           <UiField>
             {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
@@ -31,6 +40,9 @@ export function FinControlledInput({ name, className, showErrors = true, label, 
               value={String(field.value ?? '')}
             />
             {showErrors && <UiFieldError fieldState={fieldState} />}
+            {!showError && !!description && (
+              <span className="text-xs text-muted-foreground flex gap-1">{description}</span>
+            )}
           </UiField>
         );
       }}
