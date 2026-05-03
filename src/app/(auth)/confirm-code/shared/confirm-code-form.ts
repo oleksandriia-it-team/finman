@@ -3,15 +3,9 @@ import { useForm } from 'react-hook-form';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { z } from 'zod';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { VerifyCodeDto } from '@common/domains/auth/schema/recovery.schema';
-
-const ConfirmCodeSchema = z.object({
-  code: z.string().length(6, 'Введіть усі 6 цифр'),
-});
-
-export type ConfirmCodeDto = z.infer<typeof ConfirmCodeSchema>;
+import { type ConfirmCodeDto, ConfirmCodeSchema } from '@common/domains/auth/schema/confirm-code.schema';
 
 export function useSetupConfirmCode(onSuccessAction: () => void) {
   const { email, setCode } = useRecoveryStore();

@@ -4,13 +4,17 @@ import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastr
 import { type ForgotPasswordDto, ForgotPasswordSchema } from '@common/domains/auth/schema/forgot-password.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { UserExistsRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/user-exist.guard';
+import { CooldownRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/cooldown.guard';
 
 export const POST = createRoute({
   schema: ForgotPasswordSchema,
 
   contextFn: async () => ({}),
 
-  guards: [({ body }) => UserExistsRecoveryGuard({ body: body as ForgotPasswordDto })],
+  guards: [
+    ({ body }) => CooldownRecoveryGuard({ body: body as ForgotPasswordDto }),
+    ({ body }) => UserExistsRecoveryGuard({ body: body as ForgotPasswordDto }),
+  ],
 
   execute: async ({ body }: { body: ForgotPasswordDto }) => {
     const email = body.email as string;
