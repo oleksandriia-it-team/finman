@@ -5,10 +5,10 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { type AllCategories, AllCategoryValues } from '@common/enums/categories.enum';
 
 export abstract class BasicEntryOrm extends DefaultTableColumnsOrm {
-  @Column({ type: 'varchar', length: MonthEntryRequirements.MaxTitleLength, unique: true })
+  @Column({ type: 'varchar', length: MonthEntryRequirements.MaxTitleLength })
   title!: string;
 
-  @Column({ type: 'varchar', length: MonthEntryRequirements.MaxDescriptionLength, unique: true })
+  @Column({ type: 'varchar', length: MonthEntryRequirements.MaxDescriptionLength })
   description!: string;
 
   @Column({ type: 'int' })

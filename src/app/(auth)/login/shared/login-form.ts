@@ -6,7 +6,7 @@ import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client
 import { type LoginResponse } from '@common/domains/auth/models/login.response';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 
-export function useSetupLogin(onSuccessAction: () => void) {
+export function useSetupLogin(onSuccessAction: () => void | Promise<void>) {
   const { mutate, isPending } = useSendDataFetch(
     async (data: LoginDto) =>
       await fetchClient.post<ApiResultOperation<LoginResponse>>('/api/auth/login', data, { skipAuth: true }),

@@ -12,7 +12,10 @@ import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 export function ProfileSidebar() {
   return (
     <UiSidebarProvider>
-      <UiSidebar collapsible="icon">
+      <UiSidebar
+        collapsible="icon"
+        colorVariant="white"
+      >
         <UiSidebarHeader>
           <div className="flex gap-1 flex-1 items-center">
             <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">

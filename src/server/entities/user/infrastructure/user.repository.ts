@@ -29,7 +29,6 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }
-
   async resetPassword(emailRaw: string, newPasswordRaw: string): Promise<boolean> {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(newPasswordRaw, saltRounds);

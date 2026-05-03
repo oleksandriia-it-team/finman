@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { isEmpty } from '@common/utils/is-empty.util';
+import { AppError } from '@common/classes/app-error.class';
 
 const intSchema = z.coerce.number().int();
 
@@ -15,7 +16,7 @@ export function GetIntegerParamPipe(value: string | string[], min?: number): num
   const result = schema.safeParse(val);
 
   if (!result.success) {
-    throw new Error('Один з параметрів не є цілим числом');
+    throw new AppError('Один з параметрів не є цілим числом');
   }
 
   return result.data as number;

@@ -28,6 +28,23 @@ export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAn
 
     return where;
   }
+
+  override async getItems(
+    from: number,
+    to: number,
+    filters?: DeepPartial<CountriesAndLocalesFilter>,
+    getCreatedBy?: boolean,
+  ): Promise<CountryOrm[]> {
+    const skip = from - 1;
+    const take = to - from + 1;
+
+    return await this.repository.find({
+      where: this.mapFilters(filters),
+      skip,
+      take,
+      relations: { admin: getCreatedBy ?? false },
+    });
+  }
 }
 
 export const countryRepository = new CountryRepository(CountryOrm);

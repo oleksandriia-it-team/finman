@@ -9,7 +9,6 @@ export function UsefulTipsBlock({ items }: UsefulTipsBlockProps) {
           <UiInfoBlock
             className="gap-3"
             key={i}
-            size="lg"
             title={item.title}
             description={item.description ?? null}
             name={item.icon}

@@ -6,4 +6,5 @@ export interface RequestOptions<D = unknown, T = unknown>
   body?: D | undefined;
   defaultValue?: T | undefined;
   skipAuth?: boolean;
+  throwErrorIfNotAuth?: boolean;
 }

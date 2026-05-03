@@ -1,11 +1,11 @@
 import { type MutationFunction, useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
-import { type ApiError } from '@frontend/shared/models/api-error.model';
 import { useMemo } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import type { AppError } from '@common/classes/app-error.class';
 
-export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables = void, TContext = unknown>(
+export function useSendDataFetch<TData = unknown, TError = AppError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
   options?: UseMutationOptions<TData, TError, TVariables, TContext> & { successMessage?: string },
 ) {
@@ -27,7 +27,7 @@ export function useSendDataFetch<TData = unknown, TError = ApiError, TVariables 
     },
 
     onError: (error, variables, onMutateResult, meta) => {
-      const message = getErrorMessage(error);
+      const message = getSafeErrorMessage(error);
 
       showToast({
         title: 'Помилка запиту',

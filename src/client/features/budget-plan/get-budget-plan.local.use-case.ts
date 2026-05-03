@@ -1,21 +1,23 @@
-import type { BudgetPlan, BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
 import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
+import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
 
-export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<number, BudgetPlanDetailed | null> {
+export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanModel, BudgetPlanDetailed | null> {
   constructor(
     transactionManager: ITransactionManager,
-    private budgetPlanRepository: ICrudService<BudgetPlan>,
+    private budgetPlanRepository: BudgetPlanLocalRepository,
     private monthEntryRepository: ICrudService<MonthEntry>,
     private regularEntryRepository: ICrudService<RegularEntry>,
   ) {
     super(transactionManager);
   }
 
-  async handle(id: number): Promise<BudgetPlanDetailed | null> {
-    const budgetPlan = await this.budgetPlanRepository.getItemById(id);
+  async handle(input: GetBudgetPlanModel): Promise<BudgetPlanDetailed | null> {
+    const budgetPlan = await this.budgetPlanRepository.getItem(input);
 
     if (!budgetPlan) {
       return null;

@@ -3,8 +3,8 @@
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { useRouter } from 'next/navigation';
 import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
-import { FinFormScreenHandler } from '@frontend/components/form-screen-handler/fin-form-screen-handler';
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
+import { FinFormScreenHandler } from '@frontend/components/screen-handlers/fin-form-screen-handler';
 
 export default function EditCardForm(props: PageProps<never>) {
   useHidePlusButton();

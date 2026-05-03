@@ -18,6 +18,6 @@ export abstract class OrmRepository<T extends DefaultTableColumns> {
       return DBDataSource.getRepository((this.entity as ConstructorModel<T>).name) as Repository<T>;
     }
 
-    return txManager.getRepository(this.entity);
+    return txManager.getRepository((this.entity as ConstructorModel<T>).name) as Repository<T>;
   }
 }
