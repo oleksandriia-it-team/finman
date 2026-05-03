@@ -7,6 +7,7 @@ import { ProfileMobileNavbar } from '@frontend/widgets/profile-mobile-navbar/pro
 import { ProfileSidebar } from '@frontend/widgets/profile-sidebar/profile-sidebar';
 import { AuthGuard } from '@frontend/entities/profile/auth-guard';
 import { AuthorizedUserProvider } from '@frontend/entities/profile/authorized-user.hook';
+import { TrackingOperationsProvider } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 
 export default function UserLayoutPage({ children }: ChildrenComponentProps) {
   const isMobile = useIsMobile();
@@ -14,13 +15,15 @@ export default function UserLayoutPage({ children }: ChildrenComponentProps) {
   return (
     <AuthGuard>
       <AuthorizedUserProvider>
-        <div className={cn('size-full flex', isMobile && 'h-dvh overflow-hidden flex-col')}>
-          {!isMobile && <ProfileSidebar />}
+        <TrackingOperationsProvider>
+          <div className={cn('size-full flex', isMobile && 'h-dvh overflow-hidden flex-col')}>
+            {!isMobile && <ProfileSidebar />}
 
-          <div className="flex-1 min-h-0">{children}</div>
+            <div className="flex-1 min-h-0">{children}</div>
 
-          {isMobile && <ProfileMobileNavbar />}
-        </div>
+            {isMobile && <ProfileMobileNavbar />}
+          </div>
+        </TrackingOperationsProvider>
       </AuthorizedUserProvider>
     </AuthGuard>
   );

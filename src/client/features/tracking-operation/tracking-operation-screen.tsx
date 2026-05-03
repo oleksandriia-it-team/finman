@@ -2,7 +2,6 @@
 
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
-import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
@@ -14,10 +13,11 @@ import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
+import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 
 export function TrackingOperationScreen() {
   const pageSize = 5;
-  const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
+  const { getOperations, getTotalCount, handleDelete } = useTrackingOperations();
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
     onSuccess: () => {
@@ -34,7 +34,7 @@ export function TrackingOperationScreen() {
       const start = (page - 1) * pageSize + 1;
       const end = start + pageSize;
 
-      const result = await getPayments(start, end);
+      const result = await getOperations(start, end);
       return result ?? [];
     },
     getTotalCountFn: async () => {
@@ -85,7 +85,7 @@ export function TrackingOperationScreen() {
             variant="primary"
             size="lg"
             className="rounded-full gap-2 shadow-xl"
-            onClick={() => router.push('./regular-operations/add')}
+            onClick={() => router.push('./tracking-operations/add')}
           >
             <UiSvgIcon
               name="plus"

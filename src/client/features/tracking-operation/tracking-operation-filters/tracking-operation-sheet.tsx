@@ -1,4 +1,4 @@
-import { UiSheet } from '@frontend/ui/ui-sheet/ui-sheet';
+'use client';
 import { CategoryFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-category-filters';
 import { UiSheetContent } from '@frontend/ui/ui-sheet/ui-sheet-content';
 import { UiSheetHeader } from '@frontend/ui/ui-sheet/ui-sheet-header';
@@ -10,6 +10,7 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { SumFilter } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-sum-filter';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CardsFormTemplateActions } from '@frontend/entities/operations/cards-form-template/cards-form-template';
+import { UiSheet } from '@frontend/ui/ui-sheet/ui-sheet';
 
 interface FiltersSheet {
   children?: React.ReactNode;

@@ -4,7 +4,6 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {

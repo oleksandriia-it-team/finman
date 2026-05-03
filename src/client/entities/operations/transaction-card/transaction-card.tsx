@@ -17,7 +17,7 @@ const amountColorVariants: Record<TypeEntry.Income | TypeEntry.Expense, string> 
 };
 
 export function TransactionCard({
-  name,
+  icon,
   title,
   description,
   sum,
@@ -35,7 +35,7 @@ export function TransactionCard({
       )}
     >
       <UiInfoBlock
-        name={name ?? ''}
+        name={icon ?? ''}
         title={title ?? ''}
         description={description ?? ''}
         iconClassName={type ? iconBgVariants[type] : ''}

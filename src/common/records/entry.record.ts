@@ -4,7 +4,7 @@ import type { ExpenseCategory, IncomeCategory } from '@common/enums/categories.e
 
 export type EntryBase = DefaultTableColumns & {
   title: string;
-  description: string;
+  description?: string;
   sum: number;
   type: TypeEntry.Expense | TypeEntry.Income;
   category: ExpenseCategory | IncomeCategory;

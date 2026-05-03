@@ -22,7 +22,7 @@ export const TrackingOperationSchema = z.object({
 
 export type TrackingOperationDto = z.infer<typeof TrackingOperationSchema>;
 
-const filterSchema = z
+export const filterSchema = z
   .object({
     dateFrom: z.coerce.date().optional(),
     dateTo: z.coerce.date().optional(),
@@ -43,6 +43,7 @@ const filterSchema = z
   });
 
 const basePaginatedSchema = createPaginatedSchema(filterSchema);
+export type TrackingOperationFilterFormData = z.infer<typeof filterSchema>;
 
 export const TrackingOperationPaginationSchema = {
   ...basePaginatedSchema,
@@ -52,3 +53,7 @@ export const TrackingOperationPaginationSchema = {
     }
   }),
 };
+
+export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
+
+export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
