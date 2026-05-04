@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { DefaultTableColumnsOrm } from '../../../database/default-table-columns.orm';
 import { type CountryAndLocale } from '@common/records/countries.record';
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
@@ -12,6 +12,13 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
   @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxLocaleLength, unique: true })
   locale!: string;
 
+  @Column({ type: 'int', nullable: true, default: null })
+  adminId?: number | null = null;
+
+  @ManyToOne('UserOrm', { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'adminId' })
+  admin?: UserOrm | null = null;
+
   @OneToMany('UserOrm', 'country')
-  users!: UserOrm[];
+  users?: UserOrm[];
 }

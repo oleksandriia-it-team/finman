@@ -9,6 +9,9 @@ export class MonthEntryOrm extends BasicEntryOrm implements MonthEntry {
   selected!: boolean;
 
   @Column({ type: 'int' })
+  priority!: number;
+
+  @Column({ type: 'int' })
   budgetPlanId!: number;
 
   @ManyToOne('BudgetPlanOrm', 'otherEntries', { onDelete: 'CASCADE' })

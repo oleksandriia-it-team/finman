@@ -26,6 +26,19 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }
+  async getUserNameById(id: number): Promise<string | null> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .select('user.name')
+      .where('user.id = :id', { id })
+      .getOne();
+
+    if (!user) {
+      return null;
+    }
+
+    return user.name;
+  }
 }
 
 export const userApiRepository = new UserApiRepository();
