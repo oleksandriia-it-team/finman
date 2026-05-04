@@ -26,10 +26,13 @@ export class ProfileApiClient {
     }
   }
 
-  async updateProfile(data: ProfileSettingsData): Promise<OnlineUser> {
-    return fetchClient
-      .put<ApiResultOperationSuccess<OnlineUser>, ProfileSettingsData>('/api/profile/me', data)
-      .then((result) => result.data);
+  async updateProfile(data: ProfileSettingsData): Promise<OnlineUser | null> {
+    const result = await fetchClient.put<ApiResultOperationSuccess<OnlineUser>, ProfileSettingsData>(
+      '/api/profile/me',
+      data,
+    );
+
+    return result.data || null;
   }
 }
 

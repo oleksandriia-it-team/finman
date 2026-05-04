@@ -5,34 +5,39 @@ import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FormProvider } from 'react-hook-form';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
-import { useProfileSettings } from './profile-settings.hook';
 import { useProfileSettingsForm } from './profile-settings-form.hook';
 import { ProfileSettingsActions } from './profile-settings-actions';
 import { ProfileSettingsAppearanceSection } from './profile-settings-appearance-section';
 import { ProfileSettingsAccountSection } from './profile-settings-account-section';
 import { ProfileSettingsHeader } from './profile-settings-header';
 import { ProfileSettingsSecuritySection } from './profile-settings-security-section';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { useRouter } from 'next/navigation';
 
 export function ProfileSettingsScreen() {
+  const router = useRouter();
   const profileUser = useAuthorizedUser();
-  const { userInfoState, theme, changeTheme, handleLogout } = useProfileSettings();
+  const userInfoState = useUserInformation((state) => state.userInfoState);
+  const theme = useUserInformation((state) => state.theme);
+  const changeTheme = useUserInformation((state) => state.setTheme);
+  const logOut = useUserInformation((state) => state.logOut);
+  const handleLogout = () => {
+    logOut();
+    router.push('/login');
+  };
   const { methods, submit, updateMutation } = useProfileSettingsForm();
 
   if (userInfoState === PromiseState.Loading) {
     return <FinLoader />;
   }
 
-  if (userInfoState === PromiseState.Error) {
+  if (userInfoState === PromiseState.Error || !profileUser) {
     return (
       <FinErrorWidget
         status={404}
         message="Дані користувача не знайдені"
       />
     );
-  }
-
-  if (!profileUser) {
-    return <FinLoader />;
   }
 
   return (

@@ -47,6 +47,15 @@ export class LocalStorageService {
     return !isEmpty(localStorage.getItem(this.prefixedKey(token)));
   }
 
+  private notify<T>(token: string, value: T | null): void {
+    const key = this.prefixedKey(token);
+    const set = this.listeners.get(key);
+
+    if (!set) return;
+
+    set.forEach((listener) => listener(value));
+  }
+
   /**
    * Subscribe to changes for a given key (same-tab AND cross-tab).
    * Returns an unsubscribe function — pass it directly to useEffect's cleanup.
@@ -55,6 +64,10 @@ export class LocalStorageService {
    *   useEffect(() => localStorageService.subscribe(ThemeKey, setMode), []);
    */
   subscribe<T>(token: string, listener: Listener<T>): () => void {
+    if (isServer()) {
+      return () => {}; // no-op unsubscribe function
+    }
+
     const key = this.prefixedKey(token);
 
     if (!this.listeners.has(key)) {
@@ -80,15 +93,6 @@ export class LocalStorageService {
       set.delete(listener as Listener<unknown>);
       window.removeEventListener('storage', handleStorageEvent);
     };
-  }
-
-  private notify<T>(token: string, value: T | null): void {
-    const key = this.prefixedKey(token);
-    const set = this.listeners.get(key);
-
-    if (!set) return;
-
-    set.forEach((listener) => listener(value));
   }
 }
 
