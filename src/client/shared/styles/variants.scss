@@ -8,8 +8,8 @@ $variants: (
     var(--primary-foreground),
   ),
   'destructive': (
-    var(--destructive),
     var(--destructive-foreground),
+    var(--destructive),
   ),
   'muted': (
     var(--muted),
