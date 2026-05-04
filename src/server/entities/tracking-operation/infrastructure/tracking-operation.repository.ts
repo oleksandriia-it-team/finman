@@ -3,12 +3,21 @@ import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infra
 import type { TrackingOperationApiFilter } from '@backend/entities/tracking-operation/domain/tracking-operation-api.filter';
 import { Between, type FindOptionsWhere, ILike, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import type { DeepPartial } from '@common/models/deep-partial.model';
+import type {
+  GetTrackingOperationStatisticResponse,
+  ITrackingOperationRepository,
+} from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
+import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import { TypeEntry } from '@common/enums/entry.enum';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
 }
 
-export class TrackingOperationRepository extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter> {
+export class TrackingOperationRepository
+  extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter>
+  implements ITrackingOperationRepository
+{
   protected override mapFilters(
     filters: DeepPartial<TrackingOperationApiFilter> | undefined,
   ): FindOptionsWhere<TrackingOperationOrm> {
@@ -79,6 +88,54 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
     return this.repository.count({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
     });
+  }
+
+  async getMaxSum(userId?: number): Promise<number> {
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select('COALESCE(MAX(op.sum), 0)', 'maxSum')
+      .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
+
+    if (userId !== undefined) {
+      qb.andWhere('op.userId = :userId', { userId });
+    }
+
+    const result = await qb.getRawOne<{ maxSum: string }>();
+    return parseFloat(result?.maxSum ?? '0');
+  }
+
+  async getStatistic(
+    input: TrackingOperationStatisticDto & { userId?: number },
+  ): Promise<GetTrackingOperationStatisticResponse> {
+    const { dateFrom, dateTo, userId } = input;
+
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select(
+        `COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Income}' THEN op.sum ELSE 0 END), 0)`,
+        'totalIncomes',
+      )
+      .addSelect(
+        `COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Expense}' THEN op.sum ELSE 0 END), 0)`,
+        'totalOutcomes',
+      )
+      .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
+
+    if (userId !== undefined) {
+      qb.andWhere('op.userId = :userId', { userId });
+    }
+    if (dateFrom) {
+      qb.andWhere('op.date >= :dateFrom', { dateFrom });
+    }
+    if (dateTo) {
+      qb.andWhere('op.date <= :dateTo', { dateTo });
+    }
+
+    const result = await qb.getRawOne<{ totalIncomes: string; totalOutcomes: string }>();
+    return {
+      totalIncomes: parseFloat(result?.totalIncomes ?? '0'),
+      totalOutcomes: parseFloat(result?.totalOutcomes ?? '0'),
+    };
   }
 }
 

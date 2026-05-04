@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, AllCategoryValues } from '@common/enums/categories.enum';
+import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
@@ -19,8 +19,6 @@ export const TrackingOperationSchema = z.object({
   sum: z.number().min(1, { message: 'Сума має бути не менше 1' }),
   category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
 });
-
-export type TrackingOperationDto = z.infer<typeof TrackingOperationSchema>;
 
 const filterSchema = z
   .object({
@@ -52,3 +50,11 @@ export const TrackingOperationPaginationSchema = {
     }
   }),
 };
+
+export const TrackingOperationStatisticSchema = z.object({
+  dateFrom: z.coerce.date().optional(),
+  dateTo: z.coerce.date().optional(),
+  userId: z.number().int().positive().optional(),
+});
+
+export type TrackingOperationStatisticDto = z.infer<typeof TrackingOperationStatisticSchema>;
