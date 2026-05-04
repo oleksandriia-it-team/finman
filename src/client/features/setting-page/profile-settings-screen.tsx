@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 
 export function ProfileSettingsScreen() {
   const router = useRouter();
-  const profileUser = useAuthorizedUser();
+  const profileUser = useAuthorizedUser()!;
   const userInfoState = useUserInformation((state) => state.userInfoState);
   const theme = useUserInformation((state) => state.theme);
   const changeTheme = useUserInformation((state) => state.setTheme);
@@ -27,7 +27,6 @@ export function ProfileSettingsScreen() {
   };
   const { methods, submit, updateMutation, isDirty } = useProfileSettingsForm();
 
-  // Watch locale value to pass live form state to appearance section
   const currentFormLocale = methods.watch('locale') ?? profileUser.locale;
 
   if (userInfoState === PromiseState.Loading) {
