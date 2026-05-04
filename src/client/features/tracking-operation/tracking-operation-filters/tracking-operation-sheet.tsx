@@ -10,8 +10,6 @@ import { UiResponsiveDialogContent } from '@frontend/ui/ui-responsive-dialog/ui-
 import { UiResponsiveDialogTrigger } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-trigger';
 import { UiResponsiveDialogTitle } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-title';
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
-import type { DateRange } from 'react-day-picker';
-import { useState } from 'react';
 import { TrackingOperationDatepicker } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-datepicker';
 
 interface FiltersSheet {
@@ -20,7 +18,6 @@ interface FiltersSheet {
 
 export function FiltersSheet({ children }: FiltersSheet) {
   const methods = useForm();
-  const [date, setDate] = useState<DateRange | undefined>(undefined);
   return (
     <FormProvider {...methods}>
       <form className=" flex flex-col size-full  ">

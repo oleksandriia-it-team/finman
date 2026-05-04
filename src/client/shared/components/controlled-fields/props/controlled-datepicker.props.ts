@@ -25,9 +25,12 @@ export type DatepickerProps = DatepickerVariantsProps &
     onBlur?: () => void;
     disabled?: boolean | undefined;
     clearable?: boolean;
+    minDate?: Date | undefined;
+    maxDate?: Date | undefined;
   };
 
 export type ControlledDatepickerProps = Omit<DatepickerProps, 'selected' | 'onSelect' | 'ref'> &
   InputControlProps & {
     id?: string;
+    transformForSingle?: (date: Date) => Date;
   };

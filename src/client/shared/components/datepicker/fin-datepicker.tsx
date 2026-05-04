@@ -7,7 +7,7 @@ import { FinTransformDate } from '../transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { isToday } from 'date-fns';
-import { MonthTitles } from '@common/constants/month-titles.constant';
+import { MonthTitles, WeekTitles } from '@common/constants/month-titles.constant';
 import type { Month } from '@common/enums/month.enum';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import type { DatepickerProps } from '../controlled-fields/props/controlled-datepicker.props';
@@ -21,10 +21,12 @@ export function FinDatepicker({
   ref,
   onBlur,
   disabled,
-  clearable = false,
+  clearable = true,
   mode,
   onSelect,
   selected,
+  maxDate,
+  minDate,
   ...props
 }: DatepickerProps) {
   const [open, setOpen] = useState<boolean>(false);
@@ -134,6 +136,7 @@ export function FinDatepicker({
           className={calendarClassName ?? ''}
           required
           formatters={{
+            formatWeekdayName: (weekDay) => WeekTitles[weekDay.getDay()],
             formatMonthCaption: (month) =>
               `${MonthTitles[month.getMonth() as unknown as Month]} ${month.getFullYear()}`,
           }}
@@ -147,6 +150,8 @@ export function FinDatepicker({
               }
             }) as never
           }
+          minDate={minDate}
+          maxDate={maxDate}
         />
       </UiPopoverContent>
     </UiPopover>

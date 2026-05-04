@@ -14,6 +14,7 @@ export function FinControlledDatepicker({
   id,
   placeholder = '',
   onBlur,
+  transformForSingle,
   ...datepickerProps
 }: ControlledDatepickerProps) {
   const { control } = useFormContext();
@@ -46,6 +47,9 @@ export function FinControlledDatepicker({
               className={className ?? ''}
               selected={field.value}
               onSelect={(value: Date | DateRange | undefined) => {
+                if (value instanceof Date && transformForSingle) {
+                  value = transformForSingle(value);
+                }
                 field.onChange(value);
               }}
             />

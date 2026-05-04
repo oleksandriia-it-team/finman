@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { DayPicker, getDefaultClassNames } from 'react-day-picker';
+import { DayPicker, getDefaultClassNames, type Matcher } from 'react-day-picker';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiDayButton } from '@frontend/ui/ui-datepicker/ui-day-button';
@@ -13,13 +13,35 @@ export function UiCalendar({
   captionLayout = 'label',
   formatters,
   components,
+  minDate,
+  maxDate,
+  disabled,
   ...props
-}: React.ComponentProps<typeof DayPicker>) {
+}: React.ComponentProps<typeof DayPicker> & { minDate?: Date | undefined; maxDate?: Date | undefined }) {
   const defaultClassNames = getDefaultClassNames();
+
+  const disabledDates = React.useMemo(() => {
+    const conditions: Matcher[] = [];
+    if (minDate) conditions.push({ before: minDate });
+    if (maxDate) conditions.push({ after: maxDate });
+
+    if (disabled) {
+      if (Array.isArray(disabled)) {
+        conditions.push(...disabled);
+      } else {
+        conditions.push(disabled);
+      }
+    }
+
+    return conditions.length > 0 ? conditions : undefined;
+  }, [minDate, maxDate, disabled]);
 
   return (
     <DayPicker
+      startMonth={minDate as Date}
+      endMonth={maxDate as Date}
       showOutsideDays={showOutsideDays}
+      disabled={disabledDates}
       className={cn(
         'w-full group/calendar bg-background p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
