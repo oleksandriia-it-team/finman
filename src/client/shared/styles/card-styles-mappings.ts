@@ -6,42 +6,42 @@ export const ExpenseCategoryValues = Object.values(ExpenseCategories);
 
 export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
   [ExpenseCategories.Groceries]: {
-    variant: 'warning',
+    variant: 'warning-muted',
     icon: 'basket',
     label: 'Продукти',
   },
   [ExpenseCategories.Housing]: {
-    variant: 'destructive',
+    variant: 'destructive-muted',
     icon: 'house',
     label: 'Дім',
   },
   [ExpenseCategories.Utilities]: {
-    variant: 'aqua',
+    variant: 'aqua-muted',
     icon: 'plug',
     label: 'Комунальні',
   },
   [ExpenseCategories.Transport]: {
-    variant: 'primary',
+    variant: 'primary-muted',
     icon: 'bus-front',
     label: 'Транспорт',
   },
   [ExpenseCategories.Entertainment]: {
-    variant: 'pink',
+    variant: 'pink-muted',
     icon: 'film',
     label: 'Розваги',
   },
   [ExpenseCategories.Education]: {
-    variant: 'purple',
+    variant: 'purple-muted',
     icon: 'book',
     label: 'Навчання',
   },
   [ExpenseCategories.Shopping]: {
-    variant: 'purple',
+    variant: 'purple-muted',
     icon: 'bag-check',
     label: 'Покупки',
   },
   [ExpenseCategories.Health]: {
-    variant: 'teal',
+    variant: 'teal-muted',
     icon: 'heart-pulse',
     label: 'Здоровʼя',
   },
@@ -52,22 +52,22 @@ export const CategoriesMapping: Record<AllCategories, CategoryStyleI> = {
   },
 
   [IncomeCategories.Salary]: {
-    variant: 'success',
+    variant: 'success-muted',
     icon: 'cash-stack',
     label: 'Зарплата',
   },
   [IncomeCategories.Investments]: {
-    variant: 'orange',
+    variant: 'orange-muted',
     icon: 'graph-up',
     label: 'Інвестиції',
   },
   [IncomeCategories.Freelance]: {
-    variant: 'teal',
+    variant: 'teal-muted',
     icon: 'laptop',
     label: 'Фріланс',
   },
   [IncomeCategories.Scholarship]: {
-    variant: 'primary',
+    variant: 'primary-muted',
     icon: 'mortarboard',
     label: 'Стипендія',
   },

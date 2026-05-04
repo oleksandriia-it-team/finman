@@ -8,10 +8,9 @@ import { FinTransformCurrency } from '@frontend/components/transform-currency/fi
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { ExpenseCategories } from '@common/enums/categories.enum';
-import { useRouter } from 'next/navigation';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
-import { TransactionActions } from '@frontend/entities/card-actions/fin-card-actions';
+import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 
 const iconBgVariants: Record<TypeEntry.Income | TypeEntry.Expense, string> = {
   income: 'bg-success/10 text-success',
@@ -37,7 +36,6 @@ export function TransactionCard({
   id,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
-  const router = useRouter();
 
   return (
     <div
@@ -73,7 +71,7 @@ export function TransactionCard({
               size="lg"
               icon="three-dots-vertical"
               variant="muted"
-              className="!border-none"
+              borderNone
             />
           </UiResponsiveMenuTrigger>
           <TransactionActions

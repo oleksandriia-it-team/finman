@@ -9,4 +9,13 @@ export type ColorVariantModel =
   | 'pink'
   | 'orange'
   | 'teal'
-  | 'aqua';
+  | 'aqua'
+  | 'primary-muted'
+  | 'destructive-muted'
+  | 'success-muted'
+  | 'warning-muted'
+  | 'purple-muted'
+  | 'pink-muted'
+  | 'orange-muted'
+  | 'teal-muted'
+  | 'aqua-muted';

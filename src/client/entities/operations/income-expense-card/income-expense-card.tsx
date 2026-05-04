@@ -11,8 +11,7 @@ import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-resp
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/operations/transaction-card/props/transaction-card-props';
-import { useRouter } from 'next/navigation';
-import { TransactionActions } from '@frontend/entities/card-actions/fin-card-actions';
+import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 
 export function IncomeExpenseCard({
   id,
@@ -26,7 +25,6 @@ export function IncomeExpenseCard({
   handleDelete,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
-  const router = useRouter();
 
   return (
     <UiCard

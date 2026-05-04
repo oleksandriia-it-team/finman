@@ -27,10 +27,10 @@ export function UiIconsPicker({ items, value, onSelect }: UiIconsPickerProps) {
             key={item.value}
             title={item.label}
             onClick={() => onSelect(item.value)}
-            variant={item.variant}
-            borderNone={isSelected}
-            isOutlined={!isSelected}
+            variant={isSelected ? item.variant : 'muted'}
+            borderNone
             className="!size-12"
+            opacity={!isSelected}
           >
             <UiSvgIcon name={item.icon} />
           </UiButton>
