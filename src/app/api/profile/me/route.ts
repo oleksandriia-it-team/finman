@@ -15,7 +15,7 @@ export const GET = createRoute({
 
     if (!user) {
       return {
-        status: 401,
+        status: 404,
         message: 'Дані користувача не знайдені',
       };
     }
@@ -50,12 +50,12 @@ export const PUT = createRoute({
       name: body.name,
       locale: body.locale,
       language: body.language,
-      password: body.newPassword,
+      ...(body.newPassword ? { password: body.newPassword } : {}),
     });
 
     if (!user) {
       return {
-        status: 401,
+        status: 404,
         message: 'Дані користувача не знайдені',
       };
     }

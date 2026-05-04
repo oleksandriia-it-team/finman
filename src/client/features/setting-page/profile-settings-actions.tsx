@@ -15,7 +15,7 @@ export function ProfileSettingsActions({ isOnline, isPending, onLogout }: Profil
           type="button"
           variant="destructive"
           isOutlined
-          className="gap-2 !border-destructive-foreground !bg-transparent !text-destructive-foreground  hover:!bg-destructive-foreground/10"
+          className="gap-2"
           onClick={onLogout}
         >
           <UiSvgIcon name="box-arrow-right" />
