@@ -1,12 +1,12 @@
 import { isEmpty } from '@common/utils/is-empty.util';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import type {
   PaginationResource,
   PaginationResourceConfig,
 } from '@frontend/shared/hooks/pagination-resource/models/pagination-resource.model';
 import { useQuery } from '@tanstack/react-query';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 
 export function usePaginationResource<T, F extends object>({
   getTotalCountFn,
@@ -59,7 +59,7 @@ export function usePaginationResource<T, F extends object>({
       return undefined;
     }
 
-    return getErrorMessage(error);
+    return getSafeErrorMessage(error);
   }, [getOptionsQuery.error, getTotalCountQuery.error]);
 
   const reload = useCallback(() => getOptionsQuery.refetch(), [getOptionsQuery]);

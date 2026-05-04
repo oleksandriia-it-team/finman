@@ -6,7 +6,11 @@ import type { DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 
-export class RegularEntryApiClient implements ICrudService<RegularEntry> {
+export class RegularEntryApiClient implements ICrudService<
+  RegularEntry,
+  Omit<RegularEntry, DefaultColumnKeys>,
+  RegularEntryFilter
+> {
   async createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {
     return fetchClient
       .post<ApiResultOperationSuccess<number>>('/api/budget/regular-entry/create', data)

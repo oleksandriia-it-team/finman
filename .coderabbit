@@ -1,0 +1,199 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# https://docs.coderabbit.ai/reference/configuration
+
+language: "en-US"
+
+tone_instructions: >
+  Be direct and constructive. Focus on architecture violations, business logic correctness,
+  and security issues. Avoid nitpicking formatting that ESLint/Prettier already handles.
+
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_instructions: >
+    Summarize the PR in 3-5 bullet points. Mention which FSD layer or DDD sub-layer was changed
+    (common / client / server / app), and whether online/offline parity was maintained.
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  sequence_diagrams: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+
+  path_filters:
+    - "!**/*.lock"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+    - "!**/pnpm-lock.yaml"
+    - "!**/.next/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/*.snap"
+    - "!**/migrations/*.ts"   # migrations are generated — review separately if needed
+    - "!**/seeders/**"
+
+  # ─── Global review instructions ───────────────────────────────────────────
+  instructions: |
+    This is FinMan — a Next.js 15 full-stack financial manager with strict layered architecture.
+    Read the rules below before reviewing any file.
+
+    ## Layer Boundaries (HARD rules — always flag violations)
+    - `src/common/` must NEVER import from `src/client/` or `src/server/`.
+    - `src/client/` must NEVER import from `src/server/` (and vice versa).
+    - `src/app/` pages must contain NO business logic — they are routing shells only.
+    - FSD import hierarchy (top → bottom only): app → widgets → features → entities → shared/database
+      Flag any import that goes upward (e.g. `shared` importing from `features`).
+
+    ## Online/Offline Parity
+    - Every entity that touches data must have BOTH a `*.local.repository.ts` (IndexedDB/Dexie)
+      and a `*.api.client.ts` (HTTP). Flag if only one side is implemented.
+    - Features must consume data exclusively through `BasicDataSource` — never import a repository
+      or api client directly inside a feature, widget, or component.
+
+    ## Repository vs Use Case
+    - Repositories must contain ONLY simple atomic CRUD over a single table. Flag any business
+      logic or multi-table coordination inside a repository method.
+    - Multi-repository operations must live in a `*.use-case.ts` file, never in route `execute`.
+
+    ## API Routes (`createRoute`)
+    - Every API route MUST use `createRoute()`. Flag any raw `NextRequest` handler.
+    - Security pipeline order: schema validation → contextFn → guards → execute.
+    - Authentication check = `AuthGuard`. Existence check = `ExistXxxGuard`. Ownership = `OwnsXxxGuard`.
+    - Flag if `execute` contains logic that belongs in a guard (auth/existence/ownership checks).
+
+    ## TypeORM Relations
+    - Relations MUST use string references: `@OneToMany('UserOrm', 'country')`.
+    - NEVER use the `() => EntityOrm` callback syntax — it causes circular imports.
+
+    ## Soft Delete
+    - `softDeleted` must be typed `0 | 1`, never `boolean`.
+
+    ## Error Handling
+    - All thrown errors must be `AppError` (or subclass) — never plain objects or generic `Error`
+      from business code.
+    - UI components must use `getSafeErrorMessage(error: unknown)` for display — never access
+      `.message` directly.
+
+    ## Screen State
+    - Page-level and list-level state must use `FinListScreenHandler` or `FinFormScreenHandler`.
+      Flag any ad-hoc conditional rendering of spinners or error messages in screen components.
+
+    ## Styling
+    - NEVER use default Tailwind color utilities (`text-red-500`, `bg-blue-200`, etc.).
+      Only semantic token classes (`text-foreground`, `bg-primary`, `text-destructive`, …) are allowed.
+    - Variant-dependent colors MUST be defined in SCSS, not inline via Tailwind conditionals.
+
+    ## Naming Conventions
+    - Files: kebab-case with required postfix (`.hook.ts`, `.service.ts`, `.repository.ts`,
+      `.api.client.ts`, `.use-case.ts`, `.guard.ts`, `.orm.ts`, `.schema.ts`, `.filter.ts`,
+      `.record.ts`, `.model.ts`, `.constant.ts`, `.enum.ts`, `.util.ts`, `.props.ts`, `.spec.ts`).
+    - React components: PascalCase. Variables/functions: camelCase. CSS classes: kebab-case.
+    - `ui-*` prefix = dumb primitive (no business logic). `fin-*` prefix = smart/wired component.
+
+    ## Zod Schemas
+    - Validation error messages must be in Ukrainian.
+    - Prefer `satisfies` over generic type parameters on schema variables.
+
+    ## Tests
+    - Test files: co-located in `__tests__/`, named `*.spec.ts`.
+    - Never add `vi.clearAllMocks()` inside individual test files (handled globally).
+
+    ## What NOT to flag
+    - Import ordering — handled by ESLint.
+    - Prettier formatting — handled by Prettier.
+    - Missing JSDoc on every function — not required by this project.
+    - TypeORM migration file content — migrations are auto-generated.
+
+  # ─── Path-specific instructions ───────────────────────────────────────────
+  path_instructions:
+    - path: "src/common/**"
+      instructions: |
+        This is the Shared Contract Layer. Must be pure TypeScript only.
+        Flag any import from `src/client/` or `src/server/`.
+        Flag any React hooks, API calls, or DB access.
+        Check that records extend `DefaultTableColumns` and use `0 | 1` for softDeleted.
+        Zod schema error messages must be in Ukrainian.
+
+    - path: "src/client/database/**"
+      instructions: |
+        Global IndexedDB infrastructure — Dexie wrapper and base CRUD service.
+        No business logic allowed here. No entity-specific code.
+        Check that `DatabaseLocalService` methods match the `runBatch` / `getItems` API contract.
+
+    - path: "src/client/entities/**"
+      instructions: |
+        FSD entity slice. Each entity must have both `*.local.repository.ts` and `*.api.client.ts`.
+        Local repository must extend `CrudLocalService`. API client must implement `ICrudService`.
+        `mapFilters()` override is required if the entity has filter fields.
+        No business logic — pure CRUD only.
+
+    - path: "src/client/features/**"
+      instructions: |
+        User scenario layer. Must consume data via `BasicDataSource` service only.
+        Flag any direct import of `*.local.repository.ts` or `*.api.client.ts`.
+        Hooks must not contain multi-repository coordination — extract to use-case if needed.
+        Check online/offline parity in the composed service.
+
+    - path: "src/client/shared/components/**"
+      instructions: |
+        Smart composite components (`fin-*`). May wire UI primitives to RHF, TanStack Query, etc.
+        Must NOT contain page-level business logic.
+        Check that screen-level state uses FinListScreenHandler / FinFormScreenHandler.
+
+    - path: "src/client/shared/ui/**"
+      instructions: |
+        Dumb primitive components (`ui-*`). Props and events only — no hooks, no business logic,
+        no form wiring, no API calls. Completely generic and reusable.
+        Variant colors must be in SCSS, not in JSX/Tailwind conditionals.
+
+    - path: "src/server/entities/**"
+      instructions: |
+        DDD server entity slice. Three sub-layers: domain / application / infrastructure.
+        - `*.orm.ts`: TypeORM entity — use string references for all relations.
+        - `*.repository.ts`: extends `CrudApiRepository` — pure CRUD only.
+        - Guards: return `null` on pass, `ApiResultOperationError` on fail.
+        - Use cases: multi-repo coordination — never in route execute.
+
+    - path: "src/app/api/**"
+      instructions: |
+        API route handlers. MUST use `createRoute()` — flag any raw NextRequest handlers.
+        Pipeline: schema → contextFn → guards (AuthGuard first) → execute → filter.
+        `execute` must contain only business logic, not auth/existence/ownership checks.
+        Flag any multi-repo logic directly in `execute` — it belongs in a use case.
+
+    - path: "**/__tests__/**"
+      instructions: |
+        Vitest + Testing Library tests.
+        Co-located in `__tests__/`, named `*.spec.ts`.
+        No `vi.clearAllMocks()` in test files — it's handled globally in vitest config.
+        Local repository tests must use in-memory `DatabaseLocalService('UNIT_TESTS', [], 1)`.
+        Declare unit vs integration intent at the top of the describe block.
+
+    - path: "src/client/shared/styles/**"
+      instructions: |
+        Global design tokens and SCSS architecture.
+        Changes here affect the entire app — review for token naming consistency and
+        that new tokens follow the oklch / semantic naming convention already in use.
+
+knowledge_base:
+  opt_out: false
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  jira:
+    usage: auto
+  linear:
+    usage: auto
+  pull_requests:
+    scope: auto
+
+chat:
+  auto_reply: true
