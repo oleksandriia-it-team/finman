@@ -28,15 +28,15 @@ export function FinControlledDatepicker({
             {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
             <FinDatepicker
               {...(datepickerProps as DatepickerProps)}
-              ref={(el: HTMLButtonElement) => {
-                if (!el) return;
-
-                field.ref({
-                  ...el,
-                  focus: () => {
-                    el.click();
-                  },
-                });
+              ref={(el: HTMLButtonElement | null) => {
+                if (el) {
+                  field.ref({
+                    ...el,
+                    focus: () => {
+                      el.click();
+                    },
+                  });
+                }
               }}
               placeholder={placeholder}
               onBlur={() => {

@@ -2,7 +2,7 @@ import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
 import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiCalendar } from '@frontend/ui/ui-datepicker/ui-calendar';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FinTransformDate } from '../transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
@@ -11,7 +11,6 @@ import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { Month } from '@common/enums/month.enum';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import type { DatepickerProps } from '../controlled-fields/props/controlled-datepicker.props';
-import { usePreviousValue } from '@frontend/shared/hooks/previous-value/previous-value.hook';
 
 export function FinDatepicker({
   placeholder,
@@ -30,13 +29,15 @@ export function FinDatepicker({
 }: DatepickerProps) {
   const [open, setOpen] = useState<boolean>(false);
 
-  const prevOpenState = usePreviousValue(open, open);
-
-  useEffect(() => {
-    if (!open && prevOpenState !== open) {
-      onBlur?.();
-    }
-  }, [onBlur, open]);
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      setOpen(newOpen);
+      if (!newOpen) {
+        onBlur?.();
+      }
+    },
+    [onBlur],
+  );
 
   const getDateContent = useCallback(
     (date: Date, type: DateFormatType.Short | DateFormatType.TimeOnly) => {
@@ -88,10 +89,12 @@ export function FinDatepicker({
   return (
     <UiPopover
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={handleOpenChange}
     >
-      <UiPopoverTrigger>
+      <UiPopoverTrigger asChild>
         <button
+          ref={ref}
+          type="button"
           disabled={disabled}
           data-state={open ? 'open' : 'closed'}
           className={cn('basic-input w-full flex gap-2 items-center', className)}
@@ -106,7 +109,7 @@ export function FinDatepicker({
 
           {!!selected && clearable && (
             <button
-              ref={ref}
+              type="button"
               className="cursor-pointer"
               onClick={(e) => {
                 onSelect(undefined);
@@ -122,7 +125,11 @@ export function FinDatepicker({
         </button>
       </UiPopoverTrigger>
 
-      <UiPopoverContent>
+      <UiPopoverContent
+        onCloseAutoFocus={(event) => {
+          event.preventDefault();
+        }}
+      >
         <UiCalendar
           className={calendarClassName ?? ''}
           required
@@ -136,7 +143,7 @@ export function FinDatepicker({
             ((selected: never) => {
               onSelect(selected);
               if (mode === 'single') {
-                setOpen(false);
+                handleOpenChange(false);
               }
             }) as never
           }

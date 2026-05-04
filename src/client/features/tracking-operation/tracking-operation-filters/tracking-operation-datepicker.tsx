@@ -15,8 +15,9 @@ export function TrackingOperationDatepicker() {
           placeholder="04.04.2000"
           id="startTrackingOperationDate"
           onBlur={() => {
-            console.log(1);
-            setFocus('dateTo', { shouldSelect: true });
+            requestAnimationFrame(() => {
+              setFocus('dateTo');
+            });
           }}
         />
       }
