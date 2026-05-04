@@ -6,14 +6,21 @@ import {
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSettingsService } from '@frontend/features/setting-page/profile-settings.service';
-import { useProfileSettings } from '@frontend/features/setting-page/profile-settings.hook';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useShallow } from 'zustand/react/shallow';
 
 export function useProfileSettingsForm() {
-  const { userInformation, setUserInformation, refresh } = useProfileSettings();
+  const { userInformation, setUserInformation, refresh } = useUserInformation(
+    useShallow((state) => ({
+      userInformation: state.userInformation,
+      setUserInformation: state.setUserInformation,
+      refresh: state.refresh,
+    })),
+  );
   const { showToast } = useGlobalToast();
 
   const methods = useForm<ProfileSettingsFormData, unknown, ProfileSettingsData>({

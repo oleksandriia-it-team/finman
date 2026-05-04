@@ -2,9 +2,13 @@
 
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
+import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
+import { useTheme } from '@frontend/shared/hooks/theme/theme.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { useRouter } from 'next/navigation';
 import { FormProvider } from 'react-hook-form';
-import { useProfileSettings } from './profile-settings.hook';
+import { useShallow } from 'zustand/react/shallow';
 import { useProfileSettingsForm } from './profile-settings-form.hook';
 import { ProfileSettingsActions } from './profile-settings-actions';
 import { ProfileSettingsAppearanceSection } from './profile-settings-appearance-section';
@@ -12,14 +16,18 @@ import { ProfileSettingsAccountSection } from './profile-settings-account-sectio
 import { ProfileSettingsHeader } from './profile-settings-header';
 import { ProfileSettingsSecuritySection } from './profile-settings-security-section';
 
-const baseLocaleOptions = [
-  { value: 'uk-UA', label: 'uk-UA' },
-  { value: 'en-US', label: 'en-US' },
-];
-
 export function ProfileSettingsScreen() {
-  const { userInformation, userInfoState, theme, changeTheme, handleLogout } = useProfileSettings();
+  const router = useRouter();
+  const { theme, changeTheme } = useTheme();
+  const { userInformation, userInfoState, logOut } = useUserInformation(
+    useShallow((state) => ({
+      userInformation: state.userInformation,
+      userInfoState: state.userInfoState,
+      logOut: state.logOut,
+    })),
+  );
   const { methods, submit, updateMutation } = useProfileSettingsForm();
+  const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));
 
   if (userInfoState === PromiseState.Loading) {
     return <FinLoader />;
@@ -34,9 +42,10 @@ export function ProfileSettingsScreen() {
     );
   }
 
-  const localeOptions = baseLocaleOptions.some((option) => option.value === userInformation.locale)
-    ? baseLocaleOptions
-    : [{ value: userInformation.locale, label: userInformation.locale }, ...baseLocaleOptions];
+  const handleLogout = () => {
+    logOut();
+    router.push('/login');
+  };
 
   return (
     <div className="h-full overflow-auto px-4 py-5 sm:px-8">
@@ -56,7 +65,12 @@ export function ProfileSettingsScreen() {
             <ProfileSettingsAppearanceSection
               theme={theme}
               changeTheme={changeTheme}
-              localeOptions={localeOptions}
+              localeOptions={localeDataResource.options}
+              localeSearch={localeDataResource.search}
+              onLocaleSearch={localeDataResource.setSearch}
+              localeInputLabel={localeDataResource.inputLabel?.label ?? ''}
+              localeState={localeDataResource.state}
+              localeErrorLabel={localeDataResource.errorMessage ?? ''}
             />
 
             <ProfileSettingsActions

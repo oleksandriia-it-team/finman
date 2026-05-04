@@ -1,5 +1,8 @@
+import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
+import type { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import type { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
@@ -9,13 +12,23 @@ import { ProfileSection } from './profile-section';
 interface ProfileSettingsAppearanceSectionProps {
   theme: ThemeEnum;
   changeTheme: (nextTheme: ThemeEnum) => void;
-  localeOptions: { value: string; label: string }[];
+  localeOptions: DropdownOption<string>[];
+  localeSearch: string;
+  onLocaleSearch: (value: string) => void;
+  localeInputLabel: string;
+  localeState: PromiseState;
+  localeErrorLabel: string;
 }
 
 export function ProfileSettingsAppearanceSection({
   theme,
   changeTheme,
   localeOptions,
+  localeSearch,
+  onLocaleSearch,
+  localeInputLabel,
+  localeState,
+  localeErrorLabel,
 }: ProfileSettingsAppearanceSectionProps) {
   return (
     <ProfileSection title="Зовнішній вигляд">
@@ -27,9 +40,10 @@ export function ProfileSettingsAppearanceSection({
             type="button"
             size="sm"
             variant={theme === ThemeEnum.Light ? 'primary' : 'default'}
+            aria-pressed={theme === ThemeEnum.Light}
             className={cn(
               'shadow-none',
-              theme !== ThemeEnum.Light && 'bg-transparent text-foreground hover:!bg-background/80',
+              theme !== ThemeEnum.Light && 'bg-transparent text-foreground hover:bg-background/80!',
             )}
             onClick={() => changeTheme(ThemeEnum.Light)}
           >
@@ -40,9 +54,10 @@ export function ProfileSettingsAppearanceSection({
             type="button"
             size="sm"
             variant={theme === ThemeEnum.Dark ? 'primary' : 'default'}
+            aria-pressed={theme === ThemeEnum.Dark}
             className={cn(
               'shadow-none',
-              theme !== ThemeEnum.Dark && 'bg-transparent text-foreground hover:!bg-background/80',
+              theme !== ThemeEnum.Dark && 'bg-transparent text-foreground hover:bg-background/80!',
             )}
             onClick={() => changeTheme(ThemeEnum.Dark)}
           >
@@ -52,11 +67,17 @@ export function ProfileSettingsAppearanceSection({
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <FinControlledDropdown
+        <FinControlledAutocomplete
           name="locale"
           label="Формат дати та часу"
-          placeholder="uk-UA"
+          placeholder="Пошук..."
           options={localeOptions}
+          errorLabel={localeErrorLabel}
+          state={localeState}
+          customInputValue={localeInputLabel}
+          search={localeSearch}
+          onSearch={onLocaleSearch}
+          clearable={false}
         />
 
         <FinControlledDropdown
@@ -64,6 +85,7 @@ export function ProfileSettingsAppearanceSection({
           label="Мова"
           placeholder="Українська"
           options={SupportLanguagesLocale}
+          clearable={false}
         />
       </div>
     </ProfileSection>

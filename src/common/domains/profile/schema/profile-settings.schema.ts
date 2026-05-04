@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SupportLanguages } from '@common/enums/support-languages.enum';
+import { SupportLanguages, type SupportLanguages as SupportLanguage } from '@common/enums/support-languages.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 const nameSchema = z
@@ -20,13 +20,17 @@ const optionalPasswordSchema = z
   .string()
   .trim()
   .optional()
-  .transform((value) => (value ? value : undefined));
+  .transform((value) => value || undefined);
+
+const supportedLanguages = Object.values(SupportLanguages) as [SupportLanguage, ...SupportLanguage[]];
 
 export const ProfileSettingsSchema = z
   .object({
     name: nameSchema,
     locale: localeSchema,
-    language: z.enum(Object.values(SupportLanguages), 'Оберіть мову'),
+    language: z.enum(supportedLanguages, {
+      message: 'Оберіть мову',
+    }),
     currentPassword: optionalPasswordSchema,
     newPassword: optionalPasswordSchema,
     confirmPassword: optionalPasswordSchema,
@@ -51,6 +55,12 @@ export const ProfileSettingsSchema = z
         code: z.ZodIssueCode.custom,
         path: ['newPassword'],
         message: `Пароль має містити щонайменше ${UserRequirements.MinPasswordLength} символів`,
+      });
+    } else if (!/(?=.*[A-Za-z])(?=.*\d)/.test(data.newPassword)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['newPassword'],
+        message: 'Пароль має містити літери та цифри',
       });
     }
 
