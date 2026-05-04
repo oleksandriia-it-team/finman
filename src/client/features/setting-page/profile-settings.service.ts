@@ -12,7 +12,13 @@ export class ProfileSettingsService {
   }
 
   private updateOnlineProfile(data: ProfileSettingsData): Promise<OnlineUser> {
-    return profileApiClient.updateProfile(data);
+    return profileApiClient.updateProfile(data).then((user) => {
+      if (!user) {
+        throw new Error('Failed to update profile');
+      }
+
+      return user;
+    });
   }
 
   private updateOfflineProfile(user: OfflineUser, data: ProfileSettingsData): OfflineUser {
