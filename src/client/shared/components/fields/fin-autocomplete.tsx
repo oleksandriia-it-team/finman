@@ -22,6 +22,7 @@ export function FinAutocomplete<T>({
   loadingLabel,
   disabled,
   customInputValue,
+  clearable = true,
   'data-invalid': dataInvalid,
   onBlur,
   ...props
@@ -52,6 +53,7 @@ export function FinAutocomplete<T>({
       {...props}
     >
       <UiComboboxInput
+        {...(clearable ? { onClear: () => onChange(undefined) } : {})}
         disabled={disabled}
         className={className}
         data-invalid={dataInvalid}
@@ -60,7 +62,6 @@ export function FinAutocomplete<T>({
         onBlur={(e) => onBlur?.(e.nativeEvent)}
         hasValue={!!search || !!customInputValue}
         placeholder={placeholder}
-        onClear={() => onChange(undefined)}
       />
 
       <UiComboboxContent>
