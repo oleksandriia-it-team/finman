@@ -10,7 +10,6 @@ export function TrackingOperationDatepicker() {
   const dateTo = watch('dateTo');
 
   const { minDate: toMinDate, maxDate: fromMaxDate } = getMinMaxDates(dateFrom, dateTo);
-  console.log(toMinDate, fromMaxDate);
 
   return (
     <UiFieldsWithDivider
