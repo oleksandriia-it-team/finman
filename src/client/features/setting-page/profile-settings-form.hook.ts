@@ -35,12 +35,14 @@ export function useProfileSettingsForm() {
     },
   });
 
+  const { reset } = methods;
+
   useEffect(() => {
     if (!userInformation) {
       return;
     }
 
-    methods.reset({
+    reset({
       name: userInformation.name,
       locale: userInformation.locale,
       language: userInformation.language,
@@ -48,7 +50,7 @@ export function useProfileSettingsForm() {
       newPassword: '',
       confirmPassword: '',
     });
-  }, [methods, userInformation]);
+  }, [reset, userInformation]);
 
   const updateMutation = useSendDataFetch(
     async (data: ProfileSettingsData) => {
@@ -66,14 +68,20 @@ export function useProfileSettingsForm() {
     },
     {
       onSuccess: async () => {
-        await refresh();
-        methods.reset({
-          ...methods.getValues(),
-          currentPassword: '',
-          newPassword: '',
-          confirmPassword: '',
-        });
-        showToast({ title: 'Успішно', description: 'Профіль оновлено', variant: 'default' });
+        try {
+          await refresh();
+        } catch (error) {
+          // Log error but don't block success flow
+          console.error('Failed to refresh user information:', error);
+        } finally {
+          reset({
+            ...methods.getValues(),
+            currentPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+          });
+          showToast({ title: 'Успішно', description: 'Профіль оновлено', variant: 'default' });
+        }
       },
     },
   );

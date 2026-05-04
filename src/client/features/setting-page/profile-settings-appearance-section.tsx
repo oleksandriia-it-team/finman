@@ -59,6 +59,7 @@ export function ProfileSettingsAppearanceSection({
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <FinControlledAutocomplete
+          id="profile-locale"
           name="locale"
           label="Формат дати та часу"
           placeholder="Пошук..."
@@ -72,6 +73,7 @@ export function ProfileSettingsAppearanceSection({
         />
 
         <FinControlledDropdown
+          id="profile-language"
           name="language"
           label="Мова"
           placeholder="Українська"
