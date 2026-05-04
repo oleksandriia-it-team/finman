@@ -10,9 +10,9 @@ import { UiResponsiveDialogContent } from '@frontend/ui/ui-responsive-dialog/ui-
 import { UiResponsiveDialogTrigger } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-trigger';
 import { UiResponsiveDialogTitle } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-title';
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
-import { FinDatepicker } from '@frontend/components/datepicker/fin-datepicker';
 import type { DateRange } from 'react-day-picker';
 import { useState } from 'react';
+import { TrackingOperationDatepicker } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-datepicker';
 
 interface FiltersSheet {
   children?: React.ReactNode;
@@ -40,12 +40,9 @@ export function FiltersSheet({ children }: FiltersSheet) {
 
             <PeriodFilters className="flex-1" />
 
-            <FinDatepicker
-              placeholder="Оберіть дату"
-              mode="range"
-              selected={date}
-              onSelect={setDate}
-            />
+            <UiSeparator className="w-full" />
+
+            <TrackingOperationDatepicker />
 
             <UiSeparator className="w-full" />
 

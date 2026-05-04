@@ -1,14 +1,17 @@
-import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
 import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiCalendar } from '@frontend/ui/ui-datepicker/ui-calendar';
-import type { DatepickerProps } from '@frontend/ui/ui-datepicker/props/datepicker.props';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FinTransformDate } from '../transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { isToday } from 'date-fns';
+import { MonthTitles } from '@common/constants/month-titles.constant';
+import type { Month } from '@common/enums/month.enum';
+import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
+import type { DatepickerProps } from '../controlled-fields/props/controlled-datepicker.props';
+import { usePreviousValue } from '@frontend/shared/hooks/previous-value/previous-value.hook';
 
 export function FinDatepicker({
   placeholder,
@@ -16,26 +19,30 @@ export function FinDatepicker({
   calendarClassName,
   locale,
   includeTime,
+  ref,
+  onBlur,
+  disabled,
+  clearable = false,
+  mode,
+  onSelect,
+  selected,
   ...props
 }: DatepickerProps) {
-  const getDateContent = useCallback(
-    (date: Date) => {
-      return (
-        <FinTransformDate
-          type={DateFormatType.Short}
-          date={date}
-          locale={locale}
-        />
-      );
-    },
-    [locale],
-  );
+  const [open, setOpen] = useState<boolean>(false);
 
-  const getTimeContent = useCallback(
-    (date: Date) => {
+  const prevOpenState = usePreviousValue(open, open);
+
+  useEffect(() => {
+    if (!open && prevOpenState !== open) {
+      onBlur?.();
+    }
+  }, [onBlur, open]);
+
+  const getDateContent = useCallback(
+    (date: Date, type: DateFormatType.Short | DateFormatType.TimeOnly) => {
       return (
         <FinTransformDate
-          type={DateFormatType.TimeOnly}
+          type={type}
           date={date}
           locale={locale}
         />
@@ -45,42 +52,51 @@ export function FinDatepicker({
   );
 
   const buttonValue = useMemo(() => {
-    if (!props.selected || (props.mode === 'range' && !props.selected.to && !props.selected.from)) {
-      return placeholder;
+    if (!selected || (mode === 'range' && !selected.to && !selected.from)) {
+      return placeholder ?? '';
     }
 
-    if (props.mode === 'single' && isToday(props.selected)) {
+    if (mode === 'single' && isToday(selected)) {
       return (
         <>
-          Сьогодні, {getDateContent(props.selected)} о {getTimeContent(props.selected)}
+          Сьогодні, {getDateContent(selected, DateFormatType.Short)} о{' '}
+          {getDateContent(selected, DateFormatType.TimeOnly)}
         </>
       );
     }
 
-    if (props.mode === 'single') {
+    if (mode === 'single') {
       return (
         <>
-          {getDateContent(props.selected)}
+          {getDateContent(selected, DateFormatType.Short)}
 
-          {includeTime && getTimeContent(props.selected)}
+          {includeTime && getDateContent(selected, DateFormatType.TimeOnly)}
         </>
       );
     } else {
       return (
         <>
-          {props.selected.from && getDateContent(props.selected.from)}
-          {props.selected.from && includeTime && getTimeContent(props.selected.from)}-
-          {props.selected.to && getDateContent(props.selected.to)}
-          {props.selected.to && includeTime && getTimeContent(props.selected.to)}
+          {selected.from && getDateContent(selected.from, DateFormatType.Short)}
+          {selected.from && includeTime && getDateContent(selected.from, DateFormatType.TimeOnly)}-
+          {selected.to && getDateContent(selected.to, DateFormatType.Short)}
+          {selected.to && includeTime && getDateContent(selected.to, DateFormatType.TimeOnly)}
         </>
       );
     }
-  }, [getDateContent, getTimeContent, includeTime, placeholder, props.mode, props.selected]);
+  }, [getDateContent, includeTime, placeholder, mode, selected]);
 
   return (
-    <UiPopover>
+    <UiPopover
+      open={open}
+      onOpenChange={setOpen}
+    >
       <UiPopoverTrigger>
-        <button className={cn('basic-input w-full flex gap-2 items-center', className)}>
+        <button
+          disabled={disabled}
+          data-state={open ? 'open' : 'closed'}
+          className={cn('basic-input w-full flex gap-2 items-center', className)}
+          {...props}
+        >
           <UiSvgIcon
             name="calendar4"
             size="default"
@@ -88,10 +104,14 @@ export function FinDatepicker({
 
           <div className="flex flex-1 gap-1">{buttonValue}</div>
 
-          {!!props.selected && (
+          {!!selected && clearable && (
             <button
+              ref={ref}
               className="cursor-pointer"
-              onClick={() => props.onSelect(undefined)}
+              onClick={(e) => {
+                onSelect(undefined);
+                e.stopPropagation();
+              }}
             >
               <UiSvgIcon
                 name="x"
@@ -106,7 +126,20 @@ export function FinDatepicker({
         <UiCalendar
           className={calendarClassName ?? ''}
           required
-          {...props}
+          formatters={{
+            formatMonthCaption: (month) =>
+              `${MonthTitles[month.getMonth() as unknown as Month]} ${month.getFullYear()}`,
+          }}
+          mode={mode as never}
+          selected={selected as never}
+          onSelect={
+            ((selected: never) => {
+              onSelect(selected);
+              if (mode === 'single') {
+                setOpen(false);
+              }
+            }) as never
+          }
         />
       </UiPopoverContent>
     </UiPopover>
