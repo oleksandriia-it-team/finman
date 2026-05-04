@@ -40,6 +40,7 @@ export function ProfileSettingsAppearanceSection({
             type="button"
             size="sm"
             variant={theme === ThemeEnum.Light ? 'primary' : 'default'}
+            aria-pressed={theme === ThemeEnum.Light}
             className={cn(
               'shadow-none',
               theme !== ThemeEnum.Light && 'bg-transparent text-foreground hover:bg-background/80!',
@@ -53,6 +54,7 @@ export function ProfileSettingsAppearanceSection({
             type="button"
             size="sm"
             variant={theme === ThemeEnum.Dark ? 'primary' : 'default'}
+            aria-pressed={theme === ThemeEnum.Dark}
             className={cn(
               'shadow-none',
               theme !== ThemeEnum.Dark && 'bg-transparent text-foreground hover:bg-background/80!',
