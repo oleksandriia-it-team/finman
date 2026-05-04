@@ -65,9 +65,10 @@ export function ProfileSettingsAppearanceSection({
           options={localeDataResource.options}
           errorLabel={localeDataResource.errorMessage ?? ''}
           state={localeDataResource.state}
-          customInputValue={localeDataResource.inputLabel?.label ?? ''}
+          customInputValue={localeDataResource.inputLabel?.label ?? currentLocale}
           search={localeDataResource.search}
           onSearch={localeDataResource.setSearch}
+          clearable={false}
         />
 
         <FinControlledDropdown

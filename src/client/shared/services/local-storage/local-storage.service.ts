@@ -92,6 +92,9 @@ export class LocalStorageService {
     return () => {
       set.delete(listener as Listener<unknown>);
       window.removeEventListener('storage', handleStorageEvent);
+      if (set.size === 0) {
+        this.listeners.delete(key);
+      }
     };
   }
 }

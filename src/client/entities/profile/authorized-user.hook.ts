@@ -2,17 +2,10 @@
 
 import constate from 'constate';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { GetUser } from '@common/records/user.record';
 
-function useAuthorizedLogic(): GetUser {
+function useAuthorizedLogic(): GetUser | null {
   const user = useUserInformation((state) => state.userInformation);
-  const userInfoState = useUserInformation((state) => state.userInfoState);
-
-  if (userInfoState === PromiseState.Error || !user) {
-    throw Error('User not found');
-  }
-
   return user;
 }
 

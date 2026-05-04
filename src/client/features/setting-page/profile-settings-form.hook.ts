@@ -82,5 +82,6 @@ export function useProfileSettingsForm() {
     methods,
     submit: methods.handleSubmit((data) => updateMutation.mutate(data)),
     updateMutation,
+    isDirty: methods.formState.isDirty,
   };
 }

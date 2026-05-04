@@ -14,22 +14,26 @@ export class ProfileApiClient {
       return null;
     }
 
-    try {
-      const result = await fetchClient.get<ApiResultOperationSuccess<OnlineUser>>('/api/profile/me', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+    const result = await fetchClient.get<ApiResultOperationSuccess<OnlineUser>>('/api/profile/me', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
-      return result.data || null;
-    } catch (error) {
-      console.error('Failed to fetch profile:', error);
-      return null;
-    }
+    return result.data || null;
   }
 
   async updateProfile(data: ProfileSettingsData): Promise<OnlineUser | null> {
+    const accessToken = this.authTokenService.getAccessToken();
+
+    if (!accessToken) {
+      throw new Error('Access token is required to update profile');
+    }
+
     const result = await fetchClient.put<ApiResultOperationSuccess<OnlineUser>, ProfileSettingsData>(
       '/api/profile/me',
       data,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
     );
 
     return result.data || null;

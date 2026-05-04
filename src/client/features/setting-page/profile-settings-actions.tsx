@@ -4,10 +4,11 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 interface ProfileSettingsActionsProps {
   isOnline: boolean;
   isPending: boolean;
+  isDirty: boolean;
   onLogout: () => void;
 }
 
-export function ProfileSettingsActions({ isOnline, isPending, onLogout }: ProfileSettingsActionsProps) {
+export function ProfileSettingsActions({ isOnline, isPending, isDirty, onLogout }: ProfileSettingsActionsProps) {
   return (
     <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
       {isOnline && (
@@ -26,7 +27,7 @@ export function ProfileSettingsActions({ isOnline, isPending, onLogout }: Profil
       <UiButton
         type="submit"
         variant="primary"
-        disabled={isPending}
+        disabled={isPending || !isDirty}
       >
         Зберегти зміни
       </UiButton>

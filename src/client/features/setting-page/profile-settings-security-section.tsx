@@ -8,31 +8,33 @@ interface ProfileSettingsSecuritySectionProps {
 
 export function ProfileSettingsSecuritySection({ isOnline }: ProfileSettingsSecuritySectionProps) {
   return (
-    <ProfileSection title="Безпека">
-      <UiDescription size="sm">Змінити пароль</UiDescription>
+    <ProfileSection
+      className={'gap-0'}
+      title="Безпека"
+    >
+      <UiDescription className={'text-sm'}>Замінення паролю</UiDescription>
+      <div className="mt-2 " />
 
       <FinControlledPassword
         name="currentPassword"
         label="Поточний пароль"
-        placeholder="••••••••"
+        placeholder="Введіть поточний пароль"
         disabled={!isOnline}
       />
 
       <FinControlledPassword
         name="newPassword"
         label="Новий пароль"
-        placeholder="••••••••"
+        placeholder="Введіть новий пароль"
         disabled={!isOnline}
       />
 
       <FinControlledPassword
         name="confirmPassword"
         label="Підтвердити пароль"
-        placeholder="••••••••"
+        placeholder="Підтвердіть пароль"
         disabled={!isOnline}
       />
-
-      <UiDescription size="xs">Мінімум 8 символів, літери та цифри</UiDescription>
     </ProfileSection>
   );
 }

@@ -25,7 +25,10 @@ export function ProfileSettingsScreen() {
     logOut();
     router.push('/login');
   };
-  const { methods, submit, updateMutation } = useProfileSettingsForm();
+  const { methods, submit, updateMutation, isDirty } = useProfileSettingsForm();
+
+  // Watch locale value to pass live form state to appearance section
+  const currentFormLocale = methods.watch('locale') ?? profileUser.locale;
 
   if (userInfoState === PromiseState.Loading) {
     return <FinLoader />;
@@ -41,13 +44,20 @@ export function ProfileSettingsScreen() {
   }
 
   return (
-    <div className="h-full overflow-auto px-4 py-5 sm:px-8">
+    <div className="relative h-full overflow-auto px-4 py-5 sm:px-8">
+      {updateMutation.isPending && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/60 backdrop-blur-[2px]">
+          <FinLoader />
+        </div>
+      )}
+
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <ProfileSettingsHeader userInformation={profileUser} />
 
         <FormProvider {...methods}>
           <form
             className="space-y-6"
+            aria-busy={updateMutation.isPending}
             onSubmit={submit}
           >
             <div className="grid gap-5 lg:grid-cols-2">
@@ -58,12 +68,13 @@ export function ProfileSettingsScreen() {
             <ProfileSettingsAppearanceSection
               theme={theme}
               changeTheme={changeTheme}
-              currentLocale={profileUser.locale}
+              currentLocale={currentFormLocale}
             />
 
             <ProfileSettingsActions
               isOnline={profileUser.online}
               isPending={updateMutation.isPending}
+              isDirty={isDirty}
               onLogout={handleLogout}
             />
           </form>
