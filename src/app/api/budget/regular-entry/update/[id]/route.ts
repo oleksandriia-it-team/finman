@@ -8,6 +8,7 @@ import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-f
 import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import { updateRegularEntryApiUsecase } from '@backend/features/regular-entry/regular-entry.api.use-cases';
 
 export const PUT = createRoute({
   schema: RegularEntrySchema,
@@ -25,7 +26,8 @@ export const PUT = createRoute({
     const defCategory =
       'type' in body && body.type === TypeEntry.Income ? IncomeCategories.Misc : ExpenseCategories.Misc;
 
-    await regularEntryApiRepository.updateItem(id, {
+    await updateRegularEntryApiUsecase.execute({
+      id,
       ...body,
       category: body.category ?? defCategory,
       userId,

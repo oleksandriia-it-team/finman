@@ -14,4 +14,3 @@ export function UiTableRow({ className, ...props }: ComponentProps<'tr'>) {
     />
   );
 }
-

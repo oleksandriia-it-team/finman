@@ -9,15 +9,28 @@ import { UiSidebarMenuSubItem } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-su
 import { UiSidebarMenuSubButton } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-sub-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import Link from 'next/link';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { useGetActiveRoute } from '@frontend/shared/hooks/get-active-route/get-active-route.hook';
+import { useSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar-provider';
 
 export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
   const { activeItem: activeRoute, activeSubItem } = useGetActiveRoute(routes);
+  const { setOpen } = useSidebar();
 
   return (
     <UiSidebarContent {...props}>
       {routes.map((route, index) => {
+        const hasNestedRoutes = !!route.innerItems?.length;
+
+        const routeButtonContent = (
+          <>
+            <UiSvgIcon
+              name={route.icon}
+              size="default"
+            />
+            {route.name}
+          </>
+        );
+
         return (
           <UiSidebarGroup key={index}>
             <UiSidebarGroupContent>
@@ -27,16 +40,16 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
                   isActive={activeRoute === route}
                   asChild
                 >
-                  <Link
-                    href={route.route}
-                    className={cn(!!route.innerItems?.length && 'pointer-events-none')}
-                  >
-                    <UiSvgIcon
-                      name={route.icon}
-                      size="default"
-                    />
-                    {route.name}
-                  </Link>
+                  {hasNestedRoutes ? (
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="cursor-pointer"
+                    >
+                      {routeButtonContent}
+                    </button>
+                  ) : (
+                    <Link href={route.route}>{routeButtonContent}</Link>
+                  )}
                 </UiSidebarMenuButton>
 
                 {!!route.innerItems?.length && (

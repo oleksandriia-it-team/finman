@@ -11,4 +11,3 @@ export function UiTableHeader({ className, ...props }: ComponentProps<'thead'>) 
     />
   );
 }
-
