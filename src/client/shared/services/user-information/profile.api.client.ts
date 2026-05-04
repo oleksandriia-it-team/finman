@@ -14,11 +14,16 @@ export class ProfileApiClient {
       return null;
     }
 
-    return fetchClient
-      .get<ApiResultOperationSuccess<OnlineUser>>('/api/profile/me', {
+    try {
+      const result = await fetchClient.get<ApiResultOperationSuccess<OnlineUser>>('/api/profile/me', {
         headers: { Authorization: `Bearer ${accessToken}` },
-      })
-      .then((result) => result.data);
+      });
+
+      return result.data || null;
+    } catch (error) {
+      console.error('Failed to fetch profile:', error);
+      return null;
+    }
   }
 
   async updateProfile(data: ProfileSettingsData): Promise<OnlineUser> {

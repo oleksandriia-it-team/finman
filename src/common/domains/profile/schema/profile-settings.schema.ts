@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SupportLanguages, type SupportLanguages as SupportLanguage } from '@common/enums/support-languages.enum';
+import { SupportLanguages } from '@common/enums/support-languages.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 const nameSchema = z
@@ -13,24 +13,20 @@ const nameSchema = z
 const localeSchema = z
   .string()
   .trim()
-  .min(1, 'Локаль обов’язкова')
+  .min(1, "Локаль обов'язкова")
   .regex(/^[a-z]{2}(-[A-Z]{2})?$/, 'Невірний формат локалі');
 
 const optionalPasswordSchema = z
   .string()
   .trim()
   .optional()
-  .transform((value) => value || undefined);
-
-const supportedLanguages = Object.values(SupportLanguages) as [SupportLanguage, ...SupportLanguage[]];
+  .transform((value) => (value ? value : undefined));
 
 export const ProfileSettingsSchema = z
   .object({
     name: nameSchema,
     locale: localeSchema,
-    language: z.enum(supportedLanguages, {
-      message: 'Оберіть мову',
-    }),
+    language: z.enum(SupportLanguages, { error: 'Оберіть мову' }),
     currentPassword: optionalPasswordSchema,
     newPassword: optionalPasswordSchema,
     confirmPassword: optionalPasswordSchema,
@@ -56,7 +52,7 @@ export const ProfileSettingsSchema = z
         path: ['newPassword'],
         message: `Пароль має містити щонайменше ${UserRequirements.MinPasswordLength} символів`,
       });
-    } else if (!/(?=.*[A-Za-z])(?=.*\d)/.test(data.newPassword)) {
+    } else if (!/^(?=.*[a-zA-Z])(?=.*\d)/.test(data.newPassword)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['newPassword'],

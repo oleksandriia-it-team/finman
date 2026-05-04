@@ -42,7 +42,7 @@ export function FinControlledDropdown<T>({
               }}
               value={field.value}
               onChange={(val) => {
-                field.onChange(val?.value ?? '');
+                field.onChange(val ? val.value : undefined);
               }}
               className={className}
               id={id}
