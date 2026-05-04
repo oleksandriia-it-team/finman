@@ -1,11 +1,11 @@
-import { CrudLocalService } from '../../database/crud/crud.local.service';
+import { CrudLocalRepository } from '../../database/crud/crud.local.repository';
 import { type BudgetPlan } from '@common/records/budget-plan.record';
 import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
 
-export class BudgetPlanLocalRepository extends CrudLocalService<BudgetPlan, never> {
+export class BudgetPlanLocalRepository extends CrudLocalRepository<BudgetPlan, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.BudgetPlanTable);
   }
