@@ -11,7 +11,7 @@ import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { useConfirmCode } from './shared/confirm-code-form';
 
 export default function ConfirmCodePage() {
-  const { methods, submit, isLoading, email, handleGoBack } = useConfirmCode();
+  const { methods, submit, isLoading, email, handleGoBack, isCounting, timeLeft } = useConfirmCode();
 
   return (
     <AuthLayout
@@ -44,7 +44,7 @@ export default function ConfirmCodePage() {
                 onSubmit={submit}
                 className="w-full flex flex-col gap-3"
               >
-                <UiFieldSet disabled={isLoading}>
+                <UiFieldSet disabled={isLoading || isCounting}>
                   <UiFieldGroup className="flex flex-col gap-8">
                     <FinControlledOtp
                       name="code"
@@ -64,16 +64,17 @@ export default function ConfirmCodePage() {
                       <UiButton
                         type="submit"
                         variant="primary"
-                        className="w-full"
-                        disabled={!methods.formState.isValid || isLoading}
+                        className="w-full transition-all"
+                        disabled={!methods.formState.isValid || isLoading || isCounting}
                       >
-                        {isLoading ? 'Перевірка...' : 'Підтвердити'}
+                        {isLoading ? 'Перевірка...' : isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити'}
                       </UiButton>
 
                       <button
                         type="button"
-                        className="flex items-center justify-center gap-2 text-sm text-primary font-medium hover:underline"
+                        className="flex items-center justify-center gap-2 text-sm text-primary font-medium hover:underline disabled:opacity-50"
                         onClick={handleGoBack}
+                        disabled={isLoading}
                       >
                         <UiSvgIcon
                           name="arrow-left"

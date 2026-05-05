@@ -11,7 +11,7 @@ export class RecoveryCodeOrm extends DefaultTableColumnsOrm {
   @Column({ type: 'varchar', length: UserRequirements.MaxEmailLength })
   email!: string;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'timestamp' })
   expiresAt!: Date;
 
   @ManyToOne(`UserOrm`, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })

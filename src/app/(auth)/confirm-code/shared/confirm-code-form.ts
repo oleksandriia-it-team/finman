@@ -7,10 +7,13 @@ import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { VerifyCodeDto } from '@common/domains/auth/schema/recovery.schema';
 import { type ConfirmCodeDto, ConfirmCodeSchema } from '@common/domains/auth/schema/confirm-code.schema';
 import { useRouter } from 'next/navigation';
+import { useCountdown } from '@common/utils/use-coundown.hook';
 
 export function useConfirmCode() {
   const router = useRouter();
   const { email, setCode } = useRecoveryStore();
+
+  const { timeLeft, startCountdown, isCounting } = useCountdown(30);
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: VerifyCodeDto) =>
@@ -20,7 +23,12 @@ export function useConfirmCode() {
         if (result.status === 200) {
           setCode(methods.getValues('code'));
           router.push('/reset-password');
+        } else {
+          startCountdown();
         }
+      },
+      onError: () => {
+        startCountdown();
       },
     },
   );
@@ -30,6 +38,7 @@ export function useConfirmCode() {
   });
 
   const submit = methods.handleSubmit((data) => {
+    if (isCounting) return;
     mutate({ code: data.code, email });
   });
 
@@ -43,5 +52,7 @@ export function useConfirmCode() {
     isLoading: isPending,
     email,
     handleGoBack,
+    isCounting,
+    timeLeft,
   };
 }

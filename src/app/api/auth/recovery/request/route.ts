@@ -8,9 +8,6 @@ import { CooldownRecoveryGuard } from '@backend/entities/recovery-code/infrastru
 
 export const POST = createRoute({
   schema: ForgotPasswordSchema,
-
-  contextFn: async () => ({}),
-
   guards: [
     ({ body }) => CooldownRecoveryGuard({ body: body as ForgotPasswordDto }),
     ({ body }) => UserExistsRecoveryGuard({ body: body as ForgotPasswordDto }),
