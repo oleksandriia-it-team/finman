@@ -5,6 +5,7 @@ import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { FinDatepicker } from '@frontend/components/datepicker/fin-datepicker';
 import type { DateRange } from 'react-day-picker';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function FinControlledDatepicker({
   name,
@@ -25,7 +26,7 @@ export function FinControlledDatepicker({
       control={control}
       render={({ field, fieldState }) => {
         return (
-          <UiField>
+          <UiField className="flex-1 min-w-0">
             {label && <UiFieldLabel htmlFor={id}>{label}</UiFieldLabel>}
             <FinDatepicker
               {...(datepickerProps as DatepickerProps)}
@@ -46,7 +47,7 @@ export function FinControlledDatepicker({
                 field.onBlur();
                 onBlur?.();
               }}
-              className={className ?? ''}
+              className={cn('min-w-0', className)}
               selected={field.value}
               onSelect={(value: Date | DateRange | undefined) => {
                 if (value instanceof Date && transformForSingle) {
