@@ -118,13 +118,14 @@ export class DatabaseLocalService {
     to: number,
     includeSoftDeleted: boolean,
     mapFilters?: FilterPredicate<T>[],
+    orderBy?: string,
   ): Promise<T[]> {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
       const { skip, take } = calculateSkipAndLimit(from, to);
 
-      let collection = this.table<T>(tableName).orderBy('date');
+      let collection = orderBy ? this.table<T>(tableName).orderBy(orderBy) : this.table<T>(tableName);
 
       // Apply softDeleted guard
       if (!includeSoftDeleted) {

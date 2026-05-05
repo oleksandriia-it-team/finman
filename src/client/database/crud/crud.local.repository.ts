@@ -41,8 +41,8 @@ export abstract class CrudLocalRepository<
     return this.databaseLocalService.getItemById(this.tableName, id, false);
   }
 
-  async getItems(from: number, to: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
-    return this.databaseLocalService.getItems(this.tableName, from, to, false, this.mapFilters(filters));
+  async getItems(from: number, to: number, filters?: DeepPartial<F> | undefined, orderBy?: string): Promise<T[]> {
+    return this.databaseLocalService.getItems(this.tableName, from, to, false, this.mapFilters(filters), orderBy);
   }
 
   abstract createItem(data: DTO): Promise<number>;
