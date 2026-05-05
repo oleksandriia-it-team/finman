@@ -4,6 +4,7 @@ import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import type { CreateRecoveryCodeDto } from '@common/domains/auth/schema/recovery-code.dto';
 import type { ValidationResult } from '@backend/entities/recovery-code/application/validation.model';
 import { MaxAttempts } from '@common/constants/recovery-code-attempts.constant';
+import { RecoveryValidationStatus } from '@common/enums/recovery-status.enum';
 
 export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, never, CreateRecoveryCodeDto> {
   constructor() {
@@ -15,15 +16,15 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, n
       expiresAt: MoreThan(new Date()),
     });
 
-    if (!record) return { status: 'not_found' };
+    if (!record) return { status: RecoveryValidationStatus.NotFound };
 
     if (record.attempts >= MaxAttempts) {
       await this.repository.delete(record.id);
-      return { status: 'attempts_exceeded' };
+      return { status: RecoveryValidationStatus.AttemptsExceeded };
     }
 
     if (record.code === code) {
-      return { status: 'valid', record };
+      return { status: RecoveryValidationStatus.Valid, record };
     }
 
     const updateResult = await this.repository
@@ -38,10 +39,10 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, n
     const updatedRow = updateResult.raw[0];
     if (!updatedRow || updatedRow.attempts >= MaxAttempts) {
       await this.repository.delete(record.id);
-      return { status: 'attempts_exceeded' };
+      return { status: RecoveryValidationStatus.AttemptsExceeded };
     }
     const remaining = MaxAttempts - updatedRow.attempts;
-    return { status: 'invalid_code', remainingAttempts: remaining };
+    return { status: RecoveryValidationStatus.InvalidCode, remainingAttempts: remaining };
   }
   async deleteUserCodes(email: string): Promise<void> {
     const whereCondition: FindOptionsWhere<RecoveryCodeOrm> = { email };

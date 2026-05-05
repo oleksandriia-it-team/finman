@@ -14,8 +14,9 @@ export const POST = createRoute({
   ],
 
   execute: async ({ body }: { body: ForgotPasswordDto }) => {
-    const email = body.email as string;
+    const email = body.email.trim().toLowerCase();
     await recoveryCodeRepository.deleteUserCodes(email);
+
     const code = RecoveryService.generateCode();
     const expiresAt = new Date();
     expiresAt.setMinutes(expiresAt.getMinutes() + 5);
@@ -25,8 +26,9 @@ export const POST = createRoute({
       expiresAt,
     });
     const { error } = await RecoveryService.sendEmail(email, code);
-
     if (error) {
+      await recoveryCodeRepository.deleteUserCodes(email);
+
       return {
         status: 400,
         message: 'Не вдалося відправити лист. Спробуйте пізніше.',
