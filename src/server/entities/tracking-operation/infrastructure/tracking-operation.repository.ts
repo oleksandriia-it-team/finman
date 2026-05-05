@@ -9,6 +9,7 @@ import type {
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
@@ -63,20 +64,22 @@ export class TrackingOperationRepository
   }
 
   override async getItems(
-    first: number,
-    last: number,
+    from: number,
+    to: number,
     filters?: DeepPartial<TrackingOperationApiFilter>,
   ): Promise<TrackingOperationOrm[]> {
     const baseWhere = this.mapFilters(filters);
 
+    const { skip, take } = calculateSkipAndLimit(from, to);
+
     if (!filters?.search) {
-      return super.getItems(first, last, filters);
+      return super.getItems(from, to, filters);
     }
 
     return this.repository.find({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
-      skip: first - 1,
-      take: last - first + 1,
+      skip,
+      take,
     });
   }
 
@@ -113,8 +116,9 @@ export class TrackingOperationRepository
 
     const qb = this.repository
       .createQueryBuilder('op')
-      .select(`COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Income}' THEN op.sum ELSE 0 END), 0)`, 'totalIncomes')
-      .addSelect(`COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Expense}' THEN op.sum ELSE 0 END), 0)`, 'totalOutcomes')
+      .select('COALESCE(SUM(CASE WHEN op.type = :incomeType THEN op.sum ELSE 0 END), 0)', 'totalIncomes')
+      .addSelect('COALESCE(SUM(CASE WHEN op.type = :expenseType THEN op.sum ELSE 0 END), 0)', 'totalOutcomes')
+      .setParameters({ incomeType: TypeEntry.Income, expenseType: TypeEntry.Expense })
       .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
 
     if (userId !== undefined) {
