@@ -4,7 +4,14 @@ import { type ComponentProps, useMemo } from 'react';
 import { type DayButton } from 'react-day-picker';
 import type { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
 
-export function UiDayButton({ modifiers, className, day, ...props }: ComponentProps<typeof DayButton>) {
+export function UiDayButton({
+  modifiers,
+  className,
+  day,
+  onKeyDown,
+  onClick,
+  ...props
+}: ComponentProps<typeof DayButton>) {
   const dataSelectedSingle =
     modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle;
   const dataRangeStart = modifiers.range_start;
@@ -14,27 +21,24 @@ export function UiDayButton({ modifiers, className, day, ...props }: ComponentPr
   const selected = dataSelectedSingle || dataRangeStart || dataRangeEnd;
 
   const variant: ColorVariantModel = useMemo(() => {
-    if (selected || dataRangeMiddle) {
-      return 'primary';
-    }
-
-    if (modifiers.outside) {
-      return 'muted';
-    }
-
+    if (selected || dataRangeMiddle) return 'primary';
+    if (modifiers.outside) return 'muted';
     return 'default';
   }, [dataRangeMiddle, modifiers.outside, selected]);
 
   return (
     <UiButton
       variant={variant}
-      bgNone={modifiers.outside && !selected && !dataRangeMiddle}
+      bgNone={!selected}
       size="sm"
       isOutlined={dataRangeMiddle}
       paddingNone
+      onKeyDown={onKeyDown} // 👈 explicit, not buried in ...props spread
+      onClick={onClick} // 👈 explicit
       data-day={day.date.toLocaleDateString()}
       className={cn('flex aspect-square !size-auto min-w-(--cell-size) flex-col gap-1 leading-none', className)}
       {...props}
+      tabIndex={0}
     />
   );
 }

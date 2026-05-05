@@ -98,11 +98,11 @@ export function FinDatepicker({
       <UiPopoverTrigger asChild>
         <UiInputGroup
           data-state={open ? 'open' : 'closed'}
-          className="flex"
+          className="flex cursor-pointer"
         >
           <button
             ref={ref}
-            className={cn('flex gap-2 flex-1 outline-transparent', className)}
+            className={cn('flex gap-2 flex-1 outline-transparent cursor-pointer', className)}
             {...props}
             disabled={disabled}
             type="button"
