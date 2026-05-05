@@ -7,15 +7,15 @@ import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
-import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
+import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 
 export function TrackingOperationScreen() {
   const pageSize = 10;
@@ -54,7 +54,7 @@ export function TrackingOperationScreen() {
           <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
             <FinListScreenHandler
               state={useCombineStates(onDelete.state, state)}
-              errorMessage={errorMessage ?? getErrorMessage(onDelete.error)}
+              errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
               hasData={!!options.length}
               skeletonItems={pageSize}
               skeletonClassName="h-72"
