@@ -5,12 +5,12 @@ import { AddUniqueColumnsInBudgetPlan1777654086405 } from '@backend/database/mig
 import { AddUniqueColumnsInRegularEntry1777723411134 } from '@backend/database/migrations/1777723411134-add-unique-columns-in-regular-entry.migration';
 import { AddRecoveryCodesTable1777285743179 } from '@backend/database/migrations/1777285743179-add-recovery-codes.migration';
 import { AddTrackingOperation1745000000000 } from '@backend/database/migrations/1745000000000-add-tracking-operation.migration';
-import { UpdateRecoveryCodesAddAttempts1777290000000 } from '@backend/database/migrations/1777304687072-update-recovery-codes-add-attemps';
+import { UpdateRecoveryCodesAddAttempts1777304687072 } from '@backend/database/migrations/1777304687072-update-recovery-codes-add-attempts';
 
 export const Migrations = [
   AddTrackingOperation1745000000000,
   AddRecoveryCodesTable1777285743179,
-  UpdateRecoveryCodesAddAttempts1777290000000,
+  UpdateRecoveryCodesAddAttempts1777304687072,
   AddBudgetPlanAndMonthEntry1777240075396,
   AddAdminIdToLookups1746000000000,
   AddPriorityInMonthEntry1777497626400,

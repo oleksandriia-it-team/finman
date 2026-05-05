@@ -1,6 +1,6 @@
 import { type MigrationInterface, type QueryRunner, TableColumn } from 'typeorm';
 
-export class UpdateRecoveryCodesAddAttempts1777290000000 implements MigrationInterface {
+export class UpdateRecoveryCodesAddAttempts1777304687072 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       'recovery_codes',
