@@ -1,3 +1,5 @@
+'use client';
+
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiSheetTrigger } from '@frontend/ui/ui-sheet/ui-sheet-trigger';
 import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import type { ResponsiveDialogActionsProps } from '@frontend/ui/ui-responsive-dialog/props/responsive-dialog-actions.props';
 import { UiSheetDescription } from '../ui-sheet/ui-sheet-description';

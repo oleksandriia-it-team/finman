@@ -62,8 +62,8 @@ export function FinDatepicker({
     if (mode === 'single' && isToday(selected)) {
       return (
         <>
-          Сьогодні, {getDateContent(selected, DateFormatType.Short)} о{' '}
-          {getDateContent(selected, DateFormatType.TimeOnly)}
+          Сьогодні, {getDateContent(selected, DateFormatType.Short)}
+          {includeTime && <> о {getDateContent(selected, DateFormatType.TimeOnly)}</>}
         </>
       );
     }

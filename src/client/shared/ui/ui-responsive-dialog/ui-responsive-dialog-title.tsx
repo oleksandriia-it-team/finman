@@ -1,3 +1,5 @@
+'use client';
+
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiSheetTitle } from '../ui-sheet/ui-sheet-title';
 import { UiModalTitle } from '../ui-modal/ui-modal-title';

@@ -1,3 +1,5 @@
+'use client';
+
 import type { FieldsWithDividerProps } from '@frontend/ui/ui-fields-with-divider/props/fields-with-divider.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 
@@ -8,7 +10,12 @@ export function UiFieldsWithDivider({ className, firstField, secondField, ...pro
       {...props}
     >
       {firstField}
-      <span className="pt-4 absolute text-black">—</span>
+      <span
+        className="pt-4 absolute text-black"
+        aria-hidden="true"
+      >
+        —
+      </span>
       {secondField}
     </div>
   );

@@ -91,7 +91,7 @@
   height: var(--slider-thumb-size, 1rem);
   border-radius: 9999px;
   border: 1px solid var(--slider-color, var(--primary));
-  background-color: white;
+  background-color: var(--background);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   outline: none;
   transition:
@@ -106,7 +106,7 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--primary)) 20%, transparent);
   }
 
-  &:disabled {
+  &:disabled, &[data-disabled] {
     pointer-events: none;
     opacity: 0.5;
   }
