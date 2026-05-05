@@ -1,4 +1,3 @@
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.contant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
@@ -7,6 +6,9 @@ import { type RecordModel } from '@common/models/record.model';
 import { DexieService } from '@frontend/database/dexie.service';
 import Dexie, { type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { AppError } from '@common/classes/app-error.class';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -28,7 +30,7 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
  * const user = await dbService.getItemById<User>('users', 1, false);
  */
 export class DatabaseLocalService {
-  protected db!: DexieService;
+  public db!: DexieService;
 
   /** Active Dexie transaction scope (null when no batch is running). */
   #tx: Transaction | null = null;
@@ -49,7 +51,7 @@ export class DatabaseLocalService {
       await instance.connect();
       return instance;
     } catch {
-      throw new Error(ErrorDataBaseConnection);
+      throw new AppError(ErrorDataBaseConnection);
     }
   }
 
@@ -72,7 +74,7 @@ export class DatabaseLocalService {
   // Helpers
   // -------------------------------------------------------------------------
 
-  private table<T extends DefaultTableColumns>(name: string): Table<T, number> {
+  public table<T extends DefaultTableColumns>(name: string): Table<T, number> {
     return this.db.table<T, number>(name);
   }
 
@@ -90,7 +92,7 @@ export class DatabaseLocalService {
       if (!includeSoftDeleted && item?.softDeleted) return null;
       return item;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -107,15 +109,15 @@ export class DatabaseLocalService {
    */
   async getItems<T extends DefaultTableColumns>(
     tableName: string,
-    start: number,
-    end: number,
+    from: number,
+    to: number,
     includeSoftDeleted: boolean,
     mapFilters?: FilterPredicate<T>[],
   ): Promise<T[]> {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
-      const limit = end - start;
+      const { skip, take } = calculateSkipAndLimit(from, to);
 
       let collection = this.table<T>(tableName).toCollection();
 
@@ -129,12 +131,9 @@ export class DatabaseLocalService {
         collection = collection.filter(predicateFn);
       }
 
-      return await collection
-        .offset(start - 1)
-        .limit(limit)
-        .toArray();
+      return await collection.offset(skip).limit(take).toArray();
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -178,7 +177,7 @@ export class DatabaseLocalService {
 
       return await collection.count();
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -200,7 +199,7 @@ export class DatabaseLocalService {
 
       return (await collection.filter((item) => item.softDeleted === 0).first()) ?? null;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -214,13 +213,13 @@ export class DatabaseLocalService {
       }
       return (await this.table<T>(tableName).where('softDeleted').equals(0).first()) ?? null;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
   async updateOrCreateItem(tableName: string, data: RecordModel): Promise<number> {
     if (typeof data !== 'object' || isEmpty(data)) {
-      throw new Error(ErrorTexts.IncorrectTypeData);
+      throw new AppError(ErrorTexts.IncorrectTypeData);
     }
 
     if (!('softDeleted' in data) || (data.softDeleted !== 0 && data.softDeleted !== 1)) {
@@ -230,7 +229,7 @@ export class DatabaseLocalService {
     if (!('id' in data)) {
       (data as Record<string, unknown>).id = Date.now() * 1000 + Math.floor(Math.random() * 1000); // Generate a unique ID based on timestamp and random number
     } else if (typeof data.id !== 'number') {
-      throw new Error(ErrorTexts.IncorrectIdProvided);
+      throw new AppError(ErrorTexts.IncorrectIdProvided);
     }
 
     try {
@@ -245,7 +244,7 @@ export class DatabaseLocalService {
 
       return await table.put(data as DefaultTableColumns & RecordModel);
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -254,7 +253,7 @@ export class DatabaseLocalService {
       const table = this.table(tableName);
       const item = await table.get(id);
 
-      if (!item) throw new Error(ErrorTexts.RecordDoesNotExist);
+      if (!item) throw new AppError(ErrorTexts.RecordDoesNotExist);
 
       if (softDelete) {
         await table.update(id, { softDeleted: 1 });
@@ -264,7 +263,7 @@ export class DatabaseLocalService {
 
       return true;
     } catch (error) {
-      throw new Error(getErrorMessage(error));
+      throw new AppError(getSafeErrorMessage(error));
     }
   }
 
@@ -284,7 +283,7 @@ export class DatabaseLocalService {
    */
   async runBatch<T>(tableNames: string | string[], work: () => Promise<T>): Promise<T> {
     if (this.#tx) {
-      throw new Error(ErrorTexts.PrevBatchIsNotDone);
+      throw new AppError(ErrorTexts.PrevBatchIsNotDone);
     }
 
     const names = Array.isArray(tableNames) ? tableNames : [tableNames];

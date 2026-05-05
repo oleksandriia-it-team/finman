@@ -33,6 +33,10 @@ export abstract class CrudLocalService<
     readonly tableName: string,
   ) {}
 
+  get table() {
+    return this.databaseLocalService.table<T>(this.tableName);
+  }
+
   getItemById(id: number): Promise<T | null> {
     return this.databaseLocalService.getItemById(this.tableName, id, false);
   }

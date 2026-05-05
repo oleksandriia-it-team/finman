@@ -1,12 +1,19 @@
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
 export function getApiErrorMessage(error: unknown): ApiResultOperationError {
-  const errorMessage = getErrorMessage(error);
+  const isAppError = checkIsAppErrorObj(error);
+
+  if (isAppError) {
+    return {
+      message: error.message,
+      status: error.status as ApiResultOperationError['status'],
+    };
+  }
 
   return {
-    status: errorMessage === ErrorTexts.UnknownError ? 500 : 400,
-    message: errorMessage,
+    status: 500,
+    message: ErrorTexts.UnknownError,
   };
 }

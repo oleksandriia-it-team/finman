@@ -23,3 +23,14 @@
     transform: translateX(50%);
   }
 }
+
+.profile-layout {
+  @media screen and (width >= 768px) {
+    .toast-viewport {
+      left: calc(var(--sidebar-width) + var(--viewport-padding));
+      right: auto;
+      width: min(26rem, calc(100vw - var(--sidebar-width) - (var(--viewport-padding) * 2)));
+    }
+  }
+}
+

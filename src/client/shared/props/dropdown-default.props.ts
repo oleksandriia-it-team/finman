@@ -4,5 +4,6 @@ export interface DropdownDefaultProps<T> {
   options: DropdownOption<T>[];
   optionListClassName?: string;
   optionClassName?: string;
+  clearable?: boolean;
   'data-invalid'?: boolean;
 }
