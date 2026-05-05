@@ -18,7 +18,7 @@ export class TrackingOperationLocalRepository
   implements ITrackingOperationRepository
 {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.TrackingOperationsTable);
+    super(databaseLocalService, Tables.TrackingOperationsTable.name);
   }
 
   createItem(data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> {
@@ -75,6 +75,14 @@ export class TrackingOperationLocalRepository
     }
 
     return predicates;
+  }
+
+  override async getItems(
+    from: number,
+    to: number,
+    filters?: DeepPartial<TrackingOperationFilter> | undefined,
+  ): Promise<TrackingOperationRecord[]> {
+    return super.getItems(from, to, filters);
   }
 
   async getMaxSum(): Promise<number> {

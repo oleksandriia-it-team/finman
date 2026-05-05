@@ -16,7 +16,7 @@ export class RegularEntryLocalRepository
   implements IRegularEntryRepository
 {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.RegularExpensesAndIncomesTable);
+    super(databaseLocalService, Tables.RegularExpensesAndIncomesTable.name);
   }
 
   createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {
@@ -31,8 +31,8 @@ export class RegularEntryLocalRepository
     return this.databaseLocalService.deleteItem(this.tableName, id, true);
   }
 
-  getItemsWithSoftDeleted(first: number, last: number): Promise<RegularEntry[]> {
-    return this.databaseLocalService.getItems(this.tableName, first, last, true);
+  getItemsWithSoftDeleted(from: number, to: number): Promise<RegularEntry[]> {
+    return this.databaseLocalService.getItems(this.tableName, from, to, true);
   }
 
   protected override mapFilters(filters: DeepPartial<RegularEntryFilter> | undefined): FilterPredicate<RegularEntry>[] {

@@ -9,6 +9,7 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { AppError } from '@common/classes/app-error.class';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
+import type { TableLocalModel } from '@frontend/shared/models/table.local.model';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -35,17 +36,21 @@ export class DatabaseLocalService {
   /** Active Dexie transaction scope (null when no batch is running). */
   #tx: Transaction | null = null;
 
+  tableTitles: string[] = [];
+
   constructor(
     private readonly databaseName: string,
-    private readonly tables: string[],
+    private readonly tables: TableLocalModel[],
     private readonly version: number,
-  ) {}
+  ) {
+    this.tableTitles = this.tables.map((t) => t.name);
+  }
 
   // -------------------------------------------------------------------------
   // Static factory
   // -------------------------------------------------------------------------
 
-  static async initDB(databaseName: string, tables: string[], version: number): Promise<DatabaseLocalService> {
+  static async initDB(databaseName: string, tables: TableLocalModel[], version: number): Promise<DatabaseLocalService> {
     const instance = new this(databaseName, tables, version);
     try {
       await instance.connect();
@@ -119,7 +124,7 @@ export class DatabaseLocalService {
     try {
       const { skip, take } = calculateSkipAndLimit(from, to);
 
-      let collection = this.table<T>(tableName).toCollection();
+      let collection = this.table<T>(tableName).orderBy('date');
 
       // Apply softDeleted guard
       if (!includeSoftDeleted) {
@@ -317,9 +322,9 @@ export class DatabaseLocalService {
       // @ts-ignore
       await this.db.transaction(
         'rw',
-        this.tables.map((t) => this.db.table(t)),
+        this.tableTitles.map((t) => this.db.table(t)),
         async () => {
-          await Promise.all(this.tables.map((t) => this.db.table(t).clear()));
+          await Promise.all(this.tableTitles.map((t) => this.db.table(t).clear()));
         },
       );
     } catch (error) {
@@ -327,4 +332,4 @@ export class DatabaseLocalService {
     }
   }
 }
-export const databaseLocalService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 1);
+export const databaseLocalService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 2);

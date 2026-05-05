@@ -26,8 +26,8 @@ export class BasicDataSource<
     return this.source.getItemById(id);
   }
 
-  getItems(first: number, last: number, filters?: F | undefined): Promise<T[]> {
-    return this.source.getItems(first, last, (filters ?? {}) as F);
+  getItems(from: number, to: number, filters?: F | undefined): Promise<T[]> {
+    return this.source.getItems(from, to, (filters ?? {}) as F);
   }
 
   createItem(data: DTO): Promise<number> {

@@ -56,7 +56,7 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         });
       }
     },
-    (errors) => {
+    () => {
       showToast({
         title: 'Перевірте правильність заповнення форми',
         description: 'Форма заповнена некоректно',

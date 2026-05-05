@@ -13,4 +13,7 @@ export class DexieTransactionManager implements ITransactionManager {
   }
 }
 
-export const dexieTransactionManager = new DexieTransactionManager(databaseLocalService, Object.values(Tables));
+export const dexieTransactionManager = new DexieTransactionManager(
+  databaseLocalService,
+  Object.values(Tables).map((t) => t.name),
+);

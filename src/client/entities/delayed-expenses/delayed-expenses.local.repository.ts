@@ -6,7 +6,7 @@ import { type DefaultColumnKeys } from '@common/models/default-table-columns.mod
 
 export class DelayedExpensesLocalRepository extends CrudLocalRepository<DelayedExpense, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.DelayedExpensesTable);
+    super(databaseLocalService, Tables.DelayedExpensesTable.name);
   }
 
   createItem(data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<number> {

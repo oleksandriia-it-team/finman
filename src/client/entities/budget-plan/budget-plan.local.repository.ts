@@ -7,7 +7,7 @@ import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-
 
 export class BudgetPlanLocalRepository extends CrudLocalRepository<BudgetPlan, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.BudgetPlanTable);
+    super(databaseLocalService, Tables.BudgetPlanTable.name);
   }
 
   override async createItem(data: Omit<BudgetPlan, DefaultColumnKeys>): Promise<number> {

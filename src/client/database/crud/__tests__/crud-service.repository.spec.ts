@@ -36,7 +36,7 @@ describe('CrudLocalService', () => {
   let service: CrudServiceForUnitTest;
 
   beforeEach(() => {
-    dbService = new DatabaseLocalService('UNIT_TESTS', [tableName], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [{ name: tableName }], 1);
     service = new CrudServiceForUnitTest(dbService);
   });
 

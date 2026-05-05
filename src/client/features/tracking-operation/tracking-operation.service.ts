@@ -1,16 +1,16 @@
+import type { AuthTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { trackingOperationLocalRepository } from '@frontend/entities/tracking-operations/tracking-operation.local.repository';
 import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
 import type {
-  ITrackingOperationRepository,
   GetTrackingOperationStatisticResponse,
+  ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
-import type { AuthTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 
 export class TrackingOperationDataSource implements ITrackingOperationRepository {
   constructor(
@@ -32,11 +32,11 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
   }
 
   getItems(
-    first: number,
-    last: number,
+    from: number,
+    to: number,
     filters?: DeepPartial<TrackingOperationFilter>,
   ): Promise<TrackingOperationRecord[]> {
-    return this.source.getItems(first, last, filters);
+    return this.source.getItems(from, to, filters);
   }
 
   createItem(data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> {

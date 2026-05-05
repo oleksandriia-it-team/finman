@@ -6,7 +6,7 @@ import type { DefaultColumnKeys } from '@common/models/default-table-columns.mod
 
 export class MonthEntryLocalRepository extends CrudLocalRepository<MonthEntry, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.UnregularEntries);
+    super(databaseLocalService, Tables.UnregularEntries.name);
   }
 
   createItem(data: Omit<MonthEntry, DefaultColumnKeys>): Promise<number> {

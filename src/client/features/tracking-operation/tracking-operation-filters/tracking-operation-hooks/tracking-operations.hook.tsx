@@ -2,10 +2,10 @@
 
 import constate from 'constate';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
-import type { TrackingOperationDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
+import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 function useTrackingOperationsLogic() {
   const getOperations = (
@@ -28,7 +28,7 @@ function useTrackingOperationsLogic() {
       .then((count) => count ?? 0);
   };
 
-  const handleCreate = (dto: TrackingOperationDto): Promise<number> => {
+  const handleCreate = (dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> => {
     return trackingOperationsApiClient.createItem(dto);
   };
 
@@ -36,7 +36,7 @@ function useTrackingOperationsLogic() {
     return trackingOperationsApiClient.deleteItem(id);
   };
 
-  const handleUpdate = (id: number, dto: TrackingOperationDto): Promise<true> => {
+  const handleUpdate = (id: number, dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> => {
     return trackingOperationsApiClient.updateItem(id, dto);
   };
 

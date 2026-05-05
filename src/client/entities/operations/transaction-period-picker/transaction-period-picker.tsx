@@ -1,5 +1,5 @@
-import type { ButtonProps } from '@base-ui/react';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import type { ButtonProps } from '@frontend/ui/ui-button/props/button.props';
 
 export function TransactionPeriodPicker({ children, className, ...props }: ButtonProps) {
   return (

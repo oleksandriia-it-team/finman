@@ -73,13 +73,19 @@ export class TrackingOperationRepository
     const { skip, take } = calculateSkipAndLimit(from, to);
 
     if (!filters?.search) {
-      return super.getItems(from, to, filters);
+      return this.repository.find({
+        where: baseWhere,
+        skip,
+        take,
+        order: { date: 'ASC' },
+      });
     }
 
     return this.repository.find({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
       skip,
       take,
+      order: { date: 'ASC' },
     });
   }
 
