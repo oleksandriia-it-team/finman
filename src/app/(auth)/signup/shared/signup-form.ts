@@ -9,24 +9,26 @@ import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
+import { useRef } from 'react';
 
-const DEFAULT_LOCALE = 'en-US';
+const defaultLocale = 'en-US';
 
 async function resolveLocale(): Promise<string> {
-  const browserLocale = typeof window !== 'undefined' ? window.navigator.language : DEFAULT_LOCALE;
+  const browserLocale = typeof window !== 'undefined' ? window.navigator.language : defaultLocale;
   try {
     const results = await lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, 1, 2, {
       locale: browserLocale,
     });
     const found = results.find((item) => item.locale === browserLocale);
-    return found ? browserLocale : DEFAULT_LOCALE;
+    return found ? browserLocale : defaultLocale;
   } catch {
-    return DEFAULT_LOCALE;
+    return defaultLocale;
   }
 }
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { setUserInformation, logOut } = useUserInformation();
+  const isSubmittingRef = useRef(false);
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
@@ -55,25 +57,33 @@ export function useSetupRegistration(onSuccessAction: () => void) {
   const submit = methods.handleSubmit((data) => {
     const { workMode } = data;
     if (!workMode) return;
+    if (isSubmittingRef.current) return;
+    isSubmittingRef.current = true;
 
-    resolveLocale().then((locale) => {
-      const apiData = { ...data, locale } as GlobalRegisterDto;
-      delete apiData.workMode;
-      delete apiData.passwordConfirm;
+    resolveLocale()
+      .then((locale) => {
+        const apiData = { ...data, locale } as GlobalRegisterDto;
+        delete apiData.workMode;
+        delete apiData.passwordConfirm;
 
-      if (workMode === WorkMode.Offline) {
-        try {
-          setUserInformation({ ...apiData, locale, language: 'uk', online: false });
-          onSuccessAction();
-        } catch (e) {
-          logOut();
-          console.error('Offline save failed:', e);
+        if (workMode === WorkMode.Offline) {
+          try {
+            setUserInformation({ ...apiData, locale, language: 'uk', online: false });
+            onSuccessAction();
+          } catch (e) {
+            logOut();
+            console.error('Offline save failed:', e);
+          } finally {
+            isSubmittingRef.current = false;
+          }
+          return;
         }
-        return;
-      }
 
-      mutate(apiData as RegisterDto);
-    });
+        mutate(apiData as RegisterDto);
+      })
+      .finally(() => {
+        isSubmittingRef.current = false;
+      });
   });
 
   return { methods, submit, isLoading: isPending };
