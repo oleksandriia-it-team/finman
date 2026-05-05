@@ -10,7 +10,6 @@ export const RegularPaymentFrequencyFilter = {
   Week: 'Тиждень',
   Month: 'Місяць',
   Year: 'Рік',
-  Custom: 'Довільний',
 } as const;
 
 export type RegularPaymentFrequency = (typeof RegularPaymentFrequency)[keyof typeof RegularPaymentFrequency];

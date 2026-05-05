@@ -16,6 +16,9 @@ import { TrackingOperationHeader } from '@frontend/features/tracking-operation/t
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
+import { format, parseISO } from 'date-fns';
+import { uk } from 'date-fns/locale/uk';
 
 export function TrackingOperationScreen() {
   const pageSize = 10;
@@ -46,10 +49,6 @@ export function TrackingOperationScreen() {
     <div className="size-full overflow-hidden flex flex-col">
       <TrackingOperationHeader onFiltersApply={setFilters} />
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
-        <p className="flex-none text-xl p-4">
-          <b>Регулярні доходи та витрати</b>
-        </p>
-
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
           <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
             <FinListScreenHandler
@@ -59,13 +58,25 @@ export function TrackingOperationScreen() {
               skeletonItems={pageSize}
               skeletonClassName="h-72"
             >
-              {options.map((item, index) => (
-                <TransactionCard
-                  key={item.id ?? index}
-                  handleDelete={(id) => onDelete.mutate(id)}
-                  {...item}
-                />
-              ))}
+              {options.map((item, index) => {
+                const currentDate = format(parseISO(item.date), 'yyyy-MM-dd');
+                const prevDate = index > 0 ? format(parseISO(options[index - 1].date), 'yyyy-MM-dd') : null;
+
+                const showSeparator = currentDate !== prevDate;
+
+                return (
+                  <div key={item.id ?? index}>
+                    {showSeparator && (
+                      <UiDateSeparator date={format(parseISO(item.date), 'd MMMM yyyy', { locale: uk })} />
+                    )}
+                    <TransactionCard
+                      className="bg-primary-foreground"
+                      handleDelete={(id) => onDelete.mutate(id)}
+                      {...item}
+                    />
+                  </div>
+                );
+              })}
             </FinListScreenHandler>
           </div>
         </div>

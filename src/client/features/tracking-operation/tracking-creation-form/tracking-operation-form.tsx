@@ -9,6 +9,7 @@ import {
 import { useTrackingOperationForm } from '@frontend/features/tracking-operation/tracking-creation-form/tracking-operation-form.hook';
 import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/form-side-block';
 import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/tracking-operations-form-props';
+import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
   const { methods, submit, isEdit } = useTrackingOperationForm(initialData, onSuccess);
@@ -31,7 +32,13 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
               methods.setValue('type', value, { shouldValidate: true });
             }}
           />
-          <CardsFormTemplateInputs />
+          <CardsFormTemplateInputs>
+            <FinControlledDatepicker
+              mode={'single'}
+              name="date"
+              label="Дата операції"
+            />
+          </CardsFormTemplateInputs>
           <CardsFormTemplateActions onCancel={onCancel as never} />
         </CardsFormTemplate>
       </FormProvider>

@@ -14,6 +14,8 @@ export interface ITrackingOperationRepository extends ICrudService<
   Omit<TrackingOperationRecord, DefaultColumnKeys>,
   TrackingOperationFilter
 > {
-  getStatistic(input: TrackingOperationStatisticDto & { userId?: number }): Promise<GetTrackingOperationStatisticResponse>;
+  getStatistic(
+    input: TrackingOperationStatisticDto & { userId?: number },
+  ): Promise<GetTrackingOperationStatisticResponse>;
   getMaxSum(userId?: number): Promise<number>;
 }
