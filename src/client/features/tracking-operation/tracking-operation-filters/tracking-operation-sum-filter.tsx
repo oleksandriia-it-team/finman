@@ -4,18 +4,17 @@ import { FinControlledInput } from '@frontend/components/controlled-fields/fin-c
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/filters-default.props';
 import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constant';
-import { Slider } from '@frontend/ui/ui-slider/slider';
+import { UiSlider } from '@frontend/ui/ui-slider/ui-slider';
 import { useFormContext, useWatch } from 'react-hook-form';
-
-//TODO ADD SLIDER BELOW INPUTS AND BIND IT'S VALUE TO INPUTS
+import { UiFieldsWithDivider } from '@frontend/ui/ui-fields-with-divider/ui-fields-with-divider';
 
 export function SumFilter({ className }: FiltersDefaultProps) {
   const classes = cn('size-full flex flex-col gap-3', className);
 
   const { control, setValue } = useFormContext();
 
-  const startValue = useWatch({ control, name: 'start' }) || 0;
-  const endValue = useWatch({ control, name: 'end' }) || 50000;
+  const minValue = useWatch({ control, name: 'minSum' }) ?? 0;
+  const maxValue = useWatch({ control, name: 'maxSum' }) ?? 50000;
 
   const handleSliderChange = (values: number[]) => {
     const [min, max] = values;
@@ -26,25 +25,29 @@ export function SumFilter({ className }: FiltersDefaultProps) {
   return (
     <div className={classes}>
       <p className="text-lg">Сума</p>
-      <div className="flex flex-row items-center justify-center gap-10 text-muted">
-        <FinControlledInput
-          type="number"
-          id="minSum"
-          name="minSum"
-          label="Мін"
-          pattern={NumberOnlyPattern}
-        />
-        <span className="pt-4 absolute text-black">—</span>
-        <FinControlledInput
-          type="number"
-          id="maxSum"
-          name="maxSum"
-          label="Макс"
-          pattern={NumberOnlyPattern}
-        />
-      </div>
-      <Slider
-        defaultValue={[startValue, endValue]}
+      <UiFieldsWithDivider
+        firstField={
+          <FinControlledInput
+            type="number"
+            id="minSum"
+            name="minSum"
+            label="Мін"
+            pattern={NumberOnlyPattern}
+          />
+        }
+        secondField={
+          <FinControlledInput
+            type="number"
+            id="maxSum"
+            name="maxSum"
+            label="Макс"
+            pattern={NumberOnlyPattern}
+          />
+        }
+      />
+
+      <UiSlider
+        value={[minValue, maxValue]}
         min={0}
         max={50000}
         step={5}

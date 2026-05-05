@@ -48,7 +48,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         });
         onSuccess?.();
       } catch (err) {
-        console.log(err);
         const message = err instanceof Error ? err.message : 'Невідома помилка';
         showToast({
           title: `Помилка: ${message}`,
@@ -58,7 +57,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
       }
     },
     (errors) => {
-      console.log(errors);
       showToast({
         title: 'Перевірте правильність заповнення форми',
         description: 'Форма заповнена некоректно',

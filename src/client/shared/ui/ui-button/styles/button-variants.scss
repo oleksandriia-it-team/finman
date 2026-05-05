@@ -46,7 +46,7 @@
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent !important;
+      background-color: color-mix(in srgb, currentcolor 10%, transparent) !important;
     }
   }
 }

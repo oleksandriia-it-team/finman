@@ -1,18 +1,17 @@
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { UiSheetClose } from '@frontend/ui/ui-sheet/ui-sheet-close';
 import * as React from 'react';
 
-import './styles/ui-sheet-close-button-styles.scss';
+import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 
-export function UiSheetButtonClose() {
+export function UiModalButtonClose() {
   return (
-    <UiSheetClose className="sheet-close cursor-pointer">
+    <UiModalClose className="cursor-pointer">
       <UiSvgIcon
         aria-hidden
         size="xxl"
         name="x"
         className="pointer-events-none"
       />
-    </UiSheetClose>
+    </UiModalClose>
   );
 }
