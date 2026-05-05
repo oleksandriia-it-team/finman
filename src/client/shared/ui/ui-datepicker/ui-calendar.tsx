@@ -6,6 +6,44 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiDayButton } from '@frontend/ui/ui-datepicker/ui-day-button';
 
+const CalendarRoot = ({
+  className,
+  rootRef,
+  ...props
+}: React.ComponentProps<'div'> & { rootRef?: React.Ref<HTMLDivElement> }) => (
+  <div
+    data-slot="calendar"
+    ref={rootRef}
+    className={cn(className)}
+    {...props}
+  />
+);
+
+const CalendarChevron = ({
+  className,
+  orientation,
+  ...props
+}: {
+  className?: string;
+  orientation?: 'left' | 'right' | 'down';
+}) => {
+  const name = orientation === 'left' ? 'chevron-left' : orientation === 'right' ? 'chevron-right' : 'chevron-down';
+  return (
+    <UiSvgIcon
+      name={name}
+      className={className}
+      {...props}
+      size="default"
+    />
+  );
+};
+
+const CalendarWeekNumber = ({ children, ...props }: React.ComponentProps<'td'>) => (
+  <td {...props}>
+    <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
+  </td>
+);
+
 export function UiCalendar({
   className,
   classNames,
@@ -102,56 +140,10 @@ export function UiCalendar({
         ...classNames,
       }}
       components={{
-        Root: ({ className, rootRef, ...props }) => {
-          return (
-            <div
-              data-slot="calendar"
-              ref={rootRef}
-              className={cn(className)}
-              {...props}
-            />
-          );
-        },
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === 'left') {
-            return (
-              <UiSvgIcon
-                name="chevron-left"
-                className={className}
-                {...props}
-                size="default"
-              />
-            );
-          }
-
-          if (orientation === 'right') {
-            return (
-              <UiSvgIcon
-                name="chevron-right"
-                className={className}
-                {...props}
-                size="default"
-              />
-            );
-          }
-
-          return (
-            <UiSvgIcon
-              name="chevron-down"
-              className={className}
-              {...props}
-              size="default"
-            />
-          );
-        },
+        Root: CalendarRoot,
+        Chevron: CalendarChevron as never,
         DayButton: UiDayButton,
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
-            </td>
-          );
-        },
+        WeekNumber: CalendarWeekNumber,
         ...components,
       }}
       {...props}

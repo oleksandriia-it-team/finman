@@ -6,7 +6,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 export function UiFieldsWithDivider({ className, firstField, secondField, ...props }: FieldsWithDividerProps) {
   return (
     <div
-      className={cn('flex flex-row items-center justify-center gap-10 text-muted', className)}
+      className={cn('relative flex flex-row items-center justify-center gap-10 text-muted', className)}
       {...props}
     >
       {firstField}
