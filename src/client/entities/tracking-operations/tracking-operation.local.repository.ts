@@ -43,7 +43,9 @@ export class TrackingOperationLocalRepository
       predicates.push((item) => item.type === filters.type);
     }
     if (filters.category) {
-      predicates.push((item) => item.category === filters.category);
+      predicates.push((item) =>
+        Array.isArray(filters.category) ? filters.category.includes(item.category) : filters.category === item.category,
+      );
     }
     if (filters.softDeleted !== undefined) {
       predicates.push((item) => item.softDeleted === filters.softDeleted);
