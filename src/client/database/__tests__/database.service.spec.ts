@@ -35,7 +35,7 @@ type UnitTestWithCursorWithDelete = UnitTestWithDelete &
   };
 
 const dbName = 'UNIT_TESTS';
-const tables = ['users'];
+const tables = [{ name: 'users' }];
 
 const testsWithDelete: UnitTestWithDelete[] = [
   { softDeleted: false, getSoftDeleted: false },

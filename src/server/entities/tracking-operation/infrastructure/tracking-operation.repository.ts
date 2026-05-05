@@ -3,12 +3,22 @@ import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infra
 import type { TrackingOperationApiFilter } from '@backend/entities/tracking-operation/domain/tracking-operation-api.filter';
 import { Between, type FindOptionsWhere, ILike, In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import type { DeepPartial } from '@common/models/deep-partial.model';
+import type {
+  GetTrackingOperationStatisticResponse,
+  ITrackingOperationRepository,
+} from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
+import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
 }
 
-export class TrackingOperationRepository extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter> {
+export class TrackingOperationRepository
+  extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter>
+  implements ITrackingOperationRepository
+{
   protected override mapFilters(
     filters: DeepPartial<TrackingOperationApiFilter> | undefined,
   ): FindOptionsWhere<TrackingOperationOrm> {
@@ -54,20 +64,28 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
   }
 
   override async getItems(
-    first: number,
-    last: number,
+    from: number,
+    to: number,
     filters?: DeepPartial<TrackingOperationApiFilter>,
   ): Promise<TrackingOperationOrm[]> {
     const baseWhere = this.mapFilters(filters);
 
+    const { skip, take } = calculateSkipAndLimit(from, to);
+
     if (!filters?.search) {
-      return super.getItems(first, last, filters);
+      return this.repository.find({
+        where: baseWhere,
+        skip,
+        take,
+        order: { date: 'ASC' },
+      });
     }
 
     return this.repository.find({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
-      skip: first - 1,
-      take: last - first + 1,
+      skip,
+      take,
+      order: { date: 'ASC' },
     });
   }
 
@@ -81,6 +99,49 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
     return this.repository.count({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
     });
+  }
+
+  async getMaxSum(userId?: number): Promise<number> {
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select('COALESCE(MAX(op.sum), 0)', 'maxSum')
+      .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
+
+    if (userId !== undefined) {
+      qb.andWhere('op.userId = :userId', { userId });
+    }
+
+    const result = await qb.getRawOne<{ maxSum: string }>();
+    return parseFloat(result?.maxSum ?? '0');
+  }
+
+  async getStatistic(
+    input: TrackingOperationStatisticDto & { userId?: number },
+  ): Promise<GetTrackingOperationStatisticResponse> {
+    const { dateFrom, dateTo, userId } = input;
+
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select('COALESCE(SUM(CASE WHEN op.type = :incomeType THEN op.sum ELSE 0 END), 0)', 'totalIncomes')
+      .addSelect('COALESCE(SUM(CASE WHEN op.type = :expenseType THEN op.sum ELSE 0 END), 0)', 'totalOutcomes')
+      .setParameters({ incomeType: TypeEntry.Income, expenseType: TypeEntry.Expense })
+      .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
+
+    if (userId !== undefined) {
+      qb.andWhere('op.userId = :userId', { userId });
+    }
+    if (dateFrom) {
+      qb.andWhere('op.date >= :dateFrom', { dateFrom });
+    }
+    if (dateTo) {
+      qb.andWhere('op.date <= :dateTo', { dateTo });
+    }
+
+    const result = await qb.getRawOne<{ totalIncomes: string; totalOutcomes: string }>();
+    return {
+      totalIncomes: parseFloat(result?.totalIncomes ?? '0'),
+      totalOutcomes: parseFloat(result?.totalOutcomes ?? '0'),
+    };
   }
 }
 

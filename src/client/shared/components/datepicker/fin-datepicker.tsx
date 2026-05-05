@@ -114,7 +114,7 @@ export function FinDatepicker({
               />
             </UiInputGroupAddon>
 
-            {buttonValue}
+            <span className="truncate min-w-0 flex-1 text-left">{buttonValue}</span>
           </button>
 
           {!!selected && clearable && (

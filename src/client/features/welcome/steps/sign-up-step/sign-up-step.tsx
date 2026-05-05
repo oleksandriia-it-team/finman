@@ -53,7 +53,7 @@ export default function SignUpStep() {
             <TransactionCard
               bgNone
               key={check.id}
-              name={check.icon}
+              icon={check.icon}
               title={check.title}
               description={check.description}
               type={check.type as TypeEntry.Income | TypeEntry.Expense}

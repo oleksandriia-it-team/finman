@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, AllCategoryValues } from '@common/enums/categories.enum';
+import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
@@ -11,7 +11,7 @@ export const TrackingOperationSchema = z.object({
     .string()
     .min(1, { message: "Назва обов'язкова" })
     .max(20, { message: 'Назва не може бути довшою за 20 символів' }),
-  description: z.string().max(100, { message: 'Опис не може бути довшим за 100 символів' }).optional(),
+  description: z.string().max(100, { message: 'Опис не може бути довшим за 100 символів' }).nullable().optional(),
   type: z.enum(TrackingOperationTypes, {
     message: 'Тип має бути expense або income',
   }),
@@ -57,3 +57,10 @@ export const TrackingOperationPaginationSchema = {
 export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
 
 export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
+
+export const TrackingOperationStatisticSchema = z.object({
+  dateFrom: z.coerce.date().optional(),
+  dateTo: z.coerce.date().optional(),
+});
+
+export type TrackingOperationStatisticDto = z.infer<typeof TrackingOperationStatisticSchema>;

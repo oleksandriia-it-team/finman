@@ -11,5 +11,5 @@ export function FinTransformDate({ date, type, locale, ...props }: TransformDate
     return FormatDate(date, type, locale ?? userLocale ?? defaultLocale);
   }, [date, type, locale, userLocale]);
 
-  return <p {...props}>{formatted}</p>;
+  return <span {...props}>{formatted}</span>;
 }
