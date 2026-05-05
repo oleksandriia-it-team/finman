@@ -2,14 +2,10 @@
 
 import constate from 'constate';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import type { GetUser } from '@common/records/user.record';
 
-function useAuthorizedLogic() {
+function useAuthorizedLogic(): GetUser | null {
   const user = useUserInformation((state) => state.userInformation);
-
-  if (!user) {
-    throw Error('User not found');
-  }
-
   return user;
 }
 

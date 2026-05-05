@@ -1,4 +1,3 @@
-import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import type { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -27,10 +26,10 @@ export function UiIconsPicker({ items, value, onSelect }: UiIconsPickerProps) {
             key={item.value}
             title={item.label}
             onClick={() => onSelect(item.value)}
-            variant={item.variant}
-            borderNone={isSelected}
-            isOutlined={!isSelected}
+            variant={isSelected ? item.variant : 'muted'}
+            borderNone
             className="!size-12"
+            opacity={!isSelected}
           >
             <UiSvgIcon name={item.icon} />
           </UiButton>

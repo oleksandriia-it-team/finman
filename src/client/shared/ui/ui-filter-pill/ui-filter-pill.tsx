@@ -33,7 +33,7 @@ export function UiFilterPill({
           variant={variant}
           isRoundedFull
           isReversed
-          size="sm"
+          size="xxs"
           name={icon}
         />
       )}

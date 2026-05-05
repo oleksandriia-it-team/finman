@@ -1,8 +1,8 @@
 'use client';
 
-import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
 import { useRouter } from 'next/navigation';
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
+import { RegularPaymentForm } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-card-form';
 
 export default function CreateCardForm() {
   const router = useRouter();

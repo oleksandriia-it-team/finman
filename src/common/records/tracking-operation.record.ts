@@ -4,7 +4,7 @@ import type { DefaultTableColumns } from '@common/models/default-table-columns.m
 
 export interface TrackingOperationRecord extends DefaultTableColumns {
   title: string;
-  description?: string | null;
+  description?: string;
   type: TypeEntry.Expense | TypeEntry.Income;
   date: Date;
   sum: number;

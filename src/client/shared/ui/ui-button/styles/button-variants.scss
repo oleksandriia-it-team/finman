@@ -16,7 +16,7 @@
 
       &[data-outlined='false'] {
         &[data-opacity='true'] {
-          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 60%, getSafeNth($colors, 3));
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 90%, getSafeNth($colors, 3));
         }
 
         &[data-opacity='false'] {

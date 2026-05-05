@@ -17,6 +17,7 @@ export function PeriodFilters({ className }: FiltersDefaultProps) {
             isActive={isActive === item}
             setActive={() => setIsActive((prev) => (prev === item ? '' : item))}
             variant="primary"
+            size="sm"
             isOutlined={false}
             borderNone
           >

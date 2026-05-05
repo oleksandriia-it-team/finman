@@ -8,32 +8,29 @@ import { UiSlider } from '@frontend/ui/ui-slider/ui-slider';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { UiFieldsWithDivider } from '@frontend/ui/ui-fields-with-divider/ui-fields-with-divider';
 
-//TODO ADD SLIDER BELOW INPUTS AND BIND IT'S VALUE TO INPUTS
-
 export function SumFilter({ className }: FiltersDefaultProps) {
   const classes = cn('size-full flex flex-col gap-3', className);
 
   const { control, setValue } = useFormContext();
 
-  const startValue = useWatch({ control, name: 'start' }) || 0;
-  const endValue = useWatch({ control, name: 'end' }) || 50000;
+  const minValue = useWatch({ control, name: 'minSum' }) ?? 0;
+  const maxValue = useWatch({ control, name: 'maxSum' }) ?? 50000;
 
   const handleSliderChange = (values: number[]) => {
     const [min, max] = values;
-    setValue('start', min, { shouldValidate: true, shouldDirty: true });
-    setValue('end', max, { shouldValidate: true, shouldDirty: true });
+    setValue('minSum', min, { shouldValidate: true, shouldDirty: true });
+    setValue('maxSum', max, { shouldValidate: true, shouldDirty: true });
   };
 
   return (
     <div className={classes}>
       <p className="text-lg">Сума</p>
-
       <UiFieldsWithDivider
         firstField={
           <FinControlledInput
             type="number"
-            id="start"
-            name="start"
+            id="minSum"
+            name="minSum"
             label="Мін"
             pattern={NumberOnlyPattern}
           />
@@ -41,8 +38,8 @@ export function SumFilter({ className }: FiltersDefaultProps) {
         secondField={
           <FinControlledInput
             type="number"
-            id="end"
-            name="end"
+            id="maxSum"
+            name="maxSum"
             label="Макс"
             pattern={NumberOnlyPattern}
           />
@@ -50,7 +47,7 @@ export function SumFilter({ className }: FiltersDefaultProps) {
       />
 
       <UiSlider
-        defaultValue={[startValue, endValue]}
+        value={[minValue, maxValue]}
         min={0}
         max={50000}
         step={5}
