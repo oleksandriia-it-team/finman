@@ -5,7 +5,7 @@ export interface TrackingOperationFilter {
   dateFrom?: Date;
   dateTo?: Date;
   type?: TypeEntry.Expense | TypeEntry.Income;
-  category?: AllCategories;
+  category?: AllCategories | AllCategories[];
   search?: string;
   softDeleted?: 0 | 1;
   minSum?: number;

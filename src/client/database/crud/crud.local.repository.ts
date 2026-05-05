@@ -23,7 +23,7 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudLocalService<
+export abstract class CrudLocalRepository<
   T extends DefaultTableColumns,
   F extends object,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,

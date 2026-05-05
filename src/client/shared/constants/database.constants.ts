@@ -5,4 +5,5 @@ export const Tables = {
   RegularExpensesAndIncomesTable: 'regularExpensesAndIncomes',
   UnregularEntries: 'unregularEntries',
   DelayedExpensesTable: 'delayedExpenses',
+  TrackingOperationsTable: 'trackingOperations',
 };

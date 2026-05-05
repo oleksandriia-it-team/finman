@@ -1,4 +1,4 @@
-import { CrudLocalService } from '../../database/crud/crud.local.service';
+import { CrudLocalRepository } from '../../database/crud/crud.local.repository';
 import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { type RegularEntry } from '@common/records/regular-entry.record';
@@ -12,7 +12,7 @@ import type {
 } from '@common/domains/regular-entry/models/regular-entry-repository.model';
 
 export class RegularEntryLocalRepository
-  extends CrudLocalService<RegularEntry, RegularEntryFilter>
+  extends CrudLocalRepository<RegularEntry, RegularEntryFilter>
   implements IRegularEntryRepository
 {
   constructor(databaseLocalService: DatabaseLocalService) {
