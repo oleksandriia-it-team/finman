@@ -13,7 +13,7 @@ export async function UserExistsRecoveryGuard({
   if (!user) {
     return {
       status: 400,
-      message: 'Якщо ця пошта зареєстрована, ми надішлемо на неї код.',
+      message: 'Користувача з такою поштою не знайдено',
     };
   }
   return null;

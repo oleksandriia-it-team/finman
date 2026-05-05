@@ -1,6 +1,8 @@
 import type { ForgotPasswordDto } from '@common/domains/auth/schema/forgot-password.schema';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
-import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
+import { CooldownTimeSecond } from '@common/constants/cooldown-time.constant';
+
+const cooldownCache = new Map<string, number>();
 
 export async function CooldownRecoveryGuard({
   body,
@@ -9,26 +11,24 @@ export async function CooldownRecoveryGuard({
 }): Promise<ApiResultOperationError | null> {
   const email = body.email.trim().toLowerCase();
 
-  const COOLDOWN_SECONDS = 30;
+  const now = Date.now();
 
-  const latestCode = await recoveryCodeRepository.repository.findOne({
-    where: { email },
-    order: { createdAt: 'DESC' },
-  });
+  const lastRequestTime = cooldownCache.get(email);
 
-  if (latestCode && latestCode.createdAt) {
-    const now = new Date();
-
-    const diffMs = now.getTime() - latestCode.createdAt.getTime();
-    const diffSeconds = diffMs / 1000;
-
-    if (diffSeconds < COOLDOWN_SECONDS) {
+  if (lastRequestTime) {
+    const diffSeconds = (now - lastRequestTime) / 1000;
+    if (diffSeconds < CooldownTimeSecond) {
       return {
         status: 429,
-        message: `Занадто багато спроб. Будь ласка, зачекайте ${COOLDOWN_SECONDS} секунд перед наступним запитом.`,
+        message: `Занадто багато спроб. Будь ласка, зачекайте ${CooldownTimeSecond} секунд перед наступним запитом.`,
       };
     }
   }
+  cooldownCache.set(email, now);
+
+  setTimeout(() => {
+    cooldownCache.delete(email);
+  }, CooldownTimeSecond * 1000);
 
   return null;
 }

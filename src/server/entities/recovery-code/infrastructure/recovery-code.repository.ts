@@ -3,14 +3,13 @@ import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import type { CreateRecoveryCodeDto } from '@common/domains/auth/schema/recovery-code.dto';
 import type { ValidationResult } from '@backend/entities/recovery-code/application/validation.model';
+import { MaxAttempts } from '@common/constants/recovery-code-attempts.constant';
 
 export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, never, CreateRecoveryCodeDto> {
   constructor() {
     super(RecoveryCodeOrm);
   }
   async validateAndGetCode(email: string, code: string): Promise<ValidationResult> {
-    const MAX_ATTEMPTS = 3;
-
     const record = await this.repository.findOneBy({
       email,
       expiresAt: MoreThan(new Date()),
@@ -18,7 +17,7 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, n
 
     if (!record) return { status: 'not_found' };
 
-    if (record.attempts >= MAX_ATTEMPTS) {
+    if (record.attempts >= MaxAttempts) {
       await this.repository.delete(record.id);
       return { status: 'attempts_exceeded' };
     }
@@ -32,16 +31,16 @@ export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, n
       .update()
       .set({ attempts: () => 'attempts + 1' })
       .where('id = :id', { id: record.id })
-      .andWhere('attempts < :maxAttempts', { maxAttempts: MAX_ATTEMPTS })
+      .andWhere('attempts < :maxAttempts', { maxAttempts: MaxAttempts })
       .returning('attempts')
       .execute();
 
     const updatedRow = updateResult.raw[0];
-    if (!updatedRow || updatedRow.attempts >= MAX_ATTEMPTS) {
+    if (!updatedRow || updatedRow.attempts >= MaxAttempts) {
       await this.repository.delete(record.id);
       return { status: 'attempts_exceeded' };
     }
-    const remaining = MAX_ATTEMPTS - updatedRow.attempts;
+    const remaining = MaxAttempts - updatedRow.attempts;
     return { status: 'invalid_code', remainingAttempts: remaining };
   }
   async deleteUserCodes(email: string): Promise<void> {
