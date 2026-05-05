@@ -17,7 +17,6 @@ import { useTrackingOperations } from '@frontend/features/tracking-operation/tra
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
-import { groupByDate } from '@common/utils/group-by-date.util';
 import { format, parseISO } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 
@@ -64,15 +63,15 @@ export function TrackingOperationScreen() {
               skeletonClassName="h-72"
             >
               {options.map((item, index) => {
-                const currentDate = format(parseISO(item.createdAt), 'yyyy-MM-dd');
-                const prevDate = index > 0 ? format(parseISO(options[index - 1].createdAt), 'yyyy-MM-dd') : null;
+                const currentDate = format(parseISO(item.date), 'yyyy-MM-dd');
+                const prevDate = index > 0 ? format(parseISO(options[index - 1].date), 'yyyy-MM-dd') : null;
 
                 const showSeparator = currentDate !== prevDate;
 
                 return (
                   <div key={item.id ?? index}>
                     {showSeparator && (
-                      <UiDateSeparator date={format(parseISO(item.createdAt), 'd MMMM yyyy', { locale: uk })} />
+                      <UiDateSeparator date={format(parseISO(item.date), 'd MMMM yyyy', { locale: uk })} />
                     )}
                     <TransactionCard
                       className="bg-primary-foreground"
