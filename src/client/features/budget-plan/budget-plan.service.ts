@@ -2,9 +2,9 @@ import { type AuthTokenService, authTokenService } from '@frontend/shared/servic
 import { budgetPlanApiClient } from '@frontend/entities/budget-plan/budget-plan.api.client';
 import { budgetPlanLocalUsecases } from './budget-plan.local.use-cases';
 import type { IBudgetPlanRepository } from '@common/domains/budget-plan/budget-plan.repository.model';
-import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
+import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
-import type { CreateBudgetPlanModel, UpdateBudgetPlanModel } from '@common/domains/budget-plan/budget-plan.schema';
+import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 
 export class BudgetPlanDataSource implements IBudgetPlanRepository {
   constructor(
@@ -21,15 +21,15 @@ export class BudgetPlanDataSource implements IBudgetPlanRepository {
     return this.apiClient;
   }
 
-  getItem(input: GetBudgetPlanModel): Promise<BudgetPlanDetailed | null> {
+  getItem(input: GetBudgetPlanDto): Promise<BudgetPlanDetailed | null> {
     return this.source.getItem(input);
   }
 
-  createItem(input: CreateBudgetPlanModel): Promise<number> {
+  createItem(input: CreateBudgetPlanDto): Promise<number> {
     return this.source.createItem(input);
   }
 
-  updateItem(input: UpdateBudgetPlanModel): Promise<true> {
+  updateItem(input: UpdateBudgetPlanDto): Promise<true> {
     return this.source.updateItem(input);
   }
 

@@ -9,4 +9,4 @@ export const GetBudgetPlanSchema = z.object({
   ),
 });
 
-export type GetBudgetPlanModel = z.infer<typeof GetBudgetPlanSchema>;
+export type GetBudgetPlanDto = z.infer<typeof GetBudgetPlanSchema>;
