@@ -1,49 +1,85 @@
 $variants: (
-  'default': (
-    var(--button-default-background),
-    var(--foreground),
-    var(--muted),
-  ),
-  'primary': (
-    var(--primary),
-    var(--primary-foreground),
-  ),
-  'destructive': (
-    var(--destructive-foreground),
-    var(--destructive),
-  ),
-  'muted': (
-    var(--muted),
-    var(--muted-foreground),
-  ),
-  'success': (
-    var(--success),
-    var(--success-foreground),
-  ),
-  'warning': (
-    var(--warning),
-    var(--warning-foreground),
-  ),
-  'purple': (
-    var(--purple),
-    var(--purple-foreground),
-  ),
-  'pink': (
-    var(--pink),
-    var(--pink-foreground),
-  ),
-  'orange': (
-    var(--orange),
-    var(--orange-foreground),
-  ),
-  'teal': (
-    var(--teal),
-    var(--teal-foreground),
-  ),
-  'aqua': (
-    var(--aqua),
-    var(--aqua-foreground),
-  ),
+    'default': (
+      var(--button-default-background),
+      var(--foreground),
+      var(--border),
+    ),
+    'primary': (
+      var(--primary),
+      var(--primary-foreground),
+    ),
+    'primary-muted': (
+      var(--primary-muted),
+      var(--primary-muted-foreground),
+    ),
+    'destructive': (
+      var(--destructive-foreground),
+      var(--destructive),
+    ),
+    'destructive-muted': (
+      var(--primary-muted),
+      var(--primary-muted-foreground),
+    ),
+    'muted': (
+      var(--muted),
+      var(--muted-foreground),
+    ),
+    'success': (
+      var(--success),
+      var(--success-foreground),
+    ),
+    'success-muted': (
+      var(--success-muted),
+      var(--success-muted-foreground),
+    ),
+    'warning': (
+      var(--warning),
+      var(--warning-foreground),
+    ),
+    'warning-muted': (
+      var(--warning-muted),
+      var(--warning-muted-foreground),
+    ),
+    'purple': (
+      var(--purple),
+      var(--purple-foreground),
+    ),
+    'purple-muted': (
+      var(--purple-muted),
+      var(--purple-muted-foreground),
+    ),
+    'pink': (
+      var(--pink),
+      var(--pink-foreground),
+    ),
+    'pink-muted': (
+      var(--pink-muted),
+      var(--pink-muted-foreground),
+    ),
+    'orange': (
+      var(--orange),
+      var(--orange-foreground),
+    ),
+    'orange-muted': (
+      var(--orange-muted),
+      var(--orange-muted-foreground),
+    ),
+    'teal': (
+      var(--teal),
+      var(--teal-foreground),
+    ),
+    'teal-muted': (
+      var(--teal-muted),
+      var(--teal-muted-foreground),
+    ),
+    'aqua': (
+      var(--aqua),
+      var(--aqua-foreground),
+    ),
+    'aqua-muted': (
+      var(--aqua-muted),
+      var(--aqua-muted-foreground),
+    ),
 );
 $sizes: (
   'xs': (

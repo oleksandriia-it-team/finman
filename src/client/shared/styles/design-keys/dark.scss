@@ -6,13 +6,17 @@
   --popover: rgb(49 58 70);
   --popover-foreground: rgb(228 232 239);
   --primary: rgb(1 82 203);
-  --primary-foreground: rgb(149 196 250);
+  --primary-foreground: rgb(255 255 255);
+  --primary-muted: rgb(1 82 203 / 15%);
+  --primary-muted-foreground: rgb(76 155 255);
   --secondary: rgb(47 59 80);
   --secondary-foreground: rgb(228 232 239);
   --muted: rgb(37 46 61);
   --muted-foreground: rgb(155 162 174);
   --destructive-foreground: rgb(223 34 36);
   --destructive: rgb(255 113 113);
+  --destructive-muted: rgb(223 34 36 / 15%);
+  --destructive-muted-foreground: rgb(255 113 113);
   --accent: rgb(43 53 74);
   --accent-foreground: rgb(228 232 239);
   --border: rgb(47 59 80);
@@ -59,13 +63,13 @@
 
   /* Purple */
   --purple: rgb(139 92 246);
-  --purple-foreground: rgb(46 16 101);
+  --purple-foreground: rgb(255 255 255);
   --purple-muted: rgb(46 16 101);
   --purple-muted-foreground: rgb(196 181 253);
 
   /* Pink */
   --pink: rgb(236 72 153);
-  --pink-foreground: rgb(80 7 36);
+  --pink-foreground: rgb(255 255 255);
   --pink-muted: rgb(80 7 36);
   --pink-muted-foreground: rgb(249 168 212);
 

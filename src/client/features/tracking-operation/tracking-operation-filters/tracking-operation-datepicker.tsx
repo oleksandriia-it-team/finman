@@ -2,6 +2,8 @@ import { FinControlledDatepicker } from '@frontend/components/controlled-fields/
 import { UiFieldsWithDivider } from '@frontend/ui/ui-fields-with-divider/ui-fields-with-divider';
 import { useFormContext } from 'react-hook-form';
 import { getMinMaxDates } from '@common/utils/get-min-max-dates.util';
+import { useMemo } from 'react';
+import { isSameDay } from 'date-fns';
 
 export function TrackingOperationDatepicker() {
   const { setFocus, watch } = useFormContext();
@@ -9,7 +11,9 @@ export function TrackingOperationDatepicker() {
   const dateFrom = watch('dateFrom');
   const dateTo = watch('dateTo');
 
-  const { minDate: toMinDate, maxDate: fromMaxDate } = getMinMaxDates(dateFrom, dateTo);
+  const now = useMemo(() => new Date(), []);
+
+  const { minDate: toMinDate, maxDate: fromMaxDate } = getMinMaxDates(dateFrom, dateTo, undefined, now);
 
   return (
     <UiFieldsWithDivider
@@ -31,10 +35,16 @@ export function TrackingOperationDatepicker() {
       secondField={
         <FinControlledDatepicker
           transformForSingle={(date) => {
-            date.setHours(23, 59, 59, 999);
-            return date;
+            if (isSameDay(now, date)) {
+              return now;
+            }
+            const newDate = new Date(date);
+
+            newDate.setHours(23, 59, 59, 999);
+            return newDate;
           }}
           minDate={toMinDate}
+          maxDate={now}
           label="До"
           mode="single"
           name="dateTo"

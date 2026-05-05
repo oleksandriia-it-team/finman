@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
+import { ExpenseCategories, AllCategoryValues } from '@common/enums/categories.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
@@ -16,20 +16,22 @@ export const TrackingOperationSchema = z.object({
     message: 'Тип має бути expense або income',
   }),
   date: z.coerce.date({ message: "Обов'язкова дата" }),
-  sum: z.number().min(1, { message: 'Сума має бути не менше 1' }),
+  sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
   category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
 });
 
-const filterSchema = z
+export type TrackingOperationDto = z.infer<typeof TrackingOperationSchema>;
+
+export const filterSchema = z
   .object({
     dateFrom: z.coerce.date().optional(),
     dateTo: z.coerce.date().optional(),
-    category: z.enum(AllCategoryValues).optional(),
+    category: z.array(z.enum(AllCategoryValues)).optional(),
     type: z.enum(TrackingOperationTypes).optional(),
     search: z.string().optional(),
     softDeleted: z.union([z.literal(0), z.literal(1)]).optional(),
-    minSum: z.number().optional(),
-    maxSum: z.number().optional(),
+    minSum: z.coerce.number().optional(),
+    maxSum: z.coerce.number().optional(),
   })
   .superRefine((data, ctx) => {
     if (data.dateFrom && data.dateTo && data.dateFrom > data.dateTo) {
@@ -41,6 +43,7 @@ const filterSchema = z
   });
 
 const basePaginatedSchema = createPaginatedSchema(filterSchema);
+export type TrackingOperationFilterFormData = z.infer<typeof filterSchema>;
 
 export const TrackingOperationPaginationSchema = {
   ...basePaginatedSchema,
@@ -50,6 +53,10 @@ export const TrackingOperationPaginationSchema = {
     }
   }),
 };
+
+export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
+
+export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
 
 export const TrackingOperationStatisticSchema = z.object({
   dateFrom: z.coerce.date().optional(),

@@ -1,5 +1,6 @@
 import type { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { GetUser } from '@common/records/user.record';
+import type { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 
 export interface UserInformationStore {
   userInformation: GetUser | null;
@@ -8,4 +9,6 @@ export interface UserInformationStore {
   userInfoState: PromiseState;
   updateInformationState: PromiseState;
   refresh: () => Promise<void>;
+  theme: ThemeEnum;
+  setTheme: (theme: ThemeEnum) => void;
 }

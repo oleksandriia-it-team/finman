@@ -1,5 +1,5 @@
 .select-trigger {
-  &:disabled + .basic-input-addons {
+  &:disabled + .basic-input-addons, &[data-disabled] + .basic-input-addons {
     button {
       pointer-events: none;
       cursor: not-allowed;

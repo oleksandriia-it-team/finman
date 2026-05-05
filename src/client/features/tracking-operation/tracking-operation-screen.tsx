@@ -1,52 +1,50 @@
 'use client';
 
+import { useState } from 'react';
+import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter'; // ← додати
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
-import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
-import { FinListScreenHandler } from '@frontend/components/list-screen-handler/fin-list-screen-handler';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { getErrorMessage } from '@common/utils/get-error-message.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
+import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
+import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
+import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 
 export function TrackingOperationScreen() {
-  const pageSize = 5;
-  const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
+  const pageSize = 10;
+  const { getOperations, getTotalCount, handleDelete } = useTrackingOperations();
+  const [filters, setFilters] = useState<TrackingOperationFilter>({});
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
-    onSuccess: () => {
-      reload();
-    },
+    onSuccess: () => reload(),
   });
 
   const router = useRouter();
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['regular-transactions'],
+    queryKey: ['tracking-operations', filters],
     getOptionsFn: async (page, pageSize) => {
       const start = (page - 1) * pageSize + 1;
       const end = start + pageSize;
-
-      const result = await getPayments(start, end);
-      return result ?? [];
+      return await getOperations(start, end, filters);
     },
     getTotalCountFn: async () => {
-      const count = await getTotalCount();
-      return count ?? 0;
+      return await getTotalCount(filters);
     },
     clearCacheOnDestroy: true,
   });
 
   return (
-    <>
-      <TrackingOperationHeader />
+    <div className="size-full overflow-hidden flex flex-col">
+      <TrackingOperationHeader onFiltersApply={setFilters} />
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
         <p className="flex-none text-xl p-4">
           <b>Регулярні доходи та витрати</b>
@@ -56,7 +54,7 @@ export function TrackingOperationScreen() {
           <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
             <FinListScreenHandler
               state={useCombineStates(onDelete.state, state)}
-              errorMessage={errorMessage ?? getErrorMessage(onDelete.error)}
+              errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
               hasData={!!options.length}
               skeletonItems={pageSize}
               skeletonClassName="h-72"
@@ -64,9 +62,7 @@ export function TrackingOperationScreen() {
               {options.map((item, index) => (
                 <TransactionCard
                   key={item.id ?? index}
-                  handleDelete={async (id) => {
-                    onDelete.mutate(id);
-                  }}
+                  handleDelete={(id) => onDelete.mutate(id)}
                   {...item}
                 />
               ))}
@@ -85,7 +81,7 @@ export function TrackingOperationScreen() {
             variant="primary"
             size="lg"
             className="rounded-full gap-2 shadow-xl"
-            onClick={() => router.push('./regular-operations/add')}
+            onClick={() => router.push('./profile/tracking-operations/add')}
           >
             <UiSvgIcon
               name="plus"
@@ -95,6 +91,6 @@ export function TrackingOperationScreen() {
           </UiButton>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -26,6 +26,7 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }
+
   async getUserNameById(id: number): Promise<string | null> {
     const user = await this.repository
       .createQueryBuilder('user')
@@ -38,6 +39,40 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     }
 
     return user.name;
+  }
+
+  async isPasswordValid(id: number, password: string): Promise<boolean> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .where('user.id = :id', { id })
+      .getOne();
+
+    if (!user) {
+      return false;
+    }
+
+    return bcrypt.compare(password, user.password);
+  }
+
+  async updateProfileSettings(
+    id: number,
+    data: Partial<Pick<UserOrm, 'name' | 'locale' | 'language' | 'password'>>,
+  ): Promise<UserOrm | null> {
+    const updateData: Record<string, unknown> = {};
+
+    if (data.name !== undefined) updateData.name = data.name;
+    if (data.locale !== undefined) updateData.locale = data.locale;
+    if (data.language !== undefined) updateData.language = data.language;
+    if (data.password) {
+      updateData.password = await bcrypt.hash(data.password, 10);
+    }
+
+    if (Object.keys(updateData).length > 0) {
+      await this.repository.update({ id }, updateData);
+    }
+
+    return this.repository.findOneBy({ id });
   }
 }
 

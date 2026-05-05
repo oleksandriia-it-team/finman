@@ -5,13 +5,14 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { TransactionCategoryPicker } from '@frontend/entities/operations/transaction-category-picker/transaction-category-picker';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { FinControlledTextarea } from '@frontend/components/controlled-fields/fin-controlled-textarea';
-import type { ReactNode } from 'react';
 import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constant';
-
-interface CardsFormTemplateProps {
-  submit: () => void;
-  children?: React.ReactNode;
-}
+import type {
+  CardsFormFooterTemplateProps,
+  CardsFormHeaderTemplateProps,
+  CardsFormInputsTemplateProps,
+  CardsFormTemplateActionsProps,
+  CardsFormTemplateProps,
+} from '@frontend/entities/operations/cards-form-template/cards-form-template-props';
 
 export function CardsFormTemplate({ children, submit }: CardsFormTemplateProps) {
   return (
@@ -25,12 +26,6 @@ export function CardsFormTemplate({ children, submit }: CardsFormTemplateProps) 
   );
 }
 
-interface CardsFormHeaderTemplateProps {
-  title: string;
-  description: string;
-  isEdit: boolean;
-}
-
 export function CardsFormHeaderTemplate({ title, description, isEdit }: CardsFormHeaderTemplateProps) {
   return (
     <UiFormLayout.Header>
@@ -40,11 +35,6 @@ export function CardsFormHeaderTemplate({ title, description, isEdit }: CardsFor
       </UiFormLayout.Description>
     </UiFormLayout.Header>
   );
-}
-
-interface CardsFormFooterTemplateProps {
-  selectedType: TypeEntry.Expense | TypeEntry.Income;
-  setValue: (type: TypeEntry.Expense | TypeEntry.Income) => void;
 }
 
 export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFooterTemplateProps) {
@@ -91,10 +81,6 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
   );
 }
 
-interface CardsFormInputsTemplateProps {
-  children?: ReactNode | Promise<ReactNode>;
-}
-
 export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplateProps) {
   return (
     <>
@@ -125,11 +111,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
   );
 }
 
-interface CardsFormTemplateActions {
-  onCancel?: () => void;
-}
-
-export function CardsFormTemplateActions({ onCancel }: CardsFormTemplateActions) {
+export function CardsFormTemplateActions({ onCancel }: CardsFormTemplateActionsProps) {
   return (
     <UiFormLayout.Actions>
       <UiButton

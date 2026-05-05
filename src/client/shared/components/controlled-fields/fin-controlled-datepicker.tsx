@@ -30,14 +30,16 @@ export function FinControlledDatepicker({
             <FinDatepicker
               {...(datepickerProps as DatepickerProps)}
               ref={(el: HTMLButtonElement | null) => {
-                if (el) {
-                  field.ref({
-                    ...el,
-                    focus: () => {
-                      el.click();
-                    },
-                  });
-                }
+                field.ref(
+                  el
+                    ? {
+                        ...el,
+                        focus: () => {
+                          el.click();
+                        },
+                      }
+                    : null,
+                );
               }}
               placeholder={placeholder}
               onBlur={() => {

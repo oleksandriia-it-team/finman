@@ -1,14 +1,19 @@
-export function getMinMaxDates(from: Date | undefined, to: Date | undefined) {
+export function getMinMaxDates(
+  from: Date | undefined,
+  to: Date | undefined,
+  defaultMin?: Date | undefined,
+  defaultMax?: Date | undefined,
+) {
   if (!from && !to) {
-    return { minDate: undefined, maxDate: undefined };
+    return { minDate: defaultMin, maxDate: defaultMax };
   }
 
   if (!from) {
-    return { minDate: undefined, maxDate: to };
+    return { minDate: defaultMin, maxDate: to };
   }
 
   if (!to) {
-    return { minDate: from, maxDate: undefined };
+    return { minDate: from, maxDate: defaultMax };
   }
 
   const isFromEarlier = from.getTime() <= to.getTime();

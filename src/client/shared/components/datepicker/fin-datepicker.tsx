@@ -5,12 +5,14 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useCallback, useMemo, useState } from 'react';
 import { FinTransformDate } from '../transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { isToday } from 'date-fns';
 import { MonthTitles, WeekTitles } from '@common/constants/month-titles.constant';
 import type { Month } from '@common/enums/month.enum';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import type { DatepickerProps } from '../controlled-fields/props/controlled-datepicker.props';
+import { UiInputGroup } from '@frontend/ui/ui-input-group/ui-input-group';
+import { UiInputGroupAddon } from '@frontend/ui/ui-input-group/ui-input-group-addon';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function FinDatepicker({
   placeholder,
@@ -62,8 +64,8 @@ export function FinDatepicker({
     if (mode === 'single' && isToday(selected)) {
       return (
         <>
-          Сьогодні, {getDateContent(selected, DateFormatType.Short)} о{' '}
-          {getDateContent(selected, DateFormatType.TimeOnly)}
+          Сьогодні, {getDateContent(selected, DateFormatType.Short)}
+          {includeTime && <> о {getDateContent(selected, DateFormatType.TimeOnly)}</>}
         </>
       );
     }
@@ -94,37 +96,45 @@ export function FinDatepicker({
       onOpenChange={handleOpenChange}
     >
       <UiPopoverTrigger asChild>
-        <button
-          ref={ref}
-          type="button"
-          disabled={disabled}
+        <UiInputGroup
           data-state={open ? 'open' : 'closed'}
-          className={cn('basic-input w-full flex gap-2 items-center', className)}
-          {...props}
+          className="flex cursor-pointer"
         >
-          <UiSvgIcon
-            name="calendar4"
-            size="default"
-          />
-
-          <div className="flex flex-1 gap-1">{buttonValue}</div>
-
-          {!!selected && clearable && (
-            <button
-              type="button"
-              className="cursor-pointer"
-              onClick={(e) => {
-                onSelect(undefined);
-                e.stopPropagation();
-              }}
-            >
+          <button
+            ref={ref}
+            className={cn('flex gap-2 flex-1 outline-transparent cursor-pointer', className)}
+            {...props}
+            disabled={disabled}
+            type="button"
+          >
+            <UiInputGroupAddon align="inline-start">
               <UiSvgIcon
-                name="x"
+                name="calendar4"
                 size="default"
               />
-            </button>
+            </UiInputGroupAddon>
+
+            {buttonValue}
+          </button>
+
+          {!!selected && clearable && (
+            <UiInputGroupAddon align="inline-end">
+              <button
+                type="button"
+                className="cursor-pointer"
+                onClick={(e) => {
+                  onSelect(undefined);
+                  e.stopPropagation();
+                }}
+              >
+                <UiSvgIcon
+                  name="x"
+                  size="default"
+                />
+              </button>
+            </UiInputGroupAddon>
           )}
-        </button>
+        </UiInputGroup>
       </UiPopoverTrigger>
 
       <UiPopoverContent

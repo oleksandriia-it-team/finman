@@ -1,7 +1,12 @@
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { FiltersSheet } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-sheet';
+import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 
-export function TrackingOperationHeader() {
+interface TrackingOperationHeaderProps {
+  onFiltersApply?: (filters: TrackingOperationFilter) => void;
+}
+
+export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHeaderProps) {
   return (
     <div className=" w-full h-16 flex justify-between p-3">
       <p className="w-full text-2xl text-left ">
@@ -16,7 +21,7 @@ export function TrackingOperationHeader() {
           size="xl"
           borderNone={true}
         />
-        <FiltersSheet>
+        <FiltersSheet onApply={onFiltersApply}>
           <UiIconButton
             isRoundedFull
             icon="sliders2"

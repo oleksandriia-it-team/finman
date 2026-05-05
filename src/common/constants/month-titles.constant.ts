@@ -16,11 +16,11 @@ export const MonthTitles: Record<Month, string> = {
 };
 
 export const WeekTitles: Record<number, string> = {
-  0: 'Пн',
-  1: 'Вт',
-  2: 'Ср',
-  3: 'Чт',
-  4: 'Пт',
-  5: 'Сб',
-  6: 'Нд',
+  0: 'Нд',
+  1: 'Пн',
+  2: 'Вт',
+  3: 'Ср',
+  4: 'Чт',
+  5: 'Пт',
+  6: 'Сб',
 };

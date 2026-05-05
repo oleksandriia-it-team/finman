@@ -1,7 +1,7 @@
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 import type { TrackingOperationApiFilter } from '@backend/entities/tracking-operation/domain/tracking-operation-api.filter';
-import { Between, type FindOptionsWhere, ILike, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { Between, type FindOptionsWhere, ILike, In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
   GetTrackingOperationStatisticResponse,
@@ -26,7 +26,9 @@ export class TrackingOperationRepository
 
     if (filters.userId !== undefined) where.userId = filters.userId;
     if (filters.type) where.type = filters.type;
-    if (filters.category) where.category = filters.category;
+    if (filters.category) {
+      where.category = Array.isArray(filters.category) ? In(filters.category) : filters.category;
+    }
     if (filters.softDeleted !== undefined) where.softDeleted = filters.softDeleted;
 
     if (filters.dateFrom && filters.dateTo) {
@@ -111,14 +113,8 @@ export class TrackingOperationRepository
 
     const qb = this.repository
       .createQueryBuilder('op')
-      .select(
-        `COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Income}' THEN op.sum ELSE 0 END), 0)`,
-        'totalIncomes',
-      )
-      .addSelect(
-        `COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Expense}' THEN op.sum ELSE 0 END), 0)`,
-        'totalOutcomes',
-      )
+      .select(`COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Income}' THEN op.sum ELSE 0 END), 0)`, 'totalIncomes')
+      .addSelect(`COALESCE(SUM(CASE WHEN op.type = '${TypeEntry.Expense}' THEN op.sum ELSE 0 END), 0)`, 'totalOutcomes')
       .where('op.softDeleted = :softDeleted', { softDeleted: 0 });
 
     if (userId !== undefined) {
