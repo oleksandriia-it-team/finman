@@ -34,7 +34,7 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
         >
           {children}
         </UiResponsiveDialogTrigger>
-        <UiResponsiveDialogContent className="flex flex-col max-h-5/6 w-full rounded-t-[2rem]">
+        <UiResponsiveDialogContent className="flex flex-col w-full rounded-t-[2rem]">
           <UiResponsiveDialogHeader className="flex flex-row justify-between">
             <UiResponsiveDialogTitle className="text-xl">Фільтри</UiResponsiveDialogTitle>
             <UiResponsiveDialogClose />

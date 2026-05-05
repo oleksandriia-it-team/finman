@@ -4,8 +4,8 @@ import constate from 'constate';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
-import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { trackingOperationService } from '@frontend/features/tracking-operation/tracking-operation.service';
 
 function useTrackingOperationsLogic() {
   const getOperations = (
@@ -13,14 +13,14 @@ function useTrackingOperationsLogic() {
     to: number,
     filters?: DeepPartial<TrackingOperationFilter>,
   ): Promise<TrackingOperationRecord[]> => {
-    return trackingOperationsApiClient.getItems(from, to, {
+    return trackingOperationService.getItems(from, to, {
       softDeleted: 0,
       ...filters,
     });
   };
 
   const getTotalCount = (filters?: DeepPartial<TrackingOperationFilter>): Promise<number> => {
-    return trackingOperationsApiClient
+    return trackingOperationService
       .getTotalCount({
         softDeleted: 0,
         ...filters,
@@ -29,19 +29,19 @@ function useTrackingOperationsLogic() {
   };
 
   const handleCreate = (dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> => {
-    return trackingOperationsApiClient.createItem(dto);
+    return trackingOperationService.createItem(dto);
   };
 
   const handleDelete = (id: number): Promise<true> => {
-    return trackingOperationsApiClient.deleteItem(id);
+    return trackingOperationService.deleteItem(id);
   };
 
   const handleUpdate = (id: number, dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> => {
-    return trackingOperationsApiClient.updateItem(id, dto);
+    return trackingOperationService.updateItem(id, dto);
   };
 
   const getById = (id: number): Promise<TrackingOperationRecord | null> => {
-    return trackingOperationsApiClient.getItemById(id);
+    return trackingOperationService.getItemById(id);
   };
 
   return {
