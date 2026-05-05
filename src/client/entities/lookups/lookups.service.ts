@@ -46,7 +46,7 @@ export class LookupsService {
       result = await fetchClient.post<ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>>(
         `/api/lookups/${LookupsEndpoints[type]}/${LookupsTypeEndpoints[typeRequest]}`,
         payload,
-        { signal: abortSignal ?? null },
+        { signal: abortSignal ?? null, throwErrorIfNotAuth: false },
       );
     } else {
       result = await fetchClient.get<ApiResultOperationSuccess<LookupsResponseResult<LookupsDto[LT]>[LTR]>>(
