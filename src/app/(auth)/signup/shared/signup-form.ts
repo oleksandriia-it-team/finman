@@ -7,11 +7,28 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import type { RegisterDto } from '@common/domains/auth/schema/register.schema';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { lookupsService } from '@frontend/entities/lookups/lookups.service';
+import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
+
+const DEFAULT_LOCALE = 'en-US';
+
+async function resolveLocale(): Promise<string> {
+  const browserLocale = typeof window !== 'undefined' ? window.navigator.language : DEFAULT_LOCALE;
+  try {
+    const results = await lookupsService.getItems(LookupsTypeEnum.CountriesAndLocales, 1, 2, {
+      locale: browserLocale,
+    });
+    const found = results.find((item) => item.locale === browserLocale);
+    return found ? browserLocale : DEFAULT_LOCALE;
+  } catch {
+    return DEFAULT_LOCALE;
+  }
+}
 
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { setUserInformation, logOut } = useUserInformation();
 
-  const { mutateAsync, isPending } = useSendDataFetch(
+  const { mutate, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
       await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data, { skipAuth: true }),
     {
@@ -19,15 +36,6 @@ export function useSetupRegistration(onSuccessAction: () => void) {
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
     },
   );
-
-  const getBrowserLocale = () => {
-    if (typeof navigator === 'undefined') return 'en-US';
-    const nav = navigator.language || (navigator.languages && navigator.languages[0]) || 'en-US';
-    const parts = String(nav).split('-');
-    const lang = parts[0]?.toLowerCase() ?? 'en';
-    const region = parts[1] ? String(parts[1]).toUpperCase() : undefined;
-    return region ? `${lang}-${region}` : lang;
-  };
 
   const methods = useForm<GlobalRegisterDto>({
     resolver: zodResolver(GlobalRegisterSchema),
@@ -38,49 +46,34 @@ export function useSetupRegistration(onSuccessAction: () => void) {
       email: '',
       password: '',
       passwordConfirm: '',
-      locale: getBrowserLocale(),
+      locale: '',
       currencyCode: '',
       workMode: undefined,
     },
   });
 
-  const submit = methods.handleSubmit(async (data) => {
+  const submit = methods.handleSubmit((data) => {
     const { workMode } = data;
     if (!workMode) return;
 
-    const apiData = { ...data } as GlobalRegisterDto;
+    resolveLocale().then((locale) => {
+      const apiData = { ...data, locale } as GlobalRegisterDto;
+      delete apiData.workMode;
+      delete apiData.passwordConfirm;
 
-    delete apiData.workMode;
-    delete apiData.passwordConfirm;
-
-    if (workMode === WorkMode.Offline) {
-      try {
-        setUserInformation({ ...apiData, language: 'uk', online: false });
-
-        onSuccessAction();
-      } catch (e) {
-        logOut();
-        console.error('Не вдалося зберегти офлайн-дані:', e);
-      }
-      return;
-    }
-
-    try {
-      await mutateAsync(apiData as RegisterDto);
-    } catch (err: unknown) {
-      const error = err as { message?: unknown; response?: { data?: unknown } };
-      const msg = String(error?.message || error?.response?.data || '').toLowerCase();
-      const indicatesLocale = msg.includes('locale') || msg.includes('локаль') || msg.includes('language');
-
-      if (indicatesLocale) {
+      if (workMode === WorkMode.Offline) {
         try {
-          const retryData = { ...apiData, locale: 'en-US' } as RegisterDto;
-          await mutateAsync(retryData);
+          setUserInformation({ ...apiData, locale, language: 'uk', online: false });
+          onSuccessAction();
         } catch (e) {
-          console.error('Не вдалося повторити реєстрацію з en-US.', e);
+          logOut();
+          console.error('Offline save failed:', e);
         }
+        return;
       }
-    }
+
+      mutate(apiData as RegisterDto);
+    });
   });
 
   return { methods, submit, isLoading: isPending };

@@ -17,11 +17,11 @@ import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-c
 import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
-import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
-import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
+import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 
 export default function RegistrationPage() {
@@ -124,19 +124,19 @@ export default function RegistrationPage() {
                   />
                 </>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
-                <FinControlledAutocomplete
-                  label="Валюта *"
-                  name="currencyCode"
-                  placeholder="Пошук..."
-                  options={currencyDataResource.options}
-                  errorLabel={currencyDataResource.errorMessage ?? ''}
-                  state={currencyDataResource.state}
-                  customInputValue={currencyDataResource.inputLabel?.label ?? ''}
-                  search={currencyDataResource.search}
-                  onSearch={currencyDataResource.setSearch}
-                />
-              </div>
+
+              {/* Locale is automatically detected from browser (Scenario 2) */}
+              <FinControlledAutocomplete
+                label="Валюта *"
+                name="currencyCode"
+                placeholder="Пошук..."
+                options={currencyDataResource.options}
+                errorLabel={currencyDataResource.errorMessage ?? ''}
+                state={currencyDataResource.state}
+                customInputValue={currencyDataResource.inputLabel?.label ?? ''}
+                search={currencyDataResource.search}
+                onSearch={currencyDataResource.setSearch}
+              />
 
               <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full bg-primary-foreground pt-2">
                 <UiButton
