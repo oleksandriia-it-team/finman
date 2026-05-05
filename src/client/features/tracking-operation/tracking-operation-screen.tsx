@@ -49,10 +49,6 @@ export function TrackingOperationScreen() {
     <div className="size-full overflow-hidden flex flex-col">
       <TrackingOperationHeader onFiltersApply={setFilters} />
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
-        <p className="flex-none text-xl p-4">
-          <b>Регулярні доходи та витрати</b>
-        </p>
-
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
           <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
             <FinListScreenHandler
