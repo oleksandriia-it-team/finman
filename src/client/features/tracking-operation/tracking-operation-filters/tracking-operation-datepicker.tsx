@@ -11,9 +11,9 @@ export function TrackingOperationDatepicker() {
   const dateFrom = watch('dateFrom');
   const dateTo = watch('dateTo');
 
-  const { minDate: toMinDate, maxDate: fromMaxDate } = getMinMaxDates(dateFrom, dateTo);
+  const now = useMemo(() => new Date(), []);
 
-  const toMaxDate = useMemo(() => new Date(), []);
+  const { minDate: toMinDate, maxDate: fromMaxDate } = getMinMaxDates(dateFrom, dateTo, undefined, now);
 
   return (
     <UiFieldsWithDivider
@@ -35,8 +35,8 @@ export function TrackingOperationDatepicker() {
       secondField={
         <FinControlledDatepicker
           transformForSingle={(date) => {
-            if (isSameDay(toMaxDate, date)) {
-              return toMaxDate;
+            if (isSameDay(now, date)) {
+              return now;
             }
             const newDate = new Date(date);
 
@@ -44,7 +44,7 @@ export function TrackingOperationDatepicker() {
             return newDate;
           }}
           minDate={toMinDate}
-          maxDate={toMaxDate}
+          maxDate={now}
           label="До"
           mode="single"
           name="dateTo"

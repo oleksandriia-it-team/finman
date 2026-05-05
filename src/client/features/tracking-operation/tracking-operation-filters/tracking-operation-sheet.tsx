@@ -11,6 +11,7 @@ import { UiResponsiveDialogTrigger } from '@frontend/ui/ui-responsive-dialog/ui-
 import { UiResponsiveDialogTitle } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-title';
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
 import { TrackingOperationDatepicker } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-datepicker';
+import { UiResponsiveDialogFooter } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-footer';
 
 interface FiltersSheet {
   children?: React.ReactNode;
@@ -29,7 +30,7 @@ export function FiltersSheet({ children }: FiltersSheet) {
             {children}
           </UiResponsiveDialogTrigger>
 
-          <UiResponsiveDialogContent className="flex flex-col max-h-5/6 w-full rounded-t-[2rem]">
+          <UiResponsiveDialogContent className="flex flex-col max-h-5/6 w-full rounded-t-[2rem] overflow-y-auto">
             <UiResponsiveDialogHeader className="flex flex-row justify-between">
               <UiResponsiveDialogTitle className="text-xl">Фільтри</UiResponsiveDialogTitle>
               <UiResponsiveDialogClose />
@@ -49,7 +50,9 @@ export function FiltersSheet({ children }: FiltersSheet) {
 
             <SumFilter className="flex-1" />
 
-            <CardsFormTemplateActions onCancel={() => console.log(1)} />
+            <UiResponsiveDialogFooter>
+              <CardsFormTemplateActions onCancel={() => console.log(1)} />
+            </UiResponsiveDialogFooter>
           </UiResponsiveDialogContent>
         </UiResponsiveDialog>
       </form>
