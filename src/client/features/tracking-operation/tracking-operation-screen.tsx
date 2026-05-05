@@ -16,6 +16,10 @@ import { TrackingOperationHeader } from '@frontend/features/tracking-operation/t
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
+import { groupByDate } from '@common/utils/group-by-date.util';
+import { format, parseISO } from 'date-fns';
+import { uk } from 'date-fns/locale/uk';
 
 export function TrackingOperationScreen() {
   const pageSize = 10;
@@ -59,13 +63,25 @@ export function TrackingOperationScreen() {
               skeletonItems={pageSize}
               skeletonClassName="h-72"
             >
-              {options.map((item, index) => (
-                <TransactionCard
-                  key={item.id ?? index}
-                  handleDelete={(id) => onDelete.mutate(id)}
-                  {...item}
-                />
-              ))}
+              {options.map((item, index) => {
+                const currentDate = format(parseISO(item.createdAt), 'yyyy-MM-dd');
+                const prevDate = index > 0 ? format(parseISO(options[index - 1].createdAt), 'yyyy-MM-dd') : null;
+
+                const showSeparator = currentDate !== prevDate;
+
+                return (
+                  <div key={item.id ?? index}>
+                    {showSeparator && (
+                      <UiDateSeparator date={format(parseISO(item.createdAt), 'd MMMM yyyy', { locale: uk })} />
+                    )}
+                    <TransactionCard
+                      className="bg-primary-foreground"
+                      handleDelete={(id) => onDelete.mutate(id)}
+                      {...item}
+                    />
+                  </div>
+                );
+              })}
             </FinListScreenHandler>
           </div>
         </div>

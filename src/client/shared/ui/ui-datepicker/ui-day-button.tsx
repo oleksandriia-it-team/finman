@@ -33,8 +33,8 @@ export function UiDayButton({
       size="sm"
       isOutlined={dataRangeMiddle}
       paddingNone
-      onKeyDown={onKeyDown} // 👈 explicit, not buried in ...props spread
-      onClick={onClick} // 👈 explicit
+      onKeyDown={onKeyDown}
+      onClick={onClick}
       data-day={day.date.toLocaleDateString()}
       className={cn('flex aspect-square !size-auto min-w-(--cell-size) flex-col gap-1 leading-none', className)}
       {...props}

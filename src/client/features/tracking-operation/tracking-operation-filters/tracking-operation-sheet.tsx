@@ -58,7 +58,20 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
             <SumFilter className="flex-1" />
 
             <UiResponsiveDialogFooter>
-              <CardsFormTemplateActions onCancel={() => methods.reset()} />
+              <CardsFormTemplateActions
+                onCancel={() =>
+                  methods.reset({
+                    dateFrom: undefined,
+                    dateTo: undefined,
+                    category: undefined,
+                    type: undefined,
+                    search: '',
+                    softDeleted: 0,
+                    minSum: 0,
+                    maxSum: 50000,
+                  })
+                }
+              />
             </UiResponsiveDialogFooter>
           </form>
         </UiResponsiveDialogContent>

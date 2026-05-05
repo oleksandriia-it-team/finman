@@ -1,10 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FinFormScreenHandler } from '@frontend/components/form-screen-handler/fin-form-screen-handler';
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
 import { TrackingOperationForm } from '@frontend/features/tracking-operation/tracking-creation-form/tracking-operation-form';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
+import { FinFormScreenHandler } from '@frontend/components/screen-handlers/fin-form-screen-handler';
 
 export default function EditCardForm(props: PageProps<never>) {
   useHidePlusButton();
