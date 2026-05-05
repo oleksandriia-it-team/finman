@@ -14,7 +14,7 @@ export class ProfileSettingsService {
   private updateOnlineProfile(data: ProfileSettingsData): Promise<OnlineUser> {
     return profileApiClient.updateProfile(data).then((user) => {
       if (!user) {
-        throw new Error('Failed to update profile');
+        throw new Error('Не вдалося оновити профіль.');
       }
 
       return user;

@@ -11,7 +11,7 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { setUserInformation, logOut } = useUserInformation();
 
-  const { mutate, isPending } = useSendDataFetch(
+  const { mutateAsync, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
       await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data, { skipAuth: true }),
     {
@@ -19,6 +19,15 @@ export function useSetupRegistration(onSuccessAction: () => void) {
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
     },
   );
+
+  const getBrowserLocale = () => {
+    if (typeof navigator === 'undefined') return 'en-US';
+    const nav = navigator.language || (navigator.languages && navigator.languages[0]) || 'en-US';
+    const parts = String(nav).split('-');
+    const lang = parts[0]?.toLowerCase() ?? 'en';
+    const region = parts[1] ? String(parts[1]).toUpperCase() : undefined;
+    return region ? `${lang}-${region}` : lang;
+  };
 
   const methods = useForm<GlobalRegisterDto>({
     resolver: zodResolver(GlobalRegisterSchema),
@@ -29,13 +38,13 @@ export function useSetupRegistration(onSuccessAction: () => void) {
       email: '',
       password: '',
       passwordConfirm: '',
-      locale: '',
+      locale: getBrowserLocale(),
       currencyCode: '',
       workMode: undefined,
     },
   });
 
-  const submit = methods.handleSubmit((data) => {
+  const submit = methods.handleSubmit(async (data) => {
     const { workMode } = data;
     if (!workMode) return;
 
@@ -51,11 +60,27 @@ export function useSetupRegistration(onSuccessAction: () => void) {
         onSuccessAction();
       } catch (e) {
         logOut();
-        console.error('Offline save failed:', e);
+        console.error('Не вдалося зберегти офлайн-дані:', e);
       }
       return;
     }
-    mutate(apiData as RegisterDto);
+
+    try {
+      await mutateAsync(apiData as RegisterDto);
+    } catch (err: unknown) {
+      const error = err as { message?: unknown; response?: { data?: unknown } };
+      const msg = String(error?.message || error?.response?.data || '').toLowerCase();
+      const indicatesLocale = msg.includes('locale') || msg.includes('локаль') || msg.includes('language');
+
+      if (indicatesLocale) {
+        try {
+          const retryData = { ...apiData, locale: 'en-US' } as RegisterDto;
+          await mutateAsync(retryData);
+        } catch (e) {
+          console.error('Не вдалося повторити реєстрацію з en-US.', e);
+        }
+      }
+    }
   });
 
   return { methods, submit, isLoading: isPending };
