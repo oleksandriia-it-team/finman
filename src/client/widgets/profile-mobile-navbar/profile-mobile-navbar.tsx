@@ -4,10 +4,11 @@ import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/use
 
 export function ProfileMobileNavbar() {
   const hidePlusButton = useUserNavStoreHook((state) => state.isPlusHidden);
+  const centerButtonUrl = useUserNavStoreHook((state) => state.centerButtonUrl);
 
   return (
     <FinNavigationBar
-      centerButton={hidePlusButton ? undefined : { icon: 'plus', url: 'regular-operations/add' }}
+      centerButton={hidePlusButton ? undefined : { icon: 'plus', url: centerButtonUrl }}
       routes={profileNavRoutesMobile}
     />
   );

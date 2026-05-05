@@ -26,7 +26,7 @@ export const filterSchema = z
   .object({
     dateFrom: z.coerce.date().optional(),
     dateTo: z.coerce.date().optional(),
-    category: z.enum(AllCategoryValues).optional(),
+    category: z.array(z.enum(AllCategoryValues)).optional(),
     type: z.enum(TrackingOperationTypes).optional(),
     search: z.string().optional(),
     softDeleted: z.union([z.literal(0), z.literal(1)]).optional(),

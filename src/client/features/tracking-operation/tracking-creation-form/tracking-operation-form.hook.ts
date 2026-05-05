@@ -29,6 +29,7 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
   const submit = methods.handleSubmit(async (data) => {
     try {
       if (isEdit && initialData) {
+        console.log(data);
         await handleUpdate(initialData.id, {
           ...data,
           id: initialData.id,

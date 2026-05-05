@@ -13,10 +13,11 @@ export function UiInfoBlock({
   bgClassName,
   onClick,
   size = 'default',
-  category = 'expense-misc',
+  category,
+  icon,
   isIconRoundedFull = false,
 }: UiInfoBlockProps) {
-  const { variant, icon, label } = CategoriesMapping[category];
+  const categoryStyles = category ? CategoriesMapping[category] : null;
 
   const isClickable = !!onClick;
   return (
@@ -38,17 +39,27 @@ export function UiInfoBlock({
       }}
     >
       <UiIconBadge
-        name={icon}
-        title={label}
+        name={categoryStyles?.icon ?? icon ?? ''}
+        title={categoryStyles?.label ?? title ?? ''}
         isReversed
-        variant={variant}
+        variant={categoryStyles?.variant ?? 'primary'}
         size={size}
         className={cn('shrink-0', iconClassName || 'bg-muted/20')}
         isRoundedFull={isIconRoundedFull}
       />
-      <div className="flex flex-col">
-        <UiTitle size="lg">{title}</UiTitle>
-        <UiDescription size="default">{description}</UiDescription>
+      <div className="flex flex-col min-w-0 overflow-hidden">
+        <UiTitle
+          size="lg"
+          className="truncate"
+        >
+          {title}
+        </UiTitle>
+        <UiDescription
+          className="truncate"
+          size="default"
+        >
+          {description}
+        </UiDescription>
       </div>
     </div>
   );

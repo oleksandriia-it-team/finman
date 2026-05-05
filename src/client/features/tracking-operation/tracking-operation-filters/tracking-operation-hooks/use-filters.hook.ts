@@ -33,7 +33,10 @@ export function useFiltersHook(options?: UseFiltersHookOptions) {
     async (data) => {
       try {
         const cleanFilters = Object.fromEntries(
-          Object.entries(data).filter(([_, v]) => v !== undefined && v !== ''),
+          Object.entries(data).filter(([_, v]) => {
+            if (Array.isArray(v)) return v.length > 0;
+            return v !== undefined && v !== '';
+          }),
         ) as TrackingOperationFilter;
 
         await options?.onApply?.(cleanFilters);

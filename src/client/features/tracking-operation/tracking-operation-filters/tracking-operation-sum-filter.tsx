@@ -19,8 +19,8 @@ export function SumFilter({ className }: FiltersDefaultProps) {
 
   const handleSliderChange = (values: number[]) => {
     const [min, max] = values;
-    setValue('start', min, { shouldValidate: true, shouldDirty: true });
-    setValue('end', max, { shouldValidate: true, shouldDirty: true });
+    setValue('minSum', min, { shouldValidate: true, shouldDirty: true });
+    setValue('maxSum', max, { shouldValidate: true, shouldDirty: true });
   };
 
   return (
@@ -29,16 +29,16 @@ export function SumFilter({ className }: FiltersDefaultProps) {
       <div className="flex flex-row items-center justify-center gap-10 text-muted">
         <FinControlledInput
           type="number"
-          id="start"
-          name="start"
+          id="minSum"
+          name="minSum"
           label="Мін"
           pattern={NumberOnlyPattern}
         />
         <span className="pt-4 absolute text-black">—</span>
         <FinControlledInput
           type="number"
-          id="end"
-          name="end"
+          id="maxSum"
+          name="maxSum"
           label="Макс"
           pattern={NumberOnlyPattern}
         />

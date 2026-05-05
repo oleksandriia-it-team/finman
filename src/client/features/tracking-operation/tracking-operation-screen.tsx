@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter'; // ← додати
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -18,35 +20,31 @@ import { useTrackingOperations } from '@frontend/features/tracking-operation/tra
 export function TrackingOperationScreen() {
   const pageSize = 10;
   const { getOperations, getTotalCount, handleDelete } = useTrackingOperations();
+  const [filters, setFilters] = useState<TrackingOperationFilter>({});
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
-    onSuccess: () => {
-      reload();
-    },
+    onSuccess: () => reload(),
   });
 
   const router = useRouter();
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['tracking-operations'],
+    queryKey: ['tracking-operations', filters],
     getOptionsFn: async (page, pageSize) => {
       const start = (page - 1) * pageSize + 1;
       const end = start + pageSize;
-
-      const result = await getOperations(start, end);
-      return result ?? [];
+      return await getOperations(start, end, filters);
     },
     getTotalCountFn: async () => {
-      const count = await getTotalCount();
-      return count ?? 0;
+      return await getTotalCount(filters);
     },
     clearCacheOnDestroy: true,
   });
 
   return (
-    <>
-      <TrackingOperationHeader />
+    <div className="size-full overflow-hidden flex flex-col">
+      <TrackingOperationHeader onFiltersApply={setFilters} />
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
         <p className="flex-none text-xl p-4">
           <b>Регулярні доходи та витрати</b>
@@ -64,9 +62,7 @@ export function TrackingOperationScreen() {
               {options.map((item, index) => (
                 <TransactionCard
                   key={item.id ?? index}
-                  handleDelete={async (id) => {
-                    onDelete.mutate(id);
-                  }}
+                  handleDelete={(id) => onDelete.mutate(id)}
                   {...item}
                 />
               ))}
@@ -95,6 +91,6 @@ export function TrackingOperationScreen() {
           </UiButton>
         </div>
       </div>
-    </>
+    </div>
   );
 }

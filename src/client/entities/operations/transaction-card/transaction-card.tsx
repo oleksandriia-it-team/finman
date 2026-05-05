@@ -40,33 +40,35 @@ export function TransactionCard({
   return (
     <div
       className={cn(
-        'w-full flex items-center justify-between md:p-3 p-2 rounded-4xl shadow-lg mb-2',
+        'w-full flex items-center justify-between md:p-3 p-2 rounded-4xl shadow-lg',
         bgNone ? 'bg-transparent' : 'bg-card',
         className,
       )}
     >
-      <UiInfoBlock
-        icon={icon ?? ''}
-        title={title ?? ''}
-        category={category}
-        description={description ?? ''}
-        iconClassName={type ? iconBgVariants[type] : ''}
-        isIconRoundedFull={true}
-        size="lg"
-      />
+      <div className="min-w-0 flex-1">
+        <UiInfoBlock
+          icon={icon ?? ''}
+          title={title ?? ''}
+          category={category}
+          description={description ?? ''}
+          iconClassName={type ? iconBgVariants[type] : ''}
+          isIconRoundedFull={true}
+          size="lg"
+        />
+      </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex shrink-0 items-center gap-2">
         {sum && (
           <FinTransformCurrency
             value={sum}
             className={cn('font-bold', type && amountColorVariants[type])}
           />
         )}
-        {check && <span className={cn('font-bold', type && amountColorVariants[type])}>{check}</span>}
-      </div>
-      <UiResponsiveMenu>
         <UiResponsiveMenu>
-          <UiResponsiveMenuTrigger asChild>
+          <UiResponsiveMenuTrigger
+            asChild
+            className="pr-1"
+          >
             <UiIconButton
               size="lg"
               icon="three-dots-vertical"
@@ -82,7 +84,8 @@ export function TransactionCard({
             handleDelete={handleDelete}
           />
         </UiResponsiveMenu>
-      </UiResponsiveMenu>
+        {check && <span className={cn('font-bold', type && amountColorVariants[type])}>{check}</span>}
+      </div>
     </div>
   );
 }

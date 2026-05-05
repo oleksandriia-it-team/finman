@@ -1,7 +1,8 @@
 import type { AllCategories } from '@common/enums/categories.enum';
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { UiFilterPill } from '@frontend/ui/ui-filter-pill/ui-filter-pill';
-import { useState } from 'react';
+import { useFormContext, useWatch } from 'react-hook-form';
+import type { TrackingOperationFilterFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 
 export interface TransactionCategoryFilterPickerProps {
   category: AllCategories;
@@ -10,7 +11,15 @@ export interface TransactionCategoryFilterPickerProps {
 export function TransactionCategoryFilterPicker({ category }: TransactionCategoryFilterPickerProps) {
   const { variant, icon, label } = CategoriesMapping[category];
 
-  const [isActive, setIsActive] = useState(false);
+  const { setValue, control } = useFormContext<TrackingOperationFilterFormData>();
+
+  const selected: AllCategories[] = useWatch({ control, name: 'category' }) ?? [];
+  const isActive = selected.includes(category);
+
+  const toggle = () => {
+    const next = isActive ? selected.filter((c) => c !== category) : [...selected, category];
+    setValue('category', next.length ? next : undefined, { shouldDirty: true });
+  };
 
   return (
     <UiFilterPill
@@ -18,7 +27,7 @@ export function TransactionCategoryFilterPicker({ category }: TransactionCategor
       size="xs"
       icon={icon}
       isActive={isActive}
-      setActive={setIsActive}
+      setActive={toggle}
     >
       {label}
     </UiFilterPill>

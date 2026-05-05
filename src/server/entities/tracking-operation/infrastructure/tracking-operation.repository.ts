@@ -1,7 +1,7 @@
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 import type { TrackingOperationApiFilter } from '@backend/entities/tracking-operation/domain/tracking-operation-api.filter';
-import { Between, type FindOptionsWhere, ILike, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { Between, type FindOptionsWhere, ILike, In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 
 function escapeLike(value: string): string {
@@ -17,7 +17,9 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
 
     if (filters.userId !== undefined) where.userId = filters.userId;
     if (filters.type) where.type = filters.type;
-    if (filters.category) where.category = filters.category;
+    if (filters.category) {
+      where.category = Array.isArray(filters.category) ? In(filters.category) : filters.category;
+    }
     if (filters.softDeleted !== undefined) where.softDeleted = filters.softDeleted;
 
     if (filters.dateFrom && filters.dateTo) {

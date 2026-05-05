@@ -1,4 +1,3 @@
-import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import type { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';

@@ -37,10 +37,7 @@ export function IncomeExpenseCard({
       <CardHeader className="min-w-0 w-full overflow-hidden">
         <div className="flex flex-col items-start gap-3">
           <div className="flex between w-full justify-between">
-            <div
-              className={cn('p-4 rounded-3xl flex justify-between')}
-              style={{ backgroundColor: categoryStyles.variant, color: categoryStyles.variant }}
-            >
+            <div className={cn('p-4 rounded-3xl flex justify-between')}>
               <UiSvgIcon
                 name={categoryStyles.icon}
                 size="lg"
@@ -48,23 +45,21 @@ export function IncomeExpenseCard({
             </div>
 
             <UiResponsiveMenu>
-              <UiResponsiveMenu>
-                <UiResponsiveMenuTrigger asChild>
-                  <UiIconButton
-                    size="lg"
-                    icon="three-dots-vertical"
-                    variant="muted"
-                    className="!border-none"
-                  />
-                </UiResponsiveMenuTrigger>
-                <TransactionActions
-                  id={id}
-                  icon={categoryStyles.icon}
-                  title={title || categoryStyles.label}
-                  editPath={`regular-operations/edit/${id}`}
-                  handleDelete={handleDelete}
+              <UiResponsiveMenuTrigger asChild>
+                <UiIconButton
+                  size="lg"
+                  icon="three-dots-vertical"
+                  variant="muted"
+                  className="!border-none"
                 />
-              </UiResponsiveMenu>
+              </UiResponsiveMenuTrigger>
+              <TransactionActions
+                id={id}
+                icon={categoryStyles.icon}
+                title={title || categoryStyles.label}
+                editPath={`regular-operations/edit/${id}`}
+                handleDelete={handleDelete}
+              />
             </UiResponsiveMenu>
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>

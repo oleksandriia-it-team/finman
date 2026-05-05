@@ -12,7 +12,8 @@ export function UsefulTipsBlock({ items }: UsefulTipsBlockProps) {
             size="lg"
             title={item.title}
             description={item.description ?? null}
-            name={item.icon}
+            icon={item.icon}
+            iconClassName="bg-muted/20!"
           />
         );
       })}
