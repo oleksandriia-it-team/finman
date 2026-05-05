@@ -4,12 +4,13 @@ import { DatabaseName, Tables } from '../shared/constants/database.constants';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
 import { DexieService } from '@frontend/database/dexie.service';
-import Dexie, { type Table, type Transaction } from 'dexie';
+import Dexie, { type Collection, type Table, type Transaction } from 'dexie';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { AppError } from '@common/classes/app-error.class';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 import type { TableLocalModel } from '@frontend/shared/models/table.local.model';
+import type { OrderByLocalModel } from '@frontend/shared/models/order-by.local.model';
 
 /**
  * Service for interacting with an IndexedDB database via **Dexie**.
@@ -105,11 +106,12 @@ export class DatabaseLocalService {
    * Returns a paginated slice of records.
    *
    * @param tableName          - Target object store name.
-   * @param start              - Zero-based offset of the first record to return.
-   * @param end                - Zero-based offset of the last record to return (inclusive).
+   * @param from
+   * @param to
    * @param includeSoftDeleted - When false, records with `softDeleted: 1` are skipped.
    * @param mapFilters         - Optional array of predicate functions.
    * A record is included only if ALL predicates return true.
+   * @param orderBy
    * @returns                  - A promise that resolves to an array of filtered and paginated records.
    */
   async getItems<T extends DefaultTableColumns>(
@@ -118,14 +120,23 @@ export class DatabaseLocalService {
     to: number,
     includeSoftDeleted: boolean,
     mapFilters?: FilterPredicate<T>[],
-    orderBy?: string,
+    orderBy?: OrderByLocalModel,
   ): Promise<T[]> {
     const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
 
     try {
       const { skip, take } = calculateSkipAndLimit(from, to);
 
-      let collection = orderBy ? this.table<T>(tableName).orderBy(orderBy) : this.table<T>(tableName);
+      let collection: Collection<T, number, T>;
+
+      if (orderBy) {
+        collection =
+          orderBy.sort === 'ASC'
+            ? this.table<T>(tableName).orderBy(orderBy.name)
+            : this.table<T>(tableName).orderBy(orderBy.name).reverse();
+      } else {
+        collection = this.table<T>(tableName).toCollection();
+      }
 
       // Apply softDeleted guard
       if (!includeSoftDeleted) {

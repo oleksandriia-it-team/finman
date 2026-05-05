@@ -82,7 +82,7 @@ export class TrackingOperationLocalRepository
     to: number,
     filters?: DeepPartial<TrackingOperationFilter> | undefined,
   ): Promise<TrackingOperationRecord[]> {
-    return super.getItems(from, to, filters, 'date');
+    return super.getItems(from, to, filters, { name: 'date', sort: 'DESC' });
   }
 
   async getMaxSum(): Promise<number> {

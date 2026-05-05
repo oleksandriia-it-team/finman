@@ -77,7 +77,7 @@ export class TrackingOperationRepository
         where: baseWhere,
         skip,
         take,
-        order: { date: 'ASC' },
+        order: { date: 'DESC' },
       });
     }
 
