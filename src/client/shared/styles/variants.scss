@@ -17,8 +17,8 @@ $variants: (
       var(--destructive),
     ),
     'destructive-muted': (
-      var(--primary-muted),
-      var(--primary-muted-foreground),
+      var(--destructive-muted),
+      var(--destructive-muted-foreground),
     ),
     'muted': (
       var(--muted),

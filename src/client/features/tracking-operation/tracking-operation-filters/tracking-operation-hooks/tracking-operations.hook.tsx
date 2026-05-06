@@ -6,6 +6,7 @@ import type { TrackingOperationFilter } from '@common/domains/tracking-operation
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { trackingOperationService } from '../../tracking-operation.service';
+import type { GetTrackingOperationStatisticResponse } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 
 function useTrackingOperationsLogic() {
   const getOperations = (
@@ -44,6 +45,12 @@ function useTrackingOperationsLogic() {
     return trackingOperationService.getItemById(id);
   };
 
+  const getStatistic = (
+    filters?: DeepPartial<TrackingOperationFilter>,
+  ): Promise<GetTrackingOperationStatisticResponse> => {
+    return trackingOperationService.getStatistic({ dateFrom: filters?.dateFrom, dateTo: filters?.dateTo });
+  };
+
   return {
     getOperations,
     getTotalCount,
@@ -51,6 +58,7 @@ function useTrackingOperationsLogic() {
     handleDelete,
     handleUpdate,
     getById,
+    getStatistic,
   };
 }
 

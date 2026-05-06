@@ -37,7 +37,10 @@ export function IncomeExpenseCard({
       <CardHeader className="min-w-0 w-full overflow-hidden">
         <div className="flex flex-col items-start gap-3">
           <div className="flex between w-full justify-between">
-            <div className={cn('p-4 rounded-3xl flex justify-between')}>
+            <div
+              style={{ backgroundColor: categoryStyles.variant, color: categoryStyles.variant }}
+              className={cn('p-4 rounded-3xl flex justify-between')}
+            >
               <UiSvgIcon
                 name={categoryStyles.icon}
                 size="lg"
