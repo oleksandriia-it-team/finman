@@ -22,7 +22,7 @@ import { uk } from 'date-fns/locale/uk';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import {
   TrackingOperationsStatisticDesktop,
@@ -51,7 +51,7 @@ export function TrackingOperationScreen() {
   const router = useRouter();
 
   const { data } = useQuery({
-    queryKey: ['tracking-operations-statistic', combinedFilters],
+    queryKey: ['tracking-operations', 'statistic', combinedFilters],
     queryFn: () => getStatistic({ dateFrom: combinedFilters.dateFrom, dateTo: combinedFilters.dateTo }),
   });
 
