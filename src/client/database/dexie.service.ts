@@ -12,7 +12,8 @@ export class DexieService extends Dexie {
     super(name);
 
     const schema = tableNames.reduce<Record<string, string>>((acc, { name, indexedColumns }) => {
-      acc[name] = `++id,softDeleted,${(indexedColumns ?? []).join(',')}`;
+      const extra = indexedColumns?.length ? `,${indexedColumns.join(',')}` : '';
+      acc[name] = `++id,softDeleted${extra}`;
       return acc;
     }, {});
 

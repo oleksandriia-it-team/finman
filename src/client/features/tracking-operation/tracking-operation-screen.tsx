@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter'; // ← додати
+import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';

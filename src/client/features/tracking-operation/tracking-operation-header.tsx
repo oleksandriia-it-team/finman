@@ -1,3 +1,5 @@
+'use client';
+
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { FiltersSheet } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-sheet';
 import type { TrackingOperationHeaderProps } from '@frontend/features/tracking-operation/props/tracking-operation-header.props';
