@@ -5,7 +5,7 @@ import type { TrackingOperationRecord } from '@common/records/tracking-operation
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
-import { trackingOperationService } from '@frontend/features/tracking-operation/tracking-operation.service';
+import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
 
 function useTrackingOperationsLogic() {
   const getOperations = (
@@ -13,14 +13,14 @@ function useTrackingOperationsLogic() {
     to: number,
     filters?: DeepPartial<TrackingOperationFilter>,
   ): Promise<TrackingOperationRecord[]> => {
-    return trackingOperationService.getItems(from, to, {
+    return trackingOperationsApiClient.getItems(from, to, {
       softDeleted: 0,
       ...filters,
     });
   };
 
   const getTotalCount = (filters?: DeepPartial<TrackingOperationFilter>): Promise<number> => {
-    return trackingOperationService
+    return trackingOperationsApiClient
       .getTotalCount({
         softDeleted: 0,
         ...filters,
@@ -29,19 +29,19 @@ function useTrackingOperationsLogic() {
   };
 
   const handleCreate = (dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> => {
-    return trackingOperationService.createItem(dto);
+    return trackingOperationsApiClient.createItem(dto);
   };
 
   const handleDelete = (id: number): Promise<true> => {
-    return trackingOperationService.deleteItem(id);
+    return trackingOperationsApiClient.deleteItem(id);
   };
 
   const handleUpdate = (id: number, dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> => {
-    return trackingOperationService.updateItem(id, dto);
+    return trackingOperationsApiClient.updateItem(id, dto);
   };
 
   const getById = (id: number): Promise<TrackingOperationRecord | null> => {
-    return trackingOperationService.getItemById(id);
+    return trackingOperationsApiClient.getItemById(id);
   };
 
   return {

@@ -1,7 +1,7 @@
 import { RegularPaymentFrequencyFilter } from '@common/enums/regular-freequency.enum';
 import { UiFilterPill } from '@frontend/ui/ui-filter-pill/ui-filter-pill';
 import { cn } from '@frontend/shared/utils/cn.util';
-import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/filters-default.props';
+import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
 import { useFormContext, useWatch } from 'react-hook-form';
 import type { TrackingOperationFilterFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { getDateRangeForPeriod } from '@common/utils/get-date-range-for-period';

@@ -19,11 +19,19 @@ import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
 import { format, parseISO } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
+import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
+import { TypeEntryFilter } from '@common/enums/entry.enum';
+import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 
 export function TrackingOperationScreen() {
   const pageSize = 10;
   const { getOperations, getTotalCount, handleDelete } = useTrackingOperations();
   const [filters, setFilters] = useState<TrackingOperationFilter>({});
+  const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
+  const combinedFilters = {
+    ...filters,
+    type: typeFilter === TypeEntryFilter.All ? undefined : typeFilter,
+  };
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
     onSuccess: () => reload(),
@@ -33,14 +41,13 @@ export function TrackingOperationScreen() {
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['tracking-operations', filters],
+    queryKey: ['tracking-operations', combinedFilters],
     getOptionsFn: async (page, pageSize) => {
-      const start = (page - 1) * pageSize + 1;
-      const end = start + pageSize;
-      return await getOperations(start, end, filters);
+      const { from, to } = calculateFromAndTo(page, pageSize);
+      return await getOperations(from, to, combinedFilters);
     },
     getTotalCountFn: async () => {
-      return await getTotalCount(filters);
+      return await getTotalCount(combinedFilters);
     },
     clearCacheOnDestroy: true,
   });
@@ -48,6 +55,10 @@ export function TrackingOperationScreen() {
   return (
     <div className="size-full overflow-hidden flex flex-col">
       <TrackingOperationHeader onFiltersApply={setFilters} />
+      <TrackingOperationTypeFilter
+        active={typeFilter}
+        onSelect={setTypeFilter}
+      />
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
           <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
@@ -70,7 +81,6 @@ export function TrackingOperationScreen() {
                       <UiDateSeparator date={format(parseISO(item.date), 'd MMMM yyyy', { locale: uk })} />
                     )}
                     <TransactionCard
-                      className="bg-primary-foreground"
                       handleDelete={(id) => onDelete.mutate(id)}
                       {...item}
                     />

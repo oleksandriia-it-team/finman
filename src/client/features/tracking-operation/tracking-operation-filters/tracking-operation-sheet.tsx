@@ -14,13 +14,8 @@ import { UiResponsiveDialogTitle } from '@frontend/ui/ui-responsive-dialog/ui-re
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
 import { TrackingOperationDatepicker } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-datepicker';
 import { UiResponsiveDialogFooter } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-footer';
-import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import { useFiltersHook } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/use-filters.hook';
-import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
-
-interface FiltersSheetProps extends ChildrenComponentProps {
-  onApply?: (filters: TrackingOperationFilter) => Promise<void> | void;
-}
+import type { FiltersSheetProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filter-sheet.props';
 
 export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
   const { methods, handleApplyFilters } = useFiltersHook({ onApply } as never);
@@ -59,6 +54,7 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
 
             <UiResponsiveDialogFooter>
               <CardsFormTemplateActions
+                cancelButtonLabel="Скинути"
                 onCancel={() =>
                   methods.reset({
                     dateFrom: undefined,

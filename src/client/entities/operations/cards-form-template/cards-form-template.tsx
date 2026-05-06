@@ -111,7 +111,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
   );
 }
 
-export function CardsFormTemplateActions({ onCancel }: CardsFormTemplateActionsProps) {
+export function CardsFormTemplateActions({ onCancel, cancelButtonLabel }: CardsFormTemplateActionsProps) {
   return (
     <UiFormLayout.Actions>
       <UiButton
@@ -127,7 +127,7 @@ export function CardsFormTemplateActions({ onCancel }: CardsFormTemplateActionsP
         className="w-full py-6 font-semibold"
         onClick={onCancel}
       >
-        Скасувати
+        {cancelButtonLabel ?? 'Скасувати'}
       </UiButton>
     </UiFormLayout.Actions>
   );

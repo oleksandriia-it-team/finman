@@ -1,18 +1,15 @@
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { ProfileSection } from './profile-section';
-
-interface ProfileSettingsSecuritySectionProps {
-  isOnline: boolean;
-}
+import type { ProfileSettingsSecuritySectionProps } from '@frontend/features/setting-page/props/profile-settings-security-section.props';
 
 export function ProfileSettingsSecuritySection({ isOnline }: ProfileSettingsSecuritySectionProps) {
   return (
     <ProfileSection
-      className={'gap-0'}
+      className="gap-0"
       title="Безпека"
     >
-      <UiDescription className={'text-sm'}>Замінення паролю</UiDescription>
+      <UiDescription className="text-sm">Замінення паролю</UiDescription>
       <div className="mt-2 " />
 
       <FinControlledPassword

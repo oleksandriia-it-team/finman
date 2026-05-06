@@ -1,6 +1,6 @@
 import { AllCategoryValues } from '@common/enums/categories.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
-import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/filters-default.props';
+import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
 import { TransactionCategoryFilterPicker } from '@frontend/entities/operations/transaction-category-filter-picker/transaction-category-filter-picker';
 
 export function CategoryFilters({ className }: FiltersDefaultProps) {

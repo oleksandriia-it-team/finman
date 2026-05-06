@@ -8,7 +8,7 @@ import {
 } from '@frontend/entities/operations/cards-form-template/cards-form-template';
 import { useTrackingOperationForm } from '@frontend/features/tracking-operation/tracking-creation-form/tracking-operation-form.hook';
 import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/form-side-block';
-import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/tracking-operations-form-props';
+import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/props/tracking-operations-form-props';
 import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {

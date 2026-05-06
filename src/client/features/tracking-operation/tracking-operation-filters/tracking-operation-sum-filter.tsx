@@ -2,7 +2,7 @@
 
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { cn } from '@frontend/shared/utils/cn.util';
-import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/filters-default.props';
+import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
 import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constant';
 import { UiSlider } from '@frontend/ui/ui-slider/ui-slider';
 import { useFormContext, useWatch } from 'react-hook-form';

@@ -1,10 +1,6 @@
-import type { GetUser } from '@common/records/user.record';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
-
-interface ProfileSettingsHeaderProps {
-  userInformation: GetUser;
-}
+import type { ProfileSettingsHeaderProps } from '@frontend/features/setting-page/props/profile-settings-header.props';
 
 export function ProfileSettingsHeader({ userInformation }: ProfileSettingsHeaderProps) {
   return (

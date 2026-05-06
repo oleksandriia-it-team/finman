@@ -1,10 +1,6 @@
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { FiltersSheet } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-sheet';
-import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
-
-interface TrackingOperationHeaderProps {
-  onFiltersApply?: (filters: TrackingOperationFilter) => void;
-}
+import type { TrackingOperationHeaderProps } from '@frontend/features/tracking-operation/props/tracking-operation-header.props';
 
 export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHeaderProps) {
   return (
@@ -17,7 +13,7 @@ export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHea
           isRoundedFull
           icon="search"
           bgNone={true}
-          variant="muted"
+          variant="muted-foreground"
           size="xl"
           borderNone={true}
         />
@@ -26,7 +22,7 @@ export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHea
             isRoundedFull
             icon="sliders2"
             bgNone={true}
-            variant="muted"
+            variant="muted-foreground"
             size="xl"
             borderNone={true}
           />

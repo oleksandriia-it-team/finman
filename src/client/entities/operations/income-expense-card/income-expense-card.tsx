@@ -24,7 +24,7 @@ export function IncomeExpenseCard({
   title = '',
   handleDelete,
 }: TransactionCardProps) {
-  const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
+  const categoryStyles = CategoriesMapping[category];
 
   return (
     <UiCard

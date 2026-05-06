@@ -3,6 +3,7 @@ import { type TypeEntry } from '@common/enums/entry.enum';
 
 export interface CardsFormTemplateActionsProps {
   onCancel?: () => void;
+  cancelButtonLabel?: string;
 }
 
 export interface CardsFormInputsTemplateProps {
