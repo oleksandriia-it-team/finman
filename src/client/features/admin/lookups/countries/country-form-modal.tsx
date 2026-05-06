@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UiAdminModal } from '@frontend/shared/components/admin-modal/fin-admin-modal';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { CountryFormSchema, type CountryFormData } from '@common/domains/lookups/schemas/lookups-form.schema';
+import { type CountryFormData, CountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 
@@ -56,9 +56,16 @@ export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallba
         >
           <FinControlledInput
             name="countryName"
-            label="Країна *"
+            label="Країна англійською*"
+            placeholder="Наприклад: Ukraine"
+          />
+
+          <FinControlledInput
+            name="countryUkName"
+            label="Країна українською*"
             placeholder="Наприклад: Україна"
           />
+
           <FinControlledInput
             name="localeName"
             label="Локаль *"

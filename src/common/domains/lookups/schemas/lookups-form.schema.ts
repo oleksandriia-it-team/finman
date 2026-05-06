@@ -21,13 +21,14 @@ export const UpdateCurrencySchema = CurrencyFormSchema.partial().refine(hasAtLea
 export type UpdateCurrencyData = z.infer<typeof UpdateCurrencySchema>;
 
 export const CountryFormSchema = z.object({
+  countryUkName: z.string().trim().min(1, RequiredFieldMessage),
   countryName: z.string().trim().min(1, RequiredFieldMessage),
   localeName: z.string().trim().min(1, RequiredFieldMessage),
 });
 
 export type CountryFormData = z.infer<typeof CountryFormSchema>;
 
-export const UpdateCountrySchema = CountryFormSchema.partial().refine(hasAtLeastOneDefinedField, {
+export const UpdateCountrySchema = CountryFormSchema.refine(hasAtLeastOneDefinedField, {
   message: EmptyUpdateMessage,
 });
 
