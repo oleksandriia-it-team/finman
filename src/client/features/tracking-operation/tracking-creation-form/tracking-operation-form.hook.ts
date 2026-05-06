@@ -18,7 +18,7 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
     resolver: zodResolver(TrackingOperationFormSchema) as never,
     defaultValues: {
       title: initialData?.title ?? '',
-      description: initialData?.description ?? 'Немає опису',
+      description: initialData?.description,
       type: initialData?.type ?? TypeEntry.Expense,
       category: initialData?.category,
       sum: Number(initialData?.sum) ?? 0,
