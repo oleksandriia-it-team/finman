@@ -8,7 +8,7 @@ import { isEmpty } from '@common/utils/is-empty.util';
 import { useCallback, useRef, useState } from 'react';
 
 function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<string>[] {
-  return locales.map((locale) => ({ value: locale.locale, label: locale.locale }));
+  return locales.map((locale) => ({ value: locale.locale, label: locale.country }));
 }
 
 export function useGetLocalesDropdown(currentValue?: string) {
@@ -46,7 +46,7 @@ export function useGetLocalesDropdown(currentValue?: string) {
 
       return {
         value: result.locale,
-        label: result.locale,
+        label: result.country,
       };
     },
     onGetLabel: useCallback(
@@ -57,6 +57,8 @@ export function useGetLocalesDropdown(currentValue?: string) {
     ),
     labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
+
+  console.log(resource.inputLabel);
 
   return {
     ...resource,
