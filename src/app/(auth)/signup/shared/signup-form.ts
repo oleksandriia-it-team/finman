@@ -1,5 +1,5 @@
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { type GlobalRegisterDto, GlobalRegisterSchema } from '@common/domains/auth/schema/global-register.schema';
+import { type SignUpFormInput, SignUpFormSchema } from '@common/domains/auth/schema/sign-up-form.schema';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { useForm } from 'react-hook-form';
@@ -39,8 +39,8 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     },
   );
 
-  const methods = useForm<GlobalRegisterDto>({
-    resolver: zodResolver(GlobalRegisterSchema),
+  const methods = useForm<SignUpFormInput>({
+    resolver: zodResolver(SignUpFormSchema),
     mode: 'onChange',
     shouldUnregister: true,
     defaultValues: {
@@ -62,7 +62,7 @@ export function useSetupRegistration(onSuccessAction: () => void) {
 
     resolveLocale()
       .then((locale) => {
-        const apiData = { ...data, locale } as GlobalRegisterDto;
+        const apiData = { ...data, locale } as SignUpFormInput;
         delete apiData.workMode;
         delete apiData.passwordConfirm;
 

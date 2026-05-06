@@ -125,7 +125,6 @@ export default function RegistrationPage() {
                 </>
               )}
 
-              {/* Locale is automatically detected from browser (Scenario 2) */}
               <FinControlledAutocomplete
                 label="Валюта *"
                 name="currencyCode"
