@@ -106,9 +106,9 @@
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--slider-color, var(--primary)) 20%, transparent);
   }
 
-  &:disabled, &[data-disabled] {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     opacity: 0.5;
   }
 }
-

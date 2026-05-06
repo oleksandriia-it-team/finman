@@ -48,7 +48,10 @@ function useTrackingOperationsLogic() {
   const getStatistic = (
     filters?: DeepPartial<TrackingOperationFilter>,
   ): Promise<GetTrackingOperationStatisticResponse> => {
-    return trackingOperationService.getStatistic({ dateFrom: filters?.dateFrom, dateTo: filters?.dateTo });
+    return trackingOperationService.getStatistic({
+      dateFrom: filters?.dateFrom as Date | undefined,
+      dateTo: filters?.dateTo as Date | undefined,
+    });
   };
 
   return {

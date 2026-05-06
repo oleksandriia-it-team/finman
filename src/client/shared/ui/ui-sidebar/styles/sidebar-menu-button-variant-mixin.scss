@@ -26,7 +26,8 @@
     color: var(--sidebar-accent-foreground);
   }
 
-  &:disabled, &[data-disabled],
+  &:disabled,
+  &[data-disabled],
   &[aria-disabled='true'] {
     pointer-events: none;
     opacity: 0.5;

@@ -25,7 +25,8 @@
     color: var(--secondary-foreground);
   }
 
-  &:disabled, &[data-disabled] {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     cursor: not-allowed;
     opacity: 0.5;
