@@ -10,6 +10,7 @@ export type ColorVariantModel =
   | 'orange'
   | 'teal'
   | 'aqua'
+  | 'muted-foreground'
   | 'primary-muted'
   | 'destructive-muted'
   | 'success-muted'

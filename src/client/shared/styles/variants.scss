@@ -24,6 +24,10 @@ $variants: (
       var(--muted),
       var(--muted-foreground),
     ),
+    'muted-foreground': (
+      var(--muted-foreground),
+      var(--muted),
+    ),
     'success': (
       var(--success),
       var(--success-foreground),

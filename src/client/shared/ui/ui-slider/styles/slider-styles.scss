@@ -58,7 +58,7 @@
   flex-grow: 1;
   overflow: hidden;
   border-radius: 9999px;
-  background-color: var(--muted);
+  background-color: var(--muted-foreground);
 
   &[data-orientation='horizontal'] {
     height: var(--slider-track-size, 0.375rem);
