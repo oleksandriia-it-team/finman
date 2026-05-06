@@ -1,12 +1,12 @@
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
 import type { MonthEntry } from '@common/records/month-entry.record';
-import type { CreateBudgetPlanModel } from '@common/domains/budget-plan/budget-plan.schema';
+import type { CreateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 import { type BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 
-export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBudgetPlanModel, number> {
+export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBudgetPlanDto, number> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: BudgetPlanLocalRepository,
@@ -15,7 +15,7 @@ export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBud
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: CreateBudgetPlanModel): Promise<number> {
+  async handle({ otherEntries: otherEntriesDto, ...data }: CreateBudgetPlanDto): Promise<number> {
     const date = getCurrentMonthDate();
     const exist = await this.budgetPlanRepository.getItem(date);
 

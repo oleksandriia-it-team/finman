@@ -2,12 +2,17 @@
 
 import { type ChildrenComponentProps } from '../../shared/models/component-with-chilren.model';
 import { ThemeEnum } from '../../shared/enums/theme.enum';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { isServer } from '@frontend/shared/utils/is-server.util';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 export default function LoadStylesComponent({ children }: ChildrenComponentProps) {
-  // TODO fix later
-  const mode: ThemeEnum = (() => ThemeEnum.Light)();
+  const [mode, setMode] = useState<ThemeEnum>(ThemeEnum.Light);
+  const theme = useUserInformation((state) => state.theme);
+
+  useEffect(() => {
+    setMode(theme);
+  }, [theme]);
 
   useEffect(() => {
     if (isServer()) {

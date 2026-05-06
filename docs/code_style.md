@@ -63,7 +63,34 @@ This document covers rules that are **not** enforced by ESLint. For architectura
 
 ---
 
-## 5. TypeORM Specifics
+## 5. DTO & Input Naming (Schema-Derived Types)
+
+*Types inferred or derived from Zod/validation schemas follow a strict suffix convention:*
+
+*   **`...Dto`** — use for data flowing **out of a layer** or representing a **neutral data shape** (responses, repository results, service return values, mapped/transformed objects):
+    *   ✅ `BudgetPlanDto` — what the service returns to the controller
+    *   ✅ `RegularEntryDto` — what the repository returns to the use case
+    *   ❌ Do **not** use `Dto` for raw incoming request payloads
+
+*   **`...Input`** — use for data flowing **into a layer** from an **external boundary** (HTTP request body, form submission, IPC/RPC call arguments):
+    *   ✅ `CreateBudgetPlanInput` — parsed request body that enters the use case
+    *   ✅ `UpdateRegularEntryInput` — validated form payload passed to a service method
+    *   ❌ Do **not** use `Input` for objects that are already transformed or enriched internally
+
+*   **Quick decision criteria**:
+
+    | Situation | Suffix |
+    |---|---|
+    | Type returned by a service/repository | `Dto` |
+    | Type returned from a use case to a controller | `Dto` |
+    | Mapped/transformed intermediate shape | `Dto` |
+    | Raw request body entering a use case | `Input` |
+    | Form data passed into a service method | `Input` |
+    | Argument type of a mutation / RPC call | `Input` |
+
+---
+
+## 6. TypeORM Specifics
 *The provided ESLint does not check decorator arguments:*
 *   **String Relations**: To prevent circular dependencies, always use string literals in decorators:
     *   ✅ `@ManyToOne('UserOrm', 'items')`
@@ -71,7 +98,7 @@ This document covers rules that are **not** enforced by ESLint. For architectura
 
 ---
 
-## 6. Business Symmetry & UI Components
+## 7. Business Symmetry & UI Components
 *   **Online/Offline Symmetry**: When modifying a Use Case, ensure the logic is updated in both the API version and the Local (IndexedDB) version.
 *   **Screen Handlers**: Avoid manual loading spinners. Use `FinListScreenHandler` or `FinFormScreenHandler` for consistent state rendering.
 *   **Service Access**: Never import `*.local.repository` or `*.api.client` directly into features. Always go through the `BasicDataSource` wrapper.

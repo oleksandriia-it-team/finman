@@ -19,6 +19,7 @@ export function FinDropdown<T>({
   id,
   className,
   placeholder,
+  clearable = true,
   ref,
   disabled,
   onBlur,
@@ -49,7 +50,7 @@ export function FinDropdown<T>({
         ))}
       </UiSelectGroup>
     );
-  }, [optionListClassName, options, optionClassName, onChange]);
+  }, [optionListClassName, options, optionClassName]);
 
   return (
     <UiSelect
@@ -65,12 +66,12 @@ export function FinDropdown<T>({
       value={inputValue ?? ''}
     >
       <UiSelectTrigger
+        {...(clearable ? { onClear: () => onChange(undefined) } : {})}
         disabled={disabled ?? false}
         ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}
         className={className}
         hasValue={!!inputValue}
-        onClear={() => onChange(undefined)}
         id={id}
       >
         <UiSelectValue placeholder={placeholder}>{inputValue}</UiSelectValue>

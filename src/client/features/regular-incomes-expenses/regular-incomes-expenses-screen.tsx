@@ -13,6 +13,7 @@ import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-da
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -30,11 +31,8 @@ export default function RegularIncomesExpensesScreen() {
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
-      const start = (page - 1) * pageSize + 1;
-      const end = start + pageSize;
-
-      const result = await getPayments(start, end);
-      return result ?? [];
+      const { from, to } = calculateFromAndTo(page, pageSize);
+      return getPayments(from, to);
     },
     getTotalCountFn: async () => {
       const count = await getTotalCount();
@@ -42,6 +40,9 @@ export default function RegularIncomesExpensesScreen() {
     },
     clearCacheOnDestroy: true,
   });
+
+  const deleteErrorMessage =
+    onDelete.state === PromiseState.Error && onDelete.error ? getSafeErrorMessage(onDelete.error) : undefined;
 
   return (
     <div className="size-full overflow-hidden flex flex-col pb-8 relative">
@@ -53,7 +54,7 @@ export default function RegularIncomesExpensesScreen() {
         <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
           <FinListScreenHandler
             state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
+            errorMessage={errorMessage ?? deleteErrorMessage}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="h-72"

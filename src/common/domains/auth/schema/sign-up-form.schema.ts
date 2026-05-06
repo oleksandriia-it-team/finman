@@ -3,7 +3,7 @@ import { CreateUserSchema } from '@common/domains/user/schema/user.schema';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 
-export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
+export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
   .extend({
     email: z
       .string()
@@ -15,6 +15,9 @@ export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
     password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
 
     passwordConfirm: z.string().optional().or(z.literal('')),
+
+    locale: z.string().optional().or(z.literal('')),
+
     workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
   })
   .superRefine((data, ctx) => {
@@ -51,4 +54,4 @@ export const GlobalRegisterSchema = CreateUserSchema.omit({ role: true })
     }
   });
 
-export type GlobalRegisterDto = z.infer<typeof GlobalRegisterSchema>;
+export type SignUpFormInput = z.infer<typeof SignUpFormSchema>;

@@ -1,5 +1,4 @@
 'use client';
-import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { useRouter } from 'next/navigation';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
@@ -36,7 +35,6 @@ export default function RegistrationPage() {
     }
   });
 
-  const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));
   const workMode = methods.watch('workMode');
   const isLocked = !workMode;
@@ -126,31 +124,18 @@ export default function RegistrationPage() {
                   />
                 </>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
-                <FinControlledAutocomplete
-                  label="Валюта *"
-                  name="currencyCode"
-                  placeholder="Пошук..."
-                  options={currencyDataResource.options}
-                  errorLabel={currencyDataResource.errorMessage ?? ''}
-                  state={currencyDataResource.state}
-                  customInputValue={currencyDataResource.inputLabel?.label ?? ''}
-                  search={currencyDataResource.search}
-                  onSearch={currencyDataResource.setSearch}
-                />
 
-                <FinControlledAutocomplete
-                  label="Формат дат *"
-                  name="locale"
-                  placeholder="Пошук..."
-                  options={localeDataResource.options}
-                  errorLabel={localeDataResource.errorMessage ?? ''}
-                  state={localeDataResource.state}
-                  customInputValue={localeDataResource.inputLabel?.label ?? ''}
-                  search={localeDataResource.search}
-                  onSearch={localeDataResource.setSearch}
-                />
-              </div>
+              <FinControlledAutocomplete
+                label="Валюта *"
+                name="currencyCode"
+                placeholder="Пошук..."
+                options={currencyDataResource.options}
+                errorLabel={currencyDataResource.errorMessage ?? ''}
+                state={currencyDataResource.state}
+                customInputValue={currencyDataResource.inputLabel?.label ?? ''}
+                search={currencyDataResource.search}
+                onSearch={currencyDataResource.setSearch}
+              />
 
               <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full bg-primary-foreground pt-2">
                 <UiButton

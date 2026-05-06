@@ -1,5 +1,5 @@
 import { type UserInformationStore } from '@frontend/shared/services/user-information/models/user-infomation.model';
-import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import { UserInformationKey, ThemeKey } from '@frontend/shared/constants/local-storage.contants';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
 import { userSchema } from '@frontend/shared/schemas/validation-schema';
@@ -7,6 +7,7 @@ import type { GetUser, OfflineUser } from '@common/records/user.record';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { profileApiClient } from '@frontend/shared/services/user-information/profile.api.client';
 import { authTokenService } from './auth-token.service';
+import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 
 async function getUserInformation(): Promise<GetUser | null> {
   const user = localStorageService.getItem<OfflineUser>(UserInformationKey);
@@ -58,5 +59,10 @@ export const useUserInformation = create<UserInformationStore>((set) => {
     userInfoState: PromiseState.Loading,
     updateInformationState: PromiseState.Loading,
     refresh: () => loadUserInformation(),
+    theme: localStorageService.getItem<ThemeEnum>(ThemeKey) ?? ThemeEnum.Light,
+    setTheme: (theme: ThemeEnum) => {
+      set({ theme });
+      localStorageService.setItem(ThemeKey, theme);
+    },
   };
 });
