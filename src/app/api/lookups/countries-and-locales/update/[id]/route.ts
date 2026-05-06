@@ -15,12 +15,11 @@ export const PUT = createRoute({
     country: await countryRepository.getItemById(params.id),
   }),
   guards: [AuthGuard, ({ context }) => ExistCountryGuard(context.country)],
-  execute: async ({ body, context, params: { id } }) => {
-    const existing = context.country!;
-
+  execute: async ({ body, params: { id } }) => {
     await countryRepository.updateItem(id, {
-      country: body.countryName ?? existing.country,
-      locale: body.localeName ?? existing.locale,
+      countryUk: body.countryUkName,
+      country: body.countryName,
+      locale: body.localeName,
     });
 
     return { status: 200, data: true };

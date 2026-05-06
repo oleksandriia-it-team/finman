@@ -1,778 +1,972 @@
 [
   {
     "country": "Afghanistan",
+    "countryUk": "Афганістан",
     "locale": "fa-AF"
   },
   {
     "country": "Albania",
+    "countryUk": "Албанія",
     "locale": "sq-AL"
   },
   {
     "country": "Algeria",
+    "countryUk": "Алжир",
     "locale": "ar-DZ"
   },
   {
     "country": "Andorra",
+    "countryUk": "Андорра",
     "locale": "ca-AD"
   },
   {
     "country": "Angola",
+    "countryUk": "Ангола",
     "locale": "pt-AO"
   },
   {
     "country": "Argentina",
+    "countryUk": "Аргентина",
     "locale": "es-AR"
   },
   {
     "country": "Armenia",
+    "countryUk": "Вірменія",
     "locale": "hy-AM"
   },
   {
     "country": "Australia",
+    "countryUk": "Австралія",
     "locale": "en-AU"
   },
   {
     "country": "Austria",
+    "countryUk": "Австрія",
     "locale": "de-AT"
   },
   {
     "country": "Azerbaijan",
+    "countryUk": "Азербайджан",
     "locale": "az-AZ"
   },
   {
     "country": "Bahamas",
+    "countryUk": "Багамські острови",
     "locale": "en-BS"
   },
   {
     "country": "Bahrain",
+    "countryUk": "Бахрейн",
     "locale": "ar-BH"
   },
   {
     "country": "Bangladesh",
+    "countryUk": "Бангладеш",
     "locale": "bn-BD"
   },
   {
     "country": "Barbados",
+    "countryUk": "Барбадос",
     "locale": "en-BB"
   },
   {
     "country": "Belarus",
+    "countryUk": "Білорусь",
     "locale": "be-BY"
   },
   {
     "country": "Belgium",
+    "countryUk": "Бельгія",
     "locale": "nl-BE"
   },
   {
     "country": "Belize",
+    "countryUk": "Беліз",
     "locale": "en-BZ"
   },
   {
     "country": "Benin",
+    "countryUk": "Бенін",
     "locale": "fr-BJ"
   },
   {
     "country": "Bhutan",
+    "countryUk": "Бутан",
     "locale": "dz-BT"
   },
   {
     "country": "Bolivia",
+    "countryUk": "Болівія",
     "locale": "es-BO"
   },
   {
     "country": "Bosnia and Herzegovina",
+    "countryUk": "Боснія і Герцеговина",
     "locale": "bs-BA"
   },
   {
     "country": "Botswana",
+    "countryUk": "Ботсвана",
     "locale": "en-BW"
   },
   {
     "country": "Brazil",
+    "countryUk": "Бразилія",
     "locale": "pt-BR"
   },
   {
     "country": "Brunei",
+    "countryUk": "Бруней",
     "locale": "ms-BN"
   },
   {
     "country": "Bulgaria",
+    "countryUk": "Болгарія",
     "locale": "bg-BG"
   },
   {
     "country": "Burkina Faso",
+    "countryUk": "Буркіна-Фасо",
     "locale": "fr-BF"
   },
   {
     "country": "Burundi",
+    "countryUk": "Бурунді",
     "locale": "fr-BI"
   },
   {
     "country": "Cambodia",
+    "countryUk": "Камбоджа",
     "locale": "km-KH"
   },
   {
     "country": "Cameroon",
+    "countryUk": "Камерун",
     "locale": "fr-CM"
   },
   {
     "country": "Canada",
+    "countryUk": "Канада",
     "locale": "en-CA"
   },
   {
     "country": "Cape Verde",
+    "countryUk": "Кабо-Верде",
     "locale": "pt-CV"
   },
   {
     "country": "Central African Republic",
+    "countryUk": "Центральноафриканська Республіка",
     "locale": "fr-CF"
   },
   {
     "country": "Chad",
+    "countryUk": "Чад",
     "locale": "fr-TD"
   },
   {
     "country": "Chile",
+    "countryUk": "Чилі",
     "locale": "es-CL"
   },
   {
     "country": "China",
+    "countryUk": "Китай",
     "locale": "zh-CN"
   },
   {
     "country": "Colombia",
+    "countryUk": "Колумбія",
     "locale": "es-CO"
   },
   {
     "country": "Comoros",
+    "countryUk": "Коморські острови",
     "locale": "ar-KM"
   },
   {
     "country": "Congo (Brazzaville)",
+    "countryUk": "Конго (Браззавіль)",
     "locale": "fr-CG"
   },
   {
     "country": "Congo (Kinshasa)",
+    "countryUk": "Конго (Кіншаса)",
     "locale": "fr-CD"
   },
   {
     "country": "Costa Rica",
+    "countryUk": "Коста-Ріка",
     "locale": "es-CR"
   },
   {
     "country": "Croatia",
+    "countryUk": "Хорватія",
     "locale": "hr-HR"
   },
   {
     "country": "Cuba",
+    "countryUk": "Куба",
     "locale": "es-CU"
   },
   {
     "country": "Cyprus",
+    "countryUk": "Кіпр",
     "locale": "el-CY"
   },
   {
     "country": "Czech Republic",
+    "countryUk": "Чехія",
     "locale": "cs-CZ"
   },
   {
     "country": "Denmark",
+    "countryUk": "Данія",
     "locale": "da-DK"
   },
   {
     "country": "Djibouti",
+    "countryUk": "Джібуті",
     "locale": "fr-DJ"
   },
   {
     "country": "Dominica",
+    "countryUk": "Домініка",
     "locale": "en-DM"
   },
   {
     "country": "Dominican Republic",
+    "countryUk": "Домініканська Республіка",
     "locale": "es-DO"
   },
   {
     "country": "East Timor",
+    "countryUk": "Східний Тимор",
     "locale": "pt-TL"
   },
   {
     "country": "Ecuador",
+    "countryUk": "Еквадор",
     "locale": "es-EC"
   },
   {
     "country": "Egypt",
+    "countryUk": "Єгипет",
     "locale": "ar-EG"
   },
   {
     "country": "El Salvador",
+    "countryUk": "Сальвадор",
     "locale": "es-SV"
   },
   {
     "country": "Equatorial Guinea",
+    "countryUk": "Екваторіальна Гвінея",
     "locale": "es-GQ"
   },
   {
     "country": "Eritrea",
+    "countryUk": "Еритрея",
     "locale": "ti-ER"
   },
   {
     "country": "Estonia",
+    "countryUk": "Естонія",
     "locale": "et-EE"
   },
   {
     "country": "Eswatini",
+    "countryUk": "Есватіні",
     "locale": "en-SZ"
   },
   {
     "country": "Ethiopia",
+    "countryUk": "Ефіопія",
     "locale": "am-ET"
   },
   {
     "country": "Fiji",
+    "countryUk": "Фіджі",
     "locale": "en-FJ"
   },
   {
     "country": "Finland",
+    "countryUk": "Фінляндія",
     "locale": "fi-FI"
   },
   {
     "country": "France",
+    "countryUk": "Франція",
     "locale": "fr-FR"
   },
   {
     "country": "Gabon",
+    "countryUk": "Габон",
     "locale": "fr-GA"
   },
   {
     "country": "Gambia",
+    "countryUk": "Гамбія",
     "locale": "en-GM"
   },
   {
     "country": "Georgia",
+    "countryUk": "Грузія",
     "locale": "ka-GE"
   },
   {
     "country": "Germany",
+    "countryUk": "Німеччина",
     "locale": "de-DE"
   },
   {
     "country": "Ghana",
+    "countryUk": "Гана",
     "locale": "en-GH"
   },
   {
     "country": "Greece",
+    "countryUk": "Греція",
     "locale": "el-GR"
   },
   {
     "country": "Grenada",
+    "countryUk": "Гренада",
     "locale": "en-GD"
   },
   {
     "country": "Guatemala",
+    "countryUk": "Гватемала",
     "locale": "es-GT"
   },
   {
     "country": "Guinea",
+    "countryUk": "Гвінея",
     "locale": "fr-GN"
   },
   {
     "country": "Guinea-Bissau",
+    "countryUk": "Гвінея-Бісау",
     "locale": "pt-GW"
   },
   {
     "country": "Guyana",
+    "countryUk": "Гайана",
     "locale": "en-GY"
   },
   {
     "country": "Haiti",
+    "countryUk": "Гаїті",
     "locale": "fr-HT"
   },
   {
     "country": "Honduras",
+    "countryUk": "Гондурас",
     "locale": "es-HN"
   },
   {
     "country": "Hungary",
+    "countryUk": "Угорщина",
     "locale": "hu-HU"
   },
   {
     "country": "Iceland",
+    "countryUk": "Ісландія",
     "locale": "is-IS"
   },
   {
     "country": "India",
+    "countryUk": "Індія",
     "locale": "hi-IN"
   },
   {
     "country": "Indonesia",
+    "countryUk": "Індонезія",
     "locale": "id-ID"
   },
   {
     "country": "Iran",
+    "countryUk": "Іран",
     "locale": "fa-IR"
   },
   {
     "country": "Iraq",
+    "countryUk": "Ірак",
     "locale": "ar-IQ"
   },
   {
     "country": "Ireland",
+    "countryUk": "Ірландія",
     "locale": "en-IE"
   },
   {
     "country": "Israel",
+    "countryUk": "Ізраїль",
     "locale": "he-IL"
   },
   {
     "country": "Italy",
+    "countryUk": "Італія",
     "locale": "it-IT"
   },
   {
     "country": "Jamaica",
+    "countryUk": "Ямайка",
     "locale": "en-JM"
   },
   {
     "country": "Japan",
+    "countryUk": "Японія",
     "locale": "ja-JP"
   },
   {
     "country": "Jordan",
+    "countryUk": "Йорданія",
     "locale": "ar-JO"
   },
   {
     "country": "Kazakhstan",
+    "countryUk": "Казахстан",
     "locale": "kk-KZ"
   },
   {
     "country": "Kenya",
+    "countryUk": "Кенія",
     "locale": "en-KE"
   },
   {
     "country": "Kiribati",
+    "countryUk": "Кірибаті",
     "locale": "en-KI"
   },
   {
     "country": "Kuwait",
+    "countryUk": "Кувейт",
     "locale": "ar-KW"
   },
   {
     "country": "Kyrgyzstan",
+    "countryUk": "Киргизстан",
     "locale": "ky-KG"
   },
   {
     "country": "Laos",
+    "countryUk": "Лаос",
     "locale": "lo-LA"
   },
   {
     "country": "Latvia",
+    "countryUk": "Латвія",
     "locale": "lv-LV"
   },
   {
     "country": "Lebanon",
+    "countryUk": "Ліван",
     "locale": "ar-LB"
   },
   {
     "country": "Lesotho",
+    "countryUk": "Лесото",
     "locale": "en-LS"
   },
   {
     "country": "Liberia",
+    "countryUk": "Ліберія",
     "locale": "en-LR"
   },
   {
     "country": "Libya",
+    "countryUk": "Лівія",
     "locale": "ar-LY"
   },
   {
     "country": "Liechtenstein",
+    "countryUk": "Ліхтенштейн",
     "locale": "de-LI"
   },
   {
     "country": "Lithuania",
+    "countryUk": "Литва",
     "locale": "lt-LT"
   },
   {
     "country": "Luxembourg",
+    "countryUk": "Люксембург",
     "locale": "fr-LU"
   },
   {
     "country": "Madagascar",
+    "countryUk": "Мадагаскар",
     "locale": "fr-MG"
   },
   {
     "country": "Malawi",
+    "countryUk": "Малаві",
     "locale": "en-MW"
   },
   {
     "country": "Malaysia",
+    "countryUk": "Малайзія",
     "locale": "ms-MY"
   },
   {
     "country": "Maldives",
+    "countryUk": "Мальдіви",
     "locale": "dv-MV"
   },
   {
     "country": "Mali",
+    "countryUk": "Малі",
     "locale": "fr-ML"
   },
   {
     "country": "Malta",
+    "countryUk": "Мальта",
     "locale": "mt-MT"
   },
   {
     "country": "Marshall Islands",
+    "countryUk": "Маршаллові острови",
     "locale": "en-MH"
   },
   {
     "country": "Mauritania",
+    "countryUk": "Мавританія",
     "locale": "ar-MR"
   },
   {
     "country": "Mauritius",
+    "countryUk": "Маврикій",
     "locale": "en-MU"
   },
   {
     "country": "Mexico",
+    "countryUk": "Мексика",
     "locale": "es-MX"
   },
   {
     "country": "Micronesia",
+    "countryUk": "Мікронезія",
     "locale": "en-FM"
   },
   {
     "country": "Moldova",
+    "countryUk": "Молдова",
     "locale": "ro-MD"
   },
   {
     "country": "Monaco",
+    "countryUk": "Монако",
     "locale": "fr-MC"
   },
   {
     "country": "Mongolia",
+    "countryUk": "Монголія",
     "locale": "mn-MN"
   },
   {
     "country": "Montenegro",
+    "countryUk": "Чорногорія",
     "locale": "sr-ME"
   },
   {
     "country": "Morocco",
+    "countryUk": "Марокко",
     "locale": "ar-MA"
   },
   {
     "country": "Mozambique",
+    "countryUk": "Мозамбік",
     "locale": "pt-MZ"
   },
   {
     "country": "Myanmar",
+    "countryUk": "М'янма",
     "locale": "my-MM"
   },
   {
     "country": "Namibia",
+    "countryUk": "Намібія",
     "locale": "en-NA"
   },
   {
     "country": "Nauru",
+    "countryUk": "Науру",
     "locale": "en-NR"
   },
   {
     "country": "Nepal",
+    "countryUk": "Непал",
     "locale": "ne-NP"
   },
   {
     "country": "Netherlands",
+    "countryUk": "Нідерланди",
     "locale": "nl-NL"
   },
   {
     "country": "New Zealand",
+    "countryUk": "Нова Зеландія",
     "locale": "en-NZ"
   },
   {
     "country": "Nicaragua",
+    "countryUk": "Нікарагуа",
     "locale": "es-NI"
   },
   {
     "country": "Niger",
+    "countryUk": "Нігер",
     "locale": "fr-NE"
   },
   {
     "country": "Nigeria",
+    "countryUk": "Нігерія",
     "locale": "en-NG"
   },
   {
     "country": "North Korea",
+    "countryUk": "Північна Корея",
     "locale": "ko-KP"
   },
   {
     "country": "North Macedonia",
+    "countryUk": "Північна Македонія",
     "locale": "mk-MK"
   },
   {
     "country": "Norway",
+    "countryUk": "Норвегія",
     "locale": "no-NO"
   },
   {
     "country": "Oman",
+    "countryUk": "Оман",
     "locale": "ar-OM"
   },
   {
     "country": "Pakistan",
+    "countryUk": "Пакистан",
     "locale": "ur-PK"
   },
   {
     "country": "Palau",
+    "countryUk": "Палау",
     "locale": "en-PW"
   },
   {
     "country": "Palestine",
+    "countryUk": "Палестина",
     "locale": "ar-PS"
   },
   {
     "country": "Panama",
+    "countryUk": "Панама",
     "locale": "es-PA"
   },
   {
     "country": "Papua New Guinea",
+    "countryUk": "Папуа Нова Гвінея",
     "locale": "en-PG"
   },
   {
     "country": "Paraguay",
+    "countryUk": "Парагвай",
     "locale": "es-PY"
   },
   {
     "country": "Peru",
+    "countryUk": "Перу",
     "locale": "es-PE"
   },
   {
     "country": "Philippines",
+    "countryUk": "Філіппіни",
     "locale": "en-PH"
   },
   {
     "country": "Poland",
+    "countryUk": "Польща",
     "locale": "pl-PL"
   },
   {
     "country": "Portugal",
+    "countryUk": "Португалія",
     "locale": "pt-PT"
   },
   {
     "country": "Qatar",
+    "countryUk": "Катар",
     "locale": "ar-QA"
   },
   {
     "country": "Romania",
+    "countryUk": "Румунія",
     "locale": "ro-RO"
   },
   {
     "country": "Russia",
+    "countryUk": "Росія",
     "locale": "ru-RU"
   },
   {
     "country": "Rwanda",
+    "countryUk": "Руанда",
     "locale": "rw-RW"
   },
   {
     "country": "Saint Kitts and Nevis",
+    "countryUk": "Сент-Кітс і Невіс",
     "locale": "en-KN"
   },
   {
     "country": "Saint Lucia",
+    "countryUk": "Сент-Люсія",
     "locale": "en-LC"
   },
   {
     "country": "Saint Vincent and the Grenadines",
+    "countryUk": "Сент-Вінсент і Гренадини",
     "locale": "en-VC"
   },
   {
     "country": "Samoa",
+    "countryUk": "Самоа",
     "locale": "sm-WS"
   },
   {
     "country": "San Marino",
+    "countryUk": "Сан-Маріно",
     "locale": "it-SM"
   },
   {
     "country": "Sao Tome and Principe",
+    "countryUk": "Сан-Томе і Принсіпі",
     "locale": "pt-ST"
   },
   {
     "country": "Saudi Arabia",
+    "countryUk": "Саудівська Аравія",
     "locale": "ar-SA"
   },
   {
     "country": "Senegal",
+    "countryUk": "Сенегал",
     "locale": "fr-SN"
   },
   {
     "country": "Serbia",
+    "countryUk": "Сербія",
     "locale": "sr-RS"
   },
   {
     "country": "Seychelles",
+    "countryUk": "Сейшельські острови",
     "locale": "en-SC"
   },
   {
     "country": "Sierra Leone",
+    "countryUk": "Сьєрра-Леоне",
     "locale": "en-SL"
   },
   {
     "country": "Singapore",
+    "countryUk": "Сінгапур",
     "locale": "en-SG"
   },
   {
     "country": "Slovakia",
+    "countryUk": "Словаччина",
     "locale": "sk-SK"
   },
   {
     "country": "Slovenia",
+    "countryUk": "Словенія",
     "locale": "sl-SI"
   },
   {
     "country": "Solomon Islands",
+    "countryUk": "Соломонові острови",
     "locale": "en-SB"
   },
   {
     "country": "Somalia",
+    "countryUk": "Сомалі",
     "locale": "so-SO"
   },
   {
     "country": "South Africa",
+    "countryUk": "Південна Африка",
     "locale": "en-ZA"
   },
   {
     "country": "South Korea",
+    "countryUk": "Південна Корея",
     "locale": "ko-KR"
   },
   {
     "country": "South Sudan",
+    "countryUk": "Південний Судан",
     "locale": "en-SS"
   },
   {
     "country": "Spain",
+    "countryUk": "Іспанія",
     "locale": "es-ES"
   },
   {
     "country": "Sri Lanka",
+    "countryUk": "Шрі-Ланка",
     "locale": "si-LK"
   },
   {
     "country": "Sudan",
+    "countryUk": "Судан",
     "locale": "ar-SD"
   },
   {
     "country": "Suriname",
+    "countryUk": "Суринам",
     "locale": "nl-SR"
   },
   {
     "country": "Sweden",
+    "countryUk": "Швеція",
     "locale": "sv-SE"
   },
   {
     "country": "Switzerland",
+    "countryUk": "Швейцарія",
     "locale": "de-CH"
   },
   {
     "country": "Syria",
+    "countryUk": "Сирія",
     "locale": "ar-SY"
   },
   {
     "country": "Taiwan",
+    "countryUk": "Тайвань",
     "locale": "zh-TW"
   },
   {
     "country": "Tajikistan",
+    "countryUk": "Таджикистан",
     "locale": "tg-TJ"
   },
   {
     "country": "Tanzania",
+    "countryUk": "Танзанія",
     "locale": "sw-TZ"
   },
   {
     "country": "Thailand",
+    "countryUk": "Таїланд",
     "locale": "th-TH"
   },
   {
     "country": "Togo",
+    "countryUk": "Того",
     "locale": "fr-TG"
   },
   {
     "country": "Tonga",
+    "countryUk": "Тонга",
     "locale": "en-TO"
   },
   {
     "country": "Trinidad and Tobago",
+    "countryUk": "Тринідад і Тобаго",
     "locale": "en-TT"
   },
   {
     "country": "Tunisia",
+    "countryUk": "Туніс",
     "locale": "ar-TN"
   },
   {
     "country": "Turkey",
+    "countryUk": "Туреччина",
     "locale": "tr-TR"
   },
   {
     "country": "Turkmenistan",
+    "countryUk": "Туркменістан",
     "locale": "tk-TM"
   },
   {
     "country": "Tuvalu",
+    "countryUk": "Тувалу",
     "locale": "en-TV"
   },
   {
     "country": "Uganda",
+    "countryUk": "Уганда",
     "locale": "en-UG"
   },
   {
     "country": "Ukraine",
+    "countryUk": "Україна",
     "locale": "uk-UA"
   },
   {
     "country": "United Arab Emirates",
+    "countryUk": "ОАЕ",
     "locale": "ar-AE"
   },
   {
     "country": "United Kingdom",
+    "countryUk": "Велика Британія",
     "locale": "en-GB"
   },
   {
     "country": "United States",
+    "countryUk": "США",
     "locale": "en-US"
   },
   {
     "country": "Uruguay",
+    "countryUk": "Уругвай",
     "locale": "es-UY"
   },
   {
     "country": "Uzbekistan",
+    "countryUk": "Узбекистан",
     "locale": "uz-UZ"
   },
   {
     "country": "Vanuatu",
+    "countryUk": "Вануату",
     "locale": "bi-VU"
   },
   {
     "country": "Vatican City",
+    "countryUk": "Ватикан",
     "locale": "la-VA"
   },
   {
     "country": "Venezuela",
+    "countryUk": "Венесуела",
     "locale": "es-VE"
   },
   {
     "country": "Vietnam",
+    "countryUk": "В'єтнам",
     "locale": "vi-VN"
   },
   {
     "country": "Yemen",
+    "countryUk": "Ємен",
     "locale": "ar-YE"
   },
   {
     "country": "Zambia",
+    "countryUk": "Замбія",
     "locale": "en-ZM"
   },
   {
     "country": "Zimbabwe",
+    "countryUk": "Зімбабве",
     "locale": "en-ZW"
   }
 ]
