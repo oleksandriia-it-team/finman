@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { type CountryAndLocale } from '@common/records/countries.record';
 import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useState } from 'react';
 
 function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<string>[] {
   return locales.map((locale) => ({ value: locale.locale, label: locale.country }));
@@ -16,13 +16,15 @@ export function useGetLocalesDropdown(currentValue?: string) {
 
   currentValue = currentValue ?? '';
 
-  const querySearch = useRef<string>(search);
+  const [querySearch, setQuerySearch] = useState<string>(search);
 
-  if (currentValue !== search) {
-    querySearch.current = search;
-  }
+  useLayoutEffect(() => {
+    if (search !== resource.inputLabel?.label) {
+      setQuerySearch(search);
+    }
+  }, [search]);
 
-  const normalizedQuerySearch = querySearch.current.trim();
+  const normalizedQuerySearch = querySearch.trim();
 
   const resource = useOptionsResource<string>({
     currentValue: currentValue,
@@ -57,8 +59,6 @@ export function useGetLocalesDropdown(currentValue?: string) {
     ),
     labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
-
-  console.log(resource.inputLabel);
 
   return {
     ...resource,
