@@ -1,6 +1,7 @@
 import { SidebarCountriesSvg } from '@frontend/shared/svg/sidebar-countries-svg';
 import { SidebarCurrenciesSvg } from '@frontend/shared/svg/sidebar-currencies-svg';
 import type { AdminNavItem } from '@frontend/shared/models/admin-nav-item.model';
+import type { SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
 export const adminNavRoutesWindow: AdminNavItem[] = [
   {
@@ -14,3 +15,10 @@ export const adminNavRoutesWindow: AdminNavItem[] = [
     Icon: SidebarCurrenciesSvg,
   },
 ];
+
+export const adminTopNavItem: SidebarItemModel = {
+  route: '/admin/lookups',
+  name: 'Адмін панель',
+  icon: 'shield-check',
+  innerItems: [],
+};

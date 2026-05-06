@@ -32,9 +32,7 @@ export default function RegularIncomesExpensesScreen() {
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
-
-      const result = await getPayments(from, to);
-      return result;
+      return getPayments(from, to);
     },
     getTotalCountFn: async () => {
       const count = await getTotalCount();
@@ -42,6 +40,9 @@ export default function RegularIncomesExpensesScreen() {
     },
     clearCacheOnDestroy: true,
   });
+
+  const deleteErrorMessage =
+    onDelete.state === PromiseState.Error && onDelete.error ? getSafeErrorMessage(onDelete.error) : undefined;
 
   return (
     <div className="size-full overflow-hidden flex flex-col pb-8 relative">
@@ -53,7 +54,7 @@ export default function RegularIncomesExpensesScreen() {
         <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
           <FinListScreenHandler
             state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
+            errorMessage={errorMessage ?? deleteErrorMessage}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="h-72"

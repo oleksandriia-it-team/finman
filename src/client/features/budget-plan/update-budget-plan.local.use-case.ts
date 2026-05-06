@@ -2,13 +2,13 @@ import { getNewAndDeletedRecords } from '@common/utils/get-new-and-deleted-recor
 import { type ITransactionManager, TransactionalUseCase } from '@common/models/transaction-manager.model';
 import type { ICrudService } from '@common/models/crud-service.model';
 import type { MonthEntry } from '@common/records/month-entry.record';
-import type { UpdateBudgetPlanModel } from '@common/domains/budget-plan/budget-plan.schema';
+import type { UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { AppError } from '@common/classes/app-error.class';
 
-export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanModel, true> {
+export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: BudgetPlanLocalRepository,
@@ -17,7 +17,7 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanModel): Promise<true> {
+  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<true> {
     const date = getCurrentMonthDate();
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 

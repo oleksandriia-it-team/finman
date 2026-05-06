@@ -1,13 +1,13 @@
+'use client';
 import { UiSidebarProvider } from '@frontend/ui/ui-sidebar/ui-sidebar-provider';
-import { FinSidebarContent } from '@frontend/components/sidebar-content/fin-sidebar-content';
 import { UiSidebarHeader } from '@frontend/ui/ui-sidebar/ui-sidebar-header';
 import { UiSidebarHeaderTitle } from '@frontend/ui/ui-sidebar/ui-sidebar-header-title';
 import { UiSidebar } from '@frontend/ui/ui-sidebar/ui-sidebar';
 import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
 import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
-import { profileNavRoutesWindow } from '@frontend/widgets/shared/profile-routes.constant';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
+import { ProfileSidebarContent } from './profile-sidebar-content';
 
 export function ProfileSidebar() {
   return (
@@ -33,7 +33,7 @@ export function ProfileSidebar() {
 
         <UiSidebarSeparator />
 
-        <FinSidebarContent routes={profileNavRoutesWindow} />
+        <ProfileSidebarContent />
       </UiSidebar>
     </UiSidebarProvider>
   );
