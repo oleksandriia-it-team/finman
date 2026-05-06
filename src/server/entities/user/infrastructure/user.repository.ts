@@ -21,8 +21,7 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     });
   }
 
-  async findUserForLogin(loginRaw: string): Promise<UserOrm | null> {
-    const login = loginRaw.trim().toLowerCase();
+  async findUserForLogin(login: string): Promise<UserOrm | null> {
     return await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
