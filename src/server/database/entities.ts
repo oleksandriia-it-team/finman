@@ -5,6 +5,7 @@ import { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/
 import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 import { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { MonthEntryOrm } from '@backend/entities/month-entry/infrastructure/month-entry.orm';
+import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
 
 export const Entities = [
   UserOrm,
@@ -14,4 +15,5 @@ export const Entities = [
   TrackingOperationOrm,
   BudgetPlanOrm,
   MonthEntryOrm,
+  RecoveryCodeOrm,
 ];
