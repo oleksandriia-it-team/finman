@@ -6,6 +6,12 @@ export class AddCountryUkName1777800000000 implements MigrationInterface {
       ALTER TABLE "country"
       ADD COLUMN "countryUk" varchar(40) NOT NULL DEFAULT ''
     `);
+
+    await queryRunner.query(`
+      UPDATE "country"
+      SET "countryUk" = "country"
+      WHERE "countryUk" = ''
+    `);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

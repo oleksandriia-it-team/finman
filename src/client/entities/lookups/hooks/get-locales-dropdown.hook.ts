@@ -18,12 +18,6 @@ export function useGetLocalesDropdown(currentValue?: string) {
 
   const [querySearch, setQuerySearch] = useState<string>(search);
 
-  useLayoutEffect(() => {
-    if (search !== resource.inputLabel?.label) {
-      setQuerySearch(search);
-    }
-  }, [search]);
-
   const normalizedQuerySearch = querySearch.trim();
 
   const resource = useOptionsResource<string>({
@@ -59,6 +53,12 @@ export function useGetLocalesDropdown(currentValue?: string) {
     ),
     labelQueryKey: ['get locale multiple label', currentValue.trim()],
   });
+
+  useLayoutEffect(() => {
+    if (search !== resource.inputLabel?.label) {
+      setQuerySearch(search);
+    }
+  }, [resource.inputLabel?.label, search]);
 
   return {
     ...resource,

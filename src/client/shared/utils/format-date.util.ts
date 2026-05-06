@@ -12,12 +12,20 @@ const DateFnsLocales: Record<SupportLanguages, Locale> = {
 };
 
 function getDateOrder(regionLocale: string): DateOrder {
-  const parts = new Intl.DateTimeFormat(regionLocale, {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  }).formatToParts(new Date(2024, 0, 20));
-
+  let parts: Intl.DateTimeFormatPart[];
+  try {
+    parts = new Intl.DateTimeFormat(regionLocale, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    }).formatToParts(new Date(2024, 0, 20));
+  } catch {
+    parts = new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    }).formatToParts(new Date(2024, 0, 20));
+  }
   const dayIndex = parts.findIndex((p) => p.type === 'day');
   const monthIndex = parts.findIndex((p) => p.type === 'month');
   const yearIndex = parts.findIndex((p) => p.type === 'year');
