@@ -36,6 +36,9 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     {
       successMessage: 'Реєстрація успішна!',
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
+      onSettled: () => {
+        isSubmittingRef.current = false;
+      },
     },
   );
 
@@ -60,30 +63,26 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     if (isSubmittingRef.current) return;
     isSubmittingRef.current = true;
 
-    resolveLocale()
-      .then((locale) => {
-        const apiData = { ...data, locale } as SignUpFormInput;
-        delete apiData.workMode;
-        delete apiData.passwordConfirm;
+    resolveLocale().then((locale) => {
+      const apiData = { ...data, locale } as SignUpFormInput;
+      delete apiData.workMode;
+      delete apiData.passwordConfirm;
 
-        if (workMode === WorkMode.Offline) {
-          try {
-            setUserInformation({ ...apiData, locale, language: 'uk', online: false });
-            onSuccessAction();
-          } catch (e) {
-            logOut();
-            console.error('Offline save failed:', e);
-          } finally {
-            isSubmittingRef.current = false;
-          }
-          return;
+      if (workMode === WorkMode.Offline) {
+        try {
+          setUserInformation({ ...apiData, locale, language: 'uk', online: false });
+          onSuccessAction();
+        } catch (e) {
+          logOut();
+          console.error('Offline save failed:', e);
+        } finally {
+          isSubmittingRef.current = false;
         }
+        return;
+      }
 
-        mutate(apiData as RegisterDto);
-      })
-      .finally(() => {
-        isSubmittingRef.current = false;
-      });
+      mutate(apiData as RegisterDto);
+    });
   });
 
   return { methods, submit, isLoading: isPending };
