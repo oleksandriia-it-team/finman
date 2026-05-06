@@ -15,7 +15,7 @@ export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHea
           isRoundedFull
           icon="search"
           bgNone={true}
-          variant="muted-foreground"
+          variant="muted"
           size="xl"
           borderNone={true}
         />
@@ -24,7 +24,7 @@ export function TrackingOperationHeader({ onFiltersApply }: TrackingOperationHea
             isRoundedFull
             icon="sliders2"
             bgNone={true}
-            variant="muted-foreground"
+            variant="muted"
             size="xl"
             borderNone={true}
           />

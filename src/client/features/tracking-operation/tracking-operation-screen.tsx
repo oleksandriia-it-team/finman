@@ -17,10 +17,10 @@ import { useTrackingOperations } from '@frontend/features/tracking-operation/tra
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
-import { TypeEntryFilter } from '@common/enums/entry.enum';
+import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 
 export function TrackingOperationScreen() {
@@ -30,7 +30,9 @@ export function TrackingOperationScreen() {
   const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
   const combinedFilters = {
     ...filters,
-    type: typeFilter === TypeEntryFilter.All ? undefined : typeFilter,
+    type: (typeFilter === TypeEntryFilter.All ? undefined : typeFilter) as unknown as
+      | TypeEntry.Expense
+      | TypeEntry.Income,
   };
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
@@ -41,13 +43,14 @@ export function TrackingOperationScreen() {
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    queryKey: ['tracking-operations', combinedFilters],
-    getOptionsFn: async (page, pageSize) => {
+    filters: combinedFilters,
+    queryKey: ['tracking-operations'],
+    getOptionsFn: async (page, pageSize, filters) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
-      return await getOperations(from, to, combinedFilters);
+      return await getOperations(from, to, filters);
     },
-    getTotalCountFn: async () => {
-      return await getTotalCount(combinedFilters);
+    getTotalCountFn: async (filters) => {
+      return await getTotalCount(filters);
     },
     clearCacheOnDestroy: true,
   });
@@ -70,16 +73,14 @@ export function TrackingOperationScreen() {
               skeletonClassName="h-72"
             >
               {options.map((item, index) => {
-                const currentDate = format(parseISO(item.date), 'yyyy-MM-dd');
-                const prevDate = index > 0 ? format(parseISO(options[index - 1].date), 'yyyy-MM-dd') : null;
+                const currentDate = format(item.date, 'yyyy-MM-dd');
+                const prevDate = index > 0 ? format(options[index - 1].date, 'yyyy-MM-dd') : null;
 
                 const showSeparator = currentDate !== prevDate;
 
                 return (
                   <div key={item.id ?? index}>
-                    {showSeparator && (
-                      <UiDateSeparator date={format(parseISO(item.date), 'd MMMM yyyy', { locale: uk })} />
-                    )}
+                    {showSeparator && <UiDateSeparator date={format(item.date, 'd MMMM yyyy', { locale: uk })} />}
                     <TransactionCard
                       handleDelete={(id) => onDelete.mutate(id)}
                       {...item}

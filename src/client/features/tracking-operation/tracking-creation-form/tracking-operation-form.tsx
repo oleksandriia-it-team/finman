@@ -10,11 +10,14 @@ import { useTrackingOperationForm } from '@frontend/features/tracking-operation/
 import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/form-side-block';
 import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/props/tracking-operations-form-props';
 import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
+import { useMemo } from 'react';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
   const { methods, submit, isEdit } = useTrackingOperationForm(initialData, onSuccess);
 
   const selectedType = methods.watch('type');
+
+  const now = useMemo(() => new Date(), []);
 
   return (
     <div className="flex flex-row size-full">
@@ -36,6 +39,7 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
             <FinControlledDatepicker
               mode={'single'}
               name="date"
+              maxDate={now}
               label="Дата операції"
             />
           </CardsFormTemplateInputs>

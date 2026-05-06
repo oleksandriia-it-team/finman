@@ -9,6 +9,7 @@ import type {
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import { parseISO } from 'date-fns';
 
 export class TrackingOperationsApiClient implements ITrackingOperationRepository {
   async getItems(
@@ -20,13 +21,24 @@ export class TrackingOperationsApiClient implements ITrackingOperationRepository
       .post<
         ApiResultOperationSuccess<TrackingOperationRecord[]>
       >('/api/tracking-operation/get-items', { from, to, filters })
-      .then((r) => r.data);
+      .then((r) => {
+        return r.data.map((data) => {
+          data.date = parseISO(data.date as unknown as string);
+
+          return data;
+        });
+      });
   }
 
   async getItemById(id: number): Promise<TrackingOperationRecord | null> {
     return fetchClient
       .get<ApiResultOperationSuccess<TrackingOperationRecord>>(`/api/tracking-operation/get-by-id/${id}`)
-      .then((r) => r.data);
+      .then((r) => {
+        const data = r.data;
+        data.date = parseISO(data.date as unknown as string);
+
+        return data;
+      });
   }
 
   async getTotalCount(filters?: DeepPartial<TrackingOperationFilter>): Promise<number> {

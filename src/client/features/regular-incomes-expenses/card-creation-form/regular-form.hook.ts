@@ -30,7 +30,6 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         const { ...entryData } = data;
 
         if (isEdit && initialData) {
-          console.log(entryData);
           await handleUpdate(initialData.id, {
             ...entryData,
             description: entryData.description ?? '',

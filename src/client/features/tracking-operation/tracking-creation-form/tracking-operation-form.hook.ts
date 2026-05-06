@@ -3,8 +3,8 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  TrackingOperationFormSchema,
   type TrackingOperationFormData,
+  TrackingOperationFormSchema,
 } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import { TypeEntry } from '@common/enums/entry.enum';
@@ -29,7 +29,6 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
   const submit = methods.handleSubmit(async (data) => {
     try {
       if (isEdit && initialData) {
-        console.log(data);
         await handleUpdate(initialData.id, {
           ...data,
           id: initialData.id,
