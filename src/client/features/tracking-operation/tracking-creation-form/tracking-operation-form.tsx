@@ -37,6 +37,7 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
           />
           <CardsFormTemplateInputs>
             <FinControlledDatepicker
+              clearable={false}
               mode={'single'}
               name="date"
               maxDate={now}

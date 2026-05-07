@@ -82,8 +82,8 @@ export function FiltersSheet({ children }: ChildrenComponentProps) {
                 cancelButtonLabel="Скинути"
                 onCancel={() =>
                   methods.reset({
-                    dateFrom: undefined,
-                    dateTo: undefined,
+                    dateFrom: null as never,
+                    dateTo: null as never,
                     category: undefined,
                     type: undefined,
                     search: '',

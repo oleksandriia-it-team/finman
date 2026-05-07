@@ -94,6 +94,7 @@ export function FinDatepicker({
     <UiPopover
       open={open}
       onOpenChange={handleOpenChange}
+      modal={false}
     >
       <UiPopoverTrigger asChild>
         <UiInputGroup
@@ -123,7 +124,7 @@ export function FinDatepicker({
                 type="button"
                 className="cursor-pointer"
                 onClick={(e) => {
-                  onSelect(undefined);
+                  onSelect(null);
                   e.stopPropagation();
                 }}
               >
@@ -144,7 +145,7 @@ export function FinDatepicker({
       >
         <UiCalendar
           className={calendarClassName ?? ''}
-          required
+          required={false}
           formatters={{
             formatWeekdayName: (weekDay) => WeekTitles[weekDay.getDay()],
             formatMonthCaption: (month) =>

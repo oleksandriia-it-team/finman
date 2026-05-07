@@ -21,8 +21,8 @@ function useFiltersHookLogic() {
   const methods = useForm<TrackingOperationFilterFormData>({
     resolver: zodResolver(filterSchema) as never,
     defaultValues: {
-      dateFrom: undefined,
-      dateTo: undefined,
+      dateFrom: null as never,
+      dateTo: null as never,
       category: undefined,
       type: undefined,
       search: '',
