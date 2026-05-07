@@ -16,9 +16,22 @@ import { TrackingOperationDatepicker } from '@frontend/features/tracking-operati
 import { UiResponsiveDialogFooter } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-footer';
 import { useFiltersHook } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/use-filters.hook';
 import type { FiltersSheetProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filter-sheet.props';
+import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
+import { useEffect, useState } from 'react';
 
 export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
-  const { methods, handleApplyFilters } = useFiltersHook({ onApply } as never);
+  const { getMaxItem } = useTrackingOperations();
+  const [maxItem, setMaxItem] = useState(100000);
+  const { methods, handleApplyFilters } = useFiltersHook({ onApply } as never, maxItem);
+
+  useEffect(() => {
+    getMaxItem().then((res) => {
+      if (res) {
+        setMaxItem(res);
+        methods.setValue('maxSum', res);
+      }
+    });
+  }, [getMaxItem, methods]);
 
   return (
     <FormProvider {...methods}>
@@ -50,7 +63,10 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
 
             <UiSeparator className="w-full" />
 
-            <SumFilter className="flex-1" />
+            <SumFilter
+              maxItem={maxItem}
+              className="flex-1"
+            />
 
             <UiResponsiveDialogFooter>
               <CardsFormTemplateActions
@@ -64,7 +80,7 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
                     search: '',
                     softDeleted: 0,
                     minSum: 0,
-                    maxSum: 50000,
+                    maxSum: maxItem,
                   })
                 }
               />

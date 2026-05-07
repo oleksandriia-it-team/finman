@@ -13,7 +13,7 @@ export interface UseFiltersHookOptions {
   onApply?: (filters: TrackingOperationFilter) => Promise<void> | void;
 }
 
-export function useFiltersHook(options?: UseFiltersHookOptions) {
+export function useFiltersHook(options?: UseFiltersHookOptions, maxItem?: number) {
   const showToast = useGlobalToast((state) => state.showToast);
   const methods = useForm<TrackingOperationFilterFormData>({
     resolver: zodResolver(filterSchema) as never,
@@ -25,7 +25,7 @@ export function useFiltersHook(options?: UseFiltersHookOptions) {
       search: '',
       softDeleted: 0,
       minSum: 0,
-      maxSum: 50000,
+      maxSum: maxItem,
     },
   });
 

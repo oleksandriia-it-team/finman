@@ -31,9 +31,10 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
         trigger={
           <UiActionButton
             icon="trash-fill"
-            variant="destructive"
+            variant="destructive-muted"
             iconVariant="destructive"
             size="sm"
+            className="opacity-100!"
           >
             <UiTitle>Видалити</UiTitle>
             <UiDescription>Назавжди видалити транзакцію</UiDescription>

@@ -54,6 +54,10 @@ function useTrackingOperationsLogic() {
     });
   };
 
+  const getMaxItem = (id?: number): Promise<number> => {
+    return trackingOperationService.getMaxSum(id);
+  };
+
   return {
     getOperations,
     getTotalCount,
@@ -62,6 +66,7 @@ function useTrackingOperationsLogic() {
     handleUpdate,
     getById,
     getStatistic,
+    getMaxItem,
   };
 }
 

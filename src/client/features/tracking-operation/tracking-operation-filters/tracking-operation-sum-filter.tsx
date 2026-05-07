@@ -2,19 +2,19 @@
 
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { cn } from '@frontend/shared/utils/cn.util';
-import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
+import type { SumFiltersProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
 import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constant';
 import { UiSlider } from '@frontend/ui/ui-slider/ui-slider';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { UiFieldsWithDivider } from '@frontend/ui/ui-fields-with-divider/ui-fields-with-divider';
 
-export function SumFilter({ className }: FiltersDefaultProps) {
+export function SumFilter({ className, maxItem }: SumFiltersProps) {
   const classes = cn('size-full flex flex-col gap-3', className);
 
   const { control, setValue } = useFormContext();
 
   const minValue = useWatch({ control, name: 'minSum' }) ?? 0;
-  const maxValue = useWatch({ control, name: 'maxSum' }) ?? 50000;
+  const maxValue = useWatch({ control, name: 'maxSum' }) ?? maxItem;
 
   const handleSliderChange = (values: number[]) => {
     const [min, max] = values;
@@ -49,7 +49,7 @@ export function SumFilter({ className }: FiltersDefaultProps) {
       <UiSlider
         value={[minValue, maxValue]}
         min={0}
-        max={50000}
+        max={maxItem ?? 0}
         step={5}
         onValueChange={handleSliderChange}
       />
