@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -19,7 +18,6 @@ import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separato
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
-import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import {
@@ -34,15 +32,7 @@ export function TrackingOperationScreen() {
 
   const pageSize = 10;
   const { getOperations, handleDelete } = useTrackingOperations();
-  const { filters } = useTrackingOperationFilters();
-  const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
-
-  const combinedFilters = {
-    ...filters,
-    type: (typeFilter === TypeEntryFilter.All ? undefined : typeFilter) as unknown as
-      | TypeEntry.Expense
-      | TypeEntry.Income,
-  };
+  const { filters, typeFilter, setTypeFilter } = useTrackingOperationFilters();
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
     onSuccess: () => reload(),
@@ -55,7 +45,7 @@ export function TrackingOperationScreen() {
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
-    filters: combinedFilters,
+    filters: filters,
     queryKey: ['tracking-operations'],
     getOptionsFn: async (page, pageSize, filters) => {
       const { from, to } = calculateFromAndTo(page, pageSize);

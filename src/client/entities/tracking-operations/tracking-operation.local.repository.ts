@@ -95,7 +95,9 @@ export class TrackingOperationLocalRepository
   }
 
   async getStatistic(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetTrackingOperationStatisticResponse> {
-    const predicateFns = this.mapFilters(filters);
+    const predicateFns = this.mapFilters({ ...filters, type: undefined });
+
+    console.log(predicateFns);
 
     const items = await this.table
       .filter((item: TrackingOperationRecord) => predicateFns.every((fn) => fn(item)))

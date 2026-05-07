@@ -10,9 +10,12 @@ import {
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import { useMemo, useState } from 'react';
 import constate from 'constate';
+import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 
 function useFiltersHookLogic() {
   const [filters, setFilters] = useState<Partial<TrackingOperationFilter>>({});
+
+  const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
 
   const showToast = useGlobalToast((state) => state.showToast);
   const methods = useForm<TrackingOperationFilterFormData>({
@@ -65,9 +68,19 @@ function useFiltersHookLogic() {
     },
   );
 
-  const filtersJSON = useMemo(() => JSON.stringify(filters), [filters]);
+  const combinedFilters = useMemo(
+    () => ({
+      ...filters,
+      type: (typeFilter === TypeEntryFilter.All ? undefined : typeFilter) as unknown as
+        | TypeEntry.Expense
+        | TypeEntry.Income,
+    }),
+    [filters, typeFilter],
+  );
 
-  return { methods, filters, handleApplyFilters, filtersJSON };
+  const filtersJSON = useMemo(() => JSON.stringify(combinedFilters), [combinedFilters]);
+
+  return { methods, filters: combinedFilters, handleApplyFilters, filtersJSON, typeFilter, setTypeFilter };
 }
 
 export const [TrackingOperationFiltersProvider, useTrackingOperationFilters] = constate(useFiltersHookLogic);
