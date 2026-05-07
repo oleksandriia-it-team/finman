@@ -6,7 +6,7 @@ import type { TrackingOperationFilter } from '@common/domains/tracking-operation
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import { trackingOperationService } from '../../tracking-operation.service';
-import type { GetTrackingOperationStatisticResponse } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
+import type { GetBasicInformationResponse } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 
 function useTrackingOperationsLogic() {
   const getOperations = (
@@ -20,13 +20,13 @@ function useTrackingOperationsLogic() {
     });
   };
 
-  const getTotalCount = (filters?: DeepPartial<TrackingOperationFilter>): Promise<number> => {
-    return trackingOperationService
-      .getTotalCount({
-        softDeleted: 0,
-        ...filters,
-      })
-      .then((count) => count ?? 0);
+  const getBasicInformation = (
+    filters?: DeepPartial<TrackingOperationFilter>,
+  ): Promise<GetBasicInformationResponse> => {
+    return trackingOperationService.getBasicInformation({
+      softDeleted: 0,
+      ...filters,
+    });
   };
 
   const handleCreate = (dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> => {
@@ -45,28 +45,13 @@ function useTrackingOperationsLogic() {
     return trackingOperationService.getItemById(id);
   };
 
-  const getStatistic = (
-    filters?: DeepPartial<TrackingOperationFilter>,
-  ): Promise<GetTrackingOperationStatisticResponse> => {
-    return trackingOperationService.getStatistic({
-      dateFrom: filters?.dateFrom as Date | undefined,
-      dateTo: filters?.dateTo as Date | undefined,
-    });
-  };
-
-  const getMaxItem = (id?: number): Promise<number> => {
-    return trackingOperationService.getMaxSum(id);
-  };
-
   return {
     getOperations,
-    getTotalCount,
+    getBasicInformation,
     handleCreate,
     handleDelete,
     handleUpdate,
     getById,
-    getStatistic,
-    getMaxItem,
   };
 }
 

@@ -8,12 +8,12 @@ import {
   type TrackingOperationFilterFormData,
 } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
+import { useMemo, useState } from 'react';
+import constate from 'constate';
 
-export interface UseFiltersHookOptions {
-  onApply?: (filters: TrackingOperationFilter) => Promise<void> | void;
-}
+function useFiltersHookLogic() {
+  const [filters, setFilters] = useState<Partial<TrackingOperationFilter>>({});
 
-export function useFiltersHook(options?: UseFiltersHookOptions, maxItem?: number) {
   const showToast = useGlobalToast((state) => state.showToast);
   const methods = useForm<TrackingOperationFilterFormData>({
     resolver: zodResolver(filterSchema) as never,
@@ -25,7 +25,7 @@ export function useFiltersHook(options?: UseFiltersHookOptions, maxItem?: number
       search: '',
       softDeleted: 0,
       minSum: 0,
-      maxSum: maxItem,
+      maxSum: 50000,
     },
   });
 
@@ -39,7 +39,7 @@ export function useFiltersHook(options?: UseFiltersHookOptions, maxItem?: number
           }),
         ) as TrackingOperationFilter;
 
-        await options?.onApply?.(cleanFilters);
+        setFilters(cleanFilters);
 
         showToast({
           title: 'Успішно',
@@ -65,5 +65,9 @@ export function useFiltersHook(options?: UseFiltersHookOptions, maxItem?: number
     },
   );
 
-  return { methods, handleApplyFilters };
+  const filtersJSON = useMemo(() => JSON.stringify(filters), [filters]);
+
+  return { methods, filters, handleApplyFilters, filtersJSON };
 }
+
+export const [TrackingOperationFiltersProvider, useTrackingOperationFilters] = constate(useFiltersHookLogic);

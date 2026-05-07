@@ -2,13 +2,20 @@
 
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiSheet } from '@frontend/ui/ui-sheet/ui-sheet';
-import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
+import type { ResponsiveDialogProps } from '@frontend/ui/ui-responsive-dialog/props/responsive-dialog.props';
 
-export function UiResponsiveDialog({ children }: ChildrenComponentProps) {
+export function UiResponsiveDialog({ children, open, openChange }: ResponsiveDialogProps) {
   const isMobile = useIsMobile();
 
   const Dialog = isMobile ? UiSheet : UiModal;
 
-  return <Dialog>{children}</Dialog>;
+  return (
+    <Dialog
+      open={open as never}
+      onOpenChange={openChange as never}
+    >
+      {children}
+    </Dialog>
+  );
 }

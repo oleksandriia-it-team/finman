@@ -3,14 +3,13 @@ import { authTokenService } from '@frontend/shared/services/user-information/aut
 import { trackingOperationLocalRepository } from '@frontend/entities/tracking-operations/tracking-operation.local.repository';
 import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
 import type {
-  GetTrackingOperationStatisticResponse,
+  GetBasicInformationResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
-import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 
 export class TrackingOperationDataSource implements ITrackingOperationRepository {
   constructor(
@@ -51,18 +50,8 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
     return this.source.deleteItem(id);
   }
 
-  getTotalCount(filters?: DeepPartial<TrackingOperationFilter>): Promise<number> {
-    return this.source.getTotalCount(filters);
-  }
-
-  getStatistic(
-    input: TrackingOperationStatisticDto & { userId?: number },
-  ): Promise<GetTrackingOperationStatisticResponse> {
-    return this.source.getStatistic(input);
-  }
-
-  getMaxSum(userId?: number): Promise<number> {
-    return this.source.getMaxSum(userId);
+  getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
+    return this.source.getBasicInformation(filters);
   }
 }
 

@@ -1,11 +1,10 @@
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
-import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 import type {
-  GetTrackingOperationStatisticResponse,
+  GetBasicInformationResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
@@ -41,12 +40,6 @@ export class TrackingOperationsApiClient implements ITrackingOperationRepository
       });
   }
 
-  async getTotalCount(filters?: DeepPartial<TrackingOperationFilter>): Promise<number> {
-    return fetchClient
-      .post<ApiResultOperationSuccess<number>>('/api/tracking-operation/get-total-items', { filters })
-      .then((r) => r.data);
-  }
-
   async createItem(data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> {
     return fetchClient
       .post<ApiResultOperationSuccess<number>>('/api/tracking-operation/create', data)
@@ -65,17 +58,11 @@ export class TrackingOperationsApiClient implements ITrackingOperationRepository
       .then((r) => r.data);
   }
 
-  async getStatistic(input: TrackingOperationStatisticDto): Promise<GetTrackingOperationStatisticResponse> {
+  async getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
     return fetchClient
       .post<
-        ApiResultOperationSuccess<GetTrackingOperationStatisticResponse>
-      >('/api/tracking-operation/get-statistic', input)
-      .then((r) => r.data);
-  }
-
-  async getMaxSum(): Promise<number> {
-    return fetchClient
-      .get<ApiResultOperationSuccess<number>>('/api/tracking-operation/get-max-sum')
+        ApiResultOperationSuccess<GetBasicInformationResponse>
+      >('/api/tracking-operation/get-basic-information', filters ?? {})
       .then((r) => r.data);
   }
 }

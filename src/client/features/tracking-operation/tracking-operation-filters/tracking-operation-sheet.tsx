@@ -14,28 +14,34 @@ import { UiResponsiveDialogTitle } from '@frontend/ui/ui-responsive-dialog/ui-re
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
 import { TrackingOperationDatepicker } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-datepicker';
 import { UiResponsiveDialogFooter } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-footer';
-import { useFiltersHook } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/use-filters.hook';
-import type { FiltersSheetProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filter-sheet.props';
-import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
-import { useEffect, useState } from 'react';
+import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
+import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
+import { useEffect, useMemo, useState } from 'react';
+import { useGetBasicTrackingInformation } from './tracking-operation-hooks/get-tracking-op-information.hook';
 
-export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
-  const { getMaxItem } = useTrackingOperations();
-  const [maxItem, setMaxItem] = useState(100000);
-  const { methods, handleApplyFilters } = useFiltersHook({ onApply } as never, maxItem);
+export function FiltersSheet({ children }: ChildrenComponentProps) {
+  const { methods, handleApplyFilters } = useTrackingOperationFilters();
+
+  const [open, setOpen] = useState(false);
+
+  const { data } = useGetBasicTrackingInformation();
+
+  const maxSum = useMemo(() => Math.max(data?.maxSum ?? 50000, 50000), [data]);
+
+  const maxSumInFilters = methods.watch('maxSum') ?? 0;
 
   useEffect(() => {
-    getMaxItem().then((res) => {
-      if (res) {
-        setMaxItem(res);
-        methods.setValue('maxSum', res);
-      }
-    });
-  }, [getMaxItem, methods]);
+    if (maxSum < maxSumInFilters) {
+      methods.setValue('maxSum', maxSum);
+    }
+  }, [maxSum, maxSumInFilters, methods]);
 
   return (
     <FormProvider {...methods}>
-      <UiResponsiveDialog>
+      <UiResponsiveDialog
+        open={open}
+        openChange={setOpen}
+      >
         <UiResponsiveDialogTrigger
           asChild
           className="size-full"
@@ -48,7 +54,10 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
             <UiResponsiveDialogClose />
           </UiResponsiveDialogHeader>
           <form
-            onSubmit={handleApplyFilters}
+            onSubmit={(e) => {
+              handleApplyFilters(e);
+              setOpen(false);
+            }}
             className="flex flex-col size-full gap-3"
           >
             <PeriodFilters className="flex-1" />
@@ -64,7 +73,7 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
             <UiSeparator className="w-full" />
 
             <SumFilter
-              maxItem={maxItem}
+              maxItem={maxSum}
               className="flex-1"
             />
 
@@ -80,7 +89,7 @@ export function FiltersSheet({ children, onApply }: FiltersSheetProps) {
                     search: '',
                     softDeleted: 0,
                     minSum: 0,
-                    maxSum: maxItem,
+                    maxSum: maxSum,
                   })
                 }
               />

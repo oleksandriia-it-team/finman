@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -22,19 +21,20 @@ import { uk } from 'date-fns/locale/uk';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
-import { useQuery } from '@tanstack/react-query';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import {
   TrackingOperationsStatisticDesktop,
   TrackingOperationsStatisticMobile,
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
+import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
+import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
 
   const pageSize = 10;
-  const { getOperations, getTotalCount, handleDelete, getStatistic } = useTrackingOperations();
-  const [filters, setFilters] = useState<TrackingOperationFilter>({});
+  const { getOperations, handleDelete } = useTrackingOperations();
+  const { filters } = useTrackingOperationFilters();
   const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
 
   const combinedFilters = {
@@ -50,10 +50,8 @@ export function TrackingOperationScreen() {
 
   const router = useRouter();
 
-  const { data } = useQuery({
-    queryKey: ['tracking-operations', 'statistic', combinedFilters],
-    queryFn: () => getStatistic({ dateFrom: combinedFilters.dateFrom, dateTo: combinedFilters.dateTo }),
-  });
+  // TODO: add using status from here in FinListScreenHandler
+  const { data: basicInformation } = useGetBasicTrackingInformation();
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
@@ -63,20 +61,18 @@ export function TrackingOperationScreen() {
       const { from, to } = calculateFromAndTo(page, pageSize);
       return await getOperations(from, to, filters);
     },
-    getTotalCountFn: async (filters) => {
-      return await getTotalCount(filters);
-    },
+    getTotalCountFn: () => Promise.resolve(0),
     clearCacheOnDestroy: true,
   });
 
   return (
     <div className="size-full overflow-hidden flex flex-col">
-      <TrackingOperationHeader onFiltersApply={setFilters} />
+      <TrackingOperationHeader />
       {!isMobile && (
         <div className="p-4">
           <TrackingOperationsStatisticDesktop
-            income={data?.totalIncomes ?? 0}
-            expense={data?.totalOutcomes ?? 0}
+            income={basicInformation?.totalIncomes ?? 0}
+            expense={basicInformation?.totalOutcomes ?? 0}
           />
         </div>
       )}
@@ -98,8 +94,8 @@ export function TrackingOperationScreen() {
               {isMobile && (
                 <div className="col-span-full">
                   <TrackingOperationsStatisticMobile
-                    income={data?.totalIncomes ?? 0}
-                    expense={data?.totalOutcomes ?? 0}
+                    income={basicInformation?.totalIncomes ?? 0}
+                    expense={basicInformation?.totalOutcomes ?? 0}
                   />
                 </div>
               )}
@@ -133,6 +129,7 @@ export function TrackingOperationScreen() {
         <FinPagination
           className="pt-3"
           {...paginationRestProps}
+          totalCount={basicInformation?.totalCount ?? 0}
           pageSize={pageSize}
         />
         <div className="fixed bottom-6 right-6">

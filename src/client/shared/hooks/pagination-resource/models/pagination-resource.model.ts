@@ -8,6 +8,7 @@ export interface PaginationResourceConfig<T, F extends object> {
   filters?: F;
   pageSize: number;
   clearCacheOnDestroy?: boolean;
+  filtersJSON?: string;
 }
 
 export interface PaginationResource<T> {

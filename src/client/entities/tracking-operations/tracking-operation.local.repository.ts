@@ -7,10 +7,10 @@ import type { TrackingOperationFilter } from '@common/domains/tracking-operation
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
+  GetBasicInformationResponse,
   GetTrackingOperationStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
-import type { TrackingOperationStatisticDto } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { TypeEntry } from '@common/enums/entry.enum';
 
 export class TrackingOperationLocalRepository
@@ -85,22 +85,20 @@ export class TrackingOperationLocalRepository
     return super.getItems(from, to, filters, { name: 'date', sort: 'DESC' });
   }
 
-  async getMaxSum(): Promise<number> {
-    const all = await this.table.filter((item: TrackingOperationRecord) => !item.softDeleted).toArray();
+  async getMaxSum(filters?: DeepPartial<TrackingOperationFilter>): Promise<number> {
+    const predicateFns = this.mapFilters(filters);
+
+    const all = await this.table
+      .filter((item: TrackingOperationRecord) => predicateFns.every((fn) => fn(item)))
+      .toArray();
     return all.reduce((max: number, item: TrackingOperationRecord) => Math.max(max, item.sum), 0);
   }
 
-  async getStatistic(input: TrackingOperationStatisticDto): Promise<GetTrackingOperationStatisticResponse> {
-    const { dateFrom, dateTo } = input;
+  async getStatistic(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetTrackingOperationStatisticResponse> {
+    const predicateFns = this.mapFilters(filters);
 
     const items = await this.table
-      .filter((item: TrackingOperationRecord) => {
-        if (item.softDeleted) return false;
-        const date = new Date(item.date);
-        if (dateFrom && date < dateFrom) return false;
-        if (dateTo && date > dateTo) return false;
-        return true;
-      })
+      .filter((item: TrackingOperationRecord) => predicateFns.every((fn) => fn(item)))
       .toArray();
 
     return items.reduce(
@@ -114,6 +112,18 @@ export class TrackingOperationLocalRepository
       },
       { totalIncomes: 0, totalOutcomes: 0 },
     );
+  }
+
+  async getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
+    const statistic = await this.getStatistic(filters);
+    const maxSum = await this.getMaxSum(filters);
+    const totalCount = await this.getTotalCount(filters);
+
+    return {
+      ...statistic,
+      maxSum,
+      totalCount,
+    };
   }
 }
 

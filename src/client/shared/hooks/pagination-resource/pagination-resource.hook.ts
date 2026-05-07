@@ -15,9 +15,13 @@ export function usePaginationResource<T, F extends object>({
   pageSize,
   filters,
   clearCacheOnDestroy,
+  filtersJSON,
 }: PaginationResourceConfig<T, F>): PaginationResource<T> {
   const [selectedPage, setPage] = useState<number>(1);
-  const filtersKey = useMemo(() => JSON.stringify(filters ?? null), [filters]);
+  const filtersKey = useMemo(
+    () => (filtersJSON ? filtersJSON : JSON.stringify(filters ?? null)),
+    [filtersJSON, filters],
+  );
 
   const getOptionsQuery = useQuery({
     queryKey: [...queryKey, 'options', String(selectedPage), String(pageSize), filtersKey],
