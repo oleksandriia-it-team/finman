@@ -6,6 +6,7 @@ import { TrackingOperationForm } from '@frontend/features/tracking-operation/tra
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinFormScreenHandler } from '@frontend/components/screen-handlers/fin-form-screen-handler';
 import { useQueryClient } from '@tanstack/react-query';
+import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 
 export default function EditCardForm(props: PageProps<never>) {
   useHidePlusButton();
@@ -24,7 +25,7 @@ export default function EditCardForm(props: PageProps<never>) {
             initialData={regularEntry}
             onCancel={() => router.back()}
             onSuccess={() => {
-              queryClient.invalidateQueries({ queryKey: ['tracking-operations'] });
+              queryClient.invalidateQueries({ queryKey: [TrackingOperationQueryKey] });
               router.back();
             }}
           />

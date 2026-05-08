@@ -26,6 +26,7 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
+import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -46,7 +47,7 @@ export function TrackingOperationScreen() {
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
     filters: filters,
-    queryKey: ['tracking-operations'],
+    queryKey: [TrackingOperationQueryKey],
     getOptionsFn: async (page, pageSize, filters) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
       return await getOperations(from, to, filters);
