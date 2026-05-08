@@ -94,10 +94,10 @@ export function TrackingOperationScreen() {
               )}
 
               {options.map((item, index) => {
-                const currentDate = formatDate(item.date, DateFormatType.LongWithYear, user!.locale, user!.language);
+                const currentDate = formatDate(item.date, DateFormatType.LongWithYear, user.locale, user.language);
                 const prevDate =
                   index > 0
-                    ? formatDate(options[index - 1].date, DateFormatType.LongWithYear, user!.locale, user!.language)
+                    ? formatDate(options[index - 1].date, DateFormatType.LongWithYear, user.locale, user.language)
                     : null;
 
                 const showSeparator = currentDate !== prevDate;
@@ -110,7 +110,7 @@ export function TrackingOperationScreen() {
                     {showSeparator && (
                       <div className="col-span-full">
                         <UiDateSeparator
-                          date={formatDate(item.date, DateFormatType.Short, user!.locale, user!.language)}
+                          date={formatDate(item.date, DateFormatType.Short, user.locale, user.language)}
                         />
                       </div>
                     )}
