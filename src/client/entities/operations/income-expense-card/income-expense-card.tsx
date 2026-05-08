@@ -1,5 +1,4 @@
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
@@ -12,6 +11,9 @@ import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/operations/transaction-card/props/transaction-card-props';
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
+import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
+
+import './styles/income-expense-card-styles.scss';
 
 export function IncomeExpenseCard({
   id,
@@ -29,24 +31,20 @@ export function IncomeExpenseCard({
   return (
     <UiCard
       className={cn(
-        'border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden',
-        categoryStyles.variant,
+        'income-expense-card border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden',
         className,
       )}
+      data-variant={categoryStyles.variant}
     >
       <CardHeader className="min-w-0 w-full overflow-hidden">
         <div className="flex flex-col items-start gap-3">
           <div className="flex between w-full justify-between">
-            <div
-              style={{ backgroundColor: categoryStyles.variant, color: categoryStyles.variant }}
-              className={cn('p-4 rounded-3xl flex justify-between')}
-            >
-              <UiSvgIcon
-                name={categoryStyles.icon}
-                size="lg"
-              />
-            </div>
-
+            <UiIconBadge
+              variant={categoryStyles.variant}
+              isReversed
+              size="lg"
+              name={categoryStyles.icon}
+            />
             <UiResponsiveMenu>
               <UiResponsiveMenuTrigger asChild>
                 <UiIconButton
