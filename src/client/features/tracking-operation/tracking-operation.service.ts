@@ -1,7 +1,5 @@
 import type { AuthTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
-import { trackingOperationLocalRepository } from '@frontend/entities/tracking-operations/tracking-operation.local.repository';
-import { trackingOperationsApiClient } from '@frontend/entities/tracking-operations/tracking-operations.api.client';
 import type {
   GetBasicInformationResponse,
   ITrackingOperationRepository,
@@ -12,14 +10,22 @@ import type { DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import type { DeepPartial } from '@common/models/deep-partial.model';
 
 export class TrackingOperationDataSource implements ITrackingOperationRepository {
+  private local?: ITrackingOperationRepository;
+  private apiClient?: ITrackingOperationRepository;
+
   constructor(
     private readonly authTokenService: AuthTokenService,
-    private readonly local: ITrackingOperationRepository,
-    private readonly apiClient: ITrackingOperationRepository,
+    private readonly localLoader: () => Promise<ITrackingOperationRepository>,
+    private readonly apiClientLoader: () => Promise<ITrackingOperationRepository>,
   ) {}
 
-  private get source(): ITrackingOperationRepository {
-    return this.isOfflineMode ? this.local : this.apiClient;
+  private async source(): Promise<ITrackingOperationRepository> {
+    if (this.isOfflineMode) {
+      this.local ??= await this.localLoader();
+      return this.local;
+    }
+    this.apiClient ??= await this.apiClientLoader();
+    return this.apiClient;
   }
 
   get isOfflineMode(): boolean {
@@ -27,7 +33,7 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
   }
 
   getItemById(id: number): Promise<TrackingOperationRecord | null> {
-    return this.source.getItemById(id);
+    return this.source().then((s) => s.getItemById(id));
   }
 
   getItems(
@@ -35,28 +41,34 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
     to: number,
     filters?: DeepPartial<TrackingOperationFilter>,
   ): Promise<TrackingOperationRecord[]> {
-    return this.source.getItems(from, to, filters);
+    return this.source().then((s) => s.getItems(from, to, filters));
   }
 
   createItem(data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<number> {
-    return this.source.createItem(data);
+    return this.source().then((s) => s.createItem(data));
   }
 
   updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> {
-    return this.source.updateItem(id, data);
+    return this.source().then((s) => s.updateItem(id, data));
   }
 
   deleteItem(id: number): Promise<true> {
-    return this.source.deleteItem(id);
+    return this.source().then((s) => s.deleteItem(id));
   }
 
   getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
-    return this.source.getBasicInformation(filters);
+    return this.source().then((s) => s.getBasicInformation(filters));
   }
 }
 
 export const trackingOperationService = new TrackingOperationDataSource(
   authTokenService,
-  trackingOperationLocalRepository,
-  trackingOperationsApiClient,
+  () =>
+    import('@frontend/entities/tracking-operations/tracking-operation.local.repository').then(
+      (m) => m.trackingOperationLocalRepository,
+    ),
+  () =>
+    import('@frontend/entities/tracking-operations/tracking-operations.api.client').then(
+      (m) => m.trackingOperationsApiClient,
+    ),
 );
