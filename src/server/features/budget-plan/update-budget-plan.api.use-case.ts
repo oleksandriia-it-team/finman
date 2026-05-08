@@ -61,6 +61,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
         const defCategory = getDefaultCategory(dto.type);
         return this.monthEntryRepository.repository.update(dto.id as number, {
           ...dto,
+          description: dto.description ?? '',
           id: dto.id as number,
           category: dto.category ?? defCategory,
           budgetPlanId: budgetPlanId,
@@ -77,6 +78,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
         const defCategory = getDefaultCategory(dto.type);
         return this.monthEntryRepository.repository.create({
           ...dto,
+          description: dto.description ?? '',
           category: dto.category ?? defCategory,
           budgetPlanId: budgetPlanId,
         });

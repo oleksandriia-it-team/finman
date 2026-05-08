@@ -66,6 +66,6 @@ describe('CrudLocalService', () => {
 
     expect(result.length).toBe(0);
 
-    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false, []);
+    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false, [], undefined);
   });
 });
