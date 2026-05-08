@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { enUS, uk } from 'date-fns/locale';
 import { type SupportLanguages } from '@common/enums/support-languages.enum';
 import { DateFormatType } from '../enums/date-type.enum';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 type DateOrder = 'DMY' | 'MDY' | 'YMD';
 
@@ -36,11 +37,15 @@ function getDateOrder(regionLocale: string): DateOrder {
 }
 
 export function formatDate(
-  input: Date | string | number,
+  input: Date | string | number | undefined | null,
   type: DateFormatType,
   regionLocale: string,
   language: SupportLanguages,
 ): string {
+  if (isEmpty(input)) {
+    return '';
+  }
+
   const date = new Date(input);
   if (isNaN(date.getTime())) return '';
 

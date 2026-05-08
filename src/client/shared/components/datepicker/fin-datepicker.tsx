@@ -13,6 +13,7 @@ import type { DatepickerProps } from '../controlled-fields/props/controlled-date
 import { UiInputGroup } from '@frontend/ui/ui-input-group/ui-input-group';
 import { UiInputGroupAddon } from '@frontend/ui/ui-input-group/ui-input-group-addon';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { defaultLocale } from '@frontend/shared/utils/get-preferred-locale.util';
 
 export function FinDatepicker({
   placeholder,
@@ -49,7 +50,7 @@ export function FinDatepicker({
         <FinTransformDate
           type={type}
           date={date}
-          locale={locale}
+          locale={locale ?? defaultLocale}
         />
       );
     },
@@ -124,7 +125,7 @@ export function FinDatepicker({
                 type="button"
                 className="cursor-pointer"
                 onClick={(e) => {
-                  onSelect(null);
+                  onSelect(undefined);
                   e.stopPropagation();
                 }}
               >
