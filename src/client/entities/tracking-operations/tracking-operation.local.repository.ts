@@ -8,7 +8,6 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
   GetBasicInformationResponse,
-  GetTrackingOperationStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import { TypeEntry } from '@common/enums/entry.enum';
@@ -85,45 +84,32 @@ export class TrackingOperationLocalRepository
     return super.getItems(from, to, filters, { name: 'date', sort: 'DESC' });
   }
 
-  async getMaxSum(filters?: DeepPartial<TrackingOperationFilter>): Promise<number> {
-    const predicateFns = this.mapFilters(filters);
-
-    const all = await this.table
-      .filter((item: TrackingOperationRecord) => predicateFns.every((fn) => fn(item)))
-      .toArray();
-    return all.reduce((max: number, item: TrackingOperationRecord) => Math.max(max, item.sum), 0);
-  }
-
-  async getStatistic(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetTrackingOperationStatisticResponse> {
-    const predicateFns = this.mapFilters({ ...filters, type: undefined });
-
-    const items = await this.table
-      .filter((item: TrackingOperationRecord) => predicateFns.every((fn) => fn(item)))
-      .toArray();
-
-    return items.reduce(
-      (acc: GetTrackingOperationStatisticResponse, item: TrackingOperationRecord) => {
-        if (item.type === TypeEntry.Income) {
-          acc.totalIncomes += item.sum;
-        } else {
-          acc.totalOutcomes += item.sum;
-        }
-        return acc;
-      },
-      { totalIncomes: 0, totalOutcomes: 0 },
-    );
-  }
-
   async getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
-    const statistic = await this.getStatistic(filters);
-    const maxSum = await this.getMaxSum(filters);
+    // statistic always ignores the type filter; maxSum respects it
+    const statPredicates = this.mapFilters({ ...filters, type: undefined });
+    const maxPredicates = filters?.type ? this.mapFilters(filters) : statPredicates;
+    const sharedPredicates = maxPredicates === statPredicates;
+
+    let maxSum = 0;
+    let totalIncomes = 0;
+    let totalOutcomes = 0;
+
+    await this.table
+      .filter((item: TrackingOperationRecord) => statPredicates.every((fn) => fn(item)))
+      .each((item: TrackingOperationRecord) => {
+        if (item.type === TypeEntry.Income) {
+          totalIncomes += item.sum;
+        } else {
+          totalOutcomes += item.sum;
+        }
+        if (sharedPredicates || maxPredicates.every((fn) => fn(item))) {
+          if (item.sum > maxSum) maxSum = item.sum;
+        }
+      });
+
     const totalCount = await this.getTotalCount(filters);
 
-    return {
-      ...statistic,
-      maxSum,
-      totalCount,
-    };
+    return { totalIncomes, totalOutcomes, maxSum, totalCount };
   }
 }
 
