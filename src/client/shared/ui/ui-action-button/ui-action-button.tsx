@@ -22,7 +22,6 @@ export function UiActionButton({
       variant={variant}
       size={size}
       className={cn('flex gap-3', className)}
-      opacity
       heightAuto
       {...props}
     >
