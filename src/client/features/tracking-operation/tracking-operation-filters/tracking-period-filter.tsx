@@ -6,15 +6,20 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import type { TrackingOperationFilterFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { getDateRangeForPeriod } from '@common/utils/get-date-range-for-period';
 import { isSameDay } from 'date-fns';
+import { useMemo } from 'react';
 
 export function PeriodFilters({ className }: FiltersDefaultProps) {
   const { setValue, control } = useFormContext<TrackingOperationFilterFormData>();
+
+  const RegularPaymentFrequencyValues = useMemo(() => {
+    return Object.values(RegularPaymentFrequencyFilter);
+  }, []);
 
   const dateFrom = useWatch({ control, name: 'dateFrom' });
   const dateTo = useWatch({ control, name: 'dateTo' });
 
   const activePeriod =
-    Object.values(RegularPaymentFrequencyFilter).find((period) => {
+    RegularPaymentFrequencyValues.find((period) => {
       if (!dateFrom || !dateTo) return false;
       const range = getDateRangeForPeriod(period);
       return isSameDay(range.dateFrom, new Date(dateFrom)) && isSameDay(range.dateTo, new Date(dateTo));
@@ -35,7 +40,7 @@ export function PeriodFilters({ className }: FiltersDefaultProps) {
 
   return (
     <div className={classes}>
-      {Object.values(RegularPaymentFrequencyFilter).map((item, i) => {
+      {RegularPaymentFrequencyValues.map((item, i) => {
         return (
           <UiFilterPill
             key={i}

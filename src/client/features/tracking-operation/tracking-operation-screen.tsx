@@ -14,8 +14,6 @@ import { TrackingOperationHeader } from '@frontend/features/tracking-operation/t
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
-import { format } from 'date-fns';
-import { uk } from 'date-fns/locale/uk';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
@@ -26,6 +24,10 @@ import {
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
+import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+import { formatDate } from '@frontend/shared/utils/format-date.util';
+import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -39,6 +41,7 @@ export function TrackingOperationScreen() {
   });
 
   const router = useRouter();
+  const user = useAuthorizedUser();
 
   // TODO: add using status from here in FinListScreenHandler
   const {
@@ -50,7 +53,7 @@ export function TrackingOperationScreen() {
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
     filters: filters,
-    queryKey: ['tracking-operations'],
+    queryKey: [TrackingOperationQueryKey],
     getOptionsFn: async (page, pageSize, filters) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
       return await getOperations(from, to, filters);
@@ -97,8 +100,11 @@ export function TrackingOperationScreen() {
               )}
 
               {options.map((item, index) => {
-                const currentDate = format(item.date, 'yyyy-MM-dd');
-                const prevDate = index > 0 ? format(options[index - 1].date, 'yyyy-MM-dd') : null;
+                const currentDate = formatDate(item.date, DateFormatType.LongWithYear, user.locale, user.language);
+                const prevDate =
+                  index > 0
+                    ? formatDate(options[index - 1].date, DateFormatType.LongWithYear, user.locale, user.language)
+                    : null;
 
                 const showSeparator = currentDate !== prevDate;
 
@@ -109,7 +115,9 @@ export function TrackingOperationScreen() {
                   >
                     {showSeparator && (
                       <div className="col-span-full">
-                        <UiDateSeparator date={format(item.date, 'd MMMM yyyy', { locale: uk })} />
+                        <UiDateSeparator
+                          date={formatDate(item.date, DateFormatType.Short, user.locale, user.language)}
+                        />
                       </div>
                     )}
                     <TransactionCard

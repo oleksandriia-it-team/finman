@@ -1,7 +1,6 @@
 'use client';
-import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { useRouter } from 'next/navigation';
-import { AuthTemplate } from '@frontend/entities/auth/auth-template';
+import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { FormProvider } from 'react-hook-form';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
@@ -21,9 +20,9 @@ import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
-import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -36,14 +35,13 @@ export default function RegistrationPage() {
     }
   });
 
-  const localeDataResource = useGetLocalesDropdown(methods.watch('locale'));
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));
   const workMode = methods.watch('workMode');
   const isLocked = !workMode;
   const isOffline = workMode === WorkMode.Offline;
 
   return (
-    <AuthTemplate>
+    <AuthLayout imageSrc={'/pictures/login-picture.png'}>
       <FormProvider {...methods}>
         <form
           className="w-full flex flex-col gap-3"
@@ -126,31 +124,18 @@ export default function RegistrationPage() {
                   />
                 </>
               )}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2">
-                <FinControlledAutocomplete
-                  label="Валюта *"
-                  name="currencyCode"
-                  placeholder="Пошук..."
-                  options={currencyDataResource.options}
-                  errorLabel={currencyDataResource.errorMessage ?? ''}
-                  state={currencyDataResource.state}
-                  customInputValue={currencyDataResource.inputLabel?.label ?? ''}
-                  search={currencyDataResource.search}
-                  onSearch={currencyDataResource.setSearch}
-                />
 
-                <FinControlledAutocomplete
-                  label="Формат дат *"
-                  name="locale"
-                  placeholder="Пошук..."
-                  options={localeDataResource.options}
-                  errorLabel={localeDataResource.errorMessage ?? ''}
-                  state={localeDataResource.state}
-                  customInputValue={localeDataResource.inputLabel?.label ?? ''}
-                  search={localeDataResource.search}
-                  onSearch={localeDataResource.setSearch}
-                />
-              </div>
+              <FinControlledAutocomplete
+                label="Валюта *"
+                name="currencyCode"
+                placeholder="Пошук..."
+                options={currencyDataResource.options}
+                errorLabel={currencyDataResource.errorMessage ?? ''}
+                state={currencyDataResource.state}
+                customInputValue={currencyDataResource.inputLabel?.label ?? ''}
+                search={currencyDataResource.search}
+                onSearch={currencyDataResource.setSearch}
+              />
 
               <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full bg-primary-foreground pt-2">
                 <UiButton
@@ -185,6 +170,6 @@ export default function RegistrationPage() {
           </UiFieldSet>
         </form>
       </FormProvider>
-    </AuthTemplate>
+    </AuthLayout>
   );
 }

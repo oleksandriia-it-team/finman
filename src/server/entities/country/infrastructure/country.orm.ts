@@ -9,6 +9,9 @@ export class CountryOrm extends DefaultTableColumnsOrm implements CountryAndLoca
   @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxCountryLength })
   country!: string;
 
+  @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxCountryLength })
+  countryUk!: string;
+
   @Column({ type: 'varchar', length: CountryRequirementsConstant.MaxLocaleLength, unique: true })
   locale!: string;
 

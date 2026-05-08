@@ -30,7 +30,7 @@ export class TrackingOperationLocalRepository
   }
 
   deleteItem(id: number): Promise<true> {
-    return this.databaseLocalService.deleteItem(this.tableName, id, true);
+    return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 
   protected override mapFilters(

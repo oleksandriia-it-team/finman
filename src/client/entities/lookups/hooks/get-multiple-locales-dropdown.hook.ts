@@ -7,7 +7,7 @@ import { type DropdownOption } from '@frontend/shared/models/dropdown-option.mod
 import { useState } from 'react';
 
 function transformLocalesToOptions(locales: CountryAndLocale[]): DropdownOption<number>[] {
-  return locales.map((locale) => ({ value: locale.id, label: locale.locale }));
+  return locales.map((locale) => ({ value: locale.id, label: locale.countryUk }));
 }
 
 export function useGetMultipleLocalesDropdown(currentIds?: number[]) {

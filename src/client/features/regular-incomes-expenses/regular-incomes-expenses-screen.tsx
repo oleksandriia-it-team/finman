@@ -32,8 +32,7 @@ export default function RegularIncomesExpensesScreen() {
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
-
-      return await getPayments(from, to);
+      return getPayments(from, to);
     },
     getTotalCountFn: async () => {
       const count = await getTotalCount();

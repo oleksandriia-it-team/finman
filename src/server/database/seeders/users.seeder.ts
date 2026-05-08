@@ -9,7 +9,7 @@ export async function userSeeder() {
   }
 
   await userApiRepository.createItem({
-    email: 'admin@test.com',
+    email: 'reapersansaut@gmail.com',
     name: 'Main-Admin',
     password: 'password123',
     role: RoleEnum.Admin,
