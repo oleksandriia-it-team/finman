@@ -12,7 +12,7 @@ export default function CreateCardForm() {
   return (
     <div className="flex size-full">
       <TrackingOperationForm
-        onCancel={() => router.back()}
+        onCancel={() => router.push('/profile')}
         onSuccess={() => {
           queryClient.invalidateQueries({ queryKey: ['tracking-operations'] });
           router.back();
