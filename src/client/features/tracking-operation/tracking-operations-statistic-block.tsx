@@ -25,11 +25,11 @@ export function TrackingOperationsStatisticMobile({
       <div className="flex font-bold flex-row gap-4">
         <span className="text-success  flex gap-1 ">
           {loading && <UiSkeleton />}
-          {!loading && +(<FinTransformCurrency value={income} />)}
+          {!loading && <FinTransformCurrency value={income} />}
         </span>
         <span className="text-destructive-foreground flex gap-1">
           {loading && <UiSkeleton />}
-          {!loading && -(<FinTransformCurrency value={expense} />)}
+          {!loading && <FinTransformCurrency value={expense} />}
         </span>
       </div>
     </UiCard>
@@ -53,7 +53,6 @@ export function TrackingOperationsStatisticDesktop({
       variant: 'success-muted',
       label: 'Загальний дохід',
       value: income,
-      sign: '+',
       className: 'text-success',
     },
     {
@@ -61,14 +60,13 @@ export function TrackingOperationsStatisticDesktop({
       variant: 'destructive-muted',
       label: 'Загальні витрати',
       value: expense,
-      sign: '-',
       className: 'text-destructive-foreground',
     },
   ] as const;
 
   return (
     <div className="flex justify-center gap-5 w-full">
-      {stats.map(({ icon, variant, label, value, sign, className: textClass }) => (
+      {stats.map(({ icon, variant, label, value, className: textClass }) => (
         <UiCard
           key={label}
           className={classes}
@@ -83,12 +81,7 @@ export function TrackingOperationsStatisticDesktop({
               <p className="text-muted text-sm">{label}</p>
               <span className={cn('font-bold text-lg flex gap-1', textClass)}>
                 {loading && <UiSkeleton />}
-                {!loading && (
-                  <>
-                    {sign}
-                    <FinTransformCurrency value={value} />
-                  </>
-                )}
+                {!loading && <FinTransformCurrency value={value} />}
               </span>
             </div>
           </div>
