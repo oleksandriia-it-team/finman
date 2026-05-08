@@ -2,9 +2,10 @@ import { type DropdownResource, type DropdownResourceConfig } from './models/dro
 import { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { PromiseState } from '../../enums/promise-state.enum';
 import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 
 export function useOptionsResource<T, Multiple extends boolean = false>({
   multiple,
@@ -80,34 +81,14 @@ export function useOptionsResource<T, Multiple extends boolean = false>({
     return (isMultiple ? [] : undefined) as unknown as Multiple extends true ? DropdownOption<T>[] : DropdownOption<T>;
   }, [getLabelQuery.data, foundOptions, currentValueArr, isMultiple]);
 
-  const state = useMemo(() => {
-    const statuses = [
-      getOptionsQuery.status,
-      !getLabelQuery.isEnabled ? 'success' : getLabelQuery.status,
-      getTotalCountQuery?.status ?? 'success',
-    ];
-
-    if (statuses.every((status) => status === 'success')) {
-      return PromiseState.Success;
-    }
-
-    if (statuses.includes('error')) {
-      return PromiseState.Error;
-    }
-
-    return PromiseState.Loading;
-  }, [getOptionsQuery.status, getLabelQuery.status, getTotalCountQuery?.status, getLabelQuery.isEnabled]);
+  const state = useCombineStates(
+    getPromiseState(getOptionsQuery.status),
+    getPromiseState(!getLabelQuery.isEnabled ? 'success' : getLabelQuery.status),
+    getPromiseState(getTotalCountQuery?.status ?? 'success'),
+  );
 
   const errorMessage = useMemo(() => {
-    const errors = [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery?.error];
-
-    const error = errors.find((error) => !!error);
-
-    if (isEmpty(error)) {
-      return undefined;
-    }
-
-    return getSafeErrorMessage(error);
+    return getFirstErrorMessage(getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery?.error);
   }, [getOptionsQuery.error, getLabelQuery.error, getTotalCountQuery?.error]);
 
   return {

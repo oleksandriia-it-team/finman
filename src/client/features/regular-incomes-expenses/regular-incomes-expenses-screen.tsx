@@ -12,8 +12,8 @@ import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -33,8 +33,7 @@ export default function RegularIncomesExpensesScreen() {
     getOptionsFn: async (page, pageSize) => {
       const { from, to } = calculateFromAndTo(page, pageSize);
 
-      const result = await getPayments(from, to);
-      return result;
+      return await getPayments(from, to);
     },
     getTotalCountFn: async () => {
       const count = await getTotalCount();
@@ -53,7 +52,7 @@ export default function RegularIncomesExpensesScreen() {
         <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
           <FinListScreenHandler
             state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
+            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="h-72"

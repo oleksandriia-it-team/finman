@@ -13,7 +13,6 @@ import { TransactionCard } from '@frontend/entities/operations/transaction-card/
 import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale/uk';
@@ -26,6 +25,7 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -41,7 +41,11 @@ export function TrackingOperationScreen() {
   const router = useRouter();
 
   // TODO: add using status from here in FinListScreenHandler
-  const { data: basicInformation } = useGetBasicTrackingInformation();
+  const {
+    data: basicInformation,
+    error: basicInformationError,
+    state: basicInformationState,
+  } = useGetBasicTrackingInformation();
 
   const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
     pageSize,
@@ -63,6 +67,7 @@ export function TrackingOperationScreen() {
           <TrackingOperationsStatisticDesktop
             income={basicInformation?.totalIncomes ?? 0}
             expense={basicInformation?.totalOutcomes ?? 0}
+            loading={basicInformationState === PromiseState.Loading}
           />
         </div>
       )}
@@ -74,8 +79,8 @@ export function TrackingOperationScreen() {
       <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
         <div className="flex-1 overflow-y-auto min-h-0 p-4">
           <FinListScreenHandler
-            state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
+            state={useCombineStates(onDelete.state, state, basicInformationState)}
+            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="h-72"
@@ -86,6 +91,7 @@ export function TrackingOperationScreen() {
                   <TrackingOperationsStatisticMobile
                     income={basicInformation?.totalIncomes ?? 0}
                     expense={basicInformation?.totalOutcomes ?? 0}
+                    loading={basicInformationState === PromiseState.Loading}
                   />
                 </div>
               )}
