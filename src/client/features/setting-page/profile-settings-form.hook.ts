@@ -55,7 +55,7 @@ export function useProfileSettingsForm() {
   const updateMutation = useSendDataFetch(
     async (data: ProfileSettingsData) => {
       if (!userInformation) {
-        throw new Error('User not found');
+        throw new Error('Користувача не знайдено.');
       }
 
       const updatedUser = await profileSettingsService.updateProfile(userInformation, data);
@@ -72,7 +72,7 @@ export function useProfileSettingsForm() {
           await refresh();
         } catch (error) {
           // Log error but don't block success flow
-          console.error('Failed to refresh user information:', error);
+          console.error('Не вдалося оновити інформацію про користувача:', error);
         } finally {
           reset({
             ...methods.getValues(),

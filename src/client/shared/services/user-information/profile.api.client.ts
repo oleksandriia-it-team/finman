@@ -25,7 +25,7 @@ export class ProfileApiClient {
     const accessToken = this.authTokenService.getAccessToken();
 
     if (!accessToken) {
-      throw new Error('Access token is required to update profile');
+      throw new Error('Для оновлення профілю потрібен токен доступу.');
     }
 
     const result = await fetchClient.put<ApiResultOperationSuccess<OnlineUser>, ProfileSettingsData>(

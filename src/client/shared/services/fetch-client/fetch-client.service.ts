@@ -57,7 +57,9 @@ class FetchClientService {
       throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
     }
 
-    const url = new URL(`${this.baseUrl}${endpoint}`);
+    const normalizedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    const url = new URL(`${normalizedBaseUrl}${normalizedEndpoint}`);
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (!isEmpty(value)) {

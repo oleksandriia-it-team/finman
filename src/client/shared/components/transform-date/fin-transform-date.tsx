@@ -1,15 +1,24 @@
 import React, { useMemo } from 'react';
 import { type TransformDateProps } from './props/transform-date.props';
 import { defaultLocale } from '../../utils/get-preferred-locale.util';
-import { FormatDate } from '../../utils/format-date.util';
+import { formatDate } from '../../utils/format-date.util';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { SupportLanguages } from '@common/enums/support-languages.enum';
 
-export function FinTransformDate({ date, type, locale, ...props }: TransformDateProps) {
-  const userLocale = useUserInformation((state) => state.userInformation)?.locale;
+export function FinTransformDate({ date, type, locale, language, ...props }: TransformDateProps) {
+  const userInformation = useUserInformation((state) => state.userInformation);
+
+  const userLocale = userInformation?.locale;
+  const userLanguage = userInformation?.language;
 
   const formatted = useMemo(() => {
-    return FormatDate(date, type, locale ?? userLocale ?? defaultLocale);
-  }, [date, type, locale, userLocale]);
+    return formatDate(
+      date,
+      type,
+      locale ?? userLocale ?? defaultLocale,
+      language ?? userLanguage ?? SupportLanguages.English,
+    );
+  }, [date, type, locale, userLocale, language, userLanguage]);
 
   return <span {...props}>{formatted}</span>;
 }

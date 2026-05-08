@@ -4,9 +4,9 @@ import type { ICrudService } from '@common/models/crud-service.model';
 import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
-import type { GetBudgetPlanModel } from '@common/domains/budget-plan/get-budget-plan.schema';
+import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 
-export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanModel, BudgetPlanDetailed | null> {
+export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanDto, BudgetPlanDetailed | null> {
   constructor(
     transactionManager: ITransactionManager,
     private budgetPlanRepository: BudgetPlanLocalRepository,
@@ -16,7 +16,7 @@ export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPla
     super(transactionManager);
   }
 
-  async handle(input: GetBudgetPlanModel): Promise<BudgetPlanDetailed | null> {
+  async handle(input: GetBudgetPlanDto): Promise<BudgetPlanDetailed | null> {
     const budgetPlan = await this.budgetPlanRepository.getItem(input);
 
     if (!budgetPlan) {

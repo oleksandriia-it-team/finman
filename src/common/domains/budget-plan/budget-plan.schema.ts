@@ -15,5 +15,5 @@ export const UpdateBudgetPlanSchema = z.object({
   }),
 });
 
-export type CreateBudgetPlanModel = z.infer<typeof CreateBudgetPlanSchema>;
-export type UpdateBudgetPlanModel = z.infer<typeof UpdateBudgetPlanSchema>;
+export type CreateBudgetPlanDto = z.infer<typeof CreateBudgetPlanSchema>;
+export type UpdateBudgetPlanDto = z.infer<typeof UpdateBudgetPlanSchema>;
