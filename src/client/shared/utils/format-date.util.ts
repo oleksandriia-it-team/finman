@@ -4,6 +4,7 @@ import { enUS, uk } from 'date-fns/locale';
 import { type SupportLanguages } from '@common/enums/support-languages.enum';
 import { DateFormatType } from '../enums/date-type.enum';
 import { isEmpty } from '@common/utils/is-empty.util';
+import { getDate } from '@common/utils/get-date.util';
 
 type DateOrder = 'DMY' | 'MDY' | 'YMD';
 
@@ -42,12 +43,11 @@ export function formatDate(
   regionLocale: string,
   language: SupportLanguages,
 ): string {
-  if (isEmpty(input)) {
+  const date = getDate(input);
+
+  if (isEmpty(date)) {
     return '';
   }
-
-  const date = new Date(input);
-  if (isNaN(date.getTime())) return '';
 
   const dateFnsLocale = DateFnsLocales[language];
   const order = getDateOrder(regionLocale);
