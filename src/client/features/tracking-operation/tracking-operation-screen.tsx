@@ -29,8 +29,8 @@ import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
 import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -97,7 +97,7 @@ export function TrackingOperationScreen() {
             errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
-            skeletonClassName="h-72"
+            skeletonClassName="min-h-72"
           >
             <FinListInsideWrapper state={state}>
               {isMobile && (

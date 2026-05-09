@@ -8,7 +8,6 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
@@ -16,6 +15,7 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
 import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -63,7 +63,7 @@ export default function RegularIncomesExpensesScreen() {
           errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
           hasData={!!options.length}
           skeletonItems={pageSize}
-          skeletonClassName="h-72"
+          skeletonClassName="min-h-72"
         >
           <FinListInsideWrapper state={state}>
             {options.map((item, index) => (
