@@ -3,6 +3,7 @@ import { TypeEntry } from '@common/enums/entry.enum';
 import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 import { getDate } from '@common/utils/get-date.util';
+import { dateField } from '@common/schema-fields/date-required-field.schema';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
@@ -16,7 +17,7 @@ export const TrackingOperationSchema = z.object({
   type: z.enum(TrackingOperationTypes, {
     message: 'Тип має бути expense або income',
   }),
-  date: z.coerce.date({ message: "Обов'язкова дата" }),
+  date: dateField("Обов'язкова дата"),
   sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
   category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
 });
