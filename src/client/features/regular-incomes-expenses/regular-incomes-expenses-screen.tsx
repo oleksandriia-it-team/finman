@@ -10,10 +10,12 @@ import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
+import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
+import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
+import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -27,7 +29,13 @@ export default function RegularIncomesExpensesScreen() {
 
   const router = useRouter();
 
-  const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
+  const {
+    options,
+    state: listState,
+    errorMessage,
+    reload,
+    ...paginationRestProps
+  } = usePaginationResource({
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
@@ -41,21 +49,23 @@ export default function RegularIncomesExpensesScreen() {
     clearCacheOnDestroy: true,
   });
 
+  const state = useCombineStates(onDelete.state, listState);
+
   return (
-    <div className="size-full overflow-hidden flex flex-col pb-8 relative">
+    <FinListPageWrapper>
       <p className="flex-none text-xl p-4">
         <b>Регулярні доходи та витрати</b>
       </p>
 
-      <div className="flex-1 overflow-y-auto min-h-0 p-4">
-        <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
-          <FinListScreenHandler
-            state={useCombineStates(onDelete.state, state)}
-            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
-            hasData={!!options.length}
-            skeletonItems={pageSize}
-            skeletonClassName="h-72"
-          >
+      <FinListOutsideWrapper>
+        <FinListScreenHandler
+          state={state}
+          errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
+          hasData={!!options.length}
+          skeletonItems={pageSize}
+          skeletonClassName="h-72"
+        >
+          <FinListInsideWrapper state={state}>
             {options.map((item, index) => (
               <IncomeExpenseCard
                 key={item.id ?? index}
@@ -65,9 +75,9 @@ export default function RegularIncomesExpensesScreen() {
                 {...item}
               />
             ))}
-          </FinListScreenHandler>
-        </div>
-      </div>
+          </FinListInsideWrapper>
+        </FinListScreenHandler>
+      </FinListOutsideWrapper>
 
       <FinPagination
         className="pt-3"
@@ -75,7 +85,7 @@ export default function RegularIncomesExpensesScreen() {
         pageSize={pageSize}
       />
 
-      <div className="fixed bottom-6 right-6">
+      <FinButtonListAction>
         <UiButton
           variant="primary"
           size="lg"
@@ -88,7 +98,7 @@ export default function RegularIncomesExpensesScreen() {
           />
           Додати платіж
         </UiButton>
-      </div>
-    </div>
+      </FinButtonListAction>
+    </FinListPageWrapper>
   );
 }
