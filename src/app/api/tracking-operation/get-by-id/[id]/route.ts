@@ -5,7 +5,7 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { trackingOperationRepository } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.repository';
 import { ExistTrackingOperationGuard } from '@backend/entities/tracking-operation/application/exist-tracking-operation.guard';
 import { OwnsTrackingOperationGuard } from '@backend/entities/tracking-operation/application/owns-tracking-operation.guard';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 
 export const GET = createRoute({

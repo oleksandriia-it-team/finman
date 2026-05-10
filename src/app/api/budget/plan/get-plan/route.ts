@@ -1,7 +1,7 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { GetBudgetPlanSchema } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
 

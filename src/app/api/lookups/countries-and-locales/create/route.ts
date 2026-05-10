@@ -1,5 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 import { CountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';

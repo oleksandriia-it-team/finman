@@ -1,6 +1,6 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pipe';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 import { ExistCountryGuard } from '@backend/entities/country/application/exist-country.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';

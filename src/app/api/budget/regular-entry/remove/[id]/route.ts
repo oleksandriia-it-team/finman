@@ -4,7 +4,7 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { OwnsRegularEntryGuard } from '@backend/entities/regular-entry/application/owns-regular-entry.guard';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
 
 export const DELETE = createRoute({
