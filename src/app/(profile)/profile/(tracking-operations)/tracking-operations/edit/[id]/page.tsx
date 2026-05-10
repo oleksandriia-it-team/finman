@@ -23,10 +23,10 @@ export default function EditCardForm(props: PageProps<never>) {
         <div className="flex size-full">
           <TrackingOperationForm
             initialData={regularEntry}
-            onCancel={() => router.back()}
+            onCancel={() => router.push('/profile')}
             onSuccess={() => {
               queryClient.invalidateQueries({ queryKey: [TrackingOperationQueryKey] });
-              router.back();
+              router.push('/profile');
             }}
           />
         </div>
