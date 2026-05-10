@@ -1,12 +1,12 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { TrackingOperationStatisticSchema } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import { TrackingOperationFilterSchema } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { trackingOperationRepository } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.repository';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 
 export const POST = createRoute({
-  schema: TrackingOperationStatisticSchema,
+  schema: TrackingOperationFilterSchema,
   contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
   execute: async ({ context, body }) => {

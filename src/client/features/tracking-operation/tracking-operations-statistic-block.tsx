@@ -2,17 +2,20 @@ import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 
 interface TrackingOperationsStatisticBlockProps {
   income: number;
   expense: number;
   className?: string;
+  loading?: boolean;
 }
 
 export function TrackingOperationsStatisticMobile({
   className,
   income = 0,
   expense = 0,
+  loading,
 }: TrackingOperationsStatisticBlockProps) {
   const classes = cn('text-muted-foreground rounded-4xl px-4 bg-card w-full flex flex-row justify-between', className);
 
@@ -21,10 +24,12 @@ export function TrackingOperationsStatisticMobile({
       <p className="text-muted-foreground text-sm">Загалом за період</p>
       <div className="flex font-bold flex-row gap-4">
         <span className="text-success  flex gap-1 ">
-          +<FinTransformCurrency value={income} />
+          {loading && <UiSkeleton />}
+          {!loading && <FinTransformCurrency value={income} />}
         </span>
         <span className="text-destructive-foreground flex gap-1">
-          -<FinTransformCurrency value={expense} />
+          {loading && <UiSkeleton />}
+          {!loading && <FinTransformCurrency value={expense} />}
         </span>
       </div>
     </UiCard>
@@ -35,6 +40,7 @@ export function TrackingOperationsStatisticDesktop({
   className,
   income = 0,
   expense = 0,
+  loading,
 }: TrackingOperationsStatisticBlockProps) {
   const classes = cn(
     'text-muted-foreground rounded-4xl px-4 bg-card w-full flex flex-row justify-start gap-5',
@@ -47,7 +53,6 @@ export function TrackingOperationsStatisticDesktop({
       variant: 'success-muted',
       label: 'Загальний дохід',
       value: income,
-      sign: '+',
       className: 'text-success',
     },
     {
@@ -55,14 +60,13 @@ export function TrackingOperationsStatisticDesktop({
       variant: 'destructive-muted',
       label: 'Загальні витрати',
       value: expense,
-      sign: '-',
       className: 'text-destructive-foreground',
     },
   ] as const;
 
   return (
     <div className="flex justify-center gap-5 w-full">
-      {stats.map(({ icon, variant, label, value, sign, className: textClass }) => (
+      {stats.map(({ icon, variant, label, value, className: textClass }) => (
         <UiCard
           key={label}
           className={classes}
@@ -76,8 +80,8 @@ export function TrackingOperationsStatisticDesktop({
             <div className="flex flex-col gap-2">
               <p className="text-muted text-sm">{label}</p>
               <span className={cn('font-bold text-lg flex gap-1', textClass)}>
-                {sign}
-                <FinTransformCurrency value={value} />
+                {loading && <UiSkeleton />}
+                {!loading && <FinTransformCurrency value={value} />}
               </span>
             </div>
           </div>

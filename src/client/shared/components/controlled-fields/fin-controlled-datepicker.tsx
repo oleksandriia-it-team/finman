@@ -6,6 +6,7 @@ import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { FinDatepicker } from '@frontend/components/datepicker/fin-datepicker';
 import type { DateRange } from 'react-day-picker';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { useDynamicKey } from '@frontend/shared/hooks/dynamic-key/dynamic-key.hook';
 
 export function FinControlledDatepicker({
   name,
@@ -18,11 +19,21 @@ export function FinControlledDatepicker({
   transformForSingle,
   ...datepickerProps
 }: ControlledDatepickerProps) {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
+
+  const value = watch(name);
+
+  // Workaround for react-hook-form: when a field is reset to `undefined`
+  // (via reset() or setValue()), the Controller's internal subscription
+  // doesn't always re-render, leaving the previously selected value
+  // visible in the UI even though getValues() returns undefined.
+  // Using a dynamic key forces a full remount, guaranteeing a clean state.
+  const key = useDynamicKey(value);
 
   return (
     <Controller
       name={name}
+      key={key}
       control={control}
       render={({ field, fieldState }) => {
         return (
@@ -48,7 +59,7 @@ export function FinControlledDatepicker({
                 onBlur?.();
               }}
               className={cn('min-w-0', className)}
-              selected={field.value}
+              selected={value ?? undefined}
               onSelect={(value: Date | DateRange | undefined) => {
                 if (value instanceof Date && transformForSingle) {
                   value = transformForSingle(value);

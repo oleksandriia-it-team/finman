@@ -5,15 +5,12 @@ import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useRouter } from 'next/navigation';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
@@ -24,10 +21,16 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { formatDate } from '@frontend/shared/utils/format-date.util';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
+import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
+import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
+import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
+import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -44,9 +47,19 @@ export function TrackingOperationScreen() {
   const user = useAuthorizedUser();
 
   // TODO: add using status from here in FinListScreenHandler
-  const { data: basicInformation } = useGetBasicTrackingInformation();
+  const {
+    data: basicInformation,
+    error: basicInformationError,
+    state: basicInformationState,
+  } = useGetBasicTrackingInformation();
 
-  const { options, state, errorMessage, reload, ...paginationRestProps } = usePaginationResource({
+  const {
+    options,
+    state: listState,
+    errorMessage,
+    reload,
+    ...paginationRestProps
+  } = usePaginationResource({
     pageSize,
     filters: filters,
     queryKey: [TrackingOperationQueryKey],
@@ -58,6 +71,8 @@ export function TrackingOperationScreen() {
     clearCacheOnDestroy: true,
   });
 
+  const state = useCombineStates(onDelete.state, listState, basicInformationState);
+
   return (
     <div className="size-full overflow-hidden flex flex-col">
       <TrackingOperationHeader />
@@ -66,6 +81,7 @@ export function TrackingOperationScreen() {
           <TrackingOperationsStatisticDesktop
             income={basicInformation?.totalIncomes ?? 0}
             expense={basicInformation?.totalOutcomes ?? 0}
+            loading={basicInformationState === PromiseState.Loading}
           />
         </div>
       )}
@@ -74,21 +90,22 @@ export function TrackingOperationScreen() {
         active={typeFilter}
         onSelect={setTypeFilter}
       />
-      <div className="flex-1 overflow-hidden flex flex-col pb-8 relative">
-        <div className="flex-1 overflow-y-auto min-h-0 p-4">
+      <FinListPageWrapper>
+        <FinListOutsideWrapper>
           <FinListScreenHandler
-            state={useCombineStates(onDelete.state, state)}
-            errorMessage={errorMessage ?? getSafeErrorMessage(onDelete.error)}
+            state={state}
+            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
-            skeletonClassName="h-72"
+            skeletonClassName="min-h-72"
           >
-            <div className={cn(state !== PromiseState.Error && 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4')}>
+            <FinListInsideWrapper state={state}>
               {isMobile && (
                 <div className="col-span-full">
                   <TrackingOperationsStatisticMobile
                     income={basicInformation?.totalIncomes ?? 0}
                     expense={basicInformation?.totalOutcomes ?? 0}
+                    loading={basicInformationState === PromiseState.Loading}
                   />
                 </div>
               )}
@@ -121,16 +138,16 @@ export function TrackingOperationScreen() {
                   </div>
                 );
               })}
-            </div>
+            </FinListInsideWrapper>
           </FinListScreenHandler>
-        </div>
+        </FinListOutsideWrapper>
         <FinPagination
           className="pt-3"
           {...paginationRestProps}
           totalCount={basicInformation?.totalCount ?? 0}
           pageSize={pageSize}
         />
-        <div className="fixed bottom-6 right-6">
+        <FinButtonListAction>
           <UiButton
             variant="primary"
             size="lg"
@@ -143,8 +160,8 @@ export function TrackingOperationScreen() {
             />
             Додати платіж
           </UiButton>
-        </div>
-      </div>
+        </FinButtonListAction>
+      </FinListPageWrapper>
     </div>
   );
 }

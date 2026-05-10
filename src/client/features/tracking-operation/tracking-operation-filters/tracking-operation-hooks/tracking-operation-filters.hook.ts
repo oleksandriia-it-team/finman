@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import {
-  filterSchema,
   type TrackingOperationFilterFormData,
+  TrackingOperationFilterSchema,
 } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
 import { useMemo, useState } from 'react';
@@ -19,10 +19,10 @@ function useFiltersHookLogic() {
 
   const showToast = useGlobalToast((state) => state.showToast);
   const methods = useForm<TrackingOperationFilterFormData>({
-    resolver: zodResolver(filterSchema) as never,
+    resolver: zodResolver(TrackingOperationFilterSchema) as never,
     defaultValues: {
-      dateFrom: null as never,
-      dateTo: null as never,
+      dateFrom: undefined,
+      dateTo: undefined,
       category: undefined,
       type: undefined,
       search: '',

@@ -2,6 +2,8 @@ import { z } from 'zod';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
+import { getDate } from '@common/utils/get-date.util';
+import { dateField } from '@common/schema-fields/date-required-field.schema';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
@@ -15,17 +17,15 @@ export const TrackingOperationSchema = z.object({
   type: z.enum(TrackingOperationTypes, {
     message: 'Тип має бути expense або income',
   }),
-  date: z.coerce.date({ message: "Обов'язкова дата" }),
+  date: dateField("Обов'язкова дата"),
   sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
   category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
 });
 
-export type TrackingOperationDto = z.infer<typeof TrackingOperationSchema>;
-
-export const filterSchema = z
+export const TrackingOperationFilterSchema = z
   .object({
-    dateFrom: z.coerce.date().optional(),
-    dateTo: z.coerce.date().optional(),
+    dateFrom: z.transform(getDate).optional(),
+    dateTo: z.transform(getDate).optional(),
     category: z.array(z.enum(AllCategoryValues)).optional(),
     type: z.enum(TrackingOperationTypes).optional(),
     search: z.string().optional(),
@@ -42,8 +42,8 @@ export const filterSchema = z
     }
   });
 
-const basePaginatedSchema = createPaginatedSchema(filterSchema);
-export type TrackingOperationFilterFormData = z.infer<typeof filterSchema>;
+const basePaginatedSchema = createPaginatedSchema(TrackingOperationFilterSchema);
+export type TrackingOperationFilterFormData = z.infer<typeof TrackingOperationFilterSchema>;
 
 export const TrackingOperationPaginationSchema = {
   ...basePaginatedSchema,
@@ -57,10 +57,3 @@ export const TrackingOperationPaginationSchema = {
 export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
 
 export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
-
-export const TrackingOperationStatisticSchema = z.object({
-  dateFrom: z.coerce.date().optional(),
-  dateTo: z.coerce.date().optional(),
-});
-
-export type TrackingOperationStatisticDto = z.infer<typeof TrackingOperationStatisticSchema>;
