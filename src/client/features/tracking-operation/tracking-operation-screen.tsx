@@ -27,8 +27,7 @@ import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.ho
 import { formatDate } from '@frontend/shared/utils/format-date.util';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
-import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
-import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
+import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 
@@ -46,7 +45,6 @@ export function TrackingOperationScreen() {
   const router = useRouter();
   const user = useAuthorizedUser();
 
-  // TODO: add using status from here in FinListScreenHandler
   const {
     data: basicInformation,
     error: basicInformationError,
@@ -91,7 +89,7 @@ export function TrackingOperationScreen() {
         onSelect={setTypeFilter}
       />
       <FinListPageWrapper>
-        <FinListOutsideWrapper>
+        <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
             errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
@@ -99,48 +97,44 @@ export function TrackingOperationScreen() {
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"
           >
-            <FinListInsideWrapper state={state}>
-              {isMobile && (
-                <div className="col-span-full">
-                  <TrackingOperationsStatisticMobile
-                    income={basicInformation?.totalIncomes ?? 0}
-                    expense={basicInformation?.totalOutcomes ?? 0}
-                    loading={basicInformationState === PromiseState.Loading}
+            {isMobile && (
+              <div className="col-span-full">
+                <TrackingOperationsStatisticMobile
+                  income={basicInformation?.totalIncomes ?? 0}
+                  expense={basicInformation?.totalOutcomes ?? 0}
+                  loading={basicInformationState === PromiseState.Loading}
+                />
+              </div>
+            )}
+
+            {options.map((item, index) => {
+              const currentDate = formatDate(item.date, DateFormatType.LongWithYear, user.locale, user.language);
+              const prevDate =
+                index > 0
+                  ? formatDate(options[index - 1].date, DateFormatType.LongWithYear, user.locale, user.language)
+                  : null;
+
+              const showSeparator = currentDate !== prevDate;
+
+              return (
+                <div
+                  key={item.id ?? index}
+                  className="contents"
+                >
+                  {showSeparator && (
+                    <div className="col-span-full">
+                      <UiDateSeparator date={formatDate(item.date, DateFormatType.Short, user.locale, user.language)} />
+                    </div>
+                  )}
+                  <TransactionCard
+                    handleDelete={(id) => onDelete.mutate(id)}
+                    {...item}
                   />
                 </div>
-              )}
-
-              {options.map((item, index) => {
-                const currentDate = formatDate(item.date, DateFormatType.LongWithYear, user.locale, user.language);
-                const prevDate =
-                  index > 0
-                    ? formatDate(options[index - 1].date, DateFormatType.LongWithYear, user.locale, user.language)
-                    : null;
-
-                const showSeparator = currentDate !== prevDate;
-
-                return (
-                  <div
-                    key={item.id ?? index}
-                    className="contents"
-                  >
-                    {showSeparator && (
-                      <div className="col-span-full">
-                        <UiDateSeparator
-                          date={formatDate(item.date, DateFormatType.Short, user.locale, user.language)}
-                        />
-                      </div>
-                    )}
-                    <TransactionCard
-                      handleDelete={(id) => onDelete.mutate(id)}
-                      {...item}
-                    />
-                  </div>
-                );
-              })}
-            </FinListInsideWrapper>
+              );
+            })}
           </FinListScreenHandler>
-        </FinListOutsideWrapper>
+        </FinListWrapper>
         <FinPagination
           className="pt-3"
           {...paginationRestProps}

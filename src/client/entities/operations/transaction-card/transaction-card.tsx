@@ -34,6 +34,7 @@ export function TransactionCard({
   category = 'expense-misc',
   handleDelete,
   id,
+  showActions = true,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
 
@@ -64,26 +65,29 @@ export function TransactionCard({
             className={cn('font-bold', type && amountColorVariants[type])}
           />
         )}
-        <UiResponsiveMenu>
-          <UiResponsiveMenuTrigger
-            asChild
-            className="pr-1"
-          >
-            <UiIconButton
-              size="lg"
-              icon="three-dots-vertical"
-              variant="muted"
-              borderNone
+        {showActions && (
+          <UiResponsiveMenu>
+            <UiResponsiveMenuTrigger
+              asChild
+              className="pr-1"
+            >
+              <UiIconButton
+                size="lg"
+                icon="three-dots-vertical"
+                variant="muted"
+                borderNone
+              />
+            </UiResponsiveMenuTrigger>
+
+            <TransactionActions
+              id={id}
+              icon={categoryStyles.icon}
+              title={title || categoryStyles.label}
+              editPath={`profile/tracking-operations/edit/${id}`}
+              handleDelete={handleDelete}
             />
-          </UiResponsiveMenuTrigger>
-          <TransactionActions
-            id={id}
-            icon={categoryStyles.icon}
-            title={title || categoryStyles.label}
-            editPath={`profile/tracking-operations/edit/${id}`}
-            handleDelete={handleDelete}
-          />
-        </UiResponsiveMenu>
+          </UiResponsiveMenu>
+        )}
         {check && <span className={cn('font-bold', type && amountColorVariants[type])}>{check}</span>}
       </div>
     </div>
