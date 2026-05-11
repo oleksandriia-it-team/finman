@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
-import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header';
+import { TrackingOperationHeader } from '@frontend/features/tracking-operation/tracking-operation-header/tracking-operation-header';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { UiDateSeparator } from '@frontend/ui/ui-date-separator/ui-date-separator';
