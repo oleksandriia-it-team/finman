@@ -20,7 +20,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useGetBasicTrackingInformation } from './tracking-operation-hooks/get-tracking-op-information.hook';
 
 export function FiltersSheet({ children }: ChildrenComponentProps) {
-  const { methods, handleApplyFilters } = useTrackingOperationFilters();
+  const { methods, handleApplyFilters, setRealMaxSum } = useTrackingOperationFilters();
 
   const [open, setOpen] = useState(false);
 
@@ -29,6 +29,10 @@ export function FiltersSheet({ children }: ChildrenComponentProps) {
   const maxSum = useMemo(() => Math.max(data?.maxSum ?? 50000, 50000), [data]);
 
   const maxSumInFilters = methods.watch('maxSum') ?? 0;
+
+  useEffect(() => {
+    setRealMaxSum(maxSum);
+  }, [maxSum, setRealMaxSum]);
 
   useEffect(() => {
     if (maxSum < maxSumInFilters) {

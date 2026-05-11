@@ -14,7 +14,7 @@ export function TrackingOperationHeader() {
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const { methods, handleApplyFilters } = useTrackingOperationFilters();
+  const { methods, applySearch, clearSearch } = useTrackingOperationFilters();
   const searchValue = methods.watch('search') ?? '';
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function TrackingOperationHeader() {
     }
 
     debounceRef.current = setTimeout(() => {
-      handleApplyFilters();
+      applySearch(searchValue);
     }, SearchDebounceConstant);
 
     return () => {
@@ -45,7 +45,7 @@ export function TrackingOperationHeader() {
     if (isSearchOpen) {
       if (debounceRef.current) clearTimeout(debounceRef.current);
       methods.setValue('search', '');
-      handleApplyFilters();
+      clearSearch();
     }
     setIsSearchOpen((prev) => !prev);
   };
