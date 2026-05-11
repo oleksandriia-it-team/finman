@@ -21,7 +21,7 @@ export const DELETE = createRoute({
     ({ context: { op, userId } }) => OwnsTrackingOperationGuard(userId as number, op),
   ],
   execute: async ({ params: { id } }) => {
-    await trackingOperationRepository.deleteItem(id, true);
+    await trackingOperationRepository.deleteItem(id, false);
     return { status: 200, data: true };
   },
   filter: getDefaultApiErrorFilter,

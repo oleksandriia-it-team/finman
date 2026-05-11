@@ -8,7 +8,8 @@ export function getSafeErrorMessage(error: unknown): string {
   const isAppError = checkIsAppErrorObj(error);
 
   if (!isAppError) {
-    if (isDevMode()) {
+    if (isDevMode() && error) {
+      console.log(error);
       console.error(error);
     }
     return ErrorTexts.UnknownError;

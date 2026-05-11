@@ -7,12 +7,16 @@
   --popover-foreground: rgb(17 24 38);
   --primary: rgb(2 101 253);
   --primary-foreground: rgb(255 255 255);
+  --primary-muted: rgb(215 230 255);
+  --primary-muted-foreground: rgb(2 101 253);
   --secondary: rgb(222 226 241);
   --secondary-foreground: rgb(54 64 80);
-  --muted: rgb(145 145 145);
+  --muted: rgb(177 177 177);
   --muted-foreground: rgb(82 86 96);
   --destructive-foreground: rgb(223 34 36);
   --destructive: rgb(255 224 224);
+  --destructive-muted: rgb(255 210 210);
+  --destructive-muted-foreground: rgb(223 34 36);
   --accent: rgb(231 239 252);
   --accent-foreground: rgb(1 82 203);
   --border: rgb(212 219 230);
@@ -46,49 +50,33 @@
   --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 4px 6px -1px rgb(0 0 0 / 10%);
   --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 8px 10px -1px rgb(0 0 0 / 10%);
   --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 25%);
-
-  // Custom colors
-
-  /* Success / Green */
   --success: rgb(22 163 74);
   --success-foreground: rgb(255 255 255);
-  --success-muted: rgb(220 252 231);
-  --success-muted-foreground: rgb(22 163 74);
-
-  /* Warning / Yellow */
+  --success-muted: rgb(187 247 208);
+  --success-muted-foreground: rgb(21 128 61);
   --warning: rgb(202 138 4);
   --warning-foreground: rgb(255 255 255);
-  --warning-muted: rgb(254 249 195);
+  --warning-muted: rgb(254 240 138);
   --warning-muted-foreground: rgb(161 98 7);
-
-  /* Purple */
   --purple: rgb(109 40 217);
   --purple-foreground: rgb(255 255 255);
-  --purple-muted: rgb(237 233 254);
+  --purple-muted: rgb(224 216 254);
   --purple-muted-foreground: rgb(109 40 217);
-
-  /* Pink */
   --pink: rgb(219 39 119);
   --pink-foreground: rgb(255 255 255);
-  --pink-muted: rgb(252 231 243);
-  --pink-muted-foreground: rgb(219 39 119);
-
-  /* Orange */
+  --pink-muted: rgb(251 207 232);
+  --pink-muted-foreground: rgb(190 24 93);
   --orange: rgb(234 88 12);
   --orange-foreground: rgb(255 255 255);
-  --orange-muted: rgb(255 237 213);
+  --orange-muted: rgb(255 215 170);
   --orange-muted-foreground: rgb(194 65 12);
-
-  /* Teal */
   --teal: rgb(13 148 136);
   --teal-foreground: rgb(255 255 255);
-  --teal-muted: rgb(204 251 241);
+  --teal-muted: rgb(153 246 228);
   --teal-muted-foreground: rgb(13 148 136);
-
-  /* Aqua */
   --aqua: rgb(103 232 249);
   --aqua-foreground: rgb(8 51 68);
-  --aqua-muted: rgb(223 247 249);
+  --aqua-muted: rgb(165 243 252);
   --aqua-muted-foreground: rgb(21 94 117);
 
   /* Powder */

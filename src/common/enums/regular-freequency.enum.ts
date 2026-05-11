@@ -5,4 +5,14 @@ export const RegularPaymentFrequency = {
   Yearly: 'yearly',
 } as const;
 
+export const RegularPaymentFrequencyFilter = {
+  Today: 'Сьогодні',
+  Week: 'Тиждень',
+  Month: 'Місяць',
+  Year: 'Рік',
+} as const;
+
 export type RegularPaymentFrequency = (typeof RegularPaymentFrequency)[keyof typeof RegularPaymentFrequency];
+
+export type RegularPaymentFrequencyFilter =
+  (typeof RegularPaymentFrequencyFilter)[keyof typeof RegularPaymentFrequencyFilter];

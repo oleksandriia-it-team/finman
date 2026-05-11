@@ -1,5 +1,5 @@
 import { type UserInformationStore } from '@frontend/shared/services/user-information/models/user-infomation.model';
-import { UserInformationKey, ThemeKey } from '@frontend/shared/constants/local-storage.contants';
+import { UserInformationKey, ThemeKey } from '@frontend/shared/constants/local-storage.constants';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
 import { userSchema } from '@frontend/shared/schemas/validation-schema';

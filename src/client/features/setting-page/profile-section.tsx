@@ -1,12 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
-import { type ReactNode } from 'react';
 import { CardContent, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
-
-interface ProfileSectionProps {
-  title: string;
-  children: ReactNode;
-  className?: string | undefined;
-}
+import type { ProfileSectionProps } from '@frontend/features/setting-page/props/profile-section.props';
 
 export function ProfileSection({ title, children, className }: ProfileSectionProps) {
   return (

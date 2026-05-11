@@ -1,14 +1,24 @@
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
 import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 import type { TrackingOperationApiFilter } from '@backend/entities/tracking-operation/domain/tracking-operation-api.filter';
-import { Between, type FindOptionsWhere, ILike, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
+import { Between, type FindOptionsWhere, ILike, In, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import type { DeepPartial } from '@common/models/deep-partial.model';
+import type {
+  GetBasicInformationResponse,
+  GetTrackingOperationStatisticResponse,
+  ITrackingOperationRepository,
+} from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
 }
 
-export class TrackingOperationRepository extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter> {
+export class TrackingOperationRepository
+  extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter>
+  implements ITrackingOperationRepository
+{
   protected override mapFilters(
     filters: DeepPartial<TrackingOperationApiFilter> | undefined,
   ): FindOptionsWhere<TrackingOperationOrm> {
@@ -17,7 +27,9 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
 
     if (filters.userId !== undefined) where.userId = filters.userId;
     if (filters.type) where.type = filters.type;
-    if (filters.category) where.category = filters.category;
+    if (filters.category) {
+      where.category = Array.isArray(filters.category) ? In(filters.category) : filters.category;
+    }
     if (filters.softDeleted !== undefined) where.softDeleted = filters.softDeleted;
 
     if (filters.dateFrom && filters.dateTo) {
@@ -52,20 +64,28 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
   }
 
   override async getItems(
-    first: number,
-    last: number,
+    from: number,
+    to: number,
     filters?: DeepPartial<TrackingOperationApiFilter>,
   ): Promise<TrackingOperationOrm[]> {
     const baseWhere = this.mapFilters(filters);
 
+    const { skip, take } = calculateSkipAndLimit(from, to);
+
     if (!filters?.search) {
-      return super.getItems(first, last, filters);
+      return this.repository.find({
+        where: baseWhere,
+        skip,
+        take,
+        order: { date: 'DESC' },
+      });
     }
 
     return this.repository.find({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
-      skip: first - 1,
-      take: last - first + 1,
+      skip,
+      take,
+      order: { date: 'ASC' },
     });
   }
 
@@ -79,6 +99,40 @@ export class TrackingOperationRepository extends CrudApiRepository<TrackingOpera
     return this.repository.count({
       where: this.buildSearchWhereClauses(baseWhere, filters.search),
     });
+  }
+
+  async getMaxSum(filters?: DeepPartial<TrackingOperationApiFilter>): Promise<number> {
+    const baseWhere = this.mapFilters(filters);
+
+    return (await this.repository.maximum('sum', baseWhere)) ?? 0;
+  }
+
+  async getStatistic(
+    filters?: DeepPartial<TrackingOperationApiFilter>,
+  ): Promise<GetTrackingOperationStatisticResponse> {
+    const baseWhere = this.mapFilters(filters);
+
+    const [totalIncomes, totalOutcomes] = await Promise.all([
+      this.repository.sum('sum', { ...baseWhere, type: TypeEntry.Income }),
+      this.repository.sum('sum', { ...baseWhere, type: TypeEntry.Expense }),
+    ]);
+
+    return {
+      totalIncomes: totalIncomes ?? 0,
+      totalOutcomes: totalOutcomes ?? 0,
+    };
+  }
+
+  async getBasicInformation(filters?: DeepPartial<TrackingOperationApiFilter>): Promise<GetBasicInformationResponse> {
+    const statistic = await this.getStatistic(filters);
+    const maxSum = await this.getMaxSum(filters);
+    const totalCount = await this.getTotalCount(filters);
+
+    return {
+      ...statistic,
+      maxSum,
+      totalCount,
+    };
   }
 }
 

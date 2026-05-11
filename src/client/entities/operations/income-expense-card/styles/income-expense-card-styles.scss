@@ -1,0 +1,10 @@
+@use 'sass:list';
+@import '../../../../shared/styles/variants';
+
+.income-expense-card {
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'] {
+      border-color: list.nth($colors, 2);
+    }
+  }
+}

@@ -18,7 +18,7 @@ import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
-import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import { UserInformationKey } from '@frontend/shared/constants/local-storage.constants';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';

@@ -28,7 +28,7 @@ export default function BenefitsExplanationStep() {
             {TransactionsData.map((tx) => (
               <TransactionCard
                 key={tx.id}
-                name={tx.icon}
+                icon={tx.icon}
                 title={tx.title}
                 description={tx.description}
                 check={tx.check}

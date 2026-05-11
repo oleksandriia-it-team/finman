@@ -7,7 +7,7 @@ export interface ICrudService<T extends DefaultTableColumns, DTO extends RecordM
 
   getItemById(id: number): Promise<T | null>;
 
-  getItems(first: number, last: number, filters?: DeepPartial<F>): Promise<T[]>;
+  getItems(from: number, to: number, filters?: DeepPartial<F>): Promise<T[]>;
 
   createItem(data: DTO): Promise<number>;
 

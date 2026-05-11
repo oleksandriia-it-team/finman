@@ -37,7 +37,7 @@ function FormTitle({ className, children, ...props }: React.HTMLAttributes<HTMLH
 function FormDescription({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
   return (
     <p
-      className={cn('text-sm text-muted', className)}
+      className={cn('text-sm text-muted-foreground', className)}
       {...props}
     >
       {children}

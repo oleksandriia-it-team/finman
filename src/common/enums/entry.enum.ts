@@ -4,3 +4,9 @@ export const enum TypeEntry {
   Credit = 'credit',
   Saving = 'saving',
 }
+
+export const enum TypeEntryFilter {
+  All = 'all',
+  Expense = 'expense',
+  Income = 'income',
+}

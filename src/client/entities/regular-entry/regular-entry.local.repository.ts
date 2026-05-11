@@ -1,4 +1,4 @@
-import { CrudLocalService } from '../../database/crud/crud.local.service';
+import { CrudLocalRepository } from '../../database/crud/crud.local.repository';
 import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { type RegularEntry } from '@common/records/regular-entry.record';
@@ -12,11 +12,11 @@ import type {
 } from '@common/domains/regular-entry/models/regular-entry-repository.model';
 
 export class RegularEntryLocalRepository
-  extends CrudLocalService<RegularEntry, RegularEntryFilter>
+  extends CrudLocalRepository<RegularEntry, RegularEntryFilter>
   implements IRegularEntryRepository
 {
   constructor(databaseLocalService: DatabaseLocalService) {
-    super(databaseLocalService, Tables.RegularExpensesAndIncomesTable);
+    super(databaseLocalService, Tables.RegularExpensesAndIncomesTable.name);
   }
 
   createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {
@@ -31,8 +31,8 @@ export class RegularEntryLocalRepository
     return this.databaseLocalService.deleteItem(this.tableName, id, true);
   }
 
-  getItemsWithSoftDeleted(first: number, last: number): Promise<RegularEntry[]> {
-    return this.databaseLocalService.getItems(this.tableName, first, last, true);
+  getItemsWithSoftDeleted(from: number, to: number): Promise<RegularEntry[]> {
+    return this.databaseLocalService.getItems(this.tableName, from, to, true);
   }
 
   protected override mapFilters(filters: DeepPartial<RegularEntryFilter> | undefined): FilterPredicate<RegularEntry>[] {
