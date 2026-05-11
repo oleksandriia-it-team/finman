@@ -15,10 +15,11 @@ export function UiButton({
   bgNone,
   asChild,
   type,
-  borderNone,
+  borderNone = true,
   paddingNone,
   opacity,
   heightAuto,
+  borderBold,
   ...props
 }: ButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
@@ -34,7 +35,14 @@ export function UiButton({
       data-bg-none={bgNone}
       data-border-none={borderNone}
       data-opacity={opacity ?? false}
-      className={cn('btn cursor-pointer', paddingNone && '!p-0', heightAuto && '!h-auto', className)}
+      className={cn(
+        'btn cursor-pointer',
+        paddingNone && '!p-0',
+        heightAuto && '!h-auto',
+        borderBold ? '!border-2' : 'border',
+        borderNone && '!border-none',
+        className,
+      )}
       {...props}
     />
   );

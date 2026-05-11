@@ -1,0 +1,86 @@
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
+import {
+  type TrackingOperationFilterFormData,
+  TrackingOperationFilterSchema,
+} from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import type { TrackingOperationFilter } from '@common/domains/tracking-operation/filter/tracking-operation.filter';
+import { useMemo, useState } from 'react';
+import constate from 'constate';
+import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
+
+function useFiltersHookLogic() {
+  const [filters, setFilters] = useState<Partial<TrackingOperationFilter>>({});
+
+  const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
+
+  const showToast = useGlobalToast((state) => state.showToast);
+  const methods = useForm<TrackingOperationFilterFormData>({
+    resolver: zodResolver(TrackingOperationFilterSchema) as never,
+    defaultValues: {
+      dateFrom: undefined,
+      dateTo: undefined,
+      category: undefined,
+      type: undefined,
+      search: '',
+      softDeleted: 0,
+      minSum: 0,
+      maxSum: 50000,
+    },
+  });
+
+  const handleApplyFilters = methods.handleSubmit(
+    async (data) => {
+      try {
+        const cleanFilters = Object.fromEntries(
+          Object.entries(data).filter(([_, v]) => {
+            if (Array.isArray(v)) return v.length > 0;
+            return v !== undefined && v !== '';
+          }),
+        ) as TrackingOperationFilter;
+
+        setFilters(cleanFilters);
+
+        showToast({
+          title: 'Успішно',
+          description: 'Фільтри застосовано',
+          variant: 'success',
+        });
+      } catch (err) {
+        console.error(err);
+        showToast({
+          title: 'Помилка',
+          description: 'Не вдалося застосувати фільтри',
+          variant: 'destructive',
+        });
+      }
+    },
+    (errors) => {
+      console.error('Validation errors:', errors);
+      showToast({
+        title: 'Помилка валідації',
+        description: 'Перевірте правильність введених сум або дат',
+        variant: 'destructive',
+      });
+    },
+  );
+
+  const combinedFilters = useMemo(
+    () => ({
+      ...filters,
+      type: (typeFilter === TypeEntryFilter.All ? undefined : typeFilter) as unknown as
+        | TypeEntry.Expense
+        | TypeEntry.Income,
+    }),
+    [filters, typeFilter],
+  );
+
+  const filtersJSON = useMemo(() => JSON.stringify(combinedFilters), [combinedFilters]);
+
+  return { methods, filters: combinedFilters, handleApplyFilters, filtersJSON, typeFilter, setTypeFilter };
+}
+
+export const [TrackingOperationFiltersProvider, useTrackingOperationFilters] = constate(useFiltersHookLogic);

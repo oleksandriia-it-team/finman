@@ -16,7 +16,7 @@ import React from 'react';
 
 export function AdminSidebarContent() {
   const pathname = usePathname();
-  const userName = useAuthorizedUser()?.name ?? 'Користувач';
+  const userName = useAuthorizedUser().name;
 
   return (
     <UiSidebarContent>

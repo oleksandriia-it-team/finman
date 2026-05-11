@@ -17,11 +17,11 @@ export function UiActionButton({
 }: ActionsButtonProps) {
   return (
     <UiButton
+      borderNone
       type={type}
       variant={variant}
       size={size}
       className={cn('flex gap-3', className)}
-      opacity
       heightAuto
       {...props}
     >

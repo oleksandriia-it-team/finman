@@ -1,12 +1,12 @@
-import { isEmpty } from '@common/utils/is-empty.util';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type {
   PaginationResource,
   PaginationResourceConfig,
 } from '@frontend/shared/hooks/pagination-resource/models/pagination-resource.model';
 import { useQuery } from '@tanstack/react-query';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 
 export function usePaginationResource<T, F extends object>({
   getTotalCountFn,
@@ -15,9 +15,13 @@ export function usePaginationResource<T, F extends object>({
   pageSize,
   filters,
   clearCacheOnDestroy,
+  filtersJSON,
 }: PaginationResourceConfig<T, F>): PaginationResource<T> {
   const [selectedPage, setPage] = useState<number>(1);
-  const filtersKey = useMemo(() => JSON.stringify(filters ?? null), [filters]);
+  const filtersKey = useMemo(
+    () => (filtersJSON ? filtersJSON : JSON.stringify(filters ?? null)),
+    [filtersJSON, filters],
+  );
 
   const getOptionsQuery = useQuery({
     queryKey: [...queryKey, 'options', String(selectedPage), String(pageSize), filtersKey],
@@ -36,30 +40,10 @@ export function usePaginationResource<T, F extends object>({
     setPage(1);
   }, [filtersKey]);
 
-  const state = useMemo(() => {
-    const statuses = [getOptionsQuery.status, getTotalCountQuery.status];
-
-    if (statuses.every((status) => status === 'success')) {
-      return PromiseState.Success;
-    }
-
-    if (statuses.includes('error')) {
-      return PromiseState.Error;
-    }
-
-    return PromiseState.Loading;
-  }, [getOptionsQuery.status, getTotalCountQuery.status]);
+  const state = useCombineStates(getPromiseState(getOptionsQuery.status), getPromiseState(getTotalCountQuery.status));
 
   const errorMessage = useMemo(() => {
-    const errors = [getOptionsQuery.error, getTotalCountQuery.error];
-
-    const error = errors.find((error) => !!error);
-
-    if (isEmpty(error)) {
-      return undefined;
-    }
-
-    return getSafeErrorMessage(error);
+    return getFirstErrorMessage(getOptionsQuery.error, getTotalCountQuery.error);
   }, [getOptionsQuery.error, getTotalCountQuery.error]);
 
   const reload = useCallback(() => {

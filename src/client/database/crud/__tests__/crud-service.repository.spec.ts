@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { CrudLocalService } from '../crud.local.service';
+import { CrudLocalRepository } from '../crud.local.repository';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { DatabaseLocalService } from '../../database.local.service';
 
 const tableName = 'TEST';
 
-class CrudServiceForUnitTest extends CrudLocalService<DefaultTableColumns, never> {
+class CrudServiceForUnitTest extends CrudLocalRepository<DefaultTableColumns, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, tableName);
   }
@@ -36,7 +36,7 @@ describe('CrudLocalService', () => {
   let service: CrudServiceForUnitTest;
 
   beforeEach(() => {
-    dbService = new DatabaseLocalService('UNIT_TESTS', [tableName], 1);
+    dbService = new DatabaseLocalService('UNIT_TESTS', [{ name: tableName }], 1);
     service = new CrudServiceForUnitTest(dbService);
   });
 
@@ -66,6 +66,6 @@ describe('CrudLocalService', () => {
 
     expect(result.length).toBe(0);
 
-    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false, []);
+    expect(dbService.getItems).toHaveBeenCalledExactlyOnceWith(tableName, 1, 12, false, [], undefined);
   });
 });

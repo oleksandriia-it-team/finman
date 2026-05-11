@@ -4,6 +4,7 @@ import { type RecordModel } from '@common/models/record.model';
 import { type DefaultColumnKeys, type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
+import type { OrderByLocalModel } from '@frontend/shared/models/order-by.local.model';
 
 /**
  * Abstract base class for CRUD operations on a specific IndexedDB table.
@@ -23,7 +24,7 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
  *   async deleteItem(id: number) { ... }
  * }
  */
-export abstract class CrudLocalService<
+export abstract class CrudLocalRepository<
   T extends DefaultTableColumns,
   F extends object,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
@@ -41,8 +42,13 @@ export abstract class CrudLocalService<
     return this.databaseLocalService.getItemById(this.tableName, id, false);
   }
 
-  async getItems(first: number, last: number, filters?: DeepPartial<F> | undefined): Promise<T[]> {
-    return this.databaseLocalService.getItems(this.tableName, first, last, false, this.mapFilters(filters));
+  async getItems(
+    from: number,
+    to: number,
+    filters?: DeepPartial<F> | undefined,
+    orderBy?: OrderByLocalModel,
+  ): Promise<T[]> {
+    return this.databaseLocalService.getItems(this.tableName, from, to, false, this.mapFilters(filters), orderBy);
   }
 
   abstract createItem(data: DTO): Promise<number>;

@@ -1,15 +1,17 @@
 'use client';
 
-import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+import { TrackingOperationScreen } from '@frontend/features/tracking-operation/tracking-operation-screen';
+import { useSetCenterButton } from '@frontend/widgets/profile-mobile-navbar/center-button-nav/use-set-center-button';
+import { TrackingOperationFiltersProvider } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
+import { GetBasicTrackingInformationProvider } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 
 export default function UserProfilePage() {
-  const user = useAuthorizedUser()!;
-
+  useSetCenterButton('/profile/tracking-operations/add');
   return (
-    <div className="flex flex-col items-center justify-center p-5">
-      <p>{user.name}</p>
-      <p>{user.currencyCode}</p>
-      <p>{user.language}</p>
-    </div>
+    <TrackingOperationFiltersProvider>
+      <GetBasicTrackingInformationProvider>
+        <TrackingOperationScreen />
+      </GetBasicTrackingInformationProvider>
+    </TrackingOperationFiltersProvider>
   );
 }

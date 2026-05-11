@@ -3,7 +3,7 @@
 import { type InputProps } from '@frontend/components/fields/props/input.props';
 
 import { cn } from '@frontend/shared/utils/cn.util';
-import { type ComponentProps, useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useMemo, useState } from 'react';
 
 import './styles/input-styles.scss';
 import { getAfterInputValue } from '@common/utils/get-after-input-value.util';
@@ -17,7 +17,7 @@ export function UiInput({
   ref,
   ...props
 }: InputProps<string> & Omit<ComponentProps<'input'>, 'onChange' | 'pattern'>) {
-  const regexp = typeof pattern === 'string' ? new RegExp(pattern) : pattern;
+  const regexp = useMemo(() => (typeof pattern === 'string' ? new RegExp(pattern) : pattern), [pattern]);
 
   const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 

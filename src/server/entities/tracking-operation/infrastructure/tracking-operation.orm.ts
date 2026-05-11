@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
 import { type TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { ExpenseCategories, AllCategoryValues, type AllCategories } from '@common/enums/categories.enum';
+import { type AllCategories, AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
 
 @Entity('tracking-operation')
@@ -18,10 +18,6 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
 
   @Column({
     type: 'date',
-    transformer: {
-      from: (value: string | null) => (value ? new Date(`${value}T00:00:00Z`) : null),
-      to: (date: Date | null) => (date ? date.toISOString().split('T')[0] : null),
-    },
   })
   date!: Date;
 

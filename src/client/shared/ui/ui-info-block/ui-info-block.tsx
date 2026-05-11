@@ -2,18 +2,8 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiTitle } from '../ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
-import type { SizeVariantModel } from '@frontend/shared/models/size-variant.model';
-
-interface UiInfoBlockProps {
-  name: string;
-  title: string;
-  description?: string | null;
-  className?: string;
-  iconClassName?: string;
-  bgClassName?: string;
-  onClick?: () => void;
-  size?: SizeVariantModel;
-}
+import type { UiInfoBlockProps } from '@frontend/ui/ui-info-block/ui-info-block-props';
+import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 
 export function UiInfoBlock({
   title,
@@ -23,10 +13,13 @@ export function UiInfoBlock({
   bgClassName,
   onClick,
   size = 'default',
-  ...props
+  category,
+  icon,
+  isIconRoundedFull = false,
 }: UiInfoBlockProps) {
-  const isClickable = !!onClick;
+  const categoryStyles = category ? CategoriesMapping[category] : null;
 
+  const isClickable = !!onClick;
   return (
     <div
       className={cn(
@@ -46,15 +39,27 @@ export function UiInfoBlock({
       }}
     >
       <UiIconBadge
+        name={categoryStyles?.icon ?? icon ?? ''}
+        title={categoryStyles?.label ?? title ?? ''}
         isReversed
-        variant="primary"
+        variant={categoryStyles?.variant ?? 'primary'}
         size={size}
-        className={cn('shrink-0 !bg-muted/20', iconClassName)}
-        {...props}
+        className={cn('shrink-0', iconClassName || 'bg-muted/20')}
+        isRoundedFull={isIconRoundedFull}
       />
-      <div className="flex flex-col">
-        <UiTitle size="lg">{title}</UiTitle>
-        <UiDescription size="default">{description}</UiDescription>
+      <div className="flex flex-col min-w-0 overflow-hidden">
+        <UiTitle
+          size="lg"
+          className="truncate"
+        >
+          {title}
+        </UiTitle>
+        <UiDescription
+          className="truncate"
+          size="default"
+        >
+          {description}
+        </UiDescription>
       </div>
     </div>
   );

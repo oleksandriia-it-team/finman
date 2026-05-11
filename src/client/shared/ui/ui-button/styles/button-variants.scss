@@ -1,6 +1,7 @@
 @use 'sass:list';
 @import './button-variant-mixin';
 @import '../../../styles/variants';
+@import '../../../styles/functions';
 
 .btn {
   @include btn-base;
@@ -15,11 +16,11 @@
 
       &[data-outlined='false'] {
         &[data-opacity='true'] {
-          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 60%);
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 90%, getSafeNth($colors, 3));
         }
 
         &[data-opacity='false'] {
-          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 0%);
+          @include btn-variant(list.nth($colors, 1), list.nth($colors, 2), 0%, getSafeNth($colors, 3));
         }
       }
 
@@ -45,11 +46,7 @@
     &:hover,
     &:active,
     &:focus-visible {
-      background-color: transparent !important;
+      background-color: color-mix(in srgb, currentcolor 10%, transparent) !important;
     }
-  }
-
-  &[data-border-none='true'] {
-    border: none !important;
   }
 }

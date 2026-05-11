@@ -13,6 +13,7 @@ export const POST = createRoute({
     const userId = context as number;
 
     const id = await countryRepository.createItem({
+      countryUk: body.countryUkName,
       country: body.countryName,
       locale: body.localeName,
       adminId: userId,

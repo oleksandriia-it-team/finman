@@ -14,7 +14,7 @@ export const GET = createRoute({
   }),
   contextFn: async (request, params) => ({
     userId: await GetUserIdTransformer(request),
-    operationId: params.id, // Передаємо id через контекст
+    operationId: params.id,
     op: null as TrackingOperationOrm | null,
   }),
   guards: [

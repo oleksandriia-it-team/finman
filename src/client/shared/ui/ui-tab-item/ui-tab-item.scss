@@ -1,0 +1,29 @@
+.ui-tab-item {
+  position: relative;
+  padding-bottom: 0.5rem;
+  padding-inline: 1rem;
+  color: var(--muted-foreground);
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.25s ease;
+  }
+
+  &--active {
+    color: var(--primary);
+
+    &::after {
+      transform: scaleX(1);
+    }
+  }
+}

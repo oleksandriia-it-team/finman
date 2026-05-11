@@ -13,9 +13,14 @@ import { useAdminLookup } from '../hooks/use-admin-lookup.hook';
 
 const Columns: LookupColumnDef<CountryAndLocale>[] = [
   {
-    header: 'Країна',
+    header: 'Країна(англійською)',
     cellClassName: 'py-2 text-sm font-medium text-foreground',
     cell: (item) => item.country,
+  },
+  {
+    header: 'Країна(українською)',
+    cellClassName: 'py-2 text-sm font-medium text-foreground',
+    cell: (item) => item.countryUk,
   },
   {
     header: 'Локаль',
@@ -73,6 +78,7 @@ export function CountriesLookup() {
             ? {
                 id: lookup.editingItem.id,
                 countryName: lookup.editingItem.country,
+                countryUkName: lookup.editingItem.countryUk,
                 localeName: lookup.editingItem.locale,
               }
             : undefined
