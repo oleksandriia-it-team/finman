@@ -8,29 +8,18 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiFormLayout } from '@frontend/ui/ui-form-layout/ui-form-layout';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { FinControlledTextarea } from '@frontend/components/controlled-fields/fin-controlled-textarea';
-import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { FinControlledMultipleAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-multiple-autocomplete';
-import { useEffect, useMemo, useState } from 'react';
-import { regularEntryService } from '@frontend/features/regular-incomes-expenses/regular-entry.service';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import type { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
-import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import { ExpenseCategories } from '@common/enums/categories.enum';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { TransactionCategoryPicker } from '@frontend/entities/operations/transaction-category-picker/transaction-category-picker';
+import { BudgetPlanFormSideBlock } from './budget-plan-form-side-block/budget-plan-form-side-block';
+import { cn } from '@frontend/shared/utils/cn.util';
+import { useRegularEntryOptions } from './hooks/use-regular-entry-options.hook';
 
 interface BudgetPlanFormProps {
   initialData?: BudgetPlanDetailed;
   onSuccess?: () => void;
   onCancel?: () => void;
-}
-
-function getCategoryOptions(type: TypeEntry.Expense | TypeEntry.Income) {
-  const categories = type === TypeEntry.Income ? IncomeCategories : ExpenseCategories;
-
-  return Object.values(categories).map((category) => ({
-    label: CategoriesMapping[category].label,
-    value: category,
-  }));
 }
 
 export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanFormProps) {
@@ -45,57 +34,8 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
   });
 
   const selectedRegularIds = methods.watch('plannedRegularEntryIds');
-  const [regularEntriesOptions, setRegularEntriesOptions] = useState<DropdownOption<number>[]>([]);
-  const [search, setSearch] = useState('');
-  const [loadingState, setLoadingState] = useState(PromiseState.Loading);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const loadEntries = async () => {
-      try {
-        setLoadingState(PromiseState.Loading);
-        const entries = await regularEntryService.getItems(0, 1000, { softDeleted: 0 });
-
-        if (!isMounted) {
-          return;
-        }
-
-        setRegularEntriesOptions(
-          entries.map((entry) => ({
-            label: entry.title,
-            value: entry.id,
-          })),
-        );
-        setLoadingState(PromiseState.Success);
-      } catch {
-        if (isMounted) {
-          setLoadingState(PromiseState.Error);
-        }
-      }
-    };
-
-    void loadEntries();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  const selectedRegularEntries = useMemo(
-    () => regularEntriesOptions.filter((option) => selectedRegularIds?.includes(option.value)),
-    [regularEntriesOptions, selectedRegularIds],
-  );
-
-  const filteredRegularEntries = useMemo(() => {
-    const normalized = search.trim().toLowerCase();
-
-    if (!normalized) {
-      return regularEntriesOptions;
-    }
-
-    return regularEntriesOptions.filter((option) => option.label.toLowerCase().includes(normalized));
-  }, [regularEntriesOptions, search]);
+  const { search, setSearch, loadingState, selectedRegularEntries, filteredRegularEntries } =
+    useRegularEntryOptions(selectedRegularIds);
 
   const addMonthEntry = () => {
     append({
@@ -112,7 +52,11 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
   return (
     <div className="flex flex-row size-full">
       <FormProvider {...methods}>
-        <UiFormLayout.Root onSubmit={submit}>
+        <UiFormLayout.Root
+          onSubmit={submit}
+          style={{ minWidth: 'min(25rem, 100%)' }}
+          className="w-0 flex-1"
+        >
           <UiFormLayout.Header>
             <UiFormLayout.Title>Бюджетний план</UiFormLayout.Title>
             <UiFormLayout.Description>
@@ -140,7 +84,6 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
 
             {otherEntriesFields.map((field, index) => {
               const rowType = methods.watch(`otherEntries.${index}.type`) as TypeEntry.Expense | TypeEntry.Income;
-              const rowCategoryOptions = getCategoryOptions(rowType);
 
               return (
                 <div
@@ -159,6 +102,53 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
                   </button>
 
                   <UiFormLayout.Grid cols={1}>
+                    {/* Type selector */}
+                    <UiFormLayout.Section label="Тип платежу">
+                      <div className="flex w-full p-1.5 gap-4">
+                        <UiButton
+                          type="button"
+                          className={cn(
+                            'flex-1 py-2.5 font-semibold transition-all text-sm',
+                            rowType !== TypeEntry.Income &&
+                              'bg-transparent text-muted-foreground hover:text-foreground shadow-none',
+                          )}
+                          onClick={() => {
+                            methods.setValue(`otherEntries.${index}.type`, TypeEntry.Income, { shouldValidate: true });
+                          }}
+                          variant={rowType === TypeEntry.Income ? 'success' : 'default'}
+                        >
+                          Дохід
+                        </UiButton>
+                        <UiButton
+                          type="button"
+                          className={cn(
+                            'flex-1 py-2.5 font-semibold transition-all text-sm',
+                            rowType !== TypeEntry.Expense &&
+                              'bg-transparent text-muted-foreground hover:text-foreground shadow-none',
+                          )}
+                          onClick={() => {
+                            methods.setValue(`otherEntries.${index}.type`, TypeEntry.Expense, { shouldValidate: true });
+                          }}
+                          variant={rowType === TypeEntry.Expense ? 'destructive' : 'default'}
+                        >
+                          Витрата
+                        </UiButton>
+                      </div>
+                    </UiFormLayout.Section>
+
+                    {/* Category picker */}
+                    {rowType && (
+                      <UiFormLayout.Section label="Категорія">
+                        <div className="mb-4">
+                          <TransactionCategoryPicker
+                            name={`otherEntries.${index}.category`}
+                            type={rowType}
+                          />
+                        </div>
+                      </UiFormLayout.Section>
+                    )}
+
+                    {/* Basic fields */}
                     <FinControlledInput
                       label="Назва"
                       name={`otherEntries.${index}.title`}
@@ -171,6 +161,7 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
                       placeholder="Опис операції"
                     />
 
+                    {/* Amount and Priority */}
                     <UiFormLayout.Grid cols={2}>
                       <FinControlledInput
                         label="Сума"
@@ -179,41 +170,27 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
                         placeholder="0.00"
                       />
 
-                      <FinControlledDropdown
-                        label="Тип"
-                        name={`otherEntries.${index}.type`}
-                        options={[
-                          { label: 'Витрата', value: TypeEntry.Expense },
-                          { label: 'Дохід', value: TypeEntry.Income },
-                        ]}
-                      />
-                    </UiFormLayout.Grid>
-
-                    <FinControlledDropdown
-                      label="Категорія"
-                      name={`otherEntries.${index}.category`}
-                      options={rowCategoryOptions}
-                    />
-
-                    <UiFormLayout.Grid cols={2}>
                       <FinControlledInput
-                        label="Пріоритет (1-10)"
+                        label="Важливість (1-10)"
                         name={`otherEntries.${index}.priority`}
                         type="number"
                         placeholder="1"
+                        min="1"
+                        max="10"
                       />
-
-                      <div className="flex items-end h-full pb-1">
-                        <label className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            {...methods.register(`otherEntries.${index}.selected`)}
-                            className="w-4 h-4 cursor-pointer rounded border-border accent-primary"
-                          />
-                          <span className="text-sm">Вибрано</span>
-                        </label>
-                      </div>
                     </UiFormLayout.Grid>
+
+                    {/* Checkbox */}
+                    <div className="flex items-center h-full">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          {...methods.register(`otherEntries.${index}.selected`)}
+                          className="w-4 h-4 cursor-pointer rounded border-border accent-primary"
+                        />
+                        <span className="text-sm">Вибрано до оптимізації</span>
+                      </label>
+                    </div>
                   </UiFormLayout.Grid>
                 </div>
               );
@@ -222,14 +199,14 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
             <UiButton
               type="button"
               variant="default"
-              className="w-full"
+              className="w-full border-2 border-dashed border-border rounded-lg py-3"
               onClick={addMonthEntry}
             >
               <UiSvgIcon
                 name="plus"
                 size="sm"
               />
-              Додати місячну операцію
+              Додати операцію
             </UiButton>
           </UiFormLayout.Section>
 
@@ -252,6 +229,10 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanF
           </UiFormLayout.Actions>
         </UiFormLayout.Root>
       </FormProvider>
+
+      <div className="size-full flex-2 max-lg:hidden">
+        <BudgetPlanFormSideBlock />
+      </div>
     </div>
   );
 }

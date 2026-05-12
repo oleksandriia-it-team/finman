@@ -1,7 +1,7 @@
 import { type ComponentProps, useMemo } from 'react';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
-interface UiTransformCurrencyProps extends Omit<ComponentProps<'p'>, 'children'> {
+interface UiTransformCurrencyProps extends Omit<ComponentProps<'span'>, 'children'> {
   value: number;
   locale?: string;
   currency?: string;
@@ -18,5 +18,5 @@ export function FinTransformCurrency({ value, currency, locale, ...props }: UiTr
     });
   }, [value, locale, userLocale, currency]);
 
-  return <p {...props}>{formatted}</p>;
+  return <span {...props}>{formatted}</span>;
 }

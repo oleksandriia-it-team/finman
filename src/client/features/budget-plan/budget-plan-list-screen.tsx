@@ -6,16 +6,17 @@ import { useQuery } from '@tanstack/react-query';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
-import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { UiCard, CardContent, CardHeader, CardTitle } from '@frontend/ui/ui-card/ui-card';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
+import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 export function BudgetPlanListScreen() {
   const router = useRouter();
@@ -78,10 +79,24 @@ export function BudgetPlanListScreen() {
     0,
   );
 
+  const totalBalance = totalIncome + monthOtherIncome - (totalExpense + monthOtherExpense);
+  const balanceStatus = totalBalance >= 0 ? 'success' : 'danger';
+
   return (
     <FinListPageWrapper>
-      <div className="p-4">
-        <h1 className="text-2xl font-bold mb-6">Бюджетний план - {MonthTitles[currentDate.month]}</h1>
+      <div className="p-4 space-y-6">
+        <div>
+          <div className="flex items-center gap-2 text-muted-foreground mb-2">
+            <UiSvgIcon
+              name="calendar"
+              size="sm"
+            />
+            <span className="text-sm">Поточний план</span>
+          </div>
+          <h1 className="text-3xl font-bold">
+            {MonthTitles[currentDate.month]} {currentDate.year}
+          </h1>
+        </div>
 
         {!budgetPlan ? (
           <div className="flex flex-col items-center justify-center gap-4 py-12">
@@ -99,118 +114,160 @@ export function BudgetPlanListScreen() {
             </UiButton>
           </div>
         ) : (
-          <FinListWrapper state={state}>
-            <div className="col-span-full grid grid-cols-1 md:grid-cols-2 gap-4">
-              <UiCard>
-                <CardHeader>
-                  <CardTitle>Регулярні операції</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Доходи:</span>
-                      <span className="text-sm font-semibold text-success">
-                        <FinTransformCurrency value={totalIncome} />
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Витрати:</span>
-                      <span className="text-sm font-semibold text-destructive">
-                        <FinTransformCurrency value={totalExpense} />
-                      </span>
-                    </div>
-                    <hr className="my-2" />
-                    <div className="flex justify-between">
-                      <span className="text-sm font-semibold">Баланс:</span>
-                      <span
-                        className={`text-sm font-bold ${totalIncome - totalExpense >= 0 ? 'text-success' : 'text-destructive'}`}
-                      >
-                        <FinTransformCurrency value={totalIncome - totalExpense} />
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </UiCard>
+          <div className="space-y-6">
+            <div className="bg-card rounded-3xl p-6 shadow-lg space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Загальний дохід</p>
+                  <p className="text-2xl font-bold text-success">
+                    <FinTransformCurrency value={totalIncome + monthOtherIncome} />
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-2">Загальні витрати</p>
+                  <p className="text-2xl font-bold text-destructive">
+                    <FinTransformCurrency value={totalExpense + monthOtherExpense} />
+                  </p>
+                </div>
+              </div>
 
-              <UiCard>
-                <CardHeader>
-                  <CardTitle>Місячні операції</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Доходи:</span>
-                      <span className="text-sm font-semibold text-success">
-                        <FinTransformCurrency value={monthOtherIncome} />
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Витрати:</span>
-                      <span className="text-sm font-semibold text-destructive">
-                        <FinTransformCurrency value={monthOtherExpense} />
-                      </span>
-                    </div>
-                    <hr className="my-2" />
-                    <div className="flex justify-between">
-                      <span className="text-sm font-semibold">Баланс:</span>
-                      <span
-                        className={`text-sm font-bold ${monthOtherIncome - monthOtherExpense >= 0 ? 'text-success' : 'text-destructive'}`}
-                      >
-                        <FinTransformCurrency value={monthOtherIncome - monthOtherExpense} />
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </UiCard>
+              <div className="bg-secondary/50 rounded-2xl p-4 flex items-center gap-3">
+                <div
+                  className={cn(
+                    'w-12 h-12 rounded-full flex items-center justify-center',
+                    balanceStatus === 'success' ? 'bg-success/10' : 'bg-destructive/10',
+                  )}
+                >
+                  <UiSvgIcon
+                    name={balanceStatus === 'success' ? 'trending-up' : 'trending-down'}
+                    size="sm"
+                    className={cn(balanceStatus === 'success' ? 'text-success' : 'text-destructive')}
+                  />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Баланс</p>
+                  <p
+                    className={cn(
+                      'text-xl font-bold',
+                      balanceStatus === 'success' ? 'text-success' : 'text-destructive',
+                    )}
+                  >
+                    <FinTransformCurrency value={totalBalance} />
+                  </p>
+                </div>
+                <div
+                  className={cn(
+                    'ml-auto px-3 py-1 rounded-full text-xs font-semibold',
+                    balanceStatus === 'success' ? 'bg-success/10 text-success' : 'bg-destructive/10 text-destructive',
+                  )}
+                >
+                  {balanceStatus === 'success' ? 'Надлишок' : 'Дефіцит'}
+                </div>
+              </div>
             </div>
 
-            <div className="col-span-full">
-              <UiCard>
-                <CardHeader>
-                  <CardTitle>Деталі бюджету</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <h3 className="font-semibold mb-3">
-                        Регулярні операції ({budgetPlan.plannedRegularEntries.length})
-                      </h3>
-                      <ul className="space-y-2">
-                        {budgetPlan.plannedRegularEntries.map((entry) => (
-                          <li
-                            key={entry.id}
-                            className="text-sm flex justify-between"
-                          >
-                            <span>{entry.title}</span>
-                            <span className={entry.type === 'income' ? 'text-success' : 'text-destructive'}>
-                              <FinTransformCurrency value={entry.sum} />
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+            {/* Regular Operations Section */}
+            {(budgetPlan.plannedRegularEntries ?? []).length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <UiSvgIcon
+                    name="refresh-cw"
+                    size="sm"
+                    className="text-primary"
+                  />
+                  <h2 className="text-lg font-semibold">Регулярні операції</h2>
+                </div>
 
-                    <div>
-                      <h3 className="font-semibold mb-3">Місячні операції ({budgetPlan.otherEntries.length})</h3>
-                      <ul className="space-y-2">
-                        {budgetPlan.otherEntries.map((entry) => (
-                          <li
-                            key={entry.id}
-                            className="text-sm flex justify-between"
-                          >
-                            <span>{entry.title}</span>
-                            <span className={entry.type === 'income' ? 'text-success' : 'text-destructive'}>
-                              <FinTransformCurrency value={entry.sum} />
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </UiCard>
-            </div>
-          </FinListWrapper>
+                <div className="space-y-2">
+                  {(budgetPlan.plannedRegularEntries ?? []).map((entry) => {
+                    const categoryStyles = CategoriesMapping[entry.category ?? 'expense-misc'];
+                    const isIncome = entry.type === 'income';
+
+                    return (
+                      <div
+                        key={entry.id}
+                        className="bg-card rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <UiIconBadge
+                            variant={categoryStyles.variant}
+                            name={categoryStyles.icon}
+                            size="lg"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <p className="font-semibold text-sm">{entry.title}</p>
+                            <p className="text-xs text-muted-foreground">{categoryStyles.label}</p>
+                          </div>
+                        </div>
+                        <p
+                          className={cn(
+                            'font-bold text-sm whitespace-nowrap',
+                            isIncome ? 'text-success' : 'text-destructive',
+                          )}
+                        >
+                          {isIncome ? '+' : '-'} <FinTransformCurrency value={entry.sum ?? 0} />
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {(budgetPlan.otherEntries ?? []).length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <UiSvgIcon
+                    name="calendar-days"
+                    size="sm"
+                    className="text-amber-500"
+                  />
+                  <h2 className="text-lg font-semibold">Лише цього місяця</h2>
+                </div>
+
+                <div className="space-y-2">
+                  {(budgetPlan.otherEntries ?? []).map((entry) => {
+                    const categoryStyles = CategoriesMapping[entry.category ?? 'expense-misc'];
+                    const isIncome = entry.type === 'income';
+
+                    return (
+                      <div
+                        key={entry.id}
+                        className="bg-card rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          <UiIconBadge
+                            variant={categoryStyles.variant}
+                            name={categoryStyles.icon}
+                            size="lg"
+                          />
+                          <div className="min-w-0 flex-1">
+                            <p className="font-semibold text-sm">{entry.title}</p>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className="text-xs text-muted-foreground">{categoryStyles.label}</p>
+                              {entry.selected && (
+                                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                                  До оптимізації
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <p
+                          className={cn(
+                            'font-bold text-sm whitespace-nowrap',
+                            isIncome ? 'text-success' : 'text-destructive',
+                          )}
+                        >
+                          {isIncome ? '+' : '-'} <FinTransformCurrency value={entry.sum ?? 0} />
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
 
