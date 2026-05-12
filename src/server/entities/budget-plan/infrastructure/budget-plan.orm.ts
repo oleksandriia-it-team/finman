@@ -23,7 +23,6 @@ export class BudgetPlanOrm extends DefaultTableColumnsOrm implements BudgetPlanD
   user?: UserOrm;
 
   @OneToMany('MonthEntryOrm', 'budgetPlan')
-  @JoinColumn()
   otherEntries!: MonthEntryOrm[];
 
   @ManyToMany('RegularEntryOrm', 'budgetPlans')

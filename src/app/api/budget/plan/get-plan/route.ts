@@ -4,6 +4,7 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
 import { GetBudgetPlanSchema } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
+import { getDetailedBudgetPlan } from '@backend/entities/budget-plan/infrastructure/get-detailed-budget-plan.util';
 
 export const POST = createRoute({
   schema: GetBudgetPlanSchema,
@@ -14,7 +15,7 @@ export const POST = createRoute({
 
     return {
       status: 200,
-      data: await budgetPlanRepository.getItem({ ...body, userId }),
+      data: await getDetailedBudgetPlan(budgetPlanRepository, { ...body, userId }),
     };
   },
   filter: getDefaultApiErrorFilter,

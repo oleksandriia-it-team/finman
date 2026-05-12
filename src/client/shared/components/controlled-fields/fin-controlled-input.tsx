@@ -35,7 +35,10 @@ export function FinControlledInput({
                 field.onChange(field.value);
               }}
               id={id}
-              onChange={(value) => field.onChange(value)}
+              onChange={(value) => {
+                const finalValue = props.type === 'number' && value ? Number(value) : value;
+                field.onChange(finalValue);
+              }}
               className={className}
               value={String(field.value ?? '')}
             />
