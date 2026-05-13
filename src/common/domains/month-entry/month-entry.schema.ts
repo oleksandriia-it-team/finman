@@ -17,3 +17,6 @@ export const MonthEntryWithIdSchema = createEntrySchema({
     .min(1, { error: 'Поле пріоритету має бути мінімум 1' })
     .max(10, { error: 'Поле пріоритету має бути максимум 10' }),
 });
+
+export type MonthEntryFormData = z.infer<typeof MonthEntrySchema>;
+export type MonthEntryWithIdFormData = z.infer<typeof MonthEntryWithIdSchema>;
