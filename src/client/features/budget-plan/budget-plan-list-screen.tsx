@@ -19,6 +19,14 @@ function sumEntriesByType(entries: Array<{ type: string; sum?: number }>, type: 
   return entries.reduce((sum, entry) => (entry.type === type ? sum + (entry.sum ?? 0) : sum), 0);
 }
 
+function BudgetPlanListScreenSkeleton() {
+  return (
+    <div className="flex items-center justify-center h-40">
+      <FinLoader />
+    </div>
+  );
+}
+
 export function BudgetPlanListScreen() {
   const router = useRouter();
   const currentDate = useMemo(() => getCurrentMonthDate(), []);
@@ -59,11 +67,7 @@ export function BudgetPlanListScreen() {
           errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
           hasData
           skeletonItems={1}
-          skeleton={() => (
-            <div className="flex items-center justify-center h-40">
-              <FinLoader />
-            </div>
-          )}
+          skeleton={BudgetPlanListScreenSkeleton}
         >
           {budgetPlan ? (
             <div className="space-y-6">

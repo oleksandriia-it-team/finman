@@ -8,6 +8,14 @@ import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-l
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
 
+function BudgetPlanEditScreenSkeleton() {
+  return (
+    <div className="flex items-center justify-center h-full w-full">
+      <FinLoader />
+    </div>
+  );
+}
+
 export function BudgetPlanEditScreen() {
   const router = useRouter();
   const { data: budgetPlan, status, error } = useBudgetPlanCurrentMonth('edit');
@@ -25,11 +33,7 @@ export function BudgetPlanEditScreen() {
         errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
         hasData={!!budgetPlan}
         skeletonItems={1}
-        skeleton={() => (
-          <div className="flex items-center justify-center h-full w-full">
-            <FinLoader />
-          </div>
-        )}
+        skeleton={BudgetPlanEditScreenSkeleton}
       >
         {budgetPlan && (
           <BudgetPlanForm

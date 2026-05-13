@@ -12,6 +12,14 @@ import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-l
 import { BudgetPlanRecommendationCard } from '@frontend/entities/budget-plan/ui/budget-plan-recommendation-card';
 import { useBudgetPlanRecommendations } from '@frontend/features/budget-plan/hooks/use-budget-plan-recommendations.hook';
 
+function BudgetPlanRecommendationsScreenSkeleton() {
+  return (
+    <div className="flex items-center justify-center h-40">
+      <FinLoader />
+    </div>
+  );
+}
+
 export function BudgetPlanRecommendationsScreen() {
   const router = useRouter();
   const { budgetPlan, status, error, sortedDraftEntries, summary, toggleEntrySelection, saveRecommendations } =
@@ -54,15 +62,9 @@ export function BudgetPlanRecommendationsScreen() {
         errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
         hasData
         skeletonItems={1}
-        skeleton={() => (
-          <div className="flex items-center justify-center h-40">
-            <FinLoader />
-          </div>
-        )}
+        skeleton={BudgetPlanRecommendationsScreenSkeleton}
       >
-        {!budgetPlan ? (
-          <div className="p-4 text-sm text-muted-foreground">Бюджетний план не знайдено</div>
-        ) : (
+        {budgetPlan ? (
           <>
             <div className="flex-1 overflow-y-auto p-4 space-y-6">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -144,6 +146,8 @@ export function BudgetPlanRecommendationsScreen() {
               </UiButton>
             </div>
           </>
+        ) : (
+          <div className="p-4 text-sm text-muted-foreground">Бюджетний план не знайдено</div>
         )}
       </FinListScreenHandler>
     </div>
