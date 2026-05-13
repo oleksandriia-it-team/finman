@@ -4,7 +4,6 @@ import { LookupsTypeRequest } from '../enums/lookups-type-request.enum';
 export const LookupsEndpoints: Record<LookupsTypeEnum, string> = {
   [LookupsTypeEnum.CountriesAndLocales]: 'countries-and-locales',
   [LookupsTypeEnum.Currency]: 'currencies',
-  [LookupsTypeEnum.ErrorLog]: 'error-log',
 };
 
 export const LookupsTypeEndpoints: Record<LookupsTypeRequest, string> = {

@@ -1,6 +1,7 @@
 'use client';
 
+import { ErrorLogsFeature } from '@frontend/features/admin/error-log/ui/error-log.feature';
+
 export default function ErrorLogsPage() {
-  // test for check route
-  return <span>1</span>;
+  return <ErrorLogsFeature />;
 }
