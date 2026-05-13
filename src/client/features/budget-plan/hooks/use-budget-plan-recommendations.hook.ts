@@ -2,33 +2,22 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import type { UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import {
   calculateBudgetPlanRecommendationSummary,
   normalizeBudgetPlanRecommendationEntries,
   sortBudgetPlanRecommendationEntries,
   toggleBudgetPlanRecommendationEntry,
 } from '@frontend/features/budget-plan/utils/budget-plan-recommendations.util';
+import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
 
 export function useBudgetPlanRecommendations() {
   const router = useRouter();
   const showToast = useGlobalToast((state) => state.showToast);
-  const currentDate = useMemo(() => getCurrentMonthDate(), []);
-  const {
-    data: budgetPlan,
-    status,
-    error,
-    isPending,
-  } = useQuery({
-    queryKey: ['budget-plan', 'recommendations', currentDate.month, currentDate.year],
-    queryFn: () => budgetPlanService.getItem(currentDate),
-    staleTime: 0,
-  });
+  const { data: budgetPlan, status, error, isPending } = useBudgetPlanCurrentMonth('recommendations');
   const [draftEntries, setDraftEntries] = useState<UpdateBudgetPlanDto['otherEntries']>([]);
 
   useEffect(() => {

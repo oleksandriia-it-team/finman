@@ -22,7 +22,7 @@ interface BudgetPlanFormProps {
   onCancel?: () => void;
 }
 
-export function BudgetPlanForm({ initialData, onSuccess, onCancel }: BudgetPlanFormProps) {
+export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<BudgetPlanFormProps>) {
   const { methods, submit, isEdit } = useBudgetPlanForm(initialData, onSuccess);
   const {
     fields: otherEntriesFields,

@@ -1,60 +1,44 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import BudgetPlanForm from '@frontend/features/budget-plan/budget-plan-form';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
-import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
-import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
+import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
 
 export function BudgetPlanEditScreen() {
   const router = useRouter();
-  const currentDate = useMemo(() => getCurrentMonthDate(), []);
-  const {
-    data: budgetPlan,
-    status,
-    error,
-  } = useQuery({
-    queryKey: ['budget-plan', 'edit', currentDate.month, currentDate.year],
-    queryFn: () => budgetPlanService.getItem(currentDate),
-    staleTime: 0,
-  });
+  const { data: budgetPlan, status, error } = useBudgetPlanCurrentMonth('edit');
 
-  if (status === 'pending') {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <FinLoader />
-      </div>
-    );
-  }
-
-  if (status === 'error') {
-    return (
-      <FinErrorWidget
-        status={500}
-        message={error instanceof Error ? error.message : 'Помилка завантаження'}
-      />
-    );
-  }
-
-  if (!budgetPlan) {
-    return (
-      <FinErrorWidget
-        status={404}
-        message="Бюджетний план не знайдено"
-      />
-    );
-  }
+  const state = useMemo(() => {
+    if (status === 'pending') return PromiseState.Loading;
+    if (status === 'error') return PromiseState.Error;
+    return PromiseState.Success;
+  }, [status]);
 
   return (
     <div className="flex size-full">
-      <BudgetPlanForm
-        initialData={budgetPlan}
-        onCancel={() => router.push('/profile/budget/plans')}
-        onSuccess={() => router.push('/profile/budget/plans/recommendations')}
-      />
+      <FinListScreenHandler
+        state={state}
+        errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
+        hasData={!!budgetPlan}
+        skeletonItems={1}
+        skeleton={() => (
+          <div className="flex items-center justify-center h-full w-full">
+            <FinLoader />
+          </div>
+        )}
+      >
+        {budgetPlan && (
+          <BudgetPlanForm
+            initialData={budgetPlan}
+            onCancel={() => router.push('/profile/budget/plans')}
+            onSuccess={() => router.push('/profile/budget/plans/recommendations')}
+          />
+        )}
+      </FinListScreenHandler>
     </div>
   );
 }

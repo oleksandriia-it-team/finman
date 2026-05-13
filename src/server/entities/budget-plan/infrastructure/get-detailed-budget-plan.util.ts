@@ -4,27 +4,25 @@ import type { MonthEntryOrm } from '@backend/entities/month-entry/infrastructure
 import type { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
 
 function toDetailedRegularEntry(entry: RegularEntryOrm): BudgetPlanDetailed['plannedRegularEntries'][number] {
-  const {
-    budgetPlans: _budgetPlans,
-    user: _user,
-    ...plainEntry
-  } = entry as RegularEntryOrm & {
-    budgetPlans?: unknown;
-    user?: unknown;
+  const plainEntry = {
+    ...(entry as RegularEntryOrm & {
+      budgetPlans?: unknown;
+      user?: unknown;
+    }),
   };
-
-  void _budgetPlans;
-  void _user;
+  delete plainEntry.budgetPlans;
+  delete plainEntry.user;
 
   return { ...plainEntry };
 }
 
 function toDetailedMonthEntry(entry: MonthEntryOrm): BudgetPlanDetailed['otherEntries'][number] {
-  const { budgetPlan: _budgetPlan, ...plainEntry } = entry as MonthEntryOrm & {
-    budgetPlan?: unknown;
+  const plainEntry = {
+    ...(entry as MonthEntryOrm & {
+      budgetPlan?: unknown;
+    }),
   };
-
-  void _budgetPlan;
+  delete plainEntry.budgetPlan;
 
   return { ...plainEntry };
 }
