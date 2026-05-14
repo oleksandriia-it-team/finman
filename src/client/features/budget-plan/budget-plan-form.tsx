@@ -24,8 +24,6 @@ interface BudgetPlanFormProps {
   onCancel?: () => void;
 }
 
-// ─── Regular entry card with checkbox ────────────────────────────────────────
-
 interface RegularEntryCardProps {
   entry: RegularEntry;
   isChecked: boolean;
@@ -35,7 +33,6 @@ interface RegularEntryCardProps {
 function RegularEntryCard({ entry, isChecked, onToggle }: Readonly<RegularEntryCardProps>) {
   const categoryKey = entry.category as keyof typeof CategoriesMapping;
   const categoryStyles = CategoriesMapping[categoryKey] ?? CategoriesMapping[ExpenseCategories.Misc];
-  // TypeEntry is const enum — compare via string cast to avoid TS2367
   const isIncome = (entry.type as string) === 'income';
 
   return (

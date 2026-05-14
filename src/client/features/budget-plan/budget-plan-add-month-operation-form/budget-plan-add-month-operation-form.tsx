@@ -45,22 +45,21 @@ export function BudgetPlanAddMonthOperationForm({
     <FormProvider {...methods}>
       <UiFormLayout.Root
         onSubmit={handleSubmit}
-        style={{ minWidth: 'min(25rem, 100%)' }}
-        className="w-0 flex-1"
+        className="w-full"
       >
         <UiFormLayout.Header>
           <UiFormLayout.Title>Деталі платежу</UiFormLayout.Title>
-          <UiFormLayout.Description>Заповніть інформацію про місячну операцію</UiFormLayout.Description>
+          <UiFormLayout.Description>Заповніть інформацію про операцію місяця</UiFormLayout.Description>
         </UiFormLayout.Header>
 
         <UiFormLayout.Section label="Тип платежу">
-          <div className="flex w-full p-1.5 gap-4">
+          <div className="flex w-full gap-3">
             <UiButton
               type="button"
               className={cn(
-                'flex-1 py-2.5 font-semibold transition-all text-sm',
+                'flex-1 py-3 font-semibold transition-all text-sm rounded-2xl',
                 selectedType !== TypeEntry.Income &&
-                  'bg-transparent text-muted-foreground hover:text-foreground shadow-none',
+                  'bg-transparent text-muted-foreground hover:text-foreground shadow-none border border-border',
               )}
               onClick={() => methods.setValue('type', TypeEntry.Income, { shouldValidate: true })}
               variant={selectedType === TypeEntry.Income ? 'success' : 'default'}
@@ -70,9 +69,9 @@ export function BudgetPlanAddMonthOperationForm({
             <UiButton
               type="button"
               className={cn(
-                'flex-1 py-2.5 font-semibold transition-all text-sm',
+                'flex-1 py-3 font-semibold transition-all text-sm rounded-2xl',
                 selectedType !== TypeEntry.Expense &&
-                  'bg-transparent text-muted-foreground hover:text-foreground shadow-none',
+                  'bg-transparent text-muted-foreground hover:text-foreground shadow-none border border-border',
               )}
               onClick={() => methods.setValue('type', TypeEntry.Expense, { shouldValidate: true })}
               variant={selectedType === TypeEntry.Expense ? 'destructive' : 'default'}
@@ -82,18 +81,8 @@ export function BudgetPlanAddMonthOperationForm({
           </div>
         </UiFormLayout.Section>
 
-        {/* Category picker */}
-        {selectedType && (
-          <UiFormLayout.Section label="Категорія">
-            <TransactionCategoryPicker
-              name="category"
-              type={selectedType}
-            />
-          </UiFormLayout.Section>
-        )}
-
         <FinControlledInput
-          label="Назва"
+          label="Назва платежу"
           id="title"
           name="title"
           placeholder="Наприклад: Зарплата"
@@ -125,6 +114,15 @@ export function BudgetPlanAddMonthOperationForm({
             max="10"
           />
         </UiFormLayout.Grid>
+
+        {selectedType && (
+          <UiFormLayout.Section label="Категорія">
+            <TransactionCategoryPicker
+              name="category"
+              type={selectedType}
+            />
+          </UiFormLayout.Section>
+        )}
 
         <UiFormLayout.Actions>
           <UiButton

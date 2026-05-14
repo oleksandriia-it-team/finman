@@ -130,11 +130,12 @@ export function BudgetPlanAddMonthOperationScreen() {
   };
 
   return (
-    <div className="flex flex-row size-full">
-      <div className="w-0 flex-1 min-w-[min(25rem,100%)] flex flex-col">
-        <div className="p-4 pb-0 flex items-center gap-3">
+    <div className="flex size-full overflow-hidden">
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-border bg-background shrink-0">
           <UiButton
             type="button"
+            size="sm"
             onClick={handleCancel}
             aria-label="Назад"
           >
@@ -143,27 +144,31 @@ export function BudgetPlanAddMonthOperationScreen() {
               size="sm"
             />
           </UiButton>
-          <div>
-            <div className="flex items-center gap-2 text-muted-foreground mb-1">
+
+          <div className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-1.5 text-muted-foreground">
               <UiSvgIcon
                 name="calendar"
                 size="sm"
               />
-              <span className="text-sm">Поточний план</span>
+              <span className="text-xs">Поточний план</span>
             </div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="text-lg font-bold leading-tight">
               {MonthTitles[budgetPlan.month]} {budgetPlan.year}
             </h1>
           </div>
         </div>
 
-        <BudgetPlanAddMonthOperationForm
-          onCancel={handleCancel}
-          onSuccess={handleSuccess}
-        />
+        <div className="flex-1 overflow-y-auto">
+          <BudgetPlanAddMonthOperationForm
+            onCancel={handleCancel}
+            onSuccess={handleSuccess}
+          />
+        </div>
       </div>
 
-      <div className="size-full flex-2 max-lg:hidden">
+      {/* Side block — hidden on mobile/tablet */}
+      <div className="hidden lg:flex flex-2 size-full">
         <BudgetPlanFormSideBlock />
       </div>
     </div>
