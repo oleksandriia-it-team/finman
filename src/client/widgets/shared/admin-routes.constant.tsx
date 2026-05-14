@@ -16,9 +16,14 @@ export const adminNavRoutesWindow: AdminNavItem[] = [
     Icon: SidebarCurrenciesSvg,
   },
   {
-    route: '/admin/lookups/error-logs',
+    route: '/admin/error-logs',
     name: 'Логи помилок',
-    Icon: <UiSvgIcon name="exclamation-triangle" size="xs" />,
+    Icon: (
+      <UiSvgIcon
+        name="exclamation-triangle"
+        size="xs"
+      />
+    ),
   },
 ];
 

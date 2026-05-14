@@ -57,7 +57,7 @@ export function LookupTable<T extends DefaultTableColumns>({
         onDelete={onDelete}
       />
 
-      <div className="flex-1 overflow-auto bg-background">
+      <div className="flex-1 overflow-auto bg-background custom-scrollbar">
         <div className="flex flex-col h-max">
           <UiTable
             className="h-full"

@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.filter';
 import type { ErrorLogRecord } from '@common/records/error-log.record';
 import type { ErrorLogStatus } from '@common/constants/error-log-status.constant';
+import { useQuery } from '@tanstack/react-query';
 
 export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
   const [filters, setFilters] = useState<Partial<ErrorLogFilter>>(initialFilters);
@@ -35,6 +36,11 @@ export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
     },
   );
 
+  const { data: statusesCount = {} } = useQuery({
+    queryKey: ['admin', 'error-logs', 'statuses-count'],
+    queryFn: () => errorLogsApiClient.getStatusesCount(),
+  });
+
   return {
     ...pagination,
     filters,
@@ -43,5 +49,6 @@ export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
     setSelectedLog,
     updateStatus: updateStatusMutation.mutate,
     isUpdating: updateStatusMutation.isPending,
+    statusesCount,
   };
 }

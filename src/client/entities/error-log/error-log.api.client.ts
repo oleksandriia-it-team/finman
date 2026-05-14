@@ -37,6 +37,18 @@ export const errorLogsApiClient = {
     return 0;
   },
 
+  getStatusesCount: async (): Promise<Record<string, number>> => {
+    const response = await fetchClient.post<ApiResultOperation<Record<string, number>>, Record<string, never>>(
+      '/api/error-log/get-statuses-count',
+      {},
+    );
+
+    if (response.status === 200 && response.data) {
+      return response.data;
+    }
+    return {};
+  },
+
   updateStatus: async (id: number | string, status: ErrorLogStatus) => {
     return await fetchClient.put<ApiResultOperation<boolean>, { status: ErrorLogStatus }>(
       `/api/error-log/update/${id}`,

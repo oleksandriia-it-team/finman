@@ -10,23 +10,25 @@ import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 
 import './fin-admin-modal.scss';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-interface UiAdminModalProps {
+export interface UiAdminModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   formId: string;
   isLoading?: boolean;
   children: ReactNode;
+  className?: string;
 }
 
-export function UiAdminModal({ isOpen, onClose, title, formId, isLoading, children }: UiAdminModalProps) {
+export function UiAdminModal({ isOpen, onClose, title, formId, isLoading, children, className }: UiAdminModalProps) {
   return (
     <UiModal
       open={isOpen}
       onOpenChange={(open) => !open && onClose()}
     >
-      <UiModalContent className="admin-modal-content">
+      <UiModalContent className={cn('admin-modal-content', className)}>
         <UiModalHeader>
           <UiModalTitle>{title}</UiModalTitle>
         </UiModalHeader>

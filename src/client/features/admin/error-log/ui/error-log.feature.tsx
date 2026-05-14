@@ -4,26 +4,32 @@ import type { FilterTabConfig } from '@frontend/components/filter-tabs/model/fil
 import { UiFilterTabs } from '@frontend/components/filter-tabs/ui-filter-tabs';
 import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
 import { UiTable } from '@frontend/ui/ui-table/ui-table';
-import { UiTableHeader } from '@frontend/ui/ui-table/ui-table-header';
 import { UiTableRow } from '@frontend/ui/ui-table/ui-table-row';
-import { UiTableHead } from '@frontend/ui/ui-table/ui-table-head';
 import { UiTableBody } from '@frontend/ui/ui-table/ui-table-body';
 import { UiTableCell } from '@frontend/ui/ui-table/ui-table-cell';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { cn } from '@frontend/shared/utils/cn.util';
+import { UiTableHeader } from '@frontend/ui/ui-table/ui-table-header';
+import { UiTableHead } from '@frontend/ui/ui-table/ui-table-head';
+import { ErrorLogModal } from '@frontend/features/admin/error-log/ui/error-log-modal';
 
 function MethodBadge({ method }: { method: string | null | undefined }) {
   const m = method?.toUpperCase() || 'UNKNOWN';
-  let colors = 'bg-muted text-muted-foreground';
 
-  if (m === 'GET') colors = 'bg-blue-100 text-blue-600';
-  else if (m === 'POST') colors = 'bg-green-100 text-green-600';
-  else if (m === 'PUT') colors = 'bg-yellow-100 text-yellow-600';
-  else if (m === 'PATCH') colors = 'bg-purple-100 text-purple-600';
-  else if (m === 'DELETE') colors = 'bg-red-100 text-red-600';
+  const colorMap: Record<string, string> = {
+    GET: 'bg-powder-muted text-powder-muted-foreground',
+    POST: 'bg-success-muted text-success-muted-foreground',
+    PUT: 'bg-warning-muted text-warning-muted-foreground',
+    PATCH: 'bg-purple-muted text-purple-muted-foreground',
+    DELETE: 'bg-destructive/10 text-destructive',
+  };
 
-  return <span className={`px-2 py-0.5 rounded text-[10px] font-bold tracking-wide ${colors}`}>{m}</span>;
+  const colorClass = colorMap[m] ?? 'bg-muted text-muted-foreground';
+
+  return <span className={cn('px-2 py-0.5 rounded text-xs font-bold tracking-wide', colorClass)}>{m}</span>;
 }
 
 function StatusBadge({ status }: { status: ErrorLogStatus }) {
@@ -32,7 +38,7 @@ function StatusBadge({ status }: { status: ErrorLogStatus }) {
 
   switch (status) {
     case ErrorLogStatus.Active:
-      dotColor = 'bg-destructive';
+      dotColor = 'bg-destructive-foreground';
       label = 'Активна';
       break;
     case ErrorLogStatus.IsResolving:
@@ -51,30 +57,59 @@ function StatusBadge({ status }: { status: ErrorLogStatus }) {
 
   return (
     <div className="flex items-center gap-2 text-sm text-foreground font-medium">
-      <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+      <span className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', dotColor)} />
       {label}
     </div>
   );
 }
 
-// --- ГОЛОВНИЙ КОМПОНЕНТ ---
-
 export function ErrorLogsFeature() {
-  const { options, state, errorMessage, selectedPage, setPage, totalCount, filters, setFilters, setSelectedLog } =
-    useErrorLogs();
+  const {
+    options,
+    state,
+    errorMessage,
+    selectedPage,
+    setPage,
+    totalCount,
+    filters,
+    setFilters,
+    setSelectedLog,
+    selectedLog,
+    updateStatus,
+    isUpdating,
+    statusesCount,
+  } = useErrorLogs();
 
-  // Моки лічильників (поки не підв'язали бекенд)
   const errorLogTabs: FilterTabConfig<ErrorLogStatus | undefined>[] = [
-    { value: undefined, label: 'Усі', dotColor: 'bg-muted-foreground', count: 150 },
-    { value: ErrorLogStatus.Active, label: 'Активні', dotColor: 'bg-destructive', count: 38 },
-    { value: ErrorLogStatus.IsResolving, label: 'В обробці', dotColor: 'bg-warning', count: 7 },
-    { value: ErrorLogStatus.Resolved, label: 'Вирішені', dotColor: 'bg-success', count: 142 },
-    { value: ErrorLogStatus.Ignored, label: 'Ігноровані', dotColor: 'bg-muted-foreground', count: 23 },
+    { value: undefined, label: 'Усі', count: statusesCount['total'] || 0 },
+    {
+      value: ErrorLogStatus.Active,
+      label: 'Активні',
+      dotColor: 'bg-destructive-foreground',
+      count: statusesCount[ErrorLogStatus.Active] || 0,
+    },
+    {
+      value: ErrorLogStatus.IsResolving,
+      label: 'В обробці',
+      dotColor: 'bg-warning',
+      count: statusesCount[ErrorLogStatus.IsResolving] || 0,
+    },
+    {
+      value: ErrorLogStatus.Resolved,
+      label: 'Вирішені',
+      dotColor: 'bg-success',
+      count: statusesCount[ErrorLogStatus.Resolved] || 0,
+    },
+    {
+      value: ErrorLogStatus.Ignored,
+      label: 'Ігноровані',
+      dotColor: 'bg-muted-foreground',
+      count: statusesCount[ErrorLogStatus.Ignored] || 0,
+    },
   ];
 
   return (
-    <div className="flex flex-col gap-6 h-full w-full">
-      {/* 1. Фільтрація */}
+    <div className="flex flex-col gap-6 h-full w-full p-6">
       <UiFilterTabs
         tabs={errorLogTabs}
         activeValue={filters.status}
@@ -90,18 +125,29 @@ export function ErrorLogsFeature() {
         withCount={true}
       />
 
-      {/* 2. Таблиця */}
-      <div className="border border-border rounded-md overflow-hidden bg-background">
+      <div className="flex-1 min-h-0 rounded-md overflow-auto border border-border bg-background custom-scrollbar">
         <UiTable>
-          <UiTableHeader>
-            <UiTableRow>
-              <UiTableHead>ЕНДПОІНТ / ПОМИЛКА</UiTableHead>
-              <UiTableHead>МЕТОД</UiTableHead>
-              <UiTableHead>СТАТУС</UiTableHead>
-              <UiTableHead>СТВОРЕНО</UiTableHead>
-              <UiTableHead>КОРИСТУВАЧ</UiTableHead>
-              <UiTableHead>ОНОВЛЕНО</UiTableHead>
-              <UiTableHead className="text-right" />
+          <UiTableHeader className="bg-background border-b-0 sticky top-0 z-10">
+            <UiTableRow className="border-b border-border hover:bg-transparent">
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Ендпоінт / Помилка
+              </UiTableHead>
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Метод
+              </UiTableHead>
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Статус
+              </UiTableHead>
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Створено
+              </UiTableHead>
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Користувач
+              </UiTableHead>
+              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
+                Оновлено
+              </UiTableHead>
+              <UiTableHead className="w-[52px] text-xs font-medium text-muted-foreground uppercase tracking-wide h-9" />
             </UiTableRow>
           </UiTableHeader>
 
@@ -110,7 +156,7 @@ export function ErrorLogsFeature() {
               state={state}
               errorMessage={errorMessage}
               hasData={options.length > 0}
-              totalColumns={7} // Оновлено на 7 колонок
+              totalColumns={7}
               skeletonItems={20}
             >
               {options.map((log) => (
@@ -118,7 +164,6 @@ export function ErrorLogsFeature() {
                   key={log.id}
                   className="hover:bg-muted/50 transition-colors"
                 >
-                  {/* Ендпоінт */}
                   <UiTableCell className="max-w-[300px]">
                     <div
                       className="font-medium text-foreground truncate"
@@ -127,24 +172,21 @@ export function ErrorLogsFeature() {
                       {log.endpoint || 'Невідомо'}
                     </div>
                     <div
-                      className="text-foreground/70 text-xs mt-1 truncate font-mono"
+                      className="text-muted-foreground text-xs mt-1 truncate font-mono"
                       title={log.message}
                     >
                       {log.message}
                     </div>
                   </UiTableCell>
 
-                  {/* Метод */}
                   <UiTableCell>
                     <MethodBadge method={log.method} />
                   </UiTableCell>
 
-                  {/* Статус */}
                   <UiTableCell>
                     <StatusBadge status={log.status} />
                   </UiTableCell>
 
-                  {/* Створено (Використовуємо твій компонент) */}
                   <UiTableCell className="text-primary text-sm font-medium">
                     <FinTransformDate
                       date={log.createdAt}
@@ -152,7 +194,6 @@ export function ErrorLogsFeature() {
                     />
                   </UiTableCell>
 
-                  {/* Користувач */}
                   <UiTableCell>
                     {log.user ? (
                       <div className="flex items-center gap-3">
@@ -169,7 +210,6 @@ export function ErrorLogsFeature() {
                     )}
                   </UiTableCell>
 
-                  {/* Оновлено (Використовуємо твій компонент) */}
                   <UiTableCell className="text-primary text-sm font-medium">
                     <FinTransformDate
                       date={log.updatedAt}
@@ -177,15 +217,17 @@ export function ErrorLogsFeature() {
                     />
                   </UiTableCell>
 
-                  {/* Дії */}
-                  <UiTableCell className="text-right">
-                    <button
-                      onClick={() => setSelectedLog(log)}
-                      className="text-muted-foreground hover:text-foreground transition-colors p-2 rounded-full hover:bg-muted"
-                      title="Переглянути деталі"
-                    >
-                      1
-                    </button>
+                  <UiTableCell className="w-[52px]">
+                    <div className="flex items-center justify-center">
+                      <UiIconButton
+                        icon="eye"
+                        size="sm"
+                        isOutlined={false}
+                        bgNone
+                        onClick={() => setSelectedLog(log)}
+                        title="Переглянути деталі"
+                      />
+                    </div>
                   </UiTableCell>
                 </UiTableRow>
               ))}
@@ -194,8 +236,7 @@ export function ErrorLogsFeature() {
         </UiTable>
       </div>
 
-      {/* 3. Пагінація */}
-      <div className="mt-4 flex justify-end">
+      <div className="mt-auto shrink-0 flex justify-end pt-2">
         <FinPagination
           selectedPage={selectedPage}
           setPage={setPage}
@@ -203,6 +244,18 @@ export function ErrorLogsFeature() {
           totalCount={totalCount}
         />
       </div>
+
+      <ErrorLogModal
+        isOpen={!!selectedLog}
+        log={selectedLog}
+        onClose={() => setSelectedLog(null)}
+        onUpdateStatus={(status) => {
+          if (selectedLog) {
+            updateStatus({ id: selectedLog.id, status });
+          }
+        }}
+        isUpdating={isUpdating}
+      />
     </div>
   );
 }

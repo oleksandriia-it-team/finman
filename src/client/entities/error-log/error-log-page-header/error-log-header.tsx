@@ -1,0 +1,38 @@
+import {
+  UiBreadcrumb,
+  UiBreadcrumbItem,
+  UiBreadcrumbLink,
+  UiBreadcrumbList,
+  UiBreadcrumbPage,
+  UiBreadcrumbSeparator,
+} from '@frontend/ui/ui-bread-crumb/ui-breadcrumb';
+import { Fragment } from 'react';
+import type { ErrorLogPageHeaderProps } from '@frontend/entities/error-log/error-log-page-header/props/error-log-header.props';
+
+export function ErrorLogPageHeader({ breadcrumbs, actions }: ErrorLogPageHeaderProps) {
+  return (
+    <div className="flex items-center justify-between px-6 py-4 bg-background border-b border-border w-full shrink-0">
+      <UiBreadcrumb>
+        <UiBreadcrumbList>
+          {breadcrumbs.map((item, index) => {
+            const isLast = index === breadcrumbs.length - 1;
+
+            return (
+              <Fragment key={item.label}>
+                <UiBreadcrumbItem>
+                  {isLast ? (
+                    <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
+                  ) : (
+                    <UiBreadcrumbLink href={item.href || '#'}>{item.label}</UiBreadcrumbLink>
+                  )}
+                </UiBreadcrumbItem>
+                {!isLast && <UiBreadcrumbSeparator />}
+              </Fragment>
+            );
+          })}
+        </UiBreadcrumbList>
+      </UiBreadcrumb>
+      {actions && <div className="flex items-center gap-3">{actions}</div>}
+    </div>
+  );
+}
