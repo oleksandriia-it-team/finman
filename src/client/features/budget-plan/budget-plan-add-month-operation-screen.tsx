@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { BudgetPlanAddMonthOperationForm } from '@frontend/features/budget-plan/budget-plan-add-month-operation-form/budget-plan-add-month-operation-form';
@@ -15,9 +16,12 @@ import { getDefaultCategory } from '@common/domains/budget-plan/get-default-cate
 import type { UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { MonthEntryFormData } from '@common/domains/month-entry/month-entry.schema';
+import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 
 export function BudgetPlanAddMonthOperationScreen() {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const showToast = useGlobalToast((state) => state.showToast);
   const currentDate = useMemo(() => getCurrentMonthDate(), []);
   const [isLocalReady, setIsLocalReady] = useState(!budgetPlanService.isOfflineMode);
 
@@ -91,6 +95,7 @@ export function BudgetPlanAddMonthOperationScreen() {
           description: rest.description ?? '',
         };
       }) as UpdateBudgetPlanDto['otherEntries'];
+
       const newOtherEntry = {
         ...data,
         description: data.description ?? '',
@@ -102,30 +107,58 @@ export function BudgetPlanAddMonthOperationScreen() {
         otherEntries: [...mappedOtherEntries, newOtherEntry],
       });
 
-      router.push('/profile/budget/plans');
+      await queryClient.invalidateQueries({ queryKey: ['budget-plan'] });
+
+      showToast({
+        title: 'Успіх',
+        description: 'Операцію додано',
+        variant: 'success',
+      });
+
+      router.push('/profile/budget/plans/edit');
     } catch (err) {
-      console.error('Помилка при додаванні операції:', err);
+      showToast({
+        title: `Помилка: ${err instanceof Error ? err.message : 'Невідома помилка'}`,
+        description: 'Не вдалось додати операцію',
+        variant: 'destructive',
+      });
     }
+  };
+
+  const handleCancel = () => {
+    router.push('/profile/budget/plans/edit');
   };
 
   return (
     <div className="flex flex-row size-full">
       <div className="w-0 flex-1 min-w-[min(25rem,100%)] flex flex-col">
-        <div className="p-4 pb-0">
-          <div className="flex items-center gap-2 text-muted-foreground mb-2">
+        <div className="p-4 pb-0 flex items-center gap-3">
+          <UiButton
+            type="button"
+            onClick={handleCancel}
+            aria-label="Назад"
+          >
             <UiSvgIcon
-              name="calendar"
+              name="arrow-left"
               size="sm"
             />
-            <span className="text-sm">Поточний план</span>
+          </UiButton>
+          <div>
+            <div className="flex items-center gap-2 text-muted-foreground mb-1">
+              <UiSvgIcon
+                name="calendar"
+                size="sm"
+              />
+              <span className="text-sm">Поточний план</span>
+            </div>
+            <h1 className="text-2xl font-bold">
+              {MonthTitles[budgetPlan.month]} {budgetPlan.year}
+            </h1>
           </div>
-          <h1 className="text-3xl font-bold">
-            {MonthTitles[budgetPlan.month]} {budgetPlan.year}
-          </h1>
         </div>
 
         <BudgetPlanAddMonthOperationForm
-          onCancel={() => router.push('/profile/budget/plans/edit')}
+          onCancel={handleCancel}
           onSuccess={handleSuccess}
         />
       </div>

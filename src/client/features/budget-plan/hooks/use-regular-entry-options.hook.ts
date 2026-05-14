@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { regularEntryService } from '@frontend/features/regular-incomes-expenses/regular-entry.service';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
-export function useRegularEntryOptions(selectedRegularIds?: number[]) {
+export function useRegularEntryOptions() {
   const [regularEntriesOptions, setRegularEntriesOptions] = useState<DropdownOption<number>[]>([]);
-  const [search, setSearch] = useState('');
   const [loadingState, setLoadingState] = useState(PromiseState.Loading);
 
   useEffect(() => {
@@ -16,7 +15,7 @@ export function useRegularEntryOptions(selectedRegularIds?: number[]) {
     const loadEntries = async () => {
       try {
         setLoadingState(PromiseState.Loading);
-        const entries = await regularEntryService.getItems(0, 1000, { softDeleted: 0 });
+        const entries = await regularEntryService.getItems(1, 1000, { softDeleted: 0 });
 
         if (!isMounted) {
           return;
@@ -43,26 +42,8 @@ export function useRegularEntryOptions(selectedRegularIds?: number[]) {
     };
   }, []);
 
-  const selectedRegularEntries = useMemo(
-    () => regularEntriesOptions.filter((option) => selectedRegularIds?.includes(option.value)),
-    [regularEntriesOptions, selectedRegularIds],
-  );
-
-  const filteredRegularEntries = useMemo(() => {
-    const normalized = search.trim().toLowerCase();
-
-    if (!normalized) {
-      return regularEntriesOptions;
-    }
-
-    return regularEntriesOptions.filter((option) => option.label.toLowerCase().includes(normalized));
-  }, [regularEntriesOptions, search]);
-
   return {
-    search,
-    setSearch,
     loadingState,
-    selectedRegularEntries,
-    filteredRegularEntries,
+    filteredRegularEntries: regularEntriesOptions,
   };
 }
