@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { regularEntryService } from '@frontend/features/regular-incomes-expenses/regular-entry.service';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import type { DropdownOption } from '@frontend/shared/models/dropdown-option.model';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 
 export function useRegularEntryOptions() {
-  const [regularEntriesOptions, setRegularEntriesOptions] = useState<DropdownOption<number>[]>([]);
+  const [allRegularEntries, setAllRegularEntries] = useState<RegularEntry[]>([]);
   const [loadingState, setLoadingState] = useState(PromiseState.Loading);
 
   useEffect(() => {
@@ -21,12 +21,7 @@ export function useRegularEntryOptions() {
           return;
         }
 
-        setRegularEntriesOptions(
-          entries.map((entry) => ({
-            label: entry.title,
-            value: entry.id,
-          })),
-        );
+        setAllRegularEntries(entries);
         setLoadingState(PromiseState.Success);
       } catch {
         if (isMounted) {
@@ -43,7 +38,7 @@ export function useRegularEntryOptions() {
   }, []);
 
   return {
+    allRegularEntries,
     loadingState,
-    filteredRegularEntries: regularEntriesOptions,
   };
 }
