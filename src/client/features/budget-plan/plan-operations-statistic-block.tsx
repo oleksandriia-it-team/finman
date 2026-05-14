@@ -12,7 +12,7 @@ interface PlanOperationsStatisticBlockProps {
   loading?: boolean;
 }
 
-export function PlangOperationsStatisticMobile({
+export function PlanOperationsStatisticMobile({
   className,
   income = 0,
   expense = 0,
@@ -30,14 +30,14 @@ export function PlangOperationsStatisticMobile({
     <UiCard className={classes}>
       <div className="grid grid-cols-2 divide-x divide-border/60 border-b border-border/60">
         <div className="px-5 py-4 min-h-5 flex flex-col justify-center">
-          <p className="text-muted text-sm leading-none mb-2">Загальний дохід</p>
+          <p className="text-muted-foreground text-sm leading-none mb-2">Загальний дохід</p>
           <span className="font-bold text-lg leading-none text-success">
             {loading ? <UiSkeleton /> : <FinTransformCurrency value={income} />}
           </span>
         </div>
 
         <div className="px-5 py-4 min-h-5 flex flex-col justify-center">
-          <p className="text-muted text-sm leading-none mb-2">Загальні витрати</p>
+          <p className="text-muted-foreground text-sm leading-none mb-2">Загальні витрати</p>
           <span className="font-bold text-lg leading-none text-destructive-foreground">
             {loading ? <UiSkeleton /> : <FinTransformCurrency value={expense} />}
           </span>
@@ -52,7 +52,7 @@ export function PlangOperationsStatisticMobile({
             size="lg"
           />
           <div className="flex flex-col">
-            <p className="text-muted text-sm leading-none mb-2">Баланс</p>
+            <p className="text-muted-foreground text-sm leading-none mb-2">Баланс</p>
             <span
               className={cn(
                 'font-bold text-lg leading-none',
@@ -69,10 +69,10 @@ export function PlangOperationsStatisticMobile({
             className={cn(
               'px-3.5 py-1.5 text-sm rounded-full font-medium whitespace-nowrap',
               computedBalance > 0
-                ? 'bg-success/10 text-success'
+                ? 'bg-success-muted text-success-muted-foreground'
                 : computedBalance < 0
-                  ? 'bg-destructive/10 text-destructive-foreground'
-                  : 'bg-muted/10 text-muted-foreground',
+                  ? 'bg-destructive-muted text-destructive-muted-foreground'
+                  : 'bg-secondary text-secondary-foreground',
             )}
           >
             {loading ? '...' : computedBalance > 0 ? 'Надлишок' : computedBalance < 0 ? 'Дефіцит' : 'Нейтрально'}
@@ -140,7 +140,7 @@ export function PlanOperationsStatisticDesktop({
               size="xl"
             />
             <div className="flex flex-col gap-2">
-              <p className="text-muted text-sm">{label}</p>
+              <p className="text-muted-foreground text-sm">{label}</p>
               <span className={cn('font-bold text-lg flex gap-1', textClass)}>
                 {loading && <UiSkeleton />}
                 {!loading && <FinTransformCurrency value={value} />}

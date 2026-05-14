@@ -104,7 +104,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
           onSubmit={submit}
           className="mx-auto flex min-h-full w-full max-w-7xl flex-col px-4 pb-28 pt-0 md:px-8 md:pb-10 md:pt-7"
         >
-          <div className="sticky top-0 z-20 -mx-4 border-b border-slate-200 bg-white/95 px-4 py-4 backdrop-blur md:hidden">
+          <div className="sticky top-0 z-20 -mx-4 border-b border-border bg-white/95 px-4 py-4 backdrop-blur md:hidden">
             <div className="flex items-center justify-between gap-3">
               <button
                 type="button"
@@ -203,7 +203,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
 
             <div className="space-y-4">
               {filteredRegularEntries.length === 0 ? (
-                <UiCard className="rounded-4xl border border-dashed border-slate-300 bg-white/65 px-4 py-5 text-center text-slate-500 shadow-none">
+                <UiCard className="rounded-4xl border border-dashed border-border bg-white/65 px-4 py-5 text-center text-slate-500 shadow-none">
                   Немає регулярних операцій для цього фільтра
                 </UiCard>
               ) : (
@@ -251,7 +251,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                 <button
                   type="button"
-                  className="flex min-h-28 items-center justify-center gap-2 rounded-4xl border-2 border-dashed border-slate-300 bg-transparent px-4 py-5 text-lg font-medium text-primary transition-colors hover:bg-primary/5"
+                  className="flex min-h-28 items-center justify-center gap-2 rounded-4xl border-2 border-dashed border-border bg-transparent px-4 py-5 text-lg font-medium text-primary transition-colors hover:bg-primary/5"
                   onClick={() => router.push('/profile/budget/plans/add')}
                 >
                   <UiSvgIcon
@@ -264,7 +264,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
             </div>
           </div>
 
-          <div className="sticky bottom-0 z-20 mt-auto -mx-4 border-t border-slate-200 bg-[#eef3ff]/95 px-4 py-4 backdrop-blur md:mx-0 md:border-0 md:bg-transparent md:px-0 md:py-6">
+          <div className="sticky bottom-0 z-20 mt-auto -mx-4 border-t border-border bg-background/95 px-4 py-4 backdrop-blur md:mx-0 md:border-0 md:bg-transparent md:px-0 md:py-6">
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               <UiButton
                 type="submit"
