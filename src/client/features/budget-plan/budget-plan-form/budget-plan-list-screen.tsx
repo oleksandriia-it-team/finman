@@ -170,7 +170,7 @@ export function BudgetPlanListScreen() {
                       description: entry.description,
                     }))}
                     title="Регулярні операції"
-                    iconName="refresh-cw"
+                    iconName="arrow-left-right"
                     countLabel={`${plannedRegularEntries.length} активні`}
                     frequencyLabel="Щомісяця"
                   />
@@ -187,7 +187,7 @@ export function BudgetPlanListScreen() {
                       description: entry.description,
                     }))}
                     title="Лише цього місяця"
-                    iconName="calendar-days"
+                    iconName="calendar3"
                     countLabel={`${otherEntries.length} записів`}
                     frequencyLabel="Одноразово"
                   />

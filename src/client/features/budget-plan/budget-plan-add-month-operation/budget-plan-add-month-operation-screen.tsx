@@ -7,8 +7,6 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
-import { BudgetPlanAddMonthOperationForm } from '@frontend/features/budget-plan/budget-plan-add-month-operation-form/budget-plan-add-month-operation-form';
-import { BudgetPlanFormSideBlock } from '@frontend/features/budget-plan/budget-plan-form-side-block/budget-plan-form-side-block';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 import { databaseLocalService } from '@frontend/database/database.local.service';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
@@ -17,6 +15,8 @@ import type { UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-pla
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { MonthEntryFormData } from '@common/domains/month-entry/month-entry.schema';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
+import { BudgetPlanAddMonthOperationForm } from '@frontend/features/budget-plan/budget-plan-add-month-operation/budget-plan-add-month-operation-form';
+import { BudgetPlanFormSideBlock } from '@frontend/features/budget-plan/budget-plan-block/budget-plan-form-side-block';
 
 export function BudgetPlanAddMonthOperationScreen() {
   const router = useRouter();

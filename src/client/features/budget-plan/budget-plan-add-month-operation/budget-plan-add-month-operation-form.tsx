@@ -145,5 +145,3 @@ export function BudgetPlanAddMonthOperationForm({
     </FormProvider>
   );
 }
-
-export default BudgetPlanAddMonthOperationForm;

@@ -249,9 +249,9 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
               )}
 
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                <button
+                <UiButton
                   type="button"
-                  className="flex min-h-28 items-center justify-center gap-2 rounded-4xl border-2 border-dashed border-border bg-transparent px-4 py-5 text-lg font-medium text-primary transition-colors hover:bg-primary/5"
+                  className="w-full min-h-28 p-4 rounded-4xl border-2 border-dashed border-border bg-transparent text-lg text-primary shadow-none hover:bg-primary/5"
                   onClick={() => router.push('/profile/budget/plans/add')}
                 >
                   <UiSvgIcon
@@ -259,7 +259,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
                     size="sm"
                   />
                   Додати операцію
-                </button>
+                </UiButton>
               </div>
             </div>
           </div>
