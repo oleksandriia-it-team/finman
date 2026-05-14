@@ -12,10 +12,6 @@ import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-li
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
-import {
-  TrackingOperationsStatisticDesktop,
-  TrackingOperationsStatisticMobile,
-} from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { TypeEntryFilter } from '@common/enums/entry.enum';
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
@@ -24,6 +20,10 @@ import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { BudgetPlanEntrySectionItem } from '@frontend/entities/budget-plan/ui/props/budget-plan-entry-section.props';
+import {
+  PlangOperationsStatisticMobile,
+  PlanOperationsStatisticDesktop,
+} from '@frontend/features/budget-plan/plan-operations-statistic-block';
 
 function sumEntriesByType(entries: Array<{ type: string; sum?: number }>, type: 'income' | 'expense') {
   return entries.reduce((acc, entry) => (entry.type === type ? acc + (entry.sum ?? 0) : acc), 0);
@@ -40,14 +40,11 @@ function BudgetPlanListScreenSkeleton() {
 interface BudgetEntryCardProps {
   entry: BudgetPlanEntrySectionItem;
   isRegular?: boolean;
-  showDelete?: boolean;
-  onDelete?: (id: number) => void;
 }
 
-function BudgetEntryCard({ entry, isRegular = false, showDelete = false, onDelete }: Readonly<BudgetEntryCardProps>) {
+function BudgetEntryCard({ entry, isRegular = false }: Readonly<BudgetEntryCardProps>) {
   const categoryKey = (entry.category ?? 'expense-misc') as keyof typeof CategoriesMapping;
   const categoryStyles = CategoriesMapping[categoryKey] ?? CategoriesMapping['expense-misc'];
-  // entry.type is TypeEntry.Expense | TypeEntry.Income — compare via string literal
   const isIncome = (entry.type as string) === 'income';
 
   return (
@@ -58,19 +55,6 @@ function BudgetEntryCard({ entry, isRegular = false, showDelete = false, onDelet
           name={categoryStyles.icon}
           size="lg"
         />
-        {showDelete && onDelete && (
-          <button
-            type="button"
-            onClick={() => onDelete(entry.id)}
-            className="text-muted-foreground hover:text-destructive transition-colors"
-            aria-label="Видалити"
-          >
-            <UiSvgIcon
-              name="trash-2"
-              size="sm"
-            />
-          </button>
-        )}
       </div>
 
       <div className="min-w-0">
@@ -116,7 +100,6 @@ export function BudgetPlanListScreen() {
   const totalIncome = sumEntriesByType(plannedRegularEntries, 'income') + sumEntriesByType(otherEntries, 'income');
   const totalExpense = sumEntriesByType(plannedRegularEntries, 'expense') + sumEntriesByType(otherEntries, 'expense');
 
-  // TypeEntryFilter values are plain strings ('all' | 'income' | 'expense') — safe to compare with entry.type string
   const filteredRegular = plannedRegularEntries.filter((e) => {
     if (typeFilter === TypeEntryFilter.All) return true;
     return (e.type as string) === typeFilter;
@@ -130,11 +113,26 @@ export function BudgetPlanListScreen() {
   const regularCount = plannedRegularEntries.length;
   const otherCount = otherEntries.length;
 
+  const balance = totalIncome - totalExpense;
+
   return (
     <FinListPageWrapper>
-      <div className="p-4 space-y-4">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="md:hidden space-y-3">
+          <h1 className="text-3xl font-bold">Бюджетний план</h1>
+          <div className="flex items-center gap-2 text-muted-foreground">
+            <UiSvgIcon
+              name="calendar"
+              size="sm"
+            />
+            <span className="text-sm">Поточний план</span>
+          </div>
+          <p className="text-2xl font-bold">
+            {MonthTitles[currentDate.month]} {currentDate.year}
+          </p>
+        </div>
+
+        <div className="hidden md:flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2 text-muted-foreground mb-1">
               <UiSvgIcon
@@ -186,36 +184,20 @@ export function BudgetPlanListScreen() {
         >
           {budgetPlan ? (
             <div className="space-y-5">
-              <div className="hidden md:flex gap-4">
-                <TrackingOperationsStatisticDesktop
+              <div className="hidden md:block">
+                <PlanOperationsStatisticDesktop
                   income={totalIncome}
                   expense={totalExpense}
+                  balance={balance}
                   loading={isLoading}
                 />
-                <UiCard className="rounded-4xl px-4 bg-card flex items-center gap-3 flex-1">
-                  <UiIconBadge
-                    name="wallet2"
-                    variant="primary-muted"
-                    size="xl"
-                  />
-                  <div className="flex flex-col gap-1">
-                    <p className="text-sm text-muted-foreground">Баланс</p>
-                    <span
-                      className={cn(
-                        'font-bold text-lg',
-                        totalIncome - totalExpense >= 0 ? 'text-success' : 'text-destructive',
-                      )}
-                    >
-                      + <FinTransformCurrency value={totalIncome - totalExpense} />
-                    </span>
-                  </div>
-                </UiCard>
               </div>
 
               <div className="md:hidden">
-                <TrackingOperationsStatisticMobile
+                <PlangOperationsStatisticMobile
                   income={totalIncome}
                   expense={totalExpense}
+                  balance={balance}
                   loading={isLoading}
                 />
               </div>
@@ -271,22 +253,8 @@ export function BudgetPlanListScreen() {
                         key={entry.id}
                         entry={entry}
                         isRegular={false}
-                        showDelete
-                        onDelete={() => router.push('/profile/budget/plans/edit')}
                       />
                     ))}
-
-                    <button
-                      type="button"
-                      className="rounded-4xl border-2 border-dashed border-border flex items-center justify-center gap-2 p-4 min-h-[120px] text-primary hover:bg-primary/5 transition-colors font-medium text-sm"
-                      onClick={() => router.push('/profile/budget/plans/add')}
-                    >
-                      <UiSvgIcon
-                        name="plus"
-                        size="sm"
-                      />
-                      Додати операцію
-                    </button>
                   </div>
                 </div>
               )}
@@ -301,10 +269,10 @@ export function BudgetPlanListScreen() {
               <UiButton
                 variant="primary"
                 size="lg"
-                onClick={() => router.push('/profile/budget/plans/create')}
+                onClick={() => router.push('/profile/budget/plans/add')}
               >
                 <UiSvgIcon
-                  name="plus"
+                  name="pencil"
                   size="sm"
                 />
                 Створити новий бюджетний план
@@ -320,7 +288,7 @@ export function BudgetPlanListScreen() {
             variant="primary"
             size="lg"
             className="rounded-full gap-2 shadow-xl"
-            onClick={() => router.push('/profile/budget/plans/create')}
+            onClick={() => router.push('/profile/budget/plans/edit')}
           >
             <UiSvgIcon
               name="plus"

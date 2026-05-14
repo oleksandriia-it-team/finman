@@ -2,11 +2,11 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
-import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
-import { CreateBudgetPlanSchema, UpdateBudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
+import { useGlobalToast } from 'src/client/shared/hooks/global-toast/global-toast.hook';
+import type { BudgetPlanDetailed } from 'src/common/records/budget-plan.record';
+import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from 'src/common/domains/budget-plan/budget-plan.schema';
+import { CreateBudgetPlanSchema, UpdateBudgetPlanSchema } from 'src/common/domains/budget-plan/budget-plan.schema';
+import { budgetPlanService } from 'src/client/features/budget-plan/budget-plan.service';
 
 interface BudgetPlanFormData {
   plannedRegularEntryIds: number[];
@@ -59,24 +59,24 @@ export function useBudgetPlanForm(initialData?: BudgetPlanDetailed, onSuccess?: 
         }
 
         showToast({
-          title: 'Success',
-          description: isEdit ? 'Budget plan updated' : 'Budget plan created',
+          title: 'Успіх',
+          description: isEdit ? 'Бюджетний план оновлено' : 'Бюджетний план створено',
           variant: 'success',
         });
         onSuccess?.();
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Unknown error';
+        const message = err instanceof Error ? err.message : 'Невідома помилка';
         showToast({
-          title: `Error: ${message}`,
-          description: 'Something went wrong while saving the budget plan',
+          title: `Помилка: ${message}`,
+          description: 'Не вдалось зберегти бюджетний план',
           variant: 'destructive',
         });
       }
     },
     () => {
       showToast({
-        title: 'Error: Invalid form data',
-        description: 'Please check the form fields',
+        title: 'Помилка: некоректні дані форми',
+        description: 'Будь ласка, перевірте поля форми',
         variant: 'destructive',
       });
     },

@@ -39,7 +39,7 @@ export function BudgetPlanEditScreen() {
           <BudgetPlanForm
             initialData={budgetPlan}
             onCancel={() => router.push('/profile/budget/plans')}
-            onSuccess={() => router.push('/profile/budget/plans/recommendations')}
+            onSuccess={() => router.push('/profile/budget/plans')}
           />
         )}
       </FinListScreenHandler>

@@ -2,12 +2,11 @@
 
 import { useRouter } from 'next/navigation';
 import { FormProvider, useFieldArray } from 'react-hook-form';
-import { useBudgetPlanForm } from './budget-plan-form.hook';
+import { useBudgetPlanForm } from './hooks/budget-plan-form.hook';
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiFormLayout } from '@frontend/ui/ui-form-layout/ui-form-layout';
-import { BudgetPlanFormSideBlock } from './budget-plan-form-side-block/budget-plan-form-side-block';
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
@@ -83,14 +82,10 @@ function RegularEntryCard({ entry, isChecked, onToggle }: Readonly<RegularEntryC
   );
 }
 
-// ─── Month entry card with delete ────────────────────────────────────────────
-
 interface MonthEntryCardProps {
   title: string;
   sum: number;
-  // Required — caller must supply a fallback (e.g. ExpenseCategories.Misc)
   category: AllCategories;
-  // 'income' | 'expense' as plain strings (TypeEntry const enum values)
   type: string;
   onDelete: () => void;
 }
@@ -133,8 +128,6 @@ function MonthEntryCard({ title, sum, type, category, onDelete }: Readonly<Month
   );
 }
 
-// ─── Main form ────────────────────────────────────────────────────────────────
-
 export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<BudgetPlanFormProps>) {
   const router = useRouter();
   const { methods, submit, isEdit } = useBudgetPlanForm(initialData, onSuccess);
@@ -155,12 +148,11 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<Bu
   };
 
   return (
-    <div className="flex flex-row size-full">
+    <div className="flex size-full overflow-y-auto">
       <FormProvider {...methods}>
         <UiFormLayout.Root
           onSubmit={submit}
-          style={{ minWidth: 'min(25rem, 100%)' }}
-          className="w-0 flex-1"
+          className="w-full"
         >
           <UiFormLayout.Header>
             {initialData && (
@@ -175,7 +167,7 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<Bu
                 </span>
               </div>
             )}
-            <UiFormLayout.Title>{isEdit ? 'Оптимізація витрат' : 'Бюджетний план'}</UiFormLayout.Title>
+            <UiFormLayout.Title>{isEdit ? 'Редагування плану' : 'Бюджетний план'}</UiFormLayout.Title>
             <UiFormLayout.Description>
               {isEdit
                 ? 'Оберіть регулярні операції та керуйте місячними операціями'
@@ -200,7 +192,6 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<Bu
             )}
           </UiFormLayout.Section>
 
-          {/* Month-only entries */}
           <UiFormLayout.Section label="Лише цього місяця">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {otherEntriesFields.map((field, index) => {
@@ -252,10 +243,6 @@ export function BudgetPlanForm({ initialData, onSuccess, onCancel }: Readonly<Bu
           </UiFormLayout.Actions>
         </UiFormLayout.Root>
       </FormProvider>
-
-      <div className="size-full flex-2 max-lg:hidden">
-        <BudgetPlanFormSideBlock />
-      </div>
     </div>
   );
 }
