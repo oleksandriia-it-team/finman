@@ -136,6 +136,7 @@ export function BudgetPlanAddMonthOperationScreen() {
           <UiButton
             type="button"
             size="sm"
+            variant="default"
             onClick={handleCancel}
             aria-label="Назад"
           >
@@ -153,7 +154,7 @@ export function BudgetPlanAddMonthOperationScreen() {
               />
               <span className="text-xs">Поточний план</span>
             </div>
-            <h1 className="text-lg font-bold leading-tight">
+            <h1 className="text-lg font-bold leading-tight text-foreground">
               {MonthTitles[budgetPlan.month]} {budgetPlan.year}
             </h1>
           </div>
@@ -167,7 +168,6 @@ export function BudgetPlanAddMonthOperationScreen() {
         </div>
       </div>
 
-      {/* Side block — hidden on mobile/tablet */}
       <div className="hidden lg:flex flex-2 size-full">
         <BudgetPlanFormSideBlock />
       </div>

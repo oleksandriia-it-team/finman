@@ -13,7 +13,7 @@ import { BudgetPlanEntrySection } from '@frontend/entities/budget-plan/ui/budget
 import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
 import {
   PlanOperationsStatisticDesktop,
-  PlangOperationsStatisticMobile,
+  PlanOperationsStatisticMobile,
 } from '@frontend/features/budget-plan/plan-operations-statistic-block';
 import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
@@ -69,7 +69,7 @@ export function BudgetPlanListScreen() {
         <div className="mx-auto max-w-7xl space-y-5">
           <div className="space-y-3 md:hidden">
             <h1 className="text-4xl font-bold leading-none text-slate-950">Бюджетний план</h1>
-            <div className="flex items-center gap-2 text-slate-500">
+            <div className="flex items-center gap-2 text-muted-foreground">
               <UiSvgIcon
                 name="calendar"
                 size="sm"
@@ -83,7 +83,7 @@ export function BudgetPlanListScreen() {
 
           <div className="hidden items-start justify-between gap-4 md:flex">
             <div>
-              <div className="mb-2 flex items-center gap-2 text-slate-500">
+              <div className="mb-2 flex items-center gap-2 text-muted-foreground">
                 <UiSvgIcon
                   name="calendar"
                   size="sm"
@@ -144,7 +144,7 @@ export function BudgetPlanListScreen() {
                 </div>
 
                 <div className="md:hidden">
-                  <PlangOperationsStatisticMobile
+                  <PlanOperationsStatisticMobile
                     income={totalIncome}
                     expense={totalExpense}
                     balance={balance}
@@ -194,14 +194,14 @@ export function BudgetPlanListScreen() {
                 )}
 
                 {filteredRegular.length === 0 && filteredOther.length === 0 && (
-                  <UiCard className="rounded-4xl border border-dashed border-slate-300 bg-white/70 px-4 py-10 text-center text-slate-500 shadow-none">
+                  <UiCard className="rounded-4xl border border-dashed border-border bg-card/70 px-4 py-10 text-center text-muted-foreground shadow-none">
                     Немає операцій за обраним фільтром
                   </UiCard>
                 )}
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center gap-4 py-12">
-                <p className="text-center text-lg text-slate-500">Бюджетний план на цей місяць ще не створено</p>
+                <p className="text-center text-lg text-muted-foreground">Бюджетний план на цей місяць ще не створено</p>
                 <UiButton
                   variant="primary"
                   size="lg"

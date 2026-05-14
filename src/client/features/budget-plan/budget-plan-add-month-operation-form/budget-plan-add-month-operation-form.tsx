@@ -81,6 +81,15 @@ export function BudgetPlanAddMonthOperationForm({
           </div>
         </UiFormLayout.Section>
 
+        {selectedType && (
+          <UiFormLayout.Section label="Категорія">
+            <TransactionCategoryPicker
+              name="category"
+              type={selectedType}
+            />
+          </UiFormLayout.Section>
+        )}
+
         <FinControlledInput
           label="Назва платежу"
           id="title"
@@ -114,15 +123,6 @@ export function BudgetPlanAddMonthOperationForm({
             max="10"
           />
         </UiFormLayout.Grid>
-
-        {selectedType && (
-          <UiFormLayout.Section label="Категорія">
-            <TransactionCategoryPicker
-              name="category"
-              type={selectedType}
-            />
-          </UiFormLayout.Section>
-        )}
 
         <UiFormLayout.Actions>
           <UiButton
