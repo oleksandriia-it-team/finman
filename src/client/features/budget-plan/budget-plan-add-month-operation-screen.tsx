@@ -167,7 +167,6 @@ export function BudgetPlanAddMonthOperationScreen() {
         </div>
       </div>
 
-      {/* Side block — hidden on mobile/tablet */}
       <div className="hidden lg:flex flex-2 size-full">
         <BudgetPlanFormSideBlock />
       </div>
