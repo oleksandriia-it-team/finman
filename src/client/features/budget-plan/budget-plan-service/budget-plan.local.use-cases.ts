@@ -1,7 +1,7 @@
 import type { IBudgetPlanRepository } from '@common/domains/budget-plan/budget-plan.repository.model';
-import { CreateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/create-budget-plan.local.use-case';
-import { GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/get-budget-plan.local.use-case';
-import { UpdateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/update-budget-plan.local.use-case';
+import { CreateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/budget-plan-service/create-budget-plan.local.use-case';
+import { GetBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/budget-plan-service/get-budget-plan.local.use-case';
+import { UpdateBudgetPlanLocalUseCase } from '@frontend/features/budget-plan/budget-plan-service/update-budget-plan.local.use-case';
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { dexieTransactionManager } from '@frontend/database/dexie-transactional-manager';

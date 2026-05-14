@@ -218,7 +218,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
                     selected: (selectedRegularIds ?? []).includes(entry.id),
                   }))}
                   title="Регулярні операції"
-                  iconName="refresh-cw"
+                  iconName="arrow-left-right"
                   countLabel={`${selectedRegularEntries.length} активні`}
                   frequencyLabel="Щомісяця"
                   selectable
@@ -232,7 +232,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
                 <BudgetPlanEntrySection
                   entries={otherEntriesForSection}
                   title="Лише цього місяця"
-                  iconName="calendar-days"
+                  iconName="calendar3"
                   countLabel={`${otherEntriesFields.length} записів`}
                   frequencyLabel="Одноразово"
                   onDelete={(id) => {

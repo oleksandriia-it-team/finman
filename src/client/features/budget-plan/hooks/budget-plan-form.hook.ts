@@ -6,7 +6,7 @@ import { useGlobalToast } from 'src/client/shared/hooks/global-toast/global-toas
 import type { BudgetPlanDetailed } from 'src/common/records/budget-plan.record';
 import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from 'src/common/domains/budget-plan/budget-plan.schema';
 import { CreateBudgetPlanSchema, UpdateBudgetPlanSchema } from 'src/common/domains/budget-plan/budget-plan.schema';
-import { budgetPlanService } from 'src/client/features/budget-plan/budget-plan.service';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 
 interface BudgetPlanFormData {
   plannedRegularEntryIds: number[];

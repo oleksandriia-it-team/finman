@@ -9,7 +9,7 @@ import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { BudgetPlanAddMonthOperationForm } from '@frontend/features/budget-plan/budget-plan-add-month-operation-form/budget-plan-add-month-operation-form';
 import { BudgetPlanFormSideBlock } from '@frontend/features/budget-plan/budget-plan-form-side-block/budget-plan-form-side-block';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 import { databaseLocalService } from '@frontend/database/database.local.service';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';

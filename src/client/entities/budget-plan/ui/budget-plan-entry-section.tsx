@@ -12,9 +12,8 @@ import { UiInfoBlock } from '@frontend/ui/ui-info-block/ui-info-block';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 const entrySectionStyles = {
-  card: 'rounded-4xl border border-white/70 bg-white px-4 py-4 shadow-lg',
-  selectableCard:
-    'cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(148,163,184,0.2)]',
+  card: 'rounded-4xl border border-white/70 bg-white px-4 py-4 shadow-md',
+  selectableCard: 'cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-xl',
   deleteButton: 'size-8 text-slate-500 hover:text-destructive',
 } as const;
 

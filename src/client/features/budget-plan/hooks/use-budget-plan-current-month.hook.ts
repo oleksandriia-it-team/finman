@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 
 export function useBudgetPlanCurrentMonth(scope = 'current-month') {
