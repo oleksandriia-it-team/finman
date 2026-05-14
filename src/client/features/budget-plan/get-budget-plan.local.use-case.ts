@@ -6,6 +6,10 @@ import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 
+function isActiveRecord<T extends { softDeleted?: 0 | 1 }>(entry: T | null | undefined): entry is T {
+  return !!entry && entry.softDeleted !== 1;
+}
+
 export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanDto, BudgetPlanDetailed | null> {
   constructor(
     transactionManager: ITransactionManager,
@@ -25,11 +29,11 @@ export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPla
 
     const otherEntries = (
       await Promise.all(budgetPlan.otherEntryIds.map((id) => this.monthEntryRepository.getItemById(id)))
-    ).filter((i) => !!i);
+    ).filter(isActiveRecord);
 
     const regularEntries = (
       await Promise.all(budgetPlan.plannedRegularEntryIds.map((id) => this.regularEntryRepository.getItemById(id)))
-    ).filter((i) => !!i);
+    ).filter(isActiveRecord);
 
     return {
       id: budgetPlan.id,

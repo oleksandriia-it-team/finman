@@ -15,7 +15,9 @@ export function useRegularEntryOptions() {
     const loadEntries = async () => {
       try {
         setLoadingState(PromiseState.Loading);
-        const entries = await regularEntryService.getItems(1, 1000, { softDeleted: 0 });
+        const entries = await regularEntryService.getItems(1, await regularEntryService.getTotalCount(), {
+          softDeleted: 0,
+        });
 
         if (!isMounted) {
           return;

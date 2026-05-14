@@ -27,6 +27,10 @@ function toDetailedMonthEntry(entry: MonthEntryOrm): BudgetPlanDetailed['otherEn
   return { ...plainEntry };
 }
 
+function isActiveRecord<T extends { softDeleted?: 0 | 1 }>(entry: T | null | undefined): entry is T {
+  return !!entry && entry.softDeleted !== 1;
+}
+
 export async function getDetailedBudgetPlan(
   repository: BudgetPlanRepository,
   input: GetApiBudgetPlanInput,
@@ -52,7 +56,7 @@ export async function getDetailedBudgetPlan(
     softDeleted: budgetPlan.softDeleted,
     createdAt: budgetPlan.createdAt,
     updatedAt: budgetPlan.updatedAt,
-    plannedRegularEntries: (budgetPlan.plannedRegularEntries ?? []).map(toDetailedRegularEntry),
-    otherEntries: (budgetPlan.otherEntries ?? []).map(toDetailedMonthEntry),
+    plannedRegularEntries: (budgetPlan.plannedRegularEntries ?? []).filter(isActiveRecord).map(toDetailedRegularEntry),
+    otherEntries: (budgetPlan.otherEntries ?? []).filter(isActiveRecord).map(toDetailedMonthEntry),
   };
 }

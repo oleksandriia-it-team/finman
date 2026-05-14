@@ -2,11 +2,12 @@
 
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import BudgetPlanForm from '@frontend/features/budget-plan/budget-plan-form';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
+import { BudgetPlanEditForm } from '@frontend/features/budget-plan/budget-plan-edit-form';
+import BudgetPlanForm from '@frontend/features/budget-plan/budget-plan-form';
 
 function BudgetPlanEditScreenSkeleton() {
   return (
@@ -31,13 +32,18 @@ export function BudgetPlanEditScreen() {
       <FinListScreenHandler
         state={state}
         errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
-        hasData={!!budgetPlan}
+        hasData
         skeletonItems={1}
         skeleton={BudgetPlanEditScreenSkeleton}
       >
-        {budgetPlan && (
-          <BudgetPlanForm
+        {budgetPlan ? (
+          <BudgetPlanEditForm
             initialData={budgetPlan}
+            onCancel={() => router.push('/profile/budget/plans')}
+            onSuccess={() => router.push('/profile/budget/plans')}
+          />
+        ) : (
+          <BudgetPlanForm
             onCancel={() => router.push('/profile/budget/plans')}
             onSuccess={() => router.push('/profile/budget/plans')}
           />

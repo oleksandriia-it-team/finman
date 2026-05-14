@@ -7,12 +7,19 @@ export interface BudgetPlanEntrySectionItem {
   sum?: number;
   category?: keyof typeof CategoriesMapping | null;
   selected?: boolean;
+  description?: string | null | undefined;
 }
 
 export interface BudgetPlanEntrySectionProps {
   entries: BudgetPlanEntrySectionItem[];
   iconName: string;
-  iconClassName: string;
+  iconClassName?: string;
   title: string;
   showSelectedBadge?: boolean;
+  countLabel?: string;
+  frequencyLabel?: string;
+  selectable?: boolean;
+  onToggleSelect?: (id: number) => void;
+  onDelete?: (id: number) => void;
+  gridClassName?: string;
 }
