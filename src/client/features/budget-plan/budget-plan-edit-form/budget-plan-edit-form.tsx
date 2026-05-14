@@ -3,19 +3,19 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FormProvider, useFieldArray } from 'react-hook-form';
-import { MonthTitles } from '@common/constants/month-titles.constant';
-import { ExpenseCategories } from '@common/enums/categories.enum';
-import { TypeEntryFilter } from '@common/enums/entry.enum';
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
-import { BudgetPlanEntrySection } from '@frontend/entities/budget-plan/ui/budget-plan-entry-section';
-import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
-import type { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { UiCard } from '@frontend/ui/ui-card/ui-card';
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useBudgetPlanForm } from './hooks/budget-plan-form.hook';
-import { useRegularEntryOptions } from './hooks/use-regular-entry-options.hook';
-import { PlanOperationsStatisticDesktop } from './plan-operations-statistic-block';
+import { MonthTitles } from 'src/common/constants/month-titles.constant';
+import { ExpenseCategories } from 'src/common/enums/categories.enum';
+import { TypeEntryFilter } from 'src/common/enums/entry.enum';
+import type { BudgetPlanDetailed } from 'src/common/records/budget-plan.record';
+import { BudgetPlanEntrySection } from 'src/client/entities/budget-plan/ui/budget-plan-entry-section';
+import { TrackingOperationTypeFilter } from 'src/client/entities/operations/tracking-type-picker/tracking-operation-type-filter';
+import type { CategoriesMapping } from 'src/client/shared/styles/card-styles-mappings';
+import { UiButton } from 'src/client/shared/ui/ui-button/ui-button';
+import { UiCard } from 'src/client/shared/ui/ui-card/ui-card';
+import { UiSvgIcon } from 'src/client/shared/ui/ui-svg-icon/ui-svg-icon';
+import { useBudgetPlanForm } from '../hooks/budget-plan-form.hook';
+import { useRegularEntryOptions } from '../hooks/use-regular-entry-options.hook';
+import { PlanOperationsStatisticDesktop } from '../budget-plan-block/plan-operations-statistic-block';
 
 interface BudgetPlanEditFormProps {
   initialData: BudgetPlanDetailed;

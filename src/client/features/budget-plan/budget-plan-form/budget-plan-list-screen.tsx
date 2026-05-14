@@ -2,24 +2,24 @@
 
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { MonthTitles } from '@common/constants/month-titles.constant';
-import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
-import { TypeEntryFilter } from '@common/enums/entry.enum';
-import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
-import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
-import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
-import { FinLoader } from '@frontend/components/loader/fin-loader';
-import { BudgetPlanEntrySection } from '@frontend/entities/budget-plan/ui/budget-plan-entry-section';
-import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
+import { MonthTitles } from 'src/common/constants/month-titles.constant';
+import { getCurrentMonthDate } from 'src/common/domains/budget-plan/get-current-month-date-util';
+import { TypeEntryFilter } from 'src/common/enums/entry.enum';
+import { FinButtonListAction } from 'src/client/shared/components/wrappers/fin-button-list-action';
+import { FinListPageWrapper } from 'src/client/shared/components/wrappers/fin-list-page-wrapper';
+import { FinListScreenHandler } from 'src/client/shared/components/screen-handlers/fin-list-screen-handler';
+import { FinLoader } from 'src/client/shared/components/loader/fin-loader';
+import { BudgetPlanEntrySection } from 'src/client/entities/budget-plan/ui/budget-plan-entry-section';
+import { useBudgetPlanCurrentMonth } from 'src/client/features/budget-plan/hooks/use-budget-plan-current-month.hook';
 import {
   PlanOperationsStatisticDesktop,
   PlanOperationsStatisticMobile,
-} from '@frontend/features/budget-plan/plan-operations-statistic-block';
-import { TrackingOperationTypeFilter } from '@frontend/entities/operations/tracking-type-picker/tracking-operation-type-filter';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { UiCard } from '@frontend/ui/ui-card/ui-card';
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+} from '../budget-plan-block/plan-operations-statistic-block';
+import { TrackingOperationTypeFilter } from 'src/client/entities/operations/tracking-type-picker/tracking-operation-type-filter';
+import { PromiseState } from 'src/client/shared/enums/promise-state.enum';
+import { UiButton } from 'src/client/shared/ui/ui-button/ui-button';
+import { UiCard } from 'src/client/shared/ui/ui-card/ui-card';
+import { UiSvgIcon } from 'src/client/shared/ui/ui-svg-icon/ui-svg-icon';
 
 function sumEntriesByType(entries: Array<{ type: string; sum?: number }>, type: 'income' | 'expense') {
   return entries.reduce((acc, entry) => (entry.type === type ? acc + (entry.sum ?? 0) : acc), 0);

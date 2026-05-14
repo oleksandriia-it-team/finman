@@ -2,12 +2,12 @@
 
 import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
-import { FinLoader } from '@frontend/components/loader/fin-loader';
-import { useBudgetPlanCurrentMonth } from '@frontend/features/budget-plan/hooks/use-budget-plan-current-month.hook';
-import { BudgetPlanEditForm } from '@frontend/features/budget-plan/budget-plan-edit-form';
-import BudgetPlanForm from '@frontend/features/budget-plan/budget-plan-form';
+import { PromiseState } from 'src/client/shared/enums/promise-state.enum';
+import { FinListScreenHandler } from 'src/client/shared/components/screen-handlers/fin-list-screen-handler';
+import { FinLoader } from 'src/client/shared/components/loader/fin-loader';
+import { useBudgetPlanCurrentMonth } from 'src/client/features/budget-plan/hooks/use-budget-plan-current-month.hook';
+import { BudgetPlanEditForm } from 'src/client/features/budget-plan/budget-plan-edit-form/budget-plan-edit-form';
+import BudgetPlanForm from '../budget-plan-form/budget-plan-form';
 
 function BudgetPlanEditScreenSkeleton() {
   return (

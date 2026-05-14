@@ -1,8 +1,8 @@
-import { UiCard } from '@frontend/ui/ui-card/ui-card';
-import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
-import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
-import { cn } from '@frontend/shared/utils/cn.util';
-import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
+import { UiCard } from 'src/client/shared/ui/ui-card/ui-card';
+import { FinTransformCurrency } from 'src/client/shared/components/transform-currency/fin-transform-currency';
+import { UiIconBadge } from 'src/client/shared/ui/ui-icon-badge/ui-icon-badge';
+import { cn } from 'src/client/shared/utils/cn.util';
+import { UiSkeleton } from 'src/client/shared/ui/ui-skeleton/ui-skeleton';
 
 interface PlanOperationsStatisticBlockProps {
   income: number;
