@@ -3,20 +3,20 @@
 import { useRouter } from 'next/navigation';
 import { FormProvider, useFieldArray } from 'react-hook-form';
 import { useBudgetPlanForm } from '../hooks/budget-plan-form.hook';
-import type { BudgetPlanDetailed } from 'src/common/records/budget-plan.record';
-import { UiButton } from 'src/client/shared/ui/ui-button/ui-button';
-import { UiSvgIcon } from 'src/client/shared/ui/ui-svg-icon/ui-svg-icon';
-import { UiFormLayout } from 'src/client/shared/ui/ui-form-layout/ui-form-layout';
-import { CategoriesMapping } from 'src/client/shared/styles/card-styles-mappings';
-import { UiIconBadge } from 'src/client/shared/ui/ui-icon-badge/ui-icon-badge';
-import { UiCard } from 'src/client/shared/ui/ui-card/ui-card';
-import { FinTransformCurrency } from 'src/client/shared/components/transform-currency/fin-transform-currency';
-import { cn } from 'src/client/shared/utils/cn.util';
-import { MonthTitles } from 'src/common/constants/month-titles.constant';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import { UiButton } from '@frontend/shared/ui/ui-button/ui-button';
+import { UiSvgIcon } from '@frontend/shared/ui/ui-svg-icon/ui-svg-icon';
+import { UiFormLayout } from '@frontend/shared/ui/ui-form-layout/ui-form-layout';
+import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { UiIconBadge } from '@frontend/shared/ui/ui-icon-badge/ui-icon-badge';
+import { UiCard } from '@frontend/shared/ui/ui-card/ui-card';
+import { FinTransformCurrency } from '@frontend/shared/components/transform-currency/fin-transform-currency';
+import { cn } from '@frontend/shared/utils/cn.util';
+import { MonthTitles } from '@common/constants/month-titles.constant';
 import { useRegularEntryOptions } from '../hooks/use-regular-entry-options.hook';
-import type { RegularEntry } from 'src/common/records/regular-entry.record';
-import type { AllCategories } from 'src/common/enums/categories.enum';
-import { ExpenseCategories } from 'src/common/enums/categories.enum';
+import type { RegularEntry } from '@common/records/regular-entry.record';
+import type { AllCategories } from '@common/enums/categories.enum';
+import { ExpenseCategories } from '@common/enums/categories.enum';
 
 interface BudgetPlanFormProps {
   initialData?: BudgetPlanDetailed;

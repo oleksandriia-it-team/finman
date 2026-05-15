@@ -1,26 +1,16 @@
 'use client';
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useGlobalToast } from 'src/client/shared/hooks/global-toast/global-toast.hook';
-import type { BudgetPlanDetailed } from 'src/common/records/budget-plan.record';
-import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from 'src/common/domains/budget-plan/budget-plan.schema';
-import { CreateBudgetPlanSchema, UpdateBudgetPlanSchema } from 'src/common/domains/budget-plan/budget-plan.schema';
+import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
+import { CreateBudgetPlanSchema, UpdateBudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 
-interface BudgetPlanFormData {
-  plannedRegularEntryIds: number[];
-  otherEntries: Array<{
-    id?: number;
-    title: string;
-    description?: string;
-    sum: number;
-    type: 'expense' | 'income';
-    category?: string;
-    selected: boolean;
-    priority: number;
-  }>;
-}
+type BudgetPlanFormData = z.infer<typeof CreateBudgetPlanSchema> | z.infer<typeof UpdateBudgetPlanSchema>;
 
 export function useBudgetPlanForm(initialData?: BudgetPlanDetailed, onSuccess?: () => void) {
   const showToast = useGlobalToast((state) => state.showToast);

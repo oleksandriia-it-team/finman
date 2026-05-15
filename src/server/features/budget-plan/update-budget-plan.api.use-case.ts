@@ -45,7 +45,10 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       remainedRecords: remainedIds,
     } = getNewAndDeletedRecords(otherEntriesDto, currentEntryIds);
 
-    const monthEntriesFromAnotherBudgetPlan = remainedIds.filter((id) => !currentEntryIds.includes(id));
+    const monthEntriesFromAnotherBudgetPlan = otherEntriesDto
+      .filter((dto) => dto.id && remainedIds.includes(dto.id))
+      .map((d) => d.id as number)
+      .filter((id) => !currentEntryIds.includes(id));
 
     if (monthEntriesFromAnotherBudgetPlan.length > 0) {
       throw new AppError(

@@ -2,20 +2,20 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FinButtonListAction } from 'src/client/shared/components/wrappers/fin-button-list-action';
-import { FinListPageWrapper } from 'src/client/shared/components/wrappers/fin-list-page-wrapper';
-import { FinListScreenHandler } from 'src/client/shared/components/screen-handlers/fin-list-screen-handler';
-import { FinLoader } from 'src/client/shared/components/loader/fin-loader';
-import { BudgetPlanEntrySection } from 'src/client/entities/budget-plan/ui/budget-plan-entry-section';
-import { useBudgetPlanByDate } from 'src/client/features/budget-plan/hooks/use-budget-plan-by-date.hook';
+import { FinButtonListAction } from '@frontend/shared/components/wrappers/fin-button-list-action';
+import { FinListPageWrapper } from '@frontend/shared/components/wrappers/fin-list-page-wrapper';
+import { FinListScreenHandler } from '@frontend/shared/components/screen-handlers/fin-list-screen-handler';
+import { FinLoader } from '@frontend/shared/components/loader/fin-loader';
+import { BudgetPlanEntrySection } from '@frontend/entities/budget-plan/ui/budget-plan-entry-section';
+import { useBudgetPlanByDate } from '@frontend/features/budget-plan/hooks/use-budget-plan-by-date.hook';
 import {
   PlanOperationsStatisticDesktop,
   PlanOperationsStatisticMobile,
 } from '../budget-plan-block/plan-operations-statistic-block';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { UiButton } from 'src/client/shared/ui/ui-button/ui-button';
-import { UiCard } from 'src/client/shared/ui/ui-card/ui-card';
-import { UiSvgIcon } from 'src/client/shared/ui/ui-svg-icon/ui-svg-icon';
+import { UiButton } from '@frontend/shared/ui/ui-button/ui-button';
+import { UiCard } from '@frontend/shared/ui/ui-card/ui-card';
+import { UiSvgIcon } from '@frontend/shared/ui/ui-svg-icon/ui-svg-icon';
 import { CurrentPlanHeader } from '@frontend/features/budget-plan/current-plan-header-date';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 
@@ -54,10 +54,10 @@ export function BudgetPlanListScreen({ date }: BudgetPlanListScreenProps) {
 
   return (
     <FinListPageWrapper>
-      <div className="flex-1 overflow-y-auto bg-[#eef3ff] px-4 pb-28 pt-6 md:px-8 md:pb-10 md:pt-7">
+      <div className="flex-1 overflow-y-auto bg-background px-4 pb-28 pt-6 md:px-8 md:pb-10 md:pt-7">
         <div className="mx-auto max-w-7xl space-y-5">
           <div className="space-y-3 md:hidden">
-            <h1 className="text-4xl font-bold leading-none text-slate-950">Бюджетний план</h1>
+            <h1 className="text-4xl font-bold leading-none text-foreground">Бюджетний план</h1>
             <CurrentPlanHeader
               month={date.month}
               year={date.year}
@@ -103,7 +103,7 @@ export function BudgetPlanListScreen({ date }: BudgetPlanListScreenProps) {
           <FinListScreenHandler
             state={promiseState}
             errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
-            hasData
+            hasData={!!budgetPlan}
             skeletonItems={1}
             skeleton={BudgetPlanListScreenSkeleton}
           >
