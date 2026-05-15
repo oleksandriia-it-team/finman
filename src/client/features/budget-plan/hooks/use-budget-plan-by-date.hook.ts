@@ -1,4 +1,3 @@
-// src/client/features/budget-plan/hooks/use-budget-plan-by-date.hook.ts
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
