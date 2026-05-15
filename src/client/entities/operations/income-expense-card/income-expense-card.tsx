@@ -57,7 +57,6 @@ export function IncomeExpenseCard({
               name={categoryStyles.icon}
             />
 
-            {/* Взаємовиключний блок дій (ідентичний до TransactionCard) */}
             <div className="flex shrink-0 items-center gap-2">
               {selectable ? (
                 <div

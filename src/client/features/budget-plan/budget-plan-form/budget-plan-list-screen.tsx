@@ -83,19 +83,6 @@ export function BudgetPlanListScreen({ date }: BudgetPlanListScreenProps) {
                   />
                   Редагування
                 </UiButton>
-
-                <UiButton
-                  variant="primary"
-                  size="sm"
-                  className="gap-1.5 rounded-2xl px-4 py-5 text-sm shadow-md"
-                  onClick={() => router.push('/profile/budget/plans/add')}
-                >
-                  <UiSvgIcon
-                    name="plus"
-                    size="sm"
-                  />
-                  Додати операцію
-                </UiButton>
               </div>
             )}
           </div>

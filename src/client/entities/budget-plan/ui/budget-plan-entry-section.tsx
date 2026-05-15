@@ -55,12 +55,12 @@ export function BudgetPlanEntrySection({
             {...(entry.selected !== undefined ? { isSelected: entry.selected } : {})}
             {...(selectable ? { onToggleSelect: () => onToggleSelect?.(entry.id) } : {})}
             {...(onDelete ? { handleDelete: onDelete } : {})}
+            showDeleteButton={!!onDelete}
             showActions={false}
           />
         ))}
       </div>
 
-      {/* Desktop */}
       <div className={cn('hidden md:grid md:grid-cols-3 gap-3', gridClassName)}>
         {entries.map((entry) => (
           <div
@@ -76,6 +76,9 @@ export function BudgetPlanEntrySection({
               {...(entry.category ? { category: entry.category } : {})}
               {...(onDelete ? { handleDelete: onDelete } : {})}
               showDeleteButton={!!onDelete}
+              selectable={selectable}
+              {...(entry.selected !== undefined ? { isSelected: entry.selected } : {})}
+              {...(selectable ? { onToggleSelect: () => onToggleSelect?.(entry.id) } : {})}
               showMenu={false}
             />
 

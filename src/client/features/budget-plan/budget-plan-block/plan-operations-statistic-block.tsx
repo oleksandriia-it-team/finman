@@ -20,7 +20,7 @@ export function PlanOperationsStatisticMobile({
   loading,
 }: PlanOperationsStatisticBlockProps) {
   const classes = cn(
-    'text-muted-foreground rounded-4xl bg-card w-full max-w-150 mx-auto overflow-hidden p-0 text-center gap-0',
+    'text-muted-foreground rounded-4xl bg-card w-full mx-auto overflow-hidden p-0 text-center gap-0',
     className,
   );
 

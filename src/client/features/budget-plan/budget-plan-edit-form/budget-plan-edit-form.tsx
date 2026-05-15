@@ -112,7 +112,7 @@ export function BudgetPlanEditForm({ initialData, onSuccess, onCancel }: Readonl
               />
             </div>
 
-            <div className="overflow-y-auto space-y-4 max-h-auto md:max-h-auto pr-1">
+            <div className="space-y-4 pr-1 overflow-y-auto max-h-96 md:max-h-120 custom-scrollbar">
               {allRegularEntries.length === 0 ? (
                 <UiCard className="rounded-4xl border border-dashed border-border bg-background px-4 py-5 text-center text-muted-foreground shadow-none">
                   Немає регулярних операцій
