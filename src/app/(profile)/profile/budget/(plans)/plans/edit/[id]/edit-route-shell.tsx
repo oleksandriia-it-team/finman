@@ -3,8 +3,7 @@
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
 import { BudgetPlanEditScreen } from '@frontend/features/budget-plan/budget-plan-edit-form/budget-plan-edit-screen';
 
-export function BudgetPlanEditRouteShell() {
+export function BudgetPlanEditRouteShell(props: PageProps<never>) {
   useHidePlusButton();
-
-  return <BudgetPlanEditScreen />;
+  return <BudgetPlanEditScreen {...props} />;
 }

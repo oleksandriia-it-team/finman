@@ -1,7 +1,11 @@
+// src/app/(profile)/profile/budget/(plans)/plans/page.tsx
 'use client';
 
-import BudgetPlanListScreen from '@frontend/features/budget-plan/budget-plan-form/budget-plan-list-screen';
+import { useMemo } from 'react';
+import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
+import { BudgetPlanListScreen } from '@frontend/features/budget-plan/budget-plan-form/budget-plan-list-screen';
 
 export default function BudgetPlansPage() {
-  return <BudgetPlanListScreen />;
+  const currentDate = useMemo(() => getCurrentMonthDate(), []);
+  return <BudgetPlanListScreen date={currentDate} />;
 }

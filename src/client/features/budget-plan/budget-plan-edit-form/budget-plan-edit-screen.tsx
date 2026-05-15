@@ -1,42 +1,48 @@
 'use client';
 
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { PromiseState } from 'src/client/shared/enums/promise-state.enum';
-import { FinListScreenHandler } from 'src/client/shared/components/screen-handlers/fin-list-screen-handler';
-import { FinLoader } from 'src/client/shared/components/loader/fin-loader';
-import { useBudgetPlanCurrentMonth } from 'src/client/features/budget-plan/hooks/use-budget-plan-current-month.hook';
-import { BudgetPlanEditForm } from 'src/client/features/budget-plan/budget-plan-edit-form/budget-plan-edit-form';
+import { z } from 'zod';
+import type { Month } from '@common/enums/month.enum';
+import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
+import { FinFormScreenHandler } from '@frontend/components/screen-handlers/fin-form-screen-handler';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import { BudgetPlanEditForm } from './budget-plan-edit-form';
 import BudgetPlanForm from '../budget-plan-form/budget-plan-form';
 
-function BudgetPlanEditScreenSkeleton() {
-  return (
-    <div className="flex items-center justify-center h-full w-full">
-      <FinLoader />
-    </div>
-  );
+const dateParamSchema = z
+  .string()
+  .regex(/^\d{2}-\d{4}$/)
+  .transform((val) => {
+    const [mm, yyyy] = val.split('-');
+    return {
+      month: (parseInt(mm, 10) - 1) as Month,
+      year: parseInt(yyyy, 10),
+    };
+  });
+
+function parseDateParam(raw: string): { success: true; data: GetBudgetPlanDto } | { success: false } {
+  const result = dateParamSchema.safeParse(raw);
+  return result.success ? { success: true, data: result.data } : { success: false };
 }
 
-export function BudgetPlanEditScreen() {
+export function BudgetPlanEditScreen(props: PageProps<never>) {
   const router = useRouter();
-  const { data: budgetPlan, status, error } = useBudgetPlanCurrentMonth('edit');
-
-  const state = useMemo(() => {
-    if (status === 'pending') return PromiseState.Loading;
-    if (status === 'error') return PromiseState.Error;
-    return PromiseState.Success;
-  }, [status]);
 
   return (
-    <div className="flex size-full">
-      <FinListScreenHandler
-        state={state}
-        errorMessage={error instanceof Error ? error.message : 'Помилка завантаження'}
-        hasData
-        skeletonItems={1}
-        skeleton={BudgetPlanEditScreenSkeleton}
-      >
-        {budgetPlan ? (
+    <FinFormScreenHandler<BudgetPlanDetailed | null, GetBudgetPlanDto>
+      {...props}
+      queryKey="budget-plan-edit"
+      parseParam={parseDateParam}
+      getItemFn={(date) => budgetPlanService.getItem(date)}
+      notItemFound={
+        <BudgetPlanForm
+          onCancel={() => router.push('/profile/budget/plans')}
+          onSuccess={() => router.push('/profile/budget/plans')}
+        />
+      }
+      render={(budgetPlan) =>
+        budgetPlan ? (
           <BudgetPlanEditForm
             initialData={budgetPlan}
             onCancel={() => router.push('/profile/budget/plans')}
@@ -47,10 +53,8 @@ export function BudgetPlanEditScreen() {
             onCancel={() => router.push('/profile/budget/plans')}
             onSuccess={() => router.push('/profile/budget/plans')}
           />
-        )}
-      </FinListScreenHandler>
-    </div>
+        )
+      }
+    />
   );
 }
-
-export default BudgetPlanEditScreen;
