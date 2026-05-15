@@ -91,7 +91,7 @@ export function PlanOperationsStatisticDesktop({
   loading,
 }: PlanOperationsStatisticBlockProps) {
   const classes = cn(
-    'text-muted-foreground rounded-4xl px-4 bg-card w-full flex flex-row justify-start gap-5',
+    'text-muted-foreground rounded-4xl px-4 bg-card flex-1 flex flex-row justify-start gap-5',
     className,
   );
 
@@ -127,7 +127,7 @@ export function PlanOperationsStatisticDesktop({
   ] as const;
 
   return (
-    <div className="flex justify-center gap-5 w-full">
+    <div className="flex justify-center gap-5 flex flex-wrap">
       {stats.map(({ icon, variant, label, value, className: textClass }) => (
         <UiCard
           key={label}
