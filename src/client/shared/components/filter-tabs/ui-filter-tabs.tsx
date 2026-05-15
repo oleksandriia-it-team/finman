@@ -20,7 +20,7 @@ export function UiFilterTabs<TValue>({
             key={tab.value !== undefined ? String(tab.value) : `tab-all-${index}`}
             isActive={isActive}
             onClick={() => onChange(tab.value)}
-            className="flex items-center gap-2 pb-2"
+            className="flex items-center gap-2 pb-2 text-sm"
           >
             {/* кольорова крапка (якщо увімкнено і передано колір) */}
             {withDot && tab.dotColor && <span className={`w-2 h-2 rounded-full ${tab.dotColor}`} />}

@@ -88,6 +88,7 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
               label="Статус обробки"
               options={statusOptions}
               disabled={isUpdating}
+              clearable={false}
             />
           </div>
           {log.stack && (

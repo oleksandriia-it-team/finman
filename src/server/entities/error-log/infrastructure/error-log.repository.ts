@@ -15,32 +15,67 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
 
   override async getItems(from: number, to: number, filters?: Partial<ErrorLogFilter>): Promise<ErrorLogOrm[]> {
     const { skip, take } = calculateSkipAndLimit(from, to);
+
     const qb = this.repository.createQueryBuilder('log');
+
     qb.leftJoinAndSelect('log.user', 'user');
+
     if (filters?.status) {
       qb.andWhere('log.status = :status', { status: filters.status });
     }
+
     if (filters?.endpoint) {
-      qb.andWhere('log.endpoint LIKE :endpoint', { endpoint: `%${filters.endpoint}%` });
+      qb.andWhere('(log.endpoint ILIKE :search OR log.message ILIKE :search)', { search: `%${filters.endpoint}%` });
     }
-    if (filters?.ids?.length) {
-      qb.andWhere('log.id IN (:...ids)', { ids: filters.ids });
+
+    if (filters?.method) {
+      qb.andWhere('log.method = :method', { method: filters.method });
     }
+
+    if (filters?.dateFrom && filters?.dateTo) {
+      qb.andWhere('log.createdAt BETWEEN :from AND :to', {
+        from: filters.dateFrom,
+        to: filters.dateTo,
+      });
+    } else if (filters?.dateFrom) {
+      qb.andWhere('log.createdAt >= :from', { from: filters.dateFrom });
+    } else if (filters?.dateTo) {
+      qb.andWhere('log.createdAt <= :to', { to: filters.dateTo });
+    }
+
     qb.skip(skip).take(take).orderBy('log.createdAt', 'DESC');
+
     return await qb.getMany();
   }
 
   override async getTotalCount(filters?: Partial<ErrorLogFilter>): Promise<number> {
     const qb = this.repository.createQueryBuilder('log');
+
     if (filters?.status) {
       qb.andWhere('log.status = :status', { status: filters.status });
     }
+
     if (filters?.endpoint) {
-      qb.andWhere('log.endpoint LIKE :endpoint', { endpoint: `%${filters.endpoint}%` });
+      qb.andWhere('(log.endpoint ILIKE :search OR log.message ILIKE :search)', { search: `%${filters.endpoint}%` });
     }
-    if (filters?.ids?.length) {
-      qb.andWhere('log.id IN (:...ids)', { ids: filters.ids });
+
+    if (filters?.method) {
+      qb.andWhere('log.method = :method', { method: filters.method });
     }
+
+    if (filters?.dateFrom && filters?.dateTo) {
+      qb.andWhere('log.createdAt BETWEEN :from AND :to', {
+        from: filters.dateFrom,
+        to: typeof filters.dateTo === 'string' ? `${filters.dateTo.split('T')[0]} 23:59:59` : filters.dateTo,
+      });
+    } else if (filters?.dateFrom) {
+      qb.andWhere('log.createdAt >= :from', { from: filters.dateFrom });
+    } else if (filters?.dateTo) {
+      qb.andWhere('log.createdAt <= :to', {
+        to: typeof filters.dateTo === 'string' ? `${filters.dateTo.split('T')[0]} 23:59:59` : filters.dateTo,
+      });
+    }
+
     return await qb.getCount();
   }
 

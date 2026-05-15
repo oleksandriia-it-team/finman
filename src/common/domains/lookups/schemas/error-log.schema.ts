@@ -10,6 +10,8 @@ const filters = z.object({
   status: z.nativeEnum(ErrorLogStatus, { message: 'Невалідний статус помилки' }).optional(),
   userId: z.number({ message: 'ID користувача має бути числом' }).optional(),
   message: z.string({ message: 'Текст помилки має бути рядком' }).optional(),
+  dateFrom: z.coerce.date({ message: 'Невалідний формат дати початку' }).optional(),
+  dateTo: z.coerce.date({ message: 'Невалідний формат дати кінця' }).optional(),
 });
 
 export const ErrorLogSchema = createPaginatedSchema(filters);

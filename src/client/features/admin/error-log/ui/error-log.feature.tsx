@@ -15,6 +15,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { UiTableHeader } from '@frontend/ui/ui-table/ui-table-header';
 import { UiTableHead } from '@frontend/ui/ui-table/ui-table-head';
 import { ErrorLogModal } from '@frontend/features/admin/error-log/ui/error-log-modal';
+import { ErrorLogsFilters } from '@frontend/features/admin/error-log/filters/error-log-filters';
 
 function MethodBadge({ method }: { method: string | null | undefined }) {
   const m = method?.toUpperCase() || 'UNKNOWN';
@@ -57,7 +58,7 @@ function StatusBadge({ status }: { status: ErrorLogStatus }) {
 
   return (
     <div className="flex items-center gap-2 text-sm text-foreground font-medium">
-      <span className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', dotColor)} />
+      <span className={cn('s-1.5 rounded-full flex-shrink-0', dotColor)} />
       {label}
     </div>
   );
@@ -123,6 +124,11 @@ export function ErrorLogsFeature() {
         }}
         withDot={true}
         withCount={true}
+      />
+
+      <ErrorLogsFilters
+        filters={filters}
+        onChange={setFilters}
       />
 
       <div className="flex-1 min-h-0 rounded-md overflow-auto border border-border bg-background custom-scrollbar">
