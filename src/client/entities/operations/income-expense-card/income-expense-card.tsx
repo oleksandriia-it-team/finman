@@ -1,3 +1,5 @@
+'use client';
+
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
@@ -12,6 +14,7 @@ import { FinTransformCurrency } from '@frontend/components/transform-currency/fi
 import type { TransactionCardProps } from '@frontend/entities/operations/transaction-card/props/transaction-card-props';
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 import './styles/income-expense-card-styles.scss';
 
@@ -25,43 +28,88 @@ export function IncomeExpenseCard({
   category = ExpenseCategories.Misc,
   title = '',
   handleDelete,
+  showDeleteButton = false,
+  showMenu = true,
+  selectable = false,
+  isSelected = false,
+  onToggleSelect,
 }: TransactionCardProps) {
-  const categoryStyles = CategoriesMapping[category];
+  const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
 
   return (
     <UiCard
       className={cn(
-        'income-expense-card border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden',
+        'income-expense-card border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden transition-all duration-200',
+        selectable && 'cursor-pointer',
+        selectable && isSelected && 'ring-2 ring-primary bg-primary/5',
         className,
       )}
       data-variant={categoryStyles.variant}
+      onClick={selectable ? onToggleSelect : undefined}
     >
       <CardHeader className="min-w-0 w-full overflow-hidden">
         <div className="flex flex-col items-start gap-3">
-          <div className="flex between w-full justify-between">
+          <div className="flex between w-full justify-between items-start">
             <UiIconBadge
               variant={categoryStyles.variant}
               isReversed
               size="lg"
               name={categoryStyles.icon}
             />
-            <UiResponsiveMenu>
-              <UiResponsiveMenuTrigger asChild>
+
+            {/* Взаємовиключний блок дій (ідентичний до TransactionCard) */}
+            <div className="flex shrink-0 items-center gap-2">
+              {selectable ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleSelect?.();
+                  }}
+                  className={cn(
+                    'flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition-colors cursor-pointer',
+                    isSelected
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-border bg-background text-transparent',
+                  )}
+                >
+                  <UiSvgIcon
+                    name="check"
+                    size="sm"
+                  />
+                </div>
+              ) : showDeleteButton ? (
                 <UiIconButton
                   size="lg"
-                  icon="three-dots-vertical"
+                  icon="trash"
                   variant="muted"
-                  className="!border-none"
+                  className="!border-none text-muted-foreground hover:text-destructive transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete?.(id!);
+                  }}
                 />
-              </UiResponsiveMenuTrigger>
-              <TransactionActions
-                id={id}
-                icon={categoryStyles.icon}
-                title={title || categoryStyles.label}
-                editPath={`regular-operations/edit/${id}`}
-                handleDelete={handleDelete}
-              />
-            </UiResponsiveMenu>
+              ) : showMenu ? (
+                <div onClick={(e) => e.stopPropagation()}>
+                  <UiResponsiveMenu>
+                    <UiResponsiveMenuTrigger asChild>
+                      <UiIconButton
+                        size="lg"
+                        icon="three-dots-vertical"
+                        variant="muted"
+                        className="!border-none"
+                      />
+                    </UiResponsiveMenuTrigger>
+                    <TransactionActions
+                      id={id}
+                      icon={categoryStyles.icon}
+                      title={title || categoryStyles.label}
+                      editPath={`regular-operations/edit/${id}`}
+                      handleDelete={handleDelete}
+                    />
+                  </UiResponsiveMenu>
+                </div>
+              ) : null}
+            </div>
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>
         </div>

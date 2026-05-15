@@ -9,4 +9,9 @@ export type TransactionCardProps = Partial<RegularEntry> & {
   handleDelete?: (id: number) => void;
   category?: AllCategories;
   showActions?: boolean;
+  showDeleteButton?: boolean;
+  showMenu?: boolean;
+  selectable?: boolean;
+  isSelected?: boolean;
+  onToggleSelect?: () => void;
 };
