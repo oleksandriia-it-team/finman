@@ -43,6 +43,7 @@ export const LoginSchema = z.object({
       UserRequirements.MinPasswordLength,
       'Пароль повинен бути не менше ' + UserRequirements.MinPasswordLength + ' символів',
     )
-    .max(255, 'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів'),
+    .max(255, 'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів')
+    .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та символи ASCII'),
 });
 export type LoginDto = z.infer<typeof LoginSchema>;

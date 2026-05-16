@@ -32,6 +32,7 @@ export default function RegularIncomesExpensesScreen() {
     options,
     state: listState,
     errorMessage,
+    errorStatus,
     reload,
     ...paginationRestProps
   } = usePaginationResource({
@@ -60,6 +61,7 @@ export default function RegularIncomesExpensesScreen() {
         <FinListScreenHandler
           state={state}
           errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
+          errorStatus={errorStatus}
           hasData={!!options.length}
           skeletonItems={pageSize}
           skeletonClassName="min-h-72"

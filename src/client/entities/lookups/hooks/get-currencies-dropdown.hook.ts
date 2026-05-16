@@ -42,7 +42,7 @@ export function useGetCurrenciesDropdown(currentValue?: string) {
 
       return {
         value: result.currencyCode,
-        label: result.currencyCode,
+        label: `${result.currencyName} (${result.currencyCode})`,
       };
     },
     onGetLabel: useCallback(

@@ -70,7 +70,13 @@ export function useSetupRegistration(onSuccessAction: () => void) {
 
       if (workMode === WorkMode.Offline) {
         try {
-          setUserInformation({ ...apiData, locale, language: 'uk', online: false });
+          setUserInformation({
+            ...apiData,
+            locale,
+            language: 'uk',
+            online: false,
+            currencyCode: apiData.currencyCode!,
+          });
           onSuccessAction();
         } catch (e) {
           logOut();
