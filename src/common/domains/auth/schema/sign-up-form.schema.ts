@@ -20,7 +20,7 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
 
     workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
 
-    currencyCode: z.string().min(1, 'Будь ласка, оберіть валюту').optional().or(z.literal('')),
+    currencyCode: CreateUserSchema.shape.currencyCode.optional().or(z.literal('')),
   })
   .superRefine((data, ctx) => {
     if (!data.workMode) {
@@ -31,6 +31,14 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
       });
       return;
     }
+    if (!data.currencyCode || data.currencyCode.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Будь ласка, оберіть валюту',
+        path: ['currencyCode'],
+      });
+    }
+
     if (data.workMode === WorkMode.Online) {
       if (!data.email || data.email.trim() === '') {
         ctx.addIssue({
@@ -52,9 +60,6 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
           message: 'Паролі не збігаються',
           path: ['passwordConfirm'],
         });
-      }
-      if (!data.currencyCode || data.currencyCode.trim() === '') {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Будь ласка, оберіть валюту', path: ['currencyCode'] });
       }
     }
   });
