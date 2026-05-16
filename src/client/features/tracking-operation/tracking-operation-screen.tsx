@@ -56,6 +56,7 @@ export function TrackingOperationScreen() {
     state: listState,
     errorMessage,
     reload,
+    errorStatus,
     ...paginationRestProps
   } = usePaginationResource({
     pageSize,
@@ -93,6 +94,7 @@ export function TrackingOperationScreen() {
           <FinListScreenHandler
             state={state}
             errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
+            errorStatus={errorStatus}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"

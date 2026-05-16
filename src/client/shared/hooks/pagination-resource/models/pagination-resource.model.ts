@@ -14,6 +14,7 @@ export interface PaginationResourceConfig<T, F extends object> {
 export interface PaginationResource<T> {
   state: PromiseState;
   errorMessage: string | undefined | null;
+  errorStatus: number | undefined | null;
   totalCount: number;
   options: T[];
   selectedPage: number;

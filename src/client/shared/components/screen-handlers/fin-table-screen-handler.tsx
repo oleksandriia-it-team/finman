@@ -12,6 +12,7 @@ export function FinTableScreenHandler({
   totalColumns,
   error,
   errorMessage,
+  errorStatus,
   ...props
 }: TableScreenHandlerProps) {
   const tableSkeleton = useCallback(() => {
@@ -63,6 +64,7 @@ export function FinTableScreenHandler({
       error={tableError}
       notItemFound={props.notItemFound ?? tableEmpty}
       errorMessage={errorMessage}
+      errorStatus={errorStatus}
     />
   );
 }
