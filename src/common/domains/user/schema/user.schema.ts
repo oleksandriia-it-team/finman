@@ -43,7 +43,8 @@ export const CreateUserSchema = z.object({
     .max(
       UserRequirements.MaxPasswordLength,
       'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
-    ),
+    )
+    .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та символи ASCII'),
 
   role: z.enum(Object.values(RoleEnum) as [string, ...string[]]).optional(),
 
@@ -53,7 +54,7 @@ export const CreateUserSchema = z.object({
     .regex(/^[a-z]{2}(-[A-Z]{2})?$/, 'Невірний формат локалі (наприклад: uk, en, en-US)'),
 
   currencyCode: z
-    .string()
+    .string({ error: 'Будь ласка, оберіть валюту' })
     .min(1, "Код валюти є обов'язковим")
     .length(
       CurrencyRequirements.MaxCurrencyCodeLength,

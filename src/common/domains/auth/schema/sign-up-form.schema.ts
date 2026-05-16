@@ -19,6 +19,8 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
     locale: z.string().optional().or(z.literal('')),
 
     workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
+
+    currencyCode: z.string().min(1, 'Будь ласка, оберіть валюту').optional().or(z.literal('')),
   })
   .superRefine((data, ctx) => {
     if (!data.workMode) {
@@ -50,6 +52,9 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
           message: 'Паролі не збігаються',
           path: ['passwordConfirm'],
         });
+      }
+      if (!data.currencyCode || data.currencyCode.trim() === '') {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Будь ласка, оберіть валюту', path: ['currencyCode'] });
       }
     }
   });
