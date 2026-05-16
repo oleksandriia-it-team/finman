@@ -15,7 +15,6 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import { AppError } from '@common/classes/app-error.class';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -40,7 +39,6 @@ export default function RegularIncomesExpensesScreen() {
     pageSize,
     queryKey: ['regular-transactions'],
     getOptionsFn: async (page, pageSize) => {
-      throw new AppError('Тест', 500);
       const { from, to } = calculateFromAndTo(page, pageSize);
       return getPayments(from, to);
     },
