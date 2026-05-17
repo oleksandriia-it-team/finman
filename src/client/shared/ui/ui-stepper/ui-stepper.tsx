@@ -1,8 +1,9 @@
+// src/client/shared/ui/ui-stepper/ui-stepper.tsx
 import { cn } from '../../utils/cn.util';
 import useEmblaCarousel from 'embla-carousel-react';
 import { type StepperApi, type StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
 import { StepperContext } from './hooks/stepper-context.hook';
-import { type KeyboardEvent, useCallback, useEffect, useState } from 'react';
+import { type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 export function UiStepper({
   orientation = 'horizontal',
@@ -59,14 +60,12 @@ export function UiStepper({
           event.preventDefault();
           scrollNext();
         }
-      } else {
-        if (event.key === 'ArrowLeft') {
-          event.preventDefault();
-          scrollPrev();
-        } else if (event.key === 'ArrowRight') {
-          event.preventDefault();
-          scrollNext();
-        }
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollPrev();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollNext();
       }
     },
     [orientation, scrollPrev, scrollNext],
@@ -89,30 +88,33 @@ export function UiStepper({
     };
   }, [api, onSelect]);
 
+  const contextValue = useMemo(
+    () => ({
+      carouselRef,
+      api,
+      opts,
+      orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
+      scrollPrev,
+      scrollNext,
+      canScrollPrev,
+      canScrollNext,
+      fullSize,
+    }),
+    [carouselRef, api, opts, orientation, scrollPrev, scrollNext, canScrollPrev, canScrollNext, fullSize],
+  );
+
   return (
-    <StepperContext.Provider
-      value={{
-        carouselRef,
-        api: api,
-        opts,
-        orientation: orientation || (opts?.axis === 'y' ? 'vertical' : 'horizontal'),
-        scrollPrev,
-        scrollNext,
-        canScrollPrev,
-        canScrollNext,
-        fullSize,
-      }}
-    >
-      <div
+    <StepperContext.Provider value={contextValue}>
+      <section
         onKeyDownCapture={handleKeyDown}
         className={cn('relative', className, fullSize && 'size-full')}
-        role="region"
+        aria-label="carousel"
         aria-roledescription="carousel"
         data-slot="carousel"
         {...props}
       >
         {children}
-      </div>
+      </section>
     </StepperContext.Provider>
   );
 }

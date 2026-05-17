@@ -22,9 +22,9 @@ type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number; curre
 
 export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudgetPlanInput, void> {
   constructor(
-    private budgetPlanRepository: BudgetPlanRepository,
-    private monthEntryRepository: MonthEntryRepository,
-    private plannedRegularEntryRepository: RegularEntryApiRepository,
+    private readonly budgetPlanRepository: BudgetPlanRepository,
+    private readonly monthEntryRepository: MonthEntryRepository,
+    private readonly plannedRegularEntryRepository: RegularEntryApiRepository,
     transactionManager: ITransactionManager,
   ) {
     super(transactionManager);

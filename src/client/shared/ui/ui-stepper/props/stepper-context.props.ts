@@ -1,9 +1,13 @@
 import type useEmblaCarousel from 'embla-carousel-react';
-import { type StepperProps } from '@frontend/ui/ui-stepper/props/stepper.props';
+import { type StepperApi, type UseStepperParameters } from '@frontend/ui/ui-stepper/props/stepper.props';
 
-export interface StepperContextProps extends StepperProps {
+type StepperOptions = UseStepperParameters[0];
+
+export interface StepperContextProps {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-  api: ReturnType<typeof useEmblaCarousel>[1];
+  api: StepperApi;
+  opts?: StepperOptions;
+  orientation: 'horizontal' | 'vertical' | 'responsive';
   scrollPrev: () => void;
   scrollNext: () => void;
   canScrollPrev: boolean;
