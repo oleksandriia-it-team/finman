@@ -20,7 +20,7 @@ async function resolveParams<TP>(
   let rawParams = context?.params || {};
   if (rawParams instanceof Promise) rawParams = await rawParams;
 
-  if (!paramsFn) return { ok: true, params: rawParams as unknown as TP };
+  if (!paramsFn) return { ok: true, params: rawParams as TP };
 
   try {
     const result = paramsFn(rawParams as RouteContextParams);
@@ -93,7 +93,9 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
   return async (request: Request, context?: RouteContext): Promise<NextResponse<ApiResultOperation<R>>> => {
     const paramsResult = await resolveParams<TP>(context, paramsFn);
     if (!paramsResult.ok) {
-      return filter ? filter(paramsResult.error as Error) : (unknownErrorResponse() as NextResponse<ApiResultOperation<R>>);
+      return filter
+        ? filter(paramsResult.error as Error)
+        : (unknownErrorResponse() as NextResponse<ApiResultOperation<R>>);
     }
 
     const transformedParams = paramsResult.params;
@@ -104,7 +106,13 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
 
     const body = bodyResult.body;
 
-    const guardResponse = await runGuards(guards as CreateRouteConfig<ZodTypeAny, TR, BTR, unknown, TP>['guards'], request, contextData as BTR, body, transformedParams);
+    const guardResponse = await runGuards(
+      guards as CreateRouteConfig<ZodTypeAny, TR, BTR, unknown, TP>['guards'],
+      request,
+      contextData as BTR,
+      body,
+      transformedParams,
+    );
     if (guardResponse) return guardResponse as NextResponse<ApiResultOperation<R>>;
 
     const dataTransformed = await resolveData<TR, TP>(dataFn, request, body as never, transformedParams);

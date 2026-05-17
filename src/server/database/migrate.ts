@@ -12,6 +12,7 @@ try {
   console.log('Migrations done!');
 } catch (error) {
   console.error('Migration error:', error);
+  process.exitCode = 1;
 } finally {
   if (DBDataSource.isInitialized) {
     await DBDataSource.destroy();

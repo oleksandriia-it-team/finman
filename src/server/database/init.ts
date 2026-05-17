@@ -43,6 +43,7 @@ try {
   console.log('--- INITIALIZATION COMPLETED SUCCESSFULLY! ---');
 } catch (error) {
   console.error('CRITICAL ERROR DURING INIT:', error);
+  process.exitCode = 1;
 } finally {
   if (DBDataSource.isInitialized) {
     await DBDataSource.destroy();
