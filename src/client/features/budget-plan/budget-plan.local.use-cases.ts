@@ -12,9 +12,9 @@ import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/b
 
 export class BudgetPlanLocalUsecases implements IBudgetPlanRepository {
   constructor(
-    private createBudgetPlanLocalUseCase: CreateBudgetPlanLocalUseCase,
-    private getBudgetPlanLocalUseCase: GetBudgetPlanLocalUseCase,
-    private updateBudgetPlanLocalUseCase: UpdateBudgetPlanLocalUseCase,
+    private readonly createBudgetPlanLocalUseCase: CreateBudgetPlanLocalUseCase,
+    private readonly getBudgetPlanLocalUseCase: GetBudgetPlanLocalUseCase,
+    private readonly updateBudgetPlanLocalUseCase: UpdateBudgetPlanLocalUseCase,
   ) {}
 
   async createItem(data: CreateBudgetPlanDto): Promise<number> {

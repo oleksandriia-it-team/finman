@@ -40,21 +40,19 @@ export function PeriodFilters({ className }: FiltersDefaultProps) {
 
   return (
     <div className={classes}>
-      {RegularPaymentFrequencyValues.map((item, i) => {
-        return (
-          <UiFilterPill
-            key={i}
-            isActive={activePeriod === item}
-            setActive={() => handleToggle(item)}
-            variant="primary"
-            size="sm"
-            isOutlined={false}
-            borderNone
-          >
-            {item}
-          </UiFilterPill>
-        );
-      })}
+      {RegularPaymentFrequencyValues.map((item) => (
+        <UiFilterPill
+          key={item}
+          isActive={activePeriod === item}
+          setActive={() => handleToggle(item)}
+          variant="primary"
+          size="sm"
+          isOutlined={false}
+          borderNone
+        >
+          {item}
+        </UiFilterPill>
+      ))}
     </div>
   );
 }

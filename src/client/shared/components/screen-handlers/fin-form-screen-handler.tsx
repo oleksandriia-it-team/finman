@@ -33,9 +33,7 @@ export function FinFormScreenHandler<T>({
       );
     }
 
-    const Error = error({ status: 400, message: 'ID є некоректним' });
-
-    return Error;
+    return error({ status: 400, message: 'ID є некоректним' });
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -61,9 +59,7 @@ export function FinFormScreenHandler<T>({
       );
     }
 
-    const Error = error(item.error as unknown as ApiResultOperationError);
-
-    return Error;
+    return error(item.error as unknown as ApiResultOperationError);
   }
 
   if (!item.data) {
