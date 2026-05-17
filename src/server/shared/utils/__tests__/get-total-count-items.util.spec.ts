@@ -21,10 +21,9 @@ describe('getTotalCountItems', () => {
 
   it('should return count of items that match single filter', async () => {
     const filter = (value: CountryAndLocale) => value.id > 10;
-    const expectedCount = localeAndLanguagesFixture.filter(filter as never).length;
+    const expectedCount = localeAndLanguagesFixture.filter((item) => filter(item)).length;
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [filter]);
-
     expect(result).toBe(expectedCount);
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));
     expect(StreamArray.prototype.destroy).toHaveBeenCalled();
@@ -55,11 +54,9 @@ describe('getTotalCountItems', () => {
     const complexFilter = (value: CountryAndLocale) => {
       return value.id > 5 && value.country?.includes('A');
     };
-
-    const expectedCount = localeAndLanguagesFixture.filter(complexFilter as never).length;
+    const expectedCount = localeAndLanguagesFixture.filter((item) => complexFilter(item)).length;
 
     const result = await getTotalCountItems<CountryAndLocale>('TEST.json', [complexFilter]);
-
     expect(result).toBe(expectedCount);
     expect(fs.createReadStream).toHaveBeenCalledWith(path.join(PathToPublic, 'TEST.json'));
     expect(StreamArray.prototype.destroy).toHaveBeenCalled();

@@ -13,7 +13,7 @@ async function init() {
     // 1. DISABLE AUTO-SYNCHRONIZATION BEFORE STARTING.
     // This prevents TypeORM from attempting to alter tables during initialize(),
     // which causes conflicts if old data or relationships exist.
-    // eslint-disable-next-line
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (DBDataSource.options as any).synchronize = false;
 
     if (!DBDataSource.isInitialized) {
