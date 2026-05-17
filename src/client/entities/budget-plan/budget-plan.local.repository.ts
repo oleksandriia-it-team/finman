@@ -14,11 +14,12 @@ export class BudgetPlanLocalRepository extends CrudLocalRepository<BudgetPlan, n
     return await this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  override async updateItem(id: number, newData: Omit<BudgetPlan, DefaultColumnKeys>): Promise<true> {
-    return await this.databaseLocalService.updateOrCreateItem(this.tableName, { id, ...newData }).then(() => true);
+  override async updateItem(id: number, newData: Omit<BudgetPlan, DefaultColumnKeys>): Promise<void> {
+    await this.databaseLocalService.updateOrCreateItem(this.tableName, { id, ...newData });
+    return;
   }
 
-  deleteItem(id: number): Promise<true> {
+  deleteItem(id: number): Promise<void> {
     return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 

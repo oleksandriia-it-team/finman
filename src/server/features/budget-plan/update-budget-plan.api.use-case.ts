@@ -20,7 +20,7 @@ import type { MonthEntry } from '@common/records/month-entry.record';
 
 type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number; currentOtherEntries: MonthEntry[] };
 
-export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudgetPlanInput, true> {
+export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudgetPlanInput, void> {
   constructor(
     private budgetPlanRepository: BudgetPlanRepository,
     private monthEntryRepository: MonthEntryRepository,
@@ -36,7 +36,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
     currentOtherEntries,
     id: budgetPlanId,
     ...data
-  }: UpdateBudgetPlanInput): Promise<true> {
+  }: UpdateBudgetPlanInput): Promise<void> {
     const currentEntryIds = currentOtherEntries.map((e) => e.id);
 
     const {
@@ -94,7 +94,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       ),
     });
 
-    return true as const;
+    return;
   }
 }
 

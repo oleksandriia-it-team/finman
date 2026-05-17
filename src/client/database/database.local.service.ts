@@ -265,7 +265,7 @@ export class DatabaseLocalService {
     }
   }
 
-  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<true> {
+  async deleteItem(tableName: string, id: number, softDelete: boolean): Promise<void> {
     try {
       const table = this.table(tableName);
       const item = await table.get(id);
@@ -278,7 +278,7 @@ export class DatabaseLocalService {
         await table.delete(id);
       }
 
-      return true;
+      return;
     } catch (error) {
       throw new AppError(getSafeErrorMessage(error));
     }

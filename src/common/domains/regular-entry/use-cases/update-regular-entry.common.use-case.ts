@@ -6,10 +6,10 @@ import { AppError } from '@common/classes/app-error.class';
 
 export type UpdateRegularEntryInput = Omit<RegularEntry, DefaultColumnKeys> & { id: number; userId?: number };
 
-export class UpdateRegularEntryCommonUseCase implements IUseCase<UpdateRegularEntryInput, true> {
+export class UpdateRegularEntryCommonUseCase implements IUseCase<UpdateRegularEntryInput, void> {
   constructor(private regularEntryRepository: IRegularEntryRepository) {}
 
-  async execute({ id, ...input }: UpdateRegularEntryInput): Promise<true> {
+  async execute({ id, ...input }: UpdateRegularEntryInput): Promise<void> {
     const exist = await this.regularEntryRepository.findByTitle(input);
 
     if (exist && exist.id !== id) {

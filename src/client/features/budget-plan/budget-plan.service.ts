@@ -16,11 +16,18 @@ export class BudgetPlanDataSource implements IBudgetPlanRepository {
 
   private async source(): Promise<IBudgetPlanRepository> {
     if (this.isOfflineMode) {
-      this.local ??= await this.localLoader();
-      return this.local;
+      if (this.local) return this.local;
+
+      const loaded = await this.localLoader();
+      this.local = loaded;
+      return loaded;
     }
-    this.apiClient ??= await this.apiClientLoader();
-    return this.apiClient;
+
+    if (this.apiClient) return this.apiClient;
+
+    const loadedApi = await this.apiClientLoader();
+    this.apiClient = loadedApi;
+    return loadedApi;
   }
 
   get isOfflineMode(): boolean {
@@ -35,7 +42,7 @@ export class BudgetPlanDataSource implements IBudgetPlanRepository {
     return this.source().then((s) => s.createItem(input));
   }
 
-  updateItem(input: UpdateBudgetPlanDto): Promise<true> {
+  updateItem(input: UpdateBudgetPlanDto): Promise<void> {
     return this.source().then((s) => s.updateItem(input));
   }
 }

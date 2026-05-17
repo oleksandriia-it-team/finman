@@ -48,11 +48,11 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
     return this.source().then((s) => s.createItem(data));
   }
 
-  updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> {
+  updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<void> {
     return this.source().then((s) => s.updateItem(id, data));
   }
 
-  deleteItem(id: number): Promise<true> {
+  deleteItem(id: number): Promise<void> {
     return this.source().then((s) => s.deleteItem(id));
   }
 

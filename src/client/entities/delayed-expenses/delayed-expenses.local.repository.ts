@@ -13,11 +13,12 @@ export class DelayedExpensesLocalRepository extends CrudLocalRepository<DelayedE
     return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<true> {
-    return this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
+  async updateItem(id: number, data: Omit<DelayedExpense, DefaultColumnKeys>): Promise<void> {
+    await this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id });
+    return;
   }
 
-  deleteItem(id: number): Promise<true> {
+  deleteItem(id: number): Promise<void> {
     return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 }

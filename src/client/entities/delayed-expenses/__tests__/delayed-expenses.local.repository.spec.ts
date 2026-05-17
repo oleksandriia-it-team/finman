@@ -38,19 +38,15 @@ describe('DelayedExpensesLocalRepository', () => {
   it('should update a delayed expense with id = 1', async () => {
     vi.spyOn(dbService, 'updateOrCreateItem').mockReturnValue(Promise.resolve(1));
 
-    const result = await service.updateItem(1, data);
-
-    expect(result).toBe(true);
+    await service.updateItem(1, data);
 
     expect(dbService.updateOrCreateItem).toHaveBeenCalledExactlyOnceWith(service.tableName, { ...data, id: 1 });
   });
 
   it('should delete a delayed expense with id = 1 with softDeleted = false', async () => {
-    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve(true));
+    vi.spyOn(dbService, 'deleteItem').mockReturnValue(Promise.resolve());
 
-    const result = await service.deleteItem(1);
-
-    expect(result).toBe(true);
+    await service.deleteItem(1);
 
     expect(dbService.deleteItem).toHaveBeenCalledExactlyOnceWith(service.tableName, 1, false);
   });
