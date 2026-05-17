@@ -1,6 +1,6 @@
 import { CountriesAndLocalesSchema } from '@common/domains/lookups/schemas/countries-and-locales.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { countryRepository } from '@backend/entities/country/infrastructure/country.repository';
 import { GetUserRoleTransformer } from '@backend/shared/transformers/get-user-role.transformer';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';

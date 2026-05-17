@@ -13,7 +13,8 @@
     "test": "vitest",
     "database:init": "tsx src/server/database/init.ts -- --synchronize=true",
     "docker:run": "docker-compose up -d",
-    "prepare": "husky"
+    "prepare": "husky",
+    "migration:generate": "tsx scripts/generate-migration.ts"
   },
   "author": "Oleksandriia's Frontend Team",
   "license": "ISC",

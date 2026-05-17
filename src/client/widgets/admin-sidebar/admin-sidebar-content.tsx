@@ -12,6 +12,7 @@ import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { adminNavRoutesWindow } from '@frontend/widgets/shared/admin-routes.constant';
+import React from 'react';
 
 export function AdminSidebarContent() {
   const pathname = usePathname();
@@ -47,7 +48,6 @@ export function AdminSidebarContent() {
           <UiSidebarMenu>
             {adminNavRoutesWindow.map((item) => {
               const isActive = pathname === item.route || pathname.startsWith(`${item.route}/`);
-              const Icon = item.Icon;
 
               return (
                 <UiSidebarMenuItem key={item.route}>
@@ -57,7 +57,12 @@ export function AdminSidebarContent() {
                     tooltip={item.name as string}
                   >
                     <Link href={item.route}>
-                      <Icon className="w-5 h-5" />
+                      {React.isValidElement(item.Icon)
+                        ? item.Icon
+                        : React.createElement(item.Icon as React.ElementType, {
+                            className: 'w-5 h-5',
+                          })}
+
                       <span>{item.name}</span>
                     </Link>
                   </UiSidebarMenuButton>

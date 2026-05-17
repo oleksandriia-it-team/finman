@@ -1,6 +1,6 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { CreateBudgetPlanSchema } from '@common/domains/budget-plan/budget-plan.schema';
 import { NotExistBudgetPlanGuard } from '@backend/entities/budget-plan/application/not-exist-budget-plan.guard';
 import { createBudgetPlanApiUseCase } from '@backend/features/budget-plan/create-budget-plan.api.use-case';

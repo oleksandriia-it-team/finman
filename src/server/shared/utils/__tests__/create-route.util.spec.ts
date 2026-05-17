@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createRoute } from '../create-route.util';
 import { type RouteContext } from '../../models/create-route.model';
-import { getDefaultApiErrorFilter } from '../../filter/get-api-error-filter.util';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 import { AppError } from '@common/classes/app-error.class';
+import { getDefaultApiErrorFilter } from '../../../../app/api/shared/get-api-error-filter.util';
 
 describe('createRoute with params', () => {
   let request: Request;

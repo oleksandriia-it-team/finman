@@ -4,7 +4,7 @@ import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pip
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { OwnsRegularEntryGuard } from '@backend/entities/regular-entry/application/owns-regular-entry.guard';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 
 export const GET = createRoute({
   paramsFn: (context) => ({

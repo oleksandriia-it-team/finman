@@ -35,5 +35,3 @@ avoiding 'Too many connections' errors
 if (process.env.NODE_ENV !== 'production') {
   globalForTypeorm.typeorm = DBDataSource;
 }
-
-export default DBDataSource;

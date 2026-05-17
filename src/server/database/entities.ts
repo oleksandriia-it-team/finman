@@ -6,6 +6,7 @@ import { TrackingOperationOrm } from '@backend/entities/tracking-operation/infra
 import { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { MonthEntryOrm } from '@backend/entities/month-entry/infrastructure/month-entry.orm';
 import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
+import { ErrorLogOrm } from '@backend/entities/error-log/infrastructure/error-log.orm';
 
 export const Entities = [
   UserOrm,
@@ -16,4 +17,5 @@ export const Entities = [
   BudgetPlanOrm,
   MonthEntryOrm,
   RecoveryCodeOrm,
+  ErrorLogOrm,
 ];

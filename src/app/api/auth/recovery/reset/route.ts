@@ -1,7 +1,7 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { ValidCodeGuard } from '../verify/guards';
 import { ResetPasswordSchema } from '@common/domains/auth/schema/reset-password.schema';
 

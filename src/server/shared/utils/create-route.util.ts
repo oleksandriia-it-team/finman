@@ -30,7 +30,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
       }
     } catch (e) {
       if (filter) {
-        return filter(e as Error);
+        return filter(request, e as Error);
       }
 
       return NextResponse.json({ status: 500, message: ErrorTexts.UnknownError }, { status: 500 });
@@ -86,7 +86,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
       return NextResponse.json(result, { status: result.status });
     } catch (e) {
       if (filter) {
-        return filter(e as Error);
+        return filter(request, e as Error);
       }
 
       return NextResponse.json({ status: 500, message: ErrorTexts.UnknownError }, { status: 500 });
