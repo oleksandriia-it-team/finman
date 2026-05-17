@@ -28,7 +28,6 @@ export function UiSidebarHeaderIcon({
       }}
       onFocus={() => setShowTrigger(true)}
       onBlur={() => setShowTrigger(false)}
-      role="presentation"
       {...props}
     >
       {showTrigger && !open ? <UiSidebarTrigger /> : children}
