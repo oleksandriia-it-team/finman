@@ -14,7 +14,6 @@
     "database:init": "tsx src/server/database/init.ts -- --synchronize=true",
     "docker:run": "docker-compose up -d",
     "prepare": "husky",
-    "typeorm": "tsx --env-file=.env node_modules/typeorm/cli.js",
     "migration:generate": "tsx scripts/generate-migration.ts"
   },
   "author": "Oleksandriia's Frontend Team",
