@@ -12,7 +12,8 @@ import { useConfirmCode } from './shared/confirm-code-form';
 
 export default function ConfirmCodePage() {
   const { methods, submit, isLoading, email, handleGoBack, isCounting, timeLeft } = useConfirmCode();
-  const buttonLabel = isLoading ? 'Перевірка...' : isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити';
+  const countingLabel = isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити';
+  const buttonLabel = isLoading ? 'Перевірка...' : countingLabel;
 
   return (
     <AuthLayout

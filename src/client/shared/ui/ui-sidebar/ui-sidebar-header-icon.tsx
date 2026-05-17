@@ -13,7 +13,6 @@ export function UiSidebarHeaderIcon({
   ...props
 }: ComponentProps<'div'>) {
   const { open } = useSidebar();
-
   const [showTrigger, setShowTrigger] = useState(false);
 
   return (
@@ -27,6 +26,9 @@ export function UiSidebarHeaderIcon({
         onMouseLeave?.(e);
         setShowTrigger(false);
       }}
+      onFocus={() => setShowTrigger(true)}
+      onBlur={() => setShowTrigger(false)}
+      role="presentation"
       {...props}
     >
       {showTrigger && !open ? <UiSidebarTrigger /> : children}

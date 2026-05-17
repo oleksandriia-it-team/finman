@@ -19,25 +19,15 @@ export function UiInfoBlock({
 }: UiInfoBlockProps) {
   const categoryStyles = category ? CategoriesMapping[category] : null;
 
-  const isClickable = !!onClick;
-  return (
-    <div
-      className={cn(
-        'flex flex-row items-center gap-3 p-3 rounded-xl transition-all duration-200',
-        bgClassName,
-        isClickable && 'cursor-pointer hover:opacity-80 active:scale-[0.98]',
-        className,
-      )}
-      onClick={onClick}
-      role={isClickable ? 'button' : undefined}
-      tabIndex={isClickable ? 0 : undefined}
-      onKeyDown={(e) => {
-        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          onClick();
-        }
-      }}
-    >
+  const commonClassName = cn(
+    'flex flex-row items-center gap-3 p-3 rounded-xl transition-all duration-200',
+    bgClassName,
+    onClick && 'cursor-pointer hover:opacity-80 active:scale-[0.98]',
+    className,
+  );
+
+  const content = (
+    <>
       <UiIconBadge
         name={categoryStyles?.icon ?? icon ?? ''}
         title={categoryStyles?.label ?? title ?? ''}
@@ -61,6 +51,20 @@ export function UiInfoBlock({
           {description}
         </UiDescription>
       </div>
-    </div>
+    </>
   );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        className={commonClassName}
+        onClick={onClick}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return <div className={commonClassName}>{content}</div>;
 }

@@ -7,8 +7,7 @@ import './styles/ui-field-styles.scss';
 
 export function UiField({ className, orientation = 'vertical', ...props }: FieldProps) {
   return (
-    <div
-      role="group"
+    <fieldset
       data-slot="field"
       data-orientation={orientation}
       className={cn('field', className)}
