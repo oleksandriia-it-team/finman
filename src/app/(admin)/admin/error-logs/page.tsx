@@ -5,9 +5,7 @@ import { ErrorLogPageLayout } from '@frontend/features/admin/error-log/ui/error-
 
 export default function ErrorLogsPage() {
   return (
-    <ErrorLogPageLayout
-      breadcrumbs={[{ label: 'Lookups', href: '/admin/lookups/countries' }, { label: 'Логер помилок' }]}
-    >
+    <ErrorLogPageLayout breadcrumbs={[{ label: 'Логер помилок' }]}>
       <ErrorLogsFeature />
     </ErrorLogPageLayout>
   );

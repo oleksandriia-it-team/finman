@@ -18,17 +18,15 @@ export const PUT = createRoute({
     errorLog: await errorLogApiRepository.getItemById(params.id),
     role: await GetUserRoleTransformer(request),
   }),
-  guards: [AuthGuard, RoleGuard(RoleEnum.Admin), ({ context }) => ExistErrorLogGuard(context.errorLog)],
-  execute: async ({ body, context, params: { id } }) => {
-    const existing = context.errorLog!;
-    if (body.status === undefined) {
-      return { status: 400, message: 'Не передано статус для оновлення' };
-    }
-
+  guards: [
+    (params) => AuthGuard(params),
+    (params) => RoleGuard(RoleEnum.Admin)(params),
+    ({ context }) => ExistErrorLogGuard(context.errorLog),
+  ],
+  execute: async ({ body, params: { id } }) => {
     await errorLogApiRepository.updateItem(id, {
-      status: body.status ?? existing.status,
+      status: body.status,
     });
-
     return { status: 200, data: true };
   },
   filter: getDefaultApiErrorFilter,

@@ -36,7 +36,7 @@ export const UpdateCountrySchema = CountryFormSchema.refine(hasAtLeastOneDefined
 export type UpdateCountryData = z.infer<typeof UpdateCountrySchema>;
 
 export const UpdateErrorLogSchema = z.object({
-  status: z.nativeEnum(ErrorLogStatus, { message: 'Не валідний статус помилки' }).optional(),
+  status: z.nativeEnum(ErrorLogStatus, { message: 'Статус є обовʼязковим' }),
 });
 
 export type UpdateErrorLogData = z.infer<typeof UpdateErrorLogSchema>;
