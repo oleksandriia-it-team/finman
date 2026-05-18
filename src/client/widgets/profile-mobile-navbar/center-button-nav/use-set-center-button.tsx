@@ -1,10 +1,13 @@
-import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
+import {
+  type UserNavCenterButton,
+  useUserNavStoreHook,
+} from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 import { useEffect } from 'react';
 
-export function useSetCenterButton(url: string) {
-  const setCenterButtonUrl = useUserNavStoreHook((state) => state.setCenterButtonUrl);
+export function useSetCenterButton(url: UserNavCenterButton) {
+  const setCenterButton = useUserNavStoreHook((state) => state.setCenterButton);
 
   useEffect(() => {
-    setCenterButtonUrl(url);
-  }, [url, setCenterButtonUrl]);
+    setCenterButton(url);
+  }, [url, setCenterButton]);
 }

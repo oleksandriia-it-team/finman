@@ -6,7 +6,7 @@ import { TrackingOperationFiltersProvider } from '@frontend/features/tracking-op
 import { GetBasicTrackingInformationProvider } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 
 export default function UserProfilePage() {
-  useSetCenterButton('/profile/tracking-operations/add');
+  useSetCenterButton({ url: '/profile/tracking-operations/add', icon: 'plus' });
   return (
     <TrackingOperationFiltersProvider>
       <GetBasicTrackingInformationProvider>
