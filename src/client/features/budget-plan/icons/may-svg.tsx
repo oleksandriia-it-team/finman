@@ -5,7 +5,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#my)">
+      <g clipPath="url(#my)">
         <rect
           width={width}
           height={height}
@@ -42,8 +42,8 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
         />
         <g
           stroke="#ffc820"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeWidth="2"
+          strokeLinecap="round"
         >
           <line
             x1="155"
@@ -133,7 +133,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
         />
         <g
           stroke="#2d6818"
-          stroke-width="1"
+          strokeWidth="1"
           fill="none"
         >
           <path d="M10 115 Q11 108 12 115" />
@@ -152,12 +152,12 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 25"
             stroke="#3a7818"
-            stroke-width="2"
+            strokeWidth="2"
           />
           <path
             d="M-3 14 Q-8 17 -2 20"
             stroke="#3a7818"
-            stroke-width="1.3"
+            strokeWidth="1.3"
             fill="none"
           />
           <circle
@@ -168,8 +168,8 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           />
           <g
             stroke="#ffc820"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           >
             <line
               x1="0"
@@ -213,7 +213,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 22"
             stroke="#3a7818"
-            stroke-width="2"
+            strokeWidth="2"
           />
           <path
             d="M0 -3 Q-4 -8 -2 -12 Q0 -10 2 -12 Q4 -8 0 -3 Z"
@@ -229,7 +229,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 25"
             stroke="#3a7818"
-            stroke-width="2"
+            strokeWidth="2"
           />
           <path
             d="M0 -2 Q-5 -8 -3 -13 Q0 -11 3 -13 Q5 -8 0 -2 Z"
@@ -245,7 +245,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 20"
             stroke="#3a7818"
-            stroke-width="2"
+            strokeWidth="2"
           />
           <circle
             cx="0"
@@ -255,8 +255,8 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           />
           <g
             stroke="#ffc820"
-            stroke-width="0.8"
-            stroke-linecap="round"
+            strokeWidth="0.8"
+            strokeLinecap="round"
           >
             <line
               x1="0"
@@ -282,7 +282,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 17"
             stroke="#3a7818"
-            stroke-width="1.8"
+            strokeWidth="1.8"
           />
           <path
             d="M0 -1 Q-3 -5 -2 -9 Q0 -7 2 -9 Q3 -5 0 -1 Z"
@@ -293,7 +293,7 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
           <path
             d="M0 0 L0 17"
             stroke="#3a7818"
-            stroke-width="1.8"
+            strokeWidth="1.8"
           />
           <circle
             cx="0"

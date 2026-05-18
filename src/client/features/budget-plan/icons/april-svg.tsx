@@ -5,7 +5,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#ap)">
+      <g clipPath="url(#ap)">
         <rect
           width={width}
           height={height}
@@ -32,42 +32,42 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           d="M-10 130 Q100 30 210 130"
           fill="none"
           stroke="#d04848"
-          stroke-width="4"
+          strokeWidth="4"
           opacity=".7"
         />
         <path
           d="M-5 130 Q100 40 205 130"
           fill="none"
           stroke="#e89020"
-          stroke-width="3.5"
+          strokeWidth="3.5"
           opacity=".7"
         />
         <path
           d="M0 130 Q100 48 200 130"
           fill="none"
           stroke="#e8d030"
-          stroke-width="3"
+          strokeWidth="3"
           opacity=".7"
         />
         <path
           d="M5 130 Q100 55 195 130"
           fill="none"
           stroke="#58a830"
-          stroke-width="3"
+          strokeWidth="3"
           opacity=".7"
         />
         <path
           d="M10 130 Q100 62 190 130"
           fill="none"
           stroke="#3878c8"
-          stroke-width="3"
+          strokeWidth="3"
           opacity=".7"
         />
         <path
           d="M15 130 Q100 70 185 130"
           fill="none"
           stroke="#7048b8"
-          stroke-width="3"
+          strokeWidth="3"
           opacity=".7"
         />
         <ellipse
@@ -93,9 +93,9 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
         />
         <g
           stroke="#a8c5dc"
-          stroke-width="1.3"
+          strokeWidth="1.3"
           opacity=".75"
-          stroke-linecap="round"
+          strokeLinecap="round"
         >
           <line
             x1="30"
@@ -156,7 +156,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
         />
         <g
           stroke="#2d5520"
-          stroke-width="0.8"
+          strokeWidth="0.8"
           fill="none"
         >
           <path d="M15 130 Q16 124 17 130" />
@@ -176,7 +176,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           <path
             d="M0 0 L0 -40 Q-2 -42 0 -45 Q2 -42 0 -40"
             stroke="#4a3525"
-            stroke-width="3"
+            strokeWidth="3"
             fill="none"
           />
           <line
@@ -185,7 +185,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
             x2="-12"
             y2="-35"
             stroke="#4a3525"
-            stroke-width="1.8"
+            strokeWidth="1.8"
           />
           <line
             x1="0"
@@ -193,7 +193,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
             x2="10"
             y2="-40"
             stroke="#4a3525"
-            stroke-width="1.8"
+            strokeWidth="1.8"
           />
           <line
             x1="0"
@@ -201,7 +201,7 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
             x2="-8"
             y2="-45"
             stroke="#4a3525"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           />
           <g fill="#fac0d0">
             <circle

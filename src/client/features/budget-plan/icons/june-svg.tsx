@@ -5,7 +5,7 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#jn)">
+      <g clipPath="url(#jn)">
         <rect
           width={width}
           height={height}
@@ -36,8 +36,8 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
         />
         <g
           stroke="#ffd020"
-          stroke-width="2.5"
-          stroke-linecap="round"
+          strokeWidth="2.5"
+          strokeLinecap="round"
         >
           <line
             x1="40"
@@ -372,7 +372,7 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
         </g>
         <g
           stroke="#2d5818"
-          stroke-width="0.7"
+          strokeWidth="0.7"
           fill="none"
         >
           <path d="M5 165 Q6 158 7 165" />

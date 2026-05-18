@@ -18,7 +18,7 @@ export function OctoberSvg({ width = 200, height = 200, viewBox = '0 0 200 200',
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#oc)">
+      <g clipPath="url(#oc)">
         <rect
           width={width}
           height={height}
@@ -71,7 +71,7 @@ export function OctoberSvg({ width = 200, height = 200, viewBox = '0 0 200 200',
             x2="-3.5"
             y2="32"
             stroke="#2d1808"
-            stroke-width="0.4"
+            strokeWidth="0.4"
           />
           <line
             x1="0"
@@ -79,7 +79,7 @@ export function OctoberSvg({ width = 200, height = 200, viewBox = '0 0 200 200',
             x2="0"
             y2="34"
             stroke="#2d1808"
-            stroke-width="0.4"
+            strokeWidth="0.4"
           />
           <line
             x1="3.5"
@@ -87,7 +87,7 @@ export function OctoberSvg({ width = 200, height = 200, viewBox = '0 0 200 200',
             x2="3.5"
             y2="33"
             stroke="#2d1808"
-            stroke-width="0.4"
+            strokeWidth="0.4"
           />
           <ellipse
             cx="0"

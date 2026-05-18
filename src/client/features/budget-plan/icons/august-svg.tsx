@@ -5,7 +5,7 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#ag2)">
+      <g clipPath="url(#ag2)">
         <rect
           width={width}
           height={height}
@@ -67,8 +67,8 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
         />
         <g
           stroke="#a87020"
-          stroke-width="1.4"
-          stroke-linecap="round"
+          strokeWidth="1.4"
+          strokeLinecap="round"
         >
           <line
             x1="15"
@@ -231,7 +231,7 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
         </g>
         <g
           stroke="#a87020"
-          stroke-width="0.6"
+          strokeWidth="0.6"
           fill="none"
         >
           <path d="M13 84 Q11 81 12 78" />
@@ -261,8 +261,8 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
         </g>
         <g
           stroke="#9a6820"
-          stroke-width="1.2"
-          stroke-linecap="round"
+          strokeWidth="1.2"
+          strokeLinecap="round"
         >
           <line
             x1="20"

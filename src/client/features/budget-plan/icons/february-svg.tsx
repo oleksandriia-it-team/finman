@@ -5,7 +5,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#fb)">
+      <g clipPath="url(#fb)">
         <rect
           width={width}
           height="80"
@@ -63,7 +63,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
         />
         <g
           stroke="#7a9fc8"
-          stroke-width="0.5"
+          strokeWidth="0.5"
           fill="none"
           opacity=".5"
         >
@@ -87,7 +87,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-50"
             stroke="#5a4030"
-            stroke-width="3"
+            strokeWidth="3"
           />
           <line
             x1="0"
@@ -95,7 +95,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-15"
             y2="-28"
             stroke="#5a4030"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           />
           <line
             x1="0"
@@ -103,7 +103,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="14"
             y2="-30"
             stroke="#5a4030"
-            stroke-width="1.5"
+            strokeWidth="1.5"
           />
           <line
             x1="0"
@@ -111,7 +111,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-10"
             y2="-42"
             stroke="#5a4030"
-            stroke-width="1.2"
+            strokeWidth="1.2"
           />
           <line
             x1="0"
@@ -119,7 +119,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="10"
             y2="-45"
             stroke="#5a4030"
-            stroke-width="1.2"
+            strokeWidth="1.2"
           />
           <line
             x1="-15"
@@ -127,7 +127,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-20"
             y2="-35"
             stroke="#5a4030"
-            stroke-width="0.8"
+            strokeWidth="0.8"
           />
           <line
             x1="14"
@@ -135,12 +135,12 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="20"
             y2="-37"
             stroke="#5a4030"
-            stroke-width="0.8"
+            strokeWidth="0.8"
           />
           <g
             fill="none"
             stroke="#ffffff"
-            stroke-width="1.2"
+            strokeWidth="1.2"
             opacity=".85"
           >
             <path d="M0 -1 L0 -50" />
@@ -157,7 +157,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-45"
             stroke="#5a4030"
-            stroke-width="2.5"
+            strokeWidth="2.5"
           />
           <line
             x1="0"
@@ -165,7 +165,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-12"
             y2="-22"
             stroke="#5a4030"
-            stroke-width="1.3"
+            strokeWidth="1.3"
           />
           <line
             x1="0"
@@ -173,7 +173,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="11"
             y2="-26"
             stroke="#5a4030"
-            stroke-width="1.3"
+            strokeWidth="1.3"
           />
           <line
             x1="0"
@@ -181,7 +181,7 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-8"
             y2="-37"
             stroke="#5a4030"
-            stroke-width="1"
+            strokeWidth="1"
           />
           <line
             x1="0"
@@ -189,12 +189,12 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="8"
             y2="-40"
             stroke="#5a4030"
-            stroke-width="1"
+            strokeWidth="1"
           />
           <g
             fill="none"
             stroke="#ffffff"
-            stroke-width="1"
+            strokeWidth="1"
             opacity=".85"
           >
             <path d="M0 -1 L0 -45" />
@@ -205,9 +205,9 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
         </g>
         <g
           stroke="#fff"
-          stroke-width="0.8"
+          strokeWidth="0.8"
           opacity=".9"
-          stroke-linecap="round"
+          strokeLinecap="round"
         >
           <line
             x1="60"

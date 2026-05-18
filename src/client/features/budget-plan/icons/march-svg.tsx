@@ -5,7 +5,8 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
+      {...props}
     >
       <defs>
         <clipPath id="mr">
@@ -16,7 +17,7 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#mr)">
+      <g clipPath="url(#mr)">
         <rect
           width={width}
           height={height}
@@ -66,7 +67,7 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
         <path
           d="M20 110 Q40 108 60 112 Q80 108 100 112 T160 114 T200 112"
           stroke="#4a3525"
-          stroke-width="2"
+          strokeWidth="2"
           fill="none"
           opacity=".5"
         />
@@ -95,13 +96,13 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           <path
             d="M0 0 Q-2 15 0 30"
             stroke="#4a7028"
-            stroke-width="2"
+            strokeWidth="2"
             fill="none"
           />
           <path
             d="M-3 12 Q-8 18 -2 20"
             stroke="#4a7028"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             fill="none"
           />
           <ellipse
@@ -136,7 +137,7 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           <path
             d="M0 0 Q1 12 0 25"
             stroke="#4a7028"
-            stroke-width="2"
+            strokeWidth="2"
             fill="none"
           />
           <ellipse
@@ -171,13 +172,13 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           <path
             d="M0 0 Q-1 14 0 28"
             stroke="#4a7028"
-            stroke-width="2"
+            strokeWidth="2"
             fill="none"
           />
           <path
             d="M2 10 Q6 14 1 18"
             stroke="#4a7028"
-            stroke-width="1.3"
+            strokeWidth="1.3"
             fill="none"
           />
           <ellipse
@@ -212,7 +213,7 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
           <path
             d="M0 0 Q1 10 0 22"
             stroke="#4a7028"
-            stroke-width="1.8"
+            strokeWidth="1.8"
             fill="none"
           />
           <ellipse
@@ -239,7 +240,7 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
         </g>
         <g
           stroke="#5a7028"
-          stroke-width="1"
+          strokeWidth="1"
           fill="none"
         >
           <path d="M65 165 Q66 160 67 165" />
@@ -249,9 +250,9 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
         </g>
         <g
           stroke="#7a9fc8"
-          stroke-width="0.8"
+          strokeWidth="0.8"
           opacity=".5"
-          stroke-linecap="round"
+          strokeLinecap="round"
         >
           <line
             x1="60"

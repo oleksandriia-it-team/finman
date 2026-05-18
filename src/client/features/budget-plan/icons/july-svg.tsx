@@ -5,7 +5,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -17,7 +17,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#jl2)">
+      <g clipPath="url(#jl2)">
         <rect
           width={width}
           height={height}
@@ -53,8 +53,8 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
         />
         <g
           stroke="#ffb800"
-          stroke-width="2.5"
-          stroke-linecap="round"
+          strokeWidth="2.5"
+          strokeLinecap="round"
         >
           <line
             x1="100"
@@ -120,7 +120,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
             x2="0"
             y2="32"
             stroke="#3a6818"
-            stroke-width="3"
+            strokeWidth="3"
           />
           <path
             d="M-2 12 Q-10 8 -8 18 Q-3 16 -2 12"
@@ -138,8 +138,8 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           />
           <g
             stroke="#f08020"
-            stroke-width="2.2"
-            stroke-linecap="round"
+            strokeWidth="2.2"
+            strokeLinecap="round"
           >
             <line
               x1="0"
@@ -210,7 +210,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
             x2="0"
             y2="38"
             stroke="#3a6818"
-            stroke-width="3.5"
+            strokeWidth="3.5"
           />
           <path
             d="M-2 14 Q-13 10 -11 22 Q-3 20 -2 14"
@@ -228,8 +228,8 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           />
           <g
             stroke="#f08020"
-            stroke-width="2.5"
-            stroke-linecap="round"
+            strokeWidth="2.5"
+            strokeLinecap="round"
           >
             <line
               x1="0"
@@ -300,7 +300,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
             x2="0"
             y2="32"
             stroke="#3a6818"
-            stroke-width="3"
+            strokeWidth="3"
           />
           <path
             d="M-2 13 Q-10 9 -8 19 Q-3 17 -2 13"
@@ -318,8 +318,8 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           />
           <g
             stroke="#f08020"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           >
             <line
               x1="0"
@@ -373,7 +373,7 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
         </g>
         <g
           stroke="#5a8018"
-          stroke-width="0.8"
+          strokeWidth="0.8"
           fill="none"
         >
           <path d="M10 175 Q11 168 12 175" />

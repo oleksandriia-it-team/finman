@@ -18,7 +18,7 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#nv)">
+      <g clipPath="url(#nv)">
         <rect
           width={width}
           height={height}
@@ -92,8 +92,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-58"
             stroke="#3a2510"
-            stroke-width="3.5"
-            stroke-linecap="round"
+            strokeWidth="3.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -101,8 +101,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-18"
             y2="-28"
             stroke="#3a2510"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -110,8 +110,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="14"
             y2="-35"
             stroke="#3a2510"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -119,8 +119,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-15"
             y2="-42"
             stroke="#3a2510"
-            stroke-width="1.8"
-            stroke-linecap="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -128,8 +128,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="12"
             y2="-48"
             stroke="#3a2510"
-            stroke-width="1.8"
-            stroke-linecap="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -137,8 +137,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-8"
             y2="-55"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -146,8 +146,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="8"
             y2="-58"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="-18"
@@ -155,8 +155,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-25"
             y2="-35"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="-18"
@@ -164,8 +164,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-22"
             y2="-22"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="14"
@@ -173,8 +173,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="22"
             y2="-40"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="14"
@@ -182,8 +182,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="18"
             y2="-30"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="-15"
@@ -191,8 +191,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-20"
             y2="-48"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
           <line
             x1="12"
@@ -200,8 +200,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="18"
             y2="-52"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
           <line
             x1="-8"
@@ -209,8 +209,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-12"
             y2="-60"
             stroke="#3a2510"
-            stroke-width="0.8"
-            stroke-linecap="round"
+            strokeWidth="0.8"
+            strokeLinecap="round"
           />
           <line
             x1="8"
@@ -218,8 +218,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="12"
             y2="-62"
             stroke="#3a2510"
-            stroke-width="0.8"
-            stroke-linecap="round"
+            strokeWidth="0.8"
+            strokeLinecap="round"
           />
         </g>
         <g transform="translate(150 118)">
@@ -229,8 +229,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-50"
             stroke="#3a2510"
-            stroke-width="3"
-            stroke-linecap="round"
+            strokeWidth="3"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -238,8 +238,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-15"
             y2="-25"
             stroke="#3a2510"
-            stroke-width="1.8"
-            stroke-linecap="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -247,8 +247,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="13"
             y2="-32"
             stroke="#3a2510"
-            stroke-width="1.8"
-            stroke-linecap="round"
+            strokeWidth="1.8"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -256,8 +256,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-13"
             y2="-38"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -265,8 +265,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="11"
             y2="-44"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -274,8 +274,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-7"
             y2="-50"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="-15"
@@ -283,8 +283,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-22"
             y2="-30"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
           <line
             x1="13"
@@ -292,8 +292,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="20"
             y2="-36"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
           <line
             x1="-13"
@@ -301,8 +301,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-18"
             y2="-44"
             stroke="#3a2510"
-            stroke-width="0.9"
-            stroke-linecap="round"
+            strokeWidth="0.9"
+            strokeLinecap="round"
           />
           <line
             x1="11"
@@ -310,8 +310,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="17"
             y2="-48"
             stroke="#3a2510"
-            stroke-width="0.9"
-            stroke-linecap="round"
+            strokeWidth="0.9"
+            strokeLinecap="round"
           />
         </g>
         <g transform="translate(110 115)">
@@ -321,8 +321,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-38"
             stroke="#3a2510"
-            stroke-width="2.5"
-            stroke-linecap="round"
+            strokeWidth="2.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -330,8 +330,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-12"
             y2="-22"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -339,8 +339,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="10"
             y2="-26"
             stroke="#3a2510"
-            stroke-width="1.5"
-            stroke-linecap="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -348,8 +348,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-10"
             y2="-32"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -357,8 +357,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="9"
             y2="-36"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="-12"
@@ -366,8 +366,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-17"
             y2="-26"
             stroke="#3a2510"
-            stroke-width="0.9"
-            stroke-linecap="round"
+            strokeWidth="0.9"
+            strokeLinecap="round"
           />
           <line
             x1="10"
@@ -375,8 +375,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="16"
             y2="-30"
             stroke="#3a2510"
-            stroke-width="0.9"
-            stroke-linecap="round"
+            strokeWidth="0.9"
+            strokeLinecap="round"
           />
         </g>
         <g transform="translate(180 120)">
@@ -386,8 +386,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-32"
             stroke="#3a2510"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -395,8 +395,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-10"
             y2="-18"
             stroke="#3a2510"
-            stroke-width="1.3"
-            stroke-linecap="round"
+            strokeWidth="1.3"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -404,8 +404,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="9"
             y2="-22"
             stroke="#3a2510"
-            stroke-width="1.3"
-            stroke-linecap="round"
+            strokeWidth="1.3"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -413,8 +413,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-8"
             y2="-28"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
         </g>
         <g transform="translate(18 117)">
@@ -424,8 +424,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-28"
             stroke="#3a2510"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -433,8 +433,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-8"
             y2="-15"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -442,8 +442,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="7"
             y2="-19"
             stroke="#3a2510"
-            stroke-width="1.2"
-            stroke-linecap="round"
+            strokeWidth="1.2"
+            strokeLinecap="round"
           />
         </g>
         <g transform="translate(78 117)">
@@ -453,8 +453,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="0"
             y2="-30"
             stroke="#3a2510"
-            stroke-width="2.2"
-            stroke-linecap="round"
+            strokeWidth="2.2"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -462,8 +462,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-9"
             y2="-17"
             stroke="#3a2510"
-            stroke-width="1.3"
-            stroke-linecap="round"
+            strokeWidth="1.3"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -471,8 +471,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="8"
             y2="-22"
             stroke="#3a2510"
-            stroke-width="1.3"
-            stroke-linecap="round"
+            strokeWidth="1.3"
+            strokeLinecap="round"
           />
           <line
             x1="0"
@@ -480,8 +480,8 @@ export function NovemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-7"
             y2="-27"
             stroke="#3a2510"
-            stroke-width="1"
-            stroke-linecap="round"
+            strokeWidth="1"
+            strokeLinecap="round"
           />
         </g>
         <ellipse

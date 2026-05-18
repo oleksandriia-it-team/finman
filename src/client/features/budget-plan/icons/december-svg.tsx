@@ -18,7 +18,7 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#dc)">
+      <g clipPath="url(#dc)">
         <rect
           width={width}
           height={height}
@@ -56,8 +56,8 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
         />
         <g
           stroke="#fff0c8"
-          stroke-width="1.5"
-          stroke-linecap="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
           opacity=".6"
         >
           <line
@@ -292,7 +292,7 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-9"
             y2="9"
             stroke="#5a3015"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <line
             x1="-12"
@@ -300,7 +300,7 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="-12"
             y2="12"
             stroke="#5a3015"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <line
             x1="9"
@@ -308,7 +308,7 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="15"
             y2="9"
             stroke="#5a3015"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <line
             x1="12"
@@ -316,7 +316,7 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
             x2="12"
             y2="12"
             stroke="#5a3015"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <rect
             x="6"
@@ -433,8 +433,8 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
         </g>
         <g
           stroke="#ffffff"
-          stroke-width="1"
-          stroke-linecap="round"
+          strokeWidth="1"
+          strokeLinecap="round"
         >
           <line
             x1="20"

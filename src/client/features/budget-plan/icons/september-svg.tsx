@@ -10,7 +10,7 @@ export function SeptemberSvg({
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style="width:100%;height:auto;border-radius:16px"
+      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
       {...props}
     >
       <defs>
@@ -22,7 +22,7 @@ export function SeptemberSvg({
           />
         </clipPath>
       </defs>
-      <g clip-path="url(#sp2)">
+      <g clipPath="url(#sp2)">
         <rect
           width={width}
           height={height}
@@ -87,7 +87,7 @@ export function SeptemberSvg({
             x2="-4"
             y2="35"
             stroke="#3d2010"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <line
             x1="0"
@@ -95,7 +95,7 @@ export function SeptemberSvg({
             x2="0"
             y2="38"
             stroke="#3d2010"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <line
             x1="4"
@@ -103,7 +103,7 @@ export function SeptemberSvg({
             x2="4"
             y2="36"
             stroke="#3d2010"
-            stroke-width="0.5"
+            strokeWidth="0.5"
           />
           <ellipse
             cx="0"
