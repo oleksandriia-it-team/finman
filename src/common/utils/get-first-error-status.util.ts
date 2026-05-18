@@ -1,6 +1,6 @@
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
-export function getFirstErrorStatus(...errors: (unknown | number | null | undefined)[]): number | undefined {
+export function getFirstErrorStatus(...errors: unknown[]): number | undefined {
   for (const err of errors) {
     if (typeof err === 'number' && !Number.isNaN(err)) {
       return err;
