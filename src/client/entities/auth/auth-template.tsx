@@ -3,6 +3,7 @@ import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import '@frontend/shared/styles/auth-image-container.scss';
 import type { AuthLayoutProps } from '@frontend/shared/models/auth-loyaut-component.model';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { UiLayoutContent } from '@frontend/ui/ui-layout-content/ui-layout-content';
 
 export const AuthLayout = ({
   children,
@@ -27,13 +28,13 @@ export const AuthLayout = ({
         )}
       >
         <div className="flex flex-col items-center justify-center w-full max-w-lg h-full max-h-screen">
-          <div className={cn('w-full flex-1 min-h-0 flex items-center justify-center mb-10', rightSideImageClassName)}>
+          <UiLayoutContent className={cn('w-full flex items-center justify-center mb-10', rightSideImageClassName)}>
             <UiGraphic
               src={imageSrc}
               size="100%"
               className="max-h-full max-w-full object-contain drop-shadow-2xl"
             />
-          </div>
+          </UiLayoutContent>
 
           {(rightSideTitle || rightSideDescription) && (
             <div className="flex flex-col gap-4 text-center pb-6">

@@ -1,10 +1,10 @@
-import type { BudgetPlanTitleProps } from '@frontend/entities/budget-plan/components/props/budget-plan-title.props';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { isSameMonth } from 'date-fns';
 import { useMemo } from 'react';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { MonthTitles } from '@common/constants/month-titles.constant';
+import type { BudgetPlanTitleProps } from '@frontend/features/budget-plan/components/props/budget-plan-title.props';
 
 export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const now = useMemo(() => new Date(), []);
@@ -23,7 +23,10 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
         {!isCurrentMonthAndYear && 'План'}
       </UiDescription>
 
-      <UiTitle size="xl">
+      <UiTitle
+        size="xl"
+        className="w-fit"
+      >
         {MonthTitles[selected.month]} {selected.year}
       </UiTitle>
     </div>

@@ -10,7 +10,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 export function UiIconButton({
   icon,
   className,
-  size,
+  size = 'default',
   asChild,
   variant = 'default',
   isRoundedFull = true,

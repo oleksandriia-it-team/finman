@@ -1,11 +1,11 @@
 import { UiResponsiveDialog } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog';
 import { UiResponsiveDialogTrigger } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-trigger';
 import { UiResponsiveDialogContent } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-content';
-import type { BudgetPlanHeaderProps } from '@frontend/entities/budget-plan/components/props/budget-plan-header.props';
 import { BudgetPlanTitle } from './budget-plan-title';
-import { SelectBudgetPlanContent } from '@frontend/entities/budget-plan/components/select-budget-plan-content';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiResponsiveDialogClose } from '@frontend/ui/ui-responsive-dialog/ui-responsive-dialog-close';
+import type { BudgetPlanHeaderProps } from '@frontend/features/budget-plan/components/props/budget-plan-header.props';
+import { SelectBudgetPlanContent } from '@frontend/features/budget-plan/components/select-budget-plan-content';
 
 export function BudgetPlanHeader({ disabled = false, selected, onSelect }: BudgetPlanHeaderProps) {
   return (
