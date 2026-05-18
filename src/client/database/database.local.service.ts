@@ -325,7 +325,7 @@ export class DatabaseLocalService {
   async clearDatabase(): Promise<void> {
     try {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignoree
+      // @ts-ignore
       await this.db.transaction(
         'rw',
         this.tableTitles.map((t) => this.db.table(t)),
