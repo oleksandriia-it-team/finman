@@ -10,7 +10,8 @@ export function SeptemberSvg({
     <svg
       viewBox={viewBox}
       xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '100%', height: 'auto', borderRadius: '16px' }}
+      width={width}
+      height={height}
       {...props}
     >
       <defs>

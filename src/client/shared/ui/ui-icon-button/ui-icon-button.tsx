@@ -19,6 +19,7 @@ export function UiIconButton({
   type,
   widthAuto,
   borderNone,
+  paddingNone,
   ...props
 }: IconButtonProps) {
   const Comp = asChild ? Slot.Root : 'button';
@@ -32,7 +33,13 @@ export function UiIconButton({
       data-outlined={isOutlined}
       data-rounded={isRoundedFull}
       data-bg-none={bgNone}
-      className={cn('icon-btn cursor-pointer', widthAuto && 'w-[revert]', borderNone && '!border-none', className)}
+      className={cn(
+        'icon-btn cursor-pointer',
+        widthAuto && 'w-[revert]',
+        borderNone && '!border-none',
+        paddingNone && '!p-0',
+        className,
+      )}
       {...props}
     >
       <UiSvgIcon

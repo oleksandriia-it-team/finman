@@ -23,8 +23,8 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
         size="sm"
         onClick={() => router.push(editPath)}
       >
-        <UiTitle>Редагувати</UiTitle>
-        <UiDescription>Змінити дані транзакції</UiDescription>
+        <UiTitle size="sm">Редагувати</UiTitle>
+        <UiDescription size="xs">Змінити дані транзакції</UiDescription>
       </UiActionButton>
 
       <UiConfirmModal
@@ -35,8 +35,8 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
             iconVariant="destructive"
             size="sm"
           >
-            <UiTitle>Видалити</UiTitle>
-            <UiDescription>Назавжди видалити транзакцію</UiDescription>
+            <UiTitle size="sm">Видалити</UiTitle>
+            <UiDescription size="xs">Назавжди видалити транзакцію</UiDescription>
           </UiActionButton>
         }
         onConfirm={() => handleDelete?.(id!)}

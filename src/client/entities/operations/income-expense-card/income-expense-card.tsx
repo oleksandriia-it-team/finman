@@ -31,7 +31,7 @@ export function IncomeExpenseCard({
   return (
     <UiCard
       className={cn(
-        'income-expense-card border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl overflow-hidden',
+        'income-expense-card border-t-4 shadow-lg relative flex flex-col w-full gap-4 rounded-4xl',
         className,
       )}
       data-variant={categoryStyles.variant}

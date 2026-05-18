@@ -28,6 +28,7 @@ export function LoadGlobalToast() {
               icon="x"
               variant={toast.variant}
               isOutlined={false}
+              paddingNone
               aria-label="Закрити сповіщення"
               size="xs"
             />

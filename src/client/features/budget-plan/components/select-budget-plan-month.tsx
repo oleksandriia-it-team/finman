@@ -23,7 +23,7 @@ export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false 
       variant={selected ? 'primary-muted' : 'muted'}
       className="flex flex-col gap-1 justify-center"
     >
-      <Icon className="size-6" />
+      <Icon className="size-8" />
 
       <UiTitle size="default">{MonthTitles[month].slice(0, 3)}</UiTitle>
 

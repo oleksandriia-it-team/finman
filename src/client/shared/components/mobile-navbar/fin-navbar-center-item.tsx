@@ -12,6 +12,7 @@ export function FinNavbarCenterItem({ icon, url, className, children, onClick, .
       aria-hidden="true"
       bgNone={false}
       isOutlined={false}
+      paddingNone
       className={cn('absolute -top-6 right-1/2 translate-x-1/2', className)}
       size="4xl"
       variant="primary"
