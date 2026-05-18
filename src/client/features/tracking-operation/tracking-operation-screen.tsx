@@ -22,6 +22,7 @@ import {
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+import { getFirstErrorStatus } from '@common/utils/get-first-error-status.util';
 import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { formatDate } from '@frontend/shared/utils/format-date.util';
@@ -71,6 +72,7 @@ export function TrackingOperationScreen() {
   });
 
   const state = useCombineStates(onDelete.state, listState, basicInformationState);
+  const combinedErrorStatus = getFirstErrorStatus(onDelete.error, errorStatus, basicInformationError);
 
   return (
     <div className="size-full overflow-hidden flex flex-col">
@@ -93,8 +95,8 @@ export function TrackingOperationScreen() {
         <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
-            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
-            errorStatus={errorStatus}
+            errorMessage={getFirstErrorMessage(onDelete.error, errorMessage, basicInformationError)}
+            errorStatus={combinedErrorStatus}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"

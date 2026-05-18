@@ -15,6 +15,7 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { getFirstErrorStatus } from '@common/utils/get-first-error-status.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -32,7 +33,7 @@ export default function RegularIncomesExpensesScreen() {
     options,
     state: listState,
     errorMessage,
-    errorStatus,
+    errorStatus: paginationErrorStatus,
     reload,
     ...paginationRestProps
   } = usePaginationResource({
@@ -50,6 +51,7 @@ export default function RegularIncomesExpensesScreen() {
   });
 
   const state = useCombineStates(onDelete.state, listState);
+  const errorStatus = getFirstErrorStatus(onDelete.error, paginationErrorStatus);
 
   return (
     <FinListPageWrapper>
@@ -60,7 +62,7 @@ export default function RegularIncomesExpensesScreen() {
       <FinListWrapper state={state}>
         <FinListScreenHandler
           state={state}
-          errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
+          errorMessage={getFirstErrorMessage(onDelete.error, errorMessage)}
           errorStatus={errorStatus}
           hasData={!!options.length}
           skeletonItems={pageSize}
