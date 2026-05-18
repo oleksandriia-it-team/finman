@@ -16,7 +16,7 @@ export function BudgetPlanHeader({ disabled = false, selected, onSelect }: Budge
 
       <UiResponsiveDialogContent className="w-full flex flex-col gap-2">
         <div className="flex justify-between">
-          <UiTitle>Виберіть бюджетний план</UiTitle>
+          <UiTitle size="default">Виберіть бюджетний план</UiTitle>
 
           <UiResponsiveDialogClose />
         </div>

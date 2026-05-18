@@ -20,10 +20,10 @@ export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false 
       variant={selected ? 'primary-muted' : 'muted'}
       className="flex flex-col gap-1 justify-center"
     >
-      <UiTitle>{MonthTitles[month].slice(0, 3)}</UiTitle>
+      <UiTitle size="default">{MonthTitles[month].slice(0, 3)}</UiTitle>
 
-      {isCurrentMonth && <UiDescription>Редагувати</UiDescription>}
-      {!isCurrentMonth && <UiDescription>Перегляд</UiDescription>}
+      {isCurrentMonth && <UiDescription size="sm">Редагувати</UiDescription>}
+      {!isCurrentMonth && <UiDescription size="sm">Перегляд</UiDescription>}
     </UiButton>
   );
 }

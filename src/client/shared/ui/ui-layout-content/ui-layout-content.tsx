@@ -7,7 +7,7 @@ export function UiLayoutContent({ children, className, ...props }: ComponentProp
       className={cn('flex-1 min-h-0', className)}
       {...props}
     >
-      {children};{children}
+      {children}
     </div>
   );
 }

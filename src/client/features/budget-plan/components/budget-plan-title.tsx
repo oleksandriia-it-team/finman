@@ -15,7 +15,7 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
     <div className="flex flex-col gap-1">
       <UiDescription
         className="flex gap-2"
-        size="sm"
+        size="xxs"
       >
         <UiSvgIcon name="calendar" />
 
@@ -24,7 +24,7 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
       </UiDescription>
 
       <UiTitle
-        size="xl"
+        size="lg"
         className="w-fit"
       >
         {MonthTitles[selected.month]} {selected.year}

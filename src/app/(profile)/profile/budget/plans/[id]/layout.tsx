@@ -9,10 +9,10 @@ import { parseBudgetPlanDateParam } from '@common/domains/budget-plan/get-budget
 import { BudgetPlanHeader } from '@frontend/features/budget-plan/components/budget-plan-header';
 import { UiLayoutContent } from '@frontend/ui/ui-layout-content/ui-layout-content';
 import { useMerge } from '@frontend/shared/hooks/merge/merge.hook';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
-import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 
 const IdIndexInPath = 4;
 
@@ -75,7 +75,7 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-full px-3 py-4">
       <BudgetPlanHeader
         selected={selectedBudgetPlanDate}
         onSelect={setBudgetPlanDate}

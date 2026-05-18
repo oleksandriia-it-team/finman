@@ -1,6 +1,8 @@
 import type { TextProps } from '@frontend/ui/ui-text/props/text.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 
+import './styles/text-variants.scss';
+
 export function UiDescription({ className, size = 'default', ...props }: TextProps) {
   return (
     <span

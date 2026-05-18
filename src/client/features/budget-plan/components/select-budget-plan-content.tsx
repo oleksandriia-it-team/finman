@@ -21,7 +21,7 @@ export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlan
           onClick={() => setShowYear((prev) => prev - 1)}
         />
 
-        <UiTitle size="xl">{showYear}</UiTitle>
+        <UiTitle size="default">{showYear}</UiTitle>
 
         <UiIconButton
           size="sm"
