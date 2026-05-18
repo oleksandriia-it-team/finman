@@ -7,10 +7,10 @@ import { type DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
-  override async updateItem(id: number, data: Omit<CurrencyOrm, DefaultColumnKeys>): Promise<void> {
+  override async updateItem(id: number, data: Omit<CurrencyOrm, DefaultColumnKeys>): Promise<true> {
     await this.repository.update({ id }, data as QueryDeepPartialEntity<CurrencyOrm>);
 
-    return;
+    return true;
   }
 
   protected override mapFilters(filters: DeepPartial<CurrencyFilter> | undefined): FindOptionsWhere<CurrencyOrm> {

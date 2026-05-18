@@ -11,9 +11,9 @@ export interface ICrudService<T extends DefaultTableColumns, DTO extends RecordM
 
   createItem(data: DTO): Promise<number>;
 
-  updateItem(id: number, data: DTO): Promise<void>;
+  updateItem(id: number, data: DTO): Promise<true>;
 
-  deleteItem(id: number, softDeleted?: boolean): Promise<void>;
+  deleteItem(id: number): Promise<true>;
 
   getTotalCount(filters?: DeepPartial<F>): Promise<number>;
 }

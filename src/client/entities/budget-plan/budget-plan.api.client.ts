@@ -1,3 +1,4 @@
+import type { IBudgetPlanRepository } from '@common/domains/budget-plan/budget-plan.repository.model';
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
@@ -18,10 +19,10 @@ export class BudgetPlanApiClient implements IBudgetPlanRepository {
       .then((r) => r.data);
   }
 
-  updateItem(input: UpdateBudgetPlanDto): Promise<void> {
+  updateItem(input: UpdateBudgetPlanDto): Promise<true> {
     return fetchClient
       .put<ApiResultOperationSuccess<true>>('/api/budget/plan/update-current-month', input)
-      .then(() => undefined);
+      .then((r) => r.data);
   }
 }
 

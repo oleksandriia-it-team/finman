@@ -4,6 +4,6 @@ import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from './budget-plan.sch
 
 export interface IBudgetPlanRepository {
   createItem(input: CreateBudgetPlanDto): Promise<number>;
-  updateItem(input: UpdateBudgetPlanDto): Promise<void>;
+  updateItem(input: UpdateBudgetPlanDto): Promise<true>;
   getItem(input: GetBudgetPlanDto): Promise<BudgetPlanDetailed | null>;
 }

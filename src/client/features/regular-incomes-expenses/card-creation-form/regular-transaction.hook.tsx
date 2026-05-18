@@ -24,7 +24,7 @@ function useRegularTransactionsLogic() {
     return regularEntryService.deleteItem(id);
   };
 
-  const handleUpdate = (id: number, dto: CreateRegularEntryDto): Promise<void> => {
+  const handleUpdate = (id: number, dto: CreateRegularEntryDto): Promise<true> => {
     return regularEntryService.updateItem(id, dto);
   };
 

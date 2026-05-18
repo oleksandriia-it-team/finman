@@ -13,11 +13,11 @@ export class MonthEntryLocalRepository extends CrudLocalRepository<MonthEntry, n
     return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  updateItem(id: number, data: Omit<MonthEntry, DefaultColumnKeys>): Promise<void> {
-    return this.databaseLocalService.updateOrCreateItem(this.tableName, { id, ...data }).then(() => undefined);
+  updateItem(id: number, data: Omit<MonthEntry, DefaultColumnKeys>): Promise<true> {
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, { id, ...data }).then(() => true as const);
   }
 
-  deleteItem(id: number): Promise<void> {
+  deleteItem(id: number): Promise<true> {
     return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 }

@@ -42,19 +42,12 @@ export class BasicDataSource<
     return this.source().then((s) => s.createItem(data));
   }
 
-  updateItem(id: number, data: DTO): Promise<void> {
+  updateItem(id: number, data: DTO): Promise<true> {
     return this.source().then((s) => s.updateItem(id, data));
   }
 
-  deleteItem(id: number, softDeleted?: boolean): Promise<void> {
-    return this.source().then((s) =>
-      softDeleted === undefined
-        ? s.deleteItem(id)
-        : (s as unknown as { deleteItem(id: number, softDeleted?: boolean): Promise<void> }).deleteItem(
-            id,
-            softDeleted,
-          ),
-    );
+  deleteItem(id: number): Promise<true> {
+    return this.source().then((s) => s.deleteItem(id));
   }
 
   getTotalCount(filters?: F | undefined): Promise<number> {

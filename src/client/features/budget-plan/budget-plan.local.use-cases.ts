@@ -21,7 +21,7 @@ export class BudgetPlanLocalUsecases implements IBudgetPlanRepository {
     return this.createBudgetPlanLocalUseCase.execute(data);
   }
 
-  async updateItem(data: UpdateBudgetPlanDto): Promise<void> {
+  async updateItem(data: UpdateBudgetPlanDto): Promise<true> {
     return this.updateBudgetPlanLocalUseCase.execute(data);
   }
 

@@ -19,7 +19,7 @@ export const regularEntryLocalService: ICrudService<
   getItemById: regularEntryLocalRepository.getItemById.bind(regularEntryLocalRepository),
   getTotalCount: regularEntryLocalRepository.getTotalCount.bind(regularEntryLocalRepository),
   createItem: createUsecase.execute.bind(createUsecase),
-  updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<void> {
+  updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
     return updateUsecase.execute({ id, ...data });
   },
 };

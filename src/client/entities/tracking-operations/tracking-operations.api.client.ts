@@ -46,16 +46,16 @@ export class TrackingOperationsApiClient implements ITrackingOperationRepository
       .then((r) => r.data);
   }
 
-  async updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<void> {
+  async updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> {
     return fetchClient
       .put<ApiResultOperationSuccess<true>>(`/api/tracking-operation/update/${id}`, data)
-      .then(() => undefined);
+      .then((r) => r.data);
   }
 
-  async deleteItem(id: number): Promise<void> {
+  async deleteItem(id: number): Promise<true> {
     return fetchClient
       .delete<ApiResultOperationSuccess<true>>(`/api/tracking-operation/remove/${id}`)
-      .then(() => undefined);
+      .then((r) => r.data);
   }
 
   async getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {

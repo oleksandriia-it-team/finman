@@ -23,12 +23,11 @@ export class RegularEntryLocalRepository
     return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<void> {
-    await this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id });
-    return;
+  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
   }
 
-  deleteItem(id: number): Promise<void> {
+  deleteItem(id: number): Promise<true> {
     return this.databaseLocalService.deleteItem(this.tableName, id, true);
   }
 

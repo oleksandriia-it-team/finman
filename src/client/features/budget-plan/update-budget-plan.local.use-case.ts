@@ -8,7 +8,7 @@ import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-mon
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { AppError } from '@common/classes/app-error.class';
 
-export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, void> {
+export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
   constructor(
     transactionManager: ITransactionManager,
     private readonly budgetPlanRepository: BudgetPlanLocalRepository,
@@ -17,7 +17,7 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<void> {
+  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<true> {
     const date = getCurrentMonthDate();
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 

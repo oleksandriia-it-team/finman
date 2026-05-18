@@ -25,11 +25,12 @@ export abstract class CrudApiRepository<
     return savedItem.id;
   }
 
-  async updateItem(id: number, data: DTO): Promise<void> {
+  async updateItem(id: number, data: DTO): Promise<true> {
     const updatedItem = this.repository.create({ id, ...data } as unknown as T);
 
     await this.repository.save(updatedItem);
-    return;
+
+    return true;
   }
 
   getItemById(id: number): Promise<T | null> {
@@ -44,14 +45,16 @@ export abstract class CrudApiRepository<
     return this.repository.find({ skip, take, where: where as FindOptionsWhere<T> | FindOptionsWhere<T>[] });
   }
 
-  async deleteItem(id: number, softDeleted?: boolean): Promise<void> {
+  async deleteItem(id: number, softDeleted?: boolean): Promise<true> {
     if (softDeleted) {
       await this.repository.update({ id } as FindOptionsWhere<T>, { softDeleted: 1 } as T);
-      return;
+
+      return true;
     }
 
     await this.repository.delete({ id } as FindOptionsWhere<T>);
-    return;
+
+    return true;
   }
 
   getTotalCount(filters?: DeepPartial<F> | undefined): Promise<number> {

@@ -24,12 +24,11 @@ export class TrackingOperationLocalRepository
     return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<void> {
-    await this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id });
-    return;
+  async updateItem(id: number, data: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> {
+    return this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
   }
 
-  deleteItem(id: number): Promise<void> {
+  deleteItem(id: number): Promise<true> {
     return this.databaseLocalService.deleteItem(this.tableName, id, false);
   }
 
