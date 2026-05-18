@@ -5,7 +5,7 @@ import { authTokenService, type AuthTokenService } from '@frontend/shared/servic
 import { type ProfileSettingsData } from '@common/domains/profile/schema/profile-settings.schema';
 
 export class ProfileApiClient {
-  constructor(private authTokenService: AuthTokenService) {}
+  constructor(private readonly authTokenService: AuthTokenService) {}
 
   async getProfile(): Promise<OnlineUser | null> {
     const accessToken = this.authTokenService.getAccessToken();

@@ -17,10 +17,10 @@ export class RegularEntryApiClient implements ICrudService<
       .then((r) => r.data);
   }
 
-  async deleteItem(id: number): Promise<true> {
+  async deleteItem(id: number): Promise<void> {
     return fetchClient
       .delete<ApiResultOperationSuccess<true>>(`/api/budget/regular-entry/remove/${id}`)
-      .then((r) => r.data);
+      .then(() => undefined);
   }
 
   async getItemById(id: number): Promise<RegularEntry | null> {
@@ -45,10 +45,10 @@ export class RegularEntryApiClient implements ICrudService<
       .then((r) => r.data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
+  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<void> {
     return fetchClient
       .put<ApiResultOperationSuccess<true>>(`/api/budget/regular-entry/update/${id}`, data)
-      .then((r) => r.data);
+      .then(() => undefined);
   }
 }
 

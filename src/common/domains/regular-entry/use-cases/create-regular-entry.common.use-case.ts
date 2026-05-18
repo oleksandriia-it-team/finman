@@ -7,7 +7,7 @@ import { AppError } from '@common/classes/app-error.class';
 export type CreateRegularEntryInput = Omit<RegularEntry, DefaultColumnKeys> & { userId?: number };
 
 export class CreateRegularEntryCommonUseCase implements IUseCase<CreateRegularEntryInput, number> {
-  constructor(private regularEntryRepository: IRegularEntryRepository) {}
+  constructor(private readonly regularEntryRepository: IRegularEntryRepository) {}
 
   async execute(input: CreateRegularEntryInput): Promise<number> {
     const exist = await this.regularEntryRepository.findByTitle(input);

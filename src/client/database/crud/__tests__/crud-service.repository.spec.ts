@@ -10,25 +10,23 @@ class CrudServiceForUnitTest extends CrudLocalRepository<DefaultTableColumns, ne
     super(databaseLocalService, tableName);
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  // eslint-disable-next-line
   createItem(data: Omit<DefaultTableColumns, DefaultColumnKeys>): Promise<number> {
     return Promise.resolve(1);
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
 
-  updateItem(): Promise<true> {
-    return Promise.resolve(true);
+  updateItem(): Promise<void> {
+    return Promise.resolve();
   }
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  // eslint-disable-next-line
-  deleteItem(id: number): Promise<true> {
-    return Promise.resolve(true);
+  deleteItem(id: number): Promise<void> {
+    return Promise.resolve();
   }
 }
 describe('CrudLocalService', () => {

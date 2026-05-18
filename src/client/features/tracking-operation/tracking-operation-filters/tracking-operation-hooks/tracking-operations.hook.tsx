@@ -33,11 +33,11 @@ function useTrackingOperationsLogic() {
     return trackingOperationService.createItem(dto);
   };
 
-  const handleDelete = (id: number): Promise<true> => {
+  const handleDelete = (id: number): Promise<void> => {
     return trackingOperationService.deleteItem(id);
   };
 
-  const handleUpdate = (id: number, dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<true> => {
+  const handleUpdate = (id: number, dto: Omit<TrackingOperationRecord, DefaultColumnKeys>): Promise<void> => {
     return trackingOperationService.updateItem(id, dto);
   };
 

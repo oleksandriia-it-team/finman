@@ -9,9 +9,9 @@ import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-pl
 export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanDto, BudgetPlanDetailed | null> {
   constructor(
     transactionManager: ITransactionManager,
-    private budgetPlanRepository: BudgetPlanLocalRepository,
-    private monthEntryRepository: ICrudService<MonthEntry>,
-    private regularEntryRepository: ICrudService<RegularEntry>,
+    private readonly budgetPlanRepository: BudgetPlanLocalRepository,
+    private readonly monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly regularEntryRepository: ICrudService<RegularEntry>,
   ) {
     super(transactionManager);
   }

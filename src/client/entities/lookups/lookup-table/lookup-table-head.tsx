@@ -11,9 +11,9 @@ export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
     <>
       <UiTableHead className="w-10 pl-4" />
 
-      {columns.map((col, index) => (
+      {columns.map((col) => (
         <UiTableHead
-          key={index}
+          key={col.header}
           className={col.headerClassName ?? head}
         >
           {col.header}

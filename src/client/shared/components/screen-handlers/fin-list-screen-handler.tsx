@@ -24,7 +24,7 @@ export function FinListScreenHandler({
       <>
         {skeletonArray.map((_, index) => (
           <Skeleton
-            key={index}
+            key={`skeleton-${index}`}
             className={skeletonClassName ?? ''}
           />
         ))}

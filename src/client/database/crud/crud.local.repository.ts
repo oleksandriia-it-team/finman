@@ -53,9 +53,9 @@ export abstract class CrudLocalRepository<
 
   abstract createItem(data: DTO): Promise<number>;
 
-  abstract updateItem(id: number, data: DTO): Promise<true>;
+  abstract updateItem(id: number, data: DTO): Promise<void>;
 
-  abstract deleteItem(id: number): Promise<true>;
+  abstract deleteItem(id: number, softDeleted?: boolean): Promise<void>;
 
   getTotalCount(filters?: DeepPartial<F> | undefined): Promise<number> {
     return this.databaseLocalService.getTotalCount(this.tableName, false, this.mapFilters(filters));

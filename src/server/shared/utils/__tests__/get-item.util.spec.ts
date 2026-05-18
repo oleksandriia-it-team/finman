@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import fs from 'fs';
+import fs from 'node:fs';
 import StreamArray from 'stream-json/streamers/StreamArray';
 import { getItem } from '../get-item.util';
 import path from 'node:path';

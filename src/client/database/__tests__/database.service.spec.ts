@@ -208,10 +208,13 @@ describe('DatabaseService', () => {
   });
 
   testsWithDelete.forEach((test) => {
+    const softDeleteMode = test.getSoftDeleted ? 'including' : 'excluding';
+    const expectedIds = test.softDeleted && test.getSoftDeleted ? '1-5' : '4-8';
+
     it(
       `should create 25 users, delete users 1-3 with softDeleted=${test.softDeleted}, ` +
-        `and retrieve users 1-5 ${test.getSoftDeleted ? 'including' : 'excluding'} softDeleted ` +
-        `(expected ids: ${test.softDeleted && test.getSoftDeleted ? '1-5' : '4-8'})`,
+        `and retrieve users 1-5 ${softDeleteMode} softDeleted ` +
+        `(expected ids: ${expectedIds})`,
       async () => {
         const allUsers: UnitTestUser[] = Array.from({ length: 25 }, (_, i) => ({
           id: i + 1,
@@ -313,29 +316,31 @@ describe('DatabaseService', () => {
   // -------------------------------------------------------------------------
 
   testsWithCursor.forEach((test) => {
-    it(
-      `should retrieve the ${test.next ? 'next' : 'previous'} user ` +
-        `${test.expectedNull ? 'as null' : `with id = ${test.expectedId}`} starting from id = ${test.id}`,
-      async () => {
-        await seedUsers(databaseLocalService, fiveUsers);
+    const direction = test.next ? 'next' : 'previous';
+    const expectedResult = test.expectedNull ? 'as null' : `with id = ${test.expectedId}`;
 
-        const result = await databaseLocalService.getPrevOrNextItem<UnitTestUser & DefaultTableColumns>(
-          test.next,
-          'users',
-          test.id,
-          false,
-        );
+    it(`should retrieve the ${direction} user ${expectedResult} starting from id = ${test.id}`, async () => {
+      await seedUsers(databaseLocalService, fiveUsers);
 
-        expect(result?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
-      },
-    );
+      const result = await databaseLocalService.getPrevOrNextItem<UnitTestUser & DefaultTableColumns>(
+        test.next,
+        'users',
+        test.id,
+        false,
+      );
+
+      expect(result?.id ?? null).toBe(test.expectedNull ? null : test.expectedId);
+    });
   });
 
   testsWithCursorAndDelete.forEach((test) => {
+    const direction = test.next ? 'next' : 'previous';
+    const softDeleteMode = test.getSoftDeleted ? 'including' : 'excluding';
+    const expectedValue = test.expectedNull ? 'null' : `id = ${test.expectedId}`;
+
     it(
-      `should retrieve the ${test.next ? 'next' : 'previous'} user ` +
-        `${test.getSoftDeleted ? 'including' : 'excluding'} softDeleted users, ` +
-        `expected ${test.expectedNull ? 'null' : `id = ${test.expectedId}`}, ` +
+      `should retrieve the ${direction} user ${softDeleteMode} softDeleted users, ` +
+        `expected ${expectedValue}, ` +
         `starting from id = ${test.id} after deleting user ${test.deleteUserId} with softDeleted=${test.softDeleted}`,
       async () => {
         await seedUsers(databaseLocalService, fiveUsers);

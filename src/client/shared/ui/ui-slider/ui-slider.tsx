@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Slider as SliderPrimitive } from 'radix-ui';
 import { type SliderProps } from './props/slider.props';
+import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/slider-styles.scss';
 
@@ -24,10 +25,11 @@ function UiSlider({
   size = 'default',
   ...props
 }: SliderProps) {
-  const _values = React.useMemo(
-    () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
-    [value, defaultValue, min, max],
-  );
+  const _values = React.useMemo(() => {
+    if (Array.isArray(value)) return value;
+    if (Array.isArray(defaultValue)) return defaultValue;
+    return [min, max];
+  }, [value, defaultValue, min, max]);
 
   return (
     <SliderRoot
@@ -38,7 +40,7 @@ function UiSlider({
       value={value}
       min={min}
       max={max}
-      className={`slider${className ? ` ${className}` : ''}`}
+      className={cn('slider', className)}
       {...props}
     >
       <SliderPrimitive.Track
@@ -53,7 +55,7 @@ function UiSlider({
       {Array.from({ length: _values.length }, (_, index) => (
         <SliderPrimitive.Thumb
           data-slot="slider-thumb"
-          key={index}
+          key={`slider-thumb-${index}`}
           className="slider-thumb"
         />
       ))}

@@ -8,16 +8,16 @@ import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-mon
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { AppError } from '@common/classes/app-error.class';
 
-export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
+export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, void> {
   constructor(
     transactionManager: ITransactionManager,
-    private budgetPlanRepository: BudgetPlanLocalRepository,
-    private monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly budgetPlanRepository: BudgetPlanLocalRepository,
+    private readonly monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<true> {
+  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<void> {
     const date = getCurrentMonthDate();
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 
