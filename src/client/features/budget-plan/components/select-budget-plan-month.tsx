@@ -4,11 +4,14 @@ import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { useMemo } from 'react';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import type { SelectBudgetPlanMonthProps } from './props/select-budget-plan-month.props';
+import { MonthSvg } from '@frontend/features/budget-plan/constants/month-svg';
 
 export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false }: SelectBudgetPlanMonthProps) {
   const now = useMemo(() => new Date(), []);
 
   const isCurrentMonth = month === now.getMonth() && year === now.getFullYear();
+
+  const Icon = MonthSvg[month];
 
   return (
     <UiButton
@@ -20,6 +23,8 @@ export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false 
       variant={selected ? 'primary-muted' : 'muted'}
       className="flex flex-col gap-1 justify-center"
     >
+      <Icon className="size-6" />
+
       <UiTitle size="default">{MonthTitles[month].slice(0, 3)}</UiTitle>
 
       {isCurrentMonth && <UiDescription size="sm">Редагувати</UiDescription>}
