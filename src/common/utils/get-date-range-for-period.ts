@@ -1,4 +1,4 @@
-import { startOfDay, endOfDay, startOfWeek, startOfMonth, startOfYear } from 'date-fns';
+import { startOfDay, endOfDay, subDays } from 'date-fns';
 import { RegularPaymentFrequencyFilter } from '@common/enums/regular-freequency.enum';
 
 export function getDateRangeForPeriod(period: RegularPaymentFrequencyFilter): {
@@ -13,15 +13,15 @@ export function getDateRangeForPeriod(period: RegularPaymentFrequencyFilter): {
 
     case RegularPaymentFrequencyFilter.Week:
       return {
-        dateFrom: startOfWeek(now, { weekStartsOn: 1 }),
+        dateFrom: startOfDay(subDays(now, 6)),
         dateTo: endOfDay(now),
       };
 
     case RegularPaymentFrequencyFilter.Month:
-      return { dateFrom: startOfMonth(now), dateTo: endOfDay(now) };
+      return { dateFrom: startOfDay(subDays(now, 29)), dateTo: endOfDay(now) };
 
     case RegularPaymentFrequencyFilter.Year:
-      return { dateFrom: startOfYear(now), dateTo: endOfDay(now) };
+      return { dateFrom: startOfDay(subDays(now, 364)), dateTo: endOfDay(now) };
 
     default:
       return { dateFrom: startOfDay(now), dateTo: endOfDay(now) };
