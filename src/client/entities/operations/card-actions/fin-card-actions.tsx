@@ -3,7 +3,7 @@ import { UiActionButton } from '@frontend/ui/ui-action-button/ui-action-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
-import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-expense-card/income-expense-card-actions';
+import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-expense-card/card/income-expense-card-actions';
 import { useRouter } from 'next/navigation';
 import type { TransactionActionsProps } from '@frontend/entities/operations/card-actions/fin-card-actions-props';
 

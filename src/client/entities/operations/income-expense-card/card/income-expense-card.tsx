@@ -13,7 +13,7 @@ import type { TransactionCardProps } from '@frontend/entities/operations/transac
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 
-import './styles/income-expense-card-styles.scss';
+import '@frontend/entities/operations/income-expense-card/card/styles/income-expense-card-styles.scss';
 
 export function IncomeExpenseCard({
   id,
@@ -25,6 +25,7 @@ export function IncomeExpenseCard({
   category = ExpenseCategories.Misc,
   title = '',
   handleDelete,
+  actions = true,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category];
 
@@ -45,23 +46,25 @@ export function IncomeExpenseCard({
               size="lg"
               name={categoryStyles.icon}
             />
-            <UiResponsiveMenu>
-              <UiResponsiveMenuTrigger asChild>
-                <UiIconButton
-                  size="lg"
-                  icon="three-dots-vertical"
-                  variant="muted"
-                  className="!border-none"
+            {actions && (
+              <UiResponsiveMenu>
+                <UiResponsiveMenuTrigger asChild>
+                  <UiIconButton
+                    size="lg"
+                    icon="three-dots-vertical"
+                    variant="muted"
+                    className="!border-none"
+                  />
+                </UiResponsiveMenuTrigger>
+                <TransactionActions
+                  id={id}
+                  icon={categoryStyles.icon}
+                  title={title || categoryStyles.label}
+                  editPath={`regular-operations/edit/${id}`}
+                  handleDelete={handleDelete}
                 />
-              </UiResponsiveMenuTrigger>
-              <TransactionActions
-                id={id}
-                icon={categoryStyles.icon}
-                title={title || categoryStyles.label}
-                editPath={`regular-operations/edit/${id}`}
-                handleDelete={handleDelete}
-              />
-            </UiResponsiveMenu>
+              </UiResponsiveMenu>
+            )}
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>
         </div>

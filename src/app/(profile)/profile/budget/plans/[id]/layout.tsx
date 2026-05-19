@@ -13,11 +13,15 @@ import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
+import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { RegularIncomesExpensesProvider } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 
 const IdIndexInPath = 4;
 
 export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps) {
   const { selectedBudgetPlanDate, setBudgetPlanDate, state, error } = useSelectedBudgetPlan();
+  const budgetPlan = true;
 
   const router = useRouter();
 
@@ -74,26 +78,56 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
     [],
   );
 
+  const handleCreate = () => {
+    const segments = pathname.split('/');
+    segments[IdIndexInPath] = createBudgetPlanIdUrl(currSelectedBudgetPlanDate);
+    router.push(segments.join('/') + '/add');
+  };
+
   return (
-    <div className="flex flex-col gap-4 h-full px-3 py-4">
-      <BudgetPlanHeader
-        selected={selectedBudgetPlanDate}
-        onSelect={setBudgetPlanDate}
-      />
+    <RegularIncomesExpensesProvider>
+      <div className="flex flex-col gap-4 h-full px-3 py-4">
+        <BudgetPlanHeader
+          selected={selectedBudgetPlanDate}
+          onSelect={setBudgetPlanDate}
+        />
 
-      <UiLayoutContent>
-        {state === PromiseState.Loading && <FinLoader />}
+        <UiLayoutContent>
+          {state === PromiseState.Loading && <FinLoader />}
 
-        {/*TODO update status later*/}
-        {state === PromiseState.Error && (
-          <FinErrorWidget
-            message={getSafeErrorMessage(error)}
-            status={400}
-          />
-        )}
+          {/*TODO update status later*/}
+          {state === PromiseState.Error && (
+            <FinErrorWidget
+              message={getSafeErrorMessage(error)}
+              status={400}
+            />
+          )}
 
-        {state === PromiseState.Success && children}
-      </UiLayoutContent>
-    </div>
+          {state === PromiseState.Success && (
+            <>
+              {!budgetPlan ? (
+                <div className="flex flex-col items-center justify-center gap-4 h-full">
+                  <p className="text-muted-foreground text-sm">Бюджетний план на цей місяць ще не створено</p>
+                  <UiButton
+                    variant="primary"
+                    size="lg"
+                    className="rounded-full gap-2"
+                    onClick={handleCreate}
+                  >
+                    <UiSvgIcon
+                      name="plus"
+                      size="sm"
+                    />
+                    Створити план
+                  </UiButton>
+                </div>
+              ) : (
+                children
+              )}
+            </>
+          )}
+        </UiLayoutContent>
+      </div>
+    </RegularIncomesExpensesProvider>
   );
 }

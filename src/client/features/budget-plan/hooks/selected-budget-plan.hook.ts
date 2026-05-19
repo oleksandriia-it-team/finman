@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import constate from 'constate';
 import { useQuery } from '@tanstack/react-query';
 import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 
 function useSelectedBudgetPlanLogic() {
