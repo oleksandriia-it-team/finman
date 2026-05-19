@@ -1,102 +1,36 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
-import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { SelectableRegularCard } from '@frontend/entities/operations/income-expense-card/selectable-card/selectable-regular-card';
 import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/card/income-expense-card';
 import { AddOperationButton } from '@frontend/entities/operations/add-unregular-operation-button/add-unregular-operation-button';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
-import {
-  type MonthOperationItem,
-  useBudgetPlanForm,
-} from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
+import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/budget-plan-form/create-budget-plan/budget-plan-create-screen-props';
+import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/budget-plan-form/use-budget-plan-screen-state';
 
-type MonthOperation = React.ComponentProps<typeof IncomeExpenseCard> & MonthOperationItem;
-
-interface BudgetPlanFormScreenProps {
-  initialData?: BudgetPlanDetailed;
-  initialSelectedIds?: number[];
-  initialMonthOperations?: MonthOperation[];
-  onSuccess?: () => void;
-  onCancel: () => void;
-  onAddMonthOperation: (onCreate: (op: Omit<MonthOperation, 'id'>) => void) => void;
-}
-
-export function BudgetPlanFormScreen({
-  initialData,
-  initialSelectedIds = [],
-  initialMonthOperations = [],
-  onSuccess,
-  onCancel,
-  onAddMonthOperation,
-}: BudgetPlanFormScreenProps) {
-  const pageSize = 5;
-  const { getPayments, getTotalCount } = useRegularTransactions();
-
-  const { submit, state: saveState, isEdit } = useBudgetPlanForm({ initialData, onSuccess });
-
-  const [selectedIds, setSelectedIds] = useState<Set<number>>(() => new Set(initialSelectedIds));
-
+export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const {
+    state,
     options,
-    state: listState,
     errorMessage,
-    ...paginationRestProps
-  } = usePaginationResource({
+    paginationRestProps,
+    selectedIds,
+    hasAnySelected,
+    monthOperations,
+    isEdit,
+    onCancel,
+    handleToggle,
+    handleAddOperation,
+    handleDeleteMonthOperation,
+    handleSubmit,
     pageSize,
-    queryKey: ['budget-plan-regular-transactions'],
-    getOptionsFn: async (page, pageSize) => {
-      const { from, to } = calculateFromAndTo(page, pageSize);
-      return getPayments(from, to);
-    },
-    getTotalCountFn: async () => {
-      const count = await getTotalCount();
-      return count ?? 0;
-    },
-    clearCacheOnDestroy: true,
-  });
-
-  const handleToggle = useCallback((id: number) => {
-    setSelectedIds((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  }, []);
-
-  const [monthOperations, setMonthOperations] = useState<MonthOperation[]>(initialMonthOperations);
-  const [tempIdCounter, setTempIdCounter] = useState(-1);
-
-  const handleAddOperation = () => {
-    onAddMonthOperation((op) => {
-      setMonthOperations((prev) => [...prev, { ...op, id: tempIdCounter }]);
-      setTempIdCounter((c) => c - 1);
-    });
-  };
-
-  const handleDeleteMonthOperation = useCallback((id: number) => {
-    setMonthOperations((prev) => prev.filter((op) => op.id !== id));
-  }, []);
-
-  const state = useCombineStates(saveState, listState);
-  const hasAnySelected = selectedIds.size > 0;
-
-  const handleSubmit = () => {
-    submit({
-      plannedRegularEntryIds: Array.from(selectedIds),
-      otherEntries: monthOperations,
-    });
-  };
+    listState,
+  } = useBudgetPlanScreenState(props);
 
   return (
     <FinListPageWrapper>
