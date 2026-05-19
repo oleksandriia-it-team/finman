@@ -3,7 +3,7 @@ import { createRoute } from '../create-route.util';
 import { type RouteContext } from '../../models/create-route.model';
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 import { AppError } from '@common/classes/app-error.class';
-import { getDefaultApiErrorFilter } from '../../../../app/api/shared/get-api-error-filter.util';
+import { mockApiErrorFilter } from '@backend/shared/utils/__tests__/mocks/api-error-filter.mock';
 
 describe('createRoute with params', () => {
   let request: Request;
@@ -100,7 +100,7 @@ describe('createRoute with params', () => {
     const route = createRoute({
       paramsFn,
       execute: vi.fn(),
-      filter: getDefaultApiErrorFilter,
+      filter: mockApiErrorFilter,
     });
 
     const response = await route(request, { params: Promise.resolve({ id: 'not-a-number' }) });
