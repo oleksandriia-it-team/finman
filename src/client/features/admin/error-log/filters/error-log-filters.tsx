@@ -75,8 +75,10 @@ export function ErrorLogsFilters({ filters, onChange }: ErrorLogsFiltersProps) {
         updatedFilters.status !== filters.status ||
         updatedFilters.endpoint !== filters.endpoint ||
         updatedFilters.method !== filters.method ||
-        updatedFilters.dateFrom !== filters.dateFrom ||
-        updatedFilters.dateTo !== filters.dateTo;
+        (updatedFilters.dateFrom ? new Date(updatedFilters.dateFrom).getTime() : undefined) !==
+          (filters.dateFrom ? new Date(filters.dateFrom).getTime() : undefined) ||
+        (updatedFilters.dateTo ? new Date(updatedFilters.dateTo).getTime() : undefined) !==
+          (filters.dateTo ? new Date(filters.dateTo).getTime() : undefined);
 
       if (isChanged) {
         onChange(updatedFilters);
