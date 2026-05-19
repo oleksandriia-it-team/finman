@@ -9,7 +9,7 @@ export function ErrorLogPageLayout({ breadcrumbs, actions, children }: ErrorLogP
         actions={actions}
       />
 
-      <main className="flex-1 min-h-0 overflow-hidden">{children}</main>
+      <div className="flex-1 min-h-0 overflow-hidden">{children}</div>
     </div>
   );
 }

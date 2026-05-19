@@ -116,7 +116,8 @@ export function ErrorLogsFeature() {
         activeValue={filters.status}
         onChange={(newValue) => {
           if (newValue === undefined) {
-            const { status, ...restFilters } = filters;
+            const restFilters = { ...filters };
+            delete restFilters.status;
             setFilters(restFilters);
           } else {
             setFilters({ ...filters, status: newValue });

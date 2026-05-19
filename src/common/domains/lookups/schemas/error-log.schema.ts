@@ -7,7 +7,7 @@ const filters = z.object({
   excludeIds: z.array(z.number({ message: 'Кожен excludeId має бути числом' })).optional(),
   endpoint: z.string({ message: 'Ендпоінт має бути рядком' }).optional(),
   method: z.string({ message: 'Метод має бути рядком' }).optional(),
-  status: z.nativeEnum(ErrorLogStatus, { message: 'Невалідний статус помилки' }).optional(),
+  status: z.enum(Object.values(ErrorLogStatus), { message: 'Невалідний статус помилки' }).optional(),
   userId: z.number({ message: 'ID користувача має бути числом' }).optional(),
   message: z.string({ message: 'Текст помилки має бути рядком' }).optional(),
   dateFrom: z.coerce.date({ message: 'Невалідний формат дати початку' }).optional(),

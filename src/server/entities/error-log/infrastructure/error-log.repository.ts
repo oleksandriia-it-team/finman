@@ -32,15 +32,21 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
       qb.andWhere('log.method = :method', { method: filters.method });
     }
 
-    if (filters?.dateFrom && filters?.dateTo) {
+    const adjustedDateTo = filters?.dateTo
+      ? typeof filters.dateTo === 'string'
+        ? `${filters.dateTo.split('T')[0]} 23:59:59`
+        : filters.dateTo
+      : undefined;
+
+    if (filters?.dateFrom && adjustedDateTo) {
       qb.andWhere('log.createdAt BETWEEN :from AND :to', {
         from: filters.dateFrom,
-        to: filters.dateTo,
+        to: adjustedDateTo,
       });
     } else if (filters?.dateFrom) {
       qb.andWhere('log.createdAt >= :from', { from: filters.dateFrom });
-    } else if (filters?.dateTo) {
-      qb.andWhere('log.createdAt <= :to', { to: filters.dateTo });
+    } else if (adjustedDateTo) {
+      qb.andWhere('log.createdAt <= :to', { to: adjustedDateTo });
     }
 
     qb.skip(skip).take(take).orderBy('log.createdAt', 'DESC');
