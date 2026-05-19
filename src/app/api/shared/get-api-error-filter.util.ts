@@ -8,22 +8,24 @@ export async function getDefaultApiErrorFilter(
   req: Request,
   err: Error,
 ): Promise<NextResponse<ApiResultOperationError>> {
-  const userId = await GetUserIdTransformer(req);
-
   const message = getApiErrorMessage(err);
 
   if (message.status === 500) {
-    try {
-      await errorLogApiRepository.repository.save({
-        message: err.message || 'Unknown error',
-        stack: err.stack || null,
-        endpoint: req?.url ? new URL(req.url).pathname : null,
-        method: req?.method || null,
-        userId: userId || null,
-      });
-    } catch (dbError) {
-      console.error('Failed to save error log to DB:', dbError);
-    }
+    void (async () => {
+      try {
+        const userId = await GetUserIdTransformer(req);
+
+        await errorLogApiRepository.repository.save({
+          message: err.message || 'Unknown error',
+          stack: err.stack || null,
+          endpoint: req?.url ? new URL(req.url).pathname : null,
+          method: req?.method || null,
+          userId: userId || null,
+        });
+      } catch (dbError) {
+        console.error('Failed to save error log to DB:', dbError);
+      }
+    })();
 
     return NextResponse.json({ status: 500, message: 'Unknown error' }, { status: 500 });
   }
