@@ -12,6 +12,10 @@ export default function CreateBudgetPlanPage() {
     <BudgetPlanFormScreen
       onCancel={() => router.push(`/profile/budget/plans/${id}`)}
       onSuccess={() => router.push(`/profile/budget/plans/${id}`)}
+      onAddMonthOperation={(onCreate) => {
+        // TODO: open modal/drawer for adding a month operation, then call onCreate(op)
+        console.log('onAddMonthOperation', onCreate);
+      }}
     />
   );
 }
