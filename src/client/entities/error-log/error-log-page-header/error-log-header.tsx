@@ -22,8 +22,10 @@ export function ErrorLogPageHeader({ breadcrumbs, actions }: ErrorLogPageHeaderP
                 <UiBreadcrumbItem>
                   {isLast ? (
                     <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
+                  ) : item.href ? (
+                    <UiBreadcrumbLink href={item.href}>{item.label}</UiBreadcrumbLink>
                   ) : (
-                    <UiBreadcrumbLink href={item.href || '#'}>{item.label}</UiBreadcrumbLink>
+                    <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
                   )}
                 </UiBreadcrumbItem>
                 {!isLast && <UiBreadcrumbSeparator />}
