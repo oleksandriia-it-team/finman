@@ -20,8 +20,8 @@ export default function EditCardForm(props: PageProps<never>) {
         <div className="flex size-full">
           <RegularPaymentForm
             initialData={regularEntry}
-            onCancel={() => router.back()}
-            onSuccess={() => router.back()}
+            onCancel={() => router.push('/profile/budget/regular-operations')}
+            onSuccess={() => router.push('/profile/budget/regular-operations')}
           />
         </div>
       )}

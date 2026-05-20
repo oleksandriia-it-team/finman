@@ -52,6 +52,7 @@ export default function SignUpStep() {
           {checks.map((check) => (
             <TransactionCard
               bgNone
+              showActions={false}
               key={check.id}
               icon={check.icon}
               title={check.title}

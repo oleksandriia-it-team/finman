@@ -11,18 +11,18 @@ import { FinControlledAutocomplete } from '@frontend/components/controlled-field
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
-import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { useSetupRegistration } from './shared/signup-form';
 import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-currencies-dropdown.hook';
 import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
-import { UserInformationKey } from '@frontend/shared/constants/local-storage.contants';
+import { UserInformationKey } from '@frontend/shared/constants/local-storage.constants';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
+import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -135,6 +135,7 @@ export default function RegistrationPage() {
                 customInputValue={currencyDataResource.inputLabel?.label ?? ''}
                 search={currencyDataResource.search}
                 onSearch={currencyDataResource.setSearch}
+                disabled={isLocked}
               />
 
               <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full bg-primary-foreground pt-2">
@@ -149,14 +150,7 @@ export default function RegistrationPage() {
                   {isLoading ? 'Реєстрація...' : 'Зареєструватися'}
                 </UiButton>
 
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <UiSeparator />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="text-muted-foreground bg-primary-foreground px-2">або</span>
-                  </div>
-                </div>
+                <UiSeparatorWithLabel label={'АБО'} />
 
                 <button
                   type="button"

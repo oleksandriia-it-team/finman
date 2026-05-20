@@ -16,7 +16,7 @@ export default function CreateCardForm() {
         onCancel={() => router.push('/profile')}
         onSuccess={() => {
           queryClient.invalidateQueries({ queryKey: [TrackingOperationQueryKey] });
-          router.back();
+          router.push('/profile');
         }}
       />
     </div>

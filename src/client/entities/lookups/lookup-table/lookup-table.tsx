@@ -9,6 +9,7 @@ import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { LookupTableHead } from './lookup-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { FinPageHeader } from '@frontend/components/page-header/fin-page-header';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 
@@ -19,7 +20,7 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   onDelete: () => void;
   columns: LookupColumnDef<T>[];
   state: PromiseState;
-  errorMessage: string | null | undefined;
+  appError?: ApiResultOperationError | null;
   hasData: boolean;
   skeletonItems: number;
   children: ReactNode;
@@ -41,7 +42,7 @@ export function LookupTable<T extends DefaultTableColumns>({
   children,
   selectedPage,
   setPage,
-  errorMessage,
+  appError,
   pageSize,
   totalCount,
 }: LookupTableProps<T>) {
@@ -89,7 +90,7 @@ export function LookupTable<T extends DefaultTableColumns>({
               <FinTableScreenHandler
                 state={state}
                 hasData={hasData}
-                errorMessage={errorMessage}
+                appError={appError}
                 skeletonItems={skeletonItems}
                 skeletonClassName="h-4"
                 totalColumns={columns.length + 6}

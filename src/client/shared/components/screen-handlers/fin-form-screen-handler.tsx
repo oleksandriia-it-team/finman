@@ -3,10 +3,10 @@
 import type { FormScreenHandlerProps } from './props/form-screen-handler.props';
 import { use } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { z } from 'zod';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
+import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
 const intSchema = z.coerce.number().int();
 
@@ -61,7 +61,9 @@ export function FinFormScreenHandler<T>({
       );
     }
 
-    const Error = error(item.error as unknown as ApiResultOperationError);
+    const Error = error(
+      checkIsAppErrorObj(item.error) ? item.error : { status: 500, message: 'Невідома помилка. Спробуйте пізніше' },
+    );
 
     return Error;
   }

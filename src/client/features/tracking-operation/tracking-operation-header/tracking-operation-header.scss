@@ -1,0 +1,10 @@
+.header-search-wrapper {
+  transition:
+          width 0.3s ease,
+          opacity 0.2s ease;
+
+  &--visible {
+    width: 12rem;
+    opacity: 1;
+  }
+}

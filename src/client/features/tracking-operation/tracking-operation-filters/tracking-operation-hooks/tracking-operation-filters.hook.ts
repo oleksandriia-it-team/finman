@@ -14,6 +14,7 @@ import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
 
 function useFiltersHookLogic() {
   const [filters, setFilters] = useState<Partial<TrackingOperationFilter>>({});
+  const [realMaxSum, setRealMaxSum] = useState<number>(50000);
 
   const [typeFilter, setTypeFilter] = useState<TypeEntryFilter>(TypeEntryFilter.All);
 
@@ -36,7 +37,9 @@ function useFiltersHookLogic() {
     async (data) => {
       try {
         const cleanFilters = Object.fromEntries(
-          Object.entries(data).filter(([_, v]) => {
+          Object.entries(data).filter(([key, v]) => {
+            if (key === 'minSum') return (v as number) > 0;
+            if (key === 'maxSum') return (v as number) < realMaxSum;
             if (Array.isArray(v)) return v.length > 0;
             return v !== undefined && v !== '';
           }),
@@ -80,7 +83,34 @@ function useFiltersHookLogic() {
 
   const filtersJSON = useMemo(() => JSON.stringify(combinedFilters), [combinedFilters]);
 
-  return { methods, filters: combinedFilters, handleApplyFilters, filtersJSON, typeFilter, setTypeFilter };
+  const clearSearch = () => {
+    setFilters((prev) => {
+      const { search, ...rest } = prev;
+      return rest;
+    });
+  };
+
+  const applySearch = (value: string) => {
+    setFilters((prev) => {
+      if (!value) {
+        const { search, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, search: value };
+    });
+  };
+
+  return {
+    methods,
+    filters: combinedFilters,
+    handleApplyFilters,
+    filtersJSON,
+    typeFilter,
+    setTypeFilter,
+    setRealMaxSum,
+    clearSearch,
+    applySearch,
+  };
 }
 
 export const [TrackingOperationFiltersProvider, useTrackingOperationFilters] = constate(useFiltersHookLogic);

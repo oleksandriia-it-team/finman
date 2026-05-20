@@ -10,8 +10,8 @@ export default function CreateCardForm() {
   return (
     <div className="flex size-full">
       <RegularPaymentForm
-        onCancel={() => router.back()}
-        onSuccess={() => router.back()}
+        onCancel={() => router.push('/profile/budget/regular-operations')}
+        onSuccess={() => router.push('/profile/budget/regular-operations')}
       />
     </div>
   );

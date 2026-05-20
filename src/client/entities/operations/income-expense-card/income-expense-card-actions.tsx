@@ -5,6 +5,7 @@ import type { ChildrenComponentProps } from '@frontend/shared/models/component-w
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { UiSheetClose } from '@frontend/ui/ui-sheet/ui-sheet-close';
 
 interface IncomeExpenseCardPopoverProps extends ChildrenComponentProps {
   icon?: string;
@@ -44,7 +45,11 @@ export function IncomeExpenseCardActions({ icon, title, description, children }:
         )}
       </div>
 
-      {isMobile && <UiButton>Скасувати</UiButton>}
+      {isMobile && (
+        <UiSheetClose asChild>
+          <UiButton>Скасувати</UiButton>
+        </UiSheetClose>
+      )}
     </UiResponsiveMenuContent>
   );
 }

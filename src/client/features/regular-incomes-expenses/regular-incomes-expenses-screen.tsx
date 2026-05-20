@@ -10,12 +10,11 @@ import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
-import { FinListOutsideWrapper } from '@frontend/components/wrappers/fin-list-outside-wrapper';
-import { FinListInsideWrapper } from '@frontend/components/wrappers/fin-list-inside-wrapper';
+import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -32,7 +31,7 @@ export default function RegularIncomesExpensesScreen() {
   const {
     options,
     state: listState,
-    errorMessage,
+    appError: paginationAppError,
     reload,
     ...paginationRestProps
   } = usePaginationResource({
@@ -57,27 +56,25 @@ export default function RegularIncomesExpensesScreen() {
         <b>Регулярні доходи та витрати</b>
       </p>
 
-      <FinListOutsideWrapper>
+      <FinListWrapper state={state}>
         <FinListScreenHandler
           state={state}
-          errorMessage={getFirstErrorMessage(errorMessage, onDelete.error)}
+          appError={getFirstAppError(onDelete.error, paginationAppError)}
           hasData={!!options.length}
           skeletonItems={pageSize}
           skeletonClassName="min-h-72"
         >
-          <FinListInsideWrapper state={state}>
-            {options.map((item, index) => (
-              <IncomeExpenseCard
-                key={item.id ?? index}
-                handleDelete={async (id) => {
-                  onDelete.mutate(id);
-                }}
-                {...item}
-              />
-            ))}
-          </FinListInsideWrapper>
+          {options.map((item, index) => (
+            <IncomeExpenseCard
+              key={item.id ?? index}
+              handleDelete={async (id) => {
+                onDelete.mutate(id);
+              }}
+              {...item}
+            />
+          ))}
         </FinListScreenHandler>
-      </FinListOutsideWrapper>
+      </FinListWrapper>
 
       <FinPagination
         className="pt-3"
