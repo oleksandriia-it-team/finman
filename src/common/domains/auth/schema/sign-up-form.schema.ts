@@ -19,6 +19,8 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
     locale: z.string().optional().or(z.literal('')),
 
     workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
+
+    currencyCode: CreateUserSchema.shape.currencyCode.optional().or(z.literal('')),
   })
   .superRefine((data, ctx) => {
     if (!data.workMode) {
@@ -29,6 +31,14 @@ export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
       });
       return;
     }
+    if (!data.currencyCode || data.currencyCode.trim() === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Будь ласка, оберіть валюту',
+        path: ['currencyCode'],
+      });
+    }
+
     if (data.workMode === WorkMode.Online) {
       if (!data.email || data.email.trim() === '') {
         ctx.addIssue({

@@ -2,6 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 import type { TableScreenHandlerProps } from '@frontend/components/screen-handlers/props/table-screen-handler.props';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { UiTableRow } from '@frontend/ui/ui-table/ui-table-row';
 import { UiTableCell } from '@frontend/ui/ui-table/ui-table-cell';
 import { FinErrorTableWidget } from '@frontend/components/error/fin-error-table-widget';
@@ -11,7 +12,6 @@ export function FinTableScreenHandler({
   skeletonClassName,
   totalColumns,
   error,
-  errorMessage,
   ...props
 }: TableScreenHandlerProps) {
   const tableSkeleton = useCallback(() => {
@@ -36,14 +36,14 @@ export function FinTableScreenHandler({
         <UiTableCell colSpan={totalColumns}>
           {error ?? (
             <FinErrorTableWidget
-              status={400}
-              message={errorMessage ?? 'Сталася помилка при завантаженні даних'}
+              status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
+              message={props.appError?.message ?? 'Сталася помилка при завантаженні даних'}
             />
           )}
         </UiTableCell>
       </UiTableRow>
     );
-  }, [error, errorMessage, totalColumns]);
+  }, [error, totalColumns, props.appError]);
 
   const tableEmpty = useMemo(
     () => (
@@ -62,7 +62,6 @@ export function FinTableScreenHandler({
       skeleton={tableSkeleton}
       error={tableError}
       notItemFound={props.notItemFound ?? tableEmpty}
-      errorMessage={errorMessage}
     />
   );
 }

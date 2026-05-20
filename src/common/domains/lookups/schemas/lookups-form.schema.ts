@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 
 const RequiredFieldMessage = "Обов'язкове поле";
 const EmptyUpdateMessage = 'Не передано дані для оновлення';
@@ -33,3 +34,9 @@ export const UpdateCountrySchema = CountryFormSchema.refine(hasAtLeastOneDefined
 });
 
 export type UpdateCountryData = z.infer<typeof UpdateCountrySchema>;
+
+export const UpdateErrorLogSchema = z.object({
+  status: z.enum(Object.values(ErrorLogStatus), { message: 'Статус є обовʼязковим' }),
+});
+
+export type UpdateErrorLogData = z.infer<typeof UpdateErrorLogSchema>;

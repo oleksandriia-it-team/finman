@@ -21,7 +21,6 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { formatDate } from '@frontend/shared/utils/format-date.util';
@@ -30,6 +29,7 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
+import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
 export function TrackingOperationScreen() {
   const isMobile = useIsMobile();
@@ -54,8 +54,8 @@ export function TrackingOperationScreen() {
   const {
     options,
     state: listState,
-    errorMessage,
     reload,
+    appError: paginationAppError,
     ...paginationRestProps
   } = usePaginationResource({
     pageSize,
@@ -92,7 +92,7 @@ export function TrackingOperationScreen() {
         <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
-            errorMessage={getFirstErrorMessage(errorMessage, onDelete.error, basicInformationError)}
+            appError={getFirstAppError(onDelete.error, paginationAppError, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"

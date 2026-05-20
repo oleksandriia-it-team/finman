@@ -1,7 +1,7 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
 import { type RegisterDto, RegisterSchema } from '@common/domains/auth/schema/register.schema';
 
 export const POST = createRoute({

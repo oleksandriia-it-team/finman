@@ -1,6 +1,5 @@
 'use client';
 
-import { type ReactNode } from 'react';
 import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
 import { UiModalContent } from '@frontend/ui/ui-modal/ui-modal-content';
 import { UiModalHeader } from '@frontend/ui/ui-modal/ui-modal-header';
@@ -8,25 +7,25 @@ import { UiModalTitle } from '@frontend/ui/ui-modal/ui-modal-title';
 import { UiModalFooter } from '@frontend/ui/ui-modal/ui-modal-footer';
 import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import './styles/fin-modal-wrapper.scss';
+import { cn } from '@frontend/shared/utils/cn.util';
+import type { FinModalFormWrapperProps } from '@frontend/components/wrappers/props/fin-modal-form-wrapper.props';
 
-import './fin-admin-modal.scss';
-
-interface UiAdminModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title: string;
-  formId: string;
-  isLoading?: boolean;
-  children: ReactNode;
-}
-
-export function UiAdminModal({ isOpen, onClose, title, formId, isLoading, children }: UiAdminModalProps) {
+export function FinModalFormWrapper({
+  isOpen,
+  onClose,
+  title,
+  formId,
+  isLoading,
+  children,
+  className,
+}: FinModalFormWrapperProps) {
   return (
     <UiModal
       open={isOpen}
       onOpenChange={(open) => !open && onClose()}
     >
-      <UiModalContent className="admin-modal-content">
+      <UiModalContent className={cn('admin-modal-content', className)}>
         <UiModalHeader>
           <UiModalTitle>{title}</UiModalTitle>
         </UiModalHeader>
