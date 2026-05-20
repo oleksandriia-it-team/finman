@@ -10,14 +10,12 @@ export function CategoryFilters({ className }: FiltersDefaultProps) {
     <div className={classes}>
       <p className="text-lg">Категорія</p>
       <div className="flex flex-row  gap-1 flex-wrap items-start justify-start">
-        {AllCategoryValues.map((category, i) => {
-          return (
-            <TransactionCategoryFilterPicker
-              key={i}
-              category={category}
-            />
-          );
-        })}
+        {AllCategoryValues.map((category) => (
+          <TransactionCategoryFilterPicker
+            key={category}
+            category={category}
+          />
+        ))}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
   @Column({
     type: 'numeric',
     transformer: {
-      from: (value: string | null) => (value == null ? null : parseFloat(value)),
+      from: (value: string | null) => (value == null ? null : Number.parseFloat(value)),
       to: (value: number | null) => (value == null ? null : value.toString()),
     },
   })

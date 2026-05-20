@@ -7,48 +7,72 @@ interface ActiveRouteResult<T> {
   activeSubItem: NavItemModel | undefined;
 }
 
+type BestMatch<T> = { item: T; subItem?: NavItemModel | undefined; length: number } | null;
+
+type MatchResult<T> = { earlyReturn: ActiveRouteResult<T> | null; bestMatch: BestMatch<T> };
+
+function isSegmentPrefix(current: string, candidate: string): boolean {
+  return current === candidate || current.startsWith(`${candidate}/`);
+}
+
+function matchSubItems<T extends SidebarItemModel>(
+  pathname: string,
+  item: T,
+  bestMatch: BestMatch<T>,
+): { earlyReturn: ActiveRouteResult<T> | null; bestMatch: BestMatch<T> } {
+  const sidebarItem = item as SidebarItemModel;
+
+  for (const subItem of sidebarItem.innerItems ?? []) {
+    const fullSubRoute = item.route + subItem.route;
+
+    if (pathname === fullSubRoute) {
+      return { earlyReturn: { activeItem: item, activeSubItem: subItem }, bestMatch };
+    }
+
+    if (isSegmentPrefix(pathname, fullSubRoute) && (!bestMatch || fullSubRoute.length > bestMatch.length)) {
+      bestMatch = { item, subItem, length: fullSubRoute.length };
+    }
+  }
+
+  return { earlyReturn: null, bestMatch };
+}
+
+function matchItem<T extends SidebarItemModel | NavItemModel>(
+  pathname: string,
+  item: T,
+  bestMatch: BestMatch<T>,
+): { earlyReturn: ActiveRouteResult<T> | null; bestMatch: BestMatch<T> } {
+  if (pathname === item.route) {
+    return { earlyReturn: { activeItem: item, activeSubItem: undefined }, bestMatch };
+  }
+
+  if (isSegmentPrefix(pathname, item.route) && (!bestMatch || item.route.length > bestMatch.length)) {
+    bestMatch = { item, subItem: undefined, length: item.route.length };
+  }
+
+  return { earlyReturn: null, bestMatch };
+}
+
 export function useGetActiveRoute<T extends SidebarItemModel | NavItemModel>(routes: T[]): ActiveRouteResult<T> {
   const pathname = usePathname();
 
   return useMemo(() => {
-    let bestMatch: { item: T; subItem?: NavItemModel | undefined; length: number } | null = null;
-
-    const isSegmentPrefix = (current: string, candidate: string) =>
-      current === candidate || current.startsWith(`${candidate}/`);
+    let bestMatch: BestMatch<T> = null;
 
     for (const item of routes) {
       const sidebarItem = item as SidebarItemModel;
 
       if (sidebarItem.innerItems?.length) {
-        for (const subItem of sidebarItem.innerItems) {
-          const fullSubRoute = item.route + subItem.route;
-
-          if (pathname === fullSubRoute) {
-            return { activeItem: item, activeSubItem: subItem };
-          }
-
-          if (isSegmentPrefix(pathname, fullSubRoute)) {
-            if (!bestMatch || fullSubRoute.length > bestMatch.length) {
-              bestMatch = { item, subItem, length: fullSubRoute.length };
-            }
-          }
-        }
+        const subResult: MatchResult<T> = matchSubItems(pathname, item as T & SidebarItemModel, bestMatch);
+        if (subResult.earlyReturn) return subResult.earlyReturn;
+        bestMatch = subResult.bestMatch;
       }
 
-      if (pathname === item.route) {
-        return { activeItem: item, activeSubItem: undefined };
-      }
-
-      if (isSegmentPrefix(pathname, item.route)) {
-        if (!bestMatch || item.route.length > bestMatch.length) {
-          bestMatch = { item, subItem: undefined, length: item.route.length };
-        }
-      }
+      const itemResult: MatchResult<T> = matchItem(pathname, item, bestMatch);
+      if (itemResult.earlyReturn) return itemResult.earlyReturn;
+      bestMatch = itemResult.bestMatch;
     }
 
-    return {
-      activeItem: bestMatch?.item,
-      activeSubItem: bestMatch?.subItem,
-    };
+    return { activeItem: bestMatch?.item, activeSubItem: bestMatch?.subItem };
   }, [pathname, routes]);
 }

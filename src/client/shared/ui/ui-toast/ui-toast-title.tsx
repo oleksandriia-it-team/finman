@@ -1,12 +1,14 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { type Toast } from 'radix-ui';
 
-export function UiToastTitle({ className, ...props }: Toast.ToastTitleProps) {
+export function UiToastTitle({ className, children, ...props }: Toast.ToastTitleProps) {
   return (
     <h3
       data-slot="toast-title"
       {...props}
       className={cn(className, 'font-medium text-base')}
-    />
+    >
+      {children}
+    </h3>
   );
 }

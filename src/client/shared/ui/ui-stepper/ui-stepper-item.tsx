@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { cn } from '../../utils/cn.util';
 
-export function UiStepperItem({ className, ...props }: React.ComponentProps<'div'>) {
+export function UiStepperItem({ className, ...props }: React.ComponentProps<'fieldset'>) {
   return (
-    <div
-      role="group"
+    <fieldset
       aria-roledescription="slide"
       data-slot="carousel-item"
       className={cn('min-w-0 shrink-0 grow-0 basis-full', className)}

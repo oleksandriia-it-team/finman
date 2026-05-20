@@ -1,5 +1,5 @@
 import { type EntityManager } from 'typeorm';
-import { AsyncLocalStorage } from 'async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { DBDataSource } from './database-connection';
 import type { ITransactionManager } from '@common/models/transaction-manager.model';
 

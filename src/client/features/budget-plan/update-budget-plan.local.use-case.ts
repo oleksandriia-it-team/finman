@@ -11,8 +11,8 @@ import { AppError } from '@common/classes/app-error.class';
 export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
   constructor(
     transactionManager: ITransactionManager,
-    private budgetPlanRepository: BudgetPlanLocalRepository,
-    private monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly budgetPlanRepository: BudgetPlanLocalRepository,
+    private readonly monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }

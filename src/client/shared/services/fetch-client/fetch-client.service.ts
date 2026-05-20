@@ -4,12 +4,12 @@ import { isEmpty } from '@common/utils/is-empty.util';
 import { PublicEnvConfigConstant } from '@common/config/public-env-config.constant';
 import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
-import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { AppError } from '@common/classes/app-error.class';
 
 class FetchClientService {
   private readonly baseUrl: string;
 
-  constructor(private authTokenService: AuthTokenModel) {
+  constructor(private readonly authTokenService: AuthTokenModel) {
     this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
   }
 
@@ -54,7 +54,7 @@ class FetchClientService {
     const accessToken = this.authTokenService.getAccessToken();
 
     if (!skipAuth && !accessToken && !hasAuthorizationHeader && throwErrorIfNotAuth) {
-      throw { status: 401, message: 'Ви не авторизовані' } satisfies ApiResultOperationError;
+      throw new AppError('Ви не авторизовані', 401);
     }
 
     const normalizedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
