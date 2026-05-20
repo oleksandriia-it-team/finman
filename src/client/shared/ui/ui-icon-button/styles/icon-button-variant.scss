@@ -2,6 +2,8 @@
 @import '../../ui-button/styles/button-variants';
 
 .icon-btn {
+  height: fit-content;
+
   @each $name, $colors in $variants {
     &[data-variant='#{$name}'] {
       @if $name == 'destructive' {
@@ -17,6 +19,12 @@
       &[data-outlined='true'] {
         @include btn-outline-variant(list.nth($colors, 1));
       }
+    }
+  }
+
+  @each $name, $size in $sizes {
+    &[data-size='#{$name}'] {
+      padding: list.nth($size, 4);
     }
   }
 

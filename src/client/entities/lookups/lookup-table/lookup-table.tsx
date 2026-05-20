@@ -59,17 +59,15 @@ export function LookupTable<T extends DefaultTableColumns>({
                 isOutlined={false}
                 onClick={onDelete}
                 aria-label="Delete selected"
-                size={'lg'}
               />
             )}
             <UiIconButton
               icon="plus-lg"
-              variant="default"
-              bgNone
+              variant="primary"
+              bgNone={false}
               isOutlined={false}
               onClick={onAdd}
               aria-label="Add new"
-              size={'lg'}
             />
           </>
         }
