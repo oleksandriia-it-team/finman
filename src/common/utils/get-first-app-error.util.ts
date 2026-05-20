@@ -1,8 +1,9 @@
-import { AppError } from '@common/classes/app-error.class';
+import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
-export function getFirstAppError(...errors: unknown[]): AppError | null {
+export function getFirstAppError(...errors: unknown[]): ApiResultOperationError | null {
   for (const err of errors) {
-    if (err instanceof AppError) return err;
+    if (checkIsAppErrorObj(err)) return err;
   }
 
   return null;

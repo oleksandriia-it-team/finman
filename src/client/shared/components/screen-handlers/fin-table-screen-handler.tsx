@@ -12,7 +12,6 @@ export function FinTableScreenHandler({
   skeletonClassName,
   totalColumns,
   error,
-  errorMessage,
   ...props
 }: TableScreenHandlerProps) {
   const tableSkeleton = useCallback(() => {
@@ -38,13 +37,13 @@ export function FinTableScreenHandler({
           {error ?? (
             <FinErrorTableWidget
               status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
-              message={props.appError?.message ?? errorMessage ?? 'Сталася помилка при завантаженні даних'}
+              message={props.appError?.message ?? 'Сталася помилка при завантаженні даних'}
             />
           )}
         </UiTableCell>
       </UiTableRow>
     );
-  }, [error, errorMessage, totalColumns, props.appError]);
+  }, [error, totalColumns, props.appError]);
 
   const tableEmpty = useMemo(
     () => (

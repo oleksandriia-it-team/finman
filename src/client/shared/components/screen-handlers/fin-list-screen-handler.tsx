@@ -12,7 +12,6 @@ export function FinListScreenHandler({
   error,
   state,
   hasData,
-  errorMessage,
   appError,
   skeletonItems,
   skeletonClassName,
@@ -39,7 +38,7 @@ export function FinListScreenHandler({
       error ?? (
         <FinErrorWidget
           status={(appError?.status ?? 500) as ApiResultOperationError['status']}
-          message={appError?.message ?? errorMessage ?? 'Сталася помилка при завантаженні даних'}
+          message={appError?.message ?? 'Сталася помилка при завантаженні даних'}
         />
       )
     );

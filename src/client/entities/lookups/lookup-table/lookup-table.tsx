@@ -1,5 +1,4 @@
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
-import type { AppError } from '@common/classes/app-error.class';
 import { type PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { type ReactNode } from 'react';
 import { UiTable } from '@frontend/shared/ui/ui-table/ui-table';
@@ -11,6 +10,7 @@ import { LookupPageHeader } from '@frontend/entities/lookups/lookup-page-header/
 import { LookupTableHead } from './lookup-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
+import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 interface LookupTableProps<T extends DefaultTableColumns> {
   title: string;
@@ -21,7 +21,7 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   columns: LookupColumnDef<T>[];
 
   state: PromiseState;
-  appError?: AppError | null;
+  appError?: ApiResultOperationError | null;
   hasData: boolean;
   skeletonItems: number;
 
