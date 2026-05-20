@@ -70,7 +70,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
                   <IncomeExpenseCard
                     key={entry.id}
                     {...entry}
-                    actions={false}
+                    showActions={false}
                   />
                 ),
               )}
