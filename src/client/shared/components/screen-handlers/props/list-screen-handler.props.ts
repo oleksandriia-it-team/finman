@@ -1,3 +1,4 @@
+import type { AppError } from '@common/classes/app-error.class';
 import type { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { type ReactNode } from 'react';
 
@@ -8,7 +9,7 @@ export interface ListScreenHandlerProps {
   children: ReactNode;
   state: PromiseState;
   errorMessage?: string | undefined | null;
-  errorStatus?: number | undefined | null;
+  appError?: AppError | null;
   hasData: boolean;
   skeletonItems: number;
   skeletonClassName?: string;

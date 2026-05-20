@@ -10,12 +10,12 @@ import { useRouter } from 'next/navigation';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import { getFirstErrorStatus } from '@common/utils/get-first-error-status.util';
+import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
@@ -33,7 +33,7 @@ export default function RegularIncomesExpensesScreen() {
     options,
     state: listState,
     errorMessage,
-    errorStatus: paginationErrorStatus,
+    appError: paginationAppError,
     reload,
     ...paginationRestProps
   } = usePaginationResource({
@@ -51,7 +51,6 @@ export default function RegularIncomesExpensesScreen() {
   });
 
   const state = useCombineStates(onDelete.state, listState);
-  const errorStatus = getFirstErrorStatus(onDelete.error, paginationErrorStatus);
 
   return (
     <FinListPageWrapper>
@@ -63,7 +62,7 @@ export default function RegularIncomesExpensesScreen() {
         <FinListScreenHandler
           state={state}
           errorMessage={getFirstErrorMessage(onDelete.error, errorMessage)}
-          errorStatus={errorStatus}
+          appError={getFirstAppError(onDelete.error, paginationAppError)}
           hasData={!!options.length}
           skeletonItems={pageSize}
           skeletonClassName="min-h-72"

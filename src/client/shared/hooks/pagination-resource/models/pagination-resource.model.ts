@@ -1,5 +1,6 @@
 import { type PromiseState } from '../../../enums/promise-state.enum';
 import { type Dispatch } from 'react';
+import type { AppError } from '@common/classes/app-error.class';
 
 export interface PaginationResourceConfig<T, F extends object> {
   getTotalCountFn: (filters?: F | undefined) => Promise<number>;
@@ -14,7 +15,7 @@ export interface PaginationResourceConfig<T, F extends object> {
 export interface PaginationResource<T> {
   state: PromiseState;
   errorMessage: string | undefined | null;
-  errorStatus: number | undefined | null;
+  appError: AppError | null;
   totalCount: number;
   options: T[];
   selectedPage: number;
