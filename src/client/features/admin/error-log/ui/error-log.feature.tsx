@@ -1,7 +1,5 @@
-import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
+import { type ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import { useErrorLogs } from '@frontend/features/admin/error-log/hooks/use-error-log.hook';
-import type { FilterTabConfig } from '@frontend/components/filter-tabs/model/filter-tabs.model';
-import { UiFilterTabs } from '@frontend/components/filter-tabs/ui-filter-tabs';
 import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
 import { UiTable } from '@frontend/ui/ui-table/ui-table';
 import { UiTableRow } from '@frontend/ui/ui-table/ui-table-row';
@@ -11,59 +9,13 @@ import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { UiTableHeader } from '@frontend/ui/ui-table/ui-table-header';
-
 import { ErrorLogModal } from '@frontend/features/admin/error-log/ui/error-log-modal';
 import { ErrorLogsFilters } from '@frontend/features/admin/error-log/filters/error-log-filters';
 import { FinDataTableHead } from '@frontend/components/data-table-head/fin-data-table-head';
-
-function MethodBadge({ method }: { method: string | null | undefined }) {
-  const m = method?.toUpperCase() || 'UNKNOWN';
-
-  const colorMap: Record<string, string> = {
-    GET: 'bg-powder-muted text-powder-muted-foreground',
-    POST: 'bg-success-muted text-success-muted-foreground',
-    PUT: 'bg-warning-muted text-warning-muted-foreground',
-    PATCH: 'bg-purple-muted text-purple-muted-foreground',
-    DELETE: 'bg-destructive/10 text-destructive',
-  };
-
-  const colorClass = colorMap[m] ?? 'bg-muted text-muted-foreground';
-
-  return <span className={cn('px-2 py-0.5 rounded text-xs font-bold tracking-wide', colorClass)}>{m}</span>;
-}
-
-function StatusBadge({ status }: { status: ErrorLogStatus }) {
-  let dotColor = 'bg-muted-foreground';
-  let label: string = status;
-
-  switch (status) {
-    case ErrorLogStatus.Active:
-      dotColor = 'bg-destructive-foreground';
-      label = 'Активна';
-      break;
-    case ErrorLogStatus.IsResolving:
-      dotColor = 'bg-warning';
-      label = 'В обробці';
-      break;
-    case ErrorLogStatus.Resolved:
-      dotColor = 'bg-success';
-      label = 'Вирішена';
-      break;
-    case ErrorLogStatus.Ignored:
-      dotColor = 'bg-muted-foreground';
-      label = 'Ігнорована';
-      break;
-  }
-
-  return (
-    <div className="flex items-center gap-2 text-sm text-foreground font-medium">
-      <span className={cn('s-1.5 rounded-full flex-shrink-0', dotColor)} />
-      {label}
-    </div>
-  );
-}
+import { StatusBadge } from '@frontend/features/admin/error-log/ui/status-badge';
+import { MethodBadge } from '@frontend/features/admin/error-log/ui/method-badge';
+import { ErrorLogTabs } from '@frontend/features/admin/error-log/ui/error-logs-tabs';
 
 export function ErrorLogsFeature() {
   const {
@@ -81,51 +33,14 @@ export function ErrorLogsFeature() {
     isUpdating,
     statusesCount,
   } = useErrorLogs();
-
-  const errorLogTabs: FilterTabConfig<ErrorLogStatus | undefined>[] = [
-    { value: undefined, label: 'Усі', count: statusesCount['total'] || 0 },
-    {
-      value: ErrorLogStatus.Active,
-      label: 'Активні',
-      dotColor: 'bg-destructive-foreground',
-      count: statusesCount[ErrorLogStatus.Active] || 0,
-    },
-    {
-      value: ErrorLogStatus.IsResolving,
-      label: 'В обробці',
-      dotColor: 'bg-warning',
-      count: statusesCount[ErrorLogStatus.IsResolving] || 0,
-    },
-    {
-      value: ErrorLogStatus.Resolved,
-      label: 'Вирішені',
-      dotColor: 'bg-success',
-      count: statusesCount[ErrorLogStatus.Resolved] || 0,
-    },
-    {
-      value: ErrorLogStatus.Ignored,
-      label: 'Ігноровані',
-      dotColor: 'bg-muted-foreground',
-      count: statusesCount[ErrorLogStatus.Ignored] || 0,
-    },
-  ];
+  const typedStatusesCount = (statusesCount || {}) as Record<ErrorLogStatus | 'total', number>;
 
   return (
     <div className="flex flex-col gap-6 h-full w-full p-6">
-      <UiFilterTabs
-        tabs={errorLogTabs}
-        activeValue={filters.status}
-        onChange={(newValue) => {
-          if (newValue === undefined) {
-            const restFilters = { ...filters };
-            delete restFilters.status;
-            setFilters(restFilters);
-          } else {
-            setFilters({ ...filters, status: newValue });
-          }
-        }}
-        withDot={true}
-        withCount={true}
+      <ErrorLogTabs
+        filters={filters}
+        setFilters={setFilters}
+        statusesCount={typedStatusesCount}
       />
 
       <ErrorLogsFilters

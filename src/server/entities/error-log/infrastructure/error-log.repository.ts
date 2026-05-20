@@ -33,11 +33,18 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
       qb.andWhere('log.method = :method', { method: filters.method });
     }
 
-    const adjustedDateTo = filters?.dateTo
-      ? typeof filters.dateTo === 'string'
-        ? `${filters.dateTo.split('T')[0]} 23:59:59`
-        : filters.dateTo
-      : undefined;
+    let adjustedDateTo: string | Date | undefined = undefined;
+    if (filters?.dateTo) {
+      if (filters.dateTo instanceof Date) {
+        const endOfDay = new Date(filters.dateTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        adjustedDateTo = endOfDay;
+      } else if (typeof filters.dateTo === 'string') {
+        adjustedDateTo = `${filters.dateTo.split('T')[0]} 23:59:59`;
+      } else {
+        adjustedDateTo = filters.dateTo;
+      }
+    }
 
     if (filters?.dateFrom && adjustedDateTo) {
       qb.andWhere('log.createdAt BETWEEN :from AND :to', {
@@ -70,17 +77,29 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
       qb.andWhere('log.method = :method', { method: filters.method });
     }
 
-    if (filters?.dateFrom && filters?.dateTo) {
+    // 🔴 ОСЬ ТУТ: Використовуємо такий самий блок для getTotalCount
+    let adjustedDateTo: string | Date | undefined = undefined;
+    if (filters?.dateTo) {
+      if (filters.dateTo instanceof Date) {
+        const endOfDay = new Date(filters.dateTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        adjustedDateTo = endOfDay;
+      } else if (typeof filters.dateTo === 'string') {
+        adjustedDateTo = `${filters.dateTo.split('T')[0]} 23:59:59`;
+      } else {
+        adjustedDateTo = filters.dateTo;
+      }
+    }
+
+    if (filters?.dateFrom && adjustedDateTo) {
       qb.andWhere('log.createdAt BETWEEN :from AND :to', {
         from: filters.dateFrom,
-        to: typeof filters.dateTo === 'string' ? `${filters.dateTo.split('T')[0]} 23:59:59` : filters.dateTo,
+        to: adjustedDateTo,
       });
     } else if (filters?.dateFrom) {
       qb.andWhere('log.createdAt >= :from', { from: filters.dateFrom });
-    } else if (filters?.dateTo) {
-      qb.andWhere('log.createdAt <= :to', {
-        to: typeof filters.dateTo === 'string' ? `${filters.dateTo.split('T')[0]} 23:59:59` : filters.dateTo,
-      });
+    } else if (adjustedDateTo) {
+      qb.andWhere('log.createdAt <= :to', { to: adjustedDateTo });
     }
 
     return await qb.getCount();
@@ -97,11 +116,18 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
       qb.andWhere('log.method = :method', { method: filters.method });
     }
 
-    const adjustedDateTo = filters?.dateTo
-      ? typeof filters.dateTo === 'string'
-        ? `${filters.dateTo.split('T')[0]} 23:59:59`
-        : filters.dateTo
-      : undefined;
+    let adjustedDateTo: string | Date | undefined = undefined;
+    if (filters?.dateTo) {
+      if (filters.dateTo instanceof Date) {
+        const endOfDay = new Date(filters.dateTo);
+        endOfDay.setHours(23, 59, 59, 999);
+        adjustedDateTo = endOfDay;
+      } else if (typeof filters.dateTo === 'string') {
+        adjustedDateTo = `${filters.dateTo.split('T')[0]} 23:59:59`;
+      } else {
+        adjustedDateTo = filters.dateTo;
+      }
+    }
 
     if (filters?.dateFrom && adjustedDateTo) {
       qb.andWhere('log.createdAt BETWEEN :from AND :to', {

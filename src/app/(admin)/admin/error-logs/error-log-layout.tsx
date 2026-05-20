@@ -1,5 +1,6 @@
 import { FinPageHeader } from '@frontend/components/page-header/fin-page-header';
 import type { ErrorLogPageLayoutProps } from '@frontend/features/admin/error-log/props/error-log-layout.props';
+import { UiLayoutContent } from '@frontend/ui/ui-layout-content/ui-layout-content';
 
 export function ErrorLogPageLayout({ breadcrumbs, actions, children }: ErrorLogPageLayoutProps) {
   return (
@@ -8,8 +9,7 @@ export function ErrorLogPageLayout({ breadcrumbs, actions, children }: ErrorLogP
         breadcrumbs={breadcrumbs}
         actions={actions}
       />
-
-      <div className="flex-1 min-h-0 overflow-hidden">{children}</div>
+      <UiLayoutContent className="overflow-hidden">{children}</UiLayoutContent>
     </div>
   );
 }
