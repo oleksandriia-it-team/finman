@@ -21,7 +21,7 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
+// ...existing code... (removed unused import)
 import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { formatDate } from '@frontend/shared/utils/format-date.util';
@@ -55,7 +55,6 @@ export function TrackingOperationScreen() {
   const {
     options,
     state: listState,
-    errorMessage,
     reload,
     appError: paginationAppError,
     ...paginationRestProps
@@ -94,7 +93,6 @@ export function TrackingOperationScreen() {
         <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
-            errorMessage={getFirstErrorMessage(onDelete.error, errorMessage, basicInformationError)}
             appError={getFirstAppError(onDelete.error, paginationAppError, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}

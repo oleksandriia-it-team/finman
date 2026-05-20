@@ -45,7 +45,7 @@ export function CurrenciesLookup() {
         hasSelection={lookup.selection.hasSelection}
         onAdd={lookup.openCreateForm}
         onDelete={lookup.requestBulkDelete}
-        errorMessage={lookup.errorMessage}
+        appError={lookup.appError}
         columns={Columns}
         state={lookup.state}
         hasData={!!lookup.options.length}

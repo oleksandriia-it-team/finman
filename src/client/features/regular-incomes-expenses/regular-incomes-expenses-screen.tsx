@@ -14,7 +14,6 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
 export default function RegularIncomesExpensesScreen() {
@@ -32,7 +31,6 @@ export default function RegularIncomesExpensesScreen() {
   const {
     options,
     state: listState,
-    errorMessage,
     appError: paginationAppError,
     reload,
     ...paginationRestProps
@@ -61,7 +59,6 @@ export default function RegularIncomesExpensesScreen() {
       <FinListWrapper state={state}>
         <FinListScreenHandler
           state={state}
-          errorMessage={getFirstErrorMessage(onDelete.error, errorMessage)}
           appError={getFirstAppError(onDelete.error, paginationAppError)}
           hasData={!!options.length}
           skeletonItems={pageSize}

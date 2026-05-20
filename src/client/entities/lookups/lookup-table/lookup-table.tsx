@@ -1,4 +1,5 @@
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
+import type { AppError } from '@common/classes/app-error.class';
 import { type PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { type ReactNode } from 'react';
 import { UiTable } from '@frontend/shared/ui/ui-table/ui-table';
@@ -20,7 +21,7 @@ interface LookupTableProps<T extends DefaultTableColumns> {
   columns: LookupColumnDef<T>[];
 
   state: PromiseState;
-  errorMessage: string | null | undefined;
+  appError?: AppError | null;
   hasData: boolean;
   skeletonItems: number;
 
@@ -44,7 +45,7 @@ export function LookupTable<T extends DefaultTableColumns>({
   children,
   selectedPage,
   setPage,
-  errorMessage,
+  appError,
   pageSize,
   totalCount,
 }: LookupTableProps<T>) {
@@ -73,7 +74,7 @@ export function LookupTable<T extends DefaultTableColumns>({
               <FinTableScreenHandler
                 state={state}
                 hasData={hasData}
-                errorMessage={errorMessage}
+                appError={appError}
                 skeletonItems={skeletonItems}
                 skeletonClassName="h-4"
                 totalColumns={

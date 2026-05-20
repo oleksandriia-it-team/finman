@@ -9,7 +9,7 @@ export interface ListScreenHandlerProps {
   children: ReactNode;
   state: PromiseState;
   errorMessage?: string | undefined | null;
-  appError?: AppError | null;
+  appError?: AppError | null | undefined;
   hasData: boolean;
   skeletonItems: number;
   skeletonClassName?: string;
