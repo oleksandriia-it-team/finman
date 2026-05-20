@@ -7,13 +7,13 @@ import { UiFieldSet } from '@frontend/ui/ui-field/ui-field-set';
 import { UiFieldLegend } from '@frontend/ui/ui-field/ui-field-legend';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
+import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
@@ -83,14 +83,10 @@ export default function LoginPage() {
                 {isLoading ? 'Входимо...' : 'Увійти'}
               </UiButton>
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <UiSeparator />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="text-muted-foreground">АБО</span>
-                </div>
-              </div>
+              <UiSeparatorWithLabel
+                label={'або'}
+                className="my-4"
+              />
 
               <UiButton
                 type="button"
