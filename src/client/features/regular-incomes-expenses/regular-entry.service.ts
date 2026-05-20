@@ -4,8 +4,5 @@ import { authTokenService } from '@frontend/shared/services/user-information/aut
 export const regularEntryService = new BasicDataSource(
   authTokenService,
   () => import('./regular-entry.local.service').then((m) => m.regularEntryLocalService),
-  () =>
-    import('@frontend/entities/regular-entry/regular-entry.api.client').then(
-      (m) => m.regularEntryApiClient,
-    ),
+  () => import('@frontend/entities/regular-entry/regular-entry.api.client').then((m) => m.regularEntryApiClient),
 );

@@ -4,7 +4,7 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pipe';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { regularEntryApiRepository } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';

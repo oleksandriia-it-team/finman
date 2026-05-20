@@ -7,6 +7,7 @@ import { AddRecoveryCodesTable1777285743179 } from '@backend/database/migrations
 import { AddTrackingOperation1745000000000 } from '@backend/database/migrations/1745000000000-add-tracking-operation.migration';
 import { UpdateRecoveryCodesAddAttempts1777304687072 } from '@backend/database/migrations/1777304687072-update-recovery-codes-add-attempts';
 import { AddCountryUkName1777800000000 } from '@backend/database/migrations/1777800000000-add-country-uk-name.migration';
+import { AddUserIdToErrorLogs1778443966727 } from '@backend/database/migrations/1778443966727-add-user-id-to-error-logs';
 
 export const Migrations = [
   AddTrackingOperation1745000000000,
@@ -18,4 +19,5 @@ export const Migrations = [
   AddUniqueColumnsInBudgetPlan1777654086405,
   AddUniqueColumnsInRegularEntry1777723411134,
   AddCountryUkName1777800000000,
+  AddUserIdToErrorLogs1778443966727,
 ];

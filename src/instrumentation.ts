@@ -1,4 +1,4 @@
-import DBDataSource from '@backend/database/database-connection';
+import { DBDataSource } from '@backend/database/database-connection';
 
 export async function register() {
   DBDataSource.initialize()

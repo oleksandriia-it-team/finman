@@ -1,4 +1,4 @@
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { RecoveryService } from '@backend/entities/recovery-code/application/recovery.service';
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
 import { type ForgotPasswordDto, ForgotPasswordSchema } from '@common/domains/auth/schema/forgot-password.schema';

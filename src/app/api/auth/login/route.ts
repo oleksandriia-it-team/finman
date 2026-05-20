@@ -1,7 +1,7 @@
 import { LoginSchema } from '@common/domains/auth/schema/login.schema';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import bcrypt from 'bcrypt';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { createAccessToken } from '@backend/shared/utils/jwt.util';
 

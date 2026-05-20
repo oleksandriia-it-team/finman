@@ -6,27 +6,24 @@ import { UiTableHeader } from '@frontend/shared/ui/ui-table/ui-table-header';
 import { UiTableBody } from '@frontend/shared/ui/ui-table/ui-table-body';
 import { UiTableRow } from '@frontend/shared/ui/ui-table/ui-table-row';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
-import { LookupPageHeader } from '@frontend/entities/lookups/lookup-page-header/lookup-page-header';
 import { LookupTableHead } from './lookup-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
 import { FinTableScreenHandler } from '@frontend/components/screen-handlers/fin-table-screen-handler';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
+import { FinPageHeader } from '@frontend/components/page-header/fin-page-header';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 
 interface LookupTableProps<T extends DefaultTableColumns> {
   title: string;
   hasSelection: boolean;
   onAdd: () => void;
   onDelete: () => void;
-
   columns: LookupColumnDef<T>[];
-
   state: PromiseState;
   appError?: ApiResultOperationError | null;
   hasData: boolean;
   skeletonItems: number;
-
   children: ReactNode;
-
   selectedPage: number;
   setPage: (page: number) => void;
   pageSize: number;
@@ -51,14 +48,33 @@ export function LookupTable<T extends DefaultTableColumns>({
 }: LookupTableProps<T>) {
   return (
     <div className="flex flex-col h-full">
-      <LookupPageHeader
-        title={title}
-        hasSelection={hasSelection}
-        onAdd={onAdd}
-        onDelete={onDelete}
+      <FinPageHeader
+        breadcrumbs={[{ label: 'Lookups', href: '/admin/lookups' }, { label: title }]}
+        actions={
+          <>
+            {hasSelection && (
+              <UiIconButton
+                icon="trash"
+                variant="destructive"
+                bgNone={false}
+                isOutlined={false}
+                onClick={onDelete}
+                aria-label="Delete selected"
+              />
+            )}
+            <UiIconButton
+              icon="plus-lg"
+              variant="primary"
+              bgNone={false}
+              isOutlined={false}
+              onClick={onAdd}
+              aria-label="Add new"
+            />
+          </>
+        }
       />
 
-      <div className="flex-1 overflow-auto bg-background">
+      <div className="flex-1 overflow-auto bg-background custom-scrollbar">
         <div className="flex flex-col h-max">
           <UiTable
             className="h-full"
@@ -77,9 +93,7 @@ export function LookupTable<T extends DefaultTableColumns>({
                 appError={appError}
                 skeletonItems={skeletonItems}
                 skeletonClassName="h-4"
-                totalColumns={
-                  columns.length + 6 /* selection + status + created at + created by + updated at + actions */
-                }
+                totalColumns={columns.length + 6}
               >
                 {children}
               </FinTableScreenHandler>

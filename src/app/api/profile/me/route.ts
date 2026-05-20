@@ -2,7 +2,7 @@ import { createRoute } from '@backend/shared/utils/create-route.util';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
 import { ProfileSettingsSchema } from '@common/domains/profile/schema/profile-settings.schema';
 
 export const GET = createRoute({
