@@ -21,7 +21,6 @@ import {
 } from '@frontend/features/tracking-operation/tracking-operations-statistic-block';
 import { useGetBasicTrackingInformation } from './tracking-operation-filters/tracking-operation-hooks/get-tracking-op-information.hook';
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
-// ...existing code... (removed unused import)
 import { TrackingOperationQueryKey } from '@frontend/entities/tracking-operations/tracking-operation-query-key.constant';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { formatDate } from '@frontend/shared/utils/format-date.util';

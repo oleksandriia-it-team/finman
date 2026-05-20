@@ -37,7 +37,7 @@ export function FinTableScreenHandler({
         <UiTableCell colSpan={totalColumns}>
           {error ?? (
             <FinErrorTableWidget
-              status={(props.appError?.status ?? 400) as ApiResultOperationError['status']}
+              status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
               message={props.appError?.message ?? errorMessage ?? 'Сталася помилка при завантаженні даних'}
             />
           )}
