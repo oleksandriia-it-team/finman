@@ -21,7 +21,6 @@ export function ErrorLogsFeature() {
   const {
     options,
     state,
-    errorMessage,
     selectedPage,
     setPage,
     totalCount,
@@ -65,7 +64,6 @@ export function ErrorLogsFeature() {
           <UiTableBody>
             <FinTableScreenHandler
               state={state}
-              errorMessage={errorMessage}
               hasData={options.length > 0}
               totalColumns={7}
               skeletonItems={20}
