@@ -4,7 +4,6 @@ import { useEffect, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
 import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
-import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { parseBudgetPlanDateParam } from '@common/domains/budget-plan/get-budget-plan-date-param.util';
 import { BudgetPlanHeader } from '@frontend/features/budget-plan/components/budget-plan-header';
 import { UiLayoutContent } from '@frontend/ui/ui-layout-content/ui-layout-content';
@@ -16,6 +15,7 @@ import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { RegularIncomesExpensesProvider } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
+import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 
 const IdIndexInPath = 4;
 

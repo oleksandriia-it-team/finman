@@ -25,7 +25,7 @@ export function IncomeExpenseCard({
   category = ExpenseCategories.Misc,
   title = '',
   handleDelete,
-  actions = true,
+  showActions = true,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category];
 
@@ -46,7 +46,7 @@ export function IncomeExpenseCard({
               size="lg"
               name={categoryStyles.icon}
             />
-            {actions && (
+            {showActions && (
               <UiResponsiveMenu>
                 <UiResponsiveMenuTrigger asChild>
                   <UiIconButton

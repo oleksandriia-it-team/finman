@@ -1,0 +1,5 @@
+@use '../styles/selectable-card' as shared;
+
+.selectable-transaction-card {
+  @include shared.selectable-card-base('selectable-transaction-card');
+}

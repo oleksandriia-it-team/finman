@@ -10,5 +10,4 @@ export interface BudgetPlanFormScreenProps {
   initialMonthOperations?: MonthOperation[];
   onSuccess?: () => void;
   onCancel: () => void;
-  onAddMonthOperation: (onCreate: (op: Omit<MonthOperation, 'id'>) => void) => void;
 }

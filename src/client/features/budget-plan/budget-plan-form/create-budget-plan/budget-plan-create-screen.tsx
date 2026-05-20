@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
@@ -7,30 +9,48 @@ import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
-import { SelectableRegularCard } from '@frontend/entities/operations/income-expense-card/selectable-card/selectable-regular-card';
 import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/card/income-expense-card';
+import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { AddOperationButton } from '@frontend/entities/operations/add-unregular-operation-button/add-unregular-operation-button';
 import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/budget-plan-form/create-budget-plan/budget-plan-create-screen-props';
 import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/budget-plan-form/use-budget-plan-screen-state';
+import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
+import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
+import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
+import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
-  const {
-    state,
-    options,
-    errorMessage,
-    paginationRestProps,
-    selectedIds,
-    hasAnySelected,
-    monthOperations,
-    isEdit,
-    onCancel,
-    handleToggle,
-    handleAddOperation,
-    handleDeleteMonthOperation,
-    handleSubmit,
-    pageSize,
-    listState,
-  } = useBudgetPlanScreenState(props);
+  const { state, options, errorMessage, paginationRestProps, isEdit, onCancel, pageSize, listState, submit } =
+    useBudgetPlanScreenState(props);
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const isMobile = useIsMobile();
+
+  const { selectedIds, monthOperations, toggleSelectedId, deleteMonthOperation, resetDraft } =
+    useBudgetPlanDraftStore();
+
+  const hasAnySelected = selectedIds.size > 0;
+
+  const handleToggle = useCallback((id: number) => toggleSelectedId(id), [toggleSelectedId]);
+
+  const handleDeleteMonthOperation = useCallback((id: number) => deleteMonthOperation(id), [deleteMonthOperation]);
+
+  const handleAddOperation = () => {
+    router.push(`${pathname}/month-entry`);
+  };
+
+  const handleSubmit = () => {
+    submit({
+      plannedRegularEntryIds: Array.from(selectedIds),
+      otherEntries: monthOperations,
+    });
+  };
+
+  const handleCancel = () => {
+    resetDraft();
+    onCancel();
+  };
 
   return (
     <FinListPageWrapper>
@@ -53,15 +73,25 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"
           >
-            {options.map((item) => (
-              <SelectableRegularCard
-                key={item.id}
-                item={item}
-                selected={selectedIds.has(item.id)}
-                onToggle={handleToggle}
-                dimmed={hasAnySelected && !selectedIds.has(item.id)}
-              />
-            ))}
+            {options.map((item) =>
+              isMobile ? (
+                <SelectableTransactionCard
+                  key={item.id}
+                  item={item}
+                  selected={selectedIds.has(item.id)}
+                  onToggle={handleToggle}
+                  dimmed={hasAnySelected && !selectedIds.has(item.id)}
+                />
+              ) : (
+                <SelectableRegularCard
+                  key={item.id}
+                  item={item}
+                  selected={selectedIds.has(item.id)}
+                  onToggle={handleToggle}
+                  dimmed={hasAnySelected && !selectedIds.has(item.id)}
+                />
+              ),
+            )}
           </FinListScreenHandler>
         </FinListWrapper>
 
@@ -77,22 +107,33 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
-          {monthOperations.map((op) => (
-            <IncomeExpenseCard
-              key={op.id}
-              {...op}
-              handleDelete={handleDeleteMonthOperation}
-            />
-          ))}
+          {monthOperations.map((op) =>
+            isMobile ? (
+              <TransactionCard
+                key={op.id}
+                {...op}
+                showActions={false}
+                handleDelete={handleDeleteMonthOperation}
+              />
+            ) : (
+              <IncomeExpenseCard
+                key={op.id}
+                {...op}
+                showActions={false}
+                handleDelete={handleDeleteMonthOperation}
+              />
+            ),
+          )}
           <AddOperationButton onClick={handleAddOperation} />
         </div>
       </div>
 
       <FinButtonListAction>
         <UiButton
+          variant="primary"
           isOutlined
           size="lg"
-          onClick={onCancel}
+          onClick={handleCancel}
         >
           Скасувати
         </UiButton>

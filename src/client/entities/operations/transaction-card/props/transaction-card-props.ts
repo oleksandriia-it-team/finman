@@ -9,5 +9,4 @@ export type TransactionCardProps = Partial<RegularEntry> & {
   handleDelete?: (id: number) => void;
   category?: AllCategories;
   showActions?: boolean;
-  actions?: boolean;
 };

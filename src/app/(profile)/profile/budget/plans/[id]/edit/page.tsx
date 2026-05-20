@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
-import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { BudgetPlanFormScreen } from '@frontend/features/budget-plan/budget-plan-form/create-budget-plan/budget-plan-create-screen';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
+import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
 
 export default function EditBudgetPlanPage() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function EditBudgetPlanPage() {
   const id = params?.id as string;
 
   const { selectedBudgetPlanDate } = useSelectedBudgetPlan();
+  const { initDraft } = useBudgetPlanDraftStore();
 
   const [budgetPlan, setBudgetPlan] = useState<BudgetPlanDetailed | null>(null);
   const [state, setState] = useState<PromiseState>(PromiseState.Loading);
@@ -31,6 +33,10 @@ export default function EditBudgetPlanPage() {
           router.replace(`/profile/budget/plans/${id}/add`);
           return;
         }
+        initDraft(
+          plan.plannedRegularEntries.map((e) => e.id),
+          plan.otherEntries.map((e) => ({ ...e, id: e.id })),
+        );
         setBudgetPlan(plan);
         setState(PromiseState.Success);
       })
@@ -40,9 +46,7 @@ export default function EditBudgetPlanPage() {
       });
   }, [selectedBudgetPlanDate.month, selectedBudgetPlanDate.year]);
 
-  if (state === PromiseState.Loading) {
-    return <FinLoader />;
-  }
+  if (state === PromiseState.Loading) return <FinLoader />;
 
   if (state === PromiseState.Error) {
     return (
@@ -53,20 +57,13 @@ export default function EditBudgetPlanPage() {
     );
   }
 
-  if (!budgetPlan) {
-    return null;
-  }
+  if (!budgetPlan) return null;
 
   return (
     <BudgetPlanFormScreen
       initialData={budgetPlan}
-      initialSelectedIds={budgetPlan.plannedRegularEntries.map((e) => e.id)}
-      initialMonthOperations={budgetPlan.otherEntries}
       onCancel={() => router.push(`/profile/budget/plans/${id}`)}
       onSuccess={() => router.push(`/profile/budget/plans/${id}`)}
-      onAddMonthOperation={(onCreate) => {
-        console.log('onAddMonthOperation', onCreate);
-      }}
     />
   );
 }

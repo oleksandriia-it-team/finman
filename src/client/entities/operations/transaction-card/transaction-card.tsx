@@ -62,7 +62,7 @@ export function TransactionCard({
         {sum && (
           <FinTransformCurrency
             value={sum}
-            className={cn('font-bold', type && amountColorVariants[type])}
+            className={cn(!showActions && 'pr-3', 'font-bold', type && amountColorVariants[type])}
           />
         )}
         {showActions && (
