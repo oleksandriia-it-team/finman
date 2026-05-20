@@ -2,7 +2,7 @@ import { FinTransformDate } from '@frontend/components/transform-date/fin-transf
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import type { ErrorLogModalProps } from '@frontend/features/admin/error-log/props/error-log-modal.props';
-import { UiAdminModal } from '@frontend/components/admin-modal/fin-admin-modal';
+import { FinModalFormWrapper } from '@frontend/components/wrappers/fin-modal-form-wrapper';
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
@@ -43,7 +43,7 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
   };
 
   return (
-    <UiAdminModal
+    <FinModalFormWrapper
       isOpen={isOpen}
       onClose={onClose}
       title="Деталі помилки"
@@ -103,6 +103,6 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
           )}
         </form>
       </FormProvider>
-    </UiAdminModal>
+    </FinModalFormWrapper>
   );
 }

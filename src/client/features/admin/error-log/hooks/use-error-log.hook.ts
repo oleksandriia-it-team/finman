@@ -5,9 +5,11 @@ import { useState } from 'react';
 import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.filter';
 import type { ErrorLogRecord } from '@common/records/error-log.record';
 import type { ErrorLogStatus } from '@common/constants/error-log-status.constant';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
+  const queryClient = useQueryClient();
+
   const [filters, setFilters] = useState<Partial<ErrorLogFilter>>(initialFilters);
 
   const [selectedLog, setSelectedLog] = useState<ErrorLogRecord | null>(null);
@@ -22,23 +24,19 @@ export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
   });
 
   const updateStatusMutation = useSendDataFetch(
-    async ({ id, status }: { id: string | number; status: ErrorLogStatus }) => {
-      return await errorLogsApiClient.updateStatus(id, status);
-    },
+    (data: { id: number | string; status: ErrorLogStatus }) => errorLogsApiClient.updateStatus(data.id, data.status),
     {
-      successMessage: 'Статус помилки успішно оновлено',
-      onSuccess: (result) => {
-        if (result.status === 200) {
-          pagination.reload();
-          setSelectedLog(null);
-        }
+      successMessage: 'Статус успішно оновлено',
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['admin', 'error-logs'] });
+        setSelectedLog(null);
       },
     },
   );
 
-  const { data: statusesCount = {} } = useQuery({
-    queryKey: ['admin', 'error-logs', 'statuses-count'],
-    queryFn: () => errorLogsApiClient.getStatusesCount(),
+  const { data: statusesCount = {} as Record<ErrorLogStatus | 'total', number> } = useQuery({
+    queryKey: ['admin', 'error-logs', 'statuses-count', filters],
+    queryFn: () => errorLogsApiClient.getStatusesCount(filters as ErrorLogFilter), // додаємо каст, якщо ts свариться
   });
 
   return {

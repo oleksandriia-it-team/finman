@@ -14,4 +14,8 @@ const filters = z.object({
   dateTo: z.coerce.date({ message: 'Невалідний формат дати кінця' }).optional(),
 });
 
+export const GetStatusesCountSchema = z.object({
+  filters: filters.optional(),
+});
+
 export const ErrorLogSchema = createPaginatedSchema(filters);

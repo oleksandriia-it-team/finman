@@ -13,9 +13,10 @@ import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiTableHeader } from '@frontend/ui/ui-table/ui-table-header';
-import { UiTableHead } from '@frontend/ui/ui-table/ui-table-head';
+
 import { ErrorLogModal } from '@frontend/features/admin/error-log/ui/error-log-modal';
 import { ErrorLogsFilters } from '@frontend/features/admin/error-log/filters/error-log-filters';
+import { FinDataTableHead } from '@frontend/components/data-table-head/fin-data-table-head';
 
 function MethodBadge({ method }: { method: string | null | undefined }) {
   const m = method?.toUpperCase() || 'UNKNOWN';
@@ -136,25 +137,13 @@ export function ErrorLogsFeature() {
         <UiTable>
           <UiTableHeader className="bg-background border-b-0 sticky top-0 z-10">
             <UiTableRow className="border-b border-border hover:bg-transparent">
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Ендпоінт / Помилка
-              </UiTableHead>
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Метод
-              </UiTableHead>
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Статус
-              </UiTableHead>
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Створено
-              </UiTableHead>
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Користувач
-              </UiTableHead>
-              <UiTableHead className="text-xs font-medium text-muted-foreground uppercase tracking-wide h-9">
-                Оновлено
-              </UiTableHead>
-              <UiTableHead className="w-[52px] text-xs font-medium text-muted-foreground uppercase tracking-wide h-9" />
+              <FinDataTableHead>Ендпоінт / Помилка</FinDataTableHead>
+              <FinDataTableHead>Метод</FinDataTableHead>
+              <FinDataTableHead>Статус</FinDataTableHead>
+              <FinDataTableHead>Створено</FinDataTableHead>
+              <FinDataTableHead>Користувач</FinDataTableHead>
+              <FinDataTableHead>Оновлено</FinDataTableHead>
+              <FinDataTableHead className="w-[3.25rem]" />
             </UiTableRow>
           </UiTableHeader>
 
@@ -171,7 +160,7 @@ export function ErrorLogsFeature() {
                   key={log.id}
                   className="hover:bg-muted/50 transition-colors"
                 >
-                  <UiTableCell className="max-w-[300px]">
+                  <UiTableCell className="max-w-[18.75rem]">
                     <div
                       className="font-medium text-foreground truncate"
                       title={log.endpoint || 'Невідомо'}
@@ -224,7 +213,7 @@ export function ErrorLogsFeature() {
                     />
                   </UiTableCell>
 
-                  <UiTableCell className="w-[52px]">
+                  <UiTableCell className="w-[3.25rem]">
                     <div className="flex items-center justify-center">
                       <UiIconButton
                         icon="eye"

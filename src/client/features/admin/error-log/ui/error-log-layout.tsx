@@ -1,10 +1,10 @@
-import { ErrorLogPageHeader } from '@frontend/entities/error-log/error-log-page-header/error-log-header';
+import { FinPageHeader } from '@frontend/components/page-header/fin-page-header';
 import type { ErrorLogPageLayoutProps } from '@frontend/features/admin/error-log/props/error-log-layout.props';
 
 export function ErrorLogPageLayout({ breadcrumbs, actions, children }: ErrorLogPageLayoutProps) {
   return (
     <div className="flex flex-col h-full w-full overflow-hidden bg-background">
-      <ErrorLogPageHeader
+      <FinPageHeader
         breadcrumbs={breadcrumbs}
         actions={actions}
       />

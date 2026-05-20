@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { BreadcrumbItem } from '@common/models/bread-crumbs-item.model';
 
-export interface ErrorLogPageHeaderProps {
+export interface FinPageHeaderProps {
   breadcrumbs: BreadcrumbItem[];
   actions?: ReactNode;
 }

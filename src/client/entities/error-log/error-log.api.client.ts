@@ -37,16 +37,15 @@ export const errorLogsApiClient = {
     return 0;
   },
 
-  getStatusesCount: async (): Promise<Record<string, number>> => {
-    const response = await fetchClient.post<ApiResultOperation<Record<string, number>>, Record<string, never>>(
-      '/api/error-log/get-statuses-count',
-      {},
-    );
-
+  getStatusesCount: async (filters: ErrorLogFilter): Promise<Record<ErrorLogStatus | 'total', number>> => {
+    const response = await fetchClient.post<
+      ApiResultOperation<Record<ErrorLogStatus | 'total', number>>,
+      { filters: ErrorLogFilter }
+    >('/api/error-log/get-statuses-count', { filters });
     if (response.status === 200 && response.data) {
       return response.data;
     }
-    return {};
+    return { total: 0 } as Record<ErrorLogStatus | 'total', number>;
   },
 
   updateStatus: async (id: number | string, status: ErrorLogStatus) => {

@@ -3,6 +3,7 @@ import { ErrorLogOrm } from '@backend/entities/error-log/infrastructure/error-lo
 import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.filter';
 import type { QueryDeepPartialEntity } from 'typeorm';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
+import type { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 
 export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorLogFilter> {
   constructor() {
@@ -85,21 +86,52 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
     return await qb.getCount();
   }
 
-  async getStatusesCount(): Promise<Record<string, number>> {
-    const rawResults = await this.repository
-      .createQueryBuilder('log')
+  async getStatusesCount(filters?: Partial<ErrorLogFilter>): Promise<Record<ErrorLogStatus | 'total', number>> {
+    const qb = this.repository.createQueryBuilder('log');
+
+    if (filters?.endpoint) {
+      qb.andWhere('(log.endpoint ILIKE :search OR log.message ILIKE :search)', { search: `%${filters.endpoint}%` });
+    }
+
+    if (filters?.method) {
+      qb.andWhere('log.method = :method', { method: filters.method });
+    }
+
+    const adjustedDateTo = filters?.dateTo
+      ? typeof filters.dateTo === 'string'
+        ? `${filters.dateTo.split('T')[0]} 23:59:59`
+        : filters.dateTo
+      : undefined;
+
+    if (filters?.dateFrom && adjustedDateTo) {
+      qb.andWhere('log.createdAt BETWEEN :from AND :to', {
+        from: filters.dateFrom,
+        to: adjustedDateTo,
+      });
+    } else if (filters?.dateFrom) {
+      qb.andWhere('log.createdAt >= :from', { from: filters.dateFrom });
+    } else if (adjustedDateTo) {
+      qb.andWhere('log.createdAt <= :to', { to: adjustedDateTo });
+    }
+
+    const rawResults = await qb
       .select('log.status', 'status')
       .addSelect('COUNT(log.id)', 'count')
       .groupBy('log.status')
       .getRawMany();
-    const countsMap: Record<string, number> = {};
+    const countsMap = {
+      total: 0,
+    } as Record<ErrorLogStatus | 'total', number>;
+
     let total = 0;
     for (const row of rawResults) {
       const count = parseInt(row.count, 10) || 0;
-      countsMap[row.status] = count;
+      countsMap[row.status as ErrorLogStatus] = count;
       total += count;
     }
-    countsMap['total'] = total;
+
+    countsMap.total = total;
+
     return countsMap;
   }
 }

@@ -6,17 +6,19 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { RoleGuard } from '@backend/entities/user/infrastructure/role.guard';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
+import { GetStatusesCountSchema } from '@common/domains/lookups/schemas/error-log.schema';
 
 export const POST = createRoute({
+  schema: GetStatusesCountSchema,
   contextFn: async (request) => ({
     userId: await GetUserIdTransformer(request),
     role: await GetUserRoleTransformer(request),
   }),
   guards: [(params) => AuthGuard(params), (params) => RoleGuard(RoleEnum.Admin)(params)],
-  execute: async () => {
+  execute: async ({ body }) => {
     return {
       status: 200,
-      data: await errorLogApiRepository.getStatusesCount(),
+      data: await errorLogApiRepository.getStatusesCount(body?.filters),
     };
   },
   filter: getDefaultApiErrorFilter,
