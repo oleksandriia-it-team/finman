@@ -11,7 +11,7 @@ export function UiFieldsWithDivider({ className, firstField, secondField, ...pro
     >
       {firstField}
       <span
-        className="pt-4 absolute text-black"
+        className="pt-4 absolute text-foreground:"
         aria-hidden="true"
       >
         —

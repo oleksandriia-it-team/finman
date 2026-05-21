@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
+import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
 export const LoginSchema = z.object({
   login: z
@@ -26,8 +27,7 @@ export const LoginSchema = z.object({
           });
         }
 
-        const loginRegex = /^[a-zA-Z0-9._%+-]+$/;
-        if (!loginRegex.test(val)) {
+        if (!LatinUsernamePattern.test(val)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Логін містить недопустимі символи',
@@ -47,6 +47,6 @@ export const LoginSchema = z.object({
       UserRequirements.MaxPasswordLength,
       'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
     )
-    .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та спеціальні символи'),
+    .regex(LatinPasswordPattern, 'Пароль може містити лише латинські літери та спеціальні символи'),
 });
 export type LoginDto = z.infer<typeof LoginSchema>;

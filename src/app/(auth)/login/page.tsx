@@ -14,6 +14,7 @@ import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
+import { LatinInputPattern } from '@common/constants/latin-pattern.constant';
 
 export default function LoginPage() {
   const refreshUser = useUserInformation((state) => state.refresh);
@@ -55,6 +56,7 @@ export default function LoginPage() {
                 id="login"
                 placeholder="Введіть email або логін"
                 disabled={isLoading}
+                pattern={LatinInputPattern}
               />
 
               <div className="relative">

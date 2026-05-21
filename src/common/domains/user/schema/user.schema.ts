@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
+import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
 export const CreateUserSchema = z.object({
   email: z
@@ -24,8 +25,7 @@ export const CreateUserSchema = z.object({
     .min(UserRequirements.MinNameLength, "Ім'я повинно бути не менше " + UserRequirements.MinNameLength + ' символів')
     .max(UserRequirements.MaxLoginLength, "Ім'я не може бути довше " + UserRequirements.MaxLoginLength + ' символів')
     .superRefine((val, ctx) => {
-      const nameRegex = /^[a-zA-Z0-9._%+-]+$/;
-      if (!nameRegex.test(val)) {
+      if (!LatinUsernamePattern.test(val)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Ім'я містить недопустимі символи",
@@ -44,7 +44,7 @@ export const CreateUserSchema = z.object({
       UserRequirements.MaxPasswordLength,
       'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
     )
-    .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та символи ASCII'),
+    .regex(LatinPasswordPattern, 'Пароль може містити лише латинські літери та спеціальні символи'),
 
   role: z.enum(Object.values(RoleEnum) as [string, ...string[]]).optional(),
 
