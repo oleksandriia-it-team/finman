@@ -15,16 +15,19 @@ export function FinListScreenHandler({
   skeletonItems,
   skeletonClassName,
 }: ListScreenHandlerProps) {
-  const skeletonArray = useMemo(() => Array.from({ length: skeletonItems }), [skeletonItems]);
+  const skeletonArray = useMemo(
+    () => Array.from({ length: skeletonItems }, (_, i) => `skeleton-${i}`),
+    [skeletonItems],
+  );
 
   if (state === PromiseState.Loading) {
     const Skeleton = skeleton ?? UiSkeleton;
 
     return (
       <>
-        {skeletonArray.map((_, index) => (
+        {skeletonArray.map((key) => (
           <Skeleton
-            key={`skeleton-${index}`}
+            key={key}
             className={skeletonClassName ?? ''}
           />
         ))}

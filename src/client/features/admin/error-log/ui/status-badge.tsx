@@ -2,7 +2,7 @@ import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 export function StatusBadge({ status }: { status: ErrorLogStatus }) {
-  let dotColor = 'bg-muted-foreground';
+  let dotColor = '';
   let label: string = status;
 
   switch (status) {
