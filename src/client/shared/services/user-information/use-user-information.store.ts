@@ -52,7 +52,7 @@ export const useUserInformation = create<UserInformationStore>((set) => {
     },
     logOut: () => {
       authTokenService.clearAccessToken();
-      localStorageService.setItem<GetUser | null>(UserInformationKey, null);
+      localStorageService.removeItem(UserInformationKey);
 
       set({ userInformation: null });
     },
