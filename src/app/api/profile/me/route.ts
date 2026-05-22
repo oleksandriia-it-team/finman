@@ -4,6 +4,7 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
 import { ProfileSettingsSchema } from '@common/domains/profile/schema/profile-settings.schema';
+import type { OnlineUser } from '@common/records/user.record';
 
 export const GET = createRoute({
   contextFn: GetUserIdTransformer,
@@ -22,7 +23,10 @@ export const GET = createRoute({
 
     return {
       status: 200,
-      data: user,
+      data: {
+        ...user,
+        totpEnabled: !!user.totp?.enabled,
+      } satisfies OnlineUser,
     };
   },
   filter: getDefaultApiErrorFilter,

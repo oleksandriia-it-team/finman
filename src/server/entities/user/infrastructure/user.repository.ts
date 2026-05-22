@@ -38,19 +38,6 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
 
     return (result.affected ?? 0) > 0;
   }
-  async getUserNameById(id: number): Promise<string | null> {
-    const user = await this.repository
-      .createQueryBuilder('user')
-      .select('user.name')
-      .where('user.id = :id', { id })
-      .getOne();
-
-    if (!user) {
-      return null;
-    }
-
-    return user.name;
-  }
 
   async isPasswordValid(id: number, password: string): Promise<boolean> {
     const user = await this.repository
@@ -84,6 +71,13 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     }
 
     return this.repository.findOneBy({ id });
+  }
+
+  override getItemById(id: number): Promise<UserOrm | null> {
+    return this.repository.findOne({
+      where: { id },
+      relations: ['totp'],
+    });
   }
 }
 
