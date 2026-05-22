@@ -5,7 +5,7 @@ import { type PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { type DropdownOption } from '@frontend/shared/models/dropdown-option.model';
 
 export interface InputProps<T> extends InputDefaultProps {
-  onChange: Dispatch<T | undefined>;
+  onChange?: Dispatch<T | undefined>;
   ref?: Ref<HTMLInputElement>;
   pattern?: RegExp | string | undefined;
 }

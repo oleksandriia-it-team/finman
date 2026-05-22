@@ -8,7 +8,7 @@ export const totpApiClient = {
       .post<ApiResultOperationSuccess<TwoFASetupResponse>>('/api/profile/2fa/setup')
       .then((r) => r.data);
   },
-  confirm: async () => {
-    return fetchClient.post<ApiResultOperationSuccess<true>>('/api/profile/2fa/confirm').then((r) => r.data);
+  confirm: async (code: string) => {
+    return fetchClient.post<ApiResultOperationSuccess<true>>('/api/profile/2fa/confirm', { code }).then((r) => r.data);
   },
 };

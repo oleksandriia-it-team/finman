@@ -2,7 +2,7 @@ import { type ApiResultOperationError } from '@common/models/api-result-operatio
 import { ErrorTexts } from '@common/constants/error-texts.contant';
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
-export function getApiErrorMessage(error: unknown): ApiResultOperationError {
+export function getSafeAppError(error: unknown): ApiResultOperationError {
   const isAppError = checkIsAppErrorObj(error);
 
   if (isAppError) {
