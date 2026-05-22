@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
 import { type FullUserData } from '@common/records/user.record';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
@@ -11,6 +11,7 @@ import { CountryRequirementsConstant } from '@common/constants/country-requireme
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import type { TrackingOperationOrm } from '@backend/entities/tracking-operation/infrastructure/tracking-operation.orm';
 import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
+import type { TotpOrm } from '@backend/entities/totp/infrastructure/totp.orm';
 
 @Entity('users')
 export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
@@ -57,6 +58,9 @@ export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
 
   @OneToMany('BudgetPlanOrm', 'user')
   budgetPlans?: BudgetPlanOrm[];
+
+  @OneToOne('TotpOrm', 'user')
+  totp?: TotpOrm | undefined;
 
   online = true as const;
 }
