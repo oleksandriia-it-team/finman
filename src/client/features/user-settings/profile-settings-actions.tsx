@@ -1,6 +1,6 @@
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import type { ProfileSettingsActionsProps } from '@frontend/features/setting-page/props/profile-settings-actions.props';
+import type { ProfileSettingsActionsProps } from '@frontend/features/user-settings/props/profile-settings-actions.props';
 
 export function ProfileSettingsActions({ isOnline, isPending, isDirty, onLogout }: ProfileSettingsActionsProps) {
   return (

@@ -1,11 +1,11 @@
 import {
-  ProfileSettingsSchema,
   type ProfileSettingsData,
   type ProfileSettingsFormData,
+  ProfileSettingsSchema,
 } from '@common/domains/profile/schema/profile-settings.schema';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { profileSettingsService } from '@frontend/features/setting-page/profile-settings.service';
+import { profileSettingsService } from '@frontend/features/user-settings/profile-settings.service';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';

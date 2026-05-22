@@ -1,6 +1,6 @@
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
-import type { ProfileSettingsHeaderProps } from '@frontend/features/setting-page/props/profile-settings-header.props';
+import type { ProfileSettingsHeaderProps } from '@frontend/features/user-settings/props/profile-settings-header.props';
 
 export function ProfileSettingsHeader({ userInformation }: ProfileSettingsHeaderProps) {
   return (

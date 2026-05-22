@@ -1,6 +1,6 @@
 import { cn } from '@frontend/shared/utils/cn.util';
 import { CardContent, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
-import type { ProfileSectionProps } from '@frontend/features/setting-page/props/profile-section.props';
+import type { ProfileSectionProps } from '@frontend/features/user-settings/props/profile-section.props';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 
 export function ProfileSection({ title, children, icon, className }: ProfileSectionProps) {

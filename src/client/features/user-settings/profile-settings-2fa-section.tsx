@@ -1,4 +1,4 @@
-import { ProfileSection } from '@frontend/features/setting-page/profile-section';
+import { ProfileSection } from '@frontend/features/user-settings/profile-section';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';

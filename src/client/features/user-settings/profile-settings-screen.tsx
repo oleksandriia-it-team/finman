@@ -13,7 +13,7 @@ import { ProfileSettingsHeader } from './profile-settings-header';
 import { ProfileSettingsSecuritySection } from './profile-settings-security-section';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useRouter } from 'next/navigation';
-import { ProfileSettings2faSection } from '@frontend/features/setting-page/profile-settings-2fa-section';
+import { ProfileSettings2faSection } from '@frontend/features/user-settings/profile-settings-2fa-section';
 
 export function ProfileSettingsScreen() {
   const router = useRouter();

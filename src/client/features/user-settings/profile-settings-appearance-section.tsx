@@ -7,7 +7,7 @@ import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-loca
 import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { ProfileSection } from './profile-section';
-import type { ProfileSettingsAppearanceSectionProps } from '@frontend/features/setting-page/props/profile-settings-appearance-section.props';
+import type { ProfileSettingsAppearanceSectionProps } from '@frontend/features/user-settings/props/profile-settings-appearance-section.props';
 
 export function ProfileSettingsAppearanceSection({
   theme,

@@ -1,7 +1,7 @@
 import { FinControlledPassword } from '@frontend/components/controlled-fields/fin-controlled-password';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { ProfileSection } from './profile-section';
-import type { ProfileSettingsSecuritySectionProps } from '@frontend/features/setting-page/props/profile-settings-security-section.props';
+import type { ProfileSettingsSecuritySectionProps } from '@frontend/features/user-settings/props/profile-settings-security-section.props';
 
 export function ProfileSettingsSecuritySection({ isOnline }: ProfileSettingsSecuritySectionProps) {
   return (
