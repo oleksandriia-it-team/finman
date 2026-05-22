@@ -14,7 +14,7 @@ import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure
 import type { TotpOrm } from '@backend/entities/totp/infrastructure/totp.orm';
 
 @Entity('users')
-export class UserOrm extends DefaultTableColumnsOrm implements FullUserData {
+export class UserOrm extends DefaultTableColumnsOrm implements Omit<FullUserData, 'totpEnabled'> {
   @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.User })
   role!: RoleEnum;
 
