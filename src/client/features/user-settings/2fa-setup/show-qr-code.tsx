@@ -3,8 +3,8 @@ import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
-import type { ShowQrCode2FAProps } from '@frontend/features/user-settings/modals/setup/props/show-qr-code.props';
 import { FinControlledOtp } from '@frontend/components/controlled-fields/fin-controlled-otp';
+import type { ShowQrCode2FAProps } from './props/show-qr-code.props';
 
 export function ShowQrCodeTwoFactorSetupQRCode({ data: { qrCodeImage, secret } }: ShowQrCode2FAProps) {
   return (

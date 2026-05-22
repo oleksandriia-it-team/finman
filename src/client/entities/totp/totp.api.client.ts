@@ -11,4 +11,7 @@ export const totpApiClient = {
   confirm: async (code: string) => {
     return fetchClient.post<ApiResultOperationSuccess<true>>('/api/profile/2fa/confirm', { code }).then((r) => r.data);
   },
+  cancel: async () => {
+    return fetchClient.post<ApiResultOperationSuccess<true>>('/api/profile/2fa/cancel').then((r) => r.data);
+  },
 };

@@ -2,10 +2,9 @@ import { ProfileSection } from '@frontend/features/user-settings/profile-section
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
-import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
-import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';
-import { UiModalContent } from '@frontend/ui/ui-modal/ui-modal-content';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { TwoFactorSetupModal } from './2fa-setup/setup-modal';
+import { TwoFactorCancelModal } from '@frontend/features/user-settings/2fa-cancel/cancel-modal';
 
 export function ProfileSettings2faSection() {
   const user = useAuthorizedUser();
@@ -22,33 +21,17 @@ export function ProfileSettings2faSection() {
               Додатковий рівень захисту через додаток-автентифікатор (Google Authenticator, Authy, 1Password)
             </UiDescription>
 
-            {user.totpEnabled && (
-              <UiModal>
-                <UiModalTrigger asChild>
-                  <UiButton
-                    isOutlined
-                    variant="destructive"
-                  >
-                    <UiSvgIcon name="arrow-repeat" />
-                    Скинути
-                  </UiButton>
-                </UiModalTrigger>
-
-                <UiModalContent>2</UiModalContent>
-              </UiModal>
-            )}
+            {user.totpEnabled && <TwoFactorCancelModal />}
 
             {!user.totpEnabled && (
-              <UiModal>
-                <UiModalTrigger asChild>
+              <TwoFactorSetupModal
+                trigger={
                   <UiButton variant="primary-muted">
                     <UiSvgIcon name="lock-fill" />
                     Налаштувати
                   </UiButton>
-                </UiModalTrigger>
-
-                <UiModalContent>2</UiModalContent>
-              </UiModal>
+                }
+              />
             )}
           </div>
         </ProfileSection>

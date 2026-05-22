@@ -3,19 +3,23 @@ import { useConfirm2FASetup } from './hooks/confirm-2fa-setup.hook';
 import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorShort } from '@frontend/components/error/fin-error-short';
-import { ShowQrCodeTwoFactorSetupQRCode } from '@frontend/features/user-settings/modals/setup/show-qr-code';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { totpConfirmSchema } from '@common/domains/totp/totp-confirm.schema';
-import { ShowSuccessTwoFactorSetup } from '@frontend/features/user-settings/modals/setup/show-success';
 import { UiModalContent } from '@frontend/ui/ui-modal/ui-modal-content';
 import { UiModalFooter } from '@frontend/ui/ui-modal/ui-modal-footer';
 import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
+import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
+import { ShowQrCodeTwoFactorSetupQRCode } from './show-qr-code';
+import { ShowSuccessTwoFactorSetup } from './show-success';
+import type { ReactNode } from 'react';
+import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
+import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';
+import { UiModalHeader } from '@frontend/ui/ui-modal/ui-modal-header';
 
-export function TwoFactorSetupModalContent() {
+export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
   const form = useForm({
     resolver: zodResolver(totpConfirmSchema),
     values: {
@@ -32,9 +36,13 @@ export function TwoFactorSetupModalContent() {
   const state = useCombineStates(setupState, confirmMutateState);
 
   return (
-    <>
+    <UiModal>
+      <UiModalTrigger asChild>{trigger}</UiModalTrigger>
+
+      <UiModalHeader>1</UiModalHeader>
+
       <UiModalContent className="flex flex-col gap-6 justify-center">
-        {state === PromiseState.Loading && <FinLoader />}
+        {state === PromiseState.Loading && <FinLoaderShort />}
 
         {state === PromiseState.Error && safeError && <FinErrorShort {...safeError} />}
 
@@ -75,6 +83,6 @@ export function TwoFactorSetupModalContent() {
           </>
         )}
       </UiModalFooter>
-    </>
+    </UiModal>
   );
 }
