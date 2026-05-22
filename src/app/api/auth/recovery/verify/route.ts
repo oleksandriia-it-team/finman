@@ -1,6 +1,6 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
-import { getDefaultApiErrorFilter } from '@backend/shared/filter/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { VerifyCodeSchema } from '@common/domains/auth/schema/recovery.schema';
 import { RecoveryValidationStatus } from '@common/enums/recovery-status.enum';
 

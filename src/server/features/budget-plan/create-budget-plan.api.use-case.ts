@@ -18,9 +18,9 @@ type CreateBudgetPlanInput = Omit<BudgetPlanDto, 'id'> & { userId: number };
 
 export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudgetPlanInput, number> {
   constructor(
-    private budgetPlanRepository: BudgetPlanRepository,
-    private monthEntryRepository: MonthEntryRepository,
-    private plannedRegularEntryRepository: RegularEntryApiRepository,
+    private readonly budgetPlanRepository: BudgetPlanRepository,
+    private readonly monthEntryRepository: MonthEntryRepository,
+    private readonly plannedRegularEntryRepository: RegularEntryApiRepository,
     transactionManager: ITransactionManager,
   ) {
     super(transactionManager);

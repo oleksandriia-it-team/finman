@@ -40,9 +40,9 @@ export function LookupTableRow<T extends DefaultTableColumns & ItemWithAdmin>({
         />
       </UiTableCell>
 
-      {columns.map((col, index) => (
+      {columns.map((col) => (
         <UiTableCell
-          key={index}
+          key={col.header}
           className={col.cellClassName}
         >
           {col.cell(item)}

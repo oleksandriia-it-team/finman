@@ -9,8 +9,8 @@ import { getDefaultCategory } from '@common/domains/budget-plan/get-default-cate
 export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBudgetPlanDto, number> {
   constructor(
     transactionManager: ITransactionManager,
-    private budgetPlanRepository: BudgetPlanLocalRepository,
-    private monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly budgetPlanRepository: BudgetPlanLocalRepository,
+    private readonly monthEntryRepository: ICrudService<MonthEntry>,
   ) {
     super(transactionManager);
   }

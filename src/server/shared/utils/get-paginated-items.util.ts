@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { parser } from 'stream-json';
 import { streamArray } from 'stream-json/streamers/StreamArray';
 import path from 'node:path';

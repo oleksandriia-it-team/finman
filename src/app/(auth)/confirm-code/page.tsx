@@ -12,6 +12,8 @@ import { useConfirmCode } from './shared/confirm-code-form';
 
 export default function ConfirmCodePage() {
   const { methods, submit, isLoading, email, handleGoBack, isCounting, timeLeft } = useConfirmCode();
+  const countingLabel = isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити';
+  const buttonLabel = isLoading ? 'Перевірка...' : countingLabel;
 
   return (
     <AuthLayout
@@ -67,7 +69,7 @@ export default function ConfirmCodePage() {
                         className="w-full transition-all"
                         disabled={!methods.formState.isValid || isLoading || isCounting}
                       >
-                        {isLoading ? 'Перевірка...' : isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити'}
+                        {buttonLabel}
                       </UiButton>
 
                       <button

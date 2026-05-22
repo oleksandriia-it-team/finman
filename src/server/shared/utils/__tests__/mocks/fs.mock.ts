@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { vi } from 'vitest';
 import { Readable } from 'node:stream';
 import { localeAndLanguagesFixture } from '../fixtures/locale-and-languages.fixture';

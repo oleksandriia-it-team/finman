@@ -122,7 +122,7 @@ export class DatabaseLocalService {
     mapFilters?: FilterPredicate<T>[],
     orderBy?: OrderByLocalModel,
   ): Promise<T[]> {
-    const predicateFn = mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
+    const predicateFn = mapFilters?.length ? (item: T) => mapFilters.every((fn) => fn(item)) : undefined;
 
     try {
       const { skip, take } = calculateSkipAndLimit(from, to);
@@ -169,8 +169,8 @@ export class DatabaseLocalService {
     mapFilters?: FilterPredicate<T>[],
   ): Promise<number> {
     try {
-      const predicateFn =
-        mapFilters && mapFilters.length ? (item: T) => mapFilters?.every((fn) => fn(item)) : undefined;
+      const predicateFn = mapFilters?.length ? (item: T) => mapFilters.every((fn) => fn(item)) : undefined;
+
       const hasExtraFilters = !!predicateFn;
 
       // Fast path — no extra filters, use Dexie index
@@ -269,9 +269,7 @@ export class DatabaseLocalService {
     try {
       const table = this.table(tableName);
       const item = await table.get(id);
-
       if (!item) throw new AppError(ErrorTexts.RecordDoesNotExist);
-
       if (softDelete) {
         await table.update(id, { softDeleted: 1 });
       } else {
@@ -283,7 +281,6 @@ export class DatabaseLocalService {
       throw new AppError(getSafeErrorMessage(error));
     }
   }
-
   // -------------------------------------------------------------------------
   // Batch transactions
   // -------------------------------------------------------------------------
@@ -330,7 +327,7 @@ export class DatabaseLocalService {
 
   async clearDatabase(): Promise<void> {
     try {
-      // eslint-disable-next-line
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await this.db.transaction(
         'rw',

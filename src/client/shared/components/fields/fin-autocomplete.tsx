@@ -34,7 +34,7 @@ export function FinAutocomplete<T>({
       open={show}
       onOpenChange={setVisibility}
       items={options}
-      // eslint-disable-next-line
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       value={customInputValue}
       inputValue={search}

@@ -50,6 +50,7 @@ export type RouteExecute<TR, BTR, BODY, R, TP> = (
 ) => Promise<ApiResultOperation<R>> | ApiResultOperation<R>;
 
 export type FilterRouteExecute<R> = (
+  request: Request,
   err: Error,
 ) => Promise<NextResponse<ApiResultOperation<R>>> | NextResponse<ApiResultOperation<R>>;
 

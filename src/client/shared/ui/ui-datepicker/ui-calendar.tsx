@@ -27,7 +27,8 @@ const CalendarChevron = ({
   className?: string;
   orientation?: 'left' | 'right' | 'down';
 }) => {
-  const name = orientation === 'left' ? 'chevron-left' : orientation === 'right' ? 'chevron-right' : 'chevron-down';
+  const chevronName = orientation === 'right' ? 'chevron-right' : 'chevron-down';
+  const name = orientation === 'left' ? 'chevron-left' : chevronName;
   return (
     <UiSvgIcon
       name={name}

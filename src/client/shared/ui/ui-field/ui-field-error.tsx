@@ -26,7 +26,7 @@ export function UiFieldError({ className, children, fieldState, ...props }: Fiel
 
     return (
       <ul className="field-error-list">
-        {uniqueErrors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}
+        {uniqueErrors.map((error) => error?.message && <li key={error.message}>{error.message}</li>)}
       </ul>
     );
   }, [children, fieldState.error]);

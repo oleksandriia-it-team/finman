@@ -21,7 +21,7 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
       description: initialData?.description,
       type: initialData?.type ?? TypeEntry.Expense,
       category: initialData?.category,
-      sum: Number(initialData?.sum) ?? 0,
+      sum: initialData?.sum !== undefined ? Number(initialData.sum) : 0,
       date: initialData?.date ? new Date(initialData.date) : new Date(),
     } as never,
   });

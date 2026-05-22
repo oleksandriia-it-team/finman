@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { getPaginatedItems } from '../get-paginated-items.util';
 import { type CountryAndLocale } from '@common/records/countries.record';
 import { localeAndLanguagesFixture } from './fixtures/locale-and-languages.fixture';
-import fs from 'fs';
+import fs from 'node:fs';
 import path from 'node:path';
 import { PathToPublic } from '@common/path-to-public.constant';
 import StreamArray from 'stream-json/streamers/StreamArray';

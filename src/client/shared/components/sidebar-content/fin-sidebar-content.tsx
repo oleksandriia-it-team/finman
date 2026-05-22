@@ -18,7 +18,7 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
 
   return (
     <UiSidebarContent {...props}>
-      {routes.map((route, index) => {
+      {routes.map((route) => {
         const hasNestedRoutes = !!route.innerItems?.length;
 
         const routeButtonContent = (
@@ -32,7 +32,7 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
         );
 
         return (
-          <UiSidebarGroup key={index}>
+          <UiSidebarGroup key={route.route}>
             <UiSidebarGroupContent>
               <UiSidebarMenu>
                 <UiSidebarMenuButton
@@ -54,11 +54,11 @@ export function FinSidebarContent({ routes, ...props }: SidebarContentProps) {
 
                 {!!route.innerItems?.length && (
                   <UiSidebarMenuSub>
-                    {route.innerItems.map((item, index) => {
+                    {route.innerItems.map((item) => {
                       const path = route.route + item.route;
 
                       return (
-                        <UiSidebarMenuSubItem key={index}>
+                        <UiSidebarMenuSubItem key={path}>
                           <UiSidebarMenuSubButton
                             isActive={item === activeSubItem}
                             asChild

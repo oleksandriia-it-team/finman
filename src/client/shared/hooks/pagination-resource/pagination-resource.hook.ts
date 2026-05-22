@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
+import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
 export function usePaginationResource<T, F extends object>({
   getTotalCountFn,
@@ -46,6 +47,11 @@ export function usePaginationResource<T, F extends object>({
     return getFirstErrorMessage(getOptionsQuery.error, getTotalCountQuery.error);
   }, [getOptionsQuery.error, getTotalCountQuery.error]);
 
+  const appError = useMemo(
+    () => getFirstAppError(getOptionsQuery.error, getTotalCountQuery.error),
+    [getOptionsQuery.error, getTotalCountQuery.error],
+  );
+
   const reload = useCallback(() => {
     getOptionsQuery.refetch();
     getTotalCountQuery.refetch();
@@ -56,6 +62,7 @@ export function usePaginationResource<T, F extends object>({
     options: getOptionsQuery.data ?? [],
     totalCount: getTotalCountQuery.data ?? 0,
     errorMessage,
+    appError,
     selectedPage,
     setPage,
     reload,

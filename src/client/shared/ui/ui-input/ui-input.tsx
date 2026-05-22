@@ -17,10 +17,7 @@ export function UiInput({
   ref,
   ...props
 }: InputProps<string> & Omit<ComponentProps<'input'>, 'onChange' | 'pattern'>) {
-  const regexp = useMemo(
-    () => (typeof pattern === 'string' ? new RegExp(pattern) : pattern),
-    [pattern],
-  );
+  const regexp = useMemo(() => (typeof pattern === 'string' ? new RegExp(pattern) : pattern), [pattern]);
 
   const [inputRef, setInputRef] = useState<HTMLInputElement | null>(null);
 
