@@ -48,5 +48,10 @@ export const LoginSchema = z.object({
       'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
     )
     .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та спеціальні символи'),
+  code: z
+    .int({ error: 'Код є обовʼязковим' })
+    .min(6, { error: 'Код має містити 6 символів' })
+    .max(6, { error: 'Код має містити 6 символів' })
+    .optional(),
 });
 export type LoginDto = z.infer<typeof LoginSchema>;
