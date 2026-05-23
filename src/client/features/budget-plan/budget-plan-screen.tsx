@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -8,6 +9,11 @@ import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-
 import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
+import { TypeEntry } from '@common/enums/entry.enum';
+import {
+  BudgetPlanStatisticDesktop,
+  BudgetPlanStatisticMobile,
+} from '@frontend/features/budget-plan/components/budget-plan-statistic-block';
 
 interface BudgetPlanViewScreenProps {
   budgetPlan: BudgetPlanDetailed;
@@ -19,6 +25,14 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const isMobile = useIsMobile();
 
   const isEmpty = budgetPlan.plannedRegularEntries.length === 0 && budgetPlan.otherEntries.length === 0;
+
+  const { income, expense } = useMemo(() => {
+    const allEntries = [...budgetPlan.plannedRegularEntries, ...budgetPlan.otherEntries];
+    return {
+      income: allEntries.filter((e) => e.type === TypeEntry.Income).reduce((acc, e) => acc + e.sum, 0),
+      expense: allEntries.filter((e) => e.type === TypeEntry.Expense).reduce((acc, e) => acc + e.sum, 0),
+    };
+  }, [budgetPlan.plannedRegularEntries, budgetPlan.otherEntries]);
 
   return (
     <FinListPageWrapper>
@@ -44,6 +58,20 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
           />
           Редагувати
         </UiButton>
+      </div>
+
+      <div className="px-4 pb-2 flex-none">
+        {isMobile ? (
+          <BudgetPlanStatisticMobile
+            income={income}
+            expense={expense}
+          />
+        ) : (
+          <BudgetPlanStatisticDesktop
+            income={income}
+            expense={expense}
+          />
+        )}
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">

@@ -44,6 +44,7 @@ export function useBudgetPlanForm({ initialData, onSuccess }: UseBudgetPlanFormO
         plannedRegularEntryIds,
         otherEntries: mappedEntries,
       };
+      console.log('>>> CREATE DTO:', JSON.stringify(dto, null, 2));
       return budgetPlanService.createItem(dto);
     },
     {
