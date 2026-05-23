@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  aspect-ratio: 1 / 1;
   border-radius: 0.975rem;
   border: 2px dashed var(--border);
   background: transparent;
@@ -12,6 +11,15 @@
   transition:
           border-color 0.15s ease,
           background-color 0.15s ease;
+  aspect-ratio: 1 / 1;
+
+  @media (width <= 768px) {
+    aspect-ratio: unset;
+    width: 100%;
+    flex-direction: row;
+    padding: 0.5rem 0.75rem;
+    min-height: 3.5rem;
+  }
 
   &-label {
     font-size: 0.9375rem;
