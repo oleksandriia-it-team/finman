@@ -3,7 +3,7 @@ import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 
 export function ShowSuccessTwoFactorSetup() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col items-center gap-4">
       <CheckWithCircleSvg />
 
       <div className="flex flex-col gap-1 text-center">
