@@ -28,6 +28,7 @@ export function useSetupLogin(onSuccessAction?: () => void | Promise<void>) {
 
         onSuccessAction?.();
       },
+      showErrorToastIf: (error) => error.message !== "Двофакторна аутентифікація увімкнена, код обов'язковий",
       onError: (error) => {
         if (error.message === "Двофакторна аутентифікація увімкнена, код обов'язковий") {
           setStep(LoginStep.TwoFactor);

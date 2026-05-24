@@ -6,11 +6,9 @@ export function ShowSuccessTwoFactorSetup() {
     <div className="flex flex-col items-center gap-4">
       <CheckWithCircleSvg />
 
-      <div className="flex flex-col gap-1 text-center">
-        <UiDescription>
-          Двофакторна автентифікація активна. Наступного разу під час входу попросимо код з вашого автентифікатора.
-        </UiDescription>
-      </div>
+      <UiDescription className="text-center">
+        Двофакторна автентифікація активна. Наступного разу під час входу попросимо код з вашого автентифікатора.
+      </UiDescription>
     </div>
   );
 }
