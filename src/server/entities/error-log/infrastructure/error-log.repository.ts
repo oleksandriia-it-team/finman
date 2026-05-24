@@ -95,7 +95,7 @@ export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorL
 
     let total = 0;
     for (const row of rawResults) {
-      const count = parseInt(row.count, 10) || 0;
+      const count = Number.parseInt(row.count, 10) || 0;
       countsMap[row.status as ErrorLogStatus] = count;
       total += count;
     }

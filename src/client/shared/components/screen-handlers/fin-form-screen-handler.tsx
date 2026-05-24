@@ -59,11 +59,9 @@ export function FinFormScreenHandler<T>({
       );
     }
 
-    const Error = error(
+    return error(
       checkIsAppErrorObj(item.error) ? item.error : { status: 500, message: 'Невідома помилка. Спробуйте пізніше' },
     );
-
-    return Error;
   }
 
   if (!item.data) {

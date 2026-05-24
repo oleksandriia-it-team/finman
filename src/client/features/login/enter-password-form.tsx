@@ -6,6 +6,7 @@ import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 import { useSetupLogin } from '@frontend/features/login/hooks/login-hook';
 import { useRouter } from 'next/navigation';
+import { LatinInputPattern } from '@common/constants/latin-pattern.constant';
 
 export function LoginEnterPasswordForm() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export function LoginEnterPasswordForm() {
         label="Логін*"
         id="login"
         placeholder="Введіть email або логін"
+        pattern={LatinInputPattern}
       />
 
       <div className="relative">

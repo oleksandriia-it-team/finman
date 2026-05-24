@@ -6,6 +6,7 @@ import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { useState } from 'react';
 import { type ControlledInputProps } from '@frontend/components/controlled-fields/props/controlled-input.props';
+import { LatinPasswordPattern } from '@common/constants/latin-pattern.constant';
 
 export function FinControlledPassword({
   name,
@@ -13,6 +14,7 @@ export function FinControlledPassword({
   showErrors = true,
   label,
   id,
+  pattern = LatinPasswordPattern,
   ...props
 }: Omit<ControlledInputProps, 'type'>) {
   const { control } = useFormContext();
@@ -31,6 +33,7 @@ export function FinControlledPassword({
               <UiInput
                 {...props}
                 {...field}
+                pattern={pattern}
                 type={showPassword ? 'text' : 'password'}
                 data-invalid={fieldState.invalid}
                 onBlur={() => {
