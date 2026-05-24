@@ -18,7 +18,6 @@ export function LoginEnterPasswordForm() {
         label="Логін*"
         id="login"
         placeholder="Введіть email або логін"
-        disabled={isLoading}
       />
 
       <div className="relative">

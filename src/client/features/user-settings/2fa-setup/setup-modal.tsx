@@ -22,9 +22,12 @@ import { UiModalTitle } from '@frontend/ui/ui-modal/ui-modal-title';
 import { isErrorWithout400 } from '@frontend/shared/utils/is-error-without-400';
 import { isSuccessOr400Error } from '@frontend/shared/utils/is-success-or-400-error';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
+import type { OnlineUser } from '@common/records/user.record';
 
 export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
-  const refresh = useUserInformation((state) => state.refresh);
+  const update = useUserInformation((state) => state.setUserInformation);
+  const user = useAuthorizedUser() as OnlineUser;
 
   const [open, setOpen] = useState(false);
 
@@ -50,7 +53,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
       open={open}
       onOpenChange={(open) => {
         if (!open && confirmMutateResult) {
-          refresh();
+          update({ ...user, totpEnabled: true });
         }
 
         setOpen(open);

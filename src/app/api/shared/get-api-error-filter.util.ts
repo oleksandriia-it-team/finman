@@ -11,7 +11,6 @@ export async function getDefaultApiErrorFilter(
   const message = getSafeAppError(err);
 
   if (message.status === 500) {
-    console.log(err);
     void (async () => {
       try {
         const userId = await GetUserIdTransformer(req);

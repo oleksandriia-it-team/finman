@@ -41,10 +41,10 @@ export default function LoginPage() {
                 {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код з додаток-автентифікатор'}
               </span>
             </UiFieldLegend>
-          </UiFieldSet>
 
-          {step === LoginStep.Password && <LoginEnterPasswordForm />}
-          {step === LoginStep.TwoFactor && <LoginEnterCodeForm />}
+            {step === LoginStep.Password && <LoginEnterPasswordForm />}
+            {step === LoginStep.TwoFactor && <LoginEnterCodeForm />}
+          </UiFieldSet>
         </form>
       </FormProvider>
     </AuthLayout>

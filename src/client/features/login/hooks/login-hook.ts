@@ -9,13 +9,16 @@ import { useLoginStore } from '@frontend/features/login/hooks/login-store-hook';
 import { LoginStep } from '@frontend/features/login/constants/login-step.constant';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useRouter } from 'next/navigation';
+import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { useMemo } from 'react';
+import constate from 'constate';
 
-export function useSetupLogin(onSuccessAction?: () => void | Promise<void>) {
+function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
   const { methods, setStep } = useLoginStore();
   const refreshUser = useUserInformation((state) => state.refresh);
   const router = useRouter();
 
-  const { mutate, isPending } = useSendDataFetch(
+  const { mutate, state } = useSendDataFetch(
     async (data: LoginDto) =>
       await fetchClient.post<ApiResultOperationSuccess<string>>('/api/auth/login', data, { skipAuth: true }),
     {
@@ -41,5 +44,7 @@ export function useSetupLogin(onSuccessAction?: () => void | Promise<void>) {
     mutate(data);
   });
 
-  return { submit, isLoading: isPending };
+  return useMemo(() => ({ submit, isLoading: state === PromiseState.Loading, state }), [state, submit]);
 }
+
+export const [SetupLoginProvider, useSetupLogin] = constate(useSetupLoginLogic);
