@@ -14,6 +14,7 @@ import {
   BudgetPlanStatisticDesktop,
   BudgetPlanStatisticMobile,
 } from '@frontend/features/budget-plan/components/budget-plan-statistic-block';
+import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 
 interface BudgetPlanViewScreenProps {
   budgetPlan: BudgetPlanDetailed;
@@ -83,8 +84,18 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
 
         {budgetPlan.plannedRegularEntries.length > 0 && (
           <>
-            <div className="flex-none px-4 pb-2">
+            <div className="flex-none px-4 pb-2 flex items-center justify-between">
               <p className="text-base font-semibold">Регулярні операції</p>
+              <div className="flex items-center gap-1">
+                <p className="text-sm text-muted-foreground">{budgetPlan.plannedRegularEntries.length}</p>
+                <UiIconButton
+                  icon="chevron-right"
+                  size="default"
+                  variant="muted-foreground"
+                  borderNone
+                  onClick={() => router.push('/profile/budget/regular-operations')}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
               {budgetPlan.plannedRegularEntries.map((entry) =>

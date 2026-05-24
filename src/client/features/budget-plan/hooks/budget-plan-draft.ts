@@ -5,6 +5,7 @@ interface BudgetPlanDraftStore {
   selectedIds: Set<number>;
   monthOperations: MonthOperationItem[];
   tempIdCounter: number;
+  isInitialized: boolean;
 
   toggleSelectedId: (id: number) => void;
   addMonthOperation: (op: Omit<MonthOperationItem, 'id'>) => void;
@@ -17,6 +18,7 @@ export const useBudgetPlanDraftStore = create<BudgetPlanDraftStore>((set) => ({
   selectedIds: new Set(),
   monthOperations: [],
   tempIdCounter: -1,
+  isInitialized: false,
 
   toggleSelectedId: (id) =>
     set((state) => {
@@ -37,14 +39,19 @@ export const useBudgetPlanDraftStore = create<BudgetPlanDraftStore>((set) => ({
     })),
 
   initDraft: (selectedIds, monthOperations) =>
-    set({
-      selectedIds: new Set(selectedIds),
-      monthOperations,
-      tempIdCounter: -1,
+    set((state) => {
+      if (state.isInitialized) return {};
+      return {
+        isInitialized: true,
+        selectedIds: new Set(selectedIds),
+        monthOperations,
+        tempIdCounter: -1,
+      };
     }),
 
   resetDraft: () =>
     set({
+      isInitialized: false,
       selectedIds: new Set(),
       monthOperations: [],
       tempIdCounter: -1,

@@ -30,14 +30,14 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
     <UiCard className={cn('rounded-3xl px-4 py-4 bg-card w-full gap-0', className)}>
       <div className="flex flex-row justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-muted-foreground text-xs">Загальний дохід</p>
-          <span className="text-success">
+          <p className=" text-muted-foreground text-xs">Загальний дохід</p>
+          <span className="font-bold text-success">
             <FinTransformCurrency value={income} />
           </span>
         </div>
         <div className="flex flex-col gap-1 items-end">
-          <p className="text-muted-foreground text-xs">Загальні витрати</p>
-          <span className="text-destructive-foreground">
+          <p className=" text-muted-foreground text-xs">Загальні витрати</p>
+          <span className="font-bold text-destructive-foreground">
             <FinTransformCurrency value={expense} />
           </span>
         </div>
@@ -56,10 +56,7 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
           <div className="flex flex-col gap-0.5">
             <p className="text-muted-foreground text-xs">Баланс</p>
             <div
-              className={cn(
-                'font-bold text-base flex items-center',
-                isPositive ? 'text-success' : 'text-destructive-foreground',
-              )}
+              className={cn('font-bold flex items-center', isPositive ? 'text-success' : 'text-destructive-foreground')}
             >
               {isPositive && <span>+</span>}
               <FinTransformCurrency value={balance} />
