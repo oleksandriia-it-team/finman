@@ -50,6 +50,6 @@ export const buildLoginSchema = (codeIsRequired: boolean = false) =>
         'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
       )
       .regex(/^[\x20-\x7E]+$/, 'Пароль може містити лише латинські літери та спеціальні символи'),
-    code: codeIsRequired ? SixCodeSchema : SixCodeSchema.optional(),
+    code: codeIsRequired ? SixCodeSchema : z.union([SixCodeSchema, z.literal('')]).optional(),
   });
 export type LoginDto = z.infer<ReturnType<typeof buildLoginSchema>>;
