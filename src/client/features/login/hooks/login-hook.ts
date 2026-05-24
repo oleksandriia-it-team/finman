@@ -14,7 +14,7 @@ import { useMemo } from 'react';
 import constate from 'constate';
 import { ErrorTexts } from '@common/constants/error-texts.constant';
 
-function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
+function useSetupLoginLogic() {
   const { methods, setStep } = useLoginStore();
   const refreshUser = useUserInformation((state) => state.refresh);
   const router = useRouter();
@@ -28,7 +28,6 @@ function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
         authTokenService.setAccessToken(result.data);
 
         await refreshUser();
-        await onSuccessAction?.();
 
         router.push('/profile');
       },
