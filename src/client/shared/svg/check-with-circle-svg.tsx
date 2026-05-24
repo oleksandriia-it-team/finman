@@ -26,7 +26,7 @@ export function CheckWithCircleSvg({
       <path
         d="M33.8335 42L39.6668 47.8333L51.3335 36.1666"
         stroke="var(--background)"
-        stroke-width="2.91667"
+        strokeWidth="2.91667"
       />
     </svg>
   );
