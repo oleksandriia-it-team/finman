@@ -1,6 +1,6 @@
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { NextResponse } from 'next/server';
-import { getApiErrorMessage } from '@backend/shared/utils/get-api-error-message.util';
+import { getSafeAppError } from '@common/utils/get-safe-app-error.util';
 import { errorLogApiRepository } from '@backend/entities/error-log/infrastructure/error-log.repository';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 
@@ -8,7 +8,7 @@ export async function getDefaultApiErrorFilter(
   req: Request,
   err: Error,
 ): Promise<NextResponse<ApiResultOperationError>> {
-  const message = getApiErrorMessage(err);
+  const message = getSafeAppError(err);
 
   if (message.status === 500) {
     void (async () => {
@@ -27,7 +27,7 @@ export async function getDefaultApiErrorFilter(
       }
     })();
 
-    return NextResponse.json({ status: 500, message: 'Unknown error' }, { status: 500 });
+    return NextResponse.json({ status: 500, message: 'Невідома помилка' }, { status: 500 });
   }
 
   return NextResponse.json(message, { status: message.status });

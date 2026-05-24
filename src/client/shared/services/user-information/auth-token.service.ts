@@ -13,7 +13,7 @@ export class AuthTokenService implements AuthTokenModel {
   }
 
   clearAccessToken(): void {
-    document.cookie = '';
+    document.cookie = 'token=; path=/; max-age=0';
   }
 }
 

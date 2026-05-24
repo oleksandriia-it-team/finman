@@ -25,6 +25,7 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     return await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
+      .leftJoinAndSelect('user.totp', 'totp')
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }
@@ -37,19 +38,6 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     const result = await this.repository.update(whereCondition, updateData);
 
     return (result.affected ?? 0) > 0;
-  }
-  async getUserNameById(id: number): Promise<string | null> {
-    const user = await this.repository
-      .createQueryBuilder('user')
-      .select('user.name')
-      .where('user.id = :id', { id })
-      .getOne();
-
-    if (!user) {
-      return null;
-    }
-
-    return user.name;
   }
 
   async isPasswordValid(id: number, password: string): Promise<boolean> {
@@ -84,6 +72,13 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     }
 
     return this.repository.findOneBy({ id });
+  }
+
+  override getItemById(id: number): Promise<UserOrm | null> {
+    return this.repository.findOne({
+      where: { id },
+      relations: ['totp'],
+    });
   }
 }
 
