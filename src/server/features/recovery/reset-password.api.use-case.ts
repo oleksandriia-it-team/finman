@@ -29,7 +29,7 @@ export class ResetPasswordApiUseCase extends TransactionalUseCase<ResetPasswordD
 
     const totp = await this.totpRepository.findByUserId(userId);
 
-    if (totp && totp.enabled) {
+    if (totp?.enabled) {
       await this.totpRepository.deleteItem(totp.id);
     }
   }
