@@ -1,8 +1,6 @@
 'use client';
 
-import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
-import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FormProvider } from 'react-hook-form';
 import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
 import { useProfileSettingsForm } from './profile-settings-form.hook';
@@ -17,8 +15,7 @@ import { ProfileSettings2faSection } from '@frontend/features/user-settings/prof
 
 export function ProfileSettingsScreen() {
   const router = useRouter();
-  const profileUser = useAuthorizedUser()!;
-  const userInfoState = useUserInformation((state) => state.userInfoState);
+  const profileUser = useAuthorizedUser();
   const theme = useUserInformation((state) => state.theme);
   const changeTheme = useUserInformation((state) => state.setTheme);
   const logOut = useUserInformation((state) => state.logOut);
@@ -29,19 +26,6 @@ export function ProfileSettingsScreen() {
   const { methods, submit, updateMutation, isDirty } = useProfileSettingsForm();
 
   const currentFormLocale = methods.watch('locale') ?? profileUser.locale;
-
-  if (userInfoState === PromiseState.Loading) {
-    return <FinLoader />;
-  }
-
-  if (userInfoState === PromiseState.Error || !profileUser) {
-    return (
-      <FinErrorWidget
-        status={404}
-        message="Дані користувача не знайдені"
-      />
-    );
-  }
 
   return (
     <div className="relative h-full overflow-auto px-4 py-5 sm:px-8">

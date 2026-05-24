@@ -22,7 +22,7 @@ import { UiModalHeader } from '@frontend/ui/ui-modal/ui-modal-header';
 export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
   const form = useForm({
     resolver: zodResolver(totpConfirmSchema),
-    values: {
+    defaultValues: {
       code: '',
     },
   });
@@ -52,7 +52,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
           <FormProvider {...form}>
             <form
               id="2fa-setup"
-              onSubmit={() => mutate(form.getValues().code)}
+              onSubmit={() => mutate(form.getValues().code!)}
             >
               <ShowQrCodeTwoFactorSetupQRCode data={setupData} />
             </form>

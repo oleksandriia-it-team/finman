@@ -1,10 +1,8 @@
 import { z } from 'zod';
+import { SixCodeSchema } from '@common/schema-fields/six-code.schema';
 
 export const totpConfirmSchema = z.object({
-  code: z
-    .int({ error: 'Код є обовʼязковим' })
-    .min(6, { error: 'Код має містити 6 символів' })
-    .max(6, { error: 'Код має містити 6 символів' }),
+  code: SixCodeSchema,
 });
 
-export type TotpConfirmInput = z.infer<typeof totpConfirmSchema>;
+export type TotpConfirmDto = z.infer<typeof totpConfirmSchema>;

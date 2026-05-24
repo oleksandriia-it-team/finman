@@ -2,6 +2,8 @@ import { generateSecret, otpauthURL, totp } from 'speakeasy';
 import { AppError } from '@common/classes/app-error.class';
 import type { OnlineUser } from '@common/records/user.record';
 
+export type TotpApiManager = typeof totpApiManager;
+
 export const totpApiManager = {
   generateSecretCode: (user: Omit<OnlineUser, 'totpEnabled'>): string => {
     return generateSecret({ name: `Finman ${user.id} ${user.name} ${user.email}` }).base32;
