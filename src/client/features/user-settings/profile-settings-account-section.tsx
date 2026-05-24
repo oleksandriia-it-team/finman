@@ -1,5 +1,6 @@
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { ProfileSection } from './profile-section';
+import { LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
 export function ProfileSettingsAccountSection() {
   return (
@@ -8,6 +9,7 @@ export function ProfileSettingsAccountSection() {
         name="name"
         label="Ім'я користувача"
         placeholder="john.doe"
+        pattern={LatinUsernamePattern}
       />
     </ProfileSection>
   );

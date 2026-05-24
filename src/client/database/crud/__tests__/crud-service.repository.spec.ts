@@ -18,14 +18,12 @@ class CrudServiceForUnitTest extends CrudLocalRepository<DefaultTableColumns, ne
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-
   updateItem(): Promise<true> {
     return Promise.resolve(true);
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  // eslint-disable-next-line
   deleteItem(id: number): Promise<true> {
     return Promise.resolve(true);
   }

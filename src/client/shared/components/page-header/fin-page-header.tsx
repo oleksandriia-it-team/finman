@@ -16,17 +16,15 @@ export function FinPageHeader({ breadcrumbs, actions }: FinPageHeaderProps) {
         <UiBreadcrumbList>
           {breadcrumbs.map((item, index) => {
             const isLast = index === breadcrumbs.length - 1;
-
+            const breadcrumbContent = item.href ? (
+              <UiBreadcrumbLink href={item.href}>{item.label}</UiBreadcrumbLink>
+            ) : (
+              <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
+            );
             return (
               <Fragment key={item.label}>
                 <UiBreadcrumbItem>
-                  {isLast ? (
-                    <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
-                  ) : item.href ? (
-                    <UiBreadcrumbLink href={item.href}>{item.label}</UiBreadcrumbLink>
-                  ) : (
-                    <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage>
-                  )}
+                  {isLast ? <UiBreadcrumbPage>{item.label}</UiBreadcrumbPage> : breadcrumbContent}
                 </UiBreadcrumbItem>
                 {!isLast && <UiBreadcrumbSeparator />}
               </Fragment>

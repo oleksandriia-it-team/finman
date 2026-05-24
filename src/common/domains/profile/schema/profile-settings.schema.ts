@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
+import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
 const nameSchema = z
   .string()
@@ -8,7 +9,7 @@ const nameSchema = z
   .min(1, "Ім'я користувача обов'язкове")
   .min(UserRequirements.MinNameLength, `Ім'я має містити щонайменше ${UserRequirements.MinNameLength} символи`)
   .max(UserRequirements.MaxLoginLength, `Ім'я не може бути довше ${UserRequirements.MaxLoginLength} символів`)
-  .regex(/^[a-zA-Z0-9._%+-]+$/, "Ім'я містить недопустимі символи");
+  .regex(LatinUsernamePattern, "Ім'я містить недопустимі символи");
 
 const localeSchema = z
   .string()
@@ -51,6 +52,12 @@ export const ProfileSettingsSchema = z
         code: z.ZodIssueCode.custom,
         path: ['newPassword'],
         message: `Пароль має містити щонайменше ${UserRequirements.MinPasswordLength} символів`,
+      });
+    } else if (!LatinPasswordPattern.test(data.newPassword)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['newPassword'],
+        message: 'Пароль може містити лише латинські літери, цифри та символи',
       });
     } else if (!/^(?=.*[a-zA-Z])(?=.*\d)/.test(data.newPassword)) {
       ctx.addIssue({

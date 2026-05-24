@@ -1,5 +1,5 @@
 import { type UserInformationStore } from '@frontend/shared/services/user-information/models/user-infomation.model';
-import { UserInformationKey, ThemeKey } from '@frontend/shared/constants/local-storage.constants';
+import { ThemeKey, UserInformationKey } from '@frontend/shared/constants/local-storage.constants';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
 import { create } from 'zustand/react';
 import { userSchema } from '@frontend/shared/schemas/validation-schema';
@@ -48,11 +48,13 @@ export const useUserInformation = create<UserInformationStore>((set) => {
         loadUserInformation();
       }
 
+      set({ userInformation });
+
       // TODO: add profile update if work mode = online
     },
     logOut: () => {
       authTokenService.clearAccessToken();
-      localStorageService.setItem<GetUser | null>(UserInformationKey, null);
+      localStorageService.removeItem(UserInformationKey);
 
       set({ userInformation: null });
     },
