@@ -16,7 +16,7 @@ export function NotAuthGuard({ children, routePath = '/profile' }: AuthGuardProp
   const pathName = usePathname();
 
   useEffect(() => {
-    if (userInfoState !== PromiseState.Success) {
+    if (userInfoState === PromiseState.Loading) {
       return;
     }
     if (userInformation) {
@@ -27,11 +27,6 @@ export function NotAuthGuard({ children, routePath = '/profile' }: AuthGuardProp
   if (userInfoState === PromiseState.Loading) {
     return <span>Завантаження</span>;
   }
-
-  if (userInfoState === PromiseState.Error) {
-    return <span>Помилка завантаження користувача</span>;
-  }
-
   if (userInformation) {
     return <span>Ви авторизовані, тому не можете перейти до сторінки. Переадресація...</span>;
   }

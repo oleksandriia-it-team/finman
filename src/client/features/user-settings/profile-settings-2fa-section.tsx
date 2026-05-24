@@ -1,7 +1,7 @@
 import { ProfileSection } from '@frontend/features/user-settings/profile-section';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { TwoFactorSetupModal } from './2fa-setup/setup-modal';
 import { TwoFactorCancelModal } from '@frontend/features/user-settings/2fa-cancel/cancel-modal';

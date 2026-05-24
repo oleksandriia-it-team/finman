@@ -2,7 +2,7 @@
 
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FormProvider } from 'react-hook-form';
-import { useAuthorizedUser } from '@frontend/entities/profile/authorized-user.hook';
+import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
 import { useProfileSettingsForm } from './profile-settings-form.hook';
 import { ProfileSettingsActions } from './profile-settings-actions';
 import { ProfileSettingsAppearanceSection } from './profile-settings-appearance-section';

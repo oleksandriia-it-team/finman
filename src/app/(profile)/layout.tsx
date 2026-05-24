@@ -5,8 +5,8 @@ import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { ProfileMobileNavbar } from '@frontend/widgets/profile-mobile-navbar/profile-mobile-navbar';
 import { ProfileSidebar } from '@frontend/widgets/profile-sidebar/profile-sidebar';
-import { AuthGuard } from '@frontend/entities/profile/auth-guard';
-import { AuthorizedUserProvider } from '@frontend/entities/profile/authorized-user.hook';
+import { AuthGuard } from '@frontend/entities/auth/auth-guard';
+import { AuthorizedUserProvider } from '@frontend/entities/auth/authorized-user.hook';
 import { TrackingOperationsProvider } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 
 export default function UserLayoutPage({ children }: ChildrenComponentProps) {

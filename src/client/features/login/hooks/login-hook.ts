@@ -3,7 +3,6 @@
 import { type LoginDto } from '@common/domains/auth/schema/login.schema';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
-import { type LoginResponse } from '@common/domains/auth/models/login.response';
 import { type ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { useLoginStore } from '@frontend/features/login/hooks/login-store-hook';
@@ -18,11 +17,11 @@ export function useSetupLogin(onSuccessAction?: () => void | Promise<void>) {
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: LoginDto) =>
-      await fetchClient.post<ApiResultOperationSuccess<LoginResponse>>('/api/auth/login', data, { skipAuth: true }),
+      await fetchClient.post<ApiResultOperationSuccess<string>>('/api/auth/login', data, { skipAuth: true }),
     {
       successMessage: 'Вхід виконано успішно!',
       onSuccess: async (result) => {
-        authTokenService.setAccessToken(result.data.token);
+        authTokenService.setAccessToken(result.data);
 
         await refreshUser();
         router.push('/profile');

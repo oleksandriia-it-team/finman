@@ -1,8 +1,8 @@
 import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
-import { AuthGuard } from '@frontend/entities/profile/auth-guard';
-import { RoleGuard } from '@frontend/entities/profile/role-guard';
+import { AuthGuard } from '@frontend/entities/auth/auth-guard';
+import { RoleGuard } from '@frontend/entities/auth/role-guard';
 import { AdminSidebar } from '@frontend/widgets/admin-sidebar/admin-sidebar';
-import { AuthorizedUserProvider } from '@frontend/entities/profile/authorized-user.hook';
+import { AuthorizedUserProvider } from '@frontend/entities/auth/authorized-user.hook';
 
 export default function AdminLayout({ children }: ChildrenComponentProps) {
   return (
