@@ -1,6 +1,5 @@
 'use client';
 
-import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FormProvider } from 'react-hook-form';
 import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
 import { useProfileSettingsForm } from './profile-settings-form.hook';
@@ -12,6 +11,7 @@ import { ProfileSettingsSecuritySection } from './profile-settings-security-sect
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useRouter } from 'next/navigation';
 import { ProfileSettings2faSection } from '@frontend/features/user-settings/profile-settings-2fa-section';
+import { FinBlurLoader } from '@frontend/components/loader/fin-blur-loader';
 
 export function ProfileSettingsScreen() {
   const router = useRouter();
@@ -29,11 +29,7 @@ export function ProfileSettingsScreen() {
 
   return (
     <div className="relative h-full overflow-auto px-4 py-5 sm:px-8">
-      {updateMutation.isPending && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/60 backdrop-blur-[2px]">
-          <FinLoader />
-        </div>
-      )}
+      {updateMutation.isPending && <FinBlurLoader />}
 
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <ProfileSettingsHeader userInformation={profileUser} />

@@ -11,6 +11,7 @@ export async function getDefaultApiErrorFilter(
   const message = getSafeAppError(err);
 
   if (message.status === 500) {
+    console.log(err);
     void (async () => {
       try {
         const userId = await GetUserIdTransformer(req);
@@ -27,7 +28,7 @@ export async function getDefaultApiErrorFilter(
       }
     })();
 
-    return NextResponse.json({ status: 500, message: 'Unknown error' }, { status: 500 });
+    return NextResponse.json({ status: 500, message: 'Невідома помилка' }, { status: 500 });
   }
 
   return NextResponse.json(message, { status: message.status });

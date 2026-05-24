@@ -14,13 +14,20 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { ShowQrCodeTwoFactorSetupQRCode } from './show-qr-code';
 import { ShowSuccessTwoFactorSetup } from './show-success';
-import type { ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
 import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';
 import { UiModalHeader } from '@frontend/ui/ui-modal/ui-modal-header';
 import { UiModalTitle } from '@frontend/ui/ui-modal/ui-modal-title';
+import { isErrorWithout400 } from '@frontend/shared/utils/is-error-without-400';
+import { isSuccessOr400Error } from '@frontend/shared/utils/is-success-or-400-error';
+import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 
 export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
+  const refresh = useUserInformation((state) => state.refresh);
+
+  const [open, setOpen] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(totpConfirmSchema),
     defaultValues: {
@@ -28,7 +35,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
     },
   });
 
-  const { state: setupState, data: setupData, error: setupDataError } = useGetSetup2FAData();
+  const { state: setupState, data: setupData, error: setupDataError } = useGetSetup2FAData(!open);
 
   const { state: confirmMutateState, data: confirmMutateResult, error: confirmError, mutate } = useConfirm2FASetup();
 
@@ -36,10 +43,19 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
 
   const state = useCombineStates(setupState, confirmMutateState);
 
-  const disabled = state === PromiseState.Loading || state === PromiseState.Error;
+  const disabled = state === PromiseState.Loading || isErrorWithout400(state, safeError);
 
   return (
-    <UiModal>
+    <UiModal
+      open={open}
+      onOpenChange={(open) => {
+        if (!open && confirmMutateResult) {
+          refresh();
+        }
+
+        setOpen(open);
+      }}
+    >
       <UiModalTrigger asChild>{trigger}</UiModalTrigger>
 
       <UiModalContent className="flex flex-col gap-6 justify-center">
@@ -49,15 +65,20 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
 
         {state === PromiseState.Loading && <FinLoaderShort />}
 
-        {state === PromiseState.Error && safeError && <FinErrorShort {...safeError} />}
+        {safeError && isErrorWithout400(state, safeError) && <FinErrorShort {...safeError} />}
 
         {state === PromiseState.Success && !!confirmMutateResult && <ShowSuccessTwoFactorSetup />}
 
-        {state === PromiseState.Success && setupData && !confirmMutateResult && (
+        {isSuccessOr400Error(state, safeError) && setupData && !confirmMutateResult && (
           <FormProvider {...form}>
             <form
               id="2fa-setup"
-              onSubmit={() => mutate(form.getValues().code!)}
+              className="flex flex-col gap-2"
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                mutate(form.getValues().code!);
+              }}
             >
               <ShowQrCodeTwoFactorSetupQRCode data={setupData} />
             </form>

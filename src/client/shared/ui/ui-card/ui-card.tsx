@@ -8,7 +8,7 @@ function UiCard({ className, position = 'col', ...props }: React.ComponentProps<
     <div
       data-slot="card"
       className={cn(
-        'flex gap-6 rounded-xl bg-card py-6 text-card-foreground shadow-sm',
+        'flex gap-6 rounded-xl bg-card px-2 py-6 text-card-foreground shadow-sm',
         position === 'col' ? 'flex-col' : '',
         className,
       )}

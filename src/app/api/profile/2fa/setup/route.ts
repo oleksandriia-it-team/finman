@@ -9,6 +9,7 @@ import type { ApiResultOperationSuccess } from '@common/models/api-result-operat
 import { TotpNotEnabledGuard } from '@backend/features/totp/totp-not-enabled.guard';
 import { totpApiManager } from '@backend/entities/totp/infrastructure/totp.manager';
 import { qrcodeApiManager } from '@backend/entities/totp/infrastructure/qrcode.manager';
+import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 
 export const POST = createRoute({
   contextFn: getTwoFactorSetupContext,
@@ -47,4 +48,5 @@ export const POST = createRoute({
 
     return await getResponse(secret);
   },
+  filter: getDefaultApiErrorFilter,
 });

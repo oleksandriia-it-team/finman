@@ -1,8 +1,9 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import type { FinControlledOtpProps } from '@frontend/components/controlled-fields/props/controlled-otp.props';
 import { UiInputOTP, UiInputOTPGroup, UiInputOTPSeparator, UiInputOTPSlot } from '@frontend/ui/ui-otp-input/input-otp';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-export const FinControlledOtp = ({ name, label, description }: FinControlledOtpProps) => {
+export const FinControlledOtp = ({ name, label, description, className }: FinControlledOtpProps) => {
   const {
     control,
     formState: { errors },
@@ -10,7 +11,7 @@ export const FinControlledOtp = ({ name, label, description }: FinControlledOtpP
   const error = errors[name];
 
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className={cn('flex flex-col gap-2.5', className)}>
       {label && <label className="text-sm font-semibold text-foreground ml-0.5">{label}</label>}
 
       <Controller

@@ -10,7 +10,6 @@ export function ShowQrCodeTwoFactorSetupQRCode({ data: { qrCodeImage, secret } }
   return (
     <>
       <div className="flex flex-col gap-px">
-        <UiTitle>Підключіть автентифікатор</UiTitle>
         <UiDescription>
           Відскануйте QR-код у Google Authenticator, Authy або 1Password і введіть 6-значний код, щоб увімкнути
           двофакторну автентифікацію.

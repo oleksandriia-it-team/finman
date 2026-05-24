@@ -1,15 +1,14 @@
 import { UiBouncingDots } from '@frontend/ui/ui-bouncing-dots/ui-bouncing-dots';
+import type { ComponentProps } from 'react';
+import { cn } from '@frontend/shared/utils/cn.util';
 
-export function FinLoaderShort() {
+export function FinLoaderShort({ className, ...props }: Omit<ComponentProps<'div'>, 'children'>) {
   return (
-    <div className="size-full flex flex-col items-center justify-center">
-      <div className="flex gap-6 flex-col  max-w-96 px-4 items-center justify-center">
-        <div className="flex gap-1">
-          <span className="text-foreground text-xl font-bold items-center">Завантаження</span>
-
-          <UiBouncingDots dotClassName="size-2" />
-        </div>
-      </div>
+    <div
+      className={cn('size-full min-h-[6rem] min-w-[6rem] flex flex-col items-center justify-center', className)}
+      {...props}
+    >
+      <UiBouncingDots dotClassName="size-2" />
     </div>
   );
 }

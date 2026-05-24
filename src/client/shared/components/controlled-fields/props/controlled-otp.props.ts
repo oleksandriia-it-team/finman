@@ -4,4 +4,5 @@ export interface FinControlledOtpProps {
   name: string;
   label?: string;
   description?: string | ReactNode;
+  className?: string;
 }
