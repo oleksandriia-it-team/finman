@@ -31,7 +31,7 @@ export function UiSidebarHeaderIcon({
       onBlur={() => setShowTrigger(false)}
       {...props}
     >
-      {showTrigger && !open ? <UiSidebarTrigger /> : children}
+      {showTrigger && !open ? <UiSidebarTrigger className="!p-0" /> : children}
     </button>
   );
 }

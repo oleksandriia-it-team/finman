@@ -14,11 +14,29 @@ export interface GetBasicInformationResponse extends GetTrackingOperationStatist
   maxSum: number;
 }
 
+export interface GetShortStatisticResponse {
+  factAverageExpenses: number;
+  factAverageIncomes: number;
+  increaseFactExpensesLastMonth: number;
+  increaseFactIncomesLastMonth: number;
+}
+
+export type TrackingOperationStatisticFilter = DeepPartial<TrackingOperationFilter> & { userId?: number };
+
+/**
+ * Minimal contract required by short-statistic use cases.
+ * Only server and local repositories need to satisfy this — the API client does not,
+ * since it consumes a single aggregated endpoint instead.
+ */
+export interface ITrackingOperationStatisticSource {
+  getStatistic(filters?: TrackingOperationStatisticFilter): Promise<GetTrackingOperationStatisticResponse>;
+  getEarliestDate(filters?: TrackingOperationStatisticFilter): Promise<Date | null>;
+}
+
 export interface ITrackingOperationRepository extends Omit<
   ICrudService<TrackingOperationRecord, Omit<TrackingOperationRecord, DefaultColumnKeys>, TrackingOperationFilter>,
   'getTotalCount'
 > {
-  getBasicInformation(
-    filters?: DeepPartial<TrackingOperationFilter> & { userId?: number },
-  ): Promise<GetBasicInformationResponse>;
+  getBasicInformation(filters?: TrackingOperationStatisticFilter): Promise<GetBasicInformationResponse>;
+  getShortStatistic(input?: { userId?: number }): Promise<GetShortStatisticResponse>;
 }

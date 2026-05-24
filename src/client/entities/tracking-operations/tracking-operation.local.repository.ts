@@ -8,9 +8,11 @@ import type { FilterPredicate } from '@frontend/shared/models/local-filter.model
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
   GetBasicInformationResponse,
+  GetShortStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { GetShortStatisticCommonUseCase } from '@common/domains/tracking-operation/use-cases/get-short-statistic.common.use-case';
 
 export class TrackingOperationLocalRepository
   extends CrudLocalRepository<TrackingOperationRecord, TrackingOperationFilter>
@@ -84,6 +86,44 @@ export class TrackingOperationLocalRepository
     return super.getItems(from, to, filters, { name: 'date', sort: 'DESC' });
   }
 
+  async getStatistic(
+    filters?: DeepPartial<TrackingOperationFilter>,
+  ): Promise<{ totalIncomes: number; totalOutcomes: number }> {
+    const predicates = this.mapFilters(filters);
+
+    let totalIncomes = 0;
+    let totalOutcomes = 0;
+
+    await this.table
+      .filter((item: TrackingOperationRecord) => predicates.every((fn) => fn(item)))
+      .each((item: TrackingOperationRecord) => {
+        if (item.type === TypeEntry.Income) {
+          totalIncomes += item.sum;
+        } else {
+          totalOutcomes += item.sum;
+        }
+      });
+
+    return { totalIncomes, totalOutcomes };
+  }
+
+  async getEarliestDate(filters?: DeepPartial<TrackingOperationFilter>): Promise<Date | null> {
+    const predicates = this.mapFilters(filters);
+
+    let earliest: Date | null = null;
+
+    await this.table
+      .filter((item: TrackingOperationRecord) => predicates.every((fn) => fn(item)))
+      .each((item: TrackingOperationRecord) => {
+        const itemDate = new Date(item.date);
+        if (!earliest || itemDate < earliest) {
+          earliest = itemDate;
+        }
+      });
+
+    return earliest;
+  }
+
   async getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
     // statistic always ignores the type filter; maxSum respects it
     const statPredicates = this.mapFilters({ ...filters, type: undefined });
@@ -110,6 +150,10 @@ export class TrackingOperationLocalRepository
     const totalCount = await this.getTotalCount(filters);
 
     return { totalIncomes, totalOutcomes, maxSum, totalCount };
+  }
+
+  getShortStatistic(): Promise<GetShortStatisticResponse> {
+    return new GetShortStatisticCommonUseCase(this).execute({});
   }
 }
 

@@ -2,6 +2,7 @@ import type { AuthTokenService } from '@frontend/shared/services/user-informatio
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import type {
   GetBasicInformationResponse,
+  GetShortStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
@@ -58,6 +59,10 @@ export class TrackingOperationDataSource implements ITrackingOperationRepository
 
   getBasicInformation(filters?: DeepPartial<TrackingOperationFilter>): Promise<GetBasicInformationResponse> {
     return this.source().then((s) => s.getBasicInformation(filters));
+  }
+
+  getShortStatistic(): Promise<GetShortStatisticResponse> {
+    return this.source().then((s) => s.getShortStatistic());
   }
 }
 
