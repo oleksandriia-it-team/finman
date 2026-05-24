@@ -25,7 +25,7 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     return await this.repository
       .createQueryBuilder('user')
       .addSelect('user.password')
-      .addSelect('user.totp')
+      .leftJoinAndSelect('user.totp', 'totp')
       .where('user.email = :login OR user.name = :login', { login })
       .getOne();
   }

@@ -1,3 +1,5 @@
+'use client';
+
 import { type LoginDto } from '@common/domains/auth/schema/login.schema';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';

@@ -1,3 +1,5 @@
+'use client';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { buildLoginSchema, type LoginDto } from '@common/domains/auth/schema/login.schema';
