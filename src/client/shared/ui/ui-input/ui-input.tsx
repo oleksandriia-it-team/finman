@@ -44,7 +44,7 @@ export function UiInput({
       type={type}
       onInput={(event) => {
         const target = event.target as HTMLInputElement;
-        onChange(target.value);
+        onChange?.(target.value);
       }}
       ref={(e) => {
         if (typeof ref === 'function') {
