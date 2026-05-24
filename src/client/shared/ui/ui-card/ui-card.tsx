@@ -3,11 +3,15 @@ import * as React from 'react';
 import { cn } from '@frontend/shared/utils/cn.util';
 import './styles/ui-card.scss';
 
-function UiCard({ className, ...props }: React.ComponentProps<'div'>) {
+function UiCard({ className, position = 'col', ...props }: React.ComponentProps<'div'> & { position?: 'col' | 'row' }) {
   return (
     <div
       data-slot="card"
-      className={cn('flex flex-col gap-6 rounded-xl bg-card py-6 text-card-foreground shadow-sm', className)}
+      className={cn(
+        'flex gap-6 rounded-xl bg-card px-2 py-6 text-card-foreground shadow-sm',
+        position === 'col' ? 'flex-col' : '',
+        className,
+      )}
       {...props}
     />
   );

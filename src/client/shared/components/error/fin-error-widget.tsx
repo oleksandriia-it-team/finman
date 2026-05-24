@@ -23,7 +23,7 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
             name="info-circle"
             className="rounded-full p-2 bg-primary size-8"
           />
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center">
             <span className="text-foreground text-lg">
               Код помилки: <b className="font-bold">{status}</b>
             </span>

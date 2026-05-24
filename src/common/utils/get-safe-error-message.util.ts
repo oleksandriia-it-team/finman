@@ -1,4 +1,4 @@
-import { ErrorTexts } from '../constants/error-texts.contant';
+import { ErrorTexts } from '../constants/error-texts.constant';
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 import { isDevMode } from '@common/utils/is-dev-mode.util';
 
