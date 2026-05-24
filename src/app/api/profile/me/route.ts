@@ -21,11 +21,13 @@ export const GET = createRoute({
       };
     }
 
+    const { totp, password: _, ...safeUser } = user;
+
     return {
       status: 200,
       data: {
-        ...user,
-        totpEnabled: !!user.totp?.enabled,
+        ...safeUser,
+        totpEnabled: !!totp?.enabled,
       } satisfies OnlineUser,
     };
   },

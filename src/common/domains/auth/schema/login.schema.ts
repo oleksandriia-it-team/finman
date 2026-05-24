@@ -7,10 +7,7 @@ export const buildLoginSchema = (codeIsRequired: boolean = false) =>
     login: z
       .string()
       .min(1, "Логін або email є обов'язковим")
-      .max(
-        UserRequirements.MaxLoginLength,
-        'Логін не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
-      )
+      .max(UserRequirements.MaxLoginLength, 'Логін не може бути довше ' + UserRequirements.MaxLoginLength + ' символів')
       .superRefine((val, ctx) => {
         if (val.includes('@')) {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

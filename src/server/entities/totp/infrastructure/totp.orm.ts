@@ -6,7 +6,7 @@ import { TotpRequirements } from '@backend/entities/totp/domain/totp-requirement
 // 2FA ORM
 @Entity()
 export class TotpOrm extends DefaultTableColumnsOrm {
-  @Column({ type: 'varchar', length: TotpRequirements.SecretLength })
+  @Column({ type: 'varchar', length: TotpRequirements.SecretLength, select: false })
   secret!: string;
 
   @Column({ type: 'boolean', default: false })

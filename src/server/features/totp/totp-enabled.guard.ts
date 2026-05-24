@@ -6,5 +6,5 @@ export function TotpEnabledGuard(totp: TotpOrm | undefined | null): ApiResultOpe
     return null;
   }
 
-  return { status: 403, message: 'Двухфакторна автентифікація не увімкнена' };
+  return { status: 403, message: 'Двофакторна автентифікація не увімкнена' };
 }

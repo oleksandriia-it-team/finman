@@ -27,9 +27,9 @@ function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
         authTokenService.setAccessToken(result.data);
 
         await refreshUser();
-        router.push('/profile');
+        await onSuccessAction?.();
 
-        onSuccessAction?.();
+        router.push('/profile');
       },
       showErrorToastIf: (error) => error.message !== "Двофакторна аутентифікація увімкнена, код обов'язковий",
       onError: (error) => {

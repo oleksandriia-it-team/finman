@@ -8,7 +8,7 @@ export class TotpRepository extends CrudApiRepository<TotpOrm, never, Omit<TotpO
   }
 
   findByUserId(userId: number): Promise<TotpOrm | null> {
-    return this.repository.findOne({ where: { userId } });
+    return this.repository.findOne({ where: { userId }, select: ['secret'] });
   }
 }
 

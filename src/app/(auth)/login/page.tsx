@@ -38,7 +38,7 @@ export default function LoginPage() {
                 <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
               </div>
               <span className="text-lg font-semibold text-foreground block">
-                {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код з додаток-автентифікатор'}
+                {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код із додатка-автентифікатора'}
               </span>
             </UiFieldLegend>
 
