@@ -5,6 +5,7 @@ import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 import type {
   GetBasicInformationResponse,
+  GetShortStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
@@ -63,6 +64,12 @@ export class TrackingOperationsApiClient implements ITrackingOperationRepository
       .post<
         ApiResultOperationSuccess<GetBasicInformationResponse>
       >('/api/tracking-operation/get-basic-information', filters ?? {})
+      .then((r) => r.data);
+  }
+
+  async getShortStatistic(): Promise<GetShortStatisticResponse> {
+    return fetchClient
+      .get<ApiResultOperationSuccess<GetShortStatisticResponse>>('/api/tracking-operation/get-short-statistic')
       .then((r) => r.data);
   }
 }

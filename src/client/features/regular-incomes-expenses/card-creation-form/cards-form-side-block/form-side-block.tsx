@@ -1,3 +1,5 @@
+'use client';
+
 import { UsefulTipsBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/useful-tips-block/useful-tips-block';
 import {
   ImageBlock,
@@ -5,6 +7,7 @@ import {
 } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/image-block';
 import { ShortStatisticBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/short-statistic-block';
 import type { UsefulTipsBlockItem } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/useful-tips-block/useful-tips-block-item';
+import { useShortStatistic } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/short-statistic.hook';
 
 const tips: UsefulTipsBlockItem[] = [
   { icon: 'lightbulb', title: 'Корисні поради' },
@@ -31,14 +34,17 @@ const imageBlock = {
   subtitle: 'Регулярні платежі допомагають контролювати бюджет',
 };
 
-const shortStatistics = {
-  activePayments: 12,
-  totalMonthIncomes: 28750,
-  totalMonthExpenses: 45200,
-  balance: 16450,
+const EMPTY_SHORT_STATISTIC = {
+  factAverageExpenses: 0,
+  factAverageIncomes: 0,
+  increaseFactExpensesLastMonth: 0,
+  increaseFactIncomesLastMonth: 0,
 };
 
 export function CardCreationFormSideBlock() {
+  const { data } = useShortStatistic();
+  const statistic = data ?? EMPTY_SHORT_STATISTIC;
+
   return (
     <div className="bg-primary size-full flex flex-col items-center justify-center">
       <ImageBlock image={imageBlock.image}>
@@ -50,10 +56,10 @@ export function CardCreationFormSideBlock() {
       </ImageBlock>
       <UsefulTipsBlock items={tips} />
       <ShortStatisticBlock
-        activePayments={shortStatistics.activePayments}
-        totalMonthIncomes={shortStatistics.totalMonthIncomes}
-        totalMonthExpenses={shortStatistics.totalMonthExpenses}
-        balance={shortStatistics.balance}
+        factAverageExpenses={statistic.factAverageExpenses}
+        factAverageIncomes={statistic.factAverageIncomes}
+        increaseFactExpensesLastMonth={statistic.increaseFactExpensesLastMonth}
+        increaseFactIncomesLastMonth={statistic.increaseFactIncomesLastMonth}
       />
     </div>
   );
