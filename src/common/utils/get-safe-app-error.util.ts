@@ -1,5 +1,5 @@
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
-import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
 export function getSafeAppError(error: unknown): ApiResultOperationError {

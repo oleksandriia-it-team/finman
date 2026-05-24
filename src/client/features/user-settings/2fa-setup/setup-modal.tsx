@@ -48,6 +48,10 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
 
   const disabled = state === PromiseState.Loading || isErrorWithout400(state, safeError);
 
+  const submit = form.handleSubmit((data) => {
+    mutate(data.code);
+  });
+
   return (
     <UiModal
       open={open}
@@ -80,7 +84,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
               onSubmit={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                mutate(form.getValues().code!);
+                submit();
               }}
             >
               <ShowQrCodeTwoFactorSetupQRCode data={setupData} />

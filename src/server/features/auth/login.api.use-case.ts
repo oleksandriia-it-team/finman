@@ -7,6 +7,7 @@ import { AppError } from '@common/classes/app-error.class';
 import { typeormTransactionManager } from '@backend/database/transaction.manager';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { type TotpApiManager, totpApiManager } from '@backend/entities/totp/infrastructure/totp.manager';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export class LoginApiUseCase extends TransactionalUseCase<LoginDto, string> {
   constructor(
@@ -31,7 +32,7 @@ export class LoginApiUseCase extends TransactionalUseCase<LoginDto, string> {
     }
 
     if (user.totp?.enabled && isEmpty(dto.code)) {
-      throw new AppError("Двофакторна аутентифікація увімкнена, код обов'язковий", 401);
+      throw new AppError(ErrorTexts.TwoFactorCodeIsRequired, 401);
     }
 
     if (user.totp?.enabled && !isEmpty(dto.code)) {

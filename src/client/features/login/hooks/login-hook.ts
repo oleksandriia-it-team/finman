@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useMemo } from 'react';
 import constate from 'constate';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
   const { methods, setStep } = useLoginStore();
@@ -31,9 +32,9 @@ function useSetupLoginLogic(onSuccessAction?: () => void | Promise<void>) {
 
         router.push('/profile');
       },
-      showErrorToastIf: (error) => error.message !== "Двофакторна аутентифікація увімкнена, код обов'язковий",
+      showErrorToastIf: (error) => error.message !== ErrorTexts.TwoFactorCodeIsRequired,
       onError: (error) => {
-        if (error.message === "Двофакторна аутентифікація увімкнена, код обов'язковий") {
+        if (error.message === ErrorTexts.TwoFactorCodeIsRequired) {
           setStep(LoginStep.TwoFactor);
         }
       },

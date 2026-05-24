@@ -4,7 +4,7 @@ import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 
 export function useGetSetup2FAData(disabled: boolean) {
   const query = useQuery({
-    queryKey: [],
+    queryKey: ['totp', 'setup'],
     queryFn: () => totpApiClient.setup(),
     enabled: !disabled,
   });

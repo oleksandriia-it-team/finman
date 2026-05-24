@@ -6,6 +6,7 @@ export const ErrorTexts = {
   AbortError: 'AbortError',
   IncorrectIdProvided: 'Надано некоректний ід.',
   IncorrectTypeData: 'Надано некоректний тип даних.',
+  TwoFactorCodeIsRequired: "Двофакторна аутентифікація увімкнена, код обов'язковий",
 };
 
 export const ErrorDataBaseConnection = 'Error during database connection';

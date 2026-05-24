@@ -1,5 +1,5 @@
 import { type ZodSafeParseResult } from 'zod';
-import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { type SafeParseReturnType } from 'zod/v3';
 
