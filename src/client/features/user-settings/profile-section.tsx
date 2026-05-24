@@ -5,17 +5,18 @@ import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 
 export function ProfileSection({ title, children, icon, className }: ProfileSectionProps) {
   return (
-    <UiCard className={cn('flex rounded-lg border border-border p-5', className)}>
-      {!!icon && (
-        <UiIconBadge
-          name={icon}
-          variant="primary-muted"
-        />
-      )}
-      <div className="flex flex-col gap-1">
+    <UiCard className={cn('flex flex-col gap-1 rounded-lg border border-border p-5', className)}>
+      <div className="flex items-center gap-1">
+        {!!icon && (
+          <UiIconBadge
+            name={icon}
+            variant="primary-muted"
+          />
+        )}
+
         <CardTitle className="text-base">{title}</CardTitle>
-        <CardContent className="space-y-4 px-0">{children}</CardContent>
       </div>
+      <CardContent className="space-y-4 px-0">{children}</CardContent>
     </UiCard>
   );
 }

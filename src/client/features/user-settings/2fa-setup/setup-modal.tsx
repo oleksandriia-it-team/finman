@@ -18,6 +18,7 @@ import type { ReactNode } from 'react';
 import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
 import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';
 import { UiModalHeader } from '@frontend/ui/ui-modal/ui-modal-header';
+import { UiModalTitle } from '@frontend/ui/ui-modal/ui-modal-title';
 
 export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
   const form = useForm({
@@ -35,13 +36,17 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
 
   const state = useCombineStates(setupState, confirmMutateState);
 
+  const disabled = state === PromiseState.Loading || state === PromiseState.Error;
+
   return (
     <UiModal>
       <UiModalTrigger asChild>{trigger}</UiModalTrigger>
 
-      <UiModalHeader>1</UiModalHeader>
-
       <UiModalContent className="flex flex-col gap-6 justify-center">
+        <UiModalHeader>
+          <UiModalTitle>Підключіть автентифікатор</UiModalTitle>
+        </UiModalHeader>
+
         {state === PromiseState.Loading && <FinLoaderShort />}
 
         {state === PromiseState.Error && safeError && <FinErrorShort {...safeError} />}
@@ -58,31 +63,37 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
             </form>
           </FormProvider>
         )}
-      </UiModalContent>
 
-      <UiModalFooter>
-        {!!confirmMutateResult && (
-          <UiModalClose asChild>
-            <UiButton variant="primary-muted">Закрити</UiButton>
-          </UiModalClose>
-        )}
-
-        {!confirmMutateResult && (
-          <>
+        <UiModalFooter>
+          {!!confirmMutateResult && (
             <UiModalClose asChild>
-              <UiButton>Скасувати</UiButton>
+              <UiButton
+                disabled={disabled}
+                variant="primary"
+              >
+                Закрити
+              </UiButton>
             </UiModalClose>
+          )}
 
-            <UiButton
-              form="2fa-setup"
-              variant="primary-muted"
-              type="submit"
-            >
-              Підтвердити та увімкнути
-            </UiButton>
-          </>
-        )}
-      </UiModalFooter>
+          {!confirmMutateResult && (
+            <>
+              <UiModalClose asChild>
+                <UiButton disabled={disabled}>Скасувати</UiButton>
+              </UiModalClose>
+
+              <UiButton
+                disabled={disabled}
+                form="2fa-setup"
+                variant="primary"
+                type="submit"
+              >
+                Підтвердити та увімкнути
+              </UiButton>
+            </>
+          )}
+        </UiModalFooter>
+      </UiModalContent>
     </UiModal>
   );
 }

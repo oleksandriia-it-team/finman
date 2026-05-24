@@ -13,7 +13,7 @@ export function ProfileSettings2faSection() {
     <>
       {!!user.online && (
         <ProfileSection
-          title={`Двофакторна автентифікація = ${user.totpEnabled ? 'увімкнено' : 'вимкнено'}`}
+          title={`Двофакторна автентифікація - ${user.totpEnabled ? 'увімкнено' : 'вимкнено'}`}
           icon="shield-check"
         >
           <div className="flex justify-between">

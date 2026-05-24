@@ -1,10 +1,10 @@
 import { CrudApiRepository } from '@backend/database/crud.api.repository';
-import type { TotpOrm } from '@backend/entities/totp/infrastructure/totp.orm';
+import { TotpOrm } from '@backend/entities/totp/infrastructure/totp.orm';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 
 export class TotpRepository extends CrudApiRepository<TotpOrm, never, Omit<TotpOrm, DefaultColumnKeys | 'user'>> {
   constructor() {
-    super(TotpRepository);
+    super(TotpOrm);
   }
 
   findByUserId(userId: number): Promise<TotpOrm | null> {
