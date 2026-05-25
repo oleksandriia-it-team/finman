@@ -10,7 +10,9 @@
     border-radius: inherit;
     border: 2px solid transparent;
     pointer-events: none;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
     z-index: 1;
   }
 
@@ -26,9 +28,9 @@
     align-items: center;
     justify-content: center;
     transition:
-            background-color 0.15s ease,
-            border-color 0.15s ease,
-            box-shadow 0.15s ease;
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
 
     @if $checkbox-position == 'top-right' {
       right: 0.75rem;

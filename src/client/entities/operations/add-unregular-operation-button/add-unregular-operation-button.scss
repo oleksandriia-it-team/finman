@@ -9,8 +9,8 @@
   background: transparent;
   cursor: pointer;
   transition:
-          border-color 0.15s ease,
-          background-color 0.15s ease;
+    border-color 0.15s ease,
+    background-color 0.15s ease;
   aspect-ratio: 1 / 1;
 
   @media (width <= 768px) {
