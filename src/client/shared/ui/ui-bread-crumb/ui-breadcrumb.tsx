@@ -58,8 +58,6 @@ function UiBreadcrumbPage({ className, ...props }: React.ComponentProps<'span'>)
   return (
     <span
       data-slot="breadcrumb-page"
-      role="link"
-      aria-disabled="true"
       aria-current="page"
       className={cn('font-normal text-foreground', className)}
       {...props}
@@ -71,7 +69,6 @@ function UiBreadcrumbSeparator({ children, className, ...props }: React.Componen
   return (
     <li
       data-slot="breadcrumb-separator"
-      role="presentation"
       aria-hidden="true"
       className={cn('[&>svg]:size-3.5', className)}
       {...props}
@@ -90,7 +87,6 @@ function UiBreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'spa
   return (
     <span
       data-slot="breadcrumb-ellipsis"
-      role="presentation"
       aria-hidden="true"
       className={cn('flex size-9 items-center justify-center', className)}
       {...props}

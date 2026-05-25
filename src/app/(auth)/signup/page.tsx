@@ -23,6 +23,7 @@ import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
+import { LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -100,6 +101,7 @@ export default function RegistrationPage() {
                 label="Ім'я користувача *"
                 placeholder="Мін. 8 символів"
                 disabled={isLocked}
+                pattern={LatinUsernamePattern}
               />
 
               {!isOffline && (

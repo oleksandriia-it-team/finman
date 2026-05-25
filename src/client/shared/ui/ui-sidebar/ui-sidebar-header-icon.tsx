@@ -11,12 +11,13 @@ export function UiSidebarHeaderIcon({
   onMouseEnter,
   onMouseLeave,
   ...props
-}: ComponentProps<'div'>) {
+}: ComponentProps<'button'>) {
   const { open } = useSidebar();
   const [showTrigger, setShowTrigger] = useState(false);
 
   return (
-    <div
+    <button
+      type="button"
       className={cn('flex justify-center items-center', className)}
       onMouseEnter={(e) => {
         onMouseEnter?.(e);
@@ -30,7 +31,7 @@ export function UiSidebarHeaderIcon({
       onBlur={() => setShowTrigger(false)}
       {...props}
     >
-      {showTrigger && !open ? <UiSidebarTrigger /> : children}
-    </div>
+      {showTrigger && !open ? <UiSidebarTrigger className="!p-0" /> : children}
+    </button>
   );
 }

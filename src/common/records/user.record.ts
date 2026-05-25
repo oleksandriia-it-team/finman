@@ -18,6 +18,7 @@ export type OnlineUser = UserInfo &
     role: RoleEnum;
     email: string;
     online: true;
+    totpEnabled: boolean;
   };
 
 export type GetUser = OfflineUser | OnlineUser;

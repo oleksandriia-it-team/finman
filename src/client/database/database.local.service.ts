@@ -1,5 +1,5 @@
 import { isEmpty } from '@common/utils/is-empty.util';
-import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.contant';
+import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.constant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';

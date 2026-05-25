@@ -3,7 +3,6 @@ import { FinErrorWidget } from '../error/fin-error-widget';
 import { useMemo } from 'react';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 
 export function FinListScreenHandler({
   skeleton,
@@ -16,16 +15,19 @@ export function FinListScreenHandler({
   skeletonItems,
   skeletonClassName,
 }: ListScreenHandlerProps) {
-  const skeletonArray = useMemo(() => Array.from({ length: skeletonItems }), [skeletonItems]);
+  const skeletonArray = useMemo(
+    () => Array.from({ length: skeletonItems }, (_, i) => `skeleton-${i}`),
+    [skeletonItems],
+  );
 
   if (state === PromiseState.Loading) {
     const Skeleton = skeleton ?? UiSkeleton;
 
     return (
       <>
-        {skeletonArray.map((_, index) => (
+        {skeletonArray.map((key) => (
           <Skeleton
-            key={`skeleton-${index}`}
+            key={key}
             className={skeletonClassName ?? ''}
           />
         ))}
@@ -37,7 +39,7 @@ export function FinListScreenHandler({
     return (
       error ?? (
         <FinErrorWidget
-          status={(appError?.status ?? 500) as ApiResultOperationError['status']}
+          status={appError?.status ?? 500}
           message={appError?.message ?? 'Сталася помилка при завантаженні даних'}
         />
       )

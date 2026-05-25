@@ -8,7 +8,7 @@ import {
 import { type ApiResultOperation } from '@common/models/api-result-operation.model';
 import { type z, type ZodTypeAny } from 'zod';
 import { getZodErrorMessage } from '@common/utils/get-zod-error-message.util';
-import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends ZodTypeAny | undefined = undefined>(
   config: CreateRouteConfig<Schema, TR, BTR, R, TP>,

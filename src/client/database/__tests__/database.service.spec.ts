@@ -5,7 +5,7 @@ import { DatabaseLocalService } from '../database.local.service';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { type RecordModel } from '@common/models/record.model';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
-import { ErrorTexts } from '@common/constants/error-texts.contant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 
 interface UnitTestUser extends RecordModel {

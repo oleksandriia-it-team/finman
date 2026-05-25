@@ -54,7 +54,7 @@
     &[aria-expanded='true'],
     &[data-state='open'],
     &:has([data-slot='input-group-control']:focus-visible) {
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 50%, transparent) !important;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive-foreground) 50%, transparent) !important;
     }
   }
 }

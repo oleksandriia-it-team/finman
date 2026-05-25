@@ -49,7 +49,7 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
         <UiConfirmModal
           trigger={
             <UiButton
-              variant="destructive"
+              variant="destructive-muted"
               size="sm"
               opacity
               className="w-full justify-start gap-2"

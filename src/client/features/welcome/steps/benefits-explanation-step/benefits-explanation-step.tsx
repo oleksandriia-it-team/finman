@@ -3,6 +3,7 @@
 import { TransactionsData } from './transaction-data.constant';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { type TypeEntry } from '@common/enums/entry.enum';
+import { UiCard } from '@frontend/ui/ui-card/ui-card';
 
 export default function BenefitsExplanationStep() {
   return (
@@ -16,27 +17,31 @@ export default function BenefitsExplanationStep() {
           </p>
         </div>
 
-        <div className="w-full">
-          <div className="p-4 bg-card rounded-2xl shadow-sm border border-muted">
-            <div className="flex justify-between items-center mb-4">
-              <b className="text-muted-foreground">Сьогодні</b>
-              <span className="inline-block px-4 py-2 text-xs font-bold bg-destructive text-destructive-foreground rounded-full text-center whitespace-nowrap align-baseline">
-                - 724 ₴
-              </span>
-            </div>
+        <UiCard
+          position="col"
+          className="w-full"
+        >
+          <div className="flex justify-between items-center mb-4">
+            <b className="text-muted-foreground">Сьогодні</b>
+            <span className="inline-block px-4 py-2 text-xs font-bold bg-destructive text-destructive-foreground rounded-full text-center whitespace-nowrap align-baseline">
+              - 724 ₴
+            </span>
+          </div>
 
+          <div className="flex flex-col gap-2">
             {TransactionsData.map((tx) => (
               <TransactionCard
                 key={tx.id}
                 icon={tx.icon}
                 title={tx.title}
                 description={tx.description}
+                showActions={false}
                 check={tx.check}
                 type={tx.type as TypeEntry.Income | TypeEntry.Expense}
               />
             ))}
           </div>
-        </div>
+        </UiCard>
       </div>
     </div>
   );

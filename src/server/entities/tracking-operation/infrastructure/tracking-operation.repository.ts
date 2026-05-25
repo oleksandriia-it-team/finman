@@ -5,11 +5,13 @@ import { Between, type FindOptionsWhere, ILike, In, LessThanOrEqual, MoreThanOrE
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
   GetBasicInformationResponse,
+  GetShortStatisticResponse,
   GetTrackingOperationStatisticResponse,
   ITrackingOperationRepository,
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
+import { GetShortStatisticCommonUseCase } from '@common/domains/tracking-operation/use-cases/get-short-statistic.common.use-case';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
@@ -123,6 +125,18 @@ export class TrackingOperationRepository
     };
   }
 
+  async getEarliestDate(filters?: DeepPartial<TrackingOperationApiFilter>): Promise<Date | null> {
+    const baseWhere = this.mapFilters(filters);
+
+    const earliest = await this.repository.findOne({
+      where: baseWhere,
+      order: { date: 'ASC' },
+      select: ['date'],
+    });
+
+    return earliest?.date ? new Date(earliest.date) : null;
+  }
+
   async getBasicInformation(filters?: DeepPartial<TrackingOperationApiFilter>): Promise<GetBasicInformationResponse> {
     const statistic = await this.getStatistic(filters);
     const maxSum = await this.getMaxSum(filters);
@@ -133,6 +147,10 @@ export class TrackingOperationRepository
       maxSum,
       totalCount,
     };
+  }
+
+  getShortStatistic(input?: { userId?: number }): Promise<GetShortStatisticResponse> {
+    return new GetShortStatisticCommonUseCase(this).execute(input ?? {});
   }
 }
 

@@ -22,18 +22,9 @@ export class ProfileApiClient {
   }
 
   async updateProfile(data: ProfileSettingsData): Promise<OnlineUser | null> {
-    const accessToken = this.authTokenService.getAccessToken();
-
-    if (!accessToken) {
-      throw new Error('Для оновлення профілю потрібен токен доступу.');
-    }
-
     const result = await fetchClient.put<ApiResultOperationSuccess<OnlineUser>, ProfileSettingsData>(
       '/api/profile/me',
       data,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
     );
 
     return result.data || null;

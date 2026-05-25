@@ -6,7 +6,11 @@ import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 
 export function useSendDataFetch<TData = unknown, TError = AppError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
-  options?: UseMutationOptions<TData, TError, TVariables, TContext> & { successMessage?: string },
+  options?: UseMutationOptions<TData, TError, TVariables, TContext> & {
+    successMessage?: string;
+    showErrorToast?: boolean;
+    showErrorToastIf?: (error: TError) => boolean;
+  },
 ) {
   const showToast = useGlobalToast((state) => state.showToast);
 
@@ -28,12 +32,13 @@ export function useSendDataFetch<TData = unknown, TError = AppError, TVariables 
     onError: (error, variables, onMutateResult, meta) => {
       const message = getSafeErrorMessage(error);
 
-      showToast({
-        title: 'Помилка запиту',
-        description: message,
-        variant: 'destructive',
-      });
-
+      if ((options?.showErrorToast ?? true) && (options?.showErrorToastIf?.(error) ?? true)) {
+        showToast({
+          title: 'Помилка запиту',
+          description: message,
+          variant: 'destructive',
+        });
+      }
       options?.onError?.(error, variables, onMutateResult, meta);
     },
 

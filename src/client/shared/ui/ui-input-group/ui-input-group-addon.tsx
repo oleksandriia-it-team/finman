@@ -14,10 +14,11 @@ export function UiInputGroupAddon({ className, align = 'inline-start', ...props 
       data-slot="input-group-addon"
       data-align={align}
       className={cn('basic-input-addons', className)}
-      onClick={(e) => {
+      onMouseDown={(e) => {
         if ((e.target as HTMLElement).closest('button')) {
           return;
         }
+        e.preventDefault();
         e.currentTarget.parentElement?.querySelector('input')?.focus();
       }}
       {...props}
