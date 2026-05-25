@@ -11,14 +11,22 @@ import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
+import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 
 export default function EditBudgetPlanPage() {
+  const setCenterButton = useUserNavStoreHook((state) => state.setCenterButton);
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
 
   const { selectedBudgetPlanDate } = useSelectedBudgetPlan();
   const { initDraft } = useBudgetPlanDraftStore();
+
+  useEffect(() => {
+    setCenterButton({ icon: 'x-lg', url: `/profile/budget/plans/${id}`, size: '4xl', iconSize: 'xxl' });
+    return () =>
+      setCenterButton({ icon: 'pencil', url: `/profile/budget/plans/${id}/edit`, size: '4xl', iconSize: 'xxl' });
+  }, [id, setCenterButton]);
 
   const [budgetPlan, setBudgetPlan] = useState<BudgetPlanDetailed | null>(null);
   const [state, setState] = useState<PromiseState>(PromiseState.Loading);
@@ -63,7 +71,7 @@ export default function EditBudgetPlanPage() {
     <BudgetPlanFormScreen
       initialData={budgetPlan}
       onCancel={() => router.push(`/profile/budget/plans/${id}`)}
-      onSuccess={() => router.push(`/profile/budget/plans/${id}`)}
+      onSuccess={() => router.push(`/profile/budget/plans/${id}/recommendations`)}
     />
   );
 }

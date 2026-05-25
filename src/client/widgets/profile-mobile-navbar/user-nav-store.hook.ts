@@ -10,6 +10,8 @@ interface NavStoreModel {
 export interface UserNavCenterButton {
   url: string;
   icon: string;
+  size?: string;
+  iconSize?: string;
 }
 
 export const useUserNavStoreHook = create<NavStoreModel>((set) => ({

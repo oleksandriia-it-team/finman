@@ -10,6 +10,7 @@ import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings'
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 
 const iconBgVariants: Record<TypeEntry.Income | TypeEntry.Expense, string> = {
@@ -35,6 +36,8 @@ export function TransactionCard({
   handleDelete,
   id,
   showActions = true,
+  deletable,
+  badge,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
 
@@ -59,34 +62,50 @@ export function TransactionCard({
       </div>
 
       <div className="flex shrink-0 items-center gap-2">
+        {badge && badge}
         {sum && (
           <FinTransformCurrency
             value={sum}
-            className={cn(!showActions && 'pr-3', 'font-bold', type && amountColorVariants[type])}
+            className={cn(!showActions && !deletable && 'pr-3', 'font-bold', type && amountColorVariants[type])}
           />
         )}
-        {showActions && (
-          <UiResponsiveMenu>
-            <UiResponsiveMenuTrigger
-              asChild
-              className="pr-1"
-            >
+        {deletable ? (
+          <UiConfirmModal
+            trigger={
               <UiIconButton
                 size="lg"
-                icon="three-dots-vertical"
-                variant="muted"
+                icon="trash3"
+                variant="destructive"
                 borderNone
+                className="pr-1"
               />
-            </UiResponsiveMenuTrigger>
+            }
+            onConfirm={() => handleDelete?.(id!)}
+          />
+        ) : (
+          showActions && (
+            <UiResponsiveMenu>
+              <UiResponsiveMenuTrigger
+                asChild
+                className="pr-1"
+              >
+                <UiIconButton
+                  size="lg"
+                  icon="three-dots-vertical"
+                  variant="muted"
+                  borderNone
+                />
+              </UiResponsiveMenuTrigger>
 
-            <TransactionActions
-              id={id}
-              icon={categoryStyles.icon}
-              title={title || categoryStyles.label}
-              editPath={`profile/tracking-operations/edit/${id}`}
-              handleDelete={handleDelete}
-            />
-          </UiResponsiveMenu>
+              <TransactionActions
+                id={id}
+                icon={categoryStyles.icon}
+                title={title || categoryStyles.label}
+                editPath={`profile/tracking-operations/edit/${id}`}
+                handleDelete={handleDelete}
+              />
+            </UiResponsiveMenu>
+          )
         )}
         {check && <span className={cn('font-bold', type && amountColorVariants[type])}>{check}</span>}
       </div>

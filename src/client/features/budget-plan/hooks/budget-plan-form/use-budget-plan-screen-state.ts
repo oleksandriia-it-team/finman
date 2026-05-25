@@ -1,12 +1,10 @@
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/budget-plan-form/create-budget-plan/budget-plan-create-screen-props';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
-import { useBudgetPlanForm } from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
 
-export function useBudgetPlanScreenState({ initialData, onSuccess, onCancel }: BudgetPlanFormScreenProps) {
-  const { submit, state: saveState, isEdit } = useBudgetPlanForm({ initialData, onSuccess });
+export function useBudgetPlanScreenState({ initialData, onCancel }: BudgetPlanFormScreenProps) {
+  const isEdit = !!initialData;
 
   const pageSize = 5;
   const { getPayments, getTotalCount } = useRegularTransactions();
@@ -30,10 +28,8 @@ export function useBudgetPlanScreenState({ initialData, onSuccess, onCancel }: B
     clearCacheOnDestroy: true,
   });
 
-  const state = useCombineStates(saveState, listState);
-
   return {
-    state,
+    state: listState,
     listState,
     options,
     errorMessage,
@@ -41,6 +37,5 @@ export function useBudgetPlanScreenState({ initialData, onSuccess, onCancel }: B
     pageSize,
     isEdit,
     onCancel,
-    submit,
   };
 }

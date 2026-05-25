@@ -16,16 +16,18 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
       title="Оберіть дію"
       description={title}
     >
-      <UiActionButton
-        icon="pencil-fill"
-        variant="muted"
-        iconVariant="primary"
-        size="sm"
-        onClick={() => router.push(editPath)}
-      >
-        <UiTitle size="sm">Редагувати</UiTitle>
-        <UiDescription size="xs">Змінити дані транзакції</UiDescription>
-      </UiActionButton>
+      {editPath && (
+        <UiActionButton
+          icon="pencil-fill"
+          variant="muted"
+          iconVariant="primary"
+          size="sm"
+          onClick={() => router.push(editPath)}
+        >
+          <UiTitle size="sm">Редагувати</UiTitle>
+          <UiDescription size="xs">Змінити дані транзакції</UiDescription>
+        </UiActionButton>
+      )}
 
       <UiConfirmModal
         trigger={

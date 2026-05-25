@@ -4,10 +4,13 @@ import {
 } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 import { useEffect } from 'react';
 
-export function useSetCenterButton(url: UserNavCenterButton) {
+const DefaultCenterButton: UserNavCenterButton = { url: '/profile', icon: 'plus' };
+
+export function useSetCenterButton(button: UserNavCenterButton) {
   const setCenterButton = useUserNavStoreHook((state) => state.setCenterButton);
 
   useEffect(() => {
-    setCenterButton(url);
-  }, [url, setCenterButton]);
+    setCenterButton(button);
+    return () => setCenterButton(DefaultCenterButton);
+  }, [button, setCenterButton]);
 }

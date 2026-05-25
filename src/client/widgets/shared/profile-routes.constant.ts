@@ -45,7 +45,7 @@ export const profileNavRoutesMobile: NavItemModel[] = [
     icon: 'house',
   },
   {
-    route: '/profile/budget/regular-operations',
+    route: '/profile/budget/plans',
     icon: 'pie-chart',
     name: 'Планування',
   },

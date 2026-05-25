@@ -2,25 +2,11 @@ import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { cn } from '@frontend/shared/utils/cn.util';
+import { UiStatusBadge } from '@frontend/ui/ui-status-badge/ui-status-badge';
 import type {
   BudgetPlanStatisticBlockProps,
   StatItem,
 } from '@frontend/features/budget-plan/components/props/budget-plan-statistic-props';
-
-// для дімончика: я хз чи є в нас компонент для цього бейджика, тому поки хай буде цей, якщо що потім заміню))
-function BalanceBadge({ balance }: { balance: number }) {
-  const isSurplus = balance >= 0;
-  return (
-    <span
-      className={cn(
-        'text-xs font-medium px-2.5 py-1 rounded-full whitespace-nowrap',
-        isSurplus ? 'bg-success/15 text-success' : 'bg-destructive/15 text-destructive-foreground',
-      )}
-    >
-      {isSurplus ? 'Надлишок' : 'Дефіцит'}
-    </span>
-  );
-}
 
 export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }: BudgetPlanStatisticBlockProps) {
   const balance = income - expense;
@@ -63,7 +49,10 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
             </div>
           </div>
         </div>
-        <BalanceBadge balance={balance} />
+        <UiStatusBadge
+          label={balance >= 0 ? 'Надлишок' : 'Дефіцит'}
+          variant={balance >= 0 ? 'success' : 'destructive'}
+        />
       </div>
     </UiCard>
   );

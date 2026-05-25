@@ -14,4 +14,6 @@ export interface MobileNavbarItem extends ComponentProps<'button'> {
 export interface MobileNavbarCenterItem extends ComponentProps<'button'> {
   icon: string;
   url: string;
+  size?: string;
+  iconSize?: string;
 }

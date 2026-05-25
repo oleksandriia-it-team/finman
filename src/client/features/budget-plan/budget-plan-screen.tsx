@@ -24,6 +24,8 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
+  const StatisticBlock = isMobile ? BudgetPlanStatisticMobile : BudgetPlanStatisticDesktop;
 
   const isEmpty = budgetPlan.plannedRegularEntries.length === 0 && budgetPlan.otherEntries.length === 0;
 
@@ -62,17 +64,10 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
       </div>
 
       <div className="px-4 pb-2 flex-none">
-        {isMobile ? (
-          <BudgetPlanStatisticMobile
-            income={income}
-            expense={expense}
-          />
-        ) : (
-          <BudgetPlanStatisticDesktop
-            income={income}
-            expense={expense}
-          />
-        )}
+        <StatisticBlock
+          income={income}
+          expense={expense}
+        />
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">
@@ -98,21 +93,13 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
-              {budgetPlan.plannedRegularEntries.map((entry) =>
-                isMobile ? (
-                  <TransactionCard
-                    key={entry.id}
-                    {...entry}
-                    showActions={false}
-                  />
-                ) : (
-                  <IncomeExpenseCard
-                    key={entry.id}
-                    {...entry}
-                    showActions={false}
-                  />
-                ),
-              )}
+              {budgetPlan.plannedRegularEntries.map((entry) => (
+                <EntryCard
+                  key={entry.id}
+                  {...entry}
+                  showActions={false}
+                />
+              ))}
             </div>
           </>
         )}
@@ -124,21 +111,13 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
               <p className="text-sm text-muted-foreground mt-0.5">Разові доходи та витрати поза регулярними</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4 pb-4">
-              {budgetPlan.otherEntries.map((entry) =>
-                isMobile ? (
-                  <TransactionCard
-                    key={entry.id}
-                    {...entry}
-                    showActions={false}
-                  />
-                ) : (
-                  <IncomeExpenseCard
-                    key={entry.id}
-                    {...entry}
-                    showActions={false}
-                  />
-                ),
-              )}
+              {budgetPlan.otherEntries.map((entry) => (
+                <EntryCard
+                  key={entry.id}
+                  {...entry}
+                  showActions={false}
+                />
+              ))}
             </div>
           </>
         )}

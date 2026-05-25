@@ -16,6 +16,7 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { RegularIncomesExpensesProvider } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 
 const IdIndexInPath = 4;
 
@@ -77,6 +78,18 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
     // eslint-disable-next-line
     [],
   );
+
+  const setCenterButton = useUserNavStoreHook((state) => state.setCenterButton);
+
+  const editUrl = useMemo(
+    () => `/profile/budget/plans/${createBudgetPlanIdUrl(currSelectedBudgetPlanDate)}/edit`,
+    [currSelectedBudgetPlanDate],
+  );
+
+  useEffect(() => {
+    setCenterButton({ icon: 'pencil', url: editUrl, size: '4xl', iconSize: 'xxl' });
+    return () => setCenterButton({ icon: 'plus', url: '/profile' });
+  }, [editUrl, setCenterButton]);
 
   const handleCreate = () => {
     const segments = pathname.split('/');

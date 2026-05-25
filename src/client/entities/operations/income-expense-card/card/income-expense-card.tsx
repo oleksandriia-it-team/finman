@@ -7,6 +7,7 @@ import { FinTransformDate } from '@frontend/components/transform-date/fin-transf
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
+import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import type { TransactionCardProps } from '@frontend/entities/operations/transaction-card/props/transaction-card-props';
@@ -26,6 +27,8 @@ export function IncomeExpenseCard({
   title = '',
   handleDelete,
   showActions = true,
+  deletable,
+  badge,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category];
 
@@ -46,24 +49,38 @@ export function IncomeExpenseCard({
               size="lg"
               name={categoryStyles.icon}
             />
-            {showActions && (
-              <UiResponsiveMenu>
-                <UiResponsiveMenuTrigger asChild>
+            {deletable ? (
+              <UiConfirmModal
+                trigger={
                   <UiIconButton
                     size="lg"
-                    icon="three-dots-vertical"
-                    variant="muted"
+                    icon="trash3"
+                    variant="destructive"
                     className="!border-none"
                   />
-                </UiResponsiveMenuTrigger>
-                <TransactionActions
-                  id={id}
-                  icon={categoryStyles.icon}
-                  title={title || categoryStyles.label}
-                  editPath={`regular-operations/edit/${id}`}
-                  handleDelete={handleDelete}
-                />
-              </UiResponsiveMenu>
+                }
+                onConfirm={() => handleDelete?.(id!)}
+              />
+            ) : (
+              showActions && (
+                <UiResponsiveMenu>
+                  <UiResponsiveMenuTrigger asChild>
+                    <UiIconButton
+                      size="lg"
+                      icon="three-dots-vertical"
+                      variant="muted"
+                      className="!border-none"
+                    />
+                  </UiResponsiveMenuTrigger>
+                  <TransactionActions
+                    id={id}
+                    icon={categoryStyles.icon}
+                    title={title || categoryStyles.label}
+                    editPath={`regular-operations/edit/${id}`}
+                    handleDelete={handleDelete}
+                  />
+                </UiResponsiveMenu>
+              )
             )}
           </div>
           <CardTitle className="text-lg line-clamp-1">{title || categoryStyles.label}</CardTitle>
@@ -91,13 +108,14 @@ export function IncomeExpenseCard({
       <UiSeparator className="mx-6 !w-auto" />
 
       <CardFooter className="flex justify-between items-center">
-        {createdAt && (
-          <FinTransformDate
-            className="text-sm"
-            date={createdAt}
-            type={DateFormatType.ShortWithYear}
-          />
-        )}
+        {badge ??
+          (createdAt && (
+            <FinTransformDate
+              className="text-sm"
+              date={createdAt}
+              type={DateFormatType.ShortWithYear}
+            />
+          ))}
       </CardFooter>
     </UiCard>
   );

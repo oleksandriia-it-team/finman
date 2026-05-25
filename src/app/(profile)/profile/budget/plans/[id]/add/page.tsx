@@ -9,8 +9,10 @@ import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
 
 export default function CreateBudgetPlanPage() {
+  useHidePlusButton();
   const router = useRouter();
   const params = useParams();
   const id = params?.id as string;
@@ -51,7 +53,7 @@ export default function CreateBudgetPlanPage() {
   return (
     <BudgetPlanFormScreen
       onCancel={() => router.push(`/profile/budget/plans/${id}`)}
-      onSuccess={() => router.push(`/profile/budget/plans/${id}`)}
+      onSuccess={() => router.push(`/profile/budget/plans/${id}/recommendations`)}
     />
   );
 }

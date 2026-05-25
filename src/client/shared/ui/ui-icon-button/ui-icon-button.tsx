@@ -11,6 +11,7 @@ export function UiIconButton({
   icon,
   className,
   size = 'default',
+  iconSize,
   asChild,
   variant = 'default',
   isRoundedFull = true,
@@ -45,7 +46,7 @@ export function UiIconButton({
       <UiSvgIcon
         aria-hidden
         name={icon}
-        size={size ? size : 'default'}
+        size={iconSize ?? (size ? size : 'default')}
       />
     </Comp>
   );

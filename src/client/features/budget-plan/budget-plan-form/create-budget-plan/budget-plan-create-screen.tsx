@@ -1,12 +1,12 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import type { RegularEntry } from '@common/records/regular-entry.record';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
-import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/card/income-expense-card';
@@ -16,19 +16,26 @@ import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/b
 import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/budget-plan-form/use-budget-plan-screen-state';
 import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
+import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
-  const { state, options, errorMessage, paginationRestProps, isEdit, onCancel, pageSize, listState, submit } =
+  const { state, options, errorMessage, paginationRestProps, isEdit, onCancel, pageSize, listState } =
     useBudgetPlanScreenState(props);
 
   const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const SelectableCard = isMobile ? SelectableTransactionCard : SelectableRegularCard;
+  const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
 
-  const { selectedIds, monthOperations, toggleSelectedId, deleteMonthOperation, resetDraft } =
+  const { selectedIds, monthOperations, toggleSelectedId, deleteMonthOperation, setPlannedRegularEntries, resetDraft } =
     useBudgetPlanDraftStore();
+
+  const { getById } = useRegularTransactions();
+
+  const [isLoadingNext, setIsLoadingNext] = useState(false);
 
   const hasAnySelected = selectedIds.size > 0;
 
@@ -40,11 +47,16 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
     router.push(`${pathname}/month-entry`);
   };
 
-  const handleSubmit = () => {
-    submit({
-      plannedRegularEntryIds: Array.from(selectedIds),
-      otherEntries: monthOperations,
-    });
+  const handleSubmit = async () => {
+    setIsLoadingNext(true);
+    try {
+      const entries = await Promise.all(Array.from(selectedIds).map((id) => getById(id)));
+      const validEntries = entries.filter((e): e is RegularEntry => e !== null);
+      setPlannedRegularEntries(validEntries);
+      props.onSuccess?.();
+    } finally {
+      setIsLoadingNext(false);
+    }
   };
 
   const handleCancel = () => {
@@ -53,7 +65,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   };
 
   return (
-    <FinListPageWrapper>
+    <FinListPageWrapper className="pb-0 sm:pb-8">
       <div className="flex-none flex items-center justify-between p-4">
         <div>
           <p className="text-xl">
@@ -73,25 +85,15 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"
           >
-            {options.map((item) =>
-              isMobile ? (
-                <SelectableTransactionCard
-                  key={item.id}
-                  item={item}
-                  selected={selectedIds.has(item.id)}
-                  onToggle={handleToggle}
-                  dimmed={hasAnySelected && !selectedIds.has(item.id)}
-                />
-              ) : (
-                <SelectableRegularCard
-                  key={item.id}
-                  item={item}
-                  selected={selectedIds.has(item.id)}
-                  onToggle={handleToggle}
-                  dimmed={hasAnySelected && !selectedIds.has(item.id)}
-                />
-              ),
-            )}
+            {options.map((item) => (
+              <SelectableCard
+                key={item.id}
+                item={item}
+                selected={selectedIds.has(item.id)}
+                onToggle={handleToggle}
+                dimmed={hasAnySelected && !selectedIds.has(item.id)}
+              />
+            ))}
           </FinListScreenHandler>
         </FinListWrapper>
 
@@ -107,45 +109,37 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
-          {monthOperations.map((op) =>
-            isMobile ? (
-              <TransactionCard
-                key={op.id}
-                {...op}
-                showActions={false}
-                handleDelete={handleDeleteMonthOperation}
-              />
-            ) : (
-              <IncomeExpenseCard
-                key={op.id}
-                {...op}
-                showActions={false}
-                handleDelete={handleDeleteMonthOperation}
-              />
-            ),
-          )}
+          {monthOperations.map((op) => (
+            <EntryCard
+              key={op.id}
+              {...op}
+              deletable
+              handleDelete={handleDeleteMonthOperation}
+            />
+          ))}
           <AddOperationButton onClick={handleAddOperation} />
         </div>
       </div>
 
-      <FinButtonListAction>
+      <div className="flex-none px-4 pb-3 sm:pb-4 pt-2 flex gap-3">
         <UiButton
-          variant="primary"
-          isOutlined
-          size="lg"
+          variant="default"
+          size="default"
+          className="flex-1"
           onClick={handleCancel}
         >
           Скасувати
         </UiButton>
         <UiButton
           variant="primary"
-          size="lg"
-          disabled={!hasAnySelected}
+          size="default"
+          className="flex-1"
+          disabled={!hasAnySelected || isLoadingNext}
           onClick={handleSubmit}
         >
-          {isEdit ? 'Оновити план' : `Зберегти план (${selectedIds.size})`}
+          {isLoadingNext ? 'Завантаження...' : `Далі (${selectedIds.size})`}
         </UiButton>
-      </FinButtonListAction>
+      </div>
     </FinListPageWrapper>
   );
 }
