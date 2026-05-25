@@ -12,25 +12,25 @@ export function JulySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
       <defs>
         <clipPath id="jl2">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#jl2)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#ffb850"
         />
         <rect
-          width={width}
+          width="200"
           height="100"
           fill="#ffc870"
         />
         <rect
-          width={width}
+          width="200"
           height="55"
           fill="#ffd890"
         />

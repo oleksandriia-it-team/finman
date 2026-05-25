@@ -23,7 +23,12 @@ export function SelectableRegularCard({ item, selected, onToggle, dimmed = false
       role="checkbox"
       aria-checked={selected}
       tabIndex={0}
-      onKeyDown={(e) => e.key === ' ' && handleClick()}
+      onKeyDown={(e) => {
+        if (e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
     >
       <div className="selectable-regular-card-overlay" />
 

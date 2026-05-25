@@ -12,20 +12,20 @@ export function AprilSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
       <defs>
         <clipPath id="ap">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#ap)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#7ba8d0"
         />
         <rect
-          width={width}
+          width="200"
           height="130"
           fill="#8eb8d8"
         />

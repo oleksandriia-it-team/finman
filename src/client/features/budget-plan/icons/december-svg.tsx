@@ -12,25 +12,25 @@ export function DecemberSvg({ width = 200, height = 200, viewBox = '0 0 200 200'
       <defs>
         <clipPath id="dc">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#dc)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#4a5a78"
         />
         <rect
-          width={width}
+          width="200"
           height="115"
           fill="#5a6a88"
         />
         <rect
-          width={width}
+          width="200"
           height="55"
           fill="#6a7a96"
         />

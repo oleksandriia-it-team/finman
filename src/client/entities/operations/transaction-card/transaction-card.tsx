@@ -80,7 +80,7 @@ export function TransactionCard({
                 className="pr-1"
               />
             }
-            onConfirm={() => handleDelete?.(id!)}
+            onConfirm={() => id != null && handleDelete?.(id)}
           />
         ) : (
           showActions && (

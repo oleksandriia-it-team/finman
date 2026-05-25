@@ -9,7 +9,9 @@ import type { BudgetPlanTitleProps } from '@frontend/features/budget-plan/compon
 export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const now = useMemo(() => new Date(), []);
 
-  const isCurrentMonthAndYear = isSameMonth(selected.month, now);
+  const selectedDate = useMemo(() => new Date(selected.year, selected.month, 1), [selected.month, selected.year]);
+
+  const isCurrentMonthAndYear = isSameMonth(selectedDate, now);
 
   return (
     <div className="flex flex-col gap-1">

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export const getBudgetPlanParamSchema = z
   .string()
-  .regex(/^\d{2}-\d{4}$/)
+  .regex(/^(0[1-9]|1[0-2])-\d{4}$/)
   .transform((val) => {
     const [mm, yyyy] = val.split('-');
     return {

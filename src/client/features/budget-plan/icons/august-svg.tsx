@@ -12,25 +12,25 @@ export function AugustSvg({ width = 200, height = 200, viewBox = '0 0 200 200', 
       <defs>
         <clipPath id="ag2">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#ag2)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#f5a050"
         />
         <rect
-          width={width}
+          width="200"
           height="80"
           fill="#ff9040"
         />
         <rect
-          width={width}
+          width="200"
           height="45"
           fill="#f47030"
         />

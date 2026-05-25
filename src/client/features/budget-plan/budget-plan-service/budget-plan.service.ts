@@ -32,8 +32,6 @@ export class BudgetPlanDataSource implements IBudgetPlanRepository {
   }
 
   createItem(input: CreateBudgetPlanDto): Promise<number> {
-    // в budget-plan.service.ts, метод createItem
-    console.log('SERVICE createItem args:', JSON.stringify(input, null, 2));
     return this.source().then((s) => s.createItem(input));
   }
 

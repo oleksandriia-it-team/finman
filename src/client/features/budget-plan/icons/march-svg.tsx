@@ -12,20 +12,20 @@ export function MarchSvg({ width = 200, height = 200, viewBox = '0 0 200 200', .
       <defs>
         <clipPath id="mr">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#mr)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#b5cad8"
         />
         <rect
-          width={width}
+          width="200"
           height="100"
           fill="#a8c0d0"
         />

@@ -20,7 +20,7 @@ export default function EditBudgetPlanPage() {
   const id = params?.id as string;
 
   const { selectedBudgetPlanDate } = useSelectedBudgetPlan();
-  const { initDraft } = useBudgetPlanDraftStore();
+  const { initDraft, resetDraft } = useBudgetPlanDraftStore();
 
   useEffect(() => {
     setCenterButton({ icon: 'x-lg', url: `/profile/budget/plans/${id}`, size: '4xl', iconSize: 'xxl' });
@@ -41,6 +41,7 @@ export default function EditBudgetPlanPage() {
           router.replace(`/profile/budget/plans/${id}/add`);
           return;
         }
+        resetDraft();
         initDraft(
           plan.plannedRegularEntries.map((e) => e.id),
           plan.otherEntries.map((e) => ({ ...e, id: e.id })),

@@ -1,4 +1,5 @@
 import { create } from 'zustand/react';
+import type { IconSize } from '@frontend/ui/ui-svg-icon/props/svg-icon.props';
 
 interface NavStoreModel {
   isPlusHidden: boolean;
@@ -10,8 +11,8 @@ interface NavStoreModel {
 export interface UserNavCenterButton {
   url: string;
   icon: string;
-  size?: string;
-  iconSize?: string;
+  size?: IconSize;
+  iconSize?: IconSize;
 }
 
 export const useUserNavStoreHook = create<NavStoreModel>((set) => ({

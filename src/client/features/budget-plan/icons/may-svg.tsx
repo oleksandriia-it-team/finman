@@ -12,20 +12,20 @@ export function MaySvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...
       <defs>
         <clipPath id="my">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#my)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#6ab8e8"
         />
         <rect
-          width={width}
+          width="200"
           height="110"
           fill="#7ac4f0"
         />

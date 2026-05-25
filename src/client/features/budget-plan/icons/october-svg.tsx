@@ -12,20 +12,20 @@ export function OctoberSvg({ width = 200, height = 200, viewBox = '0 0 200 200',
       <defs>
         <clipPath id="oc">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#oc)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#d8c890"
         />
         <rect
-          width={width}
+          width="200"
           height="105"
           fill="#e8d0a0"
         />

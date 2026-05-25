@@ -59,7 +59,7 @@ export function IncomeExpenseCard({
                     className="!border-none"
                   />
                 }
-                onConfirm={() => handleDelete?.(id!)}
+                onConfirm={() => id != null && handleDelete?.(id)}
               />
             ) : (
               showActions && (

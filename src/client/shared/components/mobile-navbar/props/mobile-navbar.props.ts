@@ -1,5 +1,6 @@
 import { type ComponentProps } from 'react';
 import { type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
+import { type IconSize } from '@frontend/ui/ui-svg-icon/props/svg-icon.props';
 
 export interface MobileNavbarProps extends ComponentProps<'nav'> {
   routes: SidebarItemModel[];
@@ -14,6 +15,6 @@ export interface MobileNavbarItem extends ComponentProps<'button'> {
 export interface MobileNavbarCenterItem extends ComponentProps<'button'> {
   icon: string;
   url: string;
-  size?: string;
-  iconSize?: string;
+  size?: IconSize;
+  iconSize?: IconSize;
 }

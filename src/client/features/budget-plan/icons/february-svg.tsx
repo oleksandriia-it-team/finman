@@ -12,21 +12,21 @@ export function FebruarySvg({ width = 200, height = 200, viewBox = '0 0 200 200'
       <defs>
         <clipPath id="fb">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#fb)">
         <rect
-          width={width}
+          width="200"
           height="80"
           fill="#f5d5c8"
         />
         <rect
           y="80"
-          width={width}
+          width="200"
           height="120"
           fill="#dce8f5"
         />

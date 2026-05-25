@@ -12,20 +12,20 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
       <defs>
         <clipPath id="jn">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#jn)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#5ab8e8"
         />
         <rect
-          width={width}
+          width="200"
           height="115"
           fill="#6ac8f0"
         />
@@ -367,7 +367,7 @@ export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ..
           <rect
             x="0"
             y="160"
-            width={width}
+            width="200"
             height="40"
           />
         </g>

@@ -23,7 +23,12 @@ export function SelectableTransactionCard({ item, selected, onToggle, dimmed = f
       role="checkbox"
       aria-checked={selected}
       tabIndex={0}
-      onKeyDown={(e) => e.key === ' ' && handleClick()}
+      onKeyDown={(e) => {
+        if (e.key === ' ') {
+          e.preventDefault();
+          handleClick();
+        }
+      }}
     >
       <div className="selectable-transaction-card-overlay" />
 

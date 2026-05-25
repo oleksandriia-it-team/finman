@@ -17,20 +17,20 @@ export function SeptemberSvg({
       <defs>
         <clipPath id="sp2">
           <rect
-            width={width}
-            height={height}
+            width="200"
+            height="200"
             rx="20"
           />
         </clipPath>
       </defs>
       <g clipPath="url(#sp2)">
         <rect
-          width={width}
-          height={height}
+          width="200"
+          height="200"
           fill="#8ab8d0"
         />
         <rect
-          width={width}
+          width="200"
           height="110"
           fill="#9ac8d8"
         />

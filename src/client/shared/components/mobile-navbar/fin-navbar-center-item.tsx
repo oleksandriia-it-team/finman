@@ -26,8 +26,8 @@ export function FinNavbarCenterItem({
         'absolute -top-6 right-1/2 translate-x-1/2 !w-14 !h-14 flex items-center justify-center',
         className,
       )}
-      size={(size as never) ?? '4xl'}
-      iconSize={iconSize as never}
+      size={size ?? '4xl'}
+      iconSize={iconSize}
       variant="primary"
       icon={icon}
       onClick={(e) => {

@@ -88,6 +88,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
                   size="default"
                   variant="muted-foreground"
                   borderNone
+                  aria-label="Перейти до регулярних операцій"
                   onClick={() => router.push('/profile/budget/regular-operations')}
                 />
               </div>
