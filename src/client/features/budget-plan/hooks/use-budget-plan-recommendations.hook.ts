@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { TransactionPriority } from '@common/enums/priority.enum';
-import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { getOptimalExpenseReductions } from '@frontend/features/budget-plan/utils/get-optimal-expense-reductions.util';
-import { useBudgetPlanForm } from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
+import {
+  useBudgetPlanForm,
+  type MonthOperationItem,
+} from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
 
 const AutoRemoveThreshold = TransactionPriority.High;
 
 interface UseBudgetPlanRecommendationsOptions {
   plannedRegularEntries: RegularEntry[];
-  otherEntries: MonthEntry[];
+  otherEntries: MonthOperationItem[];
   isEdit: boolean;
   onApply: () => void;
 }
@@ -23,7 +25,7 @@ export function useBudgetPlanRecommendations({
 }: UseBudgetPlanRecommendationsOptions) {
   const { submit, state: submitState } = useBudgetPlanForm({ isEdit, onSuccess: onApply });
 
-  const expenseEntries = useMemo<MonthEntry[]>(
+  const expenseEntries = useMemo<MonthOperationItem[]>(
     () => otherEntries.filter((e) => e.type === TypeEntry.Expense).sort((a, b) => a.priority - b.priority),
     [otherEntries],
   );

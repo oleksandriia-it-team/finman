@@ -9,8 +9,8 @@ import { cn } from '@frontend/shared/utils/cn.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import type { Month } from '@common/enums/month.enum';
-import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
+import type { MonthOperationItem } from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
@@ -22,7 +22,7 @@ interface BudgetPlanRecommendationsScreenProps {
   month: Month;
   year: number;
   plannedRegularEntries: RegularEntry[];
-  otherEntries: MonthEntry[];
+  otherEntries: MonthOperationItem[];
   isEdit: boolean;
   onApply: () => void;
 }

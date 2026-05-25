@@ -25,11 +25,21 @@ export function useBudgetPlanForm({ isEdit, onSuccess }: UseBudgetPlanFormOption
 
   const savePlan = useSendDataFetch(
     async ({ plannedRegularEntryIds, otherEntries }: SaveBudgetPlanPayload) => {
+      const baseEntries = otherEntries.map((entry) => ({
+        title: entry.title,
+        description: entry.description ?? '',
+        sum: entry.sum,
+        type: entry.type,
+        category: entry.category,
+        selected: entry.selected,
+        priority: entry.priority,
+      }));
+
       if (isEdit) {
-        const mappedEntries: UpdateEntry[] = otherEntries.map(({ id, ...entry }) => ({
-          ...entry,
-          ...(id > 0 ? { id } : {}),
-        }));
+        const mappedEntries: UpdateEntry[] = baseEntries.map((entry, index) => {
+          const id = otherEntries[index].id;
+          return id > 0 ? ({ ...entry, id } as UpdateEntry) : (entry as UpdateEntry);
+        });
 
         const dto: UpdateBudgetPlanDto = {
           plannedRegularEntryIds,
@@ -38,11 +48,9 @@ export function useBudgetPlanForm({ isEdit, onSuccess }: UseBudgetPlanFormOption
         return budgetPlanService.updateItem(dto);
       }
 
-      const mappedEntries: MonthEntry[] = otherEntries.map(({ ...entry }) => entry);
-
       const dto: CreateBudgetPlanDto = {
         plannedRegularEntryIds,
-        otherEntries: mappedEntries,
+        otherEntries: baseEntries as CreateBudgetPlanDto['otherEntries'],
       };
       return budgetPlanService.createItem(dto);
     },
