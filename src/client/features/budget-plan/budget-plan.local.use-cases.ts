@@ -9,6 +9,7 @@ import { budgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget
 import { monthEntryLocalRepository } from '@frontend/entities/month-entry/month-entry.local.repository';
 import { regularEntryLocalRepository } from '@frontend/entities/regular-entry/regular-entry.local.repository';
 import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
+import { plannedRegOpsBudgetLocalRepository } from '@frontend/entities/planned-reg-ops-budget/planned-reg-ops-budget.local.repository';
 
 export class BudgetPlanLocalUsecases implements IBudgetPlanRepository {
   constructor(
@@ -34,6 +35,7 @@ export const createBudgetPlanLocalUseCase = new CreateBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
   monthEntryLocalRepository,
+  plannedRegOpsBudgetLocalRepository,
 );
 
 export const getBudgetPlanLocalUseCase = new GetBudgetPlanLocalUseCase(
@@ -41,12 +43,14 @@ export const getBudgetPlanLocalUseCase = new GetBudgetPlanLocalUseCase(
   budgetPlanLocalRepository,
   monthEntryLocalRepository,
   regularEntryLocalRepository,
+  plannedRegOpsBudgetLocalRepository,
 );
 
 export const updateBudgetPlanCommonUseCase = new UpdateBudgetPlanLocalUseCase(
   dexieTransactionManager,
   budgetPlanLocalRepository,
   monthEntryLocalRepository,
+  plannedRegOpsBudgetLocalRepository,
 );
 
 export const budgetPlanLocalUsecases = new BudgetPlanLocalUsecases(

@@ -17,7 +17,6 @@ export interface BudgetPlanDetailed extends BudgetPlanBase {
 
 export interface BudgetPlan extends BudgetPlanBase {
   otherEntryIds: number[];
-  plannedRegularEntryIds: number[];
 }
 
 export type BudgetPlanDto = Omit<BudgetPlanBase, DefaultColumnKeys> &
