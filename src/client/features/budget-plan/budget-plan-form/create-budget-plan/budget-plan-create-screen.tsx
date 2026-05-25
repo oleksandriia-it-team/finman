@@ -8,7 +8,6 @@ import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-l
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { getFirstErrorMessage } from '@frontend/shared/utils/get-first-error-message.util';
 import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/card/income-expense-card';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { AddOperationButton } from '@frontend/entities/operations/add-unregular-operation-button/add-unregular-operation-button';
@@ -21,7 +20,7 @@ import { SelectableTransactionCard } from '@frontend/entities/operations/selecta
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
-  const { state, options, errorMessage, paginationRestProps, isEdit, onCancel, pageSize, listState } =
+  const { state, options, appError, paginationRestProps, isEdit, onCancel, pageSize, listState } =
     useBudgetPlanScreenState(props);
 
   const router = useRouter();
@@ -80,7 +79,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
         <FinListWrapper state={listState}>
           <FinListScreenHandler
             state={state}
-            errorMessage={getFirstErrorMessage(errorMessage)}
+            appError={appError}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"

@@ -12,7 +12,7 @@ export function useBudgetPlanScreenState({ initialData, onCancel }: BudgetPlanFo
   const {
     options,
     state: listState,
-    errorMessage,
+    appError,
     ...paginationRestProps
   } = usePaginationResource({
     pageSize,
@@ -32,7 +32,7 @@ export function useBudgetPlanScreenState({ initialData, onCancel }: BudgetPlanFo
     state: listState,
     listState,
     options,
-    errorMessage,
+    appError,
     paginationRestProps,
     pageSize,
     isEdit,
