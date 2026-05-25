@@ -32,7 +32,7 @@ export function SelectableRegularCard({ item, selected, onToggle, dimmed = false
           <UiSvgIcon
             name="check"
             size="xs"
-            className={selected ? 'text-primary-foreground!' : ''}
+            className="text-primary-foreground!"
           />
         )}
       </div>
