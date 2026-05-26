@@ -61,10 +61,16 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
       }),
     );
 
-    await this.plannedRegOpsBudgetRepository.deleteByBudgetPlanId(currentBudgetPlan.id);
+    const currentJoinRows = await this.plannedRegOpsBudgetRepository.getByBudgetPlanId(currentBudgetPlan.id);
+    const currentRegIds = currentJoinRows.map((r) => r.regularOperationId);
+
+    const joinRowsToDelete = currentJoinRows.filter((r) => !plannedRegularEntryIds.includes(r.regularOperationId));
+    const regIdsToAdd = plannedRegularEntryIds.filter((id) => !currentRegIds.includes(id));
+
+    await Promise.all(joinRowsToDelete.map((r) => this.plannedRegOpsBudgetRepository.deleteItem(r.id)));
 
     await Promise.all(
-      plannedRegularEntryIds.map((regularOperationId) =>
+      regIdsToAdd.map((regularOperationId) =>
         this.plannedRegOpsBudgetRepository.createItem({ regularOperationId, budgetPlanId: currentBudgetPlan.id }),
       ),
     );
