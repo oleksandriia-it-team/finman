@@ -37,6 +37,7 @@ export function TransactionCard({
   id,
   showActions = true,
   deletable,
+  editPath,
   badge,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
@@ -101,7 +102,7 @@ export function TransactionCard({
                 id={id}
                 icon={categoryStyles.icon}
                 title={title || categoryStyles.label}
-                editPath={`profile/tracking-operations/edit/${id}`}
+                editPath={editPath || '/profile'}
                 handleDelete={handleDelete}
               />
             </UiResponsiveMenu>

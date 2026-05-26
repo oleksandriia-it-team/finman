@@ -1,24 +1,21 @@
 'use client';
 
-import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import './selectable-transaction-card.scss';
+import { cn } from '@frontend/shared/utils/cn.util';
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
+import { SelectableCardCheckbox } from '@frontend/entities/operations/selectable-card/checkbox/selectable-card-checkbox';
 import type { SelectableRegularCardProps } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-card-props';
 
 export function SelectableTransactionCard({ item, selected, onToggle, dimmed = false }: SelectableRegularCardProps) {
   const handleClick = () => onToggle(item.id);
 
-  const classList = [
-    'selectable-transaction-card',
-    selected ? 'selectable-transaction-card-selected' : '',
-    dimmed ? 'selectable-transaction-card-dimmed' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
   return (
     <div
-      className={classList}
+      className={cn(
+        'selectable-transaction-card',
+        selected && 'selectable-transaction-card-selected',
+        dimmed && 'selectable-transaction-card-dimmed',
+      )}
       onClick={handleClick}
       role="checkbox"
       aria-checked={selected}
@@ -32,15 +29,10 @@ export function SelectableTransactionCard({ item, selected, onToggle, dimmed = f
     >
       <div className="selectable-transaction-card-overlay" />
 
-      <div className="selectable-transaction-card-checkbox">
-        {selected && (
-          <UiSvgIcon
-            name="check"
-            size="xs"
-            className="text-primary-foreground!"
-          />
-        )}
-      </div>
+      <SelectableCardCheckbox
+        selected={selected}
+        className="selectable-transaction-card-checkbox"
+      />
 
       <TransactionCard
         showActions={false}

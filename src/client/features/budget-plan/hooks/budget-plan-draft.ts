@@ -9,11 +9,10 @@ interface BudgetPlanDraftStore {
   tempIdCounter: number;
   isInitialized: boolean;
 
-  toggleSelectedId: (id: number) => void;
+  toggleSelectedEntry: (entry: RegularEntry) => void;
   addMonthOperation: (op: Omit<MonthOperationItem, 'id'>) => void;
   deleteMonthOperation: (id: number) => void;
-  setPlannedRegularEntries: (entries: RegularEntry[]) => void;
-  initDraft: (selectedIds: number[], monthOperations: MonthOperationItem[]) => void;
+  initDraft: (plannedRegularEntries: RegularEntry[], monthOperations: MonthOperationItem[]) => void;
   resetDraft: () => void;
 }
 
@@ -24,11 +23,21 @@ export const useBudgetPlanDraftStore = create<BudgetPlanDraftStore>((set) => ({
   tempIdCounter: -1,
   isInitialized: false,
 
-  toggleSelectedId: (id) =>
+  toggleSelectedEntry: (entry) =>
     set((state) => {
-      const next = new Set(state.selectedIds);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return { selectedIds: next };
+      const nextIds = new Set(state.selectedIds);
+      if (nextIds.has(entry.id)) {
+        nextIds.delete(entry.id);
+        return {
+          selectedIds: nextIds,
+          plannedRegularEntries: state.plannedRegularEntries.filter((e) => e.id !== entry.id),
+        };
+      }
+      nextIds.add(entry.id);
+      return {
+        selectedIds: nextIds,
+        plannedRegularEntries: [...state.plannedRegularEntries, entry],
+      };
     }),
 
   addMonthOperation: (op) =>
@@ -42,14 +51,13 @@ export const useBudgetPlanDraftStore = create<BudgetPlanDraftStore>((set) => ({
       monthOperations: state.monthOperations.filter((op) => op.id !== id),
     })),
 
-  setPlannedRegularEntries: (entries) => set({ plannedRegularEntries: entries }),
-
-  initDraft: (selectedIds, monthOperations) =>
+  initDraft: (plannedRegularEntries, monthOperations) =>
     set((state) => {
       if (state.isInitialized) return {};
       return {
         isInitialized: true,
-        selectedIds: new Set(selectedIds),
+        selectedIds: new Set(plannedRegularEntries.map((e) => e.id)),
+        plannedRegularEntries,
         monthOperations,
         tempIdCounter: -1,
       };

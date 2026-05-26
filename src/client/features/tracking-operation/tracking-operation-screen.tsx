@@ -127,8 +127,9 @@ export function TrackingOperationScreen() {
                     </div>
                   )}
                   <TransactionCard
-                    handleDelete={(id) => onDelete.mutate(id)}
                     {...item}
+                    handleDelete={(id) => onDelete.mutate(id)}
+                    editPath={`profile/tracking-operations/edit/${item.id}`}
                   />
                 </div>
               );

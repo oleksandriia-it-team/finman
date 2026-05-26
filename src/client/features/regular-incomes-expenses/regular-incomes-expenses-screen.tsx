@@ -67,10 +67,11 @@ export default function RegularIncomesExpensesScreen() {
           {options.map((item, index) => (
             <IncomeExpenseCard
               key={item.id ?? index}
+              {...item}
               handleDelete={async (id) => {
                 onDelete.mutate(id);
               }}
-              {...item}
+              editPath={`regular-operations/edit/${item.id}`}
             />
           ))}
         </FinListScreenHandler>

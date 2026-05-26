@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
@@ -15,7 +15,6 @@ import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/b
 import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/budget-plan-form/use-budget-plan-screen-state';
 import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
-import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 
@@ -29,16 +28,20 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const SelectableCard = isMobile ? SelectableTransactionCard : SelectableRegularCard;
   const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
 
-  const { selectedIds, monthOperations, toggleSelectedId, deleteMonthOperation, setPlannedRegularEntries, resetDraft } =
+  const { selectedIds, monthOperations, toggleSelectedEntry, deleteMonthOperation, resetDraft } =
     useBudgetPlanDraftStore();
-
-  const { getById } = useRegularTransactions();
-
-  const [isLoadingNext, setIsLoadingNext] = useState(false);
 
   const hasAnySelected = selectedIds.size > 0;
 
-  const handleToggle = useCallback((id: number) => toggleSelectedId(id), [toggleSelectedId]);
+  const optionsById = new Map((options as RegularEntry[]).map((item) => [item.id, item]));
+
+  const handleToggle = useCallback(
+    (id: number) => {
+      const entry = optionsById.get(id);
+      if (entry) toggleSelectedEntry(entry);
+    },
+    [toggleSelectedEntry, optionsById],
+  );
 
   const handleDeleteMonthOperation = useCallback((id: number) => deleteMonthOperation(id), [deleteMonthOperation]);
 
@@ -46,16 +49,8 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
     router.push(`${pathname}/month-entry`);
   };
 
-  const handleSubmit = async () => {
-    setIsLoadingNext(true);
-    try {
-      const entries = await Promise.all(Array.from(selectedIds).map((id) => getById(id)));
-      const validEntries = entries.filter((e): e is RegularEntry => e !== null);
-      setPlannedRegularEntries(validEntries);
-      props.onSuccess?.();
-    } finally {
-      setIsLoadingNext(false);
-    }
+  const handleSubmit = () => {
+    props.onSuccess?.();
   };
 
   const handleCancel = () => {
@@ -133,10 +128,10 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
           variant="primary"
           size="default"
           className="flex-1"
-          disabled={!hasAnySelected || isLoadingNext}
+          disabled={!hasAnySelected}
           onClick={handleSubmit}
         >
-          {isLoadingNext ? 'Завантаження...' : `Далі (${selectedIds.size})`}
+          {`Далі (${selectedIds.size})`}
         </UiButton>
       </div>
     </FinListPageWrapper>

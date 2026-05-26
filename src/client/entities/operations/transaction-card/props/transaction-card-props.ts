@@ -11,5 +11,6 @@ export type TransactionCardProps = Partial<RegularEntry> & {
   category?: AllCategories;
   showActions?: boolean;
   deletable?: boolean;
+  editPath?: string;
   badge?: ReactNode;
 };

@@ -14,7 +14,7 @@ import type { TransactionCardProps } from '@frontend/entities/operations/transac
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 
-import '@frontend/entities/operations/income-expense-card/card/styles/income-expense-card-styles.scss';
+import './styles/income-expense-card-styles.scss';
 
 export function IncomeExpenseCard({
   id,
@@ -28,6 +28,7 @@ export function IncomeExpenseCard({
   handleDelete,
   showActions = true,
   deletable,
+  editPath,
   badge,
 }: TransactionCardProps) {
   const categoryStyles = CategoriesMapping[category];
@@ -76,7 +77,7 @@ export function IncomeExpenseCard({
                     id={id}
                     icon={categoryStyles.icon}
                     title={title || categoryStyles.label}
-                    editPath={`regular-operations/edit/${id}`}
+                    editPath={editPath || '/profile'}
                     handleDelete={handleDelete}
                   />
                 </UiResponsiveMenu>
