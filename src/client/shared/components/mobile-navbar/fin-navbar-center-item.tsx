@@ -27,7 +27,7 @@ export function FinNavbarCenterItem({
         className,
       )}
       size={size ?? '4xl'}
-      iconSize={iconSize}
+      iconSize={iconSize ?? '4xl'}
       variant="primary"
       icon={icon}
       onClick={(e) => {
