@@ -1,57 +1,41 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
+import { getSafeAppError } from '@common/utils/get-safe-app-error.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { BudgetPlanScreen } from '@frontend/features/budget-plan/budget-plan-screen';
 
 export default function BudgetPlanPage() {
   const router = useRouter();
-  const params = useParams();
-  const id = params?.id as string;
 
-  const { selectedBudgetPlanDate } = useSelectedBudgetPlan();
+  const { selectedBudgetPlanDate, lastLoadedBudgetPlan, state, error } = useSelectedBudgetPlan();
 
-  const [budgetPlan, setBudgetPlan] = useState<BudgetPlanDetailed | null>(null);
-  const [state, setState] = useState<PromiseState>(PromiseState.Loading);
-  const [error, setError] = useState<unknown>(null);
+  const id = createBudgetPlanIdUrl(selectedBudgetPlanDate);
 
   useEffect(() => {
-    setState(PromiseState.Loading);
-    budgetPlanService
-      .getItem({ month: selectedBudgetPlanDate.month, year: selectedBudgetPlanDate.year })
-      .then((plan) => {
-        if (!plan) {
-          router.replace(`/profile/budget/plans/${id}/add`);
-          return;
-        }
-        setBudgetPlan(plan);
-        setState(PromiseState.Success);
-      })
-      .catch((err) => {
-        setError(err);
-        setState(PromiseState.Error);
-      });
-  }, [selectedBudgetPlanDate.month, selectedBudgetPlanDate.year]);
+    if (state === PromiseState.Success && !lastLoadedBudgetPlan) {
+      router.replace(`/profile/budget/plans/${id}/add`);
+    }
+  }, [state, lastLoadedBudgetPlan, id, router]);
 
   if (state === PromiseState.Loading) return <FinLoader />;
 
   if (state === PromiseState.Error) {
+    const appError = getSafeAppError(error);
     return (
       <FinErrorWidget
-        message={getSafeErrorMessage(error)}
-        status={400}
+        message={appError.message}
+        status={appError.status}
       />
     );
   }
 
-  if (!budgetPlan) return null;
+  if (!lastLoadedBudgetPlan) return null;
 
-  return <BudgetPlanScreen budgetPlan={budgetPlan} />;
+  return <BudgetPlanScreen budgetPlan={lastLoadedBudgetPlan} />;
 }
