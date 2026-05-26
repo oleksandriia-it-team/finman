@@ -87,18 +87,28 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       await this.monthEntryRepository.repository.save(newEntries);
     }
 
-    await this.plannedRegOpsBudgetRepository.repository.delete({ budgetPlanId });
+    const currentJoinRows = await this.plannedRegOpsBudgetRepository.repository.findBy({ budgetPlanId });
+    const currentRegIds = currentJoinRows.map((r) => r.regularOperationId);
+
+    const joinRowsToDelete = currentJoinRows.filter((r) => !plannedRegularEntryIds.includes(r.regularOperationId));
+    const regIdsToAdd = plannedRegularEntryIds.filter((id) => !currentRegIds.includes(id));
+
+    if (joinRowsToDelete.length > 0) {
+      await this.plannedRegOpsBudgetRepository.repository.delete(joinRowsToDelete.map((r) => r.id));
+    }
 
     await this.budgetPlanRepository.repository.save({
       ...data,
       id: budgetPlanId,
     });
 
-    await this.plannedRegOpsBudgetRepository.repository.save(
-      plannedRegularEntryIds.map((id) =>
-        this.plannedRegOpsBudgetRepository.repository.create({ regularOperationId: id, budgetPlanId }),
-      ),
-    );
+    if (regIdsToAdd.length > 0) {
+      await this.plannedRegOpsBudgetRepository.repository.save(
+        regIdsToAdd.map((id) =>
+          this.plannedRegOpsBudgetRepository.repository.create({ regularOperationId: id, budgetPlanId }),
+        ),
+      );
+    }
 
     return true as const;
   }
