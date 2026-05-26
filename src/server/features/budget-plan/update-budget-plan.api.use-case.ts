@@ -39,20 +39,21 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
   }: UpdateBudgetPlanInput): Promise<true> {
     const currentEntryIds = currentOtherEntries.map((e) => e.id);
 
-    const {
-      deletedRecords: deletedIds,
-      newRecords: newEntriesDto,
-      remainedRecords: remainedIds,
-    } = getNewAndDeletedRecords(otherEntriesDto, currentEntryIds);
+    const dtoIdsWithValue = otherEntriesDto.map((e) => e.id).filter((id): id is number => typeof id === 'number');
+    const foreignOrMissingIds = dtoIdsWithValue.filter((id) => !currentEntryIds.includes(id));
 
-    const monthEntriesFromAnotherBudgetPlan = remainedIds.filter((id) => !currentEntryIds.includes(id));
-
-    if (monthEntriesFromAnotherBudgetPlan.length > 0) {
+    if (foreignOrMissingIds.length > 0) {
       throw new AppError(
         "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
         403,
       );
     }
+
+    const {
+      deletedRecords: deletedIds,
+      newRecords: newEntriesDto,
+      remainedRecords: remainedIds,
+    } = getNewAndDeletedRecords(otherEntriesDto, currentEntryIds);
 
     const remainedEntriesDto = otherEntriesDto.filter((dto) => dto.id && remainedIds.includes(dto.id));
 
