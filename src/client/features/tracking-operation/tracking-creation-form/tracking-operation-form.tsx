@@ -11,6 +11,8 @@ import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-ex
 import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/props/tracking-operations-form-props';
 import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
 import { useMemo } from 'react';
+import { GetOperationsForAttachProvider } from '@frontend/features/tracking-operation/attach/hooks/get-operations-for-attach.hook';
+import { TrackingOperationAttachedOperationLabel } from '@frontend/features/tracking-operation/attach/attached-operation';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
   const { methods, submit, isEdit } = useTrackingOperationForm(initialData, onSuccess);
@@ -19,15 +21,26 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
 
   const now = useMemo(() => new Date(), []);
 
+  const date = methods.watch('date');
+
   return (
     <div className="flex flex-row size-full">
       <FormProvider {...methods}>
         <CardsFormTemplate submit={submit}>
-          <CardsFormHeaderTemplate
-            isEdit={isEdit}
-            title={'Деталі платежу'}
-            description={'Заповніть інформацію про: '}
-          />
+          <div>
+            <CardsFormHeaderTemplate
+              isEdit={isEdit}
+              title={'Деталі платежу'}
+              description={'Заповніть інформацію про: '}
+            />
+
+            {!!date && (
+              <GetOperationsForAttachProvider>
+                <TrackingOperationAttachedOperationLabel />
+              </GetOperationsForAttachProvider>
+            )}
+          </div>
+
           <CardsFormTemplatePickers
             selectedType={selectedType}
             setValue={(value) => {
