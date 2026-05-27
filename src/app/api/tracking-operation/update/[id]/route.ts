@@ -33,6 +33,7 @@ export const PUT = createRoute({
       attachedPlannedRegEntryId: attachedPlannedRegEntryId ?? null,
       userId,
       date: restBody.date,
+      category: restBody.category,
     });
 
     await trackingOperationRepository.updateItem(id, {

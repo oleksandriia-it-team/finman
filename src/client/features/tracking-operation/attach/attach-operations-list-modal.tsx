@@ -16,15 +16,25 @@ import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
+import type { TrackingOperationFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 
 export function TrackingOperationAttachedOperationListModal({ trigger }: AttachOperationsListModalProps) {
   const [search, setSearch] = useState('');
   const { operations } = useGetOperationsForAttach();
-  const debouncedSearch = useDebounce(search);
-  const { setValue, watch } = useFormContext();
+  const debouncedSearch = useDebounce(search.trim());
+  const { setValue, watch, subscribe } = useFormContext<TrackingOperationFormData>();
 
-  const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId') as number | undefined | null;
-  const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId') as number | undefined | null;
+  const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId');
+  const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId');
+  const category = watch('category');
+
+  subscribe({
+    name: ['category', 'date'],
+    callback: () => {
+      setSearch('');
+    },
+  });
 
   const monthOpWithAllProps = useMemo(() => {
     const onMonthOpSelect = (id: number) => {
@@ -34,10 +44,12 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
 
     return operations.month
       .filter(
-        (entry) => searchItem(entry.title, debouncedSearch) || searchItem(entry.description ?? '', debouncedSearch),
+        (entry) =>
+          category === entry.category &&
+          (searchItem(entry.title, debouncedSearch) || searchItem(entry.description ?? '', debouncedSearch)),
       )
       .map((entry) => ({ entry, onSelect: onMonthOpSelect, isSelected: attachedPlannedMonthEntryId === entry.id }));
-  }, [attachedPlannedMonthEntryId, debouncedSearch, operations.month, setValue]);
+  }, [attachedPlannedMonthEntryId, category, debouncedSearch, operations.month, setValue]);
 
   const regOpWithAllProps = useMemo(() => {
     const onRegOpSelect = (id: number) => {
@@ -47,10 +59,12 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
 
     return operations.regular
       .filter(
-        (entry) => searchItem(entry.title, debouncedSearch) || searchItem(entry.description ?? '', debouncedSearch),
+        (entry) =>
+          category === entry.category &&
+          (searchItem(entry.title, debouncedSearch) || searchItem(entry.description ?? '', debouncedSearch)),
       )
       .map((entry) => ({ entry, onSelect: onRegOpSelect, isSelected: attachedPlannedRegEntryId === entry.id }));
-  }, [attachedPlannedRegEntryId, debouncedSearch, operations.regular, setValue]);
+  }, [attachedPlannedRegEntryId, category, debouncedSearch, operations.regular, setValue]);
 
   const allOpWithProps = useMemo(
     () => [...regOpWithAllProps, ...monthOpWithAllProps],
@@ -71,14 +85,27 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
           </UiModalTitle>
         </UiModalHeader>
 
-        <div className="flex flex-col gap-1">
-          <UiInput
-            onChange={(value) => setSearch(value ?? '')}
-            value={search}
-            placeholder="Пошук операції"
-          />
+        <div className="flex flex-col gap-2">
+          {(allOpWithProps.length > 0 || !!debouncedSearch) && (
+            <UiInput
+              onChange={(value) => setSearch(value ?? '')}
+              value={search}
+              placeholder="Пошук операції"
+            />
+          )}
 
           <div className="flex flex-col gap-2 overflow-auto">
+            {allOpWithProps.length === 0 && (
+              <UiDescription
+                size="xs"
+                className="py-4 text-center"
+              >
+                {!!debouncedSearch
+                  ? 'Не знайдено'
+                  : 'Не знайдено. Можливо бюджетного плану на обрану дату не існує, або немає за обраною категорією та типом'}
+              </UiDescription>
+            )}
+
             {allOpWithProps.map((props) => (
               <SelectTransactionCard
                 key={`${props.entry.id}-${props.entry.title}-${props.entry.description}`}
@@ -90,21 +117,23 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
 
         <UiSeparator />
 
-        <UiModalFooter className="!justify-between">
-          <UiButton
-            variant="destructive"
-            onClick={() => {
-              setValue('attachedPlannedRegEntryId', null);
-              setValue('attachedPlannedMonthEntryId', null);
-            }}
-          >
-            Очистити
-          </UiButton>
+        {allOpWithProps.length !== 0 && (
+          <UiModalFooter className="!justify-between">
+            <UiButton
+              variant="destructive"
+              onClick={() => {
+                setValue('attachedPlannedRegEntryId', null);
+                setValue('attachedPlannedMonthEntryId', null);
+              }}
+            >
+              Очистити
+            </UiButton>
 
-          <UiModalClose asChild>
-            <UiButton variant="primary">Застосувати</UiButton>
-          </UiModalClose>
-        </UiModalFooter>
+            <UiModalClose asChild>
+              <UiButton variant="primary">Застосувати</UiButton>
+            </UiModalClose>
+          </UiModalFooter>
+        )}
       </UiModalContent>
     </UiModal>
   );

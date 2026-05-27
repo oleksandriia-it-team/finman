@@ -24,7 +24,7 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
   const date = methods.watch('date');
 
   methods.subscribe({
-    name: 'date',
+    name: ['date', 'category'],
     callback: () => {
       methods.setValue('attachedPlannedMonthEntryId', null);
       methods.setValue('attachedPlannedRegEntryId', null);

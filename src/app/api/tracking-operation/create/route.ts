@@ -20,6 +20,7 @@ export const POST = createRoute({
       attachedPlannedRegEntryId: attachedPlannedRegEntryId ?? null,
       userId,
       date: restBody.date,
+      category: restBody.category,
     });
 
     const id = await trackingOperationRepository.createItem({
