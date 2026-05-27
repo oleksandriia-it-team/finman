@@ -1,13 +1,13 @@
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useGetOperationsForAttach } from './hooks/get-operations-for-attach.hook';
+import { useAttachState } from './hooks/attach-state.context';
 import { useGetAttachedOperation } from './hooks/get-attached-operation.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { TrackingOperationAttachedOperationListModal } from '@frontend/features/tracking-operation/attach/attach-operations-list-modal';
 
 export function TrackingOperationAttachedOperationLabel() {
-  const { state, errorMessage } = useGetOperationsForAttach();
+  const { state, errorMessage } = useAttachState();
 
   const attachedOperation = useGetAttachedOperation();
 

@@ -4,15 +4,16 @@ import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import constate from 'constate';
+import type { TrackingOperationFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 
-function useGetOperationsForAttachLogic() {
-  const { watch } = useFormContext();
+function useAttachStateLogic() {
+  const { watch, setValue, subscribe } = useFormContext<TrackingOperationFormData>();
+  const [search, setSearch] = useState('');
 
   const date = watch('date') as Date;
-
   const month = date.getMonth() as unknown as Month;
   const year = date.getFullYear();
 
@@ -20,6 +21,21 @@ function useGetOperationsForAttachLogic() {
     queryKey: ['budget-plan', createBudgetPlanIdUrl({ month, year })],
     queryFn: () => budgetPlanService.getItem({ month, year }),
   });
+
+  const clearAttached = useCallback(() => {
+    setValue('attachedPlannedMonthEntryId', null);
+    setValue('attachedPlannedRegEntryId', null);
+  }, [setValue]);
+
+  useEffect(() => {
+    return subscribe({
+      name: ['date', 'category'],
+      callback: () => {
+        clearAttached();
+        setSearch('');
+      },
+    });
+  }, [subscribe, clearAttached]);
 
   return useMemo(
     () => ({
@@ -29,9 +45,12 @@ function useGetOperationsForAttachLogic() {
         regular: query.data?.plannedRegularEntries ?? [],
         month: query.data?.otherEntries ?? [],
       },
+      search,
+      setSearch,
+      clearAttached,
     }),
-    [query.data?.otherEntries, query.data?.plannedRegularEntries, query.error, query.status],
+    [query.data?.otherEntries, query.data?.plannedRegularEntries, query.error, query.status, search, clearAttached],
   );
 }
 
-export const [GetOperationsForAttachProvider, useGetOperationsForAttach] = constate(useGetOperationsForAttachLogic);
+export const [AttachStateProvider, useAttachState] = constate(useAttachStateLogic);

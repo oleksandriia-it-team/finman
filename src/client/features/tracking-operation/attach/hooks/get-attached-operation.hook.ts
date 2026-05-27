@@ -1,10 +1,10 @@
 import { useFormContext } from 'react-hook-form';
-import { useGetOperationsForAttach } from '@frontend/features/tracking-operation/attach/hooks/get-operations-for-attach.hook';
+import { useAttachState } from '@frontend/features/tracking-operation/attach/hooks/attach-state.context';
 import { isEmpty } from '@common/utils/is-empty.util';
 
 export function useGetAttachedOperation() {
   const { watch } = useFormContext();
-  const { operations } = useGetOperationsForAttach();
+  const { operations } = useAttachState();
 
   const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId') as number | undefined | null;
   const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId') as number | undefined | null;

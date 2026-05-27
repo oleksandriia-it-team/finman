@@ -11,7 +11,7 @@ import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-ex
 import type { TrackingOperationsFormProps } from '@frontend/features/tracking-operation/tracking-creation-form/props/tracking-operations-form-props';
 import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
 import { useMemo } from 'react';
-import { GetOperationsForAttachProvider } from '@frontend/features/tracking-operation/attach/hooks/get-operations-for-attach.hook';
+import { AttachStateProvider } from '@frontend/features/tracking-operation/attach/hooks/attach-state.context';
 import { TrackingOperationAttachedOperationLabel } from '@frontend/features/tracking-operation/attach/attached-operation';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
@@ -22,14 +22,6 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
   const now = useMemo(() => new Date(), []);
 
   const date = methods.watch('date');
-
-  methods.subscribe({
-    name: ['date', 'category'],
-    callback: () => {
-      methods.setValue('attachedPlannedMonthEntryId', null);
-      methods.setValue('attachedPlannedRegEntryId', null);
-    },
-  });
 
   return (
     <div className="flex flex-row size-full">
@@ -43,9 +35,9 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
             />
 
             {!!date && (
-              <GetOperationsForAttachProvider>
+              <AttachStateProvider>
                 <TrackingOperationAttachedOperationLabel />
-              </GetOperationsForAttachProvider>
+              </AttachStateProvider>
             )}
           </div>
 
