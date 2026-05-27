@@ -10,7 +10,6 @@ const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
 export const TrackingOperationSchema = z
   .object({
-    id: z.number().int({ message: 'ID має бути цілим числом' }).min(1, { message: 'ID не може бути менше 1' }),
     title: z
       .string()
       .min(1, { message: "Назва обов'язкова" })
@@ -72,6 +71,4 @@ export const TrackingOperationPaginationSchema = {
   }),
 };
 
-export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
-
-export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
+export type TrackingOperationFormData = z.infer<typeof TrackingOperationSchema>;

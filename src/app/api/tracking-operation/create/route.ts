@@ -7,7 +7,7 @@ import { trackingOperationRepository } from '@backend/entities/tracking-operatio
 import { assertFitAttachConditions } from '../utils/assert-fit-attach-conditions.util';
 
 export const POST = createRoute({
-  schema: TrackingOperationSchema.omit({ id: true }),
+  schema: TrackingOperationSchema,
   contextFn: GetUserIdTransformer,
   guards: [AuthGuard],
   execute: async ({ context, body }) => {

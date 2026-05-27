@@ -10,7 +10,7 @@ import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.u
 import { assertFitAttachConditions } from '../../utils/assert-fit-attach-conditions.util';
 
 export const PUT = createRoute({
-  schema: TrackingOperationSchema.omit({ id: true }),
+  schema: TrackingOperationSchema,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),

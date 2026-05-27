@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   type TrackingOperationFormData,
-  TrackingOperationFormSchema,
+  TrackingOperationSchema,
 } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
 import type { TrackingOperationRecord } from '@common/records/tracking-operation.record';
 import { TypeEntry } from '@common/enums/entry.enum';
@@ -15,7 +15,7 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
   const isEdit = !!initialData;
 
   const methods = useForm<TrackingOperationFormData>({
-    resolver: zodResolver(TrackingOperationFormSchema) as never,
+    resolver: zodResolver(TrackingOperationSchema) as never,
     defaultValues: {
       title: initialData?.title ?? '',
       description: initialData?.description,
