@@ -12,7 +12,12 @@ export function TrackingOperationAttachedOperationLabel() {
   const attachedOperation = useGetAttachedOperation();
 
   if (state === PromiseState.Loading) {
-    return <FinLoaderShort withoutMinWidth />;
+    return (
+      <FinLoaderShort
+        withoutDefaultWidth
+        className="px-4"
+      />
+    );
   }
 
   if (state === PromiseState.Error && !!errorMessage) {

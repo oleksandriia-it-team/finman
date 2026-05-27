@@ -4,14 +4,14 @@ import { cn } from '@frontend/shared/utils/cn.util';
 
 export function FinLoaderShort({
   className,
-  withoutMinWidth,
+  withoutDefaultWidth,
   ...props
-}: Omit<ComponentProps<'div'>, 'children'> & { withoutMinWidth?: boolean }) {
+}: Omit<ComponentProps<'div'>, 'children'> & { withoutDefaultWidth?: boolean }) {
   return (
     <div
       className={cn(
-        'size-full flex flex-col items-center justify-center',
-        !withoutMinWidth && 'min-h-[6rem] min-w-[6rem]',
+        'flex flex-col items-center justify-center',
+        !withoutDefaultWidth && 'size-full min-h-[6rem] min-w-[6rem]',
         className,
       )}
       {...props}
