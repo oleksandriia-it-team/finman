@@ -26,8 +26,8 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
   const debouncedSearch = useDebounce(search);
   const { setValue, watch } = useFormContext();
 
-  const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId');
-  const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId');
+  const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId') as number | undefined | null;
+  const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId') as number | undefined | null;
 
   const attachedOperation = useGetAttachedOperation();
 
