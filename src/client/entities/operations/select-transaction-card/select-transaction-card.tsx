@@ -9,11 +9,12 @@ export function SelectTransactionCard({ onSelect, isSelected, entry }: SelectTra
   return (
     <div
       role="button"
-      className={cn('p-3 flex gap-3', isSelected && 'bg-aqua border border-aqua-foreground rounded-2xl')}
+      className={cn('p-3 flex gap-3 items-center', isSelected && '!bg-primary-muted border border-primary rounded-2xl')}
       onClick={() => onSelect(entry.id)}
     >
       <UiIconBadge
         variant={isSelected ? 'primary' : 'default'}
+        className="h-fit"
         name={CategoriesMapping[entry.category].icon}
       />
 

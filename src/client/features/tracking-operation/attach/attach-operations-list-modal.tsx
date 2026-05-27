@@ -57,10 +57,10 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
       <UiModalTrigger asChild>{trigger}</UiModalTrigger>
       <UiModalContent>
         <UiModalHeader>
-          <UiModalTitle>
+          <UiModalTitle className="flex gap-2">
             <UiSvgIcon
               name="lightning-charge-fill"
-              className="text-primary-muted-foreground"
+              className="!text-primary"
             />
             Прикріпити заплановану операцію з бюджетного плану
           </UiModalTitle>
