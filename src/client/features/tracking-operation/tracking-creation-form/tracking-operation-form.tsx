@@ -23,6 +23,14 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
 
   const date = methods.watch('date');
 
+  methods.subscribe({
+    name: 'date',
+    callback: () => {
+      methods.setValue('attachedPlannedMonthEntryId', null);
+      methods.setValue('attachedPlannedRegEntryId', null);
+    },
+  });
+
   return (
     <div className="flex flex-row size-full">
       <FormProvider {...methods}>
