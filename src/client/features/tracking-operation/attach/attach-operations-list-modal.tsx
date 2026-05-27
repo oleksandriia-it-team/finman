@@ -12,24 +12,19 @@ import { SelectTransactionCard } from '@frontend/entities/operations/select-tran
 import { useFormContext } from 'react-hook-form';
 import { searchItem } from '@common/utils/search-item.util';
 import { UiModalFooter } from '@frontend/ui/ui-modal/ui-modal-footer';
-import { useGetAttachedOperation } from '@frontend/features/tracking-operation/attach/hooks/get-attached-operation.hook';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
-import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 
 export function TrackingOperationAttachedOperationListModal({ trigger }: AttachOperationsListModalProps) {
   const [search, setSearch] = useState('');
   const { operations } = useGetOperationsForAttach();
   const debouncedSearch = useDebounce(search);
-  const { setValue, watch } = useFormContext();
+  const { setValue, watch, resetField } = useFormContext();
 
   const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId') as number | undefined | null;
   const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId') as number | undefined | null;
-
-  const attachedOperation = useGetAttachedOperation();
 
   const monthOpWithAllProps = useMemo(() => {
     const onMonthOpSelect = (id: number) => {
@@ -90,11 +85,19 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
 
         <UiSeparator />
 
-        <UiModalFooter className={cn(!!attachedOperation && 'justify-between')}>
-          {!!attachedOperation && <UiDescription>Обрано: {attachedOperation.title}</UiDescription>}
+        <UiModalFooter className="!justify-between">
+          <UiButton
+            variant="destructive"
+            onClick={() => {
+              resetField('attachedPlannedRegEntryId');
+              resetField('attachedPlannedMonthEntryId');
+            }}
+          >
+            Очистити
+          </UiButton>
 
           <UiModalClose asChild>
-            <UiButton>Застосувати</UiButton>
+            <UiButton variant="primary">Застосувати</UiButton>
           </UiModalClose>
         </UiModalFooter>
       </UiModalContent>
