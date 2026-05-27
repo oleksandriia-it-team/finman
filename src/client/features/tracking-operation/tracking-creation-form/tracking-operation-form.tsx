@@ -13,6 +13,7 @@ import { FinControlledDatepicker } from '@frontend/components/controlled-fields/
 import { useMemo } from 'react';
 import { GetOperationsForAttachProvider } from '@frontend/features/tracking-operation/attach/hooks/get-operations-for-attach.hook';
 import { TrackingOperationAttachedOperationLabel } from '@frontend/features/tracking-operation/attach/attached-operation';
+import { GetAttachedOperationProvider } from '@frontend/features/tracking-operation/attach/hooks/get-attached-operation.hook';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
   const { methods, submit, isEdit } = useTrackingOperationForm(initialData, onSuccess);
@@ -36,7 +37,9 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
 
             {!!date && (
               <GetOperationsForAttachProvider>
-                <TrackingOperationAttachedOperationLabel />
+                <GetAttachedOperationProvider>
+                  <TrackingOperationAttachedOperationLabel />
+                </GetAttachedOperationProvider>
               </GetOperationsForAttachProvider>
             )}
           </div>
