@@ -9,7 +9,10 @@ export function SelectTransactionCard({ onSelect, isSelected, entry }: SelectTra
   return (
     <div
       role="button"
-      className={cn('p-3 flex gap-3 items-center', isSelected && '!bg-primary-muted border border-primary rounded-2xl')}
+      className={cn(
+        'p-3 flex gap-3 items-center cursor-pointer rounded-2xl hover:bg-primary-muted transition-all ',
+        isSelected && 'bg-primary-muted border border-primary',
+      )}
       onClick={() => onSelect(entry.id)}
     >
       <UiIconBadge

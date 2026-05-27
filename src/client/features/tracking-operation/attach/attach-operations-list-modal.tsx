@@ -21,13 +21,14 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
   const [search, setSearch] = useState('');
   const { operations } = useGetOperationsForAttach();
   const debouncedSearch = useDebounce(search);
-  const { setValue, watch, resetField } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
   const attachedPlannedMonthEntryId = watch('attachedPlannedMonthEntryId') as number | undefined | null;
   const attachedPlannedRegEntryId = watch('attachedPlannedRegEntryId') as number | undefined | null;
 
   const monthOpWithAllProps = useMemo(() => {
     const onMonthOpSelect = (id: number) => {
+      setValue('attachedPlannedRegEntryId', null);
       setValue('attachedPlannedMonthEntryId', id);
     };
 
@@ -40,6 +41,7 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
 
   const regOpWithAllProps = useMemo(() => {
     const onRegOpSelect = (id: number) => {
+      setValue('attachedPlannedMonthEntryId', null);
       setValue('attachedPlannedRegEntryId', id);
     };
 
@@ -50,7 +52,10 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
       .map((entry) => ({ entry, onSelect: onRegOpSelect, isSelected: attachedPlannedRegEntryId === entry.id }));
   }, [attachedPlannedRegEntryId, debouncedSearch, operations.regular, setValue]);
 
-  const allOpWithProps = useMemo(() => [...regOpWithAllProps, ...monthOpWithAllProps], []);
+  const allOpWithProps = useMemo(
+    () => [...regOpWithAllProps, ...monthOpWithAllProps],
+    [monthOpWithAllProps, regOpWithAllProps],
+  );
 
   return (
     <UiModal>
@@ -89,8 +94,8 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
           <UiButton
             variant="destructive"
             onClick={() => {
-              resetField('attachedPlannedRegEntryId');
-              resetField('attachedPlannedMonthEntryId');
+              setValue('attachedPlannedRegEntryId', null);
+              setValue('attachedPlannedMonthEntryId', null);
             }}
           >
             Очистити

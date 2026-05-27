@@ -16,7 +16,7 @@ export function useDebounce(value: string, time: number = 300): string {
       }
       ref.current = null;
     };
-  });
+  }, [value, time]);
 
   return debouncedValue;
 }
