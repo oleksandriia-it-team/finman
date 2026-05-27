@@ -75,6 +75,7 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
           <UiInput
             onChange={(value) => setSearch(value ?? '')}
             value={search}
+            placeholder="Пошук операції"
           />
 
           <div className="flex flex-col gap-2 overflow-auto">
