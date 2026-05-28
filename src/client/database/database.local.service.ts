@@ -341,4 +341,4 @@ export class DatabaseLocalService {
     }
   }
 }
-export const databaseLocalService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 2);
+export const databaseLocalService = new DatabaseLocalService(DatabaseName, Object.values(Tables), 3);

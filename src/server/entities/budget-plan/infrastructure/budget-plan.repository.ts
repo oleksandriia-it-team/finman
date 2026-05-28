@@ -11,7 +11,7 @@ export class BudgetPlanRepository extends CrudApiRepository<BudgetPlanOrm, never
       return this.repository.findOne({
         where: { month, year, userId },
         relations: {
-          plannedRegularEntries: true,
+          plannedRegularEntries: { regularOperation: true },
           otherEntries: true,
         },
       });

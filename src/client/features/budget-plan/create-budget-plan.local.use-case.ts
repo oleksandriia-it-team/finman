@@ -5,17 +5,19 @@ import type { CreateBudgetPlanDto } from '@common/domains/budget-plan/budget-pla
 import { type BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
+import { type PlannedRegOpsBudgetLocalRepository } from '@frontend/entities/planned-reg-ops-budget/planned-reg-ops-budget.local.repository';
 
 export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBudgetPlanDto, number> {
   constructor(
     transactionManager: ITransactionManager,
     private readonly budgetPlanRepository: BudgetPlanLocalRepository,
     private readonly monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly plannedRegOpsBudgetRepository: PlannedRegOpsBudgetLocalRepository,
   ) {
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: CreateBudgetPlanDto): Promise<number> {
+  async handle({ otherEntries: otherEntriesDto, plannedRegularEntryIds }: CreateBudgetPlanDto): Promise<number> {
     const date = getCurrentMonthDate();
     const exist = await this.budgetPlanRepository.getItem(date);
 
@@ -26,7 +28,6 @@ export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBud
     const budgetPlanId = await this.budgetPlanRepository.createItem({
       ...date,
       otherEntryIds: [],
-      plannedRegularEntryIds: data.plannedRegularEntryIds,
     });
 
     const otherEntryIds = await Promise.all(
@@ -37,10 +38,15 @@ export class CreateBudgetPlanLocalUseCase extends TransactionalUseCase<CreateBud
       }),
     );
 
+    await Promise.all(
+      plannedRegularEntryIds.map((regularOperationId) =>
+        this.plannedRegOpsBudgetRepository.createItem({ regularOperationId, budgetPlanId }),
+      ),
+    );
+
     await this.budgetPlanRepository.updateItem(budgetPlanId, {
       ...date,
       otherEntryIds,
-      plannedRegularEntryIds: data.plannedRegularEntryIds,
     });
 
     return budgetPlanId;

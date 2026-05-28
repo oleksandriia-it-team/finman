@@ -5,6 +5,7 @@ import type { MonthEntry } from '@common/records/month-entry.record';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
+import type { PlannedRegOpsBudgetLocalRepository } from '@frontend/entities/planned-reg-ops-budget/planned-reg-ops-budget.local.repository';
 
 export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPlanDto, BudgetPlanDetailed | null> {
   constructor(
@@ -12,6 +13,7 @@ export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPla
     private readonly budgetPlanRepository: BudgetPlanLocalRepository,
     private readonly monthEntryRepository: ICrudService<MonthEntry>,
     private readonly regularEntryRepository: ICrudService<RegularEntry>,
+    private readonly plannedRegOpsBudgetRepository: PlannedRegOpsBudgetLocalRepository,
   ) {
     super(transactionManager);
   }
@@ -27,8 +29,10 @@ export class GetBudgetPlanLocalUseCase extends TransactionalUseCase<GetBudgetPla
       await Promise.all(budgetPlan.otherEntryIds.map((id) => this.monthEntryRepository.getItemById(id)))
     ).filter((i) => !!i);
 
+    const plannedRegRows = await this.plannedRegOpsBudgetRepository.getByBudgetPlanId(budgetPlan.id);
+
     const regularEntries = (
-      await Promise.all(budgetPlan.plannedRegularEntryIds.map((id) => this.regularEntryRepository.getItemById(id)))
+      await Promise.all(plannedRegRows.map((row) => this.regularEntryRepository.getItemById(row.regularOperationId)))
     ).filter((i) => !!i);
 
     return {

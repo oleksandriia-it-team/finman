@@ -1,9 +1,9 @@
 import type { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, Unique } from 'typeorm';
 import { type RegularEntry } from '@common/records/regular-entry.record';
 import { RegularPaymentFrequency } from '@common/enums/regular-freequency.enum';
 import { BasicEntryOrm } from '@backend/entities/basic-entry/basic-entry.orm';
-import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
+import type { PlannedRegOpsBudgetOrm } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.orm';
 
 @Entity('regular-entry')
 @Unique(['title', 'userId'])
@@ -21,6 +21,6 @@ export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
 
-  @ManyToMany('BudgetPlanOrm', 'plannedRegularEntries')
-  budgetPlans?: BudgetPlanOrm[];
+  @OneToMany('PlannedRegOpsBudgetOrm', 'regularOperation')
+  plannedRegularOpsInBudget?: PlannedRegOpsBudgetOrm[];
 }
