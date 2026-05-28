@@ -2,11 +2,11 @@ import type { Month } from '@common/enums/month.enum';
 import type { MonthYear } from '@common/domains/analytics/analytics.schema';
 
 export function monthYearToStartDate({ month, year }: MonthYear): Date {
-  return new Date(year, month, 1, 0, 0, 0, 0);
+  return new Date(Date.UTC(year, month, 1, 0, 0, 0, 0));
 }
 
 export function monthYearToEndDate({ month, year }: MonthYear): Date {
-  return new Date(year, month + 1, 0, 23, 59, 59, 999);
+  return new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999));
 }
 
 export function listMonthsInRange(from: MonthYear, to: MonthYear): { month: Month; year: number }[] {
