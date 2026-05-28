@@ -3,7 +3,7 @@ import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.t
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { CategoryBreakdownFilterSchema } from '@common/domains/analytics/analytics.schema';
 import { getExpensesByCategoryApiUseCase } from '@backend/features/analytics/get-expenses-by-category.api.use-case';
-import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
+import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
 
 export const POST = createRoute({
   schema: CategoryBreakdownFilterSchema,
