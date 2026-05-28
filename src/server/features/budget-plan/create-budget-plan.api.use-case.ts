@@ -13,6 +13,11 @@ import {
   plannedRegOpsBudgetRepository,
   type PlannedRegOpsBudgetRepository,
 } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.repository';
+import {
+  regularEntryApiRepository,
+  type RegularEntryApiRepository,
+} from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
+import { assertOwnedIds } from '@backend/shared/utils/assert-owned-ids.util';
 
 type CreateBudgetPlanInput = Omit<BudgetPlanDto, 'id'> & { userId: number };
 
@@ -21,6 +26,7 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
     private readonly budgetPlanRepository: BudgetPlanRepository,
     private readonly monthEntryRepository: MonthEntryRepository,
     private readonly plannedRegOpsBudgetRepository: PlannedRegOpsBudgetRepository,
+    private readonly regularEntryRepository: RegularEntryApiRepository,
     transactionManager: ITransactionManager,
   ) {
     super(transactionManager);
@@ -29,10 +35,19 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
   protected override async handle({
     plannedRegularEntryIds,
     otherEntries,
+    userId,
     ...input
   }: CreateBudgetPlanInput): Promise<number> {
+    const uniqueIds = await assertOwnedIds(
+      this.regularEntryRepository.repository,
+      userId,
+      plannedRegularEntryIds,
+      'Деякі ID планових регулярних операцій не існують або не належать користувачу',
+    );
+
     const data = this.budgetPlanRepository.repository.create({
       ...input,
+      userId,
       plannedRegularEntries: [],
       otherEntries: [],
     });
@@ -40,7 +55,7 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
     const result = await this.budgetPlanRepository.repository.save(data);
 
     await this.plannedRegOpsBudgetRepository.repository.save(
-      plannedRegularEntryIds.map((id) =>
+      uniqueIds.map((id) =>
         this.plannedRegOpsBudgetRepository.repository.create({ regularOperationId: id, budgetPlanId: result.id }),
       ),
     );
@@ -63,5 +78,6 @@ export const createBudgetPlanApiUseCase = new CreateBudgetPlanApiUseCase(
   budgetPlanRepository,
   monthEntryRepository,
   plannedRegOpsBudgetRepository,
+  regularEntryApiRepository,
   typeormTransactionManager,
 );

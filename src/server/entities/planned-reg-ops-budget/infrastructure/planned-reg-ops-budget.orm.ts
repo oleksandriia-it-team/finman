@@ -1,5 +1,5 @@
 import { DefaultTableColumnsOrm } from '@backend/database/default-table-columns.orm';
-import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm';
+import { Column, Entity, Index, JoinColumn, ManyToOne, Unique } from 'typeorm';
 import type { BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import type { RegularEntryOrm } from '@backend/entities/regular-entry/infrastructure/regular-entry.orm';
 import type { PlannedRegOpsBudgetRecord } from '@common/records/planned-reg-ops-budget.record';
@@ -10,6 +10,7 @@ export class PlannedRegOpsBudgetOrm extends DefaultTableColumnsOrm implements Pl
   @Column({ type: 'int' })
   regularOperationId!: number;
 
+  @Index('IDX_planned_reg_ops_budget_budgetPlanId')
   @Column({ type: 'int' })
   budgetPlanId!: number;
 
