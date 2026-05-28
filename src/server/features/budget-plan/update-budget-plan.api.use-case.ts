@@ -102,10 +102,11 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
     }
 
     const currentJoinRows = await this.plannedRegOpsBudgetRepository.repository.findBy({ budgetPlanId });
-    const currentRegIds = currentJoinRows.map((r) => r.regularOperationId);
+    const currentRegIds = new Set(currentJoinRows.map((r) => r.regularOperationId));
+    const uniquePlannedIdsSet = new Set(uniquePlannedIds);
 
-    const joinRowsToDelete = currentJoinRows.filter((r) => !uniquePlannedIds.includes(r.regularOperationId));
-    const regIdsToAdd = uniquePlannedIds.filter((id) => !currentRegIds.includes(id));
+    const joinRowsToDelete = currentJoinRows.filter((r) => !uniquePlannedIdsSet.has(r.regularOperationId));
+    const regIdsToAdd = uniquePlannedIds.filter((id) => !currentRegIds.has(id));
 
     if (joinRowsToDelete.length > 0) {
       await this.plannedRegOpsBudgetRepository.repository.delete(joinRowsToDelete.map((r) => r.id));
