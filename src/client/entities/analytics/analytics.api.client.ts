@@ -16,31 +16,25 @@ import type {
 export class AnalyticsApiClient implements IAnalyticsRepository {
   async getMonthlyIncomeExpenses(input: MonthlyIncomeExpensesFilter): Promise<MonthlyIncomeExpensesItem[]> {
     return fetchClient
-      .post<
-        ApiResultOperationSuccess<MonthlyIncomeExpensesItem[]>
-      >('/api/tracking-operation/analytics/monthly-income-expenses', input)
+      .post<ApiResultOperationSuccess<MonthlyIncomeExpensesItem[]>>('/api/analytics/monthly-income-expenses', input)
       .then((r) => r.data);
   }
 
   async getExpensesByCategory(input: CategoryBreakdownFilter): Promise<ExpensesByCategoryResponse> {
     return fetchClient
-      .post<
-        ApiResultOperationSuccess<ExpensesByCategoryResponse>
-      >('/api/tracking-operation/analytics/expenses-by-category', input)
+      .post<ApiResultOperationSuccess<ExpensesByCategoryResponse>>('/api/analytics/expenses-by-category', input)
       .then((r) => r.data);
   }
 
   async getIncomesByCategory(input: CategoryBreakdownFilter): Promise<IncomesByCategoryResponse> {
     return fetchClient
-      .post<
-        ApiResultOperationSuccess<IncomesByCategoryResponse>
-      >('/api/tracking-operation/analytics/incomes-by-category', input)
+      .post<ApiResultOperationSuccess<IncomesByCategoryResponse>>('/api/analytics/incomes-by-category', input)
       .then((r) => r.data);
   }
 
   async getPlanVsActual(input: PlanVsActualFilter): Promise<PlanVsActualItem[]> {
     return fetchClient
-      .post<ApiResultOperationSuccess<PlanVsActualItem[]>>('/api/budget/plan/analytics/plan-vs-actual', input)
+      .post<ApiResultOperationSuccess<PlanVsActualItem[]>>('/api/analytics/plan-vs-actual', input)
       .then((r) => r.data);
   }
 }
