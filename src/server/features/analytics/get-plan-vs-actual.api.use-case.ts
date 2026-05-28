@@ -41,7 +41,7 @@ export class GetPlanVsActualApiUseCase implements IUseCase<Input, PlanVsActualIt
     const [monthEntriesByCategory, regEntriesByCategory, actualByCategory] = await Promise.all([
       plan ? this.sumMonthEntriesByCategory(plan.id) : new Map<ExpenseCategory, number>(),
       plan ? this.sumRegularEntriesByCategory(plan.id) : new Map<ExpenseCategory, number>(),
-      this.trackingOperationRepository.getCategoryBreakdown(userId, TypeEntry.Expense, {
+      this.trackingOperationRepository.getCategorySums(userId, TypeEntry.Expense, {
         dateFrom: { month, year },
         dateTo: { month, year },
       }),
