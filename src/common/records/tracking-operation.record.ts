@@ -9,4 +9,6 @@ export interface TrackingOperationRecord extends DefaultTableColumns {
   date: Date;
   sum: number;
   category: AllCategories;
+  attachedPlannedRegEntryId?: number | null;
+  attachedPlannedMonthEntryId?: number | null;
 }

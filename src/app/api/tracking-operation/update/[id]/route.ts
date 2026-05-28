@@ -7,9 +7,10 @@ import { trackingOperationRepository } from '@backend/entities/tracking-operatio
 import { ExistTrackingOperationGuard } from '@backend/entities/tracking-operation/application/exist-tracking-operation.guard';
 import { OwnsTrackingOperationGuard } from '@backend/entities/tracking-operation/application/owns-tracking-operation.guard';
 import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
+import { assertFitAttachConditions } from '../../utils/assert-fit-attach-conditions.util';
 
 export const PUT = createRoute({
-  schema: TrackingOperationSchema.omit({ id: true }),
+  schema: TrackingOperationSchema,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
@@ -25,11 +26,21 @@ export const PUT = createRoute({
     const ownsError = OwnsTrackingOperationGuard(userId as number, op);
     if (ownsError) return ownsError;
 
-    const { description, ...restBody } = body;
+    const { description, attachedPlannedMonthEntryId, attachedPlannedRegEntryId, ...restBody } = body;
+
+    await assertFitAttachConditions({
+      attachedPlannedMonthEntryId: attachedPlannedMonthEntryId ?? null,
+      attachedPlannedRegEntryId: attachedPlannedRegEntryId ?? null,
+      userId,
+      date: restBody.date,
+      category: restBody.category,
+    });
 
     await trackingOperationRepository.updateItem(id, {
       ...restBody,
       description: description ?? null,
+      attachedPlannedMonthEntryId: attachedPlannedMonthEntryId ?? null,
+      attachedPlannedRegEntryId: attachedPlannedRegEntryId ?? null,
       userId,
     });
 

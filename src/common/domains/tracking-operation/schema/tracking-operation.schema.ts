@@ -4,23 +4,40 @@ import { AllCategoryValues, ExpenseCategories } from '@common/enums/categories.e
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 import { getDate } from '@common/utils/get-date.util';
 import { dateField } from '@common/schema-fields/date-required-field.schema';
+import { isEmpty } from '@common/utils/is-empty.util';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
-export const TrackingOperationSchema = z.object({
-  id: z.number().int({ message: 'ID має бути цілим числом' }).min(1, { message: 'ID не може бути менше 1' }),
-  title: z
-    .string()
-    .min(1, { message: "Назва обов'язкова" })
-    .max(20, { message: 'Назва не може бути довшою за 20 символів' }),
-  description: z.string().max(100, { message: 'Опис не може бути довшим за 100 символів' }).nullable().optional(),
-  type: z.enum(TrackingOperationTypes, {
-    message: 'Тип має бути expense або income',
-  }),
-  date: dateField("Обов'язкова дата"),
-  sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
-  category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
-});
+export const TrackingOperationSchema = z
+  .object({
+    title: z
+      .string()
+      .min(1, { message: "Назва обов'язкова" })
+      .max(20, { message: 'Назва не може бути довшою за 20 символів' }),
+    description: z.string().max(100, { message: 'Опис не може бути довшим за 100 символів' }).nullable().optional(),
+    type: z.enum(TrackingOperationTypes, {
+      message: 'Тип має бути expense або income',
+    }),
+    date: dateField("Обов'язкова дата"),
+    sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
+    category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
+    attachedPlannedRegEntryId: z
+      .int({ message: 'ID прикріпленої планової операції має бути цілим числом' })
+      .nullable()
+      .optional(),
+    attachedPlannedMonthEntryId: z
+      .int({ message: 'ID прикріпленої планової операції має бути цілим числом' })
+      .nullable()
+      .optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (!isEmpty(data.attachedPlannedMonthEntryId) && !isEmpty(data.attachedPlannedRegEntryId)) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету',
+      });
+    }
+  });
 
 export const TrackingOperationFilterSchema = z
   .object({
@@ -54,6 +71,4 @@ export const TrackingOperationPaginationSchema = {
   }),
 };
 
-export const TrackingOperationFormSchema = TrackingOperationSchema.omit({ id: true });
-
-export type TrackingOperationFormData = z.infer<typeof TrackingOperationFormSchema>;
+export type TrackingOperationFormData = z.infer<typeof TrackingOperationSchema>;
