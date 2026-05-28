@@ -12,6 +12,16 @@ import type {
 import { TypeEntry } from '@common/enums/entry.enum';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 import { GetShortStatisticCommonUseCase } from '@common/domains/tracking-operation/use-cases/get-short-statistic.common.use-case';
+import type { AllCategories } from '@common/enums/categories.enum';
+import type { MonthRange } from '@common/domains/analytics/analytics.schema';
+import { monthYearToEndDate, monthYearToStartDate } from '@common/domains/analytics/month-range.util';
+
+export interface MonthlyRawTotalRow {
+  year: number;
+  month: number;
+  type: TypeEntry;
+  sum: number;
+}
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
@@ -151,6 +161,57 @@ export class TrackingOperationRepository
 
   getShortStatistic(input?: { userId?: number }): Promise<GetShortStatisticResponse> {
     return new GetShortStatisticCommonUseCase(this).execute(input ?? {});
+  }
+
+  async getMonthlyTotalsRaw(
+    userId: number,
+    range: MonthRange,
+    categories?: readonly AllCategories[],
+  ): Promise<MonthlyRawTotalRow[]> {
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select('EXTRACT(YEAR FROM op.date)::int', 'year')
+      .addSelect('EXTRACT(MONTH FROM op.date)::int', 'month')
+      .addSelect('op.type', 'type')
+      .addSelect('SUM(op.sum)', 'sum')
+      .where('op.userId = :userId', { userId })
+      .andWhere('op.softDeleted = 0')
+      .andWhere('op.date BETWEEN :from AND :to', {
+        from: monthYearToStartDate(range.dateFrom),
+        to: monthYearToEndDate(range.dateTo),
+      })
+      .groupBy('year, month, op.type');
+
+    if (categories && categories.length > 0) {
+      qb.andWhere('op.category IN (:...categories)', { categories });
+    }
+
+    const rows = await qb.getRawMany<{ year: number; month: number; type: TypeEntry; sum: string }>();
+
+    return rows.map((row) => ({
+      year: row.year,
+      month: row.month,
+      type: row.type,
+      sum: Number.parseFloat(row.sum),
+    }));
+  }
+
+  async getCategorySums(userId: number, type: TypeEntry, range: MonthRange): Promise<Map<AllCategories, number>> {
+    const rows = await this.repository
+      .createQueryBuilder('op')
+      .select('op.category', 'category')
+      .addSelect('SUM(op.sum)', 'sum')
+      .where('op.userId = :userId', { userId })
+      .andWhere('op.softDeleted = 0')
+      .andWhere('op.type = :type', { type })
+      .andWhere('op.date BETWEEN :from AND :to', {
+        from: monthYearToStartDate(range.dateFrom),
+        to: monthYearToEndDate(range.dateTo),
+      })
+      .groupBy('op.category')
+      .getRawMany<{ category: AllCategories; sum: string }>();
+
+    return new Map(rows.map((row) => [row.category, Number.parseFloat(row.sum)]));
   }
 }
 
