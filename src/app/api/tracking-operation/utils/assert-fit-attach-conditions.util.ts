@@ -50,7 +50,7 @@ async function assertAttachedFits<T extends HasBudgetPlan>(opts: {
     throw new AppError(notFoundMessage, 403);
   }
 
-  const isFitDate = exist.budgetPlan?.month === date.getMonth() && exist.budgetPlan?.year === date.getFullYear();
+  const isFitDate = exist.budgetPlan?.month === date.getUTCMonth() && exist.budgetPlan?.year === date.getUTCFullYear();
 
   if (!isFitDate) {
     throw new AppError(dateMismatchMessage, 403);
