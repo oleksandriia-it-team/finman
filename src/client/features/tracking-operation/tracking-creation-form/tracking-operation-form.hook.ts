@@ -23,6 +23,8 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
       category: initialData?.category,
       sum: initialData?.sum !== undefined ? Number(initialData.sum) : 0,
       date: initialData?.date ? new Date(initialData.date) : new Date(),
+      attachedPlannedRegEntryId: initialData?.attachedPlannedRegEntryId ?? null,
+      attachedPlannedMonthEntryId: initialData?.attachedPlannedMonthEntryId ?? null,
     } as never,
   });
 

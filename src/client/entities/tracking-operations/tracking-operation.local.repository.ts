@@ -13,6 +13,7 @@ import type {
 } from '@common/domains/tracking-operation/models/tracking-operation.repository.model';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { GetShortStatisticCommonUseCase } from '@common/domains/tracking-operation/use-cases/get-short-statistic.common.use-case';
+import { searchItem } from '@common/utils/search-item.util';
 
 export class TrackingOperationLocalRepository
   extends CrudLocalRepository<TrackingOperationRecord, TrackingOperationFilter>
@@ -69,10 +70,7 @@ export class TrackingOperationLocalRepository
     }
     if (filters.search) {
       const search = filters.search.toLowerCase();
-      predicates.push(
-        (item) =>
-          item.title.toLowerCase().includes(search) || (item.description?.toLowerCase().includes(search) ?? false),
-      );
+      predicates.push((item) => searchItem(item.title, search) || searchItem(item.description ?? '', search));
     }
 
     return predicates;
