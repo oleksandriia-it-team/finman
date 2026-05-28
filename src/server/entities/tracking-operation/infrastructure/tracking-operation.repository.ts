@@ -12,6 +12,21 @@ import type {
 import { TypeEntry } from '@common/enums/entry.enum';
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 import { GetShortStatisticCommonUseCase } from '@common/domains/tracking-operation/use-cases/get-short-statistic.common.use-case';
+import type { AllCategories, ExpenseCategory, IncomeCategory } from '@common/enums/categories.enum';
+import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
+import type { Month } from '@common/enums/month.enum';
+import type { MonthlyIncomeExpensesFilter, CategoryBreakdownFilter } from '@common/domains/analytics/analytics.schema';
+import {
+  monthYearToEndDate,
+  monthYearToStartDate,
+  listMonthsInRange,
+} from '@common/domains/analytics/month-range.util';
+import type {
+  CategoryBreakdownItem,
+  ExpensesByCategoryResponse,
+  IncomesByCategoryResponse,
+  MonthlyIncomeExpensesItem,
+} from '@common/domains/analytics/analytics.model';
 
 function escapeLike(value: string): string {
   return value.replace(/[\\%_]/g, '\\$&');
@@ -152,6 +167,109 @@ export class TrackingOperationRepository
   getShortStatistic(input?: { userId?: number }): Promise<GetShortStatisticResponse> {
     return new GetShortStatisticCommonUseCase(this).execute(input ?? {});
   }
+
+  async getMonthlyIncomeExpenses(
+    userId: number,
+    { dateFrom, dateTo, categories }: MonthlyIncomeExpensesFilter,
+  ): Promise<MonthlyIncomeExpensesItem[]> {
+    const qb = this.repository
+      .createQueryBuilder('op')
+      .select('EXTRACT(YEAR FROM op.date)::int', 'year')
+      .addSelect('EXTRACT(MONTH FROM op.date)::int', 'month')
+      .addSelect('op.type', 'type')
+      .addSelect('SUM(op.sum)', 'sum')
+      .where('op.userId = :userId', { userId })
+      .andWhere('op.softDeleted = 0')
+      .andWhere('op.date BETWEEN :from AND :to', {
+        from: monthYearToStartDate(dateFrom),
+        to: monthYearToEndDate(dateTo),
+      })
+      .groupBy('year, month, op.type');
+
+    if (categories && categories.length > 0) {
+      qb.andWhere('op.category IN (:...categories)', { categories });
+    }
+
+    const rows = await qb.getRawMany<{ year: number; month: number; type: TypeEntry; sum: string }>();
+
+    const months = listMonthsInRange(dateFrom, dateTo);
+    const byKey = new Map<string, { income: number; expenses: number }>(
+      months.map((m) => [`${m.year}-${m.month}`, { income: 0, expenses: 0 }]),
+    );
+
+    for (const row of rows) {
+      // EXTRACT(MONTH) returns 1..12, our Month enum is 0..11
+      const monthIndex = (row.month - 1) as Month;
+      const key = `${row.year}-${monthIndex}`;
+      const bucket = byKey.get(key);
+      if (!bucket) continue;
+      const sum = Number.parseFloat(row.sum);
+      if (row.type === TypeEntry.Income) {
+        bucket.income = sum;
+      } else if (row.type === TypeEntry.Expense) {
+        bucket.expenses = sum;
+      }
+    }
+
+    return months.map((m) => ({
+      month: m.month,
+      year: m.year,
+      income: byKey.get(`${m.year}-${m.month}`)?.income ?? 0,
+      expenses: byKey.get(`${m.year}-${m.month}`)?.expenses ?? 0,
+    }));
+  }
+
+  async getCategoryBreakdown(
+    userId: number,
+    type: TypeEntry,
+    { dateFrom, dateTo }: CategoryBreakdownFilter,
+  ): Promise<Map<AllCategories, number>> {
+    const rows = await this.repository
+      .createQueryBuilder('op')
+      .select('op.category', 'category')
+      .addSelect('SUM(op.sum)', 'sum')
+      .where('op.userId = :userId', { userId })
+      .andWhere('op.softDeleted = 0')
+      .andWhere('op.type = :type', { type })
+      .andWhere('op.date BETWEEN :from AND :to', {
+        from: monthYearToStartDate(dateFrom),
+        to: monthYearToEndDate(dateTo),
+      })
+      .groupBy('op.category')
+      .getRawMany<{ category: AllCategories; sum: string }>();
+
+    return new Map(rows.map((row) => [row.category, Number.parseFloat(row.sum)]));
+  }
+
+  async getExpensesByCategory(userId: number, filter: CategoryBreakdownFilter): Promise<ExpensesByCategoryResponse> {
+    const sums = await this.getCategoryBreakdown(userId, TypeEntry.Expense, filter);
+    return buildCategoryBreakdown<ExpenseCategory>(Object.values(ExpenseCategories), sums);
+  }
+
+  async getIncomesByCategory(userId: number, filter: CategoryBreakdownFilter): Promise<IncomesByCategoryResponse> {
+    const sums = await this.getCategoryBreakdown(userId, TypeEntry.Income, filter);
+    return buildCategoryBreakdown<IncomeCategory>(Object.values(IncomeCategories), sums);
+  }
+}
+
+function buildCategoryBreakdown<TCategory extends AllCategories>(
+  categories: readonly TCategory[],
+  sums: Map<AllCategories, number>,
+): { total: number; items: CategoryBreakdownItem<TCategory>[] } {
+  const items = categories.map((category) => ({
+    category,
+    sum: sums.get(category) ?? 0,
+  }));
+
+  const total = items.reduce((acc, item) => acc + item.sum, 0);
+
+  return {
+    total,
+    items: items.map((item) => ({
+      ...item,
+      percentage: total === 0 ? 0 : (item.sum / total) * 100,
+    })),
+  };
 }
 
 export const trackingOperationRepository = new TrackingOperationRepository(TrackingOperationOrm);
