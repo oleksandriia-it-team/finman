@@ -6,14 +6,24 @@ import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings'
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 
 export function SelectTransactionCard({ onSelect, isSelected, entry }: SelectTransactionCardProps) {
+  const handleSelect = () => onSelect(entry.id);
+
   return (
     <div
       role="button"
+      tabIndex={0}
       className={cn(
         'p-3 flex gap-3 items-center cursor-pointer rounded-2xl hover:bg-primary-muted transition-all ',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
         isSelected && 'bg-primary-muted border border-primary',
       )}
-      onClick={() => onSelect(entry.id)}
+      onClick={handleSelect}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleSelect();
+        }
+      }}
     >
       <UiIconBadge
         variant={isSelected ? 'primary' : 'default'}

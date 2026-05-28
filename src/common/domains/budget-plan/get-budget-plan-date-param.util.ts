@@ -8,8 +8,8 @@ export const getBudgetPlanParamSchema = z
   .transform((val) => {
     const [mm, yyyy] = val.split('-');
     return {
-      month: (parseInt(mm, 10) - 1) as Month,
-      year: parseInt(yyyy, 10),
+      month: (Number.parseInt(mm, 10) - 1) as Month,
+      year: Number.parseInt(yyyy, 10),
     };
   });
 
