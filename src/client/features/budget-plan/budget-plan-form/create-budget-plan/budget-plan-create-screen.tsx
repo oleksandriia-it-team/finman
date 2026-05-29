@@ -78,6 +78,24 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"
+            notItemFound={
+              <div className="flex flex-col items-center justify-center gap-3 py-8 px-4">
+                <p className="text-sm text-muted-foreground text-center">Ще немає жодної регулярної операції</p>
+                <p className="text-xs text-muted-foreground text-center">
+                  Створіть їх у розділі «Регулярні операції», щоб включити у план
+                </p>
+                <UiButton
+                  variant="primary"
+                  size="default"
+                  onClick={() => {
+                    resetDraft();
+                    router.push('/profile/budget/regular-operations');
+                  }}
+                >
+                  Перейти до регулярних операцій
+                </UiButton>
+              </div>
+            }
           >
             {options.map((item) => (
               <SelectableCard

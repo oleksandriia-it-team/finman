@@ -32,7 +32,8 @@ export function MonthEntryForm({ initialData, onSuccess, onCancel }: MonthEntryF
           <CardsFormHeaderTemplate
             isEdit={isEdit}
             title="Деталі операції"
-            description="Заповніть інформацію про: "
+            description="Заповніть інформацію про:"
+            subjectLabel={{ create: 'нову одноразову операцію', edit: 'одноразову операцію' }}
           />
           <CardsFormTemplatePickers
             selectedType={selectedType}

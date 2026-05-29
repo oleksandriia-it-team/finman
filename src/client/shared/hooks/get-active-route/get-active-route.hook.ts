@@ -46,8 +46,12 @@ function matchItem<T extends SidebarItemModel | NavItemModel>(
     return { earlyReturn: { activeItem: item, activeSubItem: undefined }, bestMatch };
   }
 
-  if (isSegmentPrefix(pathname, item.route) && (!bestMatch || item.route.length > bestMatch.length)) {
-    bestMatch = { item, subItem: undefined, length: item.route.length };
+  const candidates = [item.route, ...(item.activeRoutes ?? [])];
+
+  for (const candidate of candidates) {
+    if (isSegmentPrefix(pathname, candidate) && (!bestMatch || candidate.length > bestMatch.length)) {
+      bestMatch = { item, subItem: undefined, length: candidate.length };
+    }
   }
 
   return { earlyReturn: null, bestMatch };

@@ -5,7 +5,6 @@ import { FinTransformCurrency } from '@frontend/components/transform-currency/fi
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
-import { cn } from '@frontend/shared/utils/cn.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import type { Month } from '@common/enums/month.enum';
@@ -197,7 +196,7 @@ export function BudgetPlanRecommendationsScreen({
         <UiButton
           variant="primary"
           size="default"
-          className={cn('flex-1', removedCount === 0 && 'opacity-50')}
+          className="flex-1"
           disabled={isApplying}
           onClick={() => apply()}
         >

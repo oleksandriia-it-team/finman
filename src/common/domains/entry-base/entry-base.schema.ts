@@ -7,7 +7,7 @@ const EntryBaseSchemaFirstPart = z.object({
   title: z
     .string({ error: 'Введіть назву' })
     .trim()
-    .min(1)
+    .min(1, { error: 'Введіть назву' })
     .max(MonthEntryRequirements.MaxTitleLength, {
       error: `Максимальна довжина заголовку: ${MonthEntryRequirements.MaxTitleLength} символів`,
     }),
@@ -19,7 +19,7 @@ const EntryBaseSchemaFirstPart = z.object({
     })
     .default(''),
   sum: z.coerce.number({ error: 'Введіть суму' }).min(MonthEntryRequirements.MinSumValue, {
-    error: `Мінімальна довжина суми: ${MonthEntryRequirements.MinSumValue}`,
+    error: `Сума має бути не менше ${MonthEntryRequirements.MinSumValue}`,
   }),
 });
 
