@@ -1,75 +1,56 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
+import { getSafeAppError } from '@common/utils/get-safe-app-error.util';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
-import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
-import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
-import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { BudgetPlanScreen } from '@frontend/features/budget-plan/budget-plan-screen';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
+import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 
 export default function BudgetPlanPage() {
   const router = useRouter();
-  const params = useParams();
-  const id = params?.id as string;
 
-  const { selectedBudgetPlanDate } = useSelectedBudgetPlan();
+  const { selectedBudgetPlanDate, lastLoadedBudgetPlan, state, error } = useSelectedBudgetPlan();
   const setPlusHidden = useUserNavStoreHook((s) => s.setPlusHidden);
 
-  const [budgetPlan, setBudgetPlan] = useState<BudgetPlanDetailed | null>(null);
-  const [state, setState] = useState<PromiseState>(PromiseState.Loading);
-  const [error, setError] = useState<unknown>(null);
-
+  const id = createBudgetPlanIdUrl(selectedBudgetPlanDate);
   const isCurrent = isCurrentMonth(selectedBudgetPlanDate);
 
   useEffect(() => {
-    setState(PromiseState.Loading);
-    budgetPlanService
-      .getItem({ month: selectedBudgetPlanDate.month, year: selectedBudgetPlanDate.year })
-      .then((plan) => {
-        setBudgetPlan(plan ?? null);
-        setState(PromiseState.Success);
-      })
-      .catch((err) => {
-        setError(err);
-        setState(PromiseState.Error);
-      });
-  }, [selectedBudgetPlanDate.month, selectedBudgetPlanDate.year]);
-
-  useEffect(() => {
-    if (state !== PromiseState.Success || budgetPlan) return;
+    if (state !== PromiseState.Success || lastLoadedBudgetPlan) return;
     setPlusHidden(true);
     return () => setPlusHidden(false);
-  }, [state, budgetPlan, setPlusHidden]);
+  }, [state, lastLoadedBudgetPlan, setPlusHidden]);
 
   if (state === PromiseState.Loading) return <FinLoader />;
 
   if (state === PromiseState.Error) {
+    const appError = getSafeAppError(error);
     return (
       <FinErrorWidget
-        message={getSafeErrorMessage(error)}
-        status={400}
+        message={appError.message}
+        status={appError.status}
       />
     );
   }
 
-  if (budgetPlan) {
-    return <BudgetPlanScreen budgetPlan={budgetPlan} />;
+  if (lastLoadedBudgetPlan) {
+    return <BudgetPlanScreen budgetPlan={lastLoadedBudgetPlan} />;
   }
 
   if (isCurrent) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 h-full">
-        <p className="text-muted-foreground text-sm">Бюджетний план на цей місяць ще не створено</p>
+        <UiDescription className="text-center">Бюджетний план на цей місяць ще не створено</UiDescription>
         <UiButton
           variant="primary"
           size="lg"
