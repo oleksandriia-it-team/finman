@@ -99,7 +99,7 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
 
   return (
     <RegularIncomesExpensesProvider>
-      <div className="flex flex-col gap-4 h-full px-3 py-4">
+      <div className="flex flex-col gap-4 h-full py-4">
         <BudgetPlanHeader
           selected={selectedBudgetPlanDate}
           onSelect={setBudgetPlanDate}

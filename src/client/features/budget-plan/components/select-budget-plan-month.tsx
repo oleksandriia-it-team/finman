@@ -34,8 +34,9 @@ export function SelectBudgetPlanMonth({
 
       <UiTitle size="default">{MonthTitles[month].slice(0, 3)}</UiTitle>
 
-      {isCurrentMonth && <UiDescription size="sm">Редагувати</UiDescription>}
-      {!isCurrentMonth && <UiDescription size="sm">Перегляд</UiDescription>}
+      {isCurrentMonth && !disabled && <UiDescription size="sm">Редагувати</UiDescription>}
+      {!isCurrentMonth && !disabled && <UiDescription size="sm">Перегляд</UiDescription>}
+      {disabled && <UiDescription size="sm">Не настав час</UiDescription>}
     </UiButton>
   );
 }

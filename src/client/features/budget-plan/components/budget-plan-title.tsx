@@ -11,7 +11,7 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const isCurrentMonthAndYear = selected.month === now.month && selected.year === now.year;
 
   return (
-    <div className="flex flex-col gap-1 px-4">
+    <div className="flex flex-col gap-1 px-3">
       <UiDescription
         className="flex gap-2"
         size="xxs"
