@@ -13,14 +13,14 @@ export const profileNavRoutesWindow: SidebarItemModel[] = [
     name: 'Планування',
     innerItems: [
       {
-        icon: 'coin',
-        name: 'Регулярні операції',
-        route: '/regular-operations',
+        icon: 'piggy-bank-fill',
+        name: 'Бюджетні плани',
+        route: '/plans',
       },
       {
         icon: 'coin',
-        name: 'Бюджетні плани',
-        route: '/plans',
+        name: 'Регулярні операції',
+        route: '/regular-operations',
       },
     ],
   },

@@ -12,11 +12,11 @@ import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-
 import { TransactionCard } from '@frontend/entities/operations/transaction-card/transaction-card';
 import { AddOperationButton } from '@frontend/entities/operations/add-unregular-operation-button/add-unregular-operation-button';
 import type { BudgetPlanFormScreenProps } from '@frontend/features/budget-plan/budget-plan-form/create-budget-plan/budget-plan-create-screen-props';
-import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/budget-plan-form/use-budget-plan-screen-state';
 import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
+import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/use-budget-plan-screen-state';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const { state, options, appError, paginationRestProps, isEdit, onCancel, pageSize, listState } =
