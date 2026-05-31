@@ -17,6 +17,7 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { RegularIncomesExpensesProvider } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 
 const IdIndexInPath = 4;
 
@@ -66,10 +67,7 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
 
   useEffect(
     () => {
-      if (
-        firstRouteDate.month === selectedBudgetPlanDate.month &&
-        firstRouteDate.year === selectedBudgetPlanDate.year
-      ) {
+      if (isCurrentMonth(firstRouteDate, selectedBudgetPlanDate)) {
         return;
       }
 

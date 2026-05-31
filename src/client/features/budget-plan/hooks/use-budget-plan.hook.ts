@@ -7,7 +7,6 @@ import type { MonthEntry } from '@common/records/month-entry.record';
 
 interface UseBudgetPlanFormOptions {
   isEdit: boolean;
-  onSuccess?: () => void;
 }
 
 export type MonthOperationItem = MonthEntry & { id: number };
@@ -19,7 +18,7 @@ interface SaveBudgetPlanPayload {
   otherEntries: MonthOperationItem[];
 }
 
-export function useBudgetPlanForm({ isEdit, onSuccess }: UseBudgetPlanFormOptions) {
+export function useBudgetPlanForm({ isEdit }: UseBudgetPlanFormOptions) {
   const queryClient = useQueryClient();
   const showToast = useGlobalToast((state) => state.showToast);
 
@@ -62,7 +61,6 @@ export function useBudgetPlanForm({ isEdit, onSuccess }: UseBudgetPlanFormOption
           description: isEdit ? 'Бюджетний план оновлено' : 'Бюджетний план створено',
           variant: 'success',
         });
-        onSuccess?.();
       },
       onError: (err) => {
         const message = err instanceof Error ? err.message : 'Невідома помилка';
@@ -77,6 +75,7 @@ export function useBudgetPlanForm({ isEdit, onSuccess }: UseBudgetPlanFormOption
 
   return {
     submit: savePlan.mutate,
+    submitAsync: savePlan.mutateAsync,
     state: savePlan.state,
     error: savePlan.error,
     isEdit,

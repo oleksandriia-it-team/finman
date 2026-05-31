@@ -17,7 +17,7 @@ export default function EditBudgetPlanPage() {
   const router = useRouter();
 
   const { selectedBudgetPlanDate, lastLoadedBudgetPlan, state, error } = useSelectedBudgetPlan();
-  const { initDraft, resetDraft } = useBudgetPlanDraftStore();
+  const { initDraft, isInitialized } = useBudgetPlanDraftStore();
 
   const id = createBudgetPlanIdUrl(selectedBudgetPlanDate);
 
@@ -32,14 +32,13 @@ export default function EditBudgetPlanPage() {
       router.replace(`/profile/budget/plans/${id}/add`);
       return;
     }
-    if (state === PromiseState.Success && lastLoadedBudgetPlan) {
-      resetDraft();
+    if (state === PromiseState.Success && lastLoadedBudgetPlan && !isInitialized) {
       initDraft(
         lastLoadedBudgetPlan.plannedRegularEntries,
         lastLoadedBudgetPlan.otherEntries.map((e) => ({ ...e, id: e.id })),
       );
     }
-  }, [state, lastLoadedBudgetPlan, id, router, initDraft, resetDraft]);
+  }, [state, lastLoadedBudgetPlan, isInitialized, id, router, initDraft]);
 
   if (state === PromiseState.Loading) return <FinLoader />;
 

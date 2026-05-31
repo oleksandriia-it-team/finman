@@ -6,6 +6,7 @@ import type { SelectBudgetPlanContentProps } from '@frontend/features/budget-pla
 import { SelectBudgetPlanMonth } from '@frontend/features/budget-plan/components/select-budget-plan-month';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { useDisabledMonthsToSelect } from '@frontend/features/budget-plan/hooks/disabled-months-to-select.hook';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 
 export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlanContentProps) {
   const months = useMemo(() => Object.values(Month), []);
@@ -45,7 +46,7 @@ export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlan
             month={month}
             year={showYear}
             disabled={disabledMonths.includes(month)}
-            selected={selected.month === month && selected.year === showYear}
+            selected={isCurrentMonth(selected.month, { month, year: showYear })}
             onSelect={(month) => onSelect({ month, year: showYear })}
           />
         ))}

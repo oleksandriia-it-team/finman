@@ -1,11 +1,8 @@
 import { useMemo, useState } from 'react';
 import { TypeEntry } from '@common/enums/entry.enum';
-import { TransactionPriority } from '@common/enums/priority.enum';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import { getOptimalExpenseReductions } from '@frontend/features/budget-plan/utils/get-optimal-expense-reductions.util';
+import { getOptimalKeptExpenseIds } from '@frontend/features/budget-plan/utils/get-optimal-kept-expense-ids.util';
 import { type MonthOperationItem, useBudgetPlanForm } from '@frontend/features/budget-plan/hooks/use-budget-plan.hook';
-
-const AutoRemoveThreshold = TransactionPriority.High;
 
 interface UseBudgetPlanRecommendationsOptions {
   plannedRegularEntries: RegularEntry[];
@@ -20,24 +17,12 @@ export function useBudgetPlanRecommendations({
   isEdit,
   onApply,
 }: UseBudgetPlanRecommendationsOptions) {
-  const { submit, state: submitState } = useBudgetPlanForm({ isEdit, onSuccess: onApply });
+  const { submitAsync, state: submitState } = useBudgetPlanForm({ isEdit });
 
   const expenseEntries = useMemo<MonthOperationItem[]>(
     () => otherEntries.filter((e) => e.type === TypeEntry.Expense).sort((a, b) => a.priority - b.priority),
     [otherEntries],
   );
-
-  const [selectedToKeep, setSelectedToKeep] = useState<Set<number>>(
-    () => new Set(expenseEntries.filter((e) => e.priority >= AutoRemoveThreshold).map((e) => e.id)),
-  );
-
-  const toggleEntry = (id: number) => {
-    setSelectedToKeep((prev) => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  };
 
   const totalIncome = useMemo(
     () =>
@@ -55,6 +40,22 @@ export function useBudgetPlanRecommendations({
     [plannedRegularEntries, otherEntries],
   );
 
+  const [selectedToKeep, setSelectedToKeep] = useState<Set<number>>(() =>
+    getOptimalKeptExpenseIds(expenseEntries, totalIncome, totalExpenses),
+  );
+
+  const toggleEntry = (id: number) => {
+    setSelectedToKeep((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
   const selectedSavings = useMemo(
     () => expenseEntries.filter((e) => !selectedToKeep.has(e.id)).reduce((sum, e) => sum + e.sum, 0),
     [expenseEntries, selectedToKeep],
@@ -69,27 +70,33 @@ export function useBudgetPlanRecommendations({
   );
 
   const applyOptimal = () => {
-    const toRemove = getOptimalExpenseReductions(expenseEntries, totalIncome, totalExpenses);
-    setSelectedToKeep(new Set(expenseEntries.filter((e) => !toRemove.has(e.id)).map((e) => e.id)));
+    setSelectedToKeep(getOptimalKeptExpenseIds(expenseEntries, totalIncome, totalExpenses));
   };
 
-  const buildOtherEntries = (filterByKeep: boolean) =>
-    otherEntries
-      .filter((e) => !filterByKeep || e.type !== TypeEntry.Expense || selectedToKeep.has(e.id))
-      .map((e) => ({ ...e, id: e.id }));
+  const plannedRegularEntryIds = useMemo(() => plannedRegularEntries.map((e) => e.id), [plannedRegularEntries]);
 
-  const apply = () => {
-    submit({
-      plannedRegularEntryIds: plannedRegularEntries.map((e) => e.id),
-      otherEntries: buildOtherEntries(true),
-    });
+  const apply = async () => {
+    try {
+      await submitAsync({
+        plannedRegularEntryIds,
+        otherEntries: otherEntries.filter((e) => e.type !== TypeEntry.Expense || selectedToKeep.has(e.id)),
+      });
+      onApply();
+    } catch {
+      // toast is shown inside useBudgetPlanForm onError
+    }
   };
 
-  const skip = () => {
-    submit({
-      plannedRegularEntryIds: plannedRegularEntries.map((e) => e.id),
-      otherEntries: buildOtherEntries(false),
-    });
+  const skip = async () => {
+    try {
+      await submitAsync({
+        plannedRegularEntryIds,
+        otherEntries,
+      });
+      onApply();
+    } catch {
+      // toast is shown inside useBudgetPlanForm onError
+    }
   };
 
   return {

@@ -4,11 +4,12 @@ import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { BudgetPlanTitleProps } from '@frontend/features/budget-plan/components/props/budget-plan-title.props';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 
 export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const { now } = useSelectedBudgetPlan();
 
-  const isCurrentMonthAndYear = selected.month === now.month && selected.year === now.year;
+  const isCurrentMonthAndYear = isCurrentMonth(selected, now);
 
   return (
     <div className="flex flex-col gap-1 px-3">
