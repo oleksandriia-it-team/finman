@@ -1,20 +1,17 @@
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { isSameMonth } from 'date-fns';
-import { useMemo } from 'react';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { BudgetPlanTitleProps } from '@frontend/features/budget-plan/components/props/budget-plan-title.props';
+import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 
 export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
-  const now = useMemo(() => new Date(), []);
+  const { now } = useSelectedBudgetPlan();
 
-  const selectedDate = useMemo(() => new Date(selected.year, selected.month, 1), [selected.month, selected.year]);
-
-  const isCurrentMonthAndYear = isSameMonth(selectedDate, now);
+  const isCurrentMonthAndYear = selected.month === now.month && selected.year === now.year;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 px-4">
       <UiDescription
         className="flex gap-2"
         size="xxs"

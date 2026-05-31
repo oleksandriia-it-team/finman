@@ -1,13 +1,17 @@
 import { useMemo, useState } from 'react';
-import type { Month } from '@common/enums/month.enum';
+import { Month } from '@common/enums/month.enum';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import type { SelectBudgetPlanContentProps } from '@frontend/features/budget-plan/components/props/select-budget-plan-content.props';
 import { SelectBudgetPlanMonth } from '@frontend/features/budget-plan/components/select-budget-plan-month';
+import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { useDisabledMonthsToSelect } from '@frontend/features/budget-plan/hooks/disabled-months-to-select.hook';
 
 export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlanContentProps) {
-  const months = useMemo(() => Array.from({ length: 12 }).map((_, i) => i as unknown as Month), []);
+  const months = useMemo(() => Object.values(Month), []);
   const [showYear, setShowYear] = useState<number>(selected.year);
+  const disabledMonths = useDisabledMonthsToSelect();
+  const { now } = useSelectedBudgetPlan();
 
   return (
     <div className="flex flex-col justify-center gap-4">
@@ -29,7 +33,7 @@ export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlan
           bgNone={false}
           variant="primary"
           icon="chevron-right"
-          disabled={showYear === new Date().getFullYear()}
+          disabled={showYear === now.year}
           onClick={() => setShowYear((prev) => prev + 1)}
         />
       </div>
@@ -40,6 +44,7 @@ export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlan
             key={month}
             month={month}
             year={showYear}
+            disabled={disabledMonths.includes(month)}
             selected={selected.month === month && selected.year === showYear}
             onSelect={(month) => onSelect({ month, year: showYear })}
           />

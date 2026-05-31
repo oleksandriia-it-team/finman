@@ -1,6 +1,6 @@
 import { create } from 'zustand/react';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import type { MonthOperationItem } from '@frontend/features/budget-plan/hooks/budget-plan-form/create-budget-plan/use-budget-plan.hook';
+import type { MonthOperationItem } from '@frontend/features/budget-plan/hooks/use-budget-plan.hook';
 
 interface BudgetPlanDraftStore {
   selectedIds: Set<number>;

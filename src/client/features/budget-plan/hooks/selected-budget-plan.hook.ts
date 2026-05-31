@@ -9,6 +9,7 @@ import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 
 function useSelectedBudgetPlanLogic() {
   const [selectedBudgetPlanDate, setBudgetPlanDate] = useState<GetBudgetPlanDto>(getCurrentMonthDate());
+  const now = useMemo(() => getCurrentMonthDate(), []);
 
   const budgetPlanQuery = useQuery({
     queryKey: ['budget-plan', createBudgetPlanIdUrl(selectedBudgetPlanDate)],
@@ -22,8 +23,9 @@ function useSelectedBudgetPlanLogic() {
       lastLoadedBudgetPlan: budgetPlanQuery.data,
       state: getPromiseState(budgetPlanQuery.status),
       error: budgetPlanQuery.error,
+      now,
     }),
-    [budgetPlanQuery.data, budgetPlanQuery.error, budgetPlanQuery.status, selectedBudgetPlanDate],
+    [budgetPlanQuery.data, budgetPlanQuery.error, budgetPlanQuery.status, now, selectedBudgetPlanDate],
   );
 }
 

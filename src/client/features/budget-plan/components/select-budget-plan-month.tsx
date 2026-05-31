@@ -1,15 +1,21 @@
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { MonthTitles } from '@common/constants/month-titles.constant';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
-import { useMemo } from 'react';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import type { SelectBudgetPlanMonthProps } from './props/select-budget-plan-month.props';
 import { MonthSvg } from '@frontend/features/budget-plan/constants/month-svg';
+import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 
-export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false }: SelectBudgetPlanMonthProps) {
-  const now = useMemo(() => new Date(), []);
+export function SelectBudgetPlanMonth({
+  onSelect,
+  month,
+  year,
+  disabled = false,
+  selected = false,
+}: SelectBudgetPlanMonthProps) {
+  const { now } = useSelectedBudgetPlan();
 
-  const isCurrentMonth = month === now.getMonth() && year === now.getFullYear();
+  const isCurrentMonth = month === now.month && year === now.year;
 
   const Icon = MonthSvg[month];
 
@@ -20,6 +26,7 @@ export function SelectBudgetPlanMonth({ onSelect, month, year, selected = false 
       size="default"
       heightAuto
       opacity={!selected}
+      disabled={disabled}
       variant={selected ? 'primary-muted' : 'muted'}
       className="flex flex-col gap-1 justify-center"
     >

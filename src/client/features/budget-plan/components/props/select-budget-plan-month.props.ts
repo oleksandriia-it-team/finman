@@ -5,4 +5,5 @@ export interface SelectBudgetPlanMonthProps {
   year: number;
   onSelect: (month: Month) => void;
   selected?: boolean;
+  disabled?: boolean;
 }
