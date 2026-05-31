@@ -30,7 +30,7 @@ export default function CreateBudgetPlanPage() {
 
   const allRegularsQuery = useQuery({
     queryKey: ['budget-plan-all-regulars'],
-    queryFn: () => getPayments(0, AllRegularsPageSize),
+    queryFn: () => getPayments(1, AllRegularsPageSize),
     enabled: isCurrent && !lastLoadedBudgetPlan,
   });
 

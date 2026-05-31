@@ -31,7 +31,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const { selectedIds, monthOperations, toggleSelectedEntry, deleteMonthOperation, resetDraft } =
     useBudgetPlanDraftStore();
 
-  const hasAnySelected = selectedIds.size > 0;
+  const hasAnySelected = selectedIds.size > 0 || monthOperations.length > 0;
 
   const optionsById = new Map((options as RegularEntry[]).map((item) => [item.id, item]));
 
@@ -149,7 +149,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
           disabled={!hasAnySelected}
           onClick={handleSubmit}
         >
-          {`Далі (${selectedIds.size})`}
+          {`Далі (${selectedIds.size + monthOperations.length})`}
         </UiButton>
       </div>
     </FinListPageWrapper>
