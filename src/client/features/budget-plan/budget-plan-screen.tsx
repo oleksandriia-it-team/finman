@@ -28,16 +28,22 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
   const StatisticBlock = isMobile ? BudgetPlanStatisticMobile : BudgetPlanStatisticDesktop;
 
-  const isEmpty = budgetPlan.plannedRegularEntries.length === 0 && budgetPlan.otherEntries.length === 0;
   const canEdit = isCurrentMonth({ month: budgetPlan.month, year: budgetPlan.year });
 
+  const visibleOtherEntries = useMemo(
+    () => budgetPlan.otherEntries.filter((e) => e.selected),
+    [budgetPlan.otherEntries],
+  );
+
+  const isEmpty = budgetPlan.plannedRegularEntries.length === 0 && visibleOtherEntries.length === 0;
+
   const { income, expense } = useMemo(() => {
-    const allEntries = [...budgetPlan.plannedRegularEntries, ...budgetPlan.otherEntries];
+    const allEntries = [...budgetPlan.plannedRegularEntries, ...visibleOtherEntries];
     return {
       income: allEntries.filter((e) => e.type === TypeEntry.Income).reduce((acc, e) => acc + e.sum, 0),
       expense: allEntries.filter((e) => e.type === TypeEntry.Expense).reduce((acc, e) => acc + e.sum, 0),
     };
-  }, [budgetPlan.plannedRegularEntries, budgetPlan.otherEntries]);
+  }, [budgetPlan.plannedRegularEntries, visibleOtherEntries]);
 
   return (
     <FinListPageWrapper>
@@ -47,7 +53,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
             <b>Бюджетний план</b>
           </p>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Регулярних операцій: {budgetPlan.plannedRegularEntries.length} · Разових: {budgetPlan.otherEntries.length}
+            Регулярних операцій: {budgetPlan.plannedRegularEntries.length} · Разових: {visibleOtherEntries.length}
           </p>
         </div>
         {canEdit && (
@@ -109,14 +115,14 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
           </>
         )}
 
-        {budgetPlan.otherEntries.length > 0 && (
+        {visibleOtherEntries.length > 0 && (
           <>
             <div className="flex-none px-4 pt-6 pb-2">
               <p className="text-base font-semibold">Операції цього місяця</p>
               <p className="text-sm text-muted-foreground mt-0.5">Разові доходи та витрати поза регулярними</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4 pb-4">
-              {budgetPlan.otherEntries.map((entry) => (
+              {visibleOtherEntries.map((entry) => (
                 <EntryCard
                   key={entry.id}
                   {...entry}

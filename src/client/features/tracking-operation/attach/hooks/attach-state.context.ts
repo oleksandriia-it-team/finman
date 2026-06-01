@@ -1,13 +1,13 @@
 import type { Month } from '@common/enums/month.enum';
 import { useQuery } from '@tanstack/react-query';
 import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
-import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan.service';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import constate from 'constate';
 import type { TrackingOperationFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
+import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 
 function useAttachStateLogic() {
   const { watch, setValue, subscribe } = useFormContext<TrackingOperationFormData>();

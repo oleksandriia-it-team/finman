@@ -31,6 +31,10 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
             <CardsFormHeaderTemplate
               isEdit={isEdit}
               title={'Деталі платежу'}
+              subjectLabel={{
+                create: 'нову вашу операцію(яка відбувала щойно або нещодавно)',
+                edit: 'вашу операцію(яка відбувала щойно або нещодавно)',
+              }}
               description={'Заповніть інформацію про: '}
             />
 
