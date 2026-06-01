@@ -49,7 +49,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
         <UiInput
           placeholder="Пошук категорії..."
           value={search}
-          onChange={setSearch}
+          onChange={(value) => setSearch(value ?? '')}
         />
 
         <ul

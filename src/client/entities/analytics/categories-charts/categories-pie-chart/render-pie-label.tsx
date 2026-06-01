@@ -1,9 +1,23 @@
+import type { PieLabelRenderProps } from 'recharts';
+
 const MinPercentToShowLabel = 0.05;
 const InnerLabelRadiusRatio = 0.5;
 const RadianFactor = Math.PI / 180;
 
-export function RenderPieLabel({ cx, cy, midAngle, innerRadius, outerRadius, percent }: never) {
-  if (!percent || percent < MinPercentToShowLabel) return null;
+export function renderPieLabel(props: PieLabelRenderProps) {
+  const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props;
+
+  if (
+    typeof cx !== 'number' ||
+    typeof cy !== 'number' ||
+    typeof midAngle !== 'number' ||
+    typeof innerRadius !== 'number' ||
+    typeof outerRadius !== 'number' ||
+    typeof percent !== 'number' ||
+    percent < MinPercentToShowLabel
+  ) {
+    return null;
+  }
 
   const radius = innerRadius + (outerRadius - innerRadius) * InnerLabelRadiusRatio;
   const x = cx + radius * Math.cos(-midAngle * RadianFactor);

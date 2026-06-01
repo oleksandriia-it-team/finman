@@ -7,7 +7,7 @@ import { FinTransformCurrency } from '@frontend/components/transform-currency/fi
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { getVariantColor } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/utils/get-variant-color.util';
 import type { CategoriesChartProps } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/props/categories-expenses-chart.props';
-import { RenderPieLabel } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/render-pie-label';
+import { renderPieLabel } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/render-pie-label';
 
 export function CategoriesExpensesChart({ data }: CategoriesChartProps) {
   const chartConfig = useMemo(
@@ -72,7 +72,7 @@ export function CategoriesExpensesChart({ data }: CategoriesChartProps) {
             innerRadius="55%"
             outerRadius="80%"
             strokeWidth={4}
-            label={<RenderPieLabel />}
+            label={renderPieLabel}
             labelLine={false}
           />
         </PieChart>
