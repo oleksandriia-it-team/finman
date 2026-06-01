@@ -4,6 +4,8 @@ import { type TrackingOperationRecord } from '@common/records/tracking-operation
 import { TypeEntry } from '@common/enums/entry.enum';
 import { type AllCategories, AllCategoryValues, ExpenseCategories } from '@common/enums/categories.enum';
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
+import type { PlannedRegOpsBudgetOrm } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.orm';
+import { type MonthEntryOrm } from '@backend/entities/month-entry/infrastructure/month-entry.orm';
 
 @Entity('tracking-operation')
 export class TrackingOperationOrm extends DefaultTableColumnsOrm implements TrackingOperationRecord {
@@ -40,7 +42,21 @@ export class TrackingOperationOrm extends DefaultTableColumnsOrm implements Trac
   @Column({ type: 'int' })
   userId!: number;
 
+  @Column({ type: 'int', nullable: true })
+  attachedPlannedRegEntryId?: number | null;
+
+  @Column({ type: 'int', nullable: true })
+  attachedPlannedMonthEntryId?: number | null;
+
   @ManyToOne('UserOrm', 'trackingOperations', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
+
+  @ManyToOne('PlannedRegOpsBudgetOrm', 'attachedTrackedOperations', { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'attachedPlannedRegEntryId' })
+  attachedPlannedRegEntry?: PlannedRegOpsBudgetOrm;
+
+  @ManyToOne('MonthEntryOrm', 'attachedTrackedOperations', { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'attachedPlannedMonthEntryId' })
+  attachedPlannedMonthEntry?: MonthEntryOrm;
 }

@@ -12,11 +12,16 @@ import { AppError } from '@common/classes/app-error.class';
 import { getNewAndDeletedRecords } from '@common/utils/get-new-and-deleted-record.util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { typeormTransactionManager } from '@backend/database/transaction.manager';
-import {
-  type RegularEntryApiRepository,
-  regularEntryApiRepository,
-} from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import type { MonthEntry } from '@common/records/month-entry.record';
+import {
+  plannedRegOpsBudgetRepository,
+  type PlannedRegOpsBudgetRepository,
+} from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.repository';
+import {
+  regularEntryApiRepository,
+  type RegularEntryApiRepository,
+} from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
+import { assertOwnedIds } from '@backend/shared/utils/assert-owned-ids.util';
 
 type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number; currentOtherEntries: MonthEntry[] };
 
@@ -24,7 +29,8 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
   constructor(
     private readonly budgetPlanRepository: BudgetPlanRepository,
     private readonly monthEntryRepository: MonthEntryRepository,
-    private readonly plannedRegularEntryRepository: RegularEntryApiRepository,
+    private readonly plannedRegOpsBudgetRepository: PlannedRegOpsBudgetRepository,
+    private readonly regularEntryRepository: RegularEntryApiRepository,
     transactionManager: ITransactionManager,
   ) {
     super(transactionManager);
@@ -35,24 +41,33 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
     plannedRegularEntryIds,
     currentOtherEntries,
     id: budgetPlanId,
+    userId,
     ...data
   }: UpdateBudgetPlanInput): Promise<true> {
+    const uniquePlannedIds = await assertOwnedIds(
+      this.regularEntryRepository.repository,
+      userId,
+      plannedRegularEntryIds,
+      'Деякі ID планових регулярних операцій не існують або не належать користувачу',
+    );
+
     const currentEntryIds = currentOtherEntries.map((e) => e.id);
+
+    const dtoIdsWithValue = otherEntriesDto.map((e) => e.id).filter((id): id is number => typeof id === 'number');
+    const foreignOrMissingIds = dtoIdsWithValue.filter((id) => !currentEntryIds.includes(id));
+
+    if (foreignOrMissingIds.length > 0) {
+      throw new AppError(
+        "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
+        403,
+      );
+    }
 
     const {
       deletedRecords: deletedIds,
       newRecords: newEntriesDto,
       remainedRecords: remainedIds,
     } = getNewAndDeletedRecords(otherEntriesDto, currentEntryIds);
-
-    const monthEntriesFromAnotherBudgetPlan = remainedIds.filter((id) => !currentEntryIds.includes(id));
-
-    if (monthEntriesFromAnotherBudgetPlan.length > 0) {
-      throw new AppError(
-        "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
-        403,
-      );
-    }
 
     const remainedEntriesDto = otherEntriesDto.filter((dto) => dto.id && remainedIds.includes(dto.id));
 
@@ -86,13 +101,30 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       await this.monthEntryRepository.repository.save(newEntries);
     }
 
+    const currentJoinRows = await this.plannedRegOpsBudgetRepository.repository.findBy({ budgetPlanId });
+    const currentRegIds = new Set(currentJoinRows.map((r) => r.regularOperationId));
+    const uniquePlannedIdsSet = new Set(uniquePlannedIds);
+
+    const joinRowsToDelete = currentJoinRows.filter((r) => !uniquePlannedIdsSet.has(r.regularOperationId));
+    const regIdsToAdd = uniquePlannedIds.filter((id) => !currentRegIds.has(id));
+
+    if (joinRowsToDelete.length > 0) {
+      await this.plannedRegOpsBudgetRepository.repository.delete(joinRowsToDelete.map((r) => r.id));
+    }
+
     await this.budgetPlanRepository.repository.save({
       ...data,
+      userId,
       id: budgetPlanId,
-      plannedRegularEntries: plannedRegularEntryIds.map((id) =>
-        this.plannedRegularEntryRepository.repository.create({ id }),
-      ),
     });
+
+    if (regIdsToAdd.length > 0) {
+      await this.plannedRegOpsBudgetRepository.repository.save(
+        regIdsToAdd.map((id) =>
+          this.plannedRegOpsBudgetRepository.repository.create({ regularOperationId: id, budgetPlanId }),
+        ),
+      );
+    }
 
     return true as const;
   }
@@ -101,6 +133,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
 export const updateBudgetPlanApiUseCase = new UpdateBudgetPlanApiUseCase(
   budgetPlanRepository,
   monthEntryRepository,
+  plannedRegOpsBudgetRepository,
   regularEntryApiRepository,
   typeormTransactionManager,
 );

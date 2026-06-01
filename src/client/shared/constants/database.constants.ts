@@ -19,4 +19,8 @@ export const Tables: Record<string, TableLocalModel> = {
     name: 'trackingOperations',
     indexedColumns: ['date'],
   },
+  PlannedRegOpsBudgetTable: {
+    name: 'plannedRegOpsBudget',
+    indexedColumns: ['budgetPlanId', 'regularOperationId'],
+  },
 };

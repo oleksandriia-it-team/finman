@@ -4,6 +4,10 @@ export class CreateTotpOrm1779620534129 implements MigrationInterface {
   name = 'CreateTotpOrm1779620534129';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    if (await queryRunner.hasTable('totp_orm')) {
+      return;
+    }
+
     await queryRunner.query(
       `CREATE TABLE "totp_orm" ("id" SERIAL NOT NULL, "softDeleted" integer NOT NULL DEFAULT '0', "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "secret" character varying(32) NOT NULL, "enabled" boolean NOT NULL DEFAULT false, "userId" integer NOT NULL, CONSTRAINT "REL_b752dd257d28f45e3444c32922" UNIQUE ("userId"), CONSTRAINT "PK_c09ca137d11ea7ee3bd711bd15f" PRIMARY KEY ("id"))`,
     );

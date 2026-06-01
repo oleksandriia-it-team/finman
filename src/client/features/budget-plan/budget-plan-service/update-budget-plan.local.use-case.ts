@@ -7,17 +7,19 @@ import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/b
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { AppError } from '@common/classes/app-error.class';
+import { type PlannedRegOpsBudgetLocalRepository } from '@frontend/entities/planned-reg-ops-budget/planned-reg-ops-budget.local.repository';
 
 export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
   constructor(
     transactionManager: ITransactionManager,
     private readonly budgetPlanRepository: BudgetPlanLocalRepository,
     private readonly monthEntryRepository: ICrudService<MonthEntry>,
+    private readonly plannedRegOpsBudgetRepository: PlannedRegOpsBudgetLocalRepository,
   ) {
     super(transactionManager);
   }
 
-  async handle({ otherEntries: otherEntriesDto, ...data }: UpdateBudgetPlanDto): Promise<true> {
+  async handle({ otherEntries: otherEntriesDto, plannedRegularEntryIds }: UpdateBudgetPlanDto): Promise<true> {
     const date = getCurrentMonthDate();
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 
@@ -59,9 +61,22 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
       }),
     );
 
+    const currentJoinRows = await this.plannedRegOpsBudgetRepository.getByBudgetPlanId(currentBudgetPlan.id);
+    const currentRegIds = currentJoinRows.map((r) => r.regularOperationId);
+
+    const joinRowsToDelete = currentJoinRows.filter((r) => !plannedRegularEntryIds.includes(r.regularOperationId));
+    const regIdsToAdd = plannedRegularEntryIds.filter((id) => !currentRegIds.includes(id));
+
+    await Promise.all(joinRowsToDelete.map((r) => this.plannedRegOpsBudgetRepository.deleteItem(r.id)));
+
+    await Promise.all(
+      regIdsToAdd.map((regularOperationId) =>
+        this.plannedRegOpsBudgetRepository.createItem({ regularOperationId, budgetPlanId: currentBudgetPlan.id }),
+      ),
+    );
+
     return await this.budgetPlanRepository.updateItem(currentBudgetPlan.id, {
       ...date,
-      ...data,
       otherEntryIds: [...remainedOtherEntryIds, ...newOtherEntryIds],
     });
   }

@@ -4,6 +4,8 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { GetBudgetPlanSchema } from '@common/domains/budget-plan/get-budget-plan.schema';
 import { budgetPlanRepository } from '@backend/entities/budget-plan/infrastructure/budget-plan.repository';
+import type { BudgetPlanDetailed } from '@common/records/budget-plan.record';
+import { mapBudgetPlanOrmToInterface } from '@backend/entities/budget-plan/application/map-orm-to-interface';
 
 export const POST = createRoute({
   schema: GetBudgetPlanSchema,
@@ -12,9 +14,11 @@ export const POST = createRoute({
   execute: async ({ body, context }) => {
     const userId = context as number;
 
+    const result = await budgetPlanRepository.getItem({ ...body, userId });
+
     return {
       status: 200,
-      data: await budgetPlanRepository.getItem({ ...body, userId }),
+      data: (result ? mapBudgetPlanOrmToInterface(result) : null) satisfies BudgetPlanDetailed | null,
     };
   },
   filter: getDefaultApiErrorFilter,

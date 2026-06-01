@@ -8,6 +8,7 @@ import { MonthEntryOrm } from '@backend/entities/month-entry/infrastructure/mont
 import { RecoveryCodeOrm } from '@backend/entities/recovery-code/infrastructure/recovery-code.orm';
 import { ErrorLogOrm } from '@backend/entities/error-log/infrastructure/error-log.orm';
 import { TotpOrm } from '@backend/entities/totp/infrastructure/totp.orm';
+import { PlannedRegOpsBudgetOrm } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.orm';
 
 export const Entities = [
   UserOrm,
@@ -20,4 +21,5 @@ export const Entities = [
   RecoveryCodeOrm,
   ErrorLogOrm,
   TotpOrm,
+  PlannedRegOpsBudgetOrm,
 ];
