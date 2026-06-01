@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { AllCategories } from '@common/enums/categories.enum';
 
@@ -9,4 +10,7 @@ export type TransactionCardProps = Partial<RegularEntry> & {
   handleDelete?: (id: number) => void;
   category?: AllCategories;
   showActions?: boolean;
+  deletable?: boolean;
+  editPath?: string;
+  badge?: ReactNode;
 };

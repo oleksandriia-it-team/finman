@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { FiltersSheet } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-sheet';
@@ -71,7 +71,7 @@ export function TrackingOperationHeader() {
               showErrors={false}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <UiIconButton
               isRoundedFull
               icon={isSearchOpen ? 'x' : 'search'}
@@ -80,6 +80,7 @@ export function TrackingOperationHeader() {
               size="xl"
               borderNone={true}
               onClick={handleSearchToggle}
+              paddingNone
             />
 
             <FiltersSheet>
@@ -90,6 +91,7 @@ export function TrackingOperationHeader() {
                 variant="muted-foreground"
                 size="xl"
                 borderNone={true}
+                paddingNone
               />
             </FiltersSheet>
           </div>

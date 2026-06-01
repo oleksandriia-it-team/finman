@@ -1,0 +1,394 @@
+import type { SVGProps } from 'react';
+
+export function JuneSvg({ width = 200, height = 200, viewBox = '0 0 200 200', ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      viewBox={viewBox}
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      {...props}
+    >
+      <defs>
+        <clipPath id="jn">
+          <rect
+            width="200"
+            height="200"
+            rx="20"
+          />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#jn)">
+        <rect
+          width="200"
+          height="200"
+          fill="#5ab8e8"
+        />
+        <rect
+          width="200"
+          height="115"
+          fill="#6ac8f0"
+        />
+        <circle
+          cx="40"
+          cy="35"
+          r="22"
+          fill="#fff060"
+        />
+        <g
+          stroke="#ffd020"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+        >
+          <line
+            x1="40"
+            y1="3"
+            x2="40"
+            y2="-3"
+          />
+          <line
+            x1="40"
+            y1="73"
+            x2="40"
+            y2="67"
+          />
+          <line
+            x1="8"
+            y1="35"
+            x2="2"
+            y2="35"
+          />
+          <line
+            x1="72"
+            y1="35"
+            x2="78"
+            y2="35"
+          />
+          <line
+            x1="18"
+            y1="13"
+            x2="14"
+            y2="9"
+          />
+          <line
+            x1="62"
+            y1="13"
+            x2="66"
+            y2="9"
+          />
+          <line
+            x1="18"
+            y1="57"
+            x2="14"
+            y2="61"
+          />
+          <line
+            x1="62"
+            y1="57"
+            x2="66"
+            y2="61"
+          />
+        </g>
+        <circle
+          cx="40"
+          cy="35"
+          r="15"
+          fill="#ffe040"
+        />
+        <ellipse
+          cx="140"
+          cy="40"
+          rx="25"
+          ry="10"
+          fill="#ffffff"
+          opacity=".9"
+        />
+        <ellipse
+          cx="165"
+          cy="35"
+          rx="18"
+          ry="9"
+          fill="#ffffff"
+          opacity=".9"
+        />
+        <ellipse
+          cx="155"
+          cy="48"
+          rx="22"
+          ry="8"
+          fill="#ffffff"
+          opacity=".9"
+        />
+        <path
+          d="M0 115 Q40 100 80 110 T160 105 T200 115 V200 H0 Z"
+          fill="#3a8820"
+        />
+        <g transform="translate(60 95)">
+          <ellipse
+            cx="0"
+            cy="0"
+            rx="28"
+            ry="22"
+            fill="#2d6818"
+          />
+          <ellipse
+            cx="-15"
+            cy="-5"
+            rx="14"
+            ry="12"
+            fill="#3a7820"
+          />
+          <ellipse
+            cx="15"
+            cy="-3"
+            rx="13"
+            ry="11"
+            fill="#3a7820"
+          />
+          <ellipse
+            cx="0"
+            cy="-12"
+            rx="12"
+            ry="10"
+            fill="#48a828"
+          />
+          <ellipse
+            cx="-10"
+            cy="8"
+            rx="10"
+            ry="8"
+            fill="#48a828"
+          />
+          <ellipse
+            cx="8"
+            cy="10"
+            rx="9"
+            ry="7"
+            fill="#5ac030"
+          />
+          <rect
+            x="-3"
+            y="20"
+            width="6"
+            height="20"
+            fill="#5a3520"
+          />
+          <g
+            fill="#5ac030"
+            opacity=".7"
+          >
+            <circle
+              cx="-18"
+              cy="-8"
+              r="2"
+            />
+            <circle
+              cx="16"
+              cy="-10"
+              r="2"
+            />
+            <circle
+              cx="-5"
+              cy="-15"
+              r="1.5"
+            />
+            <circle
+              cx="8"
+              cy="-18"
+              r="1.5"
+            />
+            <circle
+              cx="-22"
+              cy="2"
+              r="1.5"
+            />
+            <circle
+              cx="20"
+              cy="5"
+              r="2"
+            />
+            <circle
+              cx="0"
+              cy="5"
+              r="1.5"
+            />
+            <circle
+              cx="-12"
+              cy="12"
+              r="1.5"
+            />
+          </g>
+        </g>
+        <g transform="translate(150 100)">
+          <ellipse
+            cx="0"
+            cy="0"
+            rx="30"
+            ry="25"
+            fill="#2d6818"
+          />
+          <ellipse
+            cx="-16"
+            cy="-6"
+            rx="15"
+            ry="13"
+            fill="#3a7820"
+          />
+          <ellipse
+            cx="16"
+            cy="-4"
+            rx="14"
+            ry="12"
+            fill="#3a7820"
+          />
+          <ellipse
+            cx="0"
+            cy="-14"
+            rx="13"
+            ry="11"
+            fill="#48a828"
+          />
+          <ellipse
+            cx="-12"
+            cy="9"
+            rx="11"
+            ry="9"
+            fill="#48a828"
+          />
+          <ellipse
+            cx="10"
+            cy="11"
+            rx="10"
+            ry="8"
+            fill="#5ac030"
+          />
+          <rect
+            x="-3"
+            y="23"
+            width="6"
+            height="22"
+            fill="#5a3520"
+          />
+          <g
+            fill="#5ac030"
+            opacity=".7"
+          >
+            <circle
+              cx="-20"
+              cy="-9"
+              r="2"
+            />
+            <circle
+              cx="18"
+              cy="-11"
+              r="2"
+            />
+            <circle
+              cx="-6"
+              cy="-17"
+              r="1.5"
+            />
+            <circle
+              cx="9"
+              cy="-20"
+              r="1.5"
+            />
+            <circle
+              cx="-24"
+              cy="3"
+              r="1.5"
+            />
+            <circle
+              cx="22"
+              cy="6"
+              r="2"
+            />
+          </g>
+        </g>
+        <g fill="#48a828">
+          <path d="M10 135 Q12 125 14 135" />
+          <path d="M20 138 Q22 128 24 138" />
+          <path d="M105 138 Q107 128 109 138" />
+          <path d="M115 140 Q117 130 119 140" />
+          <path d="M175 135 Q177 125 179 135" />
+          <path d="M185 138 Q187 128 189 138" />
+        </g>
+        <g transform="translate(105 60)">
+          <path
+            d="M0 0 Q-6 -4 -10 0 Q-8 4 0 2"
+            fill="#f070a0"
+          />
+          <path
+            d="M0 0 Q6 -4 10 0 Q8 4 0 2"
+            fill="#f070a0"
+          />
+          <path
+            d="M0 1 Q-5 5 -8 3 Q-6 0 0 2"
+            fill="#a0408a"
+          />
+          <path
+            d="M0 1 Q5 5 8 3 Q6 0 0 2"
+            fill="#a0408a"
+          />
+          <rect
+            x="-0.5"
+            y="-1"
+            width="1"
+            height="6"
+            fill="#2d2020"
+          />
+        </g>
+        <g transform="translate(75 50)">
+          <path
+            d="M0 0 Q-5 -3 -8 0 Q-6 3 0 2"
+            fill="#ffa040"
+          />
+          <path
+            d="M0 0 Q5 -3 8 0 Q6 3 0 2"
+            fill="#ffa040"
+          />
+          <path
+            d="M0 1 Q-4 4 -6 2 Q-5 0 0 2"
+            fill="#d06020"
+          />
+          <path
+            d="M0 1 Q4 4 6 2 Q5 0 0 2"
+            fill="#d06020"
+          />
+          <rect
+            x="-0.4"
+            y="-1"
+            width="0.8"
+            height="5"
+            fill="#2d2020"
+          />
+        </g>
+        <g fill="#3a7820">
+          <rect
+            x="0"
+            y="160"
+            width="200"
+            height="40"
+          />
+        </g>
+        <g
+          stroke="#2d5818"
+          strokeWidth="0.7"
+          fill="none"
+        >
+          <path d="M5 165 Q6 158 7 165" />
+          <path d="M15 168 Q16 160 17 168" />
+          <path d="M30 165 Q31 158 32 165" />
+          <path d="M50 168 Q51 160 52 168" />
+          <path d="M70 165 Q71 158 72 165" />
+          <path d="M90 168 Q91 160 92 168" />
+          <path d="M110 165 Q111 158 112 165" />
+          <path d="M130 168 Q131 160 132 168" />
+          <path d="M150 165 Q151 158 152 165" />
+          <path d="M170 168 Q171 160 172 168" />
+          <path d="M185 165 Q186 158 187 165" />
+        </g>
+      </g>
+    </svg>
+  );
+}

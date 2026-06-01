@@ -24,4 +24,5 @@ export interface CardsFormHeaderTemplateProps {
   title: string;
   description: string;
   isEdit: boolean;
+  subjectLabel?: { create: string; edit: string };
 }

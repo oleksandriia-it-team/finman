@@ -13,14 +13,14 @@ export const profileNavRoutesWindow: SidebarItemModel[] = [
     name: 'Планування',
     innerItems: [
       {
-        icon: 'coin',
-        name: 'Регулярні операції',
-        route: '/regular-operations',
+        icon: 'piggy-bank',
+        name: 'Бюджетні плани',
+        route: '/plans',
       },
       {
         icon: 'coin',
-        name: 'Бюджетні плани',
-        route: '/plans',
+        name: 'Регулярні операції',
+        route: '/regular-operations',
       },
     ],
   },
@@ -45,9 +45,10 @@ export const profileNavRoutesMobile: NavItemModel[] = [
     icon: 'house',
   },
   {
-    route: '/profile/budget/regular-operations',
+    route: '/profile/budget/plans',
     icon: 'pie-chart',
     name: 'Планування',
+    activeRoutes: ['/profile/budget'],
   },
   {
     route: '/profile/analytics',

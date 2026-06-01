@@ -4,6 +4,7 @@ import { type DatabaseLocalService, databaseLocalService } from '../../database/
 import { Tables } from '../../shared/constants/database.constants';
 import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-plan.schema';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 
 export class BudgetPlanLocalRepository extends CrudLocalRepository<BudgetPlan, never> {
   constructor(databaseLocalService: DatabaseLocalService) {
@@ -24,8 +25,7 @@ export class BudgetPlanLocalRepository extends CrudLocalRepository<BudgetPlan, n
 
   async getItem({ month, year }: GetBudgetPlanDto): Promise<BudgetPlan | null> {
     return (
-      (await this.table.filter((plan) => plan.year === year && plan.month === month && !plan.softDeleted).first()) ??
-      null
+      (await this.table.filter((plan) => isCurrentMonth(plan, { year, month }) && !plan.softDeleted).first()) ?? null
     );
   }
 }

@@ -10,7 +10,7 @@ import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
 const intSchema = z.coerce.number().int();
 
-export function FinFormScreenHandler<T>({
+export function FinFormScreenHandler<T, ID = number>({
   getItemFn,
   notItemFound,
   render,
@@ -18,12 +18,21 @@ export function FinFormScreenHandler<T>({
   loading,
   error,
   queryKey,
-}: FormScreenHandlerProps<T>) {
+  parseParam,
+}: FormScreenHandlerProps<T, ID>) {
   const usedParams = use(params) as object;
+  const rawId = 'id' in usedParams ? String(usedParams.id) : null;
 
-  const { data: id, success } = intSchema.safeParse('id' in usedParams ? usedParams.id : null);
+  const parsed = parseParam
+    ? rawId !== null
+      ? parseParam(rawId)
+      : { success: false as const }
+    : (() => {
+        const result = intSchema.safeParse(rawId);
+        return result.success ? { success: true as const, data: result.data as ID } : { success: false as const };
+      })();
 
-  if (!success) {
+  if (!parsed.success) {
     if (!error) {
       return (
         <FinErrorWidget
@@ -32,16 +41,15 @@ export function FinFormScreenHandler<T>({
         />
       );
     }
-
     return error({ status: 400, message: 'ID є некоректним' });
   }
+
+  const id = parsed.data;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const item = useQuery({
     queryKey: [queryKey, String(id)],
-    queryFn: () => {
-      return getItemFn(id);
-    },
+    queryFn: () => getItemFn(id),
     staleTime: 0,
   });
 
@@ -53,8 +61,8 @@ export function FinFormScreenHandler<T>({
     if (!error) {
       return (
         <FinErrorWidget
-          status={400}
-          message="ID є некоректним"
+          status={500}
+          message="Помилка завантаження"
         />
       );
     }

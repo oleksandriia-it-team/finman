@@ -25,6 +25,7 @@ export function useAttachOperationsList() {
       .filter(
         (entry) =>
           category === entry.category &&
+          entry.selected &&
           (searchItem(entry.title, debouncedSearch) || searchItem(entry.description ?? '', debouncedSearch)),
       )
       .map((entry) => ({ entry, onSelect, isSelected: attachedPlannedMonthEntryId === entry.id }));

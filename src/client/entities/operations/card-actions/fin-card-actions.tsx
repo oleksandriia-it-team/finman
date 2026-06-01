@@ -3,7 +3,7 @@ import { UiActionButton } from '@frontend/ui/ui-action-button/ui-action-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
-import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-expense-card/income-expense-card-actions';
+import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-expense-card/card/income-expense-card-actions';
 import { useRouter } from 'next/navigation';
 import type { TransactionActionsProps } from '@frontend/entities/operations/card-actions/fin-card-actions-props';
 
@@ -16,16 +16,18 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
       title="Оберіть дію"
       description={title}
     >
-      <UiActionButton
-        icon="pencil-fill"
-        variant="muted"
-        iconVariant="primary"
-        size="sm"
-        onClick={() => router.push(editPath)}
-      >
-        <UiTitle>Редагувати</UiTitle>
-        <UiDescription>Змінити дані транзакції</UiDescription>
-      </UiActionButton>
+      {editPath && (
+        <UiActionButton
+          icon="pencil-fill"
+          variant="muted"
+          iconVariant="primary"
+          size="sm"
+          onClick={() => router.push(editPath)}
+        >
+          <UiTitle size="sm">Редагувати</UiTitle>
+          <UiDescription size="xs">Змінити дані транзакції</UiDescription>
+        </UiActionButton>
+      )}
 
       <UiConfirmModal
         trigger={
@@ -35,8 +37,8 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
             iconVariant="destructive"
             size="sm"
           >
-            <UiTitle>Видалити</UiTitle>
-            <UiDescription>Назавжди видалити транзакцію</UiDescription>
+            <UiTitle size="sm">Видалити</UiTitle>
+            <UiDescription size="xs">Назавжди видалити транзакцію</UiDescription>
           </UiActionButton>
         }
         onConfirm={() => handleDelete?.(id!)}

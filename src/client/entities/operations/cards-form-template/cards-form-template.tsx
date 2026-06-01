@@ -26,12 +26,14 @@ export function CardsFormTemplate({ children, submit }: CardsFormTemplateProps) 
   );
 }
 
-export function CardsFormHeaderTemplate({ title, description, isEdit }: CardsFormHeaderTemplateProps) {
+export function CardsFormHeaderTemplate({ title, description, isEdit, subjectLabel }: CardsFormHeaderTemplateProps) {
+  const defaultLabel = isEdit ? 'регулярний платіж' : 'новий регулярний платіж';
+  const finalLabel = subjectLabel ? (isEdit ? subjectLabel.edit : subjectLabel.create) : defaultLabel;
   return (
     <UiFormLayout.Header>
       <UiFormLayout.Title>{title}</UiFormLayout.Title>
       <UiFormLayout.Description>
-        {description} {isEdit ? 'регулярний платіж' : 'новий регулярний платіж'}
+        {description} {finalLabel}
       </UiFormLayout.Description>
     </UiFormLayout.Header>
   );

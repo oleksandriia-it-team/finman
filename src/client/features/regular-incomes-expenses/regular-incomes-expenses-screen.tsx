@@ -1,6 +1,6 @@
 'use client';
 
-import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/income-expense-card';
+import { IncomeExpenseCard } from '@frontend/entities/operations/income-expense-card/card/income-expense-card';
 import { usePaginationResource } from '@frontend/shared/hooks/pagination-resource/pagination-resource.hook';
 import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
@@ -67,10 +67,11 @@ export default function RegularIncomesExpensesScreen() {
           {options.map((item, index) => (
             <IncomeExpenseCard
               key={item.id ?? index}
+              {...item}
               handleDelete={async (id) => {
                 onDelete.mutate(id);
               }}
-              {...item}
+              editPath={`regular-operations/edit/${item.id}`}
             />
           ))}
         </FinListScreenHandler>
