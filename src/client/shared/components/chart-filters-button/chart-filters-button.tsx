@@ -12,9 +12,11 @@ export function ChartFiltersButton({ icon, counter, title, className, ...props }
     >
       <UiSvgIcon name={icon} />
       <p className="truncate">{title}</p>
-      <div className="size-5 bg-primary rounded-full">
-        <p className="text-sm text-primary-foreground">{counter}</p>
-      </div>
+      {counter != null && counter > 0 && (
+        <div className="size-5 bg-primary rounded-full">
+          <p className="text-sm text-primary-foreground">{counter}</p>
+        </div>
+      )}
     </UiButton>
   );
 }
