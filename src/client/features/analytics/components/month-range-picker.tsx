@@ -28,7 +28,7 @@ export function MonthRangePicker({ value, onChange }: MonthRangePickerProps) {
   }, [open, value]);
 
   const handleMonthClick = (clicked: Date) => {
-    if (!from || (from && to)) {
+    if (!from || to) {
       setFrom(clicked);
       setTo(null);
       return;
