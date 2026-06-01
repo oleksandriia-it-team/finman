@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { IncomesExpensesChartCard } from '@frontend/entities/analytics/incomes-expenses-chart/incomes-expenses-chart-card';
 import { CategoriesExpensesChartCard } from '@frontend/entities/analytics/categories-charts/categories-expenses-chart/categories-expenses-chart-card';
-import { CategoriesIncomesChartCard } from '@frontend/entities/analytics/categories-charts/categories-incomes-chart/categories-incomes-card';
+import { CategoriesIncomesChartCard } from '@frontend/entities/analytics/categories-charts/categories-incomes-chart/categories-incomes-chart-card';
 import { BudgetVsActualChartCard } from '@frontend/entities/analytics/budget-vs-actual-chart/budget-vs-actual-chart-card';
 import {
   CategoriesMapping,
@@ -38,7 +38,7 @@ function AnalyticsCards() {
     [incomesExpensesRange, incomesExpensesCategories],
   );
 
-  const incomesExpensesData = useAnalyticsQuery(
+  const incomesExpenses = useAnalyticsQuery(
     'analytics-monthly-income-expenses',
     incomesExpensesFilter,
     getMonthlyIncomeExpenses,
@@ -46,7 +46,7 @@ function AnalyticsCards() {
     [],
   );
 
-  const expensesByCategoryData = useAnalyticsQuery(
+  const expensesByCategory = useAnalyticsQuery(
     'analytics-expenses-by-category',
     expensesByCategoryRange,
     getExpensesByCategory,
@@ -54,7 +54,7 @@ function AnalyticsCards() {
     [],
   );
 
-  const incomesByCategoryData = useAnalyticsQuery(
+  const incomesByCategory = useAnalyticsQuery(
     'analytics-incomes-by-category',
     incomesByCategoryRange,
     getIncomesByCategory,
@@ -62,7 +62,7 @@ function AnalyticsCards() {
     [],
   );
 
-  const planVsActualData = useAnalyticsQuery(
+  const planVsActual = useAnalyticsQuery(
     'analytics-plan-vs-actual',
     planVsActualMonth,
     getPlanVsActual,
@@ -78,7 +78,8 @@ function AnalyticsCards() {
   return (
     <>
       <IncomesExpensesChartCard
-        data={incomesExpensesData}
+        data={incomesExpenses.data}
+        loading={incomesExpenses.isLoading}
         filterTrigger={
           <div className="flex flex-col gap-2">
             <CategoriesFilterDropdown
@@ -94,7 +95,8 @@ function AnalyticsCards() {
         }
       />
       <CategoriesExpensesChartCard
-        data={expensesByCategoryData}
+        data={expensesByCategory.data}
+        loading={expensesByCategory.isLoading}
         filterTrigger={
           <MonthRangePicker
             value={expensesByCategoryRange}
@@ -103,7 +105,8 @@ function AnalyticsCards() {
         }
       />
       <CategoriesIncomesChartCard
-        data={incomesByCategoryData}
+        data={incomesByCategory.data}
+        loading={incomesByCategory.isLoading}
         filterTrigger={
           <MonthRangePicker
             value={incomesByCategoryRange}
@@ -112,7 +115,8 @@ function AnalyticsCards() {
         }
       />
       <BudgetVsActualChartCard
-        data={planVsActualData}
+        data={planVsActual.data}
+        loading={planVsActual.isLoading}
         filterTrigger={
           <MonthPicker
             value={planVsActualMonth}
