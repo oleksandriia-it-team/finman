@@ -78,16 +78,23 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
   );
 
   const setCenterButton = useUserNavStoreHook((state) => state.setCenterButton);
+  const setPlusHidden = useUserNavStoreHook((state) => state.setPlusHidden);
 
   const editUrl = useMemo(
     () => `/profile/budget/plans/${createBudgetPlanIdUrl(currSelectedBudgetPlanDate)}/edit`,
     [currSelectedBudgetPlanDate],
   );
 
+  const isCurrent = isCurrentMonth(currSelectedBudgetPlanDate);
+
   useEffect(() => {
+    if (!isCurrent) {
+      setPlusHidden(true);
+      return () => setPlusHidden(false);
+    }
     setCenterButton({ icon: 'pencil', url: editUrl, size: '4xl', iconSize: 'xxl' });
     return () => setCenterButton({ icon: 'plus', url: '/profile' });
-  }, [editUrl, setCenterButton]);
+  }, [isCurrent, editUrl, setCenterButton, setPlusHidden]);
 
   const handleCreate = () => {
     const segments = pathname.split('/');

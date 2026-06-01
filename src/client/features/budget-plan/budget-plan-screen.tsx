@@ -15,6 +15,7 @@ import {
   BudgetPlanStatisticMobile,
 } from '@frontend/features/budget-plan/components/budget-plan-statistic-block';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
 
 interface BudgetPlanViewScreenProps {
   budgetPlan: BudgetPlanDetailed;
@@ -28,6 +29,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const StatisticBlock = isMobile ? BudgetPlanStatisticMobile : BudgetPlanStatisticDesktop;
 
   const isEmpty = budgetPlan.plannedRegularEntries.length === 0 && budgetPlan.otherEntries.length === 0;
+  const canEdit = isCurrentMonth({ month: budgetPlan.month, year: budgetPlan.year });
 
   const { income, expense } = useMemo(() => {
     const allEntries = [...budgetPlan.plannedRegularEntries, ...budgetPlan.otherEntries];
@@ -48,19 +50,21 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
             Регулярних операцій: {budgetPlan.plannedRegularEntries.length} · Разових: {budgetPlan.otherEntries.length}
           </p>
         </div>
-        <UiButton
-          variant="primary"
-          isOutlined
-          size="sm"
-          className="gap-1.5"
-          onClick={() => router.push(`${pathname}/edit`)}
-        >
-          <UiSvgIcon
-            name="pencil"
-            size="xs"
-          />
-          Редагувати
-        </UiButton>
+        {canEdit && (
+          <UiButton
+            variant="primary"
+            isOutlined
+            size="sm"
+            className="gap-1.5"
+            onClick={() => router.push(`${pathname}/edit`)}
+          >
+            <UiSvgIcon
+              name="pencil"
+              size="xs"
+            />
+            Редагувати
+          </UiButton>
+        )}
       </div>
 
       <div className="px-4 pb-2 flex-none">

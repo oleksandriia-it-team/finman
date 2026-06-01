@@ -79,7 +79,9 @@ export function useBudgetPlanRecommendations({
     try {
       await submitAsync({
         plannedRegularEntryIds,
-        otherEntries: otherEntries.filter((e) => e.type !== TypeEntry.Expense || selectedToKeep.has(e.id)),
+        otherEntries: otherEntries.map((e) =>
+          e.type === TypeEntry.Expense ? { ...e, selected: selectedToKeep.has(e.id) } : e,
+        ),
       });
       onApply();
     } catch {

@@ -67,7 +67,6 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
           </p>
           <p className="text-sm text-muted-foreground mt-0.5">Оберіть регулярні операції для включення в план</p>
         </div>
-        {hasAnySelected && <span className="text-sm text-muted-foreground">Вибрано: {selectedIds.size}</span>}
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">
