@@ -46,7 +46,7 @@ export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlan
             month={month}
             year={showYear}
             disabled={disabledMonths.includes(month)}
-            selected={isCurrentMonth(selected.month, { month, year: showYear })}
+            selected={isCurrentMonth(selected, { month, year: showYear })}
             onSelect={(month) => onSelect({ month, year: showYear })}
           />
         ))}
