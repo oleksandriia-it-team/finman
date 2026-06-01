@@ -13,7 +13,7 @@ export const profileNavRoutesWindow: SidebarItemModel[] = [
     name: 'Планування',
     innerItems: [
       {
-        icon: 'piggy-bank-fill',
+        icon: 'piggy-bank',
         name: 'Бюджетні плани',
         route: '/plans',
       },
