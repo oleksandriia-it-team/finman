@@ -23,6 +23,9 @@ export function renderPieLabel(props: PieLabelRenderProps) {
   const x = cx + radius * Math.cos(-midAngle * RadianFactor);
   const y = cy + radius * Math.sin(-midAngle * RadianFactor);
 
+  const rounded = Math.round(percent * 100);
+  const display = percent < 1 ? Math.min(rounded, 99) : 100;
+
   return (
     <text
       x={x}
@@ -32,7 +35,7 @@ export function renderPieLabel(props: PieLabelRenderProps) {
       dominantBaseline="central"
       className="text-xs font-semibold"
     >
-      {`${Math.round(percent * 100)}%`}
+      {`${display}%`}
     </text>
   );
 }

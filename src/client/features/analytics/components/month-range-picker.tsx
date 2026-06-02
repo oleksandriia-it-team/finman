@@ -54,11 +54,6 @@ export function MonthRangePicker({ value, onChange }: MonthRangePickerProps) {
     setOpen(false);
   };
 
-  const handleReset = () => {
-    setFrom(null);
-    setTo(null);
-  };
-
   return (
     <MonthGridPopover
       open={open}
@@ -70,21 +65,14 @@ export function MonthRangePicker({ value, onChange }: MonthRangePickerProps) {
       getMonthVariant={getVariant}
       onMonthClick={handleMonthClick}
       footer={
-        <div className="flex justify-between items-center pt-2 border-t border-border">
-          <UiButton
-            type="button"
-            variant="default"
-            size="sm"
-            onClick={handleReset}
-          >
-            Скинути
-          </UiButton>
+        <div className=" w-full flex justify-between items-center pt-2 border-t border-border">
           <UiButton
             type="button"
             variant="primary"
             size="sm"
             disabled={!from || !to}
             onClick={handleApply}
+            className="w-full"
           >
             Застосувати
           </UiButton>

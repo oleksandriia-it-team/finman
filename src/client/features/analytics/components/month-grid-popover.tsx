@@ -44,7 +44,7 @@ export function MonthGridPopover({
             <UiIconButton
               icon="chevron-left"
               size="sm"
-              variant="muted"
+              variant="muted-foreground"
               borderNone
               aria-label="Попередній рік"
               onClick={() => onViewDateChange(subYears(viewDate, 1))}
@@ -53,7 +53,7 @@ export function MonthGridPopover({
             <UiIconButton
               icon="chevron-right"
               size="sm"
-              variant="muted"
+              variant="muted-foreground"
               borderNone
               aria-label="Наступний рік"
               onClick={() => onViewDateChange(addYears(viewDate, 1))}

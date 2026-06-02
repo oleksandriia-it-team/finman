@@ -72,7 +72,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
                   <SelectableCardCheckbox
                     selected={isSelected}
                     className={cn(
-                      'size-5 rounded border border-border flex items-center justify-center shrink-0',
+                      'size-5 rounded border border-muted-foreground flex items-center justify-center shrink-0',
                       isSelected && 'bg-primary border-primary',
                     )}
                   />

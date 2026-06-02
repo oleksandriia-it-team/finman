@@ -72,6 +72,7 @@ export function CategoriesExpensesChart({ data }: CategoriesChartProps) {
             innerRadius="55%"
             outerRadius="80%"
             strokeWidth={4}
+            minAngle={1}
             label={renderPieLabel}
             labelLine={false}
           />
