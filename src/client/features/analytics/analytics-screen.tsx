@@ -15,7 +15,6 @@ import { useAnalyticsQuery } from '@frontend/features/analytics/hooks/use-analyt
 import { CategoriesFilterDropdown } from '@frontend/features/analytics/components/categories-filter-dropdown';
 import { MonthPicker } from '@frontend/features/analytics/components/month-picker';
 import { MonthRangePicker } from '@frontend/features/analytics/components/month-range-picker';
-import { AddOperationAction, BudgetPlansAction } from '@frontend/features/analytics/analytics-empty-actions.constant';
 import { getDefaultMonth, getDefaultRange } from '@common/domains/analytics/utils/get-default-filter.util';
 import type { AllCategories } from '@common/enums/categories.enum';
 import type { MonthRange, MonthYear } from '@common/domains/analytics/analytics.schema';
@@ -86,7 +85,6 @@ function AnalyticsCards() {
       <IncomesExpensesChartCard
         data={incomesExpenses.data}
         loading={incomesExpenses.isLoading}
-        emptyAction={AddOperationAction}
         filterTrigger={
           <div className="flex flex-col gap-2">
             <CategoriesFilterDropdown
@@ -104,7 +102,6 @@ function AnalyticsCards() {
       <CategoriesExpensesChartCard
         data={expensesByCategory.data}
         loading={expensesByCategory.isLoading}
-        emptyAction={AddOperationAction}
         filterTrigger={
           <MonthRangePicker
             value={expensesByCategoryRange}
@@ -115,7 +112,6 @@ function AnalyticsCards() {
       <CategoriesIncomesChartCard
         data={incomesByCategory.data}
         loading={incomesByCategory.isLoading}
-        emptyAction={AddOperationAction}
         filterTrigger={
           <MonthRangePicker
             value={incomesByCategoryRange}
@@ -126,7 +122,6 @@ function AnalyticsCards() {
       <BudgetVsActualChartCard
         data={planVsActual.data}
         loading={planVsActual.isLoading}
-        emptyAction={BudgetPlansAction}
         filterTrigger={
           <MonthPicker
             value={planVsActualMonth}
