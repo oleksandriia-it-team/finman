@@ -2,16 +2,20 @@ import type { ICrudService } from '@common/models/crud-service.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
 import type { DeepPartial } from '@common/models/deep-partial.model';
+import type {
+  RegularEntryCreateDTO,
+  RegularEntryUpdateDTO,
+} from '@common/domains/regular-entry/models/regular-entry-repository.model';
 
 export class RegularEntryApiClient implements ICrudService<
   RegularEntry,
-  Omit<RegularEntry, DefaultColumnKeys>,
-  RegularEntryFilter
+  RegularEntryCreateDTO,
+  RegularEntryFilter,
+  RegularEntryUpdateDTO
 > {
-  async createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {
+  async createItem(data: RegularEntryCreateDTO): Promise<number> {
     return fetchClient
       .post<ApiResultOperationSuccess<number>>('/api/budget/regular-entry/create', data)
       .then((r) => r.data);
@@ -45,7 +49,7 @@ export class RegularEntryApiClient implements ICrudService<
       .then((r) => r.data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
+  async updateItem(id: number, data: RegularEntryUpdateDTO): Promise<true> {
     return fetchClient
       .put<ApiResultOperationSuccess<true>>(`/api/budget/regular-entry/update/${id}`, data)
       .then((r) => r.data);

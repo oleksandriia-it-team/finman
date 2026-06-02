@@ -1,9 +1,13 @@
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
+import type {
+  RegularEntryCreateDTO,
+  RegularEntryUpdateDTO,
+} from '@common/domains/regular-entry/models/regular-entry-repository.model';
 import { regularEntryService } from '@frontend/features/regular-incomes-expenses/regular-entry.service';
 import constate from 'constate';
 
-export type CreateRegularEntryDto = Omit<RegularEntry, DefaultColumnKeys>;
+export type CreateRegularEntryDto = RegularEntryCreateDTO;
+export type UpdateRegularEntryDto = RegularEntryUpdateDTO;
 
 function useRegularTransactionsLogic() {
   const getPayments = (from: number, to: number): Promise<RegularEntry[]> => {
@@ -24,7 +28,7 @@ function useRegularTransactionsLogic() {
     return regularEntryService.deleteItem(id);
   };
 
-  const handleUpdate = (id: number, dto: CreateRegularEntryDto): Promise<true> => {
+  const handleUpdate = (id: number, dto: UpdateRegularEntryDto): Promise<true> => {
     return regularEntryService.updateItem(id, dto);
   };
 

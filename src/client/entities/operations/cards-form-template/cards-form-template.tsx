@@ -83,7 +83,7 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
   );
 }
 
-export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplateProps) {
+export function CardsFormTemplateInputs({ children, disableSum = false }: CardsFormInputsTemplateProps) {
   return (
     <>
       <FinControlledInput
@@ -104,6 +104,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
         label="Сума"
         id="sum"
         pattern={NumberOnlyPattern}
+        disabled={disableSum}
         name="sum"
         type="number"
         placeholder="0.00"
