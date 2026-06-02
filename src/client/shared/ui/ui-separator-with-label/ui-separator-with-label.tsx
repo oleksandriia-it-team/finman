@@ -14,7 +14,7 @@ export function UiSeparatorWithLabel({ label, className, ...props }: SeparatorWi
         <UiSeparator />
       </div>
       <div className="relative flex justify-center text-xs uppercase">
-        <span className="text-muted-foreground bg-primary-foreground px-2">{label}</span>
+        <span className="text-muted-foreground bg-background px-2">{label}</span>
       </div>
     </div>
   );

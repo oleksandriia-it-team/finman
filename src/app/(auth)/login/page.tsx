@@ -16,37 +16,39 @@ export default function LoginPage() {
   const { submit, isLoading } = useSetupLogin();
 
   return (
-    <AuthLayout imageSrc={'/pictures/login-picture.png'}>
-      <FormProvider {...methods}>
-        <form
-          className="w-full flex flex-col gap-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            submit();
-          }}
-        >
-          <UiFieldSet disabled={isLoading}>
-            <UiFieldLegend
-              size="xl"
-              className="text-center flex flex-col items-center gap-1 mb-10"
-            >
-              <div className="flex items-center gap-1">
-                <LogoSvg
-                  width={48}
-                  height={48}
-                />
-                <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
-              </div>
-              <span className="text-lg font-semibold text-foreground block">
-                {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код із додатка-автентифікатора'}
-              </span>
-            </UiFieldLegend>
+    <div className="size-full bg-background">
+      <AuthLayout imageSrc={'/pictures/login-picture.png'}>
+        <FormProvider {...methods}>
+          <form
+            className="w-full flex flex-col gap-6 "
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit();
+            }}
+          >
+            <UiFieldSet disabled={isLoading}>
+              <UiFieldLegend
+                size="xl"
+                className="text-center flex flex-col items-center gap-1 mb-10"
+              >
+                <div className="flex items-center gap-1">
+                  <LogoSvg
+                    width={48}
+                    height={48}
+                  />
+                  <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
+                </div>
+                <span className="text-lg font-semibold text-foreground block">
+                  {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код із додатка-автентифікатора'}
+                </span>
+              </UiFieldLegend>
 
-            {step === LoginStep.Password && <LoginEnterPasswordForm />}
-            {step === LoginStep.TwoFactor && <LoginEnterCodeForm />}
-          </UiFieldSet>
-        </form>
-      </FormProvider>
-    </AuthLayout>
+              {step === LoginStep.Password && <LoginEnterPasswordForm />}
+              {step === LoginStep.TwoFactor && <LoginEnterCodeForm />}
+            </UiFieldSet>
+          </form>
+        </FormProvider>
+      </AuthLayout>
+    </div>
   );
 }

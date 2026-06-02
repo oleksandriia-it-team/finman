@@ -91,7 +91,7 @@ export default function ForgotPasswordPage() {
                           <UiSeparator />
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
-                          <span className="text-muted-foreground bg-primary-foreground px-2">або</span>
+                          <span className="text-muted-foreground px-2">або</span>
                         </div>
                       </div>
 
