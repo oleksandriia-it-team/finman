@@ -15,6 +15,7 @@ import { useAnalyticsQuery } from '@frontend/features/analytics/hooks/use-analyt
 import { CategoriesFilterDropdown } from '@frontend/features/analytics/components/categories-filter-dropdown';
 import { MonthPicker } from '@frontend/features/analytics/components/month-picker';
 import { MonthRangePicker } from '@frontend/features/analytics/components/month-range-picker';
+import { AddOperationAction, BudgetPlansAction } from '@frontend/features/analytics/analytics-empty-actions.constant';
 import { getDefaultMonth, getDefaultRange } from '@common/domains/analytics/utils/get-default-filter.util';
 import type { AllCategories } from '@common/enums/categories.enum';
 import type { MonthRange, MonthYear } from '@common/domains/analytics/analytics.schema';
@@ -42,7 +43,10 @@ function AnalyticsCards() {
     'analytics-monthly-income-expenses',
     incomesExpensesFilter,
     getMonthlyIncomeExpenses,
-    (data) => data.map((item) => ({ month: item.month, incomes: item.income, expenses: item.expenses })),
+    (data) =>
+      data
+        .filter((item) => item.income > 0 || item.expenses > 0)
+        .map((item) => ({ month: item.month, incomes: item.income, expenses: item.expenses })),
     [],
   );
 
@@ -50,7 +54,7 @@ function AnalyticsCards() {
     'analytics-expenses-by-category',
     expensesByCategoryRange,
     getExpensesByCategory,
-    (data) => data.items.map((item) => ({ category: item.category, amount: item.sum })),
+    (data) => data.items.filter((item) => item.sum > 0).map((item) => ({ category: item.category, amount: item.sum })),
     [],
   );
 
@@ -58,7 +62,7 @@ function AnalyticsCards() {
     'analytics-incomes-by-category',
     incomesByCategoryRange,
     getIncomesByCategory,
-    (data) => data.items.map((item) => ({ category: item.category, amount: item.sum })),
+    (data) => data.items.filter((item) => item.sum > 0).map((item) => ({ category: item.category, amount: item.sum })),
     [],
   );
 
@@ -67,11 +71,13 @@ function AnalyticsCards() {
     planVsActualMonth,
     getPlanVsActual,
     (data) =>
-      data.map((item) => ({
-        label: CategoriesMapping[item.category]?.label ?? String(item.category),
-        plan: item.planned,
-        fact: item.actual,
-      })),
+      data
+        .filter((item) => item.planned > 0 || item.actual > 0)
+        .map((item) => ({
+          label: CategoriesMapping[item.category]?.label ?? String(item.category),
+          plan: item.planned,
+          fact: item.actual,
+        })),
     [],
   );
 
@@ -80,6 +86,7 @@ function AnalyticsCards() {
       <IncomesExpensesChartCard
         data={incomesExpenses.data}
         loading={incomesExpenses.isLoading}
+        emptyAction={AddOperationAction}
         filterTrigger={
           <div className="flex flex-col gap-2">
             <CategoriesFilterDropdown
@@ -97,6 +104,7 @@ function AnalyticsCards() {
       <CategoriesExpensesChartCard
         data={expensesByCategory.data}
         loading={expensesByCategory.isLoading}
+        emptyAction={AddOperationAction}
         filterTrigger={
           <MonthRangePicker
             value={expensesByCategoryRange}
@@ -107,6 +115,7 @@ function AnalyticsCards() {
       <CategoriesIncomesChartCard
         data={incomesByCategory.data}
         loading={incomesByCategory.isLoading}
+        emptyAction={AddOperationAction}
         filterTrigger={
           <MonthRangePicker
             value={incomesByCategoryRange}
@@ -117,6 +126,7 @@ function AnalyticsCards() {
       <BudgetVsActualChartCard
         data={planVsActual.data}
         loading={planVsActual.isLoading}
+        emptyAction={BudgetPlansAction}
         filterTrigger={
           <MonthPicker
             value={planVsActualMonth}

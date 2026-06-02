@@ -3,6 +3,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Cell } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@frontend/ui/ui-chart/chart';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
+import { formatCurrency } from '@frontend/shared/utils/format-currency.util';
 
 const chartConfig = {
   plan: { label: 'План', color: 'var(--primary)' },
@@ -34,7 +35,7 @@ export function BudgetVsActualChart({ data }: { data: BudgetItem[] }) {
           type="number"
           tickLine={false}
           axisLine={false}
-          tickFormatter={(v) => `₴ ${(v / 1000).toLocaleString('uk')}K`}
+          tickFormatter={(v) => formatCurrency(v, { notation: 'compact' })}
         />
         <YAxis
           type="category"

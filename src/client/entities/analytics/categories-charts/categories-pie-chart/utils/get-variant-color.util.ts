@@ -1,4 +1,6 @@
-const variantToColorVar: Record<string, string> = {
+import type { ColorVariantModel } from '@frontend/shared/models/color-variant.model';
+
+const variantToColorVar: Partial<Record<ColorVariantModel, string>> = {
   'warning-muted': 'var(--warning)',
   'destructive-muted': 'var(--destructive-foreground)',
   'aqua-muted': 'var(--aqua-muted-foreground)',
@@ -9,6 +11,6 @@ const variantToColorVar: Record<string, string> = {
   muted: 'var(--muted-foreground)',
 };
 
-export function getVariantColor(variant: string): string {
+export function getVariantColor(variant: ColorVariantModel): string {
   return variantToColorVar[variant] ?? 'var(--muted-foreground)';
 }

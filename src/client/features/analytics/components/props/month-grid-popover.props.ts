@@ -11,5 +11,5 @@ export interface MonthGridPopoverProps {
   onViewDateChange: (date: Date) => void;
   getMonthVariant: (date: Date) => MonthVariant;
   onMonthClick: (date: Date) => void;
-  footer?: ReactNode;
+  footer?: ReactNode | undefined;
 }
