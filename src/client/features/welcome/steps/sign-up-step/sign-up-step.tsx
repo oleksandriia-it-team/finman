@@ -4,23 +4,23 @@ import Link from 'next/link';
 
 import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
-import { TypeEntry } from '@common/enums/entry.enum';
+import { IncomeCategories } from '@common/enums/categories.enum';
 
 export default function SignUpStep() {
-  const checks = [
+  const features = [
     {
       id: 1,
       icon: 'shield-check',
       title: 'Повний контроль коштів',
       description: 'Ваші гроші під контролем',
-      type: TypeEntry.Income,
+      category: IncomeCategories.Salary,
     },
     {
       id: 2,
       icon: 'graph-up-arrow',
       title: 'Аналітика витрат',
       description: 'Детальні графіки та звіти',
-      type: TypeEntry.Income,
+      category: IncomeCategories.Freelance,
     },
   ];
 
@@ -49,15 +49,15 @@ export default function SignUpStep() {
           </div>
         </div>
         <div className="w-full space-y-3">
-          {checks.map((check) => (
+          {features.map((feature) => (
             <TransactionCard
               bgNone
               showActions={false}
-              key={check.id}
-              icon={check.icon}
-              title={check.title}
-              description={check.description}
-              type={check.type as TypeEntry.Income | TypeEntry.Expense}
+              key={feature.id}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+              category={feature.category}
               check="✓"
               className="step-card-item"
             />

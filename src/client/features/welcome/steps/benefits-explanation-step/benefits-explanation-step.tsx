@@ -32,11 +32,11 @@ export default function BenefitsExplanationStep() {
             {TransactionsData.map((tx) => (
               <TransactionCard
                 key={tx.id}
-                icon={tx.icon}
                 title={tx.title}
+                category={tx.category}
                 description={tx.description}
                 showActions={false}
-                check={tx.check}
+                sum={tx.sum}
                 type={tx.type as TypeEntry.Income | TypeEntry.Expense}
               />
             ))}
