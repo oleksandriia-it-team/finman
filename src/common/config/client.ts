@@ -12,7 +12,7 @@ export const clientSchema = z.object({
       } catch {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'API URL має бути валідним URL (наприклад, http://localhost:3000)',
+          message: 'API URL must be a valid URL (e.g., http://localhost:3000)',
         });
         return;
       }
@@ -25,8 +25,8 @@ export const clientSchema = z.object({
           code: z.ZodIssueCode.custom,
           message:
             process.env.NODE_ENV === 'production'
-              ? 'У продакшні дозволено лише https://'
-              : 'Дозволено лише https:// або http://localhost / http://127.0.0.1',
+              ? 'Only https:// is allowed in production'
+              : 'Only https:// or http://localhost / http://127.0.0.1 is allowed',
         });
       }
     }),

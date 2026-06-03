@@ -14,10 +14,12 @@ import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/sele
 import { useBudgetPlanDraftStore } from '@frontend/features/budget-plan/hooks/budget-plan-draft';
 import { useRegularTransactions } from '@frontend/features/regular-incomes-expenses/card-creation-form/regular-transaction.hook';
 import { useHidePlusButton } from '@frontend/widgets/profile-mobile-navbar/use-hide-plus-button';
+import { useTranslations } from 'next-intl';
 
 const AllRegularsPageSize = 10000;
 
 export default function CreateBudgetPlanPage() {
+  const t = useTranslations('budgetPlan.form');
   useHidePlusButton();
   const router = useRouter();
 
@@ -63,9 +65,7 @@ export default function CreateBudgetPlanPage() {
   if (!isCurrent) {
     return (
       <div className="flex flex-col items-center justify-center gap-2 h-full px-4">
-        <p className="text-muted-foreground text-sm text-center">
-          Новий бюджетний план можна створити лише для поточного місяця
-        </p>
+        <p className="text-muted-foreground text-sm text-center">{t('onlyCurrentMonth')}</p>
       </div>
     );
   }

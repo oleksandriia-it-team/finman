@@ -1,8 +1,11 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import { ChartCardLayout } from '@frontend/components/chart-card-template/chart-card-template';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { IncomesExpensesChart } from '@frontend/entities/analytics/incomes-expenses-chart/incomes-expenses-chart';
 import type { IncomeExpenseDataItem } from '@frontend/entities/analytics/incomes-expenses-chart/props/incomes-expenses-chart.props';
+import { useTranslations } from 'next-intl';
 
 interface IncomesExpensesChartCardProps {
   data: IncomeExpenseDataItem[];
@@ -11,11 +14,12 @@ interface IncomesExpensesChartCardProps {
 }
 
 export function IncomesExpensesChartCard({ data, loading, filterTrigger }: IncomesExpensesChartCardProps) {
+  const t = useTranslations('analytics.incomeExpenses');
   return (
     <ChartCardLayout.Root>
       <ChartCardLayout.Header
-        title="Аналітика доходів та витрат"
-        description="Огляд доходів та витрат за визначений період"
+        title={t('title')}
+        description={t('description')}
       >
         {filterTrigger}
       </ChartCardLayout.Header>

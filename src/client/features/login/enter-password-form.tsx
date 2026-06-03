@@ -7,34 +7,36 @@ import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-se
 import { useSetupLogin } from '@frontend/features/login/hooks/login-hook';
 import { useRouter } from 'next/navigation';
 import { LatinInputPattern } from '@common/constants/latin-pattern.constant';
+import { useTranslations } from 'next-intl';
 
 export function LoginEnterPasswordForm() {
   const router = useRouter();
   const { isLoading } = useSetupLogin();
+  const t = useTranslations('auth.login');
 
   return (
     <UiFieldGroup>
       <FinControlledInput
         name="login"
-        label="Логін*"
+        label={t('loginLabel')}
         id="login"
-        placeholder="Введіть email або логін"
+        placeholder={t('loginPlaceholder')}
         pattern={LatinInputPattern}
       />
 
       <div className="relative">
         <FinControlledPassword
           name="password"
-          label="Пароль*"
+          label={t('passwordLabel')}
           id="password"
-          placeholder="Введіть пароль"
+          placeholder={t('passwordPlaceholder')}
         />
         <button
           type="button"
           onClick={() => router.push('/recovery')}
           className="absolute right-0 top-0 text-xs text-primary hover:underline"
         >
-          Забули пароль?
+          {t('forgotPassword')}
         </button>
       </div>
 
@@ -45,11 +47,11 @@ export function LoginEnterPasswordForm() {
         size="sm"
       >
         {isLoading && <UiSpinner className="size-4" />}
-        {isLoading ? 'Входимо...' : 'Увійти'}
+        {isLoading ? t('submitLoading') : t('submit')}
       </UiButton>
 
       <UiSeparatorWithLabel
-        label={'або'}
+        label={t('or')}
         className="my-4"
       />
 
@@ -61,7 +63,7 @@ export function LoginEnterPasswordForm() {
         isOutlined
         onClick={() => router.push('/signup')}
       >
-        Зареєструватися зараз
+        {t('signupCta')}
       </UiButton>
     </UiFieldGroup>
   );

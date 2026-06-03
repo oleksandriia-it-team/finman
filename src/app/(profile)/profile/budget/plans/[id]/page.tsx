@@ -15,12 +15,14 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
+import { useTranslations } from 'next-intl';
 
 export default function BudgetPlanPage() {
   const router = useRouter();
 
   const { selectedBudgetPlanDate, lastLoadedBudgetPlan, state, error } = useSelectedBudgetPlan();
   const setPlusHidden = useUserNavStoreHook((s) => s.setPlusHidden);
+  const t = useTranslations('budgetPlan.screen');
 
   const id = createBudgetPlanIdUrl(selectedBudgetPlanDate);
   const isCurrent = isCurrentMonth(selectedBudgetPlanDate);
@@ -50,7 +52,7 @@ export default function BudgetPlanPage() {
   if (isCurrent) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 h-full">
-        <UiDescription className="text-center">Бюджетний план на цей місяць ще не створено</UiDescription>
+        <UiDescription className="text-center">{t('notCreated')}</UiDescription>
         <UiButton
           variant="primary"
           size="lg"
@@ -61,7 +63,7 @@ export default function BudgetPlanPage() {
             name="plus"
             size="sm"
           />
-          Створити план
+          {t('create')}
         </UiButton>
       </div>
     );
@@ -69,10 +71,8 @@ export default function BudgetPlanPage() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 h-full px-4">
-      <UiTitle className="text-muted-foreground text-center">Бюджетний план на цей місяць не створено</UiTitle>
-      <UiDescription className="text-muted-foreground text-center">
-        Новий план можна створити лише для поточного місяця
-      </UiDescription>
+      <UiTitle className="text-muted-foreground text-center">{t('notCreatedTitle')}</UiTitle>
+      <UiDescription className="text-muted-foreground text-center">{t('notCreatedDescription')}</UiDescription>
     </div>
   );
 }

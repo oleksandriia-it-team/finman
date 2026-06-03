@@ -1,35 +1,63 @@
 import { z } from 'zod';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
-import { SixCodeSchema } from '@common/schema-fields/six-code.schema';
+import { type SixCodeMessages, buildSixCodeSchema } from '@common/schema-fields/six-code.schema';
 
-export const buildLoginSchema = (codeIsRequired: boolean = false) =>
+export interface LoginValidationMessages {
+  loginRequired: string;
+  loginMaxLength: string;
+  emailInvalidFormat: string;
+  usernameMinLength: string;
+  loginInvalidChars: string;
+  passwordRequired: string;
+  passwordMinLength: string;
+  passwordMaxLength: string;
+  passwordLatinOnly: string;
+  codeMessages?: SixCodeMessages;
+}
+
+const DEFAULT_MESSAGES: LoginValidationMessages = {
+  loginRequired: 'auth.login.validation.loginRequired',
+  loginMaxLength: 'auth.login.validation.loginMaxLength',
+  emailInvalidFormat: 'auth.login.validation.emailInvalidFormat',
+  usernameMinLength: 'auth.login.validation.usernameMinLength',
+  loginInvalidChars: 'auth.login.validation.loginInvalidChars',
+  passwordRequired: 'auth.login.validation.passwordRequired',
+  passwordMinLength: 'auth.login.validation.passwordMinLength',
+  passwordMaxLength: 'auth.login.validation.passwordMaxLength',
+  passwordLatinOnly: 'auth.login.validation.passwordLatinOnly',
+};
+
+export const buildLoginSchema = (
+  codeIsRequired: boolean = false,
+  messages: LoginValidationMessages = DEFAULT_MESSAGES,
+) =>
   z.object({
     login: z
       .string()
-      .min(1, "Логін або email є обов'язковим")
-      .max(UserRequirements.MaxLoginLength, 'Логін не може бути довше ' + UserRequirements.MaxLoginLength + ' символів')
+      .min(1, messages.loginRequired)
+      .max(UserRequirements.MaxLoginLength, messages.loginMaxLength)
       .superRefine((val, ctx) => {
         if (val.includes('@')) {
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(val)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: 'Неправильний формат email (відсутній домен, наприклад .com)',
+              message: messages.emailInvalidFormat,
             });
           }
         } else {
           if (val.length < UserRequirements.MinNameLength) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: "Ім'я користувача повинно бути не менше " + UserRequirements.MinNameLength + ' символів',
+              message: messages.usernameMinLength,
             });
           }
 
           if (!LatinUsernamePattern.test(val)) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
-              message: 'Логін містить недопустимі символи',
+              message: messages.loginInvalidChars,
             });
           }
         }
@@ -37,16 +65,13 @@ export const buildLoginSchema = (codeIsRequired: boolean = false) =>
 
     password: z
       .string()
-      .min(1, "Пароль є обов'язковим")
-      .min(
-        UserRequirements.MinPasswordLength,
-        'Пароль повинен бути не менше ' + UserRequirements.MinPasswordLength + ' символів',
-      )
-      .max(
-        UserRequirements.MaxPasswordLength,
-        'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
-      )
-      .regex(LatinPasswordPattern, 'Пароль може містити лише латинські літери та спеціальні символи'),
-    code: codeIsRequired ? SixCodeSchema : z.union([SixCodeSchema, z.literal('')]).optional(),
+      .min(1, messages.passwordRequired)
+      .min(UserRequirements.MinPasswordLength, messages.passwordMinLength)
+      .max(UserRequirements.MaxPasswordLength, messages.passwordMaxLength)
+      .regex(LatinPasswordPattern, messages.passwordLatinOnly),
+    code: codeIsRequired
+      ? buildSixCodeSchema(messages.codeMessages)
+      : z.union([buildSixCodeSchema(messages.codeMessages), z.literal('')]).optional(),
   });
+
 export type LoginDto = z.infer<ReturnType<typeof buildLoginSchema>>;

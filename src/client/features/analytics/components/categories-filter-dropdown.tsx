@@ -9,9 +9,10 @@ import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { SelectableCardCheckbox } from '@frontend/entities/operations/selectable-card/checkbox/selectable-card-checkbox';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { AllCategories } from '@common/enums/categories.enum';
+import { useTranslations } from 'next-intl';
 
 interface CategoriesFilterDropdownProps {
   categories: AllCategories[];
@@ -20,12 +21,14 @@ interface CategoriesFilterDropdownProps {
 }
 
 export function CategoriesFilterDropdown({ categories, selected, onChange }: CategoriesFilterDropdownProps) {
+  const t = useTranslations('analytics.categoryFilter');
+  const categoriesMapping = useCategoriesMapping();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(
-    () => categories.filter((c) => CategoriesMapping[c].label.toLowerCase().includes(search.toLowerCase())),
-    [categories, search],
+    () => categories.filter((c) => categoriesMapping[c].label.toLowerCase().includes(search.toLowerCase())),
+    [categories, search, categoriesMapping],
   );
 
   const toggle = (category: AllCategories) => {
@@ -40,14 +43,14 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
       <UiPopoverTrigger asChild>
         <ChartFiltersButton
           icon="funnel"
-          title="Категорії"
+          title={t('title')}
           counter={selected.length}
           size="sm"
         />
       </UiPopoverTrigger>
       <UiPopoverContent className="w-80 flex flex-col gap-2 p-3">
         <UiInput
-          placeholder="Пошук категорії..."
+          placeholder={t('searchPlaceholder')}
           value={search}
           onChange={(value) => setSearch(value ?? '')}
         />
@@ -58,7 +61,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
           className="flex flex-col gap-1 max-h-64 overflow-y-auto"
         >
           {filtered.map((category) => {
-            const { icon, label, variant } = CategoriesMapping[category];
+            const { icon, label, variant } = categoriesMapping[category];
             const isSelected = selected.includes(category);
             return (
               <li key={category}>
@@ -95,7 +98,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
             size="sm"
             onClick={() => onChange([])}
           >
-            Очистити все
+            {t('clearAll')}
           </UiButton>
           <UiButton
             type="button"
@@ -103,7 +106,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
             size="sm"
             onClick={() => setOpen(false)}
           >
-            Готово
+            {t('done')}
           </UiButton>
         </div>
       </UiPopoverContent>

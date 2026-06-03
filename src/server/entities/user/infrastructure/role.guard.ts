@@ -1,3 +1,4 @@
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { type RoleEnum } from '@common/domains/user/enums/role.enum';
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { type RouteGuardParams } from '@backend/shared/models/create-route.model';
@@ -16,7 +17,7 @@ export function RoleGuard<BTR extends RoleGuardContext>(
 
     return {
       status: 403,
-      message: 'Недостатньо прав',
+      message: ErrorTexts.InsufficientPermissions,
     };
   };
 }

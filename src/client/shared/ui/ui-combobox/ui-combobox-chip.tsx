@@ -11,9 +11,11 @@ export function UiComboboxChip({
   className,
   children,
   showRemove = true,
+  removeAriaLabel = 'Remove',
   ...props
 }: ComboboxPrimitive.Chip.Props & {
   showRemove?: boolean;
+  removeAriaLabel?: string;
 }) {
   return (
     <ComboboxPrimitive.Chip
@@ -26,7 +28,7 @@ export function UiComboboxChip({
         <ComboboxPrimitive.ChipRemove
           className="combobox-chip-remove"
           data-slot="combobox-chip-remove"
-          aria-label="Видалити елемент"
+          aria-label={removeAriaLabel}
         >
           <UiSvgIcon name="x" />
         </ComboboxPrimitive.ChipRemove>

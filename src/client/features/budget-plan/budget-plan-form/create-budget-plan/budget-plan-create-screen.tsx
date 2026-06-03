@@ -17,6 +17,7 @@ import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/use-budget-plan-screen-state';
+import { useTranslations } from 'next-intl';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const { state, options, appError, paginationRestProps, isEdit, onCancel, pageSize, listState } =
@@ -25,6 +26,8 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const t = useTranslations('budgetPlan.form');
+  const tScreen = useTranslations('budgetPlan.screen');
   const SelectableCard = isMobile ? SelectableTransactionCard : SelectableRegularCard;
   const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
 
@@ -63,9 +66,9 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
       <div className="flex-none flex items-center justify-between p-4">
         <div>
           <p className="text-xl">
-            <b>{isEdit ? 'Редагувати план' : 'Бюджетний план'}</b>
+            <b>{isEdit ? t('editTitle') : t('createTitle')}</b>
           </p>
-          <p className="text-sm text-muted-foreground mt-0.5">Оберіть регулярні операції для включення в план</p>
+          <p className="text-sm text-muted-foreground mt-0.5">{t('subtitle')}</p>
         </div>
       </div>
 
@@ -79,10 +82,8 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
             skeletonClassName="min-h-72"
             notItemFound={
               <div className="flex flex-col items-center justify-center gap-3 py-8 px-4">
-                <p className="text-sm text-muted-foreground text-center">Ще немає жодної регулярної операції</p>
-                <p className="text-xs text-muted-foreground text-center">
-                  Створіть їх у розділі «Регулярні операції», щоб включити у план
-                </p>
+                <p className="text-sm text-muted-foreground text-center">{t('empty')}</p>
+                <p className="text-xs text-muted-foreground text-center">{t('emptyHint')}</p>
                 <UiButton
                   variant="primary"
                   size="default"
@@ -91,7 +92,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
                     router.push('/profile/budget/regular-operations');
                   }}
                 >
-                  Перейти до регулярних операцій
+                  {t('goToRegular')}
                 </UiButton>
               </div>
             }
@@ -115,8 +116,8 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
         />
 
         <div className="flex-none px-4 pt-6 pb-2">
-          <p className="text-base font-semibold">Операції цього місяця</p>
-          <p className="text-sm text-muted-foreground mt-0.5">Разові доходи та витрати поза регулярними</p>
+          <p className="text-base font-semibold">{tScreen('otherSection')}</p>
+          <p className="text-sm text-muted-foreground mt-0.5">{tScreen('otherSubtitle')}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4">
@@ -139,7 +140,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
           className="flex-1"
           onClick={handleCancel}
         >
-          Скасувати
+          {t('cancel')}
         </UiButton>
         <UiButton
           variant="primary"
@@ -148,7 +149,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
           disabled={!hasAnySelected}
           onClick={handleSubmit}
         >
-          {`Далі (${selectedIds.size + monthOperations.length})`}
+          {t('next', { count: selectedIds.size + monthOperations.length })}
         </UiButton>
       </div>
     </FinListPageWrapper>

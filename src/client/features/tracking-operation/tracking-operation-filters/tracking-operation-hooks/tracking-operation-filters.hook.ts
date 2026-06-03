@@ -11,8 +11,10 @@ import type { TrackingOperationFilter } from '@common/domains/tracking-operation
 import { useMemo, useState } from 'react';
 import constate from 'constate';
 import { type TypeEntry, TypeEntryFilter } from '@common/enums/entry.enum';
+import { useTranslations } from 'next-intl';
 
 function useFiltersHookLogic() {
+  const t = useTranslations('tracking.filters');
   const [filters, setFilters] = useState<Partial<TrackingOperationFilter>>({});
   const [realMaxSum, setRealMaxSum] = useState<number>(50000);
 
@@ -48,15 +50,15 @@ function useFiltersHookLogic() {
         setFilters(cleanFilters);
 
         showToast({
-          title: 'Успішно',
-          description: 'Фільтри застосовано',
+          title: t('successTitle'),
+          description: t('successDescription'),
           variant: 'success',
         });
       } catch (err) {
         console.error(err);
         showToast({
-          title: 'Помилка',
-          description: 'Не вдалося застосувати фільтри',
+          title: t('errorTitle'),
+          description: t('errorDescription'),
           variant: 'destructive',
         });
       }
@@ -64,8 +66,8 @@ function useFiltersHookLogic() {
     (errors) => {
       console.error('Validation errors:', errors);
       showToast({
-        title: 'Помилка валідації',
-        description: 'Перевірте правильність введених сум або дат',
+        title: t('validationErrorTitle'),
+        description: t('validationErrorDescription'),
         variant: 'destructive',
       });
     },

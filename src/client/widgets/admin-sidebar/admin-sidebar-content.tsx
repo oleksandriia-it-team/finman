@@ -11,12 +11,13 @@ import { UiSidebarMenuItem } from '@frontend/ui/ui-sidebar/ui-sidebar-menu-item'
 import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
-import { adminNavRoutesWindow } from '@frontend/widgets/shared/admin-routes.constant';
+import { useAdminNavRoutesWindow } from '@frontend/widgets/shared/admin-routes.constant';
 import React from 'react';
 
 export function AdminSidebarContent() {
   const pathname = usePathname();
   const userName = useAuthorizedUser().name;
+  const adminNavRoutesWindow = useAdminNavRoutesWindow();
 
   return (
     <UiSidebarContent>

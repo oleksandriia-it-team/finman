@@ -13,8 +13,10 @@ import { FinControlledDatepicker } from '@frontend/components/controlled-fields/
 import { useMemo } from 'react';
 import { AttachStateProvider } from '@frontend/features/tracking-operation/attach/hooks/attach-state.context';
 import { TrackingOperationAttachedOperationLabel } from '@frontend/features/tracking-operation/attach/attached-operation';
+import { useTranslations } from 'next-intl';
 
 export function TrackingOperationForm({ initialData, onSuccess, onCancel }: TrackingOperationsFormProps) {
+  const t = useTranslations('tracking.form');
   const { methods, submit, isEdit } = useTrackingOperationForm(initialData, onSuccess);
 
   const selectedType = methods.watch('type');
@@ -30,12 +32,12 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
           <div className="flex justify-between gap-2 items-center">
             <CardsFormHeaderTemplate
               isEdit={isEdit}
-              title={'Деталі платежу'}
+              title={t('title')}
               subjectLabel={{
-                create: 'нову вашу операцію(яка відбувала щойно або нещодавно)',
-                edit: 'вашу операцію(яка відбувала щойно або нещодавно)',
+                create: t('createSubject'),
+                edit: t('editSubject'),
               }}
-              description={'Заповніть інформацію про: '}
+              description={t('descriptionPrefix')}
             />
 
             {!!date && (
@@ -58,7 +60,7 @@ export function TrackingOperationForm({ initialData, onSuccess, onCancel }: Trac
               mode={'single'}
               name="date"
               maxDate={now}
-              label="Дата операції"
+              label={t('dateLabel')}
             />
           </CardsFormTemplateInputs>
           <CardsFormTemplateActions onCancel={onCancel as never} />

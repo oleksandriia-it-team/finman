@@ -16,6 +16,7 @@ import {
 } from '@frontend/features/budget-plan/components/budget-plan-statistic-block';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
+import { useTranslations } from 'next-intl';
 
 interface BudgetPlanViewScreenProps {
   budgetPlan: BudgetPlanDetailed;
@@ -27,6 +28,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const isMobile = useIsMobile();
   const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
   const StatisticBlock = isMobile ? BudgetPlanStatisticMobile : BudgetPlanStatisticDesktop;
+  const t = useTranslations('budgetPlan.screen');
 
   const canEdit = isCurrentMonth({ month: budgetPlan.month, year: budgetPlan.year });
 
@@ -50,10 +52,13 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
       <div className="flex-none flex items-center justify-between p-4">
         <div>
           <p className="text-xl">
-            <b>Бюджетний план</b>
+            <b>{t('title')}</b>
           </p>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Регулярних операцій: {budgetPlan.plannedRegularEntries.length} · Разових: {visibleOtherEntries.length}
+            {t('subtitle', {
+              regular: budgetPlan.plannedRegularEntries.length,
+              other: visibleOtherEntries.length,
+            })}
           </p>
         </div>
         {canEdit && (
@@ -68,7 +73,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
               name="pencil"
               size="xs"
             />
-            Редагувати
+            {t('edit')}
           </UiButton>
         )}
       </div>
@@ -83,14 +88,14 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
       <div className="flex-1 overflow-y-auto min-h-0">
         {isEmpty && (
           <div className="flex flex-col items-center justify-center h-full gap-2">
-            <p className="text-muted-foreground text-sm">План порожній</p>
+            <p className="text-muted-foreground text-sm">{t('empty')}</p>
           </div>
         )}
 
         {budgetPlan.plannedRegularEntries.length > 0 && (
           <>
             <div className="flex-none px-4 pb-2 flex items-center justify-between">
-              <p className="text-base font-semibold">Регулярні операції</p>
+              <p className="text-base font-semibold">{t('regularSection')}</p>
               <div className="flex items-center gap-1">
                 <p className="text-sm text-muted-foreground">{budgetPlan.plannedRegularEntries.length}</p>
                 <UiIconButton
@@ -98,7 +103,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
                   size="default"
                   variant="muted-foreground"
                   borderNone
-                  aria-label="Перейти до регулярних операцій"
+                  aria-label={t('goToRegular')}
                   onClick={() => router.push('/profile/budget/regular-operations')}
                 />
               </div>
@@ -118,8 +123,8 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
         {visibleOtherEntries.length > 0 && (
           <>
             <div className="flex-none px-4 pt-6 pb-2">
-              <p className="text-base font-semibold">Операції цього місяця</p>
-              <p className="text-sm text-muted-foreground mt-0.5">Разові доходи та витрати поза регулярними</p>
+              <p className="text-base font-semibold">{t('otherSection')}</p>
+              <p className="text-sm text-muted-foreground mt-0.5">{t('otherSubtitle')}</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 px-4 pb-4">
               {visibleOtherEntries.map((entry) => (

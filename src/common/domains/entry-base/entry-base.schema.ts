@@ -3,35 +3,55 @@ import { MonthEntryRequirements } from '@common/domains/basic-entry/constants/ba
 import { TypeEntry } from '@common/enums/entry.enum';
 import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.enum';
 
-const EntryBaseSchemaFirstPart = z.object({
-  title: z
-    .string({ error: 'Введіть назву' })
-    .trim()
-    .min(1, { error: 'Введіть назву' })
-    .max(MonthEntryRequirements.MaxTitleLength, {
-      error: `Максимальна довжина заголовку: ${MonthEntryRequirements.MaxTitleLength} символів`,
+export interface EntryBaseValidationMessages {
+  titleRequired: string;
+  titleMaxLength: string;
+  descriptionMaxLength: string;
+  sumRequired: string;
+  sumMin: string;
+  incomeCategoryInvalid: string;
+  expenseCategoryInvalid: string;
+}
+
+export const DEFAULT_ENTRY_BASE_MESSAGES: EntryBaseValidationMessages = {
+  titleRequired: 'entry.validation.titleRequired',
+  titleMaxLength: 'entry.validation.titleMaxLength',
+  descriptionMaxLength: 'entry.validation.descriptionMaxLength',
+  sumRequired: 'entry.validation.sumRequired',
+  sumMin: 'entry.validation.sumMin',
+  incomeCategoryInvalid: 'entry.validation.incomeCategoryInvalid',
+  expenseCategoryInvalid: 'entry.validation.expenseCategoryInvalid',
+};
+
+function buildEntryFirstPart(messages: EntryBaseValidationMessages) {
+  return z.object({
+    title: z
+      .string({ error: messages.titleRequired })
+      .trim()
+      .min(1, { error: messages.titleRequired })
+      .max(MonthEntryRequirements.MaxTitleLength, { error: messages.titleMaxLength }),
+    description: z
+      .string()
+      .trim()
+      .max(MonthEntryRequirements.MaxDescriptionLength, { error: messages.descriptionMaxLength })
+      .default(''),
+    sum: z.coerce.number({ error: messages.sumRequired }).min(MonthEntryRequirements.MinSumValue, {
+      error: messages.sumMin,
     }),
-  description: z
-    .string()
-    .trim()
-    .max(MonthEntryRequirements.MaxDescriptionLength, {
-      error: `Максимальна довжина опису: ${MonthEntryRequirements.MaxDescriptionLength} символів`,
-    })
-    .default(''),
-  sum: z.coerce.number({ error: 'Введіть суму' }).min(MonthEntryRequirements.MinSumValue, {
-    error: `Сума має бути не менше ${MonthEntryRequirements.MinSumValue}`,
-  }),
-});
+  });
+}
 
-const EntryBaseSchemaWithoutSum = EntryBaseSchemaFirstPart.omit({ sum: true });
-
-export const createEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
-  z.discriminatedUnion('type', [
+export const createEntrySchema = <T extends z.ZodRawShape>(
+  extraFields: T,
+  messages: EntryBaseValidationMessages = DEFAULT_ENTRY_BASE_MESSAGES,
+) => {
+  const EntryBaseSchemaFirstPart = buildEntryFirstPart(messages);
+  return z.discriminatedUnion('type', [
     EntryBaseSchemaFirstPart.extend({
       type: z.literal(TypeEntry.Income),
       category: z
         .enum(Object.values(IncomeCategories), {
-          error: 'Оберіть коректну категорію доходів',
+          error: messages.incomeCategoryInvalid,
         })
         .optional(),
       ...extraFields,
@@ -40,20 +60,26 @@ export const createEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
       type: z.literal(TypeEntry.Expense),
       category: z
         .enum(Object.values(ExpenseCategories), {
-          error: 'Оберіть коректну категорію витрат',
+          error: messages.expenseCategoryInvalid,
         })
         .optional(),
       ...extraFields,
     }),
   ]);
+};
 
-export const createUpdateEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
-  z.discriminatedUnion('type', [
+export const createUpdateEntrySchema = <T extends z.ZodRawShape>(
+  extraFields: T,
+  messages: EntryBaseValidationMessages = DEFAULT_ENTRY_BASE_MESSAGES,
+) => {
+  const EntryBaseSchemaFirstPart = buildEntryFirstPart(messages);
+  const EntryBaseSchemaWithoutSum = EntryBaseSchemaFirstPart.omit({ sum: true });
+  return z.discriminatedUnion('type', [
     EntryBaseSchemaWithoutSum.extend({
       type: z.literal(TypeEntry.Income),
       category: z
         .enum(Object.values(IncomeCategories), {
-          error: 'Оберіть коректну категорію доходів',
+          error: messages.incomeCategoryInvalid,
         })
         .optional(),
       ...extraFields,
@@ -62,9 +88,10 @@ export const createUpdateEntrySchema = <T extends z.ZodRawShape>(extraFields: T)
       type: z.literal(TypeEntry.Expense),
       category: z
         .enum(Object.values(ExpenseCategories), {
-          error: 'Оберіть коректну категорію витрат',
+          error: messages.expenseCategoryInvalid,
         })
         .optional(),
       ...extraFields,
     }),
   ]);
+};

@@ -7,8 +7,10 @@ import { NumberOnlyPattern } from '@common/constants/number-only-pattern.constan
 import { UiSlider } from '@frontend/ui/ui-slider/ui-slider';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { UiFieldsWithDivider } from '@frontend/ui/ui-fields-with-divider/ui-fields-with-divider';
+import { useTranslations } from 'next-intl';
 
 export function SumFilter({ className, maxItem }: SumFiltersProps) {
+  const t = useTranslations('tracking.filters');
   const classes = cn('size-full flex flex-col gap-3', className);
 
   const { control, setValue } = useFormContext();
@@ -24,14 +26,14 @@ export function SumFilter({ className, maxItem }: SumFiltersProps) {
 
   return (
     <div className={classes}>
-      <p className="text-lg">Сума</p>
+      <p className="text-lg">{t('sum')}</p>
       <UiFieldsWithDivider
         firstField={
           <FinControlledInput
             type="number"
             id="minSum"
             name="minSum"
-            label="Мін"
+            label={t('minLabel')}
             pattern={NumberOnlyPattern}
           />
         }
@@ -40,7 +42,7 @@ export function SumFilter({ className, maxItem }: SumFiltersProps) {
             type="number"
             id="maxSum"
             name="maxSum"
-            label="Макс"
+            label={t('maxLabel')}
             pattern={NumberOnlyPattern}
           />
         }

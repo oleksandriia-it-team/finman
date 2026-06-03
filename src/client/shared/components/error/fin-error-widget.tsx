@@ -1,12 +1,16 @@
+'use client';
+
 import type { ErrorWidgetProps } from '@frontend/components/error/props/error-widget.props';
 import { ErrorIconSvg } from '@frontend/shared/svg/error-icon-svg';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
   const router = useRouter();
+  const t = useTranslations('common');
 
   return (
     <div className="size-full flex flex-col items-center justify-center">
@@ -14,7 +18,7 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
         <ErrorIconSvg />
 
         <div className="flex flex-col">
-          <h3 className="text-foreground text-xl font-bold">Щось пішло не так</h3>
+          <h3 className="text-foreground text-xl font-bold">{t('somethingWentWrong')}</h3>
           <span className="text-muted-foreground text-center text-base">{message}</span>
         </div>
 
@@ -25,11 +29,9 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
           />
           <div className="flex flex-col gap-3 items-center">
             <span className="text-foreground text-lg">
-              Код помилки: <b className="font-bold">{status}</b>
+              {t('errorCode')} <b className="font-bold">{status}</b>
             </span>
-            <span className="text-muted-foreground text-sm">
-              Якщо проблема повторюється, зверніться до служби підтримки.
-            </span>
+            <span className="text-muted-foreground text-sm">{t('repeatIssue')}</span>
           </div>
         </div>
 
@@ -39,18 +41,18 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
           onClick={() => router.push('/')}
         >
           <UiSvgIcon name="house" />
-          Повернутися на головну
+          {t('backToHome')}
         </UiButton>
       </div>
 
       <div className="pb-8 flex gap-1 text-muted-foreground text-sm">
-        <span>Потрібна допомога?</span>
+        <span>{t('needHelp')}</span>
 
         <Link
           href="#"
           className="text-primary"
         >
-          Звʼяжіться з нами
+          {t('contactUs')}
         </Link>
       </div>
     </div>

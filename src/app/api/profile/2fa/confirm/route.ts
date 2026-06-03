@@ -7,6 +7,7 @@ import { totpApiManager } from '@backend/entities/totp/infrastructure/totp.manag
 import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { TotpNotEnabledGuard } from '@backend/features/totp/totp-not-enabled.guard';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export const POST = createRoute({
   schema: totpConfirmSchema,
@@ -15,7 +16,7 @@ export const POST = createRoute({
   execute: async ({ context, body }) => {
     const totpEntity = context.totp;
     if (!totpEntity) {
-      throw new AppError('Спочатку ініціалізуйте двофакторну аутентифікацію', 400);
+      throw new AppError(ErrorTexts.TwoFactorNotInitialized, 400);
     }
 
     totpApiManager.assertValidAuthCode(totpEntity.secret, body.code);

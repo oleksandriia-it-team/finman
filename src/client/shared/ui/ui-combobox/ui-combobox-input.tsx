@@ -18,6 +18,8 @@ export function UiComboboxInput({
   disabled = false,
   onClear,
   hasValue,
+  openListAriaLabel,
+  clearAriaLabel,
   'data-invalid': dataInvalid,
   ...props
 }: ComboboxInputProps) {
@@ -36,11 +38,15 @@ export function UiComboboxInput({
         {...props}
       />
       <UiInputGroupAddon align="inline-end">
-        <UiComboboxTrigger data-slot="input-group-button" />
+        <UiComboboxTrigger
+          data-slot="input-group-button"
+          aria-label={openListAriaLabel}
+        />
         {onClear && hasValue && (
           <UiComboboxClear
             disabled={disabled}
             onClick={onClear}
+            aria-label={clearAriaLabel}
           />
         )}
       </UiInputGroupAddon>

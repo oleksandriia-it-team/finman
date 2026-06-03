@@ -6,7 +6,7 @@ import { CategoriesExpensesChartCard } from '@frontend/entities/analytics/catego
 import { CategoriesIncomesChartCard } from '@frontend/entities/analytics/categories-charts/categories-incomes-chart/categories-incomes-chart-card';
 import { BudgetVsActualChartCard } from '@frontend/entities/analytics/budget-vs-actual-chart/budget-vs-actual-chart-card';
 import {
-  CategoriesMapping,
+  useCategoriesMapping,
   ExpenseCategoryValues,
   IncomeCategoryValues,
 } from '@frontend/shared/styles/card-styles-mappings';
@@ -23,6 +23,7 @@ const AllCategoriesList: AllCategories[] = [...ExpenseCategoryValues, ...IncomeC
 
 function AnalyticsCards() {
   const { getMonthlyIncomeExpenses, getExpensesByCategory, getIncomesByCategory, getPlanVsActual } = useAnalytics();
+  const categoriesMapping = useCategoriesMapping();
 
   const [incomesExpensesRange, setIncomesExpensesRange] = useState<MonthRange>(getDefaultRange);
   const [incomesExpensesCategories, setIncomesExpensesCategories] = useState<AllCategories[]>([]);
@@ -73,7 +74,7 @@ function AnalyticsCards() {
       data
         .filter((item) => item.planned > 0 || item.actual > 0)
         .map((item) => ({
-          label: CategoriesMapping[item.category]?.label ?? String(item.category),
+          label: categoriesMapping[item.category]?.label ?? String(item.category),
           plan: item.planned,
           fact: item.actual,
         })),

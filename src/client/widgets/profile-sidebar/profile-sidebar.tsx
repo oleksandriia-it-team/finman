@@ -8,13 +8,18 @@ import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-i
 import { UiSidebarSeparator } from '@frontend/ui/ui-sidebar/ui-sidebar-separator';
 import { LogoSvg } from '@frontend/shared/svg/logo-svg';
 import { ProfileSidebarContent } from './profile-sidebar-content';
+import { useTranslations } from 'next-intl';
 
 export function ProfileSidebar() {
+  const t = useTranslations('common');
+
   return (
     <UiSidebarProvider>
       <UiSidebar
         collapsible="icon"
         colorVariant="white"
+        sheetTitle={t('controlPanel')}
+        sheetDescription={t('mobileOnly')}
       >
         <UiSidebarHeader>
           <div className="flex gap-1 flex-1 items-center">
@@ -28,7 +33,10 @@ export function ProfileSidebar() {
             <UiSidebarHeaderTitle>Finman</UiSidebarHeaderTitle>
           </div>
 
-          <UiSidebarTrigger hideOnCollapse />
+          <UiSidebarTrigger
+            hideOnCollapse
+            srLabel={t('toggleSidebar')}
+          />
         </UiSidebarHeader>
 
         <UiSidebarSeparator />

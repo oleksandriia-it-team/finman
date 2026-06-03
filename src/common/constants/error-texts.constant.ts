@@ -1,12 +1,67 @@
-export const ErrorTexts = {
-  UnknownError: 'Невідома помилка.',
-  RecordDoesNotExist: 'Запис не існує.',
-  DataProvidedDoesntMeetRequirements: 'Невідома помилка: надані дані не відповідають вимогам операції.',
-  PrevBatchIsNotDone: 'Попередню транзакцію ще не завершено.',
-  AbortError: 'AbortError',
-  IncorrectIdProvided: 'Надано некоректний ід.',
-  IncorrectTypeData: 'Надано некоректний тип даних.',
-  TwoFactorCodeIsRequired: "Двофакторна аутентифікація увімкнена, код обов'язковий",
-};
+export const enum ErrorTexts {
+  UnknownError = 'errors.unknownError',
+  RecordDoesNotExist = 'errors.recordDoesNotExist',
+  DataProvidedDoesntMeetRequirements = 'errors.dataProvidedDoesntMeetRequirements',
+  PrevBatchIsNotDone = 'errors.prevBatchIsNotDone',
+  AbortError = 'errors.abortError',
+  IncorrectIdProvided = 'errors.incorrectIdProvided',
+  IncorrectTypeData = 'errors.incorrectTypeData',
+  TwoFactorCodeIsRequired = 'errors.twoFactorCodeIsRequired',
+  DatabaseConnection = 'errors.databaseConnection',
+  UserNotFound = 'errors.userNotFound',
+  TwoFactorNotInitialized = 'errors.twoFactorNotInitialized',
+  InvalidCredentials = 'errors.invalidCredentials',
+  PasswordUpdateFailed = 'errors.passwordUpdateFailed',
+  InvalidCode = 'errors.invalidCode',
+  RegularEntryTitleExists = 'errors.regularEntryTitleExists',
+  UnexpectedRequestError = 'errors.unexpectedRequestError',
+  Unauthorized = 'errors.unauthorized',
+  ParamNotInteger = 'errors.paramNotInteger',
+  AttachBothPlannedTypes = 'errors.attachBothPlannedTypes',
+  MonthEntryNotFoundOrNotOwned = 'errors.monthEntryNotFoundOrNotOwned',
+  MonthEntryDateMismatch = 'errors.monthEntryDateMismatch',
+  MonthEntryCategoryMismatch = 'errors.monthEntryCategoryMismatch',
+  RegEntryNotFoundOrNotOwned = 'errors.regEntryNotFoundOrNotOwned',
+  RegEntryDateMismatch = 'errors.regEntryDateMismatch',
+  RegEntryCategoryMismatch = 'errors.regEntryCategoryMismatch',
+  ForeignOrMissingMonthEntries = 'errors.foreignOrMissingMonthEntries',
+  PlannedRegularEntriesNotOwned = 'errors.plannedRegularEntriesNotOwned',
+  InvalidJson = 'errors.invalidJson',
+  EmailAlreadyExists = 'errors.emailAlreadyExists',
+  NameAlreadyExists = 'errors.nameAlreadyExists',
+  NoUpdateData = 'errors.noUpdateData',
+  UserDataNotFound = 'errors.userDataNotFound',
+  WrongCurrentPassword = 'errors.wrongCurrentPassword',
+  InvalidOrExpiredCode = 'errors.invalidOrExpiredCode',
+  CodeNotFoundOrExpired = 'errors.codeNotFoundOrExpired',
+  TooManyAttempts = 'errors.tooManyAttempts',
+  InvalidCodeWithAttempts = 'errors.invalidCodeWithAttempts',
+  EmailNotFound = 'errors.emailNotFound',
+  EmailSendFailed = 'errors.emailSendFailed',
+  TotpNotEnabled = 'errors.totpNotEnabled',
+  TotpAlreadyEnabled = 'errors.totpAlreadyEnabled',
+  RegularEntryNotOwned = 'errors.regularEntryNotOwned',
+  RegularEntryNotFound = 'errors.regularEntryNotFound',
+  TrackingOperationNotFound = 'errors.trackingOperationNotFound',
+  TrackingOperationNotOwned = 'errors.trackingOperationNotOwned',
+  BudgetPlanNotFound = 'errors.budgetPlanNotFound',
+  BudgetPlanAlreadyExists = 'errors.budgetPlanAlreadyExists',
+  InsufficientPermissions = 'errors.insufficientPermissions',
+  ErrorLogNotFound = 'errors.errorLogNotFound',
+  CurrencyNotFound = 'errors.currencyNotFound',
+  CountryNotFound = 'errors.countryNotFound',
+  UserNotFoundByEmail = 'errors.userNotFoundByEmail',
+  CooldownWait = 'errors.cooldownWait',
+}
 
-export const ErrorDataBaseConnection = 'Error during database connection';
+export type ErrorMessageParams = Record<string, string | number>;
+
+export interface ErrorMessage {
+  messageKey: string;
+  messageParams?: ErrorMessageParams;
+}
+
+export const formatBudgetPlanNotFoundForMonth = (month: number, year: number): ErrorMessage => ({
+  messageKey: 'errors.budgetPlanNotFoundForMonth',
+  messageParams: { month, year },
+});

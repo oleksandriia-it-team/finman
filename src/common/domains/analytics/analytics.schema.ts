@@ -5,8 +5,8 @@ import { AllCategoryValues } from '@common/enums/categories.enum';
 const monthLiterals = Object.values(Month).map((v) => z.literal(v)) as [z.ZodLiteral<Month>, ...z.ZodLiteral<Month>[]];
 
 export const MonthYearSchema = z.object({
-  year: z.int({ error: 'Рік має бути числом' }).min(2000, { error: 'Рік має бути не раніше 2000' }),
-  month: z.union(monthLiterals, 'Невірний місяць'),
+  year: z.int({ error: 'analytics.validation.yearInteger' }).min(2000, { error: 'analytics.validation.yearMin' }),
+  month: z.union(monthLiterals, 'analytics.validation.invalidMonth'),
 });
 
 export const MonthRangeSchema = z
@@ -18,7 +18,7 @@ export const MonthRangeSchema = z
     const fromKey = data.dateFrom.year * 12 + data.dateFrom.month;
     const toKey = data.dateTo.year * 12 + data.dateTo.month;
     if (fromKey > toKey) {
-      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'dateTo має бути не раніше dateFrom' });
+      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'analytics.validation.dateToBeforeFrom' });
     }
   });
 
@@ -32,7 +32,7 @@ export const MonthlyIncomeExpensesFilterSchema = z
     const fromKey = data.dateFrom.year * 12 + data.dateFrom.month;
     const toKey = data.dateTo.year * 12 + data.dateTo.month;
     if (fromKey > toKey) {
-      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'dateTo має бути не раніше dateFrom' });
+      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'analytics.validation.dateToBeforeFrom' });
     }
   });
 

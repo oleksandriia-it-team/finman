@@ -1,63 +1,79 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 import { type NavItemModel, type SidebarItemModel } from '@frontend/shared/models/nav-item.model';
 
-export const profileNavRoutesWindow: SidebarItemModel[] = [
-  {
-    route: '/profile',
-    name: 'Головна',
-    icon: 'house',
-    innerItems: [],
-  },
-  {
-    route: '/profile/budget',
-    icon: 'pie-chart',
-    name: 'Планування',
-    innerItems: [
+export function useProfileNavRoutesWindow(): SidebarItemModel[] {
+  const t = useTranslations('nav');
+  return useMemo(
+    () => [
       {
-        icon: 'piggy-bank',
-        name: 'Бюджетні плани',
-        route: '/plans',
+        route: '/profile',
+        name: t('home'),
+        icon: 'house',
+        innerItems: [],
       },
       {
-        icon: 'coin',
-        name: 'Регулярні операції',
-        route: '/regular-operations',
+        route: '/profile/budget',
+        icon: 'pie-chart',
+        name: t('planning'),
+        innerItems: [
+          {
+            icon: 'piggy-bank',
+            name: t('budgetPlans'),
+            route: '/plans',
+          },
+          {
+            icon: 'coin',
+            name: t('regularOperations'),
+            route: '/regular-operations',
+          },
+        ],
+      },
+      {
+        route: '/profile/analytics',
+        icon: 'graph-up-arrow',
+        name: t('analytics'),
+        innerItems: [],
+      },
+      {
+        route: '/profile/settings',
+        icon: 'person',
+        name: t('profile'),
+        innerItems: [],
       },
     ],
-  },
-  {
-    route: '/profile/analytics',
-    icon: 'graph-up-arrow',
-    name: 'Аналітика',
-    innerItems: [],
-  },
-  {
-    route: '/profile/settings',
-    icon: 'person',
-    name: 'Профіль',
-    innerItems: [],
-  },
-];
+    [t],
+  );
+}
 
-export const profileNavRoutesMobile: NavItemModel[] = [
-  {
-    route: '/profile',
-    name: 'Головна',
-    icon: 'house',
-  },
-  {
-    route: '/profile/budget/plans',
-    icon: 'pie-chart',
-    name: 'Планування',
-    activeRoutes: ['/profile/budget'],
-  },
-  {
-    route: '/profile/analytics',
-    icon: 'graph-up-arrow',
-    name: 'Аналітика',
-  },
-  {
-    route: '/profile/settings',
-    icon: 'person',
-    name: 'Профіль',
-  },
-];
+export function useProfileNavRoutesMobile(): NavItemModel[] {
+  const t = useTranslations('nav');
+  return useMemo(
+    () => [
+      {
+        route: '/profile',
+        name: t('home'),
+        icon: 'house',
+      },
+      {
+        route: '/profile/budget/plans',
+        icon: 'pie-chart',
+        name: t('planning'),
+        activeRoutes: ['/profile/budget'],
+      },
+      {
+        route: '/profile/analytics',
+        icon: 'graph-up-arrow',
+        name: t('analytics'),
+      },
+      {
+        route: '/profile/settings',
+        icon: 'person',
+        name: t('profile'),
+      },
+    ],
+    [t],
+  );
+}

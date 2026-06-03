@@ -22,6 +22,7 @@ import {
   type RegularEntryApiRepository,
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { assertOwnedIds } from '@backend/shared/utils/assert-owned-ids.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 type UpdateBudgetPlanInput = BudgetPlanDto & { userId: number; id: number; currentOtherEntries: MonthEntry[] };
 
@@ -48,7 +49,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
       this.regularEntryRepository.repository,
       userId,
       plannedRegularEntryIds,
-      'Деякі ID планових регулярних операцій не існують або не належать користувачу',
+      ErrorTexts.PlannedRegularEntriesNotOwned,
     );
 
     const currentEntryIds = currentOtherEntries.map((e) => e.id);
@@ -57,10 +58,7 @@ export class UpdateBudgetPlanApiUseCase extends TransactionalUseCase<UpdateBudge
     const foreignOrMissingIds = dtoIdsWithValue.filter((id) => !currentEntryIds.includes(id));
 
     if (foreignOrMissingIds.length > 0) {
-      throw new AppError(
-        "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
-        403,
-      );
+      throw new AppError(ErrorTexts.ForeignOrMissingMonthEntries, 403);
     }
 
     const {

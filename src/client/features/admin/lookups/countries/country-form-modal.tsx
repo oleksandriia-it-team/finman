@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FinModalFormWrapper } from '@frontend/components/wrappers/fin-modal-form-wrapper';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { type CountryFormData, CountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
+import { type CountryFormData, createCountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   isOpen: boolean;
@@ -17,10 +18,24 @@ interface Props {
 }
 
 export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallback }: Props) {
+  const t = useTranslations('admin.country');
+  const tCommon = useTranslations('admin.common');
+  const tLV = useTranslations('admin.lookupsValidation');
   const { showToast } = useGlobalToast();
 
+  const schema = useMemo(
+    () =>
+      createCountryFormSchema({
+        required: tLV('required'),
+        currencyCodeLength: tLV('currencyCodeLength'),
+        emptyUpdate: tLV('emptyUpdate'),
+        statusRequired: tLV('statusRequired'),
+      }),
+    [tLV],
+  );
+
   const methods = useForm<CountryFormData>({
-    resolver: zodResolver(CountryFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: { countryName: '', localeName: '' },
   });
 
@@ -32,8 +47,8 @@ export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallba
 
   const { submitMutation } = useCountryMutations(() => {
     showToast({
-      title: 'Успішно',
-      description: initialData ? 'Дані оновлено' : 'Запис додано',
+      title: tCommon('successTitle'),
+      description: initialData ? tCommon('dataUpdated') : tCommon('recordAdded'),
       variant: 'default',
     });
     onSuccessCallback?.();
@@ -44,7 +59,7 @@ export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallba
     <FinModalFormWrapper
       isOpen={isOpen}
       onClose={onClose}
-      title={initialData ? 'Редагувати країну' : 'Додати країну'}
+      title={initialData ? t('editTitle') : t('addTitle')}
       formId="country-form"
       isLoading={submitMutation.isPending}
     >
@@ -56,20 +71,20 @@ export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallba
         >
           <FinControlledInput
             name="countryName"
-            label="Країна англійською*"
-            placeholder="Наприклад: Ukraine"
+            label={t('countryEnLabel')}
+            placeholder={t('countryEnPlaceholder')}
           />
 
           <FinControlledInput
             name="countryUkName"
-            label="Країна українською*"
-            placeholder="Наприклад: Україна"
+            label={t('countryUkLabel')}
+            placeholder={t('countryUkPlaceholder')}
           />
 
           <FinControlledInput
             name="localeName"
-            label="Локаль *"
-            placeholder="Наприклад: uk-UA"
+            label={t('localeLabel')}
+            placeholder={t('localePlaceholder')}
           />
         </form>
       </FormProvider>

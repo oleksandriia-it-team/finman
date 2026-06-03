@@ -6,8 +6,10 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from '@frontend/entities/auth/props/auth-guard.props';
+import { useTranslations } from 'next-intl';
 
 export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
+  const t = useTranslations('admin.auth');
   const { userInfoState, userInformation } = useUserInformation(
     useShallow((state) => ({ userInformation: state.userInformation, userInfoState: state.userInfoState })),
   );
@@ -25,15 +27,15 @@ export function AuthGuard({ children, routePath = '/login' }: AuthGuardProps) {
   }, [routePath, router, userInformation, pathName, userInfoState]);
 
   if (userInfoState === PromiseState.Loading) {
-    return <span>Завантаження</span>;
+    return <span>{t('loading')}</span>;
   }
 
   if (userInfoState === PromiseState.Error) {
-    return <span>Помилка завантаження користувача</span>;
+    return <span>{t('userLoadError')}</span>;
   }
 
   if (!userInformation) {
-    return <span>Ви не авторизовані. Переадресація...</span>;
+    return <span>{t('notAuthorized')}</span>;
   }
 
   return children;

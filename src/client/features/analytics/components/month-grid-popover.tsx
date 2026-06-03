@@ -7,10 +7,11 @@ import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
-import { MonthTitles } from '@common/constants/month-titles.constant';
 import { ShortMonthLength } from '@common/domains/analytics/utils/format-month-year.util';
 import type { Month } from '@common/enums/month.enum';
 import type { MonthGridPopoverProps } from '@frontend/features/analytics/components/props/month-grid-popover.props';
+import { useMonthTitles } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 
 const MonthsInYear = 12;
 
@@ -25,6 +26,9 @@ export function MonthGridPopover({
   onMonthClick,
   footer,
 }: MonthGridPopoverProps) {
+  const monthTitles = useMonthTitles();
+  const t = useTranslations('analytics.picker');
+
   return (
     <UiPopover
       open={open}
@@ -46,7 +50,7 @@ export function MonthGridPopover({
               size="sm"
               variant="muted-foreground"
               borderNone
-              aria-label="Попередній рік"
+              aria-label={t('prevYear')}
               onClick={() => onViewDateChange(subYears(viewDate, 1))}
             />
             <span className="text-sm font-bold">{viewDate.getFullYear()}</span>
@@ -55,7 +59,7 @@ export function MonthGridPopover({
               size="sm"
               variant="muted-foreground"
               borderNone
-              aria-label="Наступний рік"
+              aria-label={t('nextYear')}
               onClick={() => onViewDateChange(addYears(viewDate, 1))}
             />
           </div>
@@ -73,7 +77,7 @@ export function MonthGridPopover({
                 variant={getMonthVariant(monthDate)}
                 onClick={() => onMonthClick(monthDate)}
               >
-                {MonthTitles[month].slice(0, ShortMonthLength)}
+                {monthTitles[month].slice(0, ShortMonthLength)}
               </UiButton>
             );
           })}

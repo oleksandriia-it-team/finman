@@ -1,5 +1,7 @@
+'use client';
+
 import type { AllCategories } from '@common/enums/categories.enum';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { UiFilterPill } from '@frontend/ui/ui-filter-pill/ui-filter-pill';
 import { useFormContext, useWatch } from 'react-hook-form';
 import type { TrackingOperationFilterFormData } from '@common/domains/tracking-operation/schema/tracking-operation.schema';
@@ -9,7 +11,8 @@ export interface TransactionCategoryFilterPickerProps {
 }
 
 export function TransactionCategoryFilterPicker({ category }: TransactionCategoryFilterPickerProps) {
-  const { variant, icon, label } = CategoriesMapping[category];
+  const categoriesMapping = useCategoriesMapping();
+  const { variant, icon, label } = categoriesMapping[category];
 
   const { setValue, control } = useFormContext<TrackingOperationFilterFormData>();
 

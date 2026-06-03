@@ -1,13 +1,16 @@
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
-import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { BudgetPlanTitleProps } from '@frontend/features/budget-plan/components/props/budget-plan-title.props';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
+import { useMonthTitles } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 
 export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const { now } = useSelectedBudgetPlan();
+  const monthTitles = useMonthTitles();
+  const t = useTranslations('budgetPlan.title');
 
   const isCurrentMonthAndYear = isCurrentMonth(selected, now);
 
@@ -19,15 +22,14 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
       >
         <UiSvgIcon name="calendar" />
 
-        {isCurrentMonthAndYear && 'Поточний план'}
-        {!isCurrentMonthAndYear && 'План'}
+        {isCurrentMonthAndYear ? t('current') : t('plan')}
       </UiDescription>
 
       <UiTitle
         size="lg"
         className="w-fit"
       >
-        {MonthTitles[selected.month]} {selected.year}
+        {monthTitles[selected.month]} {selected.year}
       </UiTitle>
     </div>
   );

@@ -1,8 +1,11 @@
+'use client';
+
 import { UiComboboxList } from '@frontend/ui/ui-combobox/ui-combobox-list';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { UiComboboxMessage } from '@frontend/ui/ui-combobox/ui-combobox-message';
 import { UiComboboxItem } from '@frontend/ui/ui-combobox/ui-combobox-item';
 import { type LazyOptionsProps } from '@frontend/components/fields/props/input.props';
+import { useTranslations } from 'next-intl';
 
 export function FinComboboxList<T>({
   optionListClassName,
@@ -13,16 +16,18 @@ export function FinComboboxList<T>({
   emptyLabel,
   state,
 }: LazyOptionsProps<T>) {
+  const t = useTranslations('common');
+
   return (
     <UiComboboxList className={optionListClassName}>
       {options.length === 0 && state === PromiseState.Success && (
-        <UiComboboxMessage>{emptyLabel || 'Нічого не знайдено'}</UiComboboxMessage>
+        <UiComboboxMessage>{emptyLabel || t('nothingFound')}</UiComboboxMessage>
       )}
 
-      {state === PromiseState.Loading && <UiComboboxMessage>{loadingLabel || 'Завантаження...'}</UiComboboxMessage>}
+      {state === PromiseState.Loading && <UiComboboxMessage>{loadingLabel || t('loadingDots')}</UiComboboxMessage>}
 
       {state === PromiseState.Error && (
-        <UiComboboxMessage variant="destructive">{errorLabel || 'Помилка'}</UiComboboxMessage>
+        <UiComboboxMessage variant="destructive">{errorLabel || t('error')}</UiComboboxMessage>
       )}
 
       {state === PromiseState.Success &&

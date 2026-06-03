@@ -5,6 +5,7 @@ import { AppError } from '@common/classes/app-error.class';
 import { plannedRegOpsBudgetRepository } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.repository';
 import { type BudgetPlanOrm } from '@backend/entities/budget-plan/infrastructure/budget-plan.orm';
 import { type AllCategories } from '@common/enums/categories.enum';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 type FitAttachConditionsProps = {
   attachedPlannedMonthEntryId: number | null;
@@ -69,10 +70,7 @@ export async function assertFitAttachConditions({
   category,
 }: FitAttachConditionsProps): Promise<void> {
   if (!isEmpty(attachedPlannedMonthEntryId) && !isEmpty(attachedPlannedRegEntryId)) {
-    throw new AppError(
-      'Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету',
-      403,
-    );
+    throw new AppError(ErrorTexts.AttachBothPlannedTypes, 403);
   }
 
   if (!isEmpty(attachedPlannedMonthEntryId)) {
@@ -83,9 +81,9 @@ export async function assertFitAttachConditions({
       date,
       category,
       getCategory: (entry) => entry.category,
-      notFoundMessage: 'Запис місячної операції з таким ID не існує або не належить користувачу',
-      dateMismatchMessage: "Дата операції не відповідає місяцю, до якого прив'язана планова операція місяця",
-      categoryMismatchMessage: 'Категорія операції має співпадати з категорією прикріпленої планової операції місяця',
+      notFoundMessage: ErrorTexts.MonthEntryNotFoundOrNotOwned,
+      dateMismatchMessage: ErrorTexts.MonthEntryDateMismatch,
+      categoryMismatchMessage: ErrorTexts.MonthEntryCategoryMismatch,
     });
   }
 
@@ -98,11 +96,9 @@ export async function assertFitAttachConditions({
       category,
       getCategory: (row) => row.regularOperation?.category,
       relations: { regularOperation: true },
-      notFoundMessage: 'Запис регулярної операції з таким ID не існує або не належить користувачу',
-      dateMismatchMessage:
-        "Дата операції не відповідає місяцю, до якого прив'язана планова операція регулярного бюджету",
-      categoryMismatchMessage:
-        'Категорія операції має співпадати з категорією прикріпленої планової операції регулярного бюджету',
+      notFoundMessage: ErrorTexts.RegEntryNotFoundOrNotOwned,
+      dateMismatchMessage: ErrorTexts.RegEntryDateMismatch,
+      categoryMismatchMessage: ErrorTexts.RegEntryCategoryMismatch,
     });
   }
 }

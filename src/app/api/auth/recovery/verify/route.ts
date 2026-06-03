@@ -3,6 +3,7 @@ import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastr
 import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { VerifyCodeSchema } from '@common/domains/auth/schema/recovery.schema';
 import { RecoveryValidationStatus } from '@common/enums/recovery-status.enum';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export const POST = createRoute({
   schema: VerifyCodeSchema,
@@ -10,17 +11,17 @@ export const POST = createRoute({
     async ({ body }) => {
       const result = await recoveryCodeRepository.validateAndGetCode(body.email, body.code);
       if (result.status !== RecoveryValidationStatus.Valid) {
-        let message = 'Код недійсний або прострочений';
         if (result.status === RecoveryValidationStatus.AttemptsExceeded) {
-          message = 'Перевищено ліміт спроб. Запитуйте новий код.';
+          return { status: 400 as const, message: ErrorTexts.TooManyAttempts };
         }
         if (result.status === RecoveryValidationStatus.InvalidCode) {
-          message = `Невірний код. Залишилося спроб: ${result.remainingAttempts}`;
+          return {
+            status: 400 as const,
+            message: ErrorTexts.InvalidCodeWithAttempts,
+            messageParams: { remainingAttempts: result.remainingAttempts },
+          };
         }
-        return {
-          status: 400 as const,
-          message,
-        };
+        return { status: 400 as const, message: ErrorTexts.InvalidOrExpiredCode };
       }
 
       return null;

@@ -1,3 +1,5 @@
+'use client';
+
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
@@ -5,15 +7,15 @@ import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 import { FinControlledOtp } from '@frontend/components/controlled-fields/fin-controlled-otp';
 import type { ShowQrCode2FAProps } from './props/show-qr-code.props';
+import { useTranslations } from 'next-intl';
 
 export function ShowQrCodeTwoFactorSetupQRCode({ data: { qrCodeImage, secret } }: ShowQrCode2FAProps) {
+  const t = useTranslations('userSettings.twoFactor.setupModal');
+
   return (
     <>
       <div className="flex flex-col gap-px">
-        <UiDescription>
-          Відскануйте QR-код у Google Authenticator, Authy або 1Password і введіть 6-значний код, щоб увімкнути
-          двофакторну автентифікацію.
-        </UiDescription>
+        <UiDescription>{t('qrInstructions')}</UiDescription>
       </div>
       <UiCard position="row">
         <UiGraphic
@@ -24,9 +26,9 @@ export function ShowQrCodeTwoFactorSetupQRCode({ data: { qrCodeImage, secret } }
 
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-1">
-            <UiTitle>Або введіть ключ вручну</UiTitle>
+            <UiTitle>{t('manualKeyTitle')}</UiTitle>
 
-            <UiDescription>Якщо не вдається відсканувати — скопіюйте код</UiDescription>
+            <UiDescription>{t('manualKeyDescription')}</UiDescription>
           </div>
 
           {/*TODO update later*/}
@@ -40,8 +42,8 @@ export function ShowQrCodeTwoFactorSetupQRCode({ data: { qrCodeImage, secret } }
 
       <FinControlledOtp
         name="code"
-        label="Код з додатку"
-        description="Введіть 6-значний код, що зараз показує ваш додаток-автентифікатор"
+        label={t('codeLabel')}
+        description={t('codeDescription')}
       />
     </>
   );

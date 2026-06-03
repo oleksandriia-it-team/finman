@@ -7,9 +7,11 @@ import type { TrackingOperationFilterFormData } from '@common/domains/tracking-o
 import { getDateRangeForPeriod } from '@common/utils/get-date-range-for-period';
 import { isSameDay } from 'date-fns';
 import { useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 
 export function PeriodFilters({ className }: FiltersDefaultProps) {
   const { setValue, control } = useFormContext<TrackingOperationFilterFormData>();
+  const t = useTranslations('regular.periodFilter');
 
   const RegularPaymentFrequencyValues = useMemo(() => {
     return Object.values(RegularPaymentFrequencyFilter);
@@ -50,7 +52,7 @@ export function PeriodFilters({ className }: FiltersDefaultProps) {
           isOutlined={false}
           borderNone
         >
-          {item}
+          {t(item)}
         </UiFilterPill>
       ))}
     </div>

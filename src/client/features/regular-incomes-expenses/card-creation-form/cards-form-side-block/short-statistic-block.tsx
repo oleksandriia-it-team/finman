@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
+import { useTranslations } from 'next-intl';
 
 interface ShortStatisticBlockProps {
   factAverageExpenses: number;
@@ -27,28 +30,30 @@ export function ShortStatisticBlock({
   increaseFactExpensesLastMonth,
   increaseFactIncomesLastMonth,
 }: ShortStatisticBlockProps) {
+  const t = useTranslations('regular.sideBlock');
+
   return (
     <div className="size-full flex flex-row items-end text-primary-foreground">
       <div className="p-8 size-full flex flex-col justify-end">
-        <h3 className="text-lg font-bold">Швидка статистика</h3>
+        <h3 className="text-lg font-bold">{t('statisticTitle')}</h3>
         <StatItem
           value={<FinTransformCurrency value={factAverageExpenses} />}
-          label="Середні витрати на місяць"
+          label={t('averageExpenses')}
         />
         <StatItem
           value={formatPercent(increaseFactExpensesLastMonth)}
-          label="Зміна витрат за останній місяць"
+          label={t('changeExpenses')}
         />
       </div>
 
       <div className="p-8 size-full flex flex-col justify-end">
         <StatItem
           value={<FinTransformCurrency value={factAverageIncomes} />}
-          label="Середні доходи на місяць"
+          label={t('averageIncomes')}
         />
         <StatItem
           value={formatPercent(increaseFactIncomesLastMonth)}
-          label="Зміна доходів за останній місяць"
+          label={t('changeIncomes')}
         />
       </div>
     </div>

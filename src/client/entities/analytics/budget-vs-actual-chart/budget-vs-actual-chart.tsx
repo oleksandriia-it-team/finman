@@ -4,11 +4,8 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Cell } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@frontend/ui/ui-chart/chart';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { formatCurrency } from '@frontend/shared/utils/format-currency.util';
-
-const chartConfig = {
-  plan: { label: 'План', color: 'var(--primary)' },
-  fact: { label: 'Факт', color: 'var(--success)' },
-};
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 const overspendColor = 'var(--orange)';
 
@@ -19,6 +16,15 @@ interface BudgetItem {
 }
 
 export function BudgetVsActualChart({ data }: { data: BudgetItem[] }) {
+  const t = useTranslations('analytics.budgetVsActual');
+  const chartConfig = useMemo(
+    () => ({
+      plan: { label: t('planLabel'), color: 'var(--primary)' },
+      fact: { label: t('factLabel'), color: 'var(--success)' },
+    }),
+    [t],
+  );
+
   return (
     <ChartContainer
       config={chartConfig}

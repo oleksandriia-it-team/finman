@@ -10,18 +10,28 @@ import {
   ChartTooltipContent,
 } from '@frontend/ui/ui-chart/chart';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
-import { MonthTitles } from '@common/constants/month-titles.constant';
 import type { IncomesExpensesChartProps } from '@frontend/entities/analytics/incomes-expenses-chart/props/incomes-expenses-chart.props';
+import { useMonthTitles } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 
 const ShortMonthLabelLength = 3;
 
-const chartConfig = {
-  incomes: { label: 'Доходи', color: 'var(--success)' },
-  expenses: { label: 'Витрати', color: 'var(--destructive-foreground)' },
-};
-
 export function IncomesExpensesChart({ data }: IncomesExpensesChartProps) {
-  const chartData = useMemo(() => data.map((item) => ({ ...item, monthLabel: MonthTitles[item.month] })), [data]);
+  const monthTitles = useMonthTitles();
+  const t = useTranslations('analytics.chart');
+
+  const chartConfig = useMemo(
+    () => ({
+      incomes: { label: t('incomes'), color: 'var(--success)' },
+      expenses: { label: t('expenses'), color: 'var(--destructive-foreground)' },
+    }),
+    [t],
+  );
+
+  const chartData = useMemo(
+    () => data.map((item) => ({ ...item, monthLabel: monthTitles[item.month] })),
+    [data, monthTitles],
+  );
 
   return (
     <ChartContainer

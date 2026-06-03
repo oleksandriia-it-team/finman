@@ -6,8 +6,10 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 import { useShallow } from 'zustand/react/shallow';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import type { AuthGuardProps } from './props/auth-guard.props';
+import { useTranslations } from 'next-intl';
 
 export function NotAuthGuard({ children, routePath = '/profile' }: AuthGuardProps) {
+  const t = useTranslations('admin.auth');
   const { userInfoState, userInformation } = useUserInformation(
     useShallow((state) => ({ userInformation: state.userInformation, userInfoState: state.userInfoState })),
   );
@@ -25,10 +27,10 @@ export function NotAuthGuard({ children, routePath = '/profile' }: AuthGuardProp
   }, [routePath, router, userInformation, pathName, userInfoState]);
 
   if (userInfoState === PromiseState.Loading) {
-    return <span>Завантаження</span>;
+    return <span>{t('loading')}</span>;
   }
   if (userInformation) {
-    return <span>Ви авторизовані, тому не можете перейти до сторінки. Переадресація...</span>;
+    return <span>{t('alreadyAuthorized')}</span>;
   }
 
   return children;

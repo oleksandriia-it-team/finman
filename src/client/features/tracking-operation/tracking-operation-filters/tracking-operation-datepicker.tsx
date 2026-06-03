@@ -4,8 +4,10 @@ import { useFormContext } from 'react-hook-form';
 import { getMinMaxDates } from '@common/utils/get-min-max-dates.util';
 import { useMemo } from 'react';
 import { isSameDay } from 'date-fns';
+import { useTranslations } from 'next-intl';
 
 export function TrackingOperationDatepicker() {
+  const t = useTranslations('tracking.filters');
   const { setFocus, watch } = useFormContext();
 
   const dateFrom = watch('dateFrom');
@@ -20,7 +22,7 @@ export function TrackingOperationDatepicker() {
       firstField={
         <FinControlledDatepicker
           maxDate={fromMaxDate}
-          label="Від"
+          label={t('dateFrom')}
           mode="single"
           name="dateFrom"
           placeholder="04.04.2000"
@@ -45,7 +47,7 @@ export function TrackingOperationDatepicker() {
           }}
           minDate={toMinDate}
           maxDate={now}
-          label="До"
+          label={t('dateTo')}
           mode="single"
           name="dateTo"
           placeholder="04.04.2000"

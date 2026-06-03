@@ -6,6 +6,7 @@ export interface SelectTriggerProps extends ComponentProps<typeof SelectPrimitiv
   size?: IconSize;
   onClear?: () => void;
   hasValue?: boolean;
+  clearAriaLabel?: string;
   ref?: Ref<HTMLButtonElement>;
   'data-invalid'?: boolean | undefined;
 }

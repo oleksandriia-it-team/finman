@@ -7,7 +7,7 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export function UiComboboxClear({
   className,
-  'aria-label': ariaLabel = 'Очистити поле',
+  'aria-label': ariaLabel = 'Clear',
   ...props
 }: ComboboxPrimitive.Clear.Props) {
   return (

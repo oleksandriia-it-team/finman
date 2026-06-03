@@ -1,4 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { getDefaultApiErrorFilter } from '../../../shared/get-api-error-filter.util';
 import { ValidCodeGuard } from '../verify/guards';
@@ -15,7 +16,7 @@ export const POST = createRoute({
     if (isEmpty(userId)) {
       return {
         status: 400,
-        message: 'Користувача з таким email не існує',
+        message: ErrorTexts.EmailNotFound,
       };
     }
 

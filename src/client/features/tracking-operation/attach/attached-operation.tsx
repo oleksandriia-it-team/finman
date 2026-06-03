@@ -5,8 +5,10 @@ import { useGetAttachedOperation } from './hooks/get-attached-operation.hook';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { TrackingOperationAttachedOperationListModal } from '@frontend/features/tracking-operation/attach/attach-operations-list-modal';
+import { useTranslations } from 'next-intl';
 
 export function TrackingOperationAttachedOperationLabel() {
+  const t = useTranslations('tracking.attach');
   const { state, errorMessage } = useAttachState();
 
   const attachedOperation = useGetAttachedOperation();
@@ -35,7 +37,7 @@ export function TrackingOperationAttachedOperationLabel() {
                 isOutlined
               >
                 <UiSvgIcon name="lightning-charge-fill" />
-                Заповнити з плану
+                {t('fillFromPlan')}
               </UiButton>
             ) : (
               <UiButton

@@ -11,20 +11,16 @@ export const TransactionPriority = {
   Minimal: 1,
 } as const;
 
-export const TransactionPriorityLabel = {
-  Critical: 'Критичний',
-  Urgent: 'Невідкладний',
-  VeryHigh: 'Дуже високий',
-  High: 'Високий',
-  Elevated: 'Підвищений',
-  Medium: 'Середній',
-  Moderate: 'Помірний',
-  Low: 'Низький',
-  Background: 'Фоновий',
-  Minimal: 'Мінімальний',
+/** Translation keys under the `priority.*` namespace. */
+export const TransactionPriorityLabelKeys = {
+  Critical: 'critical',
+  Urgent: 'urgent',
+  VeryHigh: 'veryHigh',
+  High: 'high',
+  Elevated: 'elevated',
+  Medium: 'medium',
+  Moderate: 'moderate',
+  Low: 'low',
+  Background: 'background',
+  Minimal: 'minimal',
 } as const;
-
-export const PriorityOptions = Object.entries(TransactionPriority).map(([key, value]) => ({
-  label: TransactionPriorityLabel[key as keyof typeof TransactionPriorityLabel],
-  value,
-}));

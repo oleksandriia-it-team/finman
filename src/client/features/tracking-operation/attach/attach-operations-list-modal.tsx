@@ -14,8 +14,10 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import { useAttachOperationsList } from '@frontend/features/tracking-operation/attach/hooks/use-attach-operations-list.hook';
+import { useTranslations } from 'next-intl';
 
 export function TrackingOperationAttachedOperationListModal({ trigger }: AttachOperationsListModalProps) {
+  const t = useTranslations('tracking.attach');
   const { search, setSearch, clearAttached } = useAttachState();
   const { items, debouncedSearch } = useAttachOperationsList();
 
@@ -29,7 +31,7 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
               name="lightning-charge-fill"
               className="!text-primary"
             />
-            Прикріпити заплановану операцію з бюджетного плану
+            {t('modalTitle')}
           </UiModalTitle>
         </UiModalHeader>
 
@@ -38,7 +40,7 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
             <UiInput
               onChange={(value) => setSearch(value ?? '')}
               value={search}
-              placeholder="Пошук операції"
+              placeholder={t('searchPlaceholder')}
             />
           )}
 
@@ -48,9 +50,7 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
                 size="xs"
                 className="py-4 text-center"
               >
-                {!!debouncedSearch
-                  ? 'Не знайдено'
-                  : 'Не знайдено. Можливо бюджетного плану на обрану дату не існує, або немає за обраною категорією та типом'}
+                {!!debouncedSearch ? t('notFound') : t('notFoundDetailed')}
               </UiDescription>
             )}
 
@@ -71,11 +71,11 @@ export function TrackingOperationAttachedOperationListModal({ trigger }: AttachO
               variant="destructive"
               onClick={clearAttached}
             >
-              Очистити
+              {t('clearButton')}
             </UiButton>
 
             <UiModalClose asChild>
-              <UiButton variant="primary">Застосувати</UiButton>
+              <UiButton variant="primary">{t('applyButton')}</UiButton>
             </UiModalClose>
           </UiModalFooter>
         )}

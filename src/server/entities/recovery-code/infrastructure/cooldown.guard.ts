@@ -1,6 +1,7 @@
 import type { ForgotPasswordDto } from '@common/domains/auth/schema/forgot-password.schema';
 import type { ApiResultOperationError } from '@common/models/api-result-operation.model';
 import { CooldownTimeSecond } from '@common/constants/cooldown-time.constant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 const cooldownCache = new Map<string, number>();
 
@@ -20,7 +21,8 @@ export async function CooldownRecoveryGuard({
     if (diffSeconds < CooldownTimeSecond) {
       return {
         status: 429,
-        message: `Занадто багато спроб. Будь ласка, зачекайте ${CooldownTimeSecond} секунд перед наступним запитом.`,
+        message: ErrorTexts.CooldownWait,
+        messageParams: { seconds: CooldownTimeSecond },
       };
     }
   }

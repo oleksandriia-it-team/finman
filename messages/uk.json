@@ -1,0 +1,812 @@
+{
+  "errors": {
+    "unknownError": "Невідома помилка.",
+    "recordDoesNotExist": "Запис не існує.",
+    "dataProvidedDoesntMeetRequirements": "Невідома помилка: надані дані не відповідають вимогам операції.",
+    "prevBatchIsNotDone": "Попередню транзакцію ще не завершено.",
+    "abortError": "AbortError",
+    "incorrectIdProvided": "Надано некоректний ід.",
+    "incorrectTypeData": "Надано некоректний тип даних.",
+    "twoFactorCodeIsRequired": "Двофакторна аутентифікація увімкнена, код обов'язковий",
+    "databaseConnection": "Помилка підключення до бази даних",
+    "userNotFound": "Користувача не знайдено",
+    "twoFactorNotInitialized": "Спочатку ініціалізуйте двофакторну аутентифікацію",
+    "invalidCredentials": "Недійсні облікові дані",
+    "passwordUpdateFailed": "Не вдалося оновити пароль",
+    "invalidCode": "Невірний код",
+    "regularEntryTitleExists": "Регулярна операція з даним заголовком вже існує. Оберіть інший",
+    "unexpectedRequestError": "Неочікувана помилка з обробкою запиту. Спробуйте пізніше",
+    "unauthorized": "Ви не авторизовані",
+    "paramNotInteger": "Один з параметрів не є цілим числом",
+    "attachBothPlannedTypes": "Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету",
+    "monthEntryNotFoundOrNotOwned": "Запис місячної операції з таким ID не існує або не належить користувачу",
+    "monthEntryDateMismatch": "Дата операції не відповідає місяцю, до якого прив'язана планова операція місяця",
+    "monthEntryCategoryMismatch": "Категорія операції має співпадати з категорією прикріпленої планової операції місяця",
+    "regEntryNotFoundOrNotOwned": "Запис регулярної операції з таким ID не існує або не належить користувачу",
+    "regEntryDateMismatch": "Дата операції не відповідає місяцю, до якого прив'язана планова операція регулярного бюджету",
+    "regEntryCategoryMismatch": "Категорія операції має співпадати з категорією прикріпленої планової операції регулярного бюджету",
+    "foreignOrMissingMonthEntries": "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
+    "plannedRegularEntriesNotOwned": "Деякі ID планових регулярних операцій не існують або не належать користувачу",
+    "invalidJson": "Невалідний JSON",
+    "budgetPlanNotFoundForMonth": "Бюджетний план не знайдено за місяць {month} та рік {year}",
+    "emailAlreadyExists": "Ця електронна адреса вже існує",
+    "nameAlreadyExists": "Це ім'я вже існує",
+    "noUpdateData": "Не передано дані для оновлення",
+    "userDataNotFound": "Дані користувача не знайдені",
+    "wrongCurrentPassword": "Поточний пароль невірний",
+    "invalidOrExpiredCode": "Код недійсний або прострочений",
+    "codeNotFoundOrExpired": "Код не знайдено або термін його дії минув",
+    "tooManyAttempts": "Перевищено ліміт спроб. Запитуйте новий код.",
+    "invalidCodeWithAttempts": "Невірний код. Залишилося спроб: {remainingAttempts}",
+    "emailNotFound": "Користувача з таким email не існує",
+    "emailSendFailed": "Не вдалося відправити лист. Спробуйте пізніше.",
+    "totpNotEnabled": "Двофакторна автентифікація не увімкнена",
+    "totpAlreadyEnabled": "Двофакторна автентифікація вже увімкнена",
+    "regularEntryNotOwned": "Регулярна операція не належить вам",
+    "regularEntryNotFound": "Регулярна операція не знайдена",
+    "trackingOperationNotFound": "Операцію не знайдено",
+    "trackingOperationNotOwned": "Ця операція вам не належить",
+    "budgetPlanNotFound": "Бюджетний план не знайдено",
+    "budgetPlanAlreadyExists": "Бюджетний план вже існує",
+    "insufficientPermissions": "Недостатньо прав",
+    "errorLogNotFound": "Лог помилки не знайдено",
+    "currencyNotFound": "Валюту не знайдено",
+    "countryNotFound": "Країну не знайдено",
+    "userNotFoundByEmail": "Користувача з такою поштою не знайдено",
+    "cooldownWait": "Занадто багато спроб. Зачекайте {seconds} секунд перед наступним запитом."
+  },
+  "months": {
+    "january": "Січень",
+    "february": "Лютий",
+    "march": "Березень",
+    "april": "Квітень",
+    "may": "Травень",
+    "june": "Червень",
+    "july": "Липень",
+    "august": "Серпень",
+    "september": "Вересень",
+    "october": "Жовтень",
+    "november": "Листопад",
+    "december": "Грудень"
+  },
+  "weekdays": {
+    "sun": "Нд",
+    "mon": "Пн",
+    "tue": "Вт",
+    "wed": "Ср",
+    "thu": "Чт",
+    "fri": "Пт",
+    "sat": "Сб"
+  },
+  "priority": {
+    "critical": "Критичний",
+    "urgent": "Невідкладний",
+    "veryHigh": "Дуже високий",
+    "high": "Високий",
+    "elevated": "Підвищений",
+    "medium": "Середній",
+    "moderate": "Помірний",
+    "low": "Низький",
+    "background": "Фоновий",
+    "minimal": "Мінімальний"
+  },
+  "auth": {
+    "login": {
+      "validation": {
+        "loginRequired": "Логін або email є обов'язковим",
+        "loginMaxLength": "Логін не може бути довше {max} символів",
+        "emailInvalidFormat": "Неправильний формат email (відсутній домен, наприклад .com)",
+        "usernameMinLength": "Ім'я користувача повинно бути не менше {min} символів",
+        "loginInvalidChars": "Логін містить недопустимі символи",
+        "passwordRequired": "Пароль є обов'язковим",
+        "passwordMinLength": "Пароль повинен бути не менше {min} символів",
+        "passwordMaxLength": "Пароль не може бути довше {max} символів",
+        "passwordLatinOnly": "Пароль може містити лише латинські літери та спеціальні символи"
+      }
+    },
+    "signup": {
+      "title": "Створіть свій акаунт",
+      "workModeLabel": "Режим роботи",
+      "workModePlaceholder": "Оберіть режим роботи",
+      "workModeTooltip": "Онлайн: синхронізація з хмарою. Офлайн: дані тільки у вашому браузері.",
+      "nameLabel": "Ім'я користувача *",
+      "namePlaceholder": "Мін. 8 символів",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "Введіть email",
+      "passwordLabel": "Пароль *",
+      "passwordPlaceholder": "Мін. 8 символів",
+      "passwordConfirmLabel": "Підтвердження паролю *",
+      "passwordConfirmPlaceholder": "Підтвердіть пароль",
+      "currencyLabel": "Валюта *",
+      "currencyPlaceholder": "Пошук...",
+      "submit": "Зареєструватися",
+      "submitLoading": "Реєстрація...",
+      "or": "АБО",
+      "alreadyHaveAccount": "Вже є акаунт? Увійти",
+      "successMessage": "Реєстрація успішна!",
+      "validation": {
+        "invalidEmail": "Неправильний формат email",
+        "workModeRequired": "Будь ласка, оберіть режим роботи",
+        "currencyRequired": "Будь ласка, оберіть валюту",
+        "emailRequiredOnline": "Email обов'язковий для онлайн-режиму",
+        "passwordMinLength": "Пароль має бути не менше {min} символів",
+        "passwordsDoNotMatch": "Паролі не збігаються"
+      }
+    },
+    "recovery": {
+      "title": "Відновлення паролю",
+      "description": "Введіть email, пов'язаний з вашим акаунтом, і ми надішлемо посилання для скидання паролю.",
+      "rightSideTitle": "FinMan — відновлення доступу",
+      "rightSideDescription": "Безпечне відновлення паролю з зашифрованим посиланням. Ваші дані захищені на всіх етапах.",
+      "emailLabel": "Email*",
+      "emailPlaceholder": "Введіть ваш email",
+      "emailDescription": "Ми надішлемо інструкції на вашу пошту",
+      "submit": "Надіслати посилання",
+      "submitLoading": "Відправка...",
+      "or": "або",
+      "backToLogin": "Повернутись до входу",
+      "noAccount": "Не маєте акаунту?",
+      "signupCta": "Зареєструватись",
+      "successMessage": "Код відновлення надіслано!"
+    },
+    "confirmCode": {
+      "title": "Підтвердження коду",
+      "descriptionPrefix": "Ми надіслали 6-значний код на",
+      "emailFallback": "вашу пошту",
+      "rightSideTitle": "FinMan — безпека понад усе",
+      "rightSideDescription": "Ми використовуємо двофакторну перевірку, щоб ваші фінансові дані залишалися під надійним замком.",
+      "codeLabel": "Введіть код підтвердження*",
+      "codeDescription": "Код дійсний протягом 5 хвилин",
+      "submit": "Підтвердити",
+      "submitLoading": "Перевірка...",
+      "retryAfter": "Спробуйте через {seconds}с",
+      "changeEmail": "Змінити пошту"
+    },
+    "resetPassword": {
+      "title": "Встановлення пароля",
+      "description": "Будь ласка, введіть новий пароль для вашого облікового запису.",
+      "rightSideTitle": "Створіть новий пароль",
+      "rightSideDescription": "Використовуйте комбінацію символів, літер та цифр для максимального захисту.",
+      "passwordLabel": "Новий пароль*",
+      "passwordPlaceholder": "Введіть новий пароль",
+      "passwordConfirmLabel": "Підтвердження пароля*",
+      "passwordConfirmPlaceholder": "Повторіть новий пароль",
+      "submit": "Змінити пароль",
+      "submitLoading": "Оновлення...",
+      "cancel": "Скасувати",
+      "successMessage": "Пароль успішно змінено!",
+      "validation": {
+        "passwordMinLength": "Мінімум 8 символів",
+        "passwordsDoNotMatch": "Паролі не збігаються"
+      }
+    },
+    "user": {
+      "validation": {
+        "emailRequired": "Email є обов'язковим",
+        "emailMaxLength": "Email не може бути довше {max} символів",
+        "emailInvalidFormat": "Неправильний формат email (відсутній домен, наприклад .com)",
+        "nameRequired": "Ім'я є обов'язковим",
+        "nameMinLength": "Ім'я повинно бути не менше {min} символів",
+        "nameMaxLength": "Ім'я не може бути довше {max} символів",
+        "nameInvalidChars": "Ім'я містить недопустимі символи",
+        "passwordRequired": "Пароль є обов'язковим",
+        "passwordMinLength": "Пароль повинен бути не менше {min} символів",
+        "passwordMaxLength": "Пароль не може бути довше {max} символів",
+        "passwordLatinOnly": "Пароль може містити лише латинські літери та спеціальні символи",
+        "currencyRequired": "Будь ласка, оберіть валюту",
+        "currencyCodeLength": "Код валюти повинен складатися з {length} символів (наприклад: UAH, USD, EUR)",
+        "currencyCodeFormat": "Код валюти повинен містити лише великі латинські літери (наприклад: UAH, USD)",
+        "localeRequired": "Локаль є обов'язковою",
+        "localeFormat": "Невірний формат локалі (наприклад: uk, en, en-US)"
+      }
+    },
+    "code": {
+      "validation": {
+        "required": "Введіть усі 6 цифр",
+        "length": "Введіть усі 6 цифр",
+        "numeric": "Код має бути числовим рядком"
+      }
+    },
+    "forgotPassword": {
+      "validation": {
+        "emailRequired": "Email обов'язковий",
+        "emailInvalid": "Некоректний формат email"
+      }
+    }
+  },
+  "userSettings": {
+    "header": {
+      "title": "Профіль",
+      "description": "Керуйте своїм обліковим записом та налаштуваннями"
+    },
+    "account": {
+      "title": "Обліковий запис",
+      "nameLabel": "Ім'я користувача",
+      "namePlaceholder": "john.doe"
+    },
+    "security": {
+      "title": "Безпека",
+      "passwordReplace": "Замінення паролю",
+      "currentPasswordLabel": "Поточний пароль",
+      "currentPasswordPlaceholder": "Введіть поточний пароль",
+      "newPasswordLabel": "Новий пароль",
+      "newPasswordPlaceholder": "Введіть новий пароль",
+      "confirmPasswordLabel": "Підтвердити пароль",
+      "confirmPasswordPlaceholder": "Підтвердіть пароль"
+    },
+    "appearance": {
+      "title": "Зовнішній вигляд",
+      "themeTitle": "Тема",
+      "themeLight": "Світла",
+      "themeDark": "Темна",
+      "localeLabel": "Формат дати та часу",
+      "localePlaceholder": "Пошук...",
+      "languageLabel": "Мова",
+      "languagePlaceholder": "Оберіть мову"
+    },
+    "twoFactor": {
+      "titleEnabled": "Двофакторна автентифікація - увімкнено",
+      "titleDisabled": "Двофакторна автентифікація - вимкнено",
+      "description": "Додатковий рівень захисту через додаток-автентифікатор (Google Authenticator, Authy, 1Password)",
+      "setupButton": "Налаштувати",
+      "resetButton": "Скинути",
+      "cancelModal": {
+        "title": "Скинути двофакторну автентифікацію",
+        "description": "Ви впевнені, що хочете скинути налаштування двофакторної автентифікації? Вам потрібно буде налаштувати її знову, щоб використовувати.",
+        "confirm": "Так, скинути",
+        "cancel": "Ні, залишити",
+        "successMessage": "Двофакторна автентифікація успішно скинута"
+      },
+      "setupModal": {
+        "title": "Підключіть автентифікатор",
+        "qrInstructions": "Відскануйте QR-код у Google Authenticator, Authy або 1Password і введіть 6-значний код, щоб увімкнути двофакторну автентифікацію.",
+        "manualKeyTitle": "Або введіть ключ вручну",
+        "manualKeyDescription": "Якщо не вдається відсканувати — скопіюйте код",
+        "codeLabel": "Код з додатку",
+        "codeDescription": "Введіть 6-значний код, що зараз показує ваш додаток-автентифікатор",
+        "close": "Закрити",
+        "cancel": "Скасувати",
+        "confirm": "Підтвердити та увімкнути",
+        "successDescription": "Двофакторна автентифікація активна. Наступного разу під час входу попросимо код з вашого автентифікатора."
+      }
+    },
+    "actions": {
+      "save": "Зберегти зміни",
+      "logout": "Вийти з акаунту",
+      "logoutConfirm": {
+        "title": "Вийти з акаунту?",
+        "description": "Після виходу вам потрібно буде знову увійти, щоб продовжити роботу.",
+        "confirm": "Вийти"
+      }
+    },
+    "profileUpdated": "Профіль оновлено",
+    "profileValidation": {
+      "nameRequired": "Ім'я є обов'язковим",
+      "nameMinLength": "Ім'я має містити щонайменше {min} символи",
+      "nameMaxLength": "Ім'я не може бути довше {max} символів",
+      "nameInvalidChars": "Ім'я містить недопустимі символи",
+      "localeRequired": "Локаль обов'язкова",
+      "localeFormat": "Невірний формат локалі",
+      "languageRequired": "Оберіть мову",
+      "currentPasswordRequired": "Введіть поточний пароль",
+      "newPasswordMinLength": "Пароль має містити щонайменше {min} символів",
+      "newPasswordLatinOnly": "Пароль може містити лише латинські літери, цифри та символи",
+      "newPasswordLettersAndDigits": "Пароль має містити літери та цифри",
+      "passwordsDoNotMatch": "Паролі не збігаються"
+    }
+  },
+  "analytics": {
+    "categories": {
+      "incomesTitle": "Доходи за категоріями",
+      "incomesDescription": "Розподіл доходів за категоріями за визначений період",
+      "expensesTitle": "Витрати за категоріями",
+      "expensesDescription": "Розподіл витрат за категоріями за визначений період",
+      "totalExpenses": "всього витрат",
+      "totalIncomes": "всього доходів"
+    },
+    "incomeExpenses": {
+      "title": "Аналітика доходів та витрат",
+      "description": "Огляд доходів та витрат за визначений період"
+    },
+    "budgetVsActual": {
+      "title": "План бюджету vs Фактичні витрати",
+      "description": "Порівняння планових та фактичних витрат за категоріями",
+      "planLabel": "План",
+      "factLabel": "Факт"
+    },
+    "picker": {
+      "month": "Місяць",
+      "period": "Період",
+      "apply": "Застосувати",
+      "prevYear": "Попередній рік",
+      "nextYear": "Наступний рік"
+    },
+    "chart": {
+      "incomes": "Доходи",
+      "expenses": "Витрати"
+    },
+    "categoryFilter": {
+      "title": "Категорії",
+      "searchPlaceholder": "Пошук категорії...",
+      "clearAll": "Очистити все",
+      "done": "Готово"
+    },
+    "validation": {
+      "yearInteger": "Рік має бути числом",
+      "yearMin": "Рік має бути не раніше 2000",
+      "invalidMonth": "Невірний місяць",
+      "dateToBeforeFrom": "Кінцева дата не може бути раніше початкової"
+    }
+  },
+  "budgetPlan": {
+    "header": {
+      "selectTitle": "Виберіть бюджетний план"
+    },
+    "title": {
+      "current": "Поточний план",
+      "plan": "План"
+    },
+    "monthCell": {
+      "edit": "Редагувати",
+      "view": "Перегляд",
+      "notYet": "Не настав час"
+    },
+    "screen": {
+      "title": "Бюджетний план",
+      "subtitle": "Регулярних операцій: {regular} · Разових: {other}",
+      "edit": "Редагувати",
+      "empty": "План порожній",
+      "regularSection": "Регулярні операції",
+      "goToRegular": "Перейти до регулярних операцій",
+      "otherSection": "Операції цього місяця",
+      "otherSubtitle": "Разові доходи та витрати поза регулярними",
+      "notCreated": "Бюджетний план на цей місяць ще не створено",
+      "create": "Створити план",
+      "notCreatedTitle": "Бюджетний план на цей місяць не створено",
+      "notCreatedDescription": "Новий план можна створити лише для поточного місяця"
+    },
+    "statistic": {
+      "totalIncome": "Загальний дохід",
+      "totalExpenses": "Загальні витрати",
+      "balance": "Баланс",
+      "surplus": "Надлишок",
+      "deficit": "Дефіцит"
+    },
+    "recommendations": {
+      "title": "Рекомендації",
+      "totalIncome": "Загальний дохід",
+      "currentExpenses": "Поточні витрати",
+      "savings": "Економія",
+      "newExpenses": "Нові витрати",
+      "willBeRemoved": "<strong>{removed}</strong> з <strong>{total}</strong> витрат буде видалено",
+      "suggestions": "Пропозиції",
+      "optimal": "Оптимальний план",
+      "itemDescription": "витрата · одноразово",
+      "empty": "Немає одноразових витрат для оптимізації",
+      "skip": "Пропустити",
+      "save": "Зберегти",
+      "saving": "Збереження..."
+    },
+    "save": {
+      "successCreated": "Бюджетний план створено",
+      "successUpdated": "Бюджетний план оновлено",
+      "errorTitle": "Помилка: {message}",
+      "errorDescription": "Під час збереження виникла помилка"
+    },
+    "form": {
+      "createTitle": "Бюджетний план",
+      "editTitle": "Редагувати план",
+      "subtitle": "Оберіть регулярні операції для включення в план",
+      "empty": "Ще немає жодної регулярної операції",
+      "emptyHint": "Створіть їх у розділі «Регулярні операції», щоб включити у план",
+      "goToRegular": "Перейти до регулярних операцій",
+      "cancel": "Скасувати",
+      "next": "Далі ({count})",
+      "monthEntryTitle": "Деталі операції",
+      "monthEntryDescription": "Заповніть інформацію про:",
+      "monthEntrySubjectCreate": "нову одноразову операцію",
+      "monthEntrySubjectEdit": "одноразову операцію",
+      "priorityLabel": "Пріоритет",
+      "priorityPlaceholder": "Оберіть пріоритет",
+      "onlyCurrentMonth": "Новий бюджетний план можна створити лише для поточного місяця"
+    },
+    "validation": {
+      "selectedBoolean": "Поле selected має бути булевим",
+      "priorityInteger": "Поле пріоритету має бути числом",
+      "priorityMin": "Поле пріоритету має бути мінімум 1",
+      "priorityMax": "Поле пріоритету має бути максимум 10",
+      "idInteger": "Id має бути числом",
+      "idMin": "Id має бути позитивним числом",
+      "yearInteger": "Рік має бути числом",
+      "yearMin": "Рік має бути не раніше 2000",
+      "invalidMonth": "Невірний місяць",
+      "invalidEntriesFormat": "Невірний формат операцій",
+      "entryIdInteger": "ID операції має бути числом",
+      "invalidRegularEntriesFormat": "Невірний формат регулярних операцій"
+    }
+  },
+  "regular": {
+    "screen": {
+      "title": "Регулярні доходи та витрати",
+      "addButton": "Додати платіж"
+    },
+    "form": {
+      "title": "Деталі платежу",
+      "description": "Заповніть інформацію про: ",
+      "frequencyLabel": "Частота",
+      "frequencyPlaceholder": "Оберіть частоту",
+      "dayLabel": "День",
+      "dayPlaceholder": "День",
+      "successCreated": "Картку успішно створено",
+      "successUpdated": "Картку успішно оновлено",
+      "errorTitle": "Помилка: {message}",
+      "errorDescription": "Під час збереження виникла помилка",
+      "validationTitle": "Перевірте правильність заповнення форми",
+      "validationDescription": "Форма заповнена некоректно"
+    },
+    "sideBlock": {
+      "imageTitle": "Плануйте фінанси розумно",
+      "imageSubtitle": "Регулярні платежі допомагають контролювати бюджет",
+      "tipsTitle": "Корисні поради",
+      "tipAutomateTitle": "Автоматизуйте платежі",
+      "tipAutomateDescription": "Налаштуйте регулярні платежі, щоб не пропускати важливі оплати",
+      "tipControlTitle": "Контролюйте витрати",
+      "tipControlDescription": "Відстежуйте всі регулярні витрати в одному місці для кращого планування",
+      "tipTrendsTitle": "Аналізуйте тренди",
+      "tipTrendsDescription": "Переглядайте статистику доходів та витрат за різні періоди",
+      "statisticTitle": "Швидка статистика",
+      "averageExpenses": "Середні витрати на місяць",
+      "averageIncomes": "Середні доходи на місяць",
+      "changeExpenses": "Зміна витрат за останній місяць",
+      "changeIncomes": "Зміна доходів за останній місяць"
+    },
+    "frequency": {
+      "daily": "Щодня",
+      "weekly": "Щотижня",
+      "monthly": "Щомісяця",
+      "yearly": "Щороку"
+    },
+    "periodFilter": {
+      "today": "Сьогодні",
+      "week": "Тиждень",
+      "month": "Місяць",
+      "year": "Рік"
+    },
+    "validation": {
+      "frequencyInvalid": "Введіть коректну частоту",
+      "dayInteger": "День місяця має бути числом",
+      "dayMin": "День місяця має бути мінімум першого числа",
+      "dayMax": "День місяця має бути максимум 31 числа"
+    }
+  },
+  "operations": {
+    "form": {
+      "defaultSubjectEdit": "регулярний платіж",
+      "defaultSubjectCreate": "новий регулярний платіж",
+      "paymentTypeLabel": "Тип платежу",
+      "income": "Дохід",
+      "expense": "Витрата",
+      "categoryLabel": "Категорія",
+      "titleLabel": "Назва",
+      "titlePlaceholder": "Наприклад: Зарплата",
+      "descriptionLabel": "Опис",
+      "descriptionPlaceholder": "Короткий опис платежу",
+      "sumLabel": "Сума",
+      "saveButton": "Зберегти",
+      "cancelButton": "Скасувати",
+      "addButton": "Додати операцію"
+    },
+    "card": {
+      "noDescription": "Немає опису",
+      "sumLabel": "Сума:"
+    },
+    "actions": {
+      "title": "Оберіть дію",
+      "editLabel": "Редагувати",
+      "editDescription": "Змінити дані транзакції",
+      "deleteLabel": "Видалити",
+      "deleteDescription": "Назавжди видалити транзакцію",
+      "cancelButton": "Скасувати"
+    },
+    "typeFilter": {
+      "all": "Всі",
+      "expense": "Витрати",
+      "income": "Доходи"
+    }
+  },
+  "tracking": {
+    "header": {
+      "title": "Операції",
+      "searchPlaceholder": "Пошук..."
+    },
+    "screen": {
+      "addButton": "Додати платіж"
+    },
+    "statistic": {
+      "periodTotal": "Загалом за період",
+      "totalIncome": "Загальний дохід",
+      "totalExpenses": "Загальні витрати"
+    },
+    "filters": {
+      "title": "Фільтри",
+      "resetButton": "Скинути",
+      "category": "Категорія",
+      "sum": "Сума",
+      "minLabel": "Мін",
+      "maxLabel": "Макс",
+      "dateFrom": "Від",
+      "dateTo": "До",
+      "successTitle": "Успішно",
+      "successDescription": "Фільтри застосовано",
+      "errorTitle": "Помилка",
+      "errorDescription": "Не вдалося застосувати фільтри",
+      "validationErrorTitle": "Помилка валідації",
+      "validationErrorDescription": "Перевірте правильність введених сум або дат"
+    },
+    "form": {
+      "title": "Деталі платежу",
+      "createSubject": "нову вашу операцію(яка відбувала щойно або нещодавно)",
+      "editSubject": "вашу операцію(яка відбувала щойно або нещодавно)",
+      "descriptionPrefix": "Заповніть інформацію про: ",
+      "dateLabel": "Дата операції"
+    },
+    "attach": {
+      "fillFromPlan": "Заповнити з плану",
+      "modalTitle": "Прикріпити заплановану операцію з бюджетного плану",
+      "searchPlaceholder": "Пошук операції",
+      "notFound": "Не знайдено",
+      "notFoundDetailed": "Не знайдено. Можливо бюджетного плану на обрану дату не існує, або немає за обраною категорією та типом",
+      "clearButton": "Очистити",
+      "applyButton": "Застосувати"
+    },
+    "validation": {
+      "titleRequired": "Назва обов'язкова",
+      "titleMaxLength": "Назва не може бути довшою за {max} символів",
+      "descriptionMaxLength": "Опис не може бути довшим за {max} символів",
+      "typeInvalid": "Тип має бути expense або income",
+      "dateRequired": "Обов'язкова дата",
+      "sumNotNumber": "Сума має бути числом",
+      "sumMin": "Сума має бути не менше {min}",
+      "attachedIdInteger": "ID прикріпленої планової операції має бути цілим числом",
+      "cannotAttachBoth": "Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету"
+    }
+  },
+  "welcome": {
+    "main": {
+      "titleLine1": "Керуй своїми фінансами!",
+      "titleLine2": "Легко та стильно",
+      "description": "Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.",
+      "balanceTitle": "Баланс",
+      "macbookGoalTitle": "На макбук",
+      "macbookGoalValue": "45% зібрано",
+      "coffeeTitle": "Кав'ярня"
+    },
+    "benefits": {
+      "title": "Чому це зручно?",
+      "description": "Ми розуміємо, як важко зводити кінці з кінцями. Балансувати між навчанням, роботою та відпочинком стає простіше, коли всі твої гроші підраховані автоматично.",
+      "today": "Сьогодні",
+      "transfer": "Переказ коштів",
+      "income": "Надходження",
+      "bus": "Автобус",
+      "personalExpenses": "Особисті витрати",
+      "concert": "Концерт",
+      "coffee": "Кав'ярня",
+      "stationery": "Канцелярія",
+      "restaurant": "Ресторан"
+    },
+    "signup": {
+      "title": "Готові взяти контроль?",
+      "subtitle": "Ваша фінансова подорож починається зараз",
+      "fullControlTitle": "Повний контроль коштів",
+      "fullControlDescription": "Ваші гроші під контролем",
+      "analyticsTitle": "Аналітика витрат",
+      "analyticsDescription": "Детальні графіки та звіти",
+      "cta": "Зареєструватися",
+      "hint": "Це займе менше 1 хвилини"
+    }
+  },
+  "categories": {
+    "groceries": "Продукти",
+    "housing": "Дім",
+    "utilities": "Комунальні",
+    "transport": "Транспорт",
+    "entertainment": "Розваги",
+    "education": "Навчання",
+    "shopping": "Покупки",
+    "health": "Здоровʼя",
+    "expense-misc": "Інша витрата",
+    "salary": "Зарплата",
+    "investments": "Інвестиції",
+    "freelance": "Фріланс",
+    "scholarship": "Стипендія",
+    "income-misc": "Інше надходження"
+  },
+  "common": {
+    "cancel": "Скасувати",
+    "save": "Зберегти",
+    "saving": "Збереження...",
+    "loading": "Завантаження",
+    "loadingDots": "Завантаження...",
+    "nothingFound": "Нічого не знайдено",
+    "error": "Помилка",
+    "loadError": "Помилка завантаження",
+    "dataLoadError": "Сталася помилка при завантаженні даних",
+    "notFound": "Дані не знайдено",
+    "unknownError": "Невідома помилка. Спробуйте пізніше",
+    "invalidId": "ID є некоректним",
+    "elementNotFound": "Елемент не знайдено",
+    "somethingWentWrong": "Щось пішло не так",
+    "errorCode": "Код помилки:",
+    "repeatIssue": "Якщо проблема повторюється, зверніться до служби підтримки.",
+    "backToHome": "Повернутися на головну",
+    "needHelp": "Потрібна допомога?",
+    "contactUs": "Звʼяжіться з нами",
+    "confirmQuestion": "Ви впевнені?",
+    "cannotUndo": "Цю дію неможливо скасувати.",
+    "confirm": "Підтверджую",
+    "clearField": "Очистити поле",
+    "deleteItem": "Видалити елемент",
+    "openList": "Відкрити список",
+    "toggleSidebar": "Переключити сайдбар",
+    "controlPanel": "Панель керування",
+    "mobileOnly": "Відбражається лише на мобільних пристроях",
+    "showPassword": "Показати",
+    "hidePassword": "Приховати",
+    "online": "Онлайн",
+    "offline": "Офлайн",
+    "ukrainian": "Українська",
+    "requestErrorTitle": "Помилка запиту",
+    "successTitle": "Успішно",
+    "today": "Сьогодні",
+    "at": "о",
+    "previousPage": "Перейти на попередню сторінку",
+    "nextPage": "Перейти на наступну сторінку",
+    "closeNotification": "Закрити сповіщення",
+    "pagination": {
+      "fromRequired": "Поле \"from\" обов'язкове та має бути числом",
+      "fromInteger": "Поле \"from\" має бути цілим числом",
+      "fromPositive": "Поле \"from\" має бути позитивним числом",
+      "toRequired": "Поле \"to\" обов'язкове та має бути числом",
+      "toInteger": "Поле \"to\" має бути цілим числом",
+      "toPositive": "Поле \"to\" має бути позитивним числом"
+    }
+  },
+  "nav": {
+    "home": "Головна",
+    "planning": "Планування",
+    "budgetPlans": "Бюджетні плани",
+    "regularOperations": "Регулярні операції",
+    "analytics": "Аналітика",
+    "profile": "Профіль",
+    "adminPanel": "Адмін панель",
+    "countriesLocales": "Країни та локалі",
+    "currencies": "Валюти",
+    "errorLogs": "Логи помилок"
+  },
+  "admin": {
+    "common": {
+      "successTitle": "Успішно",
+      "errorTitle": "Помилка",
+      "dataUpdated": "Дані оновлено",
+      "recordAdded": "Запис додано",
+      "recordDeleted": "Запис видалено",
+      "recordDeleteFailed": "Запис не вдалося видалити",
+      "selectedDeleted": "Вибрані записи видалено",
+      "someDeleteFailed": "Деякі записи не вдалось видалити",
+      "confirmDeleteTitle": "Підтвердження видалення",
+      "confirmBulkDeleteTitle": "Підтвердження масового видалення",
+      "confirmBulkDeleteDescription": "Ви впевнені, що хочете видалити всі вибрані записи?"
+    },
+    "lookup": {
+      "statusHead": "Статус",
+      "createdHead": "Створено",
+      "createdByHead": "Створив",
+      "updatedHead": "Оновлено",
+      "editAction": "Редагувати",
+      "deleteAction": "Видалити",
+      "deleteConfirmTitle": "Видалити запис?",
+      "deleteConfirmDescription": "Цю дію неможливо скасувати.",
+      "deleteConfirmLabel": "Видалити"
+    },
+    "currency": {
+      "editTitle": "Редагувати валюту",
+      "addTitle": "Додати валюту",
+      "nameLabel": "Назва *",
+      "namePlaceholder": "Наприклад: Долар США",
+      "codeLabel": "Код *",
+      "codePlaceholder": "Наприклад: USD",
+      "symbolLabel": "Символ *",
+      "symbolPlaceholder": "Наприклад: $",
+      "headerName": "Ім'я",
+      "headerCode": "Код",
+      "headerSymbol": "Символ",
+      "confirmDeleteDescription": "Ви впевнені, що хочете видалити валюту \"{name}\"?"
+    },
+    "country": {
+      "editTitle": "Редагувати країну",
+      "addTitle": "Додати країну",
+      "countryEnLabel": "Країна англійською*",
+      "countryEnPlaceholder": "Наприклад: Ukraine",
+      "countryUkLabel": "Країна українською*",
+      "countryUkPlaceholder": "Наприклад: Україна",
+      "localeLabel": "Локаль *",
+      "localePlaceholder": "Наприклад: uk-UA",
+      "headerCountryEn": "Країна(англійською)",
+      "headerCountryUk": "Країна(українською)",
+      "headerLocale": "Локаль",
+      "confirmDeleteDescription": "Ви впевнені, що хочете видалити країну \"{name}\"?"
+    },
+    "errorLog": {
+      "endpointError": "Ендпоінт / Помилка",
+      "method": "Метод",
+      "status": "Статус",
+      "createdAt": "Створено",
+      "user": "Користувач",
+      "updatedAt": "Оновлено",
+      "unknown": "Невідомо",
+      "system": "Система",
+      "viewDetails": "Переглянути деталі",
+      "noEndpoint": "Немає ендпоінту",
+      "modalTitle": "Деталі помилки",
+      "userLabel": "Користувач",
+      "createdAtLabel": "Створено",
+      "statusLabel": "Статус обробки",
+      "successStatusUpdate": "Статус успішно оновлено",
+      "tabAll": "Усі",
+      "tabActive": "Активні",
+      "tabResolving": "В обробці",
+      "tabResolved": "Вирішені",
+      "tabIgnored": "Ігноровані",
+      "statusActive": "Активна",
+      "statusResolving": "В обробці",
+      "statusResolved": "Вирішена",
+      "statusIgnored": "Ігнорована",
+      "filterSearchPlaceholder": "Пошук по ендпоінту або тексту помилки...",
+      "allMethods": "Усі методи",
+      "filterMethodPlaceholder": "Метод: Усі",
+      "filterDatePlaceholder": "Останні 7 днів"
+    },
+    "auth": {
+      "loading": "Завантаження",
+      "userLoadError": "Помилка завантаження користувача",
+      "notAuthorized": "Ви не авторизовані. Переадресація...",
+      "alreadyAuthorized": "Ви авторизовані, тому не можете перейти до сторінки. Переадресація..."
+    },
+    "errorLogPage": {
+      "breadcrumb": "Логер помилок"
+    },
+    "lookupsValidation": {
+      "required": "Обов'язкове поле",
+      "currencyCodeLength": "Код повинен містити рівно 3 символи",
+      "emptyUpdate": "Не передано дані для оновлення",
+      "statusRequired": "Статус є обов'язковим"
+    },
+    "validation": {
+      "idMustBeNumber": "Кожен ID має бути числом",
+      "excludeIdMustBeNumber": "Кожен excludeId має бути числом",
+      "idsArrayRequired": "Масив IDs є обов'язковим",
+      "excludeIdsArrayRequired": "Масив excludeIds є обов'язковим",
+      "fieldMustBeString": "Значення поля має бути рядком",
+      "fieldMustBeNumber": "Поле має бути числом",
+      "invalidRange": "Значення виходить за допустимий діапазон",
+      "invalidStatus": "Невірний статус",
+      "userIdMustBeNumber": "ID користувача має бути числом",
+      "invalidStartDate": "Невірний формат дати початку",
+      "invalidEndDate": "Невірний формат дати кінця",
+      "dateRangeInvalid": "Кінцева дата має бути більшою або рівною початковій",
+      "sumRangeInvalid": "Максимальна сума має бути більшою або рівною мінімальній",
+      "paginationRangeInvalid": "\"to\" має бути більшим або рівним \"from\""
+    }
+  },
+  "entry": {
+    "validation": {
+      "titleRequired": "Введіть назву",
+      "titleMaxLength": "Максимальна довжина заголовку: {max} символів",
+      "descriptionMaxLength": "Максимальна довжина опису: {max} символів",
+      "sumRequired": "Введіть суму",
+      "sumMin": "Сума має бути не менше {min}",
+      "incomeCategoryInvalid": "Оберіть коректну категорію доходів",
+      "expenseCategoryInvalid": "Оберіть коректну категорію витрат"
+    }
+  }
+}

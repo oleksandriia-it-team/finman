@@ -1,5 +1,5 @@
 import { isEmpty } from '@common/utils/is-empty.util';
-import { ErrorDataBaseConnection, ErrorTexts } from '@common/constants/error-texts.constant';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { DatabaseName, Tables } from '../shared/constants/database.constants';
 import { type DefaultTableColumns } from '@common/models/default-table-columns.model';
 import { type RecordModel } from '@common/models/record.model';
@@ -57,7 +57,7 @@ export class DatabaseLocalService {
       await instance.connect();
       return instance;
     } catch {
-      throw new AppError(ErrorDataBaseConnection);
+      throw new AppError(ErrorTexts.DatabaseConnection);
     }
   }
 

@@ -1,5 +1,6 @@
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 /**
  * Handles the fetch API response, parsing JSON and managing empty bodies or errors.
@@ -16,22 +17,18 @@ export async function handleResponse<T>(response: Response, defaultValue?: T): P
   const data = isJson ? await response.json() : null;
 
   if (!response.ok || (data && data.status >= 400)) {
-    if (checkIsAppErrorObj(data)) throw new AppError(data.message, data.status);
     if (checkIsAppErrorObj(data)) {
-      throw new AppError(data.message, data.status);
+      throw new AppError(data.message, data.status, data.messageParams);
     }
 
-    throw new AppError(
-      'Неочікувана помилка з обробкою запиту. Спробуйте пізніше',
-      response.status >= 400 ? response.status : 500,
-    );
+    throw new AppError(ErrorTexts.UnexpectedRequestError, response.status >= 400 ? response.status : 500);
   }
   if (data === null) {
     if (defaultValue !== undefined) {
       return defaultValue;
     }
 
-    throw new AppError('Неочікувана помилка з обробкою запиту. Спробуйте пізніше', 500);
+    throw new AppError(ErrorTexts.UnexpectedRequestError, 500);
   }
 
   return data as T;

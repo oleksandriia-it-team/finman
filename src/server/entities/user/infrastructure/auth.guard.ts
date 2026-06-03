@@ -1,3 +1,4 @@
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { type RouteGuardParams } from '@backend/shared/models/create-route.model';
 import { isEmpty } from '@common/utils/is-empty.util';
 import { type ApiResultOperationError } from '@common/models/api-result-operation.model';
@@ -10,7 +11,7 @@ export async function AuthGuard<BTR extends number | null | { userId: number | n
   if (isEmpty(token)) {
     return {
       status: 401,
-      message: 'Ви не авторизовані',
+      message: ErrorTexts.Unauthorized,
     };
   }
 

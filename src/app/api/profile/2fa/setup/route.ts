@@ -3,6 +3,7 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { totpRepository } from '@backend/entities/totp/infrastructure/totp.repository';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import type { TwoFASetupResponse } from '@common/domains/totp/totp-setup-response.model';
 import { getTwoFactorSetupContext } from '../2fa-setup-context.util';
 import type { ApiResultOperationSuccess } from '@common/models/api-result-operation.model';
@@ -21,7 +22,7 @@ export const POST = createRoute({
     const user = await userApiRepository.getItemById(userId);
 
     if (!user) {
-      throw new AppError('Користувача не знайдено', 404);
+      throw new AppError(ErrorTexts.UserNotFound, 404);
     }
 
     const getResponse = async (secret: string): Promise<ApiResultOperationSuccess<TwoFASetupResponse>> => {

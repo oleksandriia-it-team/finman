@@ -7,6 +7,7 @@ import type { BudgetPlanLocalRepository } from '@frontend/entities/budget-plan/b
 import { getCurrentMonthDate } from '@common/domains/budget-plan/get-current-month-date-util';
 import { getDefaultCategory } from '@common/domains/budget-plan/get-default-category.util';
 import { AppError } from '@common/classes/app-error.class';
+import { formatBudgetPlanNotFoundForMonth } from '@common/constants/error-texts.constant';
 import { type PlannedRegOpsBudgetLocalRepository } from '@frontend/entities/planned-reg-ops-budget/planned-reg-ops-budget.local.repository';
 
 export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBudgetPlanDto, true> {
@@ -24,7 +25,8 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 
     if (!currentBudgetPlan) {
-      throw new AppError(`Budget plan not found with month ${date.month} and year ${date.year}`, 404);
+      const { messageKey, messageParams } = formatBudgetPlanNotFoundForMonth(date.month, date.year);
+      throw new AppError(messageKey, 404, messageParams);
     }
 
     const {

@@ -22,13 +22,13 @@ export class LoginApiUseCase extends TransactionalUseCase<LoginDto, string> {
     const user = await this.userApiRepository.findUserForLogin(dto.login);
 
     if (!user) {
-      throw new AppError('Недійсні облікові дані', 401);
+      throw new AppError(ErrorTexts.InvalidCredentials, 401);
     }
 
     const isMatch = await bcrypt.compare(dto.password, user.password as string);
 
     if (!isMatch) {
-      throw new AppError('Недійсні облікові дані', 401);
+      throw new AppError(ErrorTexts.InvalidCredentials, 401);
     }
 
     if (user.totp?.enabled && isEmpty(dto.code)) {
