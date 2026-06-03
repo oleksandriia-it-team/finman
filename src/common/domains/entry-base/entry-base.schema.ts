@@ -23,6 +23,8 @@ const EntryBaseSchemaFirstPart = z.object({
   }),
 });
 
+const EntryBaseSchemaWithoutSum = EntryBaseSchemaFirstPart.omit({ sum: true });
+
 export const createEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
   z.discriminatedUnion('type', [
     EntryBaseSchemaFirstPart.extend({
@@ -35,6 +37,28 @@ export const createEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
       ...extraFields,
     }),
     EntryBaseSchemaFirstPart.extend({
+      type: z.literal(TypeEntry.Expense),
+      category: z
+        .enum(Object.values(ExpenseCategories), {
+          error: 'Оберіть коректну категорію витрат',
+        })
+        .optional(),
+      ...extraFields,
+    }),
+  ]);
+
+export const createUpdateEntrySchema = <T extends z.ZodRawShape>(extraFields: T) =>
+  z.discriminatedUnion('type', [
+    EntryBaseSchemaWithoutSum.extend({
+      type: z.literal(TypeEntry.Income),
+      category: z
+        .enum(Object.values(IncomeCategories), {
+          error: 'Оберіть коректну категорію доходів',
+        })
+        .optional(),
+      ...extraFields,
+    }),
+    EntryBaseSchemaWithoutSum.extend({
       type: z.literal(TypeEntry.Expense),
       category: z
         .enum(Object.values(ExpenseCategories), {

@@ -2,28 +2,29 @@ import { CrudLocalRepository } from '../../database/crud/crud.local.repository';
 import { type DatabaseLocalService, databaseLocalService } from '../../database/database.local.service';
 import { Tables } from '../../shared/constants/database.constants';
 import { type RegularEntry } from '@common/records/regular-entry.record';
-import { type DefaultColumnKeys } from '@common/models/default-table-columns.model';
 import type { RegularEntryFilter } from '@common/domains/regular-entry/filter/regular-entry.filter';
 import type { FilterPredicate } from '@frontend/shared/models/local-filter.model';
 import type { DeepPartial } from '@common/models/deep-partial.model';
 import type {
   FindRegularEntryByTitleInput,
   IRegularEntryRepository,
+  RegularEntryCreateDTO,
+  RegularEntryUpdateDTO,
 } from '@common/domains/regular-entry/models/regular-entry-repository.model';
 
 export class RegularEntryLocalRepository
-  extends CrudLocalRepository<RegularEntry, RegularEntryFilter>
+  extends CrudLocalRepository<RegularEntry, RegularEntryFilter, RegularEntryCreateDTO, RegularEntryUpdateDTO>
   implements IRegularEntryRepository
 {
   constructor(databaseLocalService: DatabaseLocalService) {
     super(databaseLocalService, Tables.RegularExpensesAndIncomesTable.name);
   }
 
-  createItem(data: Omit<RegularEntry, DefaultColumnKeys>): Promise<number> {
+  createItem(data: RegularEntryCreateDTO): Promise<number> {
     return this.databaseLocalService.updateOrCreateItem(this.tableName, data);
   }
 
-  async updateItem(id: number, data: Omit<RegularEntry, DefaultColumnKeys>): Promise<true> {
+  async updateItem(id: number, data: RegularEntryUpdateDTO): Promise<true> {
     return this.databaseLocalService.updateOrCreateItem(this.tableName, { ...data, id }).then(() => true as const);
   }
 

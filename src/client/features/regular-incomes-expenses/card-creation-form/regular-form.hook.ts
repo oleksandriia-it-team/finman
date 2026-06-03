@@ -27,17 +27,21 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const submit = methods.handleSubmit(
     async (data: RegularEntry) => {
       try {
-        const { ...entryData } = data;
-
         if (isEdit && initialData) {
+          const { title, description, type, category, frequency, dayOfMonth } = data;
+
           await handleUpdate(initialData.id, {
-            ...entryData,
-            description: entryData.description ?? '',
+            title,
+            description: description ?? '',
+            type,
+            category,
+            frequency,
+            dayOfMonth,
           });
         } else {
           await handleCreate({
-            ...entryData,
-            description: entryData.description ?? '',
+            ...data,
+            description: data.description ?? '',
           });
         }
         showToast({

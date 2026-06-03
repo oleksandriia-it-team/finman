@@ -34,7 +34,7 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
               methods.setValue('type', value, { shouldValidate: true });
             }}
           />
-          <CardsFormTemplateInputs>
+          <CardsFormTemplateInputs disableSum={isEdit}>
             <UiFormLayout.Grid>
               <FinControlledDropdown
                 label="Частота"

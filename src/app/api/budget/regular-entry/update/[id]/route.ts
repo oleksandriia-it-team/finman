@@ -1,5 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
+import { UpdateRegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pipe';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
@@ -11,7 +11,7 @@ import { ExpenseCategories, IncomeCategories } from '@common/enums/categories.en
 import { updateRegularEntryApiUsecase } from '@backend/features/regular-entry/regular-entry.api.use-cases';
 
 export const PUT = createRoute({
-  schema: RegularEntrySchema,
+  schema: UpdateRegularEntrySchema,
   paramsFn: (context) => ({
     id: GetIntegerParamPipe(context.id, 1),
   }),
