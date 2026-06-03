@@ -1,5 +1,7 @@
+'use client';
+
 import { FormProvider } from 'react-hook-form';
-import { DayOfMonthOptions, FrequencyOptions } from '@frontend/shared/constants/regular-options.constant';
+import { DayOfMonthOptions, useFrequencyOptions } from '@frontend/shared/constants/regular-options.constant';
 import { useRegularPaymentForm } from './regular-form.hook';
 import { CardCreationFormSideBlock } from './cards-form-side-block/form-side-block';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
@@ -12,9 +14,12 @@ import {
   CardsFormTemplateInputs,
   CardsFormTemplatePickers,
 } from '@frontend/entities/operations/cards-form-template/cards-form-template';
+import { useTranslations } from 'next-intl';
 
 export function RegularPaymentForm({ initialData, onSuccess, onCancel }: RegularPaymentFormProps) {
   const { methods, submit, isEdit } = useRegularPaymentForm(initialData, onSuccess);
+  const t = useTranslations('regular.form');
+  const frequencyOptions = useFrequencyOptions();
 
   const selectedType = methods.watch('type');
 
@@ -24,8 +29,8 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
         <CardsFormTemplate submit={submit}>
           <CardsFormHeaderTemplate
             isEdit={isEdit}
-            title={'Деталі платежу'}
-            description={'Заповніть інформацію про: '}
+            title={t('title')}
+            description={t('description')}
           />
           <CardsFormTemplatePickers
             selectedType={selectedType}
@@ -37,15 +42,15 @@ export function RegularPaymentForm({ initialData, onSuccess, onCancel }: Regular
           <CardsFormTemplateInputs disableSum={isEdit}>
             <UiFormLayout.Grid>
               <FinControlledDropdown
-                label="Частота"
+                label={t('frequencyLabel')}
                 name="frequency"
-                placeholder="Оберіть частоту"
-                options={FrequencyOptions}
+                placeholder={t('frequencyPlaceholder')}
+                options={frequencyOptions}
               />
               <FinControlledDropdown
-                label="День"
+                label={t('dayLabel')}
                 name="dayOfMonth"
-                placeholder="День"
+                placeholder={t('dayPlaceholder')}
                 options={DayOfMonthOptions}
               />
             </UiFormLayout.Grid>

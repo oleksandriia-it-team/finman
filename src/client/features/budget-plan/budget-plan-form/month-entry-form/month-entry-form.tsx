@@ -12,7 +12,8 @@ import {
 import { CardCreationFormSideBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/form-side-block';
 import type { MonthEntry } from '@common/records/month-entry.record';
 import { useMonthEntryForm } from '@frontend/features/budget-plan/budget-plan-form/month-entry-form/month-entry-form.hook';
-import { PriorityOptions } from '@common/enums/priority.enum';
+import { usePriorityOptions } from '@frontend/shared/i18n/use-priority.hook';
+import { useTranslations } from 'next-intl';
 
 interface MonthEntryFormProps {
   initialData?: MonthEntry;
@@ -22,6 +23,8 @@ interface MonthEntryFormProps {
 
 export function MonthEntryForm({ initialData, onSuccess, onCancel }: MonthEntryFormProps) {
   const { methods, submit, isEdit } = useMonthEntryForm(initialData, onSuccess);
+  const t = useTranslations('budgetPlan.form');
+  const priorityOptions = usePriorityOptions();
 
   const selectedType = methods.watch('type');
 
@@ -31,9 +34,9 @@ export function MonthEntryForm({ initialData, onSuccess, onCancel }: MonthEntryF
         <CardsFormTemplate submit={submit}>
           <CardsFormHeaderTemplate
             isEdit={isEdit}
-            title="Деталі операції"
-            description="Заповніть інформацію про:"
-            subjectLabel={{ create: 'нову одноразову операцію', edit: 'одноразову операцію' }}
+            title={t('monthEntryTitle')}
+            description={t('monthEntryDescription')}
+            subjectLabel={{ create: t('monthEntrySubjectCreate'), edit: t('monthEntrySubjectEdit') }}
           />
           <CardsFormTemplatePickers
             selectedType={selectedType}
@@ -44,10 +47,10 @@ export function MonthEntryForm({ initialData, onSuccess, onCancel }: MonthEntryF
           />
           <CardsFormTemplateInputs>
             <FinControlledDropdown
-              label="Пріоритет"
+              label={t('priorityLabel')}
               name="priority"
-              placeholder="Оберіть пріоритет"
-              options={PriorityOptions}
+              placeholder={t('priorityPlaceholder')}
+              options={priorityOptions}
             />
           </CardsFormTemplateInputs>
           <CardsFormTemplateActions onCancel={onCancel as never} />

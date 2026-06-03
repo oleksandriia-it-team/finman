@@ -1,3 +1,5 @@
+'use client';
+
 import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
@@ -8,6 +10,7 @@ import { FinControlledAutocomplete } from '@frontend/components/controlled-field
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
 import { ProfileSection } from './profile-section';
 import type { ProfileSettingsAppearanceSectionProps } from '@frontend/features/user-settings/props/profile-settings-appearance-section.props';
+import { useTranslations } from 'next-intl';
 
 export function ProfileSettingsAppearanceSection({
   theme,
@@ -15,11 +18,12 @@ export function ProfileSettingsAppearanceSection({
   currentLocale,
 }: ProfileSettingsAppearanceSectionProps) {
   const localeDataResource = useGetLocalesDropdown(currentLocale);
+  const t = useTranslations('userSettings.appearance');
 
   return (
-    <ProfileSection title="Зовнішній вигляд">
+    <ProfileSection title={t('title')}>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <UiTitle size="sm">Тема</UiTitle>
+        <UiTitle size="sm">{t('themeTitle')}</UiTitle>
 
         <div className="grid grid-cols-2 gap-1 rounded-md bg-secondary p-1 sm:w-48">
           <UiButton
@@ -33,7 +37,7 @@ export function ProfileSettingsAppearanceSection({
             )}
             onClick={() => changeTheme(ThemeEnum.Light)}
           >
-            Світла
+            {t('themeLight')}
           </UiButton>
 
           <UiButton
@@ -47,7 +51,7 @@ export function ProfileSettingsAppearanceSection({
             )}
             onClick={() => changeTheme(ThemeEnum.Dark)}
           >
-            Темна
+            {t('themeDark')}
           </UiButton>
         </div>
       </div>
@@ -56,8 +60,8 @@ export function ProfileSettingsAppearanceSection({
         <FinControlledAutocomplete
           id="profile-locale"
           name="locale"
-          label="Формат дати та часу"
-          placeholder="Пошук..."
+          label={t('localeLabel')}
+          placeholder={t('localePlaceholder')}
           options={localeDataResource.options}
           errorLabel={localeDataResource.errorMessage ?? ''}
           state={localeDataResource.state}
@@ -70,8 +74,8 @@ export function ProfileSettingsAppearanceSection({
         <FinControlledDropdown
           id="profile-language"
           name="language"
-          label="Мова"
-          placeholder="Українська"
+          label={t('languageLabel')}
+          placeholder={t('languagePlaceholder')}
           options={SupportLanguagesLocale}
           clearable={false}
         />

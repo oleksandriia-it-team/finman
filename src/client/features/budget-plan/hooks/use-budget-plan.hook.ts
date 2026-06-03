@@ -4,6 +4,7 @@ import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast
 import type { CreateBudgetPlanDto, UpdateBudgetPlanDto } from '@common/domains/budget-plan/budget-plan.schema';
 import { budgetPlanService } from '@frontend/features/budget-plan/budget-plan-service/budget-plan.service';
 import type { MonthEntry } from '@common/records/month-entry.record';
+import { useTranslations } from 'next-intl';
 
 interface UseBudgetPlanFormOptions {
   isEdit: boolean;
@@ -21,6 +22,8 @@ interface SaveBudgetPlanPayload {
 export function useBudgetPlanForm({ isEdit }: UseBudgetPlanFormOptions) {
   const queryClient = useQueryClient();
   const showToast = useGlobalToast((state) => state.showToast);
+  const t = useTranslations('budgetPlan.save');
+  const tCommon = useTranslations('common');
 
   const savePlan = useSendDataFetch(
     async ({ plannedRegularEntryIds, otherEntries }: SaveBudgetPlanPayload) => {
@@ -57,16 +60,16 @@ export function useBudgetPlanForm({ isEdit }: UseBudgetPlanFormOptions) {
       onSuccess: async () => {
         await queryClient.refetchQueries({ queryKey: ['budget-plan'] });
         showToast({
-          title: 'Успішно',
-          description: isEdit ? 'Бюджетний план оновлено' : 'Бюджетний план створено',
+          title: tCommon('successTitle'),
+          description: isEdit ? t('successUpdated') : t('successCreated'),
           variant: 'success',
         });
       },
       onError: (err) => {
-        const message = err instanceof Error ? err.message : 'Невідома помилка';
+        const message = err instanceof Error ? err.message : tCommon('unknownError');
         showToast({
-          title: `Помилка: ${message}`,
-          description: 'Під час збереження виникла помилка',
+          title: t('errorTitle', { message }),
+          description: t('errorDescription'),
           variant: 'destructive',
         });
       },

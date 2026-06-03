@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { isSameMonth } from 'date-fns';
-import { formatMonthYear } from '@common/domains/analytics/utils/format-month-year.util';
 import { fromMonthYear, toMonthYear } from '@common/domains/analytics/utils/to-month-year.util';
 import { MonthGridPopover } from '@frontend/features/analytics/components/month-grid-popover';
 import type { MonthVariant } from '@frontend/features/analytics/components/props/month-grid-popover.props';
 import type { MonthPickerProps } from '@frontend/features/analytics/components/props/month-picker.props';
+import { useFormatMonthYear } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 
 export function MonthPicker({ value, onChange }: MonthPickerProps) {
   const [open, setOpen] = useState(false);
   const [viewDate, setViewDate] = useState(() => fromMonthYear(value));
+  const formatMonthYear = useFormatMonthYear();
+  const t = useTranslations('analytics.picker');
 
   useEffect(() => {
     if (open) setViewDate(fromMonthYear(value));
@@ -30,7 +33,7 @@ export function MonthPicker({ value, onChange }: MonthPickerProps) {
       open={open}
       onOpenChange={setOpen}
       triggerLabel={formatMonthYear(value)}
-      headerLabel="Місяць"
+      headerLabel={t('month')}
       viewDate={viewDate}
       onViewDateChange={setViewDate}
       getMonthVariant={getVariant}

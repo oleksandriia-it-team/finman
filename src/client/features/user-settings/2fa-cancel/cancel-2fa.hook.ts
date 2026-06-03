@@ -4,9 +4,11 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
 import type { OnlineUser } from '@common/records/user.record';
+import { useTranslations } from 'next-intl';
 
 export function useCancel2FA() {
   const update = useUserInformation((state) => state.setUserInformation);
+  const t = useTranslations('userSettings.twoFactor.cancelModal');
 
   const user = useAuthorizedUser() as OnlineUser;
 
@@ -15,7 +17,7 @@ export function useCancel2FA() {
       return totpApiClient.cancel();
     },
     {
-      successMessage: 'Двофакторна автентифікація успішно скинута',
+      successMessage: t('successMessage'),
       onSuccess: () => {
         update({ ...user, totpEnabled: false });
       },

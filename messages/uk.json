@@ -32,7 +32,45 @@
   },
   "common": {
     "requestErrorTitle": "Помилка запиту",
-    "successTitle": "Успішно"
+    "successTitle": "Успішно",
+    "unknownError": "Невідома помилка",
+    "today": "Сьогодні",
+    "at": "о"
+  },
+  "months": {
+    "january": "Січень",
+    "february": "Лютий",
+    "march": "Березень",
+    "april": "Квітень",
+    "may": "Травень",
+    "june": "Червень",
+    "july": "Липень",
+    "august": "Серпень",
+    "september": "Вересень",
+    "october": "Жовтень",
+    "november": "Листопад",
+    "december": "Грудень"
+  },
+  "weekdays": {
+    "sun": "Нд",
+    "mon": "Пн",
+    "tue": "Вт",
+    "wed": "Ср",
+    "thu": "Чт",
+    "fri": "Пт",
+    "sat": "Сб"
+  },
+  "priority": {
+    "critical": "Критичний",
+    "urgent": "Невідкладний",
+    "veryHigh": "Дуже високий",
+    "high": "Високий",
+    "elevated": "Підвищений",
+    "medium": "Середній",
+    "moderate": "Помірний",
+    "low": "Низький",
+    "background": "Фоновий",
+    "minimal": "Мінімальний"
   },
   "auth": {
     "login": {
@@ -114,6 +152,240 @@
       "submitLoading": "Оновлення...",
       "cancel": "Скасувати",
       "successMessage": "Пароль успішно змінено!"
+    }
+  },
+  "userSettings": {
+    "header": {
+      "title": "Профіль",
+      "description": "Керуйте своїм обліковим записом та налаштуваннями"
+    },
+    "account": {
+      "title": "Обліковий запис",
+      "nameLabel": "Ім'я користувача",
+      "namePlaceholder": "john.doe"
+    },
+    "security": {
+      "title": "Безпека",
+      "passwordReplace": "Замінення паролю",
+      "currentPasswordLabel": "Поточний пароль",
+      "currentPasswordPlaceholder": "Введіть поточний пароль",
+      "newPasswordLabel": "Новий пароль",
+      "newPasswordPlaceholder": "Введіть новий пароль",
+      "confirmPasswordLabel": "Підтвердити пароль",
+      "confirmPasswordPlaceholder": "Підтвердіть пароль"
+    },
+    "appearance": {
+      "title": "Зовнішній вигляд",
+      "themeTitle": "Тема",
+      "themeLight": "Світла",
+      "themeDark": "Темна",
+      "localeLabel": "Формат дати та часу",
+      "localePlaceholder": "Пошук...",
+      "languageLabel": "Мова",
+      "languagePlaceholder": "Оберіть мову"
+    },
+    "twoFactor": {
+      "titleEnabled": "Двофакторна автентифікація - увімкнено",
+      "titleDisabled": "Двофакторна автентифікація - вимкнено",
+      "description": "Додатковий рівень захисту через додаток-автентифікатор (Google Authenticator, Authy, 1Password)",
+      "setupButton": "Налаштувати",
+      "resetButton": "Скинути",
+      "cancelModal": {
+        "title": "Скинути двофакторну автентифікацію",
+        "description": "Ви впевнені, що хочете скинути налаштування двофакторної автентифікації? Вам потрібно буде налаштувати її знову, щоб використовувати.",
+        "confirm": "Так, скинути",
+        "cancel": "Ні, залишити",
+        "successMessage": "Двофакторна автентифікація успішно скинута"
+      },
+      "setupModal": {
+        "title": "Підключіть автентифікатор",
+        "qrInstructions": "Відскануйте QR-код у Google Authenticator, Authy або 1Password і введіть 6-значний код, щоб увімкнути двофакторну автентифікацію.",
+        "manualKeyTitle": "Або введіть ключ вручну",
+        "manualKeyDescription": "Якщо не вдається відсканувати — скопіюйте код",
+        "codeLabel": "Код з додатку",
+        "codeDescription": "Введіть 6-значний код, що зараз показує ваш додаток-автентифікатор",
+        "close": "Закрити",
+        "cancel": "Скасувати",
+        "confirm": "Підтвердити та увімкнути",
+        "successDescription": "Двофакторна автентифікація активна. Наступного разу під час входу попросимо код з вашого автентифікатора."
+      }
+    },
+    "actions": {
+      "save": "Зберегти зміни",
+      "logout": "Вийти з акаунту",
+      "logoutConfirm": {
+        "title": "Вийти з акаунту?",
+        "description": "Після виходу вам потрібно буде знову увійти, щоб продовжити роботу.",
+        "confirm": "Вийти"
+      }
+    },
+    "profileUpdated": "Профіль оновлено"
+  },
+  "analytics": {
+    "picker": {
+      "month": "Місяць",
+      "period": "Період",
+      "apply": "Застосувати",
+      "prevYear": "Попередній рік",
+      "nextYear": "Наступний рік"
+    },
+    "chart": {
+      "incomes": "Доходи",
+      "expenses": "Витрати"
+    }
+  },
+  "budgetPlan": {
+    "header": {
+      "selectTitle": "Виберіть бюджетний план"
+    },
+    "title": {
+      "current": "Поточний план",
+      "plan": "План"
+    },
+    "monthCell": {
+      "edit": "Редагувати",
+      "view": "Перегляд",
+      "notYet": "Не настав час"
+    },
+    "screen": {
+      "title": "Бюджетний план",
+      "subtitle": "Регулярних операцій: {regular} · Разових: {other}",
+      "edit": "Редагувати",
+      "empty": "План порожній",
+      "regularSection": "Регулярні операції",
+      "goToRegular": "Перейти до регулярних операцій",
+      "otherSection": "Операції цього місяця",
+      "otherSubtitle": "Разові доходи та витрати поза регулярними",
+      "notCreated": "Бюджетний план на цей місяць ще не створено",
+      "create": "Створити план",
+      "notCreatedTitle": "Бюджетний план на цей місяць не створено",
+      "notCreatedDescription": "Новий план можна створити лише для поточного місяця"
+    },
+    "statistic": {
+      "totalIncome": "Загальний дохід",
+      "totalExpenses": "Загальні витрати",
+      "balance": "Баланс",
+      "surplus": "Надлишок",
+      "deficit": "Дефіцит"
+    },
+    "recommendations": {
+      "title": "Рекомендації",
+      "totalIncome": "Загальний дохід",
+      "currentExpenses": "Поточні витрати",
+      "savings": "Економія",
+      "newExpenses": "Нові витрати",
+      "willBeRemoved": "<strong>{removed}</strong> з <strong>{total}</strong> витрат буде видалено",
+      "suggestions": "Пропозиції",
+      "optimal": "Оптимальний план",
+      "itemDescription": "витрата · одноразово",
+      "empty": "Немає одноразових витрат для оптимізації",
+      "skip": "Пропустити",
+      "save": "Зберегти",
+      "saving": "Збереження..."
+    },
+    "save": {
+      "successCreated": "Бюджетний план створено",
+      "successUpdated": "Бюджетний план оновлено",
+      "errorTitle": "Помилка: {message}",
+      "errorDescription": "Під час збереження виникла помилка"
+    },
+    "form": {
+      "createTitle": "Бюджетний план",
+      "editTitle": "Редагувати план",
+      "subtitle": "Оберіть регулярні операції для включення в план",
+      "empty": "Ще немає жодної регулярної операції",
+      "emptyHint": "Створіть їх у розділі «Регулярні операції», щоб включити у план",
+      "goToRegular": "Перейти до регулярних операцій",
+      "cancel": "Скасувати",
+      "next": "Далі ({count})",
+      "monthEntryTitle": "Деталі операції",
+      "monthEntryDescription": "Заповніть інформацію про:",
+      "monthEntrySubjectCreate": "нову одноразову операцію",
+      "monthEntrySubjectEdit": "одноразову операцію",
+      "priorityLabel": "Пріоритет",
+      "priorityPlaceholder": "Оберіть пріоритет"
+    }
+  },
+  "regular": {
+    "screen": {
+      "title": "Регулярні доходи та витрати",
+      "addButton": "Додати платіж"
+    },
+    "form": {
+      "title": "Деталі платежу",
+      "description": "Заповніть інформацію про: ",
+      "frequencyLabel": "Частота",
+      "frequencyPlaceholder": "Оберіть частоту",
+      "dayLabel": "День",
+      "dayPlaceholder": "День",
+      "successCreated": "Картку успішно створено",
+      "successUpdated": "Картку успішно оновлено",
+      "errorTitle": "Помилка: {message}",
+      "errorDescription": "Під час збереження виникла помилка",
+      "validationTitle": "Перевірте правильність заповнення форми",
+      "validationDescription": "Форма заповнена некоректно"
+    },
+    "sideBlock": {
+      "imageTitle": "Плануйте фінанси розумно",
+      "imageSubtitle": "Регулярні платежі допомагають контролювати бюджет",
+      "tipsTitle": "Корисні поради",
+      "tipAutomateTitle": "Автоматизуйте платежі",
+      "tipAutomateDescription": "Налаштуйте регулярні платежі, щоб не пропускати важливі оплати",
+      "tipControlTitle": "Контролюйте витрати",
+      "tipControlDescription": "Відстежуйте всі регулярні витрати в одному місці для кращого планування",
+      "tipTrendsTitle": "Аналізуйте тренди",
+      "tipTrendsDescription": "Переглядайте статистику доходів та витрат за різні періоди",
+      "statisticTitle": "Швидка статистика",
+      "averageExpenses": "Середні витрати на місяць",
+      "averageIncomes": "Середні доходи на місяць",
+      "changeExpenses": "Зміна витрат за останній місяць",
+      "changeIncomes": "Зміна доходів за останній місяць"
+    },
+    "frequency": {
+      "daily": "Щодня",
+      "weekly": "Щотижня",
+      "monthly": "Щомісяця",
+      "yearly": "Щороку"
+    },
+    "periodFilter": {
+      "today": "Сьогодні",
+      "week": "Тиждень",
+      "month": "Місяць",
+      "year": "Рік"
+    }
+  },
+  "welcome": {
+    "main": {
+      "titleLine1": "Керуй своїми фінансами!",
+      "titleLine2": "Легко та стильно",
+      "description": "Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.",
+      "balanceTitle": "Баланс",
+      "macbookGoalTitle": "На макбук",
+      "macbookGoalValue": "45% зібрано",
+      "coffeeTitle": "Кав'ярня"
+    },
+    "benefits": {
+      "title": "Чому це зручно?",
+      "description": "Ми розуміємо, як важко зводити кінці з кінцями. Балансувати між навчанням, роботою та відпочинком стає простіше, коли всі твої гроші підраховані автоматично.",
+      "today": "Сьогодні",
+      "transfer": "Переказ коштів",
+      "income": "Надходження",
+      "bus": "Автобус",
+      "personalExpenses": "Особисті витрати",
+      "concert": "Концерт",
+      "coffee": "Кав'ярня",
+      "stationery": "Канцелярія",
+      "restaurant": "Ресторан"
+    },
+    "signup": {
+      "title": "Готові взяти контроль?",
+      "subtitle": "Ваша фінансова подорож починається зараз",
+      "fullControlTitle": "Повний контроль коштів",
+      "fullControlDescription": "Ваші гроші під контролем",
+      "analyticsTitle": "Аналітика витрат",
+      "analyticsDescription": "Детальні графіки та звіти",
+      "cta": "Зареєструватися",
+      "hint": "Це займе менше 1 хвилини"
     }
   }
 }

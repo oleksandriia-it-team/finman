@@ -6,14 +6,15 @@ import { useCallback, useMemo, useState } from 'react';
 import { FinTransformDate } from '../transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { isToday } from 'date-fns';
-import { MonthTitles, WeekTitles } from '@common/constants/month-titles.constant';
 import type { Month } from '@common/enums/month.enum';
+import { useMonthTitles, useWeekTitles } from '@frontend/shared/i18n/use-month-titles.hook';
 import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
 import type { DatepickerProps } from '../controlled-fields/props/controlled-datepicker.props';
 import { UiInputGroup } from '@frontend/ui/ui-input-group/ui-input-group';
 import { UiInputGroupAddon } from '@frontend/ui/ui-input-group/ui-input-group-addon';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { defaultLocale } from '@frontend/shared/utils/get-preferred-locale.util';
+import { useTranslations } from 'next-intl';
 
 export function FinDatepicker({
   placeholder,
@@ -33,6 +34,9 @@ export function FinDatepicker({
   ...props
 }: DatepickerProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const tCommon = useTranslations('common');
+  const monthTitles = useMonthTitles();
+  const weekTitles = useWeekTitles();
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
@@ -65,8 +69,13 @@ export function FinDatepicker({
     if (mode === 'single' && isToday(selected)) {
       return (
         <>
-          Сьогодні, {getDateContent(selected, DateFormatType.Short)}
-          {includeTime && <> о {getDateContent(selected, DateFormatType.TimeOnly)}</>}
+          {tCommon('today')}, {getDateContent(selected, DateFormatType.Short)}
+          {includeTime && (
+            <>
+              {' '}
+              {tCommon('at')} {getDateContent(selected, DateFormatType.TimeOnly)}
+            </>
+          )}
         </>
       );
     }
@@ -89,7 +98,7 @@ export function FinDatepicker({
         </>
       );
     }
-  }, [getDateContent, includeTime, placeholder, mode, selected]);
+  }, [getDateContent, includeTime, placeholder, mode, selected, tCommon]);
 
   return (
     <UiPopover
@@ -148,9 +157,9 @@ export function FinDatepicker({
           className={calendarClassName ?? ''}
           required={false}
           formatters={{
-            formatWeekdayName: (weekDay) => WeekTitles[weekDay.getDay()],
+            formatWeekdayName: (weekDay) => weekTitles[weekDay.getDay()],
             formatMonthCaption: (month) =>
-              `${MonthTitles[month.getMonth() as unknown as Month]} ${month.getFullYear()}`,
+              `${monthTitles[month.getMonth() as unknown as Month]} ${month.getFullYear()}`,
           }}
           mode={mode as never}
           selected={selected as never}

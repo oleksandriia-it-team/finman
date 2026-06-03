@@ -8,31 +8,10 @@ import {
 import { ShortStatisticBlock } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/short-statistic-block';
 import type { UsefulTipsBlockItem } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/useful-tips-block/useful-tips-block-item';
 import { useShortStatistic } from '@frontend/features/regular-incomes-expenses/card-creation-form/cards-form-side-block/short-statistic.hook';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
-const tips: UsefulTipsBlockItem[] = [
-  { icon: 'lightbulb', title: 'Корисні поради' },
-  {
-    icon: 'calendar-check',
-    title: 'Автоматизуйте платежі',
-    description: 'Налаштуйте регулярні платежі, щоб не пропускати важливі оплати',
-  },
-  {
-    icon: 'piggy-bank',
-    title: 'Контролюйте витрати',
-    description: 'Відстежуйте всі регулярні витрати в одному місці для кращого планування',
-  },
-  {
-    icon: 'bar-chart-line',
-    title: 'Аналізуйте тренди',
-    description: 'Переглядайте статистику доходів та витрат за різні періоди',
-  },
-];
-
-const imageBlock = {
-  image: '/pictures/card-form-image.jpg',
-  title: 'Плануйте фінанси розумно',
-  subtitle: 'Регулярні платежі допомагають контролювати бюджет',
-};
+const imageBlockSrc = '/pictures/card-form-image.jpg';
 
 const EMPTY_SHORT_STATISTIC = {
   factAverageExpenses: 0,
@@ -44,13 +23,36 @@ const EMPTY_SHORT_STATISTIC = {
 export function CardCreationFormSideBlock() {
   const { data } = useShortStatistic();
   const statistic = data ?? EMPTY_SHORT_STATISTIC;
+  const t = useTranslations('regular.sideBlock');
+
+  const tips: UsefulTipsBlockItem[] = useMemo(
+    () => [
+      { icon: 'lightbulb', title: t('tipsTitle') },
+      {
+        icon: 'calendar-check',
+        title: t('tipAutomateTitle'),
+        description: t('tipAutomateDescription'),
+      },
+      {
+        icon: 'piggy-bank',
+        title: t('tipControlTitle'),
+        description: t('tipControlDescription'),
+      },
+      {
+        icon: 'bar-chart-line',
+        title: t('tipTrendsTitle'),
+        description: t('tipTrendsDescription'),
+      },
+    ],
+    [t],
+  );
 
   return (
     <div className="bg-primary size-full flex flex-col items-center justify-center">
-      <ImageBlock image={imageBlock.image}>
+      <ImageBlock image={imageBlockSrc}>
         <ImageBlockForeground
-          title={imageBlock.title}
-          subtitle={imageBlock.subtitle}
+          title={t('imageTitle')}
+          subtitle={t('imageSubtitle')}
           blurred
         />
       </ImageBlock>

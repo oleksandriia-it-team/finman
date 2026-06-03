@@ -1,10 +1,11 @@
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { MonthTitles } from '@common/constants/month-titles.constant';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import type { SelectBudgetPlanMonthProps } from './props/select-budget-plan-month.props';
 import { MonthSvg } from '@frontend/features/budget-plan/constants/month-svg';
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
+import { useMonthTitles } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 
 export function SelectBudgetPlanMonth({
   onSelect,
@@ -14,6 +15,8 @@ export function SelectBudgetPlanMonth({
   selected = false,
 }: SelectBudgetPlanMonthProps) {
   const { now } = useSelectedBudgetPlan();
+  const monthTitles = useMonthTitles();
+  const t = useTranslations('budgetPlan.monthCell');
 
   const isCurrentMonth = month === now.month && year === now.year;
 
@@ -32,11 +35,11 @@ export function SelectBudgetPlanMonth({
     >
       <Icon className="size-8" />
 
-      <UiTitle size="default">{MonthTitles[month].slice(0, 3)}</UiTitle>
+      <UiTitle size="default">{monthTitles[month].slice(0, 3)}</UiTitle>
 
-      {isCurrentMonth && !disabled && <UiDescription size="sm">Редагувати</UiDescription>}
-      {!isCurrentMonth && !disabled && <UiDescription size="sm">Перегляд</UiDescription>}
-      {disabled && <UiDescription size="sm">Не настав час</UiDescription>}
+      {isCurrentMonth && !disabled && <UiDescription size="sm">{t('edit')}</UiDescription>}
+      {!isCurrentMonth && !disabled && <UiDescription size="sm">{t('view')}</UiDescription>}
+      {disabled && <UiDescription size="sm">{t('notYet')}</UiDescription>}
     </UiButton>
   );
 }

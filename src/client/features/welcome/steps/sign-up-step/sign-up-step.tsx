@@ -5,24 +5,27 @@ import Link from 'next/link';
 import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
 import { TypeEntry } from '@common/enums/entry.enum';
+import { useTranslations } from 'next-intl';
 
 export default function SignUpStep() {
+  const t = useTranslations('welcome.signup');
+
   const checks = [
     {
       id: 1,
       icon: 'shield-check',
-      title: 'Повний контроль коштів',
-      description: 'Ваші гроші під контролем',
+      titleKey: 'fullControlTitle',
+      descriptionKey: 'fullControlDescription',
       type: TypeEntry.Income,
     },
     {
       id: 2,
       icon: 'graph-up-arrow',
-      title: 'Аналітика витрат',
-      description: 'Детальні графіки та звіти',
+      titleKey: 'analyticsTitle',
+      descriptionKey: 'analyticsDescription',
       type: TypeEntry.Income,
     },
-  ];
+  ] as const;
 
   return (
     <div className=" step-background relative flex items-center justify-center min-h-screen w-full overflow-hidden p-4">
@@ -42,10 +45,8 @@ export default function SignUpStep() {
           </div>
 
           <div className="space-y-2 text-center">
-            <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">
-              Готові взяти контроль?
-            </p>
-            <p className="text-lg text-muted-foreground">Ваша фінансова подорож починається зараз</p>
+            <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">{t('title')}</p>
+            <p className="text-lg text-muted-foreground">{t('subtitle')}</p>
           </div>
         </div>
         <div className="w-full space-y-3">
@@ -55,8 +56,8 @@ export default function SignUpStep() {
               showActions={false}
               key={check.id}
               icon={check.icon}
-              title={check.title}
-              description={check.description}
+              title={t(check.titleKey)}
+              description={t(check.descriptionKey)}
               type={check.type as TypeEntry.Income | TypeEntry.Expense}
               check="✓"
               className="step-card-item"
@@ -76,10 +77,10 @@ export default function SignUpStep() {
               className="!text-inherit !no-underline"
               href="/signup"
             >
-              Зареєструватися
+              {t('cta')}
             </Link>
           </UiPurpleButton>
-          <p className="text-center text-muted-foreground text-sm mt-4">Це займе менше 1 хвилини</p>
+          <p className="text-center text-muted-foreground text-sm mt-4">{t('hint')}</p>
         </div>
       </div>
     </div>

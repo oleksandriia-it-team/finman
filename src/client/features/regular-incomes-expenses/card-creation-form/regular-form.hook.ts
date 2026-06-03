@@ -5,11 +5,14 @@ import { useRegularTransactions } from '@frontend/features/regular-incomes-expen
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { RegularEntrySchema } from '@common/domains/regular-entry/schema/regular-entry.schema';
+import { useTranslations } from 'next-intl';
 
 export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useRegularTransactions();
   const showToast = useGlobalToast((state) => state.showToast);
   const isEdit = !!initialData;
+  const t = useTranslations('regular.form');
+  const tCommon = useTranslations('common');
 
   const methods = useForm<RegularEntry>({
     resolver: zodResolver(RegularEntrySchema) as never,
@@ -45,24 +48,24 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
           });
         }
         showToast({
-          title: 'Успішно',
-          description: isEdit ? 'Картку успішно оновлено' : 'Картку успішно створено',
+          title: tCommon('successTitle'),
+          description: isEdit ? t('successUpdated') : t('successCreated'),
           variant: 'success',
         });
         onSuccess?.();
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Невідома помилка';
+        const message = err instanceof Error ? err.message : tCommon('unknownError');
         showToast({
-          title: `Помилка: ${message}`,
-          description: 'Під час збереження виникла помилка',
+          title: t('errorTitle', { message }),
+          description: t('errorDescription'),
           variant: 'destructive',
         });
       }
     },
     () => {
       showToast({
-        title: 'Перевірте правильність заповнення форми',
-        description: 'Форма заповнена некоректно',
+        title: t('validationTitle'),
+        description: t('validationDescription'),
         variant: 'destructive',
       });
     },
