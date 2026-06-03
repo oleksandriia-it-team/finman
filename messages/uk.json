@@ -92,6 +92,17 @@
   },
   "auth": {
     "login": {
+      "title": "Авторизація",
+      "codeStepTitle": "Двофакторна автентифікація",
+      "loginLabel": "Логін або email",
+      "loginPlaceholder": "Введіть логін або email",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "Введіть пароль",
+      "forgotPassword": "Забули пароль?",
+      "submit": "Увійти",
+      "submitLoading": "Входимо...",
+      "signupCta": "Немає акаунту? Зареєструватися",
+      "or": "АБО",
       "validation": {
         "loginRequired": "Логін або email є обов'язковим",
         "loginMaxLength": "Логін не може бути довше {max} символів",

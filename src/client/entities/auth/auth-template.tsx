@@ -23,7 +23,7 @@ export const AuthLayout = ({
 
       <div
         className={cn(
-          'auth-image-container hidden lg:flex flex-1 flex-col items-center justify-center bg-aqua-muted p-12',
+          'auth-image-container hidden lg:flex flex-1 flex-col items-center justify-center bg-primary-muted p-12',
           rightSideClassName,
         )}
       >

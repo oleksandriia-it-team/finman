@@ -142,6 +142,17 @@
   },
   "auth": {
     "login": {
+      "title": "Log in",
+      "codeStepTitle": "Two-factor authentication",
+      "loginLabel": "Username or email",
+      "loginPlaceholder": "Enter username or email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "submitLoading": "Logging in...",
+      "signupCta": "Don't have an account? Sign up",
+      "or": "OR",
       "validation": {
         "loginRequired": "Login or email is required",
         "loginMaxLength": "Login cannot exceed {max} characters",
