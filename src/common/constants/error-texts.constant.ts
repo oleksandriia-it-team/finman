@@ -9,13 +9,11 @@ export const enum ErrorTexts {
   TwoFactorCodeIsRequired = 'errors.twoFactorCodeIsRequired',
   DatabaseConnection = 'errors.databaseConnection',
   UserNotFound = 'errors.userNotFound',
-  UserNotFoundDot = 'errors.userNotFoundDot',
   TwoFactorNotInitialized = 'errors.twoFactorNotInitialized',
   InvalidCredentials = 'errors.invalidCredentials',
   PasswordUpdateFailed = 'errors.passwordUpdateFailed',
   InvalidCode = 'errors.invalidCode',
   RegularEntryTitleExists = 'errors.regularEntryTitleExists',
-  ProfileUpdateFailed = 'errors.profileUpdateFailed',
   UnexpectedRequestError = 'errors.unexpectedRequestError',
   Unauthorized = 'errors.unauthorized',
   ParamNotInteger = 'errors.paramNotInteger',
@@ -28,9 +26,6 @@ export const enum ErrorTexts {
   RegEntryCategoryMismatch = 'errors.regEntryCategoryMismatch',
   ForeignOrMissingMonthEntries = 'errors.foreignOrMissingMonthEntries',
   PlannedRegularEntriesNotOwned = 'errors.plannedRegularEntriesNotOwned',
-  StepperContextMissing = 'errors.stepperContextMissing',
-  ChartContextMissing = 'errors.chartContextMissing',
-  SidebarContextMissing = 'errors.sidebarContextMissing',
   InvalidJson = 'errors.invalidJson',
 }
 
@@ -44,14 +39,4 @@ export interface ErrorMessage {
 export const formatBudgetPlanNotFoundForMonth = (month: number, year: number): ErrorMessage => ({
   messageKey: 'errors.budgetPlanNotFoundForMonth',
   messageParams: { month, year },
-});
-
-export const formatKeyMustBeStringOrNumber = (key: string): ErrorMessage => ({
-  messageKey: 'errors.keyMustBeStringOrNumber',
-  messageParams: { key },
-});
-
-export const formatSearchValueTypeMismatch = (key: string): ErrorMessage => ({
-  messageKey: 'errors.searchValueTypeMismatch',
-  messageParams: { key },
 });

@@ -4,7 +4,6 @@ import {
   ProfileSettingsSchema,
 } from '@common/domains/profile/schema/profile-settings.schema';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
-import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { profileSettingsService } from '@frontend/features/user-settings/profile-settings.service';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
@@ -56,7 +55,7 @@ export function useProfileSettingsForm() {
   const updateMutation = useSendDataFetch(
     async (data: ProfileSettingsData) => {
       if (!userInformation) {
-        throw new Error(ErrorTexts.UserNotFoundDot);
+        throw new Error('User not found.');
       }
 
       const updatedUser = await profileSettingsService.updateProfile(userInformation, data);

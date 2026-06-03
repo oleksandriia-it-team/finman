@@ -10,13 +10,11 @@
     "twoFactorCodeIsRequired": "Two-factor authentication is enabled, the code is required",
     "databaseConnection": "Database connection error",
     "userNotFound": "User not found",
-    "userNotFoundDot": "User not found.",
     "twoFactorNotInitialized": "Initialize two-factor authentication first",
     "invalidCredentials": "Invalid credentials",
     "passwordUpdateFailed": "Failed to update password",
     "invalidCode": "Invalid code",
     "regularEntryTitleExists": "A regular operation with this title already exists. Choose another one",
-    "profileUpdateFailed": "Failed to update profile.",
     "unexpectedRequestError": "Unexpected request error. Please try again later",
     "unauthorized": "You are not authorized",
     "paramNotInteger": "One of the parameters is not an integer",
@@ -29,13 +27,8 @@
     "regEntryCategoryMismatch": "Operation category must match the category of the linked planned regular-budget operation",
     "foreignOrMissingMonthEntries": "Some monthly operation records are already linked to another budget plan or do not exist with the specified ID",
     "plannedRegularEntriesNotOwned": "Some planned regular operation IDs do not exist or do not belong to the user",
-    "stepperContextMissing": "useStepper must be used within a <Stepper />",
-    "chartContextMissing": "useChart must be used within a <ChartContainer />",
-    "sidebarContextMissing": "useSidebar must be used within a SidebarProvider.",
     "invalidJson": "Invalid JSON",
-    "budgetPlanNotFoundForMonth": "Budget plan not found for month {month} and year {year}",
-    "keyMustBeStringOrNumber": "{key} must be string or number",
-    "searchValueTypeMismatch": "Search value must be of the same type as field {key} in json"
+    "budgetPlanNotFoundForMonth": "Budget plan not found for month {month} and year {year}"
   },
   "common": {
     "requestErrorTitle": "Request error",
