@@ -5,15 +5,17 @@ import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
 import { type ResetPasswordDto, ResetPasswordSchema } from '@common/domains/auth/schema/reset-password.schema';
+import { useTranslations } from 'next-intl';
 
 export function useSetupResetPassword(onSuccessAction: () => void) {
   const { email, code, clear } = useRecoveryStore();
+  const t = useTranslations('auth.resetPassword');
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: ResetPasswordDto) =>
       await fetchClient.post<ApiResultOperation<boolean>>('/api/auth/recovery/reset', data, { skipAuth: true }),
     {
-      successMessage: 'Пароль успішно змінено!',
+      successMessage: t('successMessage'),
       onSuccess: (result) => {
         if (result.status === 200) {
           clear();

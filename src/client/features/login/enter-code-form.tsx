@@ -6,15 +6,17 @@ import { FinControlledOtp } from '@frontend/components/controlled-fields/fin-con
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 import { useLoginStore } from '@frontend/features/login/hooks/login-store-hook';
 import { LoginStep } from '@frontend/features/login/constants/login-step.constant';
+import { useTranslations } from 'next-intl';
 
 export function LoginEnterCodeForm() {
   const { isLoading } = useSetupLogin();
   const { setStep, methods } = useLoginStore();
+  const t = useTranslations('auth.login');
 
   return (
     <UiFieldGroup>
       <FinControlledOtp
-        label="Введіть код"
+        label={t('codeLabel')}
         name="code"
       />
 
@@ -25,11 +27,11 @@ export function LoginEnterCodeForm() {
         size="sm"
       >
         {isLoading && <UiSpinner className="size-4" />}
-        {isLoading ? 'Входимо...' : 'Увійти'}
+        {isLoading ? t('submitLoading') : t('submit')}
       </UiButton>
 
       <UiSeparatorWithLabel
-        label={'або'}
+        label={t('or')}
         className="my-4"
       />
 
@@ -44,7 +46,7 @@ export function LoginEnterCodeForm() {
           setStep(LoginStep.Password);
         }}
       >
-        Повернутися назад
+        {t('backToPassword')}
       </UiButton>
     </UiFieldGroup>
   );

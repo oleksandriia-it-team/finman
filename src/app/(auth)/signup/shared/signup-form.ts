@@ -10,6 +10,7 @@ import { useUserInformation } from '@frontend/shared/services/user-information/u
 import { lookupsService } from '@frontend/entities/lookups/lookups.service';
 import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum';
 import { useRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 const defaultLocale = 'en-US';
 
@@ -29,12 +30,13 @@ async function resolveLocale(): Promise<string> {
 export function useSetupRegistration(onSuccessAction: () => void) {
   const { setUserInformation, logOut } = useUserInformation();
   const isSubmittingRef = useRef(false);
+  const t = useTranslations('auth.signup');
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: RegisterDto) =>
       await fetchClient.post<ApiResultOperation<boolean>, RegisterDto>('/api/auth/signup', data, { skipAuth: true }),
     {
-      successMessage: 'Реєстрація успішна!',
+      successMessage: t('successMessage'),
       onSuccess: (result) => result.status === 200 && onSuccessAction(),
       onSettled: () => {
         isSubmittingRef.current = false;

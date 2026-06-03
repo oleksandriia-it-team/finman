@@ -11,9 +11,11 @@ import { FinControlledInput } from '@frontend/components/controlled-fields/fin-c
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
+import { useTranslations } from 'next-intl';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
+  const t = useTranslations('auth.recovery');
 
   const { methods, submit, isLoading } = useSetupForgotPassword(() => {
     router.push('/confirm-code');
@@ -22,8 +24,8 @@ export default function ForgotPasswordPage() {
   return (
     <AuthLayout
       imageSrc="/pictures/recovery-picture.png"
-      rightSideTitle="FinMan — відновлення доступу"
-      rightSideDescription="Безпечне відновлення паролю з зашифрованим посиланням. Ваші дані захищені на всіх етапах."
+      rightSideTitle={t('rightSideTitle')}
+      rightSideDescription={t('rightSideDescription')}
       rightSideClassName="bg-powder-muted"
       rightSideImageClassName="max-h-[25rem]"
     >
@@ -41,10 +43,8 @@ export default function ForgotPasswordPage() {
         <div className="flex-1 flex flex-col items-center justify-center">
           <div className="flex flex-col gap-6 w-full">
             <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-normal text-foreground leading-tight">Відновлення паролю</h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Введіть email, пов&#39;язаний з вашим акаунтом, і ми надішлемо посилання для скидання паролю.
-              </p>
+              <h1 className="text-2xl font-normal text-foreground leading-tight">{t('title')}</h1>
+              <p className="text-sm text-muted-foreground leading-relaxed">{t('description')}</p>
             </div>
 
             <FormProvider {...methods}>
@@ -60,8 +60,8 @@ export default function ForgotPasswordPage() {
                     <div className="flex flex-col gap-1">
                       <FinControlledInput
                         name="email"
-                        label="Email*"
-                        placeholder="Введіть ваш email"
+                        label={t('emailLabel')}
+                        placeholder={t('emailPlaceholder')}
                         type="email"
                         description={
                           <>
@@ -69,7 +69,7 @@ export default function ForgotPasswordPage() {
                               name="info-circle"
                               size="xs"
                             />
-                            Ми надішлемо інструкції на вашу пошту
+                            {t('emailDescription')}
                           </>
                         }
                       />
@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                         size="sm"
                         disabled={!methods.formState.isValid || isLoading}
                       >
-                        {isLoading ? 'Відправка...' : 'Надіслати посилання'}
+                        {isLoading ? t('submitLoading') : t('submit')}
                       </UiButton>
 
                       <div className="relative my-1">
@@ -91,7 +91,7 @@ export default function ForgotPasswordPage() {
                           <UiSeparator />
                         </div>
                         <div className="relative flex justify-center text-xs uppercase">
-                          <span className="text-muted-foreground bg-primary-foreground px-2">або</span>
+                          <span className="text-muted-foreground bg-primary-foreground px-2">{t('or')}</span>
                         </div>
                       </div>
 
@@ -104,7 +104,7 @@ export default function ForgotPasswordPage() {
                           name="arrow-left"
                           size="sm"
                         />
-                        Повернутись до входу
+                        {t('backToLogin')}
                       </button>
                     </div>
                   </UiFieldGroup>
@@ -115,13 +115,13 @@ export default function ForgotPasswordPage() {
         </div>
 
         <p className="text-sm text-center text-muted-foreground pb-1">
-          Не маєте акаунту?{' '}
+          {t('noAccount')}{' '}
           <button
             type="button"
             className="text-primary font-medium hover:underline"
             onClick={() => router.push('/signup')}
           >
-            Зареєструватись
+            {t('signupCta')}
           </button>
         </p>
       </div>

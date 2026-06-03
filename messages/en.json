@@ -33,5 +33,87 @@
   "common": {
     "requestErrorTitle": "Request error",
     "successTitle": "Success"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "codeStepTitle": "Enter the code from the authenticator app",
+      "loginLabel": "Login*",
+      "loginPlaceholder": "Enter email or login",
+      "passwordLabel": "Password*",
+      "passwordPlaceholder": "Enter password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitLoading": "Signing in...",
+      "or": "or",
+      "signupCta": "Sign up now",
+      "codeLabel": "Enter the code",
+      "backToPassword": "Back",
+      "successMessage": "Signed in successfully!"
+    },
+    "signup": {
+      "title": "Create your account",
+      "workModeLabel": "Work mode",
+      "workModePlaceholder": "Choose work mode",
+      "workModeTooltip": "Online: cloud sync. Offline: data stays only in your browser.",
+      "nameLabel": "Username *",
+      "namePlaceholder": "Min. 8 characters",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "Enter email",
+      "passwordLabel": "Password *",
+      "passwordPlaceholder": "Min. 8 characters",
+      "passwordConfirmLabel": "Confirm password *",
+      "passwordConfirmPlaceholder": "Confirm password",
+      "currencyLabel": "Currency *",
+      "currencyPlaceholder": "Search...",
+      "submit": "Sign up",
+      "submitLoading": "Signing up...",
+      "or": "OR",
+      "alreadyHaveAccount": "Already have an account? Sign in",
+      "successMessage": "Sign up successful!"
+    },
+    "recovery": {
+      "title": "Password recovery",
+      "description": "Enter the email associated with your account and we will send a password reset link.",
+      "rightSideTitle": "FinMan — account recovery",
+      "rightSideDescription": "Secure password recovery via an encrypted link. Your data is protected at every step.",
+      "emailLabel": "Email*",
+      "emailPlaceholder": "Enter your email",
+      "emailDescription": "We will send instructions to your inbox",
+      "submit": "Send link",
+      "submitLoading": "Sending...",
+      "or": "or",
+      "backToLogin": "Back to sign in",
+      "noAccount": "Don't have an account?",
+      "signupCta": "Sign up",
+      "successMessage": "Recovery code sent!"
+    },
+    "confirmCode": {
+      "title": "Confirm code",
+      "descriptionPrefix": "We sent a 6-digit code to",
+      "emailFallback": "your email",
+      "rightSideTitle": "FinMan — security first",
+      "rightSideDescription": "We use two-factor verification so your financial data stays safely locked.",
+      "codeLabel": "Enter confirmation code*",
+      "codeDescription": "The code is valid for 5 minutes",
+      "submit": "Confirm",
+      "submitLoading": "Verifying...",
+      "retryAfter": "Try again in {seconds}s",
+      "changeEmail": "Change email"
+    },
+    "resetPassword": {
+      "title": "Set new password",
+      "description": "Please enter a new password for your account.",
+      "rightSideTitle": "Create a new password",
+      "rightSideDescription": "Use a combination of symbols, letters and digits for maximum protection.",
+      "passwordLabel": "New password*",
+      "passwordPlaceholder": "Enter new password",
+      "passwordConfirmLabel": "Confirm password*",
+      "passwordConfirmPlaceholder": "Repeat new password",
+      "submit": "Change password",
+      "submitLoading": "Updating...",
+      "cancel": "Cancel",
+      "successMessage": "Password changed successfully!"
+    }
   }
 }

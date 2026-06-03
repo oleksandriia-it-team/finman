@@ -33,5 +33,87 @@
   "common": {
     "requestErrorTitle": "Помилка запиту",
     "successTitle": "Успішно"
+  },
+  "auth": {
+    "login": {
+      "title": "Увійдіть в свій акаунт",
+      "codeStepTitle": "Введіть код із додатка-автентифікатора",
+      "loginLabel": "Логін*",
+      "loginPlaceholder": "Введіть email або логін",
+      "passwordLabel": "Пароль*",
+      "passwordPlaceholder": "Введіть пароль",
+      "forgotPassword": "Забули пароль?",
+      "submit": "Увійти",
+      "submitLoading": "Входимо...",
+      "or": "або",
+      "signupCta": "Зареєструватися зараз",
+      "codeLabel": "Введіть код",
+      "backToPassword": "Повернутися назад",
+      "successMessage": "Вхід виконано успішно!"
+    },
+    "signup": {
+      "title": "Створіть свій акаунт",
+      "workModeLabel": "Режим роботи",
+      "workModePlaceholder": "Оберіть режим роботи",
+      "workModeTooltip": "Онлайн: синхронізація з хмарою. Офлайн: дані тільки у вашому браузері.",
+      "nameLabel": "Ім'я користувача *",
+      "namePlaceholder": "Мін. 8 символів",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "Введіть email",
+      "passwordLabel": "Пароль *",
+      "passwordPlaceholder": "Мін. 8 символів",
+      "passwordConfirmLabel": "Підтвердження паролю *",
+      "passwordConfirmPlaceholder": "Підтвердіть пароль",
+      "currencyLabel": "Валюта *",
+      "currencyPlaceholder": "Пошук...",
+      "submit": "Зареєструватися",
+      "submitLoading": "Реєстрація...",
+      "or": "АБО",
+      "alreadyHaveAccount": "Вже є акаунт? Увійти",
+      "successMessage": "Реєстрація успішна!"
+    },
+    "recovery": {
+      "title": "Відновлення паролю",
+      "description": "Введіть email, пов'язаний з вашим акаунтом, і ми надішлемо посилання для скидання паролю.",
+      "rightSideTitle": "FinMan — відновлення доступу",
+      "rightSideDescription": "Безпечне відновлення паролю з зашифрованим посиланням. Ваші дані захищені на всіх етапах.",
+      "emailLabel": "Email*",
+      "emailPlaceholder": "Введіть ваш email",
+      "emailDescription": "Ми надішлемо інструкції на вашу пошту",
+      "submit": "Надіслати посилання",
+      "submitLoading": "Відправка...",
+      "or": "або",
+      "backToLogin": "Повернутись до входу",
+      "noAccount": "Не маєте акаунту?",
+      "signupCta": "Зареєструватись",
+      "successMessage": "Код відновлення надіслано!"
+    },
+    "confirmCode": {
+      "title": "Підтвердження коду",
+      "descriptionPrefix": "Ми надіслали 6-значний код на",
+      "emailFallback": "вашу пошту",
+      "rightSideTitle": "FinMan — безпека понад усе",
+      "rightSideDescription": "Ми використовуємо двофакторну перевірку, щоб ваші фінансові дані залишалися під надійним замком.",
+      "codeLabel": "Введіть код підтвердження*",
+      "codeDescription": "Код дійсний протягом 5 хвилин",
+      "submit": "Підтвердити",
+      "submitLoading": "Перевірка...",
+      "retryAfter": "Спробуйте через {seconds}с",
+      "changeEmail": "Змінити пошту"
+    },
+    "resetPassword": {
+      "title": "Встановлення пароля",
+      "description": "Будь ласка, введіть новий пароль для вашого облікового запису.",
+      "rightSideTitle": "Створіть новий пароль",
+      "rightSideDescription": "Використовуйте комбінацію символів, літер та цифр для максимального захисту.",
+      "passwordLabel": "Новий пароль*",
+      "passwordPlaceholder": "Введіть новий пароль",
+      "passwordConfirmLabel": "Підтвердження пароля*",
+      "passwordConfirmPlaceholder": "Повторіть новий пароль",
+      "submit": "Змінити пароль",
+      "submitLoading": "Оновлення...",
+      "cancel": "Скасувати",
+      "successMessage": "Пароль успішно змінено!"
+    }
   }
 }

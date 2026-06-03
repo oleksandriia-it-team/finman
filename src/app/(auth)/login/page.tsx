@@ -10,10 +10,12 @@ import { useLoginStore } from '@frontend/features/login/hooks/login-store-hook';
 import { useSetupLogin } from '@frontend/features/login/hooks/login-hook';
 import { LoginStep } from '@frontend/features/login/constants/login-step.constant';
 import { LoginEnterCodeForm } from '@frontend/features/login/enter-code-form';
+import { useTranslations } from 'next-intl';
 
 export default function LoginPage() {
   const { methods, step } = useLoginStore();
   const { submit, isLoading } = useSetupLogin();
+  const t = useTranslations('auth.login');
 
   return (
     <AuthLayout imageSrc={'/pictures/login-picture.png'}>
@@ -38,7 +40,7 @@ export default function LoginPage() {
                 <span className="text-3xl text-foreground tracking-tighter">FINMAN</span>
               </div>
               <span className="text-lg font-semibold text-foreground block">
-                {step === LoginStep.Password ? 'Увійдіть в свій акаунт' : 'Введіть код із додатка-автентифікатора'}
+                {step === LoginStep.Password ? t('title') : t('codeStepTitle')}
               </span>
             </UiFieldLegend>
 

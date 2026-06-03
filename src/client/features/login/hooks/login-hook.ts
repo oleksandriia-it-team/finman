@@ -13,17 +13,19 @@ import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useMemo } from 'react';
 import constate from 'constate';
 import { ErrorTexts } from '@common/constants/error-texts.constant';
+import { useTranslations } from 'next-intl';
 
 function useSetupLoginLogic() {
   const { methods, setStep } = useLoginStore();
   const refreshUser = useUserInformation((state) => state.refresh);
   const router = useRouter();
+  const t = useTranslations('auth.login');
 
   const { mutate, state } = useSendDataFetch(
     async (data: LoginDto) =>
       await fetchClient.post<ApiResultOperationSuccess<string>>('/api/auth/login', data, { skipAuth: true }),
     {
-      successMessage: 'Вхід виконано успішно!',
+      successMessage: t('successMessage'),
       onSuccess: async (result) => {
         authTokenService.setAccessToken(result.data);
 
