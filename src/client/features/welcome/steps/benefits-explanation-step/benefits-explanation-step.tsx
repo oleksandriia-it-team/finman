@@ -33,8 +33,8 @@ export default function BenefitsExplanationStep() {
               <TransactionCard
                 key={tx.id}
                 icon={tx.icon}
-                title={tx.title}
-                description={tx.description}
+                title={t(tx.titleKey)}
+                description={t(tx.descriptionKey)}
                 showActions={false}
                 check={tx.check}
                 type={tx.type as TypeEntry.Income | TypeEntry.Expense}

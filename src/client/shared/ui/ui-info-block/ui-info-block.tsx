@@ -1,9 +1,11 @@
+'use client';
+
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiTitle } from '../ui-text/ui-title';
 import { UiDescription } from '@frontend/ui/ui-text/ui-description';
 import type { UiInfoBlockProps } from '@frontend/ui/ui-info-block/ui-info-block-props';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 
 export function UiInfoBlock({
   title,
@@ -17,7 +19,8 @@ export function UiInfoBlock({
   icon,
   isIconRoundedFull = false,
 }: UiInfoBlockProps) {
-  const categoryStyles = category ? CategoriesMapping[category] : null;
+  const categoriesMapping = useCategoriesMapping();
+  const categoryStyles = category ? categoriesMapping[category] : null;
 
   const commonClassName = cn(
     'flex flex-row items-center gap-3 p-3 rounded-xl transition-all duration-200',

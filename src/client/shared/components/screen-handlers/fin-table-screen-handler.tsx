@@ -1,4 +1,7 @@
+'use client';
+
 import { useCallback, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 import type { TableScreenHandlerProps } from '@frontend/components/screen-handlers/props/table-screen-handler.props';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
@@ -14,6 +17,7 @@ export function FinTableScreenHandler({
   error,
   ...props
 }: TableScreenHandlerProps) {
+  const t = useTranslations('common');
   const tableSkeleton = useCallback(() => {
     const Skeleton = skeleton ?? UiSkeleton;
 
@@ -37,7 +41,7 @@ export function FinTableScreenHandler({
           {error ?? (
             <FinErrorTableWidget
               status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
-              message={props.appError?.message ?? 'Сталася помилка при завантаженні даних'}
+              message={props.appError?.message ?? t('dataLoadError')}
             />
           )}
         </UiTableCell>
@@ -49,7 +53,7 @@ export function FinTableScreenHandler({
     () => (
       <UiTableRow>
         <UiTableCell colSpan={totalColumns}>
-          <span className="italic">Дані не знайдено</span>
+          <span className="italic">{t('notFound')}</span>
         </UiTableCell>
       </UiTableRow>
     ),

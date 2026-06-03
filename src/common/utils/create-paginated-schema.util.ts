@@ -4,13 +4,13 @@ export function createPaginatedSchema<Filters extends ZodType<unknown>>(filtersS
   return {
     itemsSchema: z.object({
       from: z
-        .number('Поле From є обовʼязковим і має бути числом')
-        .int('Поле From має бути цілим числом')
-        .positive('Поле From має бути додатним числом'),
+        .number('Field "from" is required and must be a number')
+        .int('Field "from" must be an integer')
+        .positive('Field "from" must be a positive number'),
       to: z
-        .number('Поле To є обовʼязковим і має бути числом')
-        .int('Поле To має бути цілим числом')
-        .positive('Поле To має бути додатним числом'),
+        .number('Field "to" is required and must be a number')
+        .int('Field "to" must be an integer')
+        .positive('Field "to" must be a positive number'),
       filters: filtersSchema.optional(),
     }),
     totalCountSchema: z.object({

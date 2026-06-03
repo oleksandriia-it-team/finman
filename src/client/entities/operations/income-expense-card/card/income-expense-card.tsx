@@ -2,7 +2,7 @@ import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { CardContent, CardFooter, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { FinTransformDate } from '@frontend/components/transform-date/fin-transform-date';
 import { DateFormatType } from '@frontend/shared/enums/date-type.enum';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
@@ -33,7 +33,8 @@ export function IncomeExpenseCard({
   badge,
 }: TransactionCardProps) {
   const t = useTranslations('operations.card');
-  const categoryStyles = CategoriesMapping[category];
+  const categoriesMapping = useCategoriesMapping();
+  const categoryStyles = categoriesMapping[category];
 
   return (
     <UiCard

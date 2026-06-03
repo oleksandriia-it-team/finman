@@ -9,7 +9,7 @@ import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
 import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { SelectableCardCheckbox } from '@frontend/entities/operations/selectable-card/checkbox/selectable-card-checkbox';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { AllCategories } from '@common/enums/categories.enum';
 import { useTranslations } from 'next-intl';
@@ -22,12 +22,13 @@ interface CategoriesFilterDropdownProps {
 
 export function CategoriesFilterDropdown({ categories, selected, onChange }: CategoriesFilterDropdownProps) {
   const t = useTranslations('analytics.categoryFilter');
+  const categoriesMapping = useCategoriesMapping();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(
-    () => categories.filter((c) => CategoriesMapping[c].label.toLowerCase().includes(search.toLowerCase())),
-    [categories, search],
+    () => categories.filter((c) => categoriesMapping[c].label.toLowerCase().includes(search.toLowerCase())),
+    [categories, search, categoriesMapping],
   );
 
   const toggle = (category: AllCategories) => {
@@ -60,7 +61,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
           className="flex flex-col gap-1 max-h-64 overflow-y-auto"
         >
           {filtered.map((category) => {
-            const { icon, label, variant } = CategoriesMapping[category];
+            const { icon, label, variant } = categoriesMapping[category];
             const isSelected = selected.includes(category);
             return (
               <li key={category}>

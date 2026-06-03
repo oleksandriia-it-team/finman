@@ -3,15 +3,15 @@ import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import { createPaginatedSchema } from '@common/utils/create-paginated-schema.util';
 
 const filters = z.object({
-  ids: z.array(z.number({ message: 'Кожен ID має бути числом' })).optional(),
-  excludeIds: z.array(z.number({ message: 'Кожен excludeId має бути числом' })).optional(),
-  endpoint: z.string({ message: 'Ендпоінт має бути рядком' }).optional(),
-  method: z.string({ message: 'Метод має бути рядком' }).optional(),
-  status: z.enum(Object.values(ErrorLogStatus), { message: 'Невалідний статус помилки' }).optional(),
-  userId: z.number({ message: 'ID користувача має бути числом' }).optional(),
-  message: z.string({ message: 'Текст помилки має бути рядком' }).optional(),
-  dateFrom: z.coerce.date({ message: 'Невалідний формат дати початку' }).optional(),
-  dateTo: z.coerce.date({ message: 'Невалідний формат дати кінця' }).optional(),
+  ids: z.array(z.number({ message: 'Each ID must be a number' })).optional(),
+  excludeIds: z.array(z.number({ message: 'Each excludeId must be a number' })).optional(),
+  endpoint: z.string({ message: 'Endpoint must be a string' }).optional(),
+  method: z.string({ message: 'Method must be a string' }).optional(),
+  status: z.enum(Object.values(ErrorLogStatus), { message: 'Invalid error log status' }).optional(),
+  userId: z.number({ message: 'User ID must be a number' }).optional(),
+  message: z.string({ message: 'Message must be a string' }).optional(),
+  dateFrom: z.coerce.date({ message: 'Invalid start date format' }).optional(),
+  dateTo: z.coerce.date({ message: 'Invalid end date format' }).optional(),
 });
 
 export const GetStatusesCountSchema = z.object({

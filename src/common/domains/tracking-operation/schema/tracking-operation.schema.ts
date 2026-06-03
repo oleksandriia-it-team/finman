@@ -8,36 +8,58 @@ import { isEmpty } from '@common/utils/is-empty.util';
 
 const TrackingOperationTypes = [TypeEntry.Income, TypeEntry.Expense] as const;
 
-export const TrackingOperationSchema = z
-  .object({
-    title: z
-      .string()
-      .min(1, { message: "Назва обов'язкова" })
-      .max(20, { message: 'Назва не може бути довшою за 20 символів' }),
-    description: z.string().max(100, { message: 'Опис не може бути довшим за 100 символів' }).nullable().optional(),
-    type: z.enum(TrackingOperationTypes, {
-      message: 'Тип має бути expense або income',
-    }),
-    date: dateField("Обов'язкова дата"),
-    sum: z.coerce.number({ message: 'Сума має бути числом' }).min(1, { message: 'Сума має бути не менше 1' }),
-    category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
-    attachedPlannedRegEntryId: z
-      .int({ message: 'ID прикріпленої планової операції має бути цілим числом' })
-      .nullable()
-      .optional(),
-    attachedPlannedMonthEntryId: z
-      .int({ message: 'ID прикріпленої планової операції має бути цілим числом' })
-      .nullable()
-      .optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!isEmpty(data.attachedPlannedMonthEntryId) && !isEmpty(data.attachedPlannedRegEntryId)) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету',
-      });
-    }
-  });
+export interface TrackingOperationValidationMessages {
+  titleRequired: string;
+  titleMaxLength: string;
+  descriptionMaxLength: string;
+  typeInvalid: string;
+  dateRequired: string;
+  sumNotNumber: string;
+  sumMin: string;
+  attachedIdInteger: string;
+  cannotAttachBoth: string;
+}
+
+export const DEFAULT_TRACKING_OPERATION_MESSAGES: TrackingOperationValidationMessages = {
+  titleRequired: 'Title is required',
+  titleMaxLength: 'Title cannot exceed 20 characters',
+  descriptionMaxLength: 'Description cannot exceed 100 characters',
+  typeInvalid: 'Type must be expense or income',
+  dateRequired: 'Date is required',
+  sumNotNumber: 'Amount must be a number',
+  sumMin: 'Amount must be at least 1',
+  attachedIdInteger: 'Attached entry ID must be an integer',
+  cannotAttachBoth: 'Cannot attach both a monthly and a regular budget entry simultaneously',
+};
+
+export function createTrackingOperationSchema(
+  messages: TrackingOperationValidationMessages = DEFAULT_TRACKING_OPERATION_MESSAGES,
+) {
+  return z
+    .object({
+      title: z.string().min(1, { message: messages.titleRequired }).max(20, { message: messages.titleMaxLength }),
+      description: z.string().max(100, { message: messages.descriptionMaxLength }).nullable().optional(),
+      type: z.enum(TrackingOperationTypes, {
+        message: messages.typeInvalid,
+      }),
+      date: dateField(messages.dateRequired),
+      sum: z.coerce.number({ message: messages.sumNotNumber }).min(1, { message: messages.sumMin }),
+      category: z.enum(AllCategoryValues).default(ExpenseCategories.Misc),
+      attachedPlannedRegEntryId: z.int({ message: messages.attachedIdInteger }).nullable().optional(),
+      attachedPlannedMonthEntryId: z.int({ message: messages.attachedIdInteger }).nullable().optional(),
+    })
+    .superRefine((data, ctx) => {
+      if (!isEmpty(data.attachedPlannedMonthEntryId) && !isEmpty(data.attachedPlannedRegEntryId)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: messages.cannotAttachBoth,
+        });
+      }
+    });
+}
+
+// Server-side schema with English defaults
+export const TrackingOperationSchema = createTrackingOperationSchema();
 
 export const TrackingOperationFilterSchema = z
   .object({
@@ -52,10 +74,10 @@ export const TrackingOperationFilterSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.dateFrom && data.dateTo && data.dateFrom > data.dateTo) {
-      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'dateTo має бути більшим або рівним dateFrom' });
+      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'dateTo must be greater than or equal to dateFrom' });
     }
     if (data.minSum !== undefined && data.maxSum !== undefined && data.minSum > data.maxSum) {
-      ctx.addIssue({ code: 'custom', path: ['maxSum'], message: 'maxSum має бути більшим або рівним minSum' });
+      ctx.addIssue({ code: 'custom', path: ['maxSum'], message: 'maxSum must be greater than or equal to minSum' });
     }
   });
 
@@ -66,7 +88,7 @@ export const TrackingOperationPaginationSchema = {
   ...basePaginatedSchema,
   itemsSchema: basePaginatedSchema.itemsSchema.superRefine((data, ctx) => {
     if (data.to < data.from) {
-      ctx.addIssue({ code: 'custom', path: ['to'], message: 'to має бути більшим або рівним from' });
+      ctx.addIssue({ code: 'custom', path: ['to'], message: '"to" must be greater than or equal to "from"' });
     }
   }),
 };

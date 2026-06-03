@@ -1,8 +1,11 @@
+'use client';
+
 import { Select as SelectPrimitive } from 'radix-ui';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { type SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiInputGroupAddon } from '../ui-input-group/ui-input-group-addon';
+import { useTranslations } from 'next-intl';
 
 import './styles/select-trigger.scss';
 
@@ -16,6 +19,8 @@ export function UiSelectTrigger({
   disabled,
   ...props
 }: SelectTriggerProps) {
+  const t = useTranslations('common');
+
   return (
     <div className="relative">
       <SelectPrimitive.Trigger
@@ -50,7 +55,7 @@ export function UiSelectTrigger({
             type="button"
             onClick={onClear}
             disabled={disabled}
-            aria-label="Очистити поле"
+            aria-label={t('clearField')}
           >
             <SelectPrimitive.Icon asChild>
               <UiSvgIcon

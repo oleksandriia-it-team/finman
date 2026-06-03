@@ -1,4 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { getDefaultApiErrorFilter } from '../../shared/get-api-error-filter.util';
@@ -12,11 +13,11 @@ export const POST = createRoute({
       const isNameTaken = await userApiRepository.findUserForLogin(body.name);
 
       if (isEmailTaken) {
-        return { status: 400, message: 'Ця електронна адреса вже існує' };
+        return { status: 400, message: ErrorTexts.EmailAlreadyExists };
       }
 
       if (isNameTaken) {
-        return { status: 400, message: "Це ім'я вже існує" };
+        return { status: 400, message: ErrorTexts.NameAlreadyExists };
       }
 
       return null;

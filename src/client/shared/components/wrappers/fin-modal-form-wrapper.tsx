@@ -10,6 +10,7 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import './styles/fin-modal-wrapper.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { FinModalFormWrapperProps } from '@frontend/components/wrappers/props/fin-modal-form-wrapper.props';
+import { useTranslations } from 'next-intl';
 
 export function FinModalFormWrapper({
   isOpen,
@@ -20,6 +21,8 @@ export function FinModalFormWrapper({
   children,
   className,
 }: FinModalFormWrapperProps) {
+  const t = useTranslations('common');
+
   return (
     <UiModal
       open={isOpen}
@@ -39,7 +42,7 @@ export function FinModalFormWrapper({
               variant="default"
               disabled={isLoading}
             >
-              Скасувати
+              {t('cancel')}
             </UiButton>
           </UiModalClose>
 
@@ -49,7 +52,7 @@ export function FinModalFormWrapper({
             variant="primary"
             disabled={isLoading}
           >
-            {isLoading ? 'Збереження...' : 'Зберегти'}
+            {isLoading ? t('saving') : t('save')}
           </UiButton>
         </UiModalFooter>
       </UiModalContent>

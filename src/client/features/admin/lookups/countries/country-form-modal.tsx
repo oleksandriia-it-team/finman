@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FinModalFormWrapper } from '@frontend/components/wrappers/fin-modal-form-wrapper';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { type CountryFormData, CountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
+import { type CountryFormData, createCountryFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useTranslations } from 'next-intl';
@@ -20,10 +20,22 @@ interface Props {
 export function CountryFormModal({ isOpen, onClose, initialData, onSuccessCallback }: Props) {
   const t = useTranslations('admin.country');
   const tCommon = useTranslations('admin.common');
+  const tLV = useTranslations('admin.lookupsValidation');
   const { showToast } = useGlobalToast();
 
+  const schema = useMemo(
+    () =>
+      createCountryFormSchema({
+        required: tLV('required'),
+        currencyCodeLength: tLV('currencyCodeLength'),
+        emptyUpdate: tLV('emptyUpdate'),
+        statusRequired: tLV('statusRequired'),
+      }),
+    [tLV],
+  );
+
   const methods = useForm<CountryFormData>({
-    resolver: zodResolver(CountryFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: { countryName: '', localeName: '' },
   });
 

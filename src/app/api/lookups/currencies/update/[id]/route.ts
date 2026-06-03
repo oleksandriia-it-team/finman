@@ -1,5 +1,6 @@
 import { GetIntegerParamPipe } from '@backend/shared/pipes/get-integer-param.pipe';
 import { createRoute } from '@backend/shared/utils/create-route.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 import { currencyRepository } from '@backend/entities/currency/infrastructure/currency.repository';
 import { UpdateCurrencySchema } from '@common/domains/lookups/schemas/lookups-form.schema';
@@ -19,7 +20,7 @@ export const PUT = createRoute({
     const existing = context.currency!;
 
     if (body.name === undefined && body.code === undefined && body.symbol === undefined) {
-      return { status: 400, message: 'Не передано дані для оновлення' };
+      return { status: 400, message: ErrorTexts.NoUpdateData };
     }
 
     await currencyRepository.updateItem(id, {

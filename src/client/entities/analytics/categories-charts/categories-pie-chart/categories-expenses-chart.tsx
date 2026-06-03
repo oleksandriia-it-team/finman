@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Pie, PieChart } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@frontend/ui/ui-chart/chart';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { getVariantColor } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/utils/get-variant-color.util';
 import type { CategoriesChartProps } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/props/categories-expenses-chart.props';
 import { renderPieLabel } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/render-pie-label';
@@ -12,9 +12,10 @@ import { useTranslations } from 'next-intl';
 
 export function CategoriesExpensesChart({ data, totalLabel }: CategoriesChartProps) {
   const t = useTranslations('analytics.categories');
+  const categoriesMapping = useCategoriesMapping();
   const chartConfig = useMemo(
-    () => Object.fromEntries(data.map(({ category }) => [category, { label: CategoriesMapping[category].label }])),
-    [data],
+    () => Object.fromEntries(data.map(({ category }) => [category, { label: categoriesMapping[category].label }])),
+    [data, categoriesMapping],
   );
 
   const chartData = useMemo(
@@ -22,10 +23,10 @@ export function CategoriesExpensesChart({ data, totalLabel }: CategoriesChartPro
       data.map(({ category, amount }) => ({
         category,
         amount,
-        label: CategoriesMapping[category].label,
-        fill: getVariantColor(CategoriesMapping[category].variant),
+        label: categoriesMapping[category].label,
+        fill: getVariantColor(categoriesMapping[category].variant),
       })),
-    [data],
+    [data, categoriesMapping],
   );
 
   const total = useMemo(() => data.reduce((acc, { amount }) => acc + amount, 0), [data]);

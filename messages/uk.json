@@ -28,14 +28,32 @@
     "foreignOrMissingMonthEntries": "Деякі записи місячних операцій вже прив'язані до іншого бюджетного плану або не існують з вказаним ID",
     "plannedRegularEntriesNotOwned": "Деякі ID планових регулярних операцій не існують або не належать користувачу",
     "invalidJson": "Невалідний JSON",
-    "budgetPlanNotFoundForMonth": "Бюджетний план не знайдено за місяць {month} та рік {year}"
-  },
-  "common": {
-    "requestErrorTitle": "Помилка запиту",
-    "successTitle": "Успішно",
-    "unknownError": "Невідома помилка",
-    "today": "Сьогодні",
-    "at": "о"
+    "budgetPlanNotFoundForMonth": "Бюджетний план не знайдено за місяць {month} та рік {year}",
+    "emailAlreadyExists": "Ця електронна адреса вже існує",
+    "nameAlreadyExists": "Це ім'я вже існує",
+    "noUpdateData": "Не передано дані для оновлення",
+    "userDataNotFound": "Дані користувача не знайдені",
+    "wrongCurrentPassword": "Поточний пароль невірний",
+    "invalidOrExpiredCode": "Код недійсний або прострочений",
+    "codeNotFoundOrExpired": "Код не знайдено або термін його дії минув",
+    "tooManyAttempts": "Перевищено ліміт спроб. Запитуйте новий код.",
+    "invalidCodeWithAttempts": "Невірний код. Залишилося спроб: {remainingAttempts}",
+    "emailNotFound": "Користувача з таким email не існує",
+    "emailSendFailed": "Не вдалося відправити лист. Спробуйте пізніше.",
+    "totpNotEnabled": "Двофакторна автентифікація не увімкнена",
+    "totpAlreadyEnabled": "Двофакторна автентифікація вже увімкнена",
+    "regularEntryNotOwned": "Регулярна операція не належить вам",
+    "regularEntryNotFound": "Регулярна операція не знайдена",
+    "trackingOperationNotFound": "Операцію не знайдено",
+    "trackingOperationNotOwned": "Ця операція вам не належить",
+    "budgetPlanNotFound": "Бюджетний план не знайдено",
+    "budgetPlanAlreadyExists": "Бюджетний план вже існує",
+    "insufficientPermissions": "Недостатньо прав",
+    "errorLogNotFound": "Лог помилки не знайдено",
+    "currencyNotFound": "Валюту не знайдено",
+    "countryNotFound": "Країну не знайдено",
+    "userNotFoundByEmail": "Користувача з такою поштою не знайдено",
+    "cooldownWait": "Занадто багато спроб. Зачекайте {seconds} секунд перед наступним запитом."
   },
   "months": {
     "january": "Січень",
@@ -74,20 +92,17 @@
   },
   "auth": {
     "login": {
-      "title": "Увійдіть в свій акаунт",
-      "codeStepTitle": "Введіть код із додатка-автентифікатора",
-      "loginLabel": "Логін*",
-      "loginPlaceholder": "Введіть email або логін",
-      "passwordLabel": "Пароль*",
-      "passwordPlaceholder": "Введіть пароль",
-      "forgotPassword": "Забули пароль?",
-      "submit": "Увійти",
-      "submitLoading": "Входимо...",
-      "or": "або",
-      "signupCta": "Зареєструватися зараз",
-      "codeLabel": "Введіть код",
-      "backToPassword": "Повернутися назад",
-      "successMessage": "Вхід виконано успішно!"
+      "validation": {
+        "loginRequired": "Логін або email є обов'язковим",
+        "loginMaxLength": "Логін не може бути довше {max} символів",
+        "emailInvalidFormat": "Неправильний формат email (відсутній домен, наприклад .com)",
+        "usernameMinLength": "Ім'я користувача повинно бути не менше {min} символів",
+        "loginInvalidChars": "Логін містить недопустимі символи",
+        "passwordRequired": "Пароль є обов'язковим",
+        "passwordMinLength": "Пароль повинен бути не менше {min} символів",
+        "passwordMaxLength": "Пароль не може бути довше {max} символів",
+        "passwordLatinOnly": "Пароль може містити лише латинські літери та спеціальні символи"
+      }
     },
     "signup": {
       "title": "Створіть свій акаунт",
@@ -108,7 +123,15 @@
       "submitLoading": "Реєстрація...",
       "or": "АБО",
       "alreadyHaveAccount": "Вже є акаунт? Увійти",
-      "successMessage": "Реєстрація успішна!"
+      "successMessage": "Реєстрація успішна!",
+      "validation": {
+        "invalidEmail": "Неправильний формат email",
+        "workModeRequired": "Будь ласка, оберіть режим роботи",
+        "currencyRequired": "Будь ласка, оберіть валюту",
+        "emailRequiredOnline": "Email обов'язковий для онлайн-режиму",
+        "passwordMinLength": "Пароль має бути не менше {min} символів",
+        "passwordsDoNotMatch": "Паролі не збігаються"
+      }
     },
     "recovery": {
       "title": "Відновлення паролю",
@@ -151,7 +174,44 @@
       "submit": "Змінити пароль",
       "submitLoading": "Оновлення...",
       "cancel": "Скасувати",
-      "successMessage": "Пароль успішно змінено!"
+      "successMessage": "Пароль успішно змінено!",
+      "validation": {
+        "passwordMinLength": "Мінімум 8 символів",
+        "passwordsDoNotMatch": "Паролі не збігаються"
+      }
+    },
+    "user": {
+      "validation": {
+        "emailRequired": "Email є обов'язковим",
+        "emailMaxLength": "Email не може бути довше {max} символів",
+        "emailInvalidFormat": "Неправильний формат email (відсутній домен, наприклад .com)",
+        "nameRequired": "Ім'я є обов'язковим",
+        "nameMinLength": "Ім'я повинно бути не менше {min} символів",
+        "nameMaxLength": "Ім'я не може бути довше {max} символів",
+        "nameInvalidChars": "Ім'я містить недопустимі символи",
+        "passwordRequired": "Пароль є обов'язковим",
+        "passwordMinLength": "Пароль повинен бути не менше {min} символів",
+        "passwordMaxLength": "Пароль не може бути довше {max} символів",
+        "passwordLatinOnly": "Пароль може містити лише латинські літери та спеціальні символи",
+        "currencyRequired": "Будь ласка, оберіть валюту",
+        "currencyCodeLength": "Код валюти повинен складатися з {length} символів (наприклад: UAH, USD, EUR)",
+        "currencyCodeFormat": "Код валюти повинен містити лише великі латинські літери (наприклад: UAH, USD)",
+        "localeRequired": "Локаль є обов'язковою",
+        "localeFormat": "Невірний формат локалі (наприклад: uk, en, en-US)"
+      }
+    },
+    "code": {
+      "validation": {
+        "required": "Введіть усі 6 цифр",
+        "length": "Введіть усі 6 цифр",
+        "numeric": "Код має бути числовим рядком"
+      }
+    },
+    "forgotPassword": {
+      "validation": {
+        "emailRequired": "Email обов'язковий",
+        "emailInvalid": "Некоректний формат email"
+      }
     }
   },
   "userSettings": {
@@ -219,7 +279,21 @@
         "confirm": "Вийти"
       }
     },
-    "profileUpdated": "Профіль оновлено"
+    "profileUpdated": "Профіль оновлено",
+    "profileValidation": {
+      "nameRequired": "Ім'я є обов'язковим",
+      "nameMinLength": "Ім'я має містити щонайменше {min} символи",
+      "nameMaxLength": "Ім'я не може бути довше {max} символів",
+      "nameInvalidChars": "Ім'я містить недопустимі символи",
+      "localeRequired": "Локаль обов'язкова",
+      "localeFormat": "Невірний формат локалі",
+      "languageRequired": "Оберіть мову",
+      "currentPasswordRequired": "Введіть поточний пароль",
+      "newPasswordMinLength": "Пароль має містити щонайменше {min} символів",
+      "newPasswordLatinOnly": "Пароль може містити лише латинські літери, цифри та символи",
+      "newPasswordLettersAndDigits": "Пароль має містити літери та цифри",
+      "passwordsDoNotMatch": "Паролі не збігаються"
+    }
   },
   "analytics": {
     "categories": {
@@ -327,7 +401,16 @@
       "monthEntrySubjectCreate": "нову одноразову операцію",
       "monthEntrySubjectEdit": "одноразову операцію",
       "priorityLabel": "Пріоритет",
-      "priorityPlaceholder": "Оберіть пріоритет"
+      "priorityPlaceholder": "Оберіть пріоритет",
+      "onlyCurrentMonth": "Новий бюджетний план можна створити лише для поточного місяця"
+    },
+    "validation": {
+      "selectedBoolean": "Поле selected має бути булевим",
+      "priorityInteger": "Поле пріоритету має бути числом",
+      "priorityMin": "Поле пріоритету має бути мінімум 1",
+      "priorityMax": "Поле пріоритету має бути максимум 10",
+      "idInteger": "Id має бути числом",
+      "idMin": "Id має бути позитивним числом"
     }
   },
   "regular": {
@@ -376,6 +459,12 @@
       "week": "Тиждень",
       "month": "Місяць",
       "year": "Рік"
+    },
+    "validation": {
+      "frequencyInvalid": "Введіть коректну частоту",
+      "dayInteger": "День місяця має бути числом",
+      "dayMin": "День місяця має бути мінімум першого числа",
+      "dayMax": "День місяця має бути максимум 31 числа"
     }
   },
   "operations": {
@@ -457,6 +546,17 @@
       "notFoundDetailed": "Не знайдено. Можливо бюджетного плану на обрану дату не існує, або немає за обраною категорією та типом",
       "clearButton": "Очистити",
       "applyButton": "Застосувати"
+    },
+    "validation": {
+      "titleRequired": "Назва обов'язкова",
+      "titleMaxLength": "Назва не може бути довшою за {max} символів",
+      "descriptionMaxLength": "Опис не може бути довшим за {max} символів",
+      "typeInvalid": "Тип має бути expense або income",
+      "dateRequired": "Обов'язкова дата",
+      "sumNotNumber": "Сума має бути числом",
+      "sumMin": "Сума має бути не менше {min}",
+      "attachedIdInteger": "ID прикріпленої планової операції має бути цілим числом",
+      "cannotAttachBoth": "Не можна прикріпити одночасно і планову операцію місяця, і планову операцію регулярного бюджету"
     }
   },
   "welcome": {
@@ -546,7 +646,10 @@
     "requestErrorTitle": "Помилка запиту",
     "successTitle": "Успішно",
     "today": "Сьогодні",
-    "at": "о"
+    "at": "о",
+    "previousPage": "Перейти на попередню сторінку",
+    "nextPage": "Перейти на наступну сторінку",
+    "closeNotification": "Закрити сповіщення"
   },
   "nav": {
     "home": "Головна",
@@ -637,7 +740,11 @@
       "statusActive": "Активна",
       "statusResolving": "В обробці",
       "statusResolved": "Вирішена",
-      "statusIgnored": "Ігнорована"
+      "statusIgnored": "Ігнорована",
+      "filterSearchPlaceholder": "Пошук по ендпоінту або тексту помилки...",
+      "allMethods": "Усі методи",
+      "filterMethodPlaceholder": "Метод: Усі",
+      "filterDatePlaceholder": "Останні 7 днів"
     },
     "auth": {
       "loading": "Завантаження",
@@ -647,6 +754,23 @@
     },
     "errorLogPage": {
       "breadcrumb": "Логер помилок"
+    },
+    "lookupsValidation": {
+      "required": "Обов'язкове поле",
+      "currencyCodeLength": "Код повинен містити рівно 3 символи",
+      "emptyUpdate": "Не передано дані для оновлення",
+      "statusRequired": "Статус є обов'язковим"
+    }
+  },
+  "entry": {
+    "validation": {
+      "titleRequired": "Введіть назву",
+      "titleMaxLength": "Максимальна довжина заголовку: {max} символів",
+      "descriptionMaxLength": "Максимальна довжина опису: {max} символів",
+      "sumRequired": "Введіть суму",
+      "sumMin": "Сума має бути не менше {min}",
+      "incomeCategoryInvalid": "Оберіть коректну категорію доходів",
+      "expenseCategoryInvalid": "Оберіть коректну категорію витрат"
     }
   }
 }

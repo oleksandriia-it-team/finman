@@ -1,12 +1,16 @@
+'use client';
+
 import { UiInput } from '@frontend/ui/ui-input/ui-input';
 import { Controller, useFormContext } from 'react-hook-form';
 import { UiFieldError } from '@frontend/ui/ui-field/ui-field-error';
 import { UiFieldLabel } from '@frontend/ui/ui-field/ui-field-label';
 import { UiField } from '@frontend/ui/ui-field/ui-field';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+
 import { useState } from 'react';
 import { type ControlledInputProps } from '@frontend/components/controlled-fields/props/controlled-input.props';
 import { LatinPasswordPattern } from '@common/constants/latin-pattern.constant';
+import { useTranslations } from 'next-intl';
 
 export function FinControlledPassword({
   name,
@@ -17,6 +21,7 @@ export function FinControlledPassword({
   pattern = LatinPasswordPattern,
   ...props
 }: Omit<ControlledInputProps, 'type'>) {
+  const t = useTranslations('common');
   const { control } = useFormContext();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -53,7 +58,7 @@ export function FinControlledPassword({
                 size="sm"
                 variant="muted"
                 className="absolute right-2 top-1/2 -translate-y-1/2"
-                title={showPassword ? 'Приховати' : 'Показати'}
+                title={showPassword ? t('hidePassword') : t('showPassword')}
               />
             </div>
 

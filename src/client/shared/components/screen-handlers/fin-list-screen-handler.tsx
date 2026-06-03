@@ -1,8 +1,11 @@
+'use client';
+
 import type { ListScreenHandlerProps } from '@frontend/components/screen-handlers/props/list-screen-handler.props';
 import { FinErrorWidget } from '../error/fin-error-widget';
 import { useMemo } from 'react';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
 import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
+import { useTranslations } from 'next-intl';
 
 export function FinListScreenHandler({
   skeleton,
@@ -15,6 +18,7 @@ export function FinListScreenHandler({
   skeletonItems,
   skeletonClassName,
 }: ListScreenHandlerProps) {
+  const t = useTranslations('common');
   const skeletonArray = useMemo(
     () => Array.from({ length: skeletonItems }, (_, i) => `skeleton-${i}`),
     [skeletonItems],
@@ -40,14 +44,14 @@ export function FinListScreenHandler({
       error ?? (
         <FinErrorWidget
           status={appError?.status ?? 500}
-          message={appError?.message ?? 'Сталася помилка при завантаженні даних'}
+          message={appError?.message ?? t('dataLoadError')}
         />
       )
     );
   }
 
   if (!hasData) {
-    return notItemFound ?? <span className="italic">Дані не знайдено</span>;
+    return notItemFound ?? <span className="italic">{t('notFound')}</span>;
   }
 
   return children;

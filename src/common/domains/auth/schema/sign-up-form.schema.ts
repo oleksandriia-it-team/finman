@@ -1,67 +1,97 @@
 import { z } from 'zod';
-import { CreateUserSchema } from '@common/domains/user/schema/user.schema';
+import {
+  createCreateUserSchema,
+  type CreateUserValidationMessages,
+  DEFAULT_CREATE_USER_MESSAGES,
+} from '@common/domains/user/schema/user.schema';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 
-export const SignUpFormSchema = CreateUserSchema.omit({ role: true })
-  .extend({
-    email: z
-      .string()
-      .email('Неправильний формат email')
-      .max(UserRequirements.MaxEmailLength)
-      .optional()
-      .or(z.literal('')),
+export interface SignUpFormValidationMessages {
+  invalidEmail: string;
+  workModeRequired: string;
+  currencyRequired: string;
+  emailRequiredOnline: string;
+  passwordMinLength: string;
+  passwordsDoNotMatch: string;
+}
 
-    password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
+export const DEFAULT_SIGNUP_FORM_MESSAGES: SignUpFormValidationMessages = {
+  invalidEmail: 'Invalid email format',
+  workModeRequired: 'Please select a work mode',
+  currencyRequired: 'Please select a currency',
+  emailRequiredOnline: 'Email is required for online mode',
+  passwordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
+  passwordsDoNotMatch: 'Passwords do not match',
+};
 
-    passwordConfirm: z.string().optional().or(z.literal('')),
+export function createSignUpFormSchema(
+  userMessages: CreateUserValidationMessages = DEFAULT_CREATE_USER_MESSAGES,
+  signupMessages: SignUpFormValidationMessages = DEFAULT_SIGNUP_FORM_MESSAGES,
+) {
+  return createCreateUserSchema(userMessages)
+    .omit({ role: true })
+    .extend({
+      email: z
+        .string()
+        .email(signupMessages.invalidEmail)
+        .max(UserRequirements.MaxEmailLength)
+        .optional()
+        .or(z.literal('')),
 
-    locale: z.string().optional().or(z.literal('')),
+      password: z.string().max(UserRequirements.MaxPasswordLength).optional().or(z.literal('')),
 
-    workMode: z.nativeEnum(WorkMode, { message: 'Будь ласка, оберіть режим роботи' }).optional(),
+      passwordConfirm: z.string().optional().or(z.literal('')),
 
-    currencyCode: CreateUserSchema.shape.currencyCode.optional().or(z.literal('')),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.workMode) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Будь ласка, оберіть режим роботи',
-        path: ['workMode'],
-      });
-      return;
-    }
-    if (!data.currencyCode || data.currencyCode.trim() === '') {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Будь ласка, оберіть валюту',
-        path: ['currencyCode'],
-      });
-    }
+      locale: z.string().optional().or(z.literal('')),
 
-    if (data.workMode === WorkMode.Online) {
-      if (!data.email || data.email.trim() === '') {
+      workMode: z.nativeEnum(WorkMode, { message: signupMessages.workModeRequired }).optional(),
+
+      currencyCode: createCreateUserSchema(userMessages).shape.currencyCode.optional().or(z.literal('')),
+    })
+    .superRefine((data, ctx) => {
+      if (!data.workMode) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Email обов'язковий для онлайн-режиму",
-          path: ['email'],
+          message: signupMessages.workModeRequired,
+          path: ['workMode'],
         });
+        return;
       }
-      if (!data.password || data.password.length < 8) {
+      if (!data.currencyCode || data.currencyCode.trim() === '') {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: 'Пароль має бути не менше 8 символів',
-          path: ['password'],
+          message: signupMessages.currencyRequired,
+          path: ['currencyCode'],
         });
       }
-      if (data.password !== data.passwordConfirm) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Паролі не збігаються',
-          path: ['passwordConfirm'],
-        });
-      }
-    }
-  });
 
+      if (data.workMode === WorkMode.Online) {
+        if (!data.email || data.email.trim() === '') {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: signupMessages.emailRequiredOnline,
+            path: ['email'],
+          });
+        }
+        if (!data.password || data.password.length < UserRequirements.MinPasswordLength) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: signupMessages.passwordMinLength,
+            path: ['password'],
+          });
+        }
+        if (data.password !== data.passwordConfirm) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: signupMessages.passwordsDoNotMatch,
+            path: ['passwordConfirm'],
+          });
+        }
+      }
+    });
+}
+
+// Backward-compatible export with English defaults
+export const SignUpFormSchema = createSignUpFormSchema();
 export type SignUpFormInput = z.infer<typeof SignUpFormSchema>;

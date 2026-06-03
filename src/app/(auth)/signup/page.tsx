@@ -13,7 +13,7 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { useSetupRegistration } from './shared/signup-form';
 import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-currencies-dropdown.hook';
-import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
+import { useWorkModeOptions } from '@frontend/shared/constants/work-mode-options.constants';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
@@ -39,6 +39,7 @@ export default function RegistrationPage() {
   });
 
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));
+  const workModeOptions = useWorkModeOptions();
   const workMode = methods.watch('workMode');
   const isLocked = !workMode;
   const isOffline = workMode === WorkMode.Offline;
@@ -86,7 +87,7 @@ export default function RegistrationPage() {
                       }
                       name="workMode"
                       placeholder={t('workModePlaceholder')}
-                      options={WORK_MODE_OPTIONS}
+                      options={workModeOptions}
                     />
                   </div>
                   <UiTooltipContent

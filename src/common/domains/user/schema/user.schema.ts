@@ -4,65 +4,96 @@ import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
 import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 
-export const CreateUserSchema = z.object({
-  email: z
-    .string()
-    .min(1, "Email є обов'язковим")
-    .max(UserRequirements.MaxEmailLength, 'Email не може бути довше ' + UserRequirements.MaxEmailLength + ' символів')
-    .superRefine((val, ctx) => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(val)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Неправильний формат email (відсутній домен, наприклад .com)',
-        });
-      }
-    }),
+export interface CreateUserValidationMessages {
+  emailRequired: string;
+  emailMaxLength: string;
+  emailInvalidFormat: string;
+  nameRequired: string;
+  nameMinLength: string;
+  nameMaxLength: string;
+  nameInvalidChars: string;
+  passwordRequired: string;
+  passwordMinLength: string;
+  passwordMaxLength: string;
+  passwordLatinOnly: string;
+  localeRequired: string;
+  localeFormat: string;
+  currencyRequired: string;
+  currencyCodeLength: string;
+  currencyCodeFormat: string;
+}
 
-  name: z
-    .string()
-    .min(1, "Ім'я є обов'язковим")
-    .min(UserRequirements.MinNameLength, "Ім'я повинно бути не менше " + UserRequirements.MinNameLength + ' символів')
-    .max(UserRequirements.MaxLoginLength, "Ім'я не може бути довше " + UserRequirements.MaxLoginLength + ' символів')
-    .superRefine((val, ctx) => {
-      if (!LatinUsernamePattern.test(val)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Ім'я містить недопустимі символи",
-        });
-      }
-    }),
+export const DEFAULT_CREATE_USER_MESSAGES: CreateUserValidationMessages = {
+  emailRequired: 'Email is required',
+  emailMaxLength: `Email cannot exceed ${UserRequirements.MaxEmailLength} characters`,
+  emailInvalidFormat: 'Invalid email format (missing domain, e.g. .com)',
+  nameRequired: 'Name is required',
+  nameMinLength: `Name must be at least ${UserRequirements.MinNameLength} characters`,
+  nameMaxLength: `Name cannot exceed ${UserRequirements.MaxLoginLength} characters`,
+  nameInvalidChars: 'Name contains invalid characters',
+  passwordRequired: 'Password is required',
+  passwordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
+  passwordMaxLength: `Password cannot exceed ${UserRequirements.MaxPasswordLength} characters`,
+  passwordLatinOnly: 'Password can only contain Latin characters and special symbols',
+  localeRequired: 'Locale is required',
+  localeFormat: 'Invalid locale format (e.g., uk, en, en-US)',
+  currencyRequired: 'Please select a currency',
+  currencyCodeLength: `Currency code must be ${CurrencyRequirements.MaxCurrencyCodeLength} characters (e.g., UAH, USD, EUR)`,
+  currencyCodeFormat: 'Currency code must contain only uppercase Latin letters (e.g., UAH, USD)',
+};
 
-  password: z
-    .string()
-    .min(1, "Пароль є обов'язковим")
-    .min(
-      UserRequirements.MinPasswordLength,
-      'Пароль повинен бути не менше ' + UserRequirements.MinPasswordLength + ' символів',
-    )
-    .max(
-      UserRequirements.MaxPasswordLength,
-      'Пароль не може бути довше ' + UserRequirements.MaxPasswordLength + ' символів',
-    )
-    .regex(LatinPasswordPattern, 'Пароль може містити лише латинські літери та спеціальні символи'),
+export function createCreateUserSchema(messages: CreateUserValidationMessages = DEFAULT_CREATE_USER_MESSAGES) {
+  return z.object({
+    email: z
+      .string()
+      .min(1, messages.emailRequired)
+      .max(UserRequirements.MaxEmailLength, messages.emailMaxLength)
+      .superRefine((val, ctx) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(val)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: messages.emailInvalidFormat,
+          });
+        }
+      }),
 
-  role: z.enum(Object.values(RoleEnum) as [string, ...string[]]).optional(),
+    name: z
+      .string()
+      .min(1, messages.nameRequired)
+      .min(UserRequirements.MinNameLength, messages.nameMinLength)
+      .max(UserRequirements.MaxLoginLength, messages.nameMaxLength)
+      .superRefine((val, ctx) => {
+        if (!LatinUsernamePattern.test(val)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: messages.nameInvalidChars,
+          });
+        }
+      }),
 
-  locale: z
-    .string()
-    .min(1, "Локаль є обов'язковою")
-    .regex(/^[a-z]{2}(-[A-Z]{2})?$/, 'Невірний формат локалі (наприклад: uk, en, en-US)'),
+    password: z
+      .string()
+      .min(1, messages.passwordRequired)
+      .min(UserRequirements.MinPasswordLength, messages.passwordMinLength)
+      .max(UserRequirements.MaxPasswordLength, messages.passwordMaxLength)
+      .regex(LatinPasswordPattern, messages.passwordLatinOnly),
 
-  currencyCode: z
-    .string({ error: 'Будь ласка, оберіть валюту' })
-    .min(1, "Код валюти є обов'язковим")
-    .length(
-      CurrencyRequirements.MaxCurrencyCodeLength,
-      'Код валюти повинен складатися з ' +
-        CurrencyRequirements.MaxCurrencyCodeLength +
-        ' символів (наприклад: UAH, USD, EUR)',
-    )
-    .regex(/^[A-Z]{3}$/, 'Код валюти повинен містити лише великі латинські літери (наприклад: UAH, USD)'),
-});
+    role: z.enum(Object.values(RoleEnum) as [string, ...string[]]).optional(),
 
+    locale: z
+      .string()
+      .min(1, messages.localeRequired)
+      .regex(/^[a-z]{2}(-[A-Z]{2})?$/, messages.localeFormat),
+
+    currencyCode: z
+      .string({ error: messages.currencyRequired })
+      .min(1, messages.currencyRequired)
+      .length(CurrencyRequirements.MaxCurrencyCodeLength, messages.currencyCodeLength)
+      .regex(/^[A-Z]{3}$/, messages.currencyCodeFormat),
+  });
+}
+
+// Backward-compatible export with English defaults (used server-side)
+export const CreateUserSchema = createCreateUserSchema();
 export type CreateUserDto = z.infer<typeof CreateUserSchema>;

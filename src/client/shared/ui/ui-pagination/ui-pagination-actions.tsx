@@ -1,13 +1,18 @@
+'use client';
+
 import * as React from 'react';
 import { type ComponentProps } from 'react';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { useTranslations } from 'next-intl';
 
 export function UiPaginationPrevious(props: ComponentProps<'button'>) {
+  const t = useTranslations('common');
+
   return (
     <UiIconButton
       size="sm"
       icon="chevron-left"
-      aria-label="Перейти на попередню сторінку"
+      aria-label={t('previousPage')}
       isOutlined={false}
       {...props}
     />
@@ -15,11 +20,13 @@ export function UiPaginationPrevious(props: ComponentProps<'button'>) {
 }
 
 export function UiPaginationNext(props: ComponentProps<'button'>) {
+  const t = useTranslations('common');
+
   return (
     <UiIconButton
       size="sm"
       icon="chevron-right"
-      aria-label="Перейти на наступну сторінку"
+      aria-label={t('nextPage')}
       isOutlined={false}
       {...props}
     />

@@ -1,15 +1,26 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { useRecoveryStore } from '@frontend/entities/auth/recovery.store';
 import type { ApiResultOperation } from '@common/models/api-result-operation.model';
 import { fetchClient } from '@frontend/shared/services/fetch-client/fetch-client.service';
-import { type ResetPasswordDto, ResetPasswordSchema } from '@common/domains/auth/schema/reset-password.schema';
+import { type ResetPasswordDto, createResetPasswordSchema } from '@common/domains/auth/schema/reset-password.schema';
 import { useTranslations } from 'next-intl';
 
 export function useSetupResetPassword(onSuccessAction: () => void) {
   const { email, code, clear } = useRecoveryStore();
   const t = useTranslations('auth.resetPassword');
+  const tV = useTranslations('auth.resetPassword.validation');
+
+  const schema = useMemo(
+    () =>
+      createResetPasswordSchema({
+        passwordMinLength: tV('passwordMinLength'),
+        passwordsDoNotMatch: tV('passwordsDoNotMatch'),
+      }),
+    [tV],
+  );
 
   const { mutate, isPending } = useSendDataFetch(
     async (data: ResetPasswordDto) =>
@@ -26,7 +37,7 @@ export function useSetupResetPassword(onSuccessAction: () => void) {
   );
 
   const methods = useForm<ResetPasswordDto>({
-    resolver: zodResolver(ResetPasswordSchema),
+    resolver: zodResolver(schema),
     mode: 'onChange',
     defaultValues: {
       email,

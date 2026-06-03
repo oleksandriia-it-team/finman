@@ -28,14 +28,74 @@
     "foreignOrMissingMonthEntries": "Some monthly operation records are already linked to another budget plan or do not exist with the specified ID",
     "plannedRegularEntriesNotOwned": "Some planned regular operation IDs do not exist or do not belong to the user",
     "invalidJson": "Invalid JSON",
-    "budgetPlanNotFoundForMonth": "Budget plan not found for month {month} and year {year}"
+    "budgetPlanNotFoundForMonth": "Budget plan not found for month {month} and year {year}",
+    "emailAlreadyExists": "This email address already exists",
+    "nameAlreadyExists": "This name already exists",
+    "noUpdateData": "No update data provided",
+    "userDataNotFound": "User data not found",
+    "wrongCurrentPassword": "Current password is incorrect",
+    "invalidOrExpiredCode": "Code is invalid or expired",
+    "codeNotFoundOrExpired": "Code not found or has expired",
+    "tooManyAttempts": "Too many attempts. Please request a new code.",
+    "invalidCodeWithAttempts": "Invalid code. Remaining attempts: {remainingAttempts}",
+    "emailNotFound": "No user with this email exists",
+    "emailSendFailed": "Failed to send email. Please try again later.",
+    "totpNotEnabled": "Two-factor authentication is not enabled",
+    "totpAlreadyEnabled": "Two-factor authentication is already enabled",
+    "regularEntryNotOwned": "This regular operation does not belong to you",
+    "regularEntryNotFound": "Regular operation not found",
+    "trackingOperationNotFound": "Operation not found",
+    "trackingOperationNotOwned": "This operation does not belong to you",
+    "budgetPlanNotFound": "Budget plan not found",
+    "budgetPlanAlreadyExists": "Budget plan already exists",
+    "insufficientPermissions": "Insufficient permissions",
+    "errorLogNotFound": "Error log not found",
+    "currencyNotFound": "Currency not found",
+    "countryNotFound": "Country not found",
+    "userNotFoundByEmail": "User with this email not found",
+    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request."
   },
   "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "loading": "Loading",
+    "loadingDots": "Loading...",
+    "nothingFound": "Nothing found",
+    "error": "Error",
+    "loadError": "Load error",
+    "dataLoadError": "An error occurred while loading data",
+    "notFound": "Data not found",
+    "unknownError": "Unknown error. Please try again later",
+    "invalidId": "ID is invalid",
+    "elementNotFound": "Element not found",
+    "somethingWentWrong": "Something went wrong",
+    "errorCode": "Error code:",
+    "repeatIssue": "If the issue persists, please contact support.",
+    "backToHome": "Back to home",
+    "needHelp": "Need help?",
+    "contactUs": "Contact us",
+    "confirmQuestion": "Are you sure?",
+    "cannotUndo": "This action cannot be undone.",
+    "confirm": "Confirm",
+    "clearField": "Clear field",
+    "deleteItem": "Delete item",
+    "openList": "Open list",
+    "toggleSidebar": "Toggle sidebar",
+    "controlPanel": "Control panel",
+    "mobileOnly": "Displayed on mobile devices only",
+    "showPassword": "Show",
+    "hidePassword": "Hide",
+    "online": "Online",
+    "offline": "Offline",
+    "ukrainian": "Ukrainian",
     "requestErrorTitle": "Request error",
     "successTitle": "Success",
-    "unknownError": "Unknown error",
     "today": "Today",
-    "at": "at"
+    "at": "at",
+    "previousPage": "Go to previous page",
+    "nextPage": "Go to next page",
+    "closeNotification": "Close notification"
   },
   "months": {
     "january": "January",
@@ -74,20 +134,17 @@
   },
   "auth": {
     "login": {
-      "title": "Sign in to your account",
-      "codeStepTitle": "Enter the code from the authenticator app",
-      "loginLabel": "Login*",
-      "loginPlaceholder": "Enter email or login",
-      "passwordLabel": "Password*",
-      "passwordPlaceholder": "Enter password",
-      "forgotPassword": "Forgot password?",
-      "submit": "Sign in",
-      "submitLoading": "Signing in...",
-      "or": "or",
-      "signupCta": "Sign up now",
-      "codeLabel": "Enter the code",
-      "backToPassword": "Back",
-      "successMessage": "Signed in successfully!"
+      "validation": {
+        "loginRequired": "Login or email is required",
+        "loginMaxLength": "Login cannot exceed {max} characters",
+        "emailInvalidFormat": "Invalid email format (missing domain, e.g. .com)",
+        "usernameMinLength": "Username must be at least {min} characters",
+        "loginInvalidChars": "Login contains invalid characters",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordMaxLength": "Password cannot exceed {max} characters",
+        "passwordLatinOnly": "Password can only contain Latin characters and special symbols"
+      }
     },
     "signup": {
       "title": "Create your account",
@@ -108,7 +165,15 @@
       "submitLoading": "Signing up...",
       "or": "OR",
       "alreadyHaveAccount": "Already have an account? Sign in",
-      "successMessage": "Sign up successful!"
+      "successMessage": "Sign up successful!",
+      "validation": {
+        "invalidEmail": "Invalid email format",
+        "workModeRequired": "Please select a work mode",
+        "currencyRequired": "Please select a currency",
+        "emailRequiredOnline": "Email is required for online mode",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
     },
     "recovery": {
       "title": "Password recovery",
@@ -151,7 +216,44 @@
       "submit": "Change password",
       "submitLoading": "Updating...",
       "cancel": "Cancel",
-      "successMessage": "Password changed successfully!"
+      "successMessage": "Password changed successfully!",
+      "validation": {
+        "passwordMinLength": "Minimum 8 characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
+    },
+    "user": {
+      "validation": {
+        "emailRequired": "Email is required",
+        "emailMaxLength": "Email cannot exceed {max} characters",
+        "emailInvalidFormat": "Invalid email format (missing domain, e.g. .com)",
+        "nameRequired": "Name is required",
+        "nameMinLength": "Name must be at least {min} characters",
+        "nameMaxLength": "Name cannot exceed {max} characters",
+        "nameInvalidChars": "Name contains invalid characters",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordMaxLength": "Password cannot exceed {max} characters",
+        "passwordLatinOnly": "Password can only contain Latin characters and special symbols",
+        "currencyRequired": "Please select a currency",
+        "currencyCodeLength": "Currency code must be {length} characters (e.g., UAH, USD, EUR)",
+        "currencyCodeFormat": "Currency code must contain only uppercase Latin letters (e.g., UAH, USD)",
+        "localeRequired": "Locale is required",
+        "localeFormat": "Invalid locale format (e.g., uk, en, en-US)"
+      }
+    },
+    "code": {
+      "validation": {
+        "required": "Enter all 6 digits",
+        "length": "Enter all 6 digits",
+        "numeric": "Code must be numeric"
+      }
+    },
+    "forgotPassword": {
+      "validation": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email format"
+      }
     }
   },
   "userSettings": {
@@ -219,7 +321,21 @@
         "confirm": "Sign out"
       }
     },
-    "profileUpdated": "Profile updated"
+    "profileUpdated": "Profile updated",
+    "profileValidation": {
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least {min} characters",
+      "nameMaxLength": "Name cannot exceed {max} characters",
+      "nameInvalidChars": "Name contains invalid characters",
+      "localeRequired": "Locale is required",
+      "localeFormat": "Invalid locale format",
+      "languageRequired": "Select a language",
+      "currentPasswordRequired": "Enter current password",
+      "newPasswordMinLength": "Password must be at least {min} characters",
+      "newPasswordLatinOnly": "Password can only contain Latin characters, digits and symbols",
+      "newPasswordLettersAndDigits": "Password must contain letters and digits",
+      "passwordsDoNotMatch": "Passwords do not match"
+    }
   },
   "analytics": {
     "categories": {
@@ -327,7 +443,16 @@
       "monthEntrySubjectCreate": "a new one-time operation",
       "monthEntrySubjectEdit": "one-time operation",
       "priorityLabel": "Priority",
-      "priorityPlaceholder": "Choose priority"
+      "priorityPlaceholder": "Choose priority",
+      "onlyCurrentMonth": "A new budget plan can only be created for the current month"
+    },
+    "validation": {
+      "selectedBoolean": "Field \"selected\" must be a boolean",
+      "priorityInteger": "Priority must be a number",
+      "priorityMin": "Priority must be at least 1",
+      "priorityMax": "Priority must be at most 10",
+      "idInteger": "Id must be a number",
+      "idMin": "Id must be a positive number"
     }
   },
   "regular": {
@@ -376,6 +501,12 @@
       "week": "Week",
       "month": "Month",
       "year": "Year"
+    },
+    "validation": {
+      "frequencyInvalid": "Enter a valid frequency",
+      "dayInteger": "Day of month must be a number",
+      "dayMin": "Day of month must be at least 1",
+      "dayMax": "Day of month must be at most 31"
     }
   },
   "operations": {
@@ -457,6 +588,17 @@
       "notFoundDetailed": "Not found. The budget plan for the selected date may not exist, or there is none for the selected category and type",
       "clearButton": "Clear",
       "applyButton": "Apply"
+    },
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMaxLength": "Title cannot exceed {max} characters",
+      "descriptionMaxLength": "Description cannot exceed {max} characters",
+      "typeInvalid": "Type must be expense or income",
+      "dateRequired": "Date is required",
+      "sumNotNumber": "Amount must be a number",
+      "sumMin": "Amount must be at least {min}",
+      "attachedIdInteger": "Attached entry ID must be an integer",
+      "cannotAttachBoth": "Cannot attach both a monthly and a regular budget entry simultaneously"
     }
   },
   "welcome": {
@@ -492,6 +634,22 @@
       "cta": "Sign up",
       "hint": "It takes less than a minute"
     }
+  },
+  "categories": {
+    "groceries": "Groceries",
+    "housing": "Housing",
+    "utilities": "Utilities",
+    "transport": "Transport",
+    "entertainment": "Entertainment",
+    "education": "Education",
+    "shopping": "Shopping",
+    "health": "Health",
+    "expense-misc": "Other expense",
+    "salary": "Salary",
+    "investments": "Investments",
+    "freelance": "Freelance",
+    "scholarship": "Scholarship",
+    "income-misc": "Other income"
   },
   "nav": {
     "home": "Home",
@@ -582,7 +740,11 @@
       "statusActive": "Active",
       "statusResolving": "In progress",
       "statusResolved": "Resolved",
-      "statusIgnored": "Ignored"
+      "statusIgnored": "Ignored",
+      "filterSearchPlaceholder": "Search by endpoint or error text...",
+      "allMethods": "All methods",
+      "filterMethodPlaceholder": "Method: All",
+      "filterDatePlaceholder": "Last 7 days"
     },
     "auth": {
       "loading": "Loading",
@@ -592,6 +754,23 @@
     },
     "errorLogPage": {
       "breadcrumb": "Error logger"
+    },
+    "lookupsValidation": {
+      "required": "Required field",
+      "currencyCodeLength": "Code must be exactly 3 characters",
+      "emptyUpdate": "No update data provided",
+      "statusRequired": "Status is required"
+    }
+  },
+  "entry": {
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMaxLength": "Title max length: {max} characters",
+      "descriptionMaxLength": "Description max length: {max} characters",
+      "sumRequired": "Enter amount",
+      "sumMin": "Amount must be at least {min}",
+      "incomeCategoryInvalid": "Select a valid income category",
+      "expenseCategoryInvalid": "Select a valid expense category"
     }
   }
 }

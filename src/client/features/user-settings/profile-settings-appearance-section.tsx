@@ -4,7 +4,7 @@ import { ThemeEnum } from '@frontend/shared/enums/theme.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
-import { SupportLanguagesLocale } from '@frontend/shared/constants/support-languages-locale.constant';
+import { useSupportLanguagesLocale } from '@frontend/shared/constants/support-languages-locale.constant';
 import { useGetLocalesDropdown } from '@frontend/entities/lookups/hooks/get-locales-dropdown.hook';
 import { FinControlledAutocomplete } from '@frontend/components/controlled-fields/fin-controlled-autocomplete';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
@@ -19,6 +19,7 @@ export function ProfileSettingsAppearanceSection({
 }: ProfileSettingsAppearanceSectionProps) {
   const localeDataResource = useGetLocalesDropdown(currentLocale);
   const t = useTranslations('userSettings.appearance');
+  const supportLanguagesLocale = useSupportLanguagesLocale();
 
   return (
     <ProfileSection title={t('title')}>
@@ -76,7 +77,7 @@ export function ProfileSettingsAppearanceSection({
           name="language"
           label={t('languageLabel')}
           placeholder={t('languagePlaceholder')}
-          options={SupportLanguagesLocale}
+          options={supportLanguagesLocale}
           clearable={false}
         />
       </div>

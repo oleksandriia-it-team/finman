@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FinModalFormWrapper } from '@frontend/components/wrappers/fin-modal-form-wrapper';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
-import { type CurrencyFormData, CurrencyFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
+import { type CurrencyFormData, createCurrencyFormSchema } from '@common/domains/lookups/schemas/lookups-form.schema';
 import { useCurrencyMutations } from '@frontend/features/admin/lookups/hooks/use-currency-mutations.hook';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useTranslations } from 'next-intl';
@@ -20,10 +20,22 @@ interface Props {
 export function CurrencyFormModal({ isOpen, onClose, initialData, onSuccessCallback }: Props) {
   const t = useTranslations('admin.currency');
   const tCommon = useTranslations('admin.common');
+  const tLV = useTranslations('admin.lookupsValidation');
   const { showToast } = useGlobalToast();
 
+  const schema = useMemo(
+    () =>
+      createCurrencyFormSchema({
+        required: tLV('required'),
+        currencyCodeLength: tLV('currencyCodeLength'),
+        emptyUpdate: tLV('emptyUpdate'),
+        statusRequired: tLV('statusRequired'),
+      }),
+    [tLV],
+  );
+
   const methods = useForm<CurrencyFormData>({
-    resolver: zodResolver(CurrencyFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: { name: '', code: '', symbol: '' },
   });
 

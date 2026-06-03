@@ -9,8 +9,10 @@ import { UiToastDescription } from '@frontend/ui/ui-toast/ui-toast-description';
 import { UiToastViewport } from '@frontend/ui/ui-toast/ui-toast-viewport';
 import { UiToastClose } from '@frontend/ui/ui-toast/ui-toast-close';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
+import { useTranslations } from 'next-intl';
 
 export function LoadGlobalToast() {
+  const t = useTranslations('common');
   const { list, hideToast } = useGlobalToast(useShallow((state) => ({ list: state.list, hideToast: state.hideToast })));
 
   return (
@@ -29,7 +31,7 @@ export function LoadGlobalToast() {
               variant={toast.variant}
               isOutlined={false}
               paddingNone
-              aria-label="Закрити сповіщення"
+              aria-label={t('closeNotification')}
               size="xs"
             />
           </UiToastClose>

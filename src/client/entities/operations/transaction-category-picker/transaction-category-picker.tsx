@@ -1,5 +1,7 @@
+'use client';
+
 import {
-  CategoriesMapping,
+  useCategoriesMapping,
   ExpenseCategoryValues,
   IncomeCategoryValues,
 } from '@frontend/shared/styles/card-styles-mappings';
@@ -9,13 +11,6 @@ import { IconPickerField } from '@frontend/ui/ui-icons-picker/fin-icons-picker-f
 import type { UiIconItem } from '@frontend/ui/ui-icons-picker/ui-icons-picker';
 import type { AllCategories } from '@common/enums/categories.enum';
 
-function toPickerItems(categories: AllCategories[]): UiIconItem[] {
-  return categories.map((category) => ({
-    value: category,
-    ...CategoriesMapping[category],
-  }));
-}
-
 interface TransactionCategoryPickerProps {
   name: string;
   type: TypeEntry;
@@ -23,7 +18,15 @@ interface TransactionCategoryPickerProps {
 
 export function TransactionCategoryPicker({ name, type }: TransactionCategoryPickerProps) {
   const { setValue } = useFormContext();
+  const categoriesMapping = useCategoriesMapping();
   const keys = type === TypeEntry.Income ? IncomeCategoryValues : ExpenseCategoryValues;
+
+  function toPickerItems(categories: AllCategories[]): UiIconItem[] {
+    return categories.map((category) => ({
+      value: category,
+      ...categoriesMapping[category],
+    }));
+  }
 
   return (
     <IconPickerField

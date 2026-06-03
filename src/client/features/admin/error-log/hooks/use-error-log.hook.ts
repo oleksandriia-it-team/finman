@@ -38,7 +38,7 @@ export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
 
   const { data: statusesCount = {} as Record<ErrorLogStatus | 'total', number> } = useQuery({
     queryKey: ['admin', 'error-logs', 'statuses-count', filters],
-    queryFn: () => errorLogsApiClient.getStatusesCount(filters as ErrorLogFilter), // додаємо каст, якщо ts свариться
+    queryFn: () => errorLogsApiClient.getStatusesCount(filters as ErrorLogFilter), // cast required to satisfy TS
   });
 
   return {

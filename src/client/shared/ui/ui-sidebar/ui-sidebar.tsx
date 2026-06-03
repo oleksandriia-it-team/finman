@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './ui-sidebar-provider';
+import { useTranslations } from 'next-intl';
 
 import './styles/sidebar-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
@@ -25,6 +26,7 @@ export function UiSidebar({
   colorVariant?: 'white' | 'blue';
   collapsible?: 'offcanvas' | 'icon' | 'none';
 }) {
+  const t = useTranslations('common');
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === 'none') {
@@ -61,8 +63,8 @@ export function UiSidebar({
           side={side}
         >
           <UiSheetHeader className="sr-only">
-            <UiSheetTitle>Панель керування</UiSheetTitle>
-            <UiSheetDescription>Відбражається лише на мобільних пристроях</UiSheetDescription>
+            <UiSheetTitle>{t('controlPanel')}</UiSheetTitle>
+            <UiSheetDescription>{t('mobileOnly')}</UiSheetDescription>
           </UiSheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </UiSheetContent>
