@@ -13,6 +13,7 @@ import { FinTransformCurrency } from '@frontend/components/transform-currency/fi
 import type { TransactionCardProps } from '@frontend/entities/operations/transaction-card/props/transaction-card-props';
 import { TransactionActions } from '@frontend/entities/operations/card-actions/fin-card-actions';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
+import { useTranslations } from 'next-intl';
 
 import './styles/income-expense-card-styles.scss';
 
@@ -31,6 +32,7 @@ export function IncomeExpenseCard({
   editPath,
   badge,
 }: TransactionCardProps) {
+  const t = useTranslations('operations.card');
   const categoryStyles = CategoriesMapping[category];
 
   return (
@@ -89,7 +91,7 @@ export function IncomeExpenseCard({
         {description ? (
           <p className="text-sm text-muted-foreground break-words w-full">{description}</p>
         ) : (
-          <p className="text-xs italic text-muted-foreground/50">Немає опису</p>
+          <p className="text-xs italic text-muted-foreground/50">{t('noDescription')}</p>
         )}
       </CardHeader>
 
@@ -97,7 +99,7 @@ export function IncomeExpenseCard({
 
       <CardContent>
         <div className="flex flex-col items-start">
-          <span className="text-sm text-muted-foreground font-semibold">Сума:</span>
+          <span className="text-sm text-muted-foreground font-semibold">{t('sumLabel')}</span>
           <span
             className={cn('pt-1 text-lg font-bold', type === 'income' ? 'text-success' : 'text-destructive-foreground')}
           >

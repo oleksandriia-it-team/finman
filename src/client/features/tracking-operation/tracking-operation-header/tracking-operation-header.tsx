@@ -7,9 +7,11 @@ import { FiltersSheet } from '@frontend/features/tracking-operation/tracking-ope
 import { useTrackingOperationFilters } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operation-filters.hook';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { SearchDebounceConstant } from '@frontend/shared/constants/debounce.constant';
+import { useTranslations } from 'next-intl';
 import './tracking-operation-header.scss';
 
 export function TrackingOperationHeader() {
+  const t = useTranslations('tracking.header');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -57,7 +59,7 @@ export function TrackingOperationHeader() {
   return (
     <FormProvider {...methods}>
       <div className="w-full h-16 flex items-center justify-between px-3">
-        <p className="text-2xl font-bold">Операції</p>
+        <p className="text-2xl font-bold">{t('title')}</p>
 
         <div className="flex items-center shrink-0">
           <div
@@ -67,7 +69,7 @@ export function TrackingOperationHeader() {
               name="search"
               ref={inputRef}
               onKeyDown={handleKeyDown}
-              placeholder="Пошук..."
+              placeholder={t('searchPlaceholder')}
               showErrors={false}
             />
           </div>

@@ -6,8 +6,10 @@ import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.f
 import type { ErrorLogRecord } from '@common/records/error-log.record';
 import type { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 
 export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
+  const t = useTranslations('admin.errorLog');
   const queryClient = useQueryClient();
 
   const [filters, setFilters] = useState<Partial<ErrorLogFilter>>(initialFilters);
@@ -26,7 +28,7 @@ export function useErrorLogs(initialFilters: Partial<ErrorLogFilter> = {}) {
   const updateStatusMutation = useSendDataFetch(
     (data: { id: number | string; status: ErrorLogStatus }) => errorLogsApiClient.updateStatus(data.id, data.status),
     {
-      successMessage: 'Статус успішно оновлено',
+      successMessage: t('successStatusUpdate'),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['admin', 'error-logs'] });
         setSelectedLog(null);

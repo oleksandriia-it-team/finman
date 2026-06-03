@@ -12,6 +12,7 @@ import { SelectableCardCheckbox } from '@frontend/entities/operations/selectable
 import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { AllCategories } from '@common/enums/categories.enum';
+import { useTranslations } from 'next-intl';
 
 interface CategoriesFilterDropdownProps {
   categories: AllCategories[];
@@ -20,6 +21,7 @@ interface CategoriesFilterDropdownProps {
 }
 
 export function CategoriesFilterDropdown({ categories, selected, onChange }: CategoriesFilterDropdownProps) {
+  const t = useTranslations('analytics.categoryFilter');
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -40,14 +42,14 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
       <UiPopoverTrigger asChild>
         <ChartFiltersButton
           icon="funnel"
-          title="Категорії"
+          title={t('title')}
           counter={selected.length}
           size="sm"
         />
       </UiPopoverTrigger>
       <UiPopoverContent className="w-80 flex flex-col gap-2 p-3">
         <UiInput
-          placeholder="Пошук категорії..."
+          placeholder={t('searchPlaceholder')}
           value={search}
           onChange={(value) => setSearch(value ?? '')}
         />
@@ -95,7 +97,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
             size="sm"
             onClick={() => onChange([])}
           >
-            Очистити все
+            {t('clearAll')}
           </UiButton>
           <UiButton
             type="button"
@@ -103,7 +105,7 @@ export function CategoriesFilterDropdown({ categories, selected, onChange }: Cat
             size="sm"
             onClick={() => setOpen(false)}
           >
-            Готово
+            {t('done')}
           </UiButton>
         </div>
       </UiPopoverContent>

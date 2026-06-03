@@ -6,6 +6,7 @@ import { usePaginationResource } from '@frontend/shared/hooks/pagination-resourc
 import { useRef, useState } from 'react';
 import { useLookupSelection } from './use-lookup-selection.hook';
 import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
+import { useTranslations } from 'next-intl';
 
 const PAGE_SIZE = 20;
 
@@ -32,6 +33,7 @@ export function useAdminLookup<T extends DefaultTableColumns>({
   getDeleteName,
   singleDeleteDescription,
 }: UseAdminLookupOptions<T>) {
+  const t = useTranslations('admin.common');
   const selection = useLookupSelection();
   const { showToast } = useGlobalToast();
 
@@ -82,9 +84,9 @@ export function useAdminLookup<T extends DefaultTableColumns>({
     try {
       await deleteMutation.mutateAsync(itemToDelete.id);
       selection.deselect(itemToDelete.id);
-      showToast({ title: 'Успішно', description: 'Запис видалено', variant: 'default' });
+      showToast({ title: t('successTitle'), description: t('recordDeleted'), variant: 'default' });
     } catch {
-      showToast({ title: 'Помилка', description: 'Запис не вдалося видалити', variant: 'destructive' });
+      showToast({ title: t('errorTitle'), description: t('recordDeleteFailed'), variant: 'destructive' });
       return;
     } finally {
       setItemToDelete(null);
@@ -100,8 +102,8 @@ export function useAdminLookup<T extends DefaultTableColumns>({
 
     showToast(
       hasFailed
-        ? { title: 'Помилка', description: 'Деякі записи не вдалось видалити', variant: 'destructive' }
-        : { title: 'Успішно', description: 'Вибрані записи видалено', variant: 'default' },
+        ? { title: t('errorTitle'), description: t('someDeleteFailed'), variant: 'destructive' }
+        : { title: t('successTitle'), description: t('selectedDeleted'), variant: 'default' },
     );
 
     selection.clearSelection();

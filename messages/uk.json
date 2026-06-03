@@ -222,6 +222,24 @@
     "profileUpdated": "Профіль оновлено"
   },
   "analytics": {
+    "categories": {
+      "incomesTitle": "Доходи за категоріями",
+      "incomesDescription": "Розподіл доходів за категоріями за визначений період",
+      "expensesTitle": "Витрати за категоріями",
+      "expensesDescription": "Розподіл витрат за категоріями за визначений період",
+      "totalExpenses": "всього витрат",
+      "totalIncomes": "всього доходів"
+    },
+    "incomeExpenses": {
+      "title": "Аналітика доходів та витрат",
+      "description": "Огляд доходів та витрат за визначений період"
+    },
+    "budgetVsActual": {
+      "title": "План бюджету vs Фактичні витрати",
+      "description": "Порівняння планових та фактичних витрат за категоріями",
+      "planLabel": "План",
+      "factLabel": "Факт"
+    },
     "picker": {
       "month": "Місяць",
       "period": "Період",
@@ -232,6 +250,12 @@
     "chart": {
       "incomes": "Доходи",
       "expenses": "Витрати"
+    },
+    "categoryFilter": {
+      "title": "Категорії",
+      "searchPlaceholder": "Пошук категорії...",
+      "clearAll": "Очистити все",
+      "done": "Готово"
     }
   },
   "budgetPlan": {
@@ -354,6 +378,87 @@
       "year": "Рік"
     }
   },
+  "operations": {
+    "form": {
+      "defaultSubjectEdit": "регулярний платіж",
+      "defaultSubjectCreate": "новий регулярний платіж",
+      "paymentTypeLabel": "Тип платежу",
+      "income": "Дохід",
+      "expense": "Витрата",
+      "categoryLabel": "Категорія",
+      "titleLabel": "Назва",
+      "titlePlaceholder": "Наприклад: Зарплата",
+      "descriptionLabel": "Опис",
+      "descriptionPlaceholder": "Короткий опис платежу",
+      "sumLabel": "Сума",
+      "saveButton": "Зберегти",
+      "cancelButton": "Скасувати",
+      "addButton": "Додати операцію"
+    },
+    "card": {
+      "noDescription": "Немає опису",
+      "sumLabel": "Сума:"
+    },
+    "actions": {
+      "title": "Оберіть дію",
+      "editLabel": "Редагувати",
+      "editDescription": "Змінити дані транзакції",
+      "deleteLabel": "Видалити",
+      "deleteDescription": "Назавжди видалити транзакцію",
+      "cancelButton": "Скасувати"
+    },
+    "typeFilter": {
+      "all": "Всі",
+      "expense": "Витрати",
+      "income": "Доходи"
+    }
+  },
+  "tracking": {
+    "header": {
+      "title": "Операції",
+      "searchPlaceholder": "Пошук..."
+    },
+    "screen": {
+      "addButton": "Додати платіж"
+    },
+    "statistic": {
+      "periodTotal": "Загалом за період",
+      "totalIncome": "Загальний дохід",
+      "totalExpenses": "Загальні витрати"
+    },
+    "filters": {
+      "title": "Фільтри",
+      "resetButton": "Скинути",
+      "category": "Категорія",
+      "sum": "Сума",
+      "minLabel": "Мін",
+      "maxLabel": "Макс",
+      "dateFrom": "Від",
+      "dateTo": "До",
+      "successTitle": "Успішно",
+      "successDescription": "Фільтри застосовано",
+      "errorTitle": "Помилка",
+      "errorDescription": "Не вдалося застосувати фільтри",
+      "validationErrorTitle": "Помилка валідації",
+      "validationErrorDescription": "Перевірте правильність введених сум або дат"
+    },
+    "form": {
+      "title": "Деталі платежу",
+      "createSubject": "нову вашу операцію(яка відбувала щойно або нещодавно)",
+      "editSubject": "вашу операцію(яка відбувала щойно або нещодавно)",
+      "descriptionPrefix": "Заповніть інформацію про: ",
+      "dateLabel": "Дата операції"
+    },
+    "attach": {
+      "fillFromPlan": "Заповнити з плану",
+      "modalTitle": "Прикріпити заплановану операцію з бюджетного плану",
+      "searchPlaceholder": "Пошук операції",
+      "notFound": "Не знайдено",
+      "notFoundDetailed": "Не знайдено. Можливо бюджетного плану на обрану дату не існує, або немає за обраною категорією та типом",
+      "clearButton": "Очистити",
+      "applyButton": "Застосувати"
+    }
+  },
   "welcome": {
     "main": {
       "titleLine1": "Керуй своїми фінансами!",
@@ -386,6 +491,162 @@
       "analyticsDescription": "Детальні графіки та звіти",
       "cta": "Зареєструватися",
       "hint": "Це займе менше 1 хвилини"
+    }
+  },
+  "categories": {
+    "groceries": "Продукти",
+    "housing": "Дім",
+    "utilities": "Комунальні",
+    "transport": "Транспорт",
+    "entertainment": "Розваги",
+    "education": "Навчання",
+    "shopping": "Покупки",
+    "health": "Здоровʼя",
+    "expense-misc": "Інша витрата",
+    "salary": "Зарплата",
+    "investments": "Інвестиції",
+    "freelance": "Фріланс",
+    "scholarship": "Стипендія",
+    "income-misc": "Інше надходження"
+  },
+  "common": {
+    "cancel": "Скасувати",
+    "save": "Зберегти",
+    "saving": "Збереження...",
+    "loading": "Завантаження",
+    "loadingDots": "Завантаження...",
+    "nothingFound": "Нічого не знайдено",
+    "error": "Помилка",
+    "loadError": "Помилка завантаження",
+    "dataLoadError": "Сталася помилка при завантаженні даних",
+    "notFound": "Дані не знайдено",
+    "unknownError": "Невідома помилка. Спробуйте пізніше",
+    "invalidId": "ID є некоректним",
+    "elementNotFound": "Елемент не знайдено",
+    "somethingWentWrong": "Щось пішло не так",
+    "errorCode": "Код помилки:",
+    "repeatIssue": "Якщо проблема повторюється, зверніться до служби підтримки.",
+    "backToHome": "Повернутися на головну",
+    "needHelp": "Потрібна допомога?",
+    "contactUs": "Звʼяжіться з нами",
+    "confirmQuestion": "Ви впевнені?",
+    "cannotUndo": "Цю дію неможливо скасувати.",
+    "confirm": "Підтверджую",
+    "clearField": "Очистити поле",
+    "deleteItem": "Видалити елемент",
+    "openList": "Відкрити список",
+    "toggleSidebar": "Переключити сайдбар",
+    "controlPanel": "Панель керування",
+    "mobileOnly": "Відбражається лише на мобільних пристроях",
+    "showPassword": "Показати",
+    "hidePassword": "Приховати",
+    "online": "Онлайн",
+    "offline": "Офлайн",
+    "ukrainian": "Українська",
+    "requestErrorTitle": "Помилка запиту",
+    "successTitle": "Успішно",
+    "today": "Сьогодні",
+    "at": "о"
+  },
+  "nav": {
+    "home": "Головна",
+    "planning": "Планування",
+    "budgetPlans": "Бюджетні плани",
+    "regularOperations": "Регулярні операції",
+    "analytics": "Аналітика",
+    "profile": "Профіль",
+    "adminPanel": "Адмін панель",
+    "countriesLocales": "Країни та локалі",
+    "currencies": "Валюти",
+    "errorLogs": "Логи помилок"
+  },
+  "admin": {
+    "common": {
+      "successTitle": "Успішно",
+      "errorTitle": "Помилка",
+      "dataUpdated": "Дані оновлено",
+      "recordAdded": "Запис додано",
+      "recordDeleted": "Запис видалено",
+      "recordDeleteFailed": "Запис не вдалося видалити",
+      "selectedDeleted": "Вибрані записи видалено",
+      "someDeleteFailed": "Деякі записи не вдалось видалити",
+      "confirmDeleteTitle": "Підтвердження видалення",
+      "confirmBulkDeleteTitle": "Підтвердження масового видалення",
+      "confirmBulkDeleteDescription": "Ви впевнені, що хочете видалити всі вибрані записи?"
+    },
+    "lookup": {
+      "statusHead": "Статус",
+      "createdHead": "Створено",
+      "createdByHead": "Створив",
+      "updatedHead": "Оновлено",
+      "editAction": "Редагувати",
+      "deleteAction": "Видалити",
+      "deleteConfirmTitle": "Видалити запис?",
+      "deleteConfirmDescription": "Цю дію неможливо скасувати.",
+      "deleteConfirmLabel": "Видалити"
+    },
+    "currency": {
+      "editTitle": "Редагувати валюту",
+      "addTitle": "Додати валюту",
+      "nameLabel": "Назва *",
+      "namePlaceholder": "Наприклад: Долар США",
+      "codeLabel": "Код *",
+      "codePlaceholder": "Наприклад: USD",
+      "symbolLabel": "Символ *",
+      "symbolPlaceholder": "Наприклад: $",
+      "headerName": "Ім'я",
+      "headerCode": "Код",
+      "headerSymbol": "Символ",
+      "confirmDeleteDescription": "Ви впевнені, що хочете видалити валюту \"{name}\"?"
+    },
+    "country": {
+      "editTitle": "Редагувати країну",
+      "addTitle": "Додати країну",
+      "countryEnLabel": "Країна англійською*",
+      "countryEnPlaceholder": "Наприклад: Ukraine",
+      "countryUkLabel": "Країна українською*",
+      "countryUkPlaceholder": "Наприклад: Україна",
+      "localeLabel": "Локаль *",
+      "localePlaceholder": "Наприклад: uk-UA",
+      "headerCountryEn": "Країна(англійською)",
+      "headerCountryUk": "Країна(українською)",
+      "headerLocale": "Локаль",
+      "confirmDeleteDescription": "Ви впевнені, що хочете видалити країну \"{name}\"?"
+    },
+    "errorLog": {
+      "endpointError": "Ендпоінт / Помилка",
+      "method": "Метод",
+      "status": "Статус",
+      "createdAt": "Створено",
+      "user": "Користувач",
+      "updatedAt": "Оновлено",
+      "unknown": "Невідомо",
+      "system": "Система",
+      "viewDetails": "Переглянути деталі",
+      "noEndpoint": "Немає ендпоінту",
+      "modalTitle": "Деталі помилки",
+      "userLabel": "Користувач",
+      "createdAtLabel": "Створено",
+      "statusLabel": "Статус обробки",
+      "successStatusUpdate": "Статус успішно оновлено",
+      "tabAll": "Усі",
+      "tabActive": "Активні",
+      "tabResolving": "В обробці",
+      "tabResolved": "Вирішені",
+      "tabIgnored": "Ігноровані",
+      "statusActive": "Активна",
+      "statusResolving": "В обробці",
+      "statusResolved": "Вирішена",
+      "statusIgnored": "Ігнорована"
+    },
+    "auth": {
+      "loading": "Завантаження",
+      "userLoadError": "Помилка завантаження користувача",
+      "notAuthorized": "Ви не авторизовані. Переадресація...",
+      "alreadyAuthorized": "Ви авторизовані, тому не можете перейти до сторінки. Переадресація..."
+    },
+    "errorLogPage": {
+      "breadcrumb": "Логер помилок"
     }
   }
 }

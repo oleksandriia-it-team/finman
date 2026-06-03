@@ -8,8 +8,10 @@ import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings'
 import { getVariantColor } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/utils/get-variant-color.util';
 import type { CategoriesChartProps } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/props/categories-expenses-chart.props';
 import { renderPieLabel } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/render-pie-label';
+import { useTranslations } from 'next-intl';
 
-export function CategoriesExpensesChart({ data }: CategoriesChartProps) {
+export function CategoriesExpensesChart({ data, totalLabel }: CategoriesChartProps) {
+  const t = useTranslations('analytics.categories');
   const chartConfig = useMemo(
     () => Object.fromEntries(data.map(({ category }) => [category, { label: CategoriesMapping[category].label }])),
     [data],
@@ -35,7 +37,7 @@ export function CategoriesExpensesChart({ data }: CategoriesChartProps) {
           value={total}
           className="sm:text-2xl  md:text-lg lg:text-2xl font-medium"
         />
-        <span className="text-xs text-muted-foreground">всього витрат</span>
+        <span className="text-xs text-muted-foreground">{totalLabel ?? t('totalExpenses')}</span>
       </div>
 
       <ChartContainer

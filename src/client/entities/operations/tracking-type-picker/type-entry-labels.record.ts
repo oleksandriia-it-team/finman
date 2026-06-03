@@ -1,7 +1,17 @@
-import { TypeEntryFilter } from '@common/enums/entry.enum';
+'use client';
 
-export const TypeEntryLabelsRecord: Record<TypeEntryFilter, string> = {
-  [TypeEntryFilter.All]: 'Всі',
-  [TypeEntryFilter.Expense]: 'Витрати',
-  [TypeEntryFilter.Income]: 'Доходи',
-};
+import { TypeEntryFilter } from '@common/enums/entry.enum';
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
+
+export function useTypeEntryLabels(): Record<TypeEntryFilter, string> {
+  const t = useTranslations('operations.typeFilter');
+  return useMemo(
+    () => ({
+      [TypeEntryFilter.All]: t('all'),
+      [TypeEntryFilter.Expense]: t('expense'),
+      [TypeEntryFilter.Income]: t('income'),
+    }),
+    [t],
+  );
+}

@@ -16,8 +16,10 @@ import { FinDataTableHead } from '@frontend/components/data-table-head/fin-data-
 import { StatusBadge } from '@frontend/features/admin/error-log/ui/status-badge';
 import { MethodBadge } from '@frontend/features/admin/error-log/ui/method-badge';
 import { ErrorLogTabs } from '@frontend/features/admin/error-log/ui/error-logs-tabs';
+import { useTranslations } from 'next-intl';
 
 export function ErrorLogsFeature() {
+  const t = useTranslations('admin.errorLog');
   const {
     options,
     state,
@@ -51,12 +53,12 @@ export function ErrorLogsFeature() {
         <UiTable>
           <UiTableHeader className="bg-background border-b-0 sticky top-0 z-10">
             <UiTableRow className="border-b border-border hover:bg-transparent">
-              <FinDataTableHead>Ендпоінт / Помилка</FinDataTableHead>
-              <FinDataTableHead>Метод</FinDataTableHead>
-              <FinDataTableHead>Статус</FinDataTableHead>
-              <FinDataTableHead>Створено</FinDataTableHead>
-              <FinDataTableHead>Користувач</FinDataTableHead>
-              <FinDataTableHead>Оновлено</FinDataTableHead>
+              <FinDataTableHead>{t('endpointError')}</FinDataTableHead>
+              <FinDataTableHead>{t('method')}</FinDataTableHead>
+              <FinDataTableHead>{t('status')}</FinDataTableHead>
+              <FinDataTableHead>{t('createdAt')}</FinDataTableHead>
+              <FinDataTableHead>{t('user')}</FinDataTableHead>
+              <FinDataTableHead>{t('updatedAt')}</FinDataTableHead>
               <FinDataTableHead className="w-[3.25rem]" />
             </UiTableRow>
           </UiTableHeader>
@@ -76,9 +78,9 @@ export function ErrorLogsFeature() {
                   <UiTableCell className="max-w-[18.75rem]">
                     <div
                       className="font-medium text-foreground truncate"
-                      title={log.endpoint || 'Невідомо'}
+                      title={log.endpoint || t('unknown')}
                     >
-                      {log.endpoint || 'Невідомо'}
+                      {log.endpoint || t('unknown')}
                     </div>
                     <div
                       className="text-muted-foreground text-xs mt-1 truncate font-mono"
@@ -110,7 +112,7 @@ export function ErrorLogsFeature() {
                           {log.user.name?.[0]?.toUpperCase() || log.user.email?.[0]?.toUpperCase() || 'U'}
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium text-foreground">{log.user.name || 'Невідомо'}</span>
+                          <span className="text-sm font-medium text-foreground">{log.user.name || t('unknown')}</span>
                           <span className="text-xs text-muted-foreground">{log.user.email}</span>
                         </div>
                       </div>
@@ -134,7 +136,7 @@ export function ErrorLogsFeature() {
                         isOutlined={false}
                         bgNone
                         onClick={() => setSelectedLog(log)}
-                        title="Переглянути деталі"
+                        title={t('viewDetails')}
                       />
                     </div>
                   </UiTableCell>

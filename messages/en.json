@@ -222,6 +222,24 @@
     "profileUpdated": "Profile updated"
   },
   "analytics": {
+    "categories": {
+      "incomesTitle": "Incomes by category",
+      "incomesDescription": "Distribution of incomes by category for the selected period",
+      "expensesTitle": "Expenses by category",
+      "expensesDescription": "Distribution of expenses by category for the selected period",
+      "totalExpenses": "total expenses",
+      "totalIncomes": "total incomes"
+    },
+    "incomeExpenses": {
+      "title": "Income and expenses analytics",
+      "description": "Overview of incomes and expenses for the selected period"
+    },
+    "budgetVsActual": {
+      "title": "Budget plan vs Actual expenses",
+      "description": "Comparison of planned and actual expenses by category",
+      "planLabel": "Plan",
+      "factLabel": "Actual"
+    },
     "picker": {
       "month": "Month",
       "period": "Period",
@@ -232,6 +250,12 @@
     "chart": {
       "incomes": "Income",
       "expenses": "Expenses"
+    },
+    "categoryFilter": {
+      "title": "Categories",
+      "searchPlaceholder": "Search category...",
+      "clearAll": "Clear all",
+      "done": "Done"
     }
   },
   "budgetPlan": {
@@ -354,6 +378,87 @@
       "year": "Year"
     }
   },
+  "operations": {
+    "form": {
+      "defaultSubjectEdit": "regular payment",
+      "defaultSubjectCreate": "new regular payment",
+      "paymentTypeLabel": "Payment type",
+      "income": "Income",
+      "expense": "Expense",
+      "categoryLabel": "Category",
+      "titleLabel": "Name",
+      "titlePlaceholder": "E.g.: Salary",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Short payment description",
+      "sumLabel": "Amount",
+      "saveButton": "Save",
+      "cancelButton": "Cancel",
+      "addButton": "Add operation"
+    },
+    "card": {
+      "noDescription": "No description",
+      "sumLabel": "Amount:"
+    },
+    "actions": {
+      "title": "Choose action",
+      "editLabel": "Edit",
+      "editDescription": "Change transaction data",
+      "deleteLabel": "Delete",
+      "deleteDescription": "Permanently delete transaction",
+      "cancelButton": "Cancel"
+    },
+    "typeFilter": {
+      "all": "All",
+      "expense": "Expenses",
+      "income": "Incomes"
+    }
+  },
+  "tracking": {
+    "header": {
+      "title": "Operations",
+      "searchPlaceholder": "Search..."
+    },
+    "screen": {
+      "addButton": "Add payment"
+    },
+    "statistic": {
+      "periodTotal": "Total for period",
+      "totalIncome": "Total income",
+      "totalExpenses": "Total expenses"
+    },
+    "filters": {
+      "title": "Filters",
+      "resetButton": "Reset",
+      "category": "Category",
+      "sum": "Amount",
+      "minLabel": "Min",
+      "maxLabel": "Max",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "successTitle": "Success",
+      "successDescription": "Filters applied",
+      "errorTitle": "Error",
+      "errorDescription": "Failed to apply filters",
+      "validationErrorTitle": "Validation error",
+      "validationErrorDescription": "Check the correctness of the entered amounts or dates"
+    },
+    "form": {
+      "title": "Payment details",
+      "createSubject": "your new operation (which happened just now or recently)",
+      "editSubject": "your operation (which happened just now or recently)",
+      "descriptionPrefix": "Fill in information about: ",
+      "dateLabel": "Operation date"
+    },
+    "attach": {
+      "fillFromPlan": "Fill from plan",
+      "modalTitle": "Attach a planned operation from the budget plan",
+      "searchPlaceholder": "Search operation",
+      "notFound": "Not found",
+      "notFoundDetailed": "Not found. The budget plan for the selected date may not exist, or there is none for the selected category and type",
+      "clearButton": "Clear",
+      "applyButton": "Apply"
+    }
+  },
   "welcome": {
     "main": {
       "titleLine1": "Take control of your finances!",
@@ -386,6 +491,107 @@
       "analyticsDescription": "Detailed charts and reports",
       "cta": "Sign up",
       "hint": "It takes less than a minute"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "planning": "Planning",
+    "budgetPlans": "Budget plans",
+    "regularOperations": "Regular operations",
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "adminPanel": "Admin panel",
+    "countriesLocales": "Countries and locales",
+    "currencies": "Currencies",
+    "errorLogs": "Error logs"
+  },
+  "admin": {
+    "common": {
+      "successTitle": "Success",
+      "errorTitle": "Error",
+      "dataUpdated": "Data updated",
+      "recordAdded": "Record added",
+      "recordDeleted": "Record deleted",
+      "recordDeleteFailed": "Failed to delete record",
+      "selectedDeleted": "Selected records deleted",
+      "someDeleteFailed": "Some records could not be deleted",
+      "confirmDeleteTitle": "Confirm deletion",
+      "confirmBulkDeleteTitle": "Confirm bulk deletion",
+      "confirmBulkDeleteDescription": "Are you sure you want to delete all selected records?"
+    },
+    "lookup": {
+      "statusHead": "Status",
+      "createdHead": "Created",
+      "createdByHead": "Created by",
+      "updatedHead": "Updated",
+      "editAction": "Edit",
+      "deleteAction": "Delete",
+      "deleteConfirmTitle": "Delete record?",
+      "deleteConfirmDescription": "This action cannot be undone.",
+      "deleteConfirmLabel": "Delete"
+    },
+    "currency": {
+      "editTitle": "Edit currency",
+      "addTitle": "Add currency",
+      "nameLabel": "Name *",
+      "namePlaceholder": "E.g.: US Dollar",
+      "codeLabel": "Code *",
+      "codePlaceholder": "E.g.: USD",
+      "symbolLabel": "Symbol *",
+      "symbolPlaceholder": "E.g.: $",
+      "headerName": "Name",
+      "headerCode": "Code",
+      "headerSymbol": "Symbol",
+      "confirmDeleteDescription": "Are you sure you want to delete the currency \"{name}\"?"
+    },
+    "country": {
+      "editTitle": "Edit country",
+      "addTitle": "Add country",
+      "countryEnLabel": "Country in English*",
+      "countryEnPlaceholder": "E.g.: Ukraine",
+      "countryUkLabel": "Country in Ukrainian*",
+      "countryUkPlaceholder": "E.g.: Україна",
+      "localeLabel": "Locale *",
+      "localePlaceholder": "E.g.: uk-UA",
+      "headerCountryEn": "Country (English)",
+      "headerCountryUk": "Country (Ukrainian)",
+      "headerLocale": "Locale",
+      "confirmDeleteDescription": "Are you sure you want to delete the country \"{name}\"?"
+    },
+    "errorLog": {
+      "endpointError": "Endpoint / Error",
+      "method": "Method",
+      "status": "Status",
+      "createdAt": "Created",
+      "user": "User",
+      "updatedAt": "Updated",
+      "unknown": "Unknown",
+      "system": "System",
+      "viewDetails": "View details",
+      "noEndpoint": "No endpoint",
+      "modalTitle": "Error details",
+      "userLabel": "User",
+      "createdAtLabel": "Created",
+      "statusLabel": "Processing status",
+      "successStatusUpdate": "Status updated successfully",
+      "tabAll": "All",
+      "tabActive": "Active",
+      "tabResolving": "In progress",
+      "tabResolved": "Resolved",
+      "tabIgnored": "Ignored",
+      "statusActive": "Active",
+      "statusResolving": "In progress",
+      "statusResolved": "Resolved",
+      "statusIgnored": "Ignored"
+    },
+    "auth": {
+      "loading": "Loading",
+      "userLoadError": "Error loading user",
+      "notAuthorized": "You are not authorized. Redirecting...",
+      "alreadyAuthorized": "You are already authorized and cannot access this page. Redirecting..."
+    },
+    "errorLogPage": {
+      "breadcrumb": "Error logger"
     }
   }
 }

@@ -6,14 +6,16 @@ import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-m
 import { IncomeExpenseCardActions } from '@frontend/entities/operations/income-expense-card/card/income-expense-card-actions';
 import { useRouter } from 'next/navigation';
 import type { TransactionActionsProps } from '@frontend/entities/operations/card-actions/fin-card-actions-props';
+import { useTranslations } from 'next-intl';
 
 export function TransactionActions({ id, icon, title, editPath, handleDelete }: TransactionActionsProps) {
+  const t = useTranslations('operations.actions');
   const router = useRouter();
 
   return (
     <IncomeExpenseCardActions
       icon={icon}
-      title="Оберіть дію"
+      title={t('title')}
       description={title}
     >
       {editPath && (
@@ -24,8 +26,8 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
           size="sm"
           onClick={() => router.push(editPath)}
         >
-          <UiTitle size="sm">Редагувати</UiTitle>
-          <UiDescription size="xs">Змінити дані транзакції</UiDescription>
+          <UiTitle size="sm">{t('editLabel')}</UiTitle>
+          <UiDescription size="xs">{t('editDescription')}</UiDescription>
         </UiActionButton>
       )}
 
@@ -37,8 +39,8 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
             iconVariant="destructive"
             size="sm"
           >
-            <UiTitle size="sm">Видалити</UiTitle>
-            <UiDescription size="xs">Назавжди видалити транзакцію</UiDescription>
+            <UiTitle size="sm">{t('deleteLabel')}</UiTitle>
+            <UiDescription size="xs">{t('deleteDescription')}</UiDescription>
           </UiActionButton>
         }
         onConfirm={() => handleDelete?.(id!)}

@@ -10,32 +10,40 @@ import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-co
 import { useCountryMutations } from '@frontend/features/admin/lookups/hooks/use-country-mutations.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useAdminLookup } from '../hooks/use-admin-lookup.hook';
-
-const Columns: LookupColumnDef<CountryAndLocale>[] = [
-  {
-    header: 'Країна(англійською)',
-    cellClassName: 'py-2 text-sm font-medium text-foreground',
-    cell: (item) => item.country,
-  },
-  {
-    header: 'Країна(українською)',
-    cellClassName: 'py-2 text-sm font-medium text-foreground',
-    cell: (item) => item.countryUk,
-  },
-  {
-    header: 'Локаль',
-    cellClassName: 'py-2 text-sm text-muted-foreground',
-    cell: (item) => item.locale,
-  },
-];
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 export function CountriesLookup() {
+  const t = useTranslations('admin.country');
+  const tCommon = useTranslations('admin.common');
+
+  const Columns: LookupColumnDef<CountryAndLocale>[] = useMemo(
+    () => [
+      {
+        header: t('headerCountryEn'),
+        cellClassName: 'py-2 text-sm font-medium text-foreground',
+        cell: (item) => item.country,
+      },
+      {
+        header: t('headerCountryUk'),
+        cellClassName: 'py-2 text-sm font-medium text-foreground',
+        cell: (item) => item.countryUk,
+      },
+      {
+        header: t('headerLocale'),
+        cellClassName: 'py-2 text-sm text-muted-foreground',
+        cell: (item) => item.locale,
+      },
+    ],
+    [t],
+  );
+
   const lookup = useAdminLookup<CountryAndLocale>({
     lookupType: LookupsTypeEnum.CountriesAndLocales,
     queryKey: ['admin', 'lookups', 'countries'],
     useMutations: useCountryMutations,
     getDeleteName: (item) => item.country,
-    singleDeleteDescription: (name) => `Ви впевнені, що хочете видалити країну "${name}"?`,
+    singleDeleteDescription: (name) => t('confirmDeleteDescription', { name }),
   });
 
   return (
@@ -95,7 +103,7 @@ export function CountriesLookup() {
             />
           }
           onConfirm={lookup.confirmSingleDelete}
-          title="Підтвердження видалення"
+          title={tCommon('confirmDeleteTitle')}
           description={lookup.singleDeleteDescription}
         />
 
@@ -108,8 +116,8 @@ export function CountriesLookup() {
             />
           }
           onConfirm={lookup.confirmBulkDelete}
-          title="Підтвердження масового видалення"
-          description="Ви впевнені, що хочете видалити всі вибрані записи?"
+          title={tCommon('confirmBulkDeleteTitle')}
+          description={tCommon('confirmBulkDeleteDescription')}
         />
       </div>
     </>

@@ -1,8 +1,11 @@
+'use client';
+
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSkeleton } from '@frontend/ui/ui-skeleton/ui-skeleton';
+import { useTranslations } from 'next-intl';
 
 interface TrackingOperationsStatisticBlockProps {
   income: number;
@@ -17,11 +20,12 @@ export function TrackingOperationsStatisticMobile({
   expense = 0,
   loading,
 }: TrackingOperationsStatisticBlockProps) {
+  const t = useTranslations('tracking.statistic');
   const classes = cn('text-muted-foreground rounded-4xl px-4 bg-card w-full flex flex-row justify-between', className);
 
   return (
     <UiCard className={classes}>
-      <p className="text-muted-foreground text-sm">Загалом за період</p>
+      <p className="text-muted-foreground text-sm">{t('periodTotal')}</p>
       <div className="flex font-bold flex-row gap-4">
         <span className="text-success  flex gap-1 ">
           {loading && <UiSkeleton />}
@@ -42,6 +46,7 @@ export function TrackingOperationsStatisticDesktop({
   expense = 0,
   loading,
 }: TrackingOperationsStatisticBlockProps) {
+  const t = useTranslations('tracking.statistic');
   const classes = cn(
     'text-muted-foreground rounded-4xl px-4 bg-card w-full flex flex-row justify-start gap-5',
     className,
@@ -51,14 +56,14 @@ export function TrackingOperationsStatisticDesktop({
     {
       icon: 'graph-up-arrow',
       variant: 'success-muted',
-      label: 'Загальний дохід',
+      label: t('totalIncome'),
       value: income,
       className: 'text-success',
     },
     {
       icon: 'graph-down-arrow',
       variant: 'destructive-muted',
-      label: 'Загальні витрати',
+      label: t('totalExpenses'),
       value: expense,
       className: 'text-destructive-foreground',
     },

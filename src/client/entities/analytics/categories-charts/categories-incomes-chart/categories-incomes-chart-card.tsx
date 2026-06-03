@@ -1,8 +1,11 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import { ChartCardLayout } from '@frontend/components/chart-card-template/chart-card-template';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { CategoriesExpensesChart } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/categories-expenses-chart';
 import type { CategoriesChartProps } from '@frontend/entities/analytics/categories-charts/categories-pie-chart/props/categories-expenses-chart.props';
+import { useTranslations } from 'next-intl';
 
 interface CategoriesIncomesChartCardProps extends CategoriesChartProps {
   loading?: boolean;
@@ -10,11 +13,12 @@ interface CategoriesIncomesChartCardProps extends CategoriesChartProps {
 }
 
 export function CategoriesIncomesChartCard({ data, loading, filterTrigger }: CategoriesIncomesChartCardProps) {
+  const t = useTranslations('analytics.categories');
   return (
     <ChartCardLayout.Root>
       <ChartCardLayout.Header
-        title="Доходи за категоріями"
-        description="Розподіл доходів за категоріями за визначений період"
+        title={t('incomesTitle')}
+        description={t('incomesDescription')}
       >
         {filterTrigger}
       </ChartCardLayout.Header>
@@ -24,7 +28,7 @@ export function CategoriesIncomesChartCard({ data, loading, filterTrigger }: Cat
         ) : (
           <CategoriesExpensesChart
             data={data}
-            totalLabel="всього доходів"
+            totalLabel={t('totalIncomes')}
           />
         )}
       </ChartCardLayout.Content>
