@@ -38,6 +38,8 @@ export function FinDatepicker({
   const monthTitles = useMonthTitles();
   const weekTitles = useWeekTitles();
 
+  console.log(open);
+
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
       setOpen(newOpen);
@@ -154,6 +156,7 @@ export function FinDatepicker({
         }}
       >
         <UiCalendar
+          open={open}
           className={calendarClassName ?? ''}
           required={false}
           formatters={{
