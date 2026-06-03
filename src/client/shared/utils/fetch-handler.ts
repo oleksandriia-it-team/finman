@@ -17,9 +17,8 @@ export async function handleResponse<T>(response: Response, defaultValue?: T): P
   const data = isJson ? await response.json() : null;
 
   if (!response.ok || (data && data.status >= 400)) {
-    if (checkIsAppErrorObj(data)) throw new AppError(data.message, data.status);
     if (checkIsAppErrorObj(data)) {
-      throw new AppError(data.message, data.status);
+      throw new AppError(data.message, data.status, data.messageParams);
     }
 
     throw new AppError(ErrorTexts.UnexpectedRequestError, response.status >= 400 ? response.status : 500);

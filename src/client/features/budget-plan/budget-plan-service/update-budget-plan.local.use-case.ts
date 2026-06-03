@@ -25,7 +25,8 @@ export class UpdateBudgetPlanLocalUseCase extends TransactionalUseCase<UpdateBud
     const currentBudgetPlan = await this.budgetPlanRepository.getItem(date);
 
     if (!currentBudgetPlan) {
-      throw new AppError(formatBudgetPlanNotFoundForMonth(date.month, date.year), 404);
+      const { messageKey, messageParams } = formatBudgetPlanNotFoundForMonth(date.month, date.year);
+      throw new AppError(messageKey, 404, messageParams);
     }
 
     const {

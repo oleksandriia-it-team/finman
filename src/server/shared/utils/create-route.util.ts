@@ -54,7 +54,7 @@ export function createRoute<TR, BTR, R, TP = RouteContextParams, Schema extends 
         }
         body = schemaResult.data as z.infer<Schema>;
       } catch {
-        return NextResponse.json({ status: 400, message: 'Невалідний JSON' }, { status: 400 });
+        return NextResponse.json({ status: 400, message: ErrorTexts.InvalidJson }, { status: 400 });
       }
     }
 
