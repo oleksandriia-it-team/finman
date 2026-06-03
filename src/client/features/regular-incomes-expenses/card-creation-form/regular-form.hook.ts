@@ -13,7 +13,8 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
   const { handleCreate, handleUpdate } = useRegularTransactions();
   const showToast = useGlobalToast((state) => state.showToast);
   const isEdit = !!initialData;
-  const t = useTranslations('regular.form');
+  const t = useTranslations();
+  const tForm = useTranslations('regular.form');
   const tCommon = useTranslations('common');
   const tEV = useTranslations('entry.validation');
   const tRV = useTranslations('regular.validation');
@@ -71,23 +72,23 @@ export function useRegularPaymentForm(initialData?: RegularEntry, onSuccess?: ()
         }
         showToast({
           title: tCommon('successTitle'),
-          description: isEdit ? t('successUpdated') : t('successCreated'),
+          description: isEdit ? tForm('successUpdated') : tForm('successCreated'),
           variant: 'success',
         });
         onSuccess?.();
       } catch (err) {
-        const message = err instanceof Error ? err.message : tCommon('unknownError');
+        const message = err instanceof Error ? t(err.message) : tCommon('unknownError');
         showToast({
-          title: t('errorTitle', { message }),
-          description: t('errorDescription'),
+          title: tForm('errorTitle', { message }),
+          description: tForm('errorDescription'),
           variant: 'destructive',
         });
       }
     },
     () => {
       showToast({
-        title: t('validationTitle'),
-        description: t('validationDescription'),
+        title: tForm('validationTitle'),
+        description: tForm('validationDescription'),
         variant: 'destructive',
       });
     },
