@@ -18,6 +18,7 @@ import {
   type RegularEntryApiRepository,
 } from '@backend/entities/regular-entry/infrastructure/regular-entry.repository';
 import { assertOwnedIds } from '@backend/shared/utils/assert-owned-ids.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 type CreateBudgetPlanInput = Omit<BudgetPlanDto, 'id'> & { userId: number };
 
@@ -42,7 +43,7 @@ export class CreateBudgetPlanApiUseCase extends TransactionalUseCase<CreateBudge
       this.regularEntryRepository.repository,
       userId,
       plannedRegularEntryIds,
-      'Деякі ID планових регулярних операцій не існують або не належать користувачу',
+      ErrorTexts.PlannedRegularEntriesNotOwned,
     );
 
     const data = this.budgetPlanRepository.repository.create({

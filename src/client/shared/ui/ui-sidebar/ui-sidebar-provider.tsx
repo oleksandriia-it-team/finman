@@ -6,6 +6,7 @@ import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/sidebar-provider-styles.scss';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -29,7 +30,7 @@ export const SidebarContext = React.createContext<SidebarContextProps | null>(nu
 export function useSidebar() {
   const context = React.useContext(SidebarContext);
   if (!context) {
-    throw new Error('useSidebar must be used within a SidebarProvider.');
+    throw new Error(ErrorTexts.SidebarContextMissing);
   }
 
   return context;

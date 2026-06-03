@@ -1,5 +1,6 @@
 import * as speakeasy from 'speakeasy';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import type { OnlineUser } from '@common/records/user.record';
 
 export type TotpApiManager = typeof totpApiManager;
@@ -17,7 +18,7 @@ export const totpApiManager = {
     });
 
     if (!isValid) {
-      throw new AppError('Невірний код', 400);
+      throw new AppError(ErrorTexts.InvalidCode, 400);
     }
   },
   createSetupUrl: (secret: string, label: string): string => {

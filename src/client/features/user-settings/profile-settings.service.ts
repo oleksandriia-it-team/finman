@@ -1,6 +1,7 @@
 import { type ProfileSettingsData } from '@common/domains/profile/schema/profile-settings.schema';
 import { type GetUser, type OfflineUser, type OnlineUser } from '@common/records/user.record';
 import { profileApiClient } from '@frontend/shared/services/user-information/profile.api.client';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export class ProfileSettingsService {
   updateProfile(user: GetUser, data: ProfileSettingsData): Promise<GetUser> {
@@ -14,7 +15,7 @@ export class ProfileSettingsService {
   private updateOnlineProfile(data: ProfileSettingsData): Promise<OnlineUser> {
     return profileApiClient.updateProfile(data).then((user) => {
       if (!user) {
-        throw new Error('Не вдалося оновити профіль.');
+        throw new Error(ErrorTexts.ProfileUpdateFailed);
       }
 
       return user;

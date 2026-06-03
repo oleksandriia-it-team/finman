@@ -5,6 +5,7 @@ import { PublicEnvConfigConstant } from '@common/config/public-env-config.consta
 import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 class FetchClientService {
   private readonly baseUrl: string;
@@ -54,7 +55,7 @@ class FetchClientService {
     const accessToken = this.authTokenService.getAccessToken();
 
     if (!skipAuth && !accessToken && !hasAuthorizationHeader && throwErrorIfNotAuth) {
-      throw new AppError('Ви не авторизовані', 401);
+      throw new AppError(ErrorTexts.Unauthorized, 401);
     }
 
     const normalizedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
