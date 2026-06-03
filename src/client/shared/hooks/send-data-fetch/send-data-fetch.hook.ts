@@ -36,8 +36,11 @@ export function useSendDataFetch<TData = unknown, TError = AppError, TVariables 
       const messageKey = getSafeErrorMessage(error);
       const messageParams = error instanceof AppError ? error.messageParams : undefined;
       const description = t(messageKey, messageParams);
+      console.log(1);
 
       if ((options?.showErrorToast ?? true) && (options?.showErrorToastIf?.(error) ?? true)) {
+        console.log(tCommon('requestErrorTitle'));
+        console.log(description);
         showToast({
           title: tCommon('requestErrorTitle'),
           description,

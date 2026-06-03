@@ -22,7 +22,8 @@ interface SaveBudgetPlanPayload {
 export function useBudgetPlanForm({ isEdit }: UseBudgetPlanFormOptions) {
   const queryClient = useQueryClient();
   const showToast = useGlobalToast((state) => state.showToast);
-  const t = useTranslations('budgetPlan.save');
+  const t = useTranslations();
+  const tForm = useTranslations('budgetPlan.save');
   const tCommon = useTranslations('common');
 
   const savePlan = useSendDataFetch(
@@ -61,15 +62,15 @@ export function useBudgetPlanForm({ isEdit }: UseBudgetPlanFormOptions) {
         await queryClient.refetchQueries({ queryKey: ['budget-plan'] });
         showToast({
           title: tCommon('successTitle'),
-          description: isEdit ? t('successUpdated') : t('successCreated'),
+          description: isEdit ? tForm('successUpdated') : tForm('successCreated'),
           variant: 'success',
         });
       },
       onError: (err) => {
-        const message = err instanceof Error ? err.message : tCommon('unknownError');
+        const message = err instanceof Error ? t(err.message) : tCommon('unknownError');
         showToast({
-          title: t('errorTitle', { message }),
-          description: t('errorDescription'),
+          title: tForm('errorTitle', { message }),
+          description: tForm('errorDescription'),
           variant: 'destructive',
         });
       },
