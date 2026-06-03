@@ -38,8 +38,6 @@ export function FinDatepicker({
   const monthTitles = useMonthTitles();
   const weekTitles = useWeekTitles();
 
-  console.log(open);
-
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
       setOpen(newOpen);
