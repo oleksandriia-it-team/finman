@@ -30,4 +30,5 @@ export const clientSchema = z.object({
         });
       }
     }),
+  PROD: z.coerce.boolean({ message: 'DEV key is required' }).default(false),
 });
