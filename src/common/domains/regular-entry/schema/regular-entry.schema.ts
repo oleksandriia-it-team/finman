@@ -20,10 +20,10 @@ export interface RegularEntryValidationMessages extends EntryBaseValidationMessa
 
 export const DEFAULT_REGULAR_ENTRY_MESSAGES: RegularEntryValidationMessages = {
   ...DEFAULT_ENTRY_BASE_MESSAGES,
-  frequencyInvalid: 'Enter a valid frequency',
-  dayInteger: 'Day of month must be a number',
-  dayMin: 'Day of month must be at least 1',
-  dayMax: 'Day of month must be at most 31',
+  frequencyInvalid: 'regular.validation.frequencyInvalid',
+  dayInteger: 'regular.validation.dayInteger',
+  dayMin: 'regular.validation.dayMin',
+  dayMax: 'regular.validation.dayMax',
 };
 
 function buildRegularEntryExtraFields(messages: RegularEntryValidationMessages) {
@@ -50,11 +50,11 @@ export const RegularEntrySchema = _defaultSchemas.RegularEntrySchema;
 export const UpdateRegularEntrySchema = _defaultSchemas.UpdateRegularEntrySchema;
 
 export const RegularEntryFilterSchema = z.object({
-  type: z.enum(RegularEntryTypes, { message: 'Select a valid operation type (income or expense)' }).optional(),
+  type: z.enum(RegularEntryTypes, { message: 'admin.validation.invalidStatus' }).optional(),
   softDeleted: z
-    .int({ message: 'Field softDeleted must be a number' })
-    .min(0, { message: 'Field softDeleted must be 0 or 1' })
-    .max(1, { message: 'Field softDeleted must be 0 or 1' })
+    .int({ message: 'admin.validation.fieldMustBeNumber' })
+    .min(0, { message: 'admin.validation.invalidRange' })
+    .max(1, { message: 'admin.validation.invalidRange' })
     .optional(),
 });
 

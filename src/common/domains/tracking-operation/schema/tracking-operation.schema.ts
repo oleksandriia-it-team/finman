@@ -21,15 +21,15 @@ export interface TrackingOperationValidationMessages {
 }
 
 export const DEFAULT_TRACKING_OPERATION_MESSAGES: TrackingOperationValidationMessages = {
-  titleRequired: 'Title is required',
-  titleMaxLength: 'Title cannot exceed 20 characters',
-  descriptionMaxLength: 'Description cannot exceed 100 characters',
-  typeInvalid: 'Type must be expense or income',
-  dateRequired: 'Date is required',
-  sumNotNumber: 'Amount must be a number',
-  sumMin: 'Amount must be at least 1',
-  attachedIdInteger: 'Attached entry ID must be an integer',
-  cannotAttachBoth: 'Cannot attach both a monthly and a regular budget entry simultaneously',
+  titleRequired: 'tracking.validation.titleRequired',
+  titleMaxLength: 'tracking.validation.titleMaxLength',
+  descriptionMaxLength: 'tracking.validation.descriptionMaxLength',
+  typeInvalid: 'tracking.validation.typeInvalid',
+  dateRequired: 'tracking.validation.dateRequired',
+  sumNotNumber: 'tracking.validation.sumNotNumber',
+  sumMin: 'tracking.validation.sumMin',
+  attachedIdInteger: 'tracking.validation.attachedIdInteger',
+  cannotAttachBoth: 'tracking.validation.cannotAttachBoth',
 };
 
 export function createTrackingOperationSchema(
@@ -74,10 +74,10 @@ export const TrackingOperationFilterSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.dateFrom && data.dateTo && data.dateFrom > data.dateTo) {
-      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'dateTo must be greater than or equal to dateFrom' });
+      ctx.addIssue({ code: 'custom', path: ['dateTo'], message: 'admin.validation.dateRangeInvalid' });
     }
     if (data.minSum !== undefined && data.maxSum !== undefined && data.minSum > data.maxSum) {
-      ctx.addIssue({ code: 'custom', path: ['maxSum'], message: 'maxSum must be greater than or equal to minSum' });
+      ctx.addIssue({ code: 'custom', path: ['maxSum'], message: 'admin.validation.sumRangeInvalid' });
     }
   });
 
@@ -88,7 +88,7 @@ export const TrackingOperationPaginationSchema = {
   ...basePaginatedSchema,
   itemsSchema: basePaginatedSchema.itemsSchema.superRefine((data, ctx) => {
     if (data.to < data.from) {
-      ctx.addIssue({ code: 'custom', path: ['to'], message: '"to" must be greater than or equal to "from"' });
+      ctx.addIssue({ code: 'custom', path: ['to'], message: 'admin.validation.paginationRangeInvalid' });
     }
   }),
 };

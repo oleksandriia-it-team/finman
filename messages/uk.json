@@ -330,6 +330,12 @@
       "searchPlaceholder": "Пошук категорії...",
       "clearAll": "Очистити все",
       "done": "Готово"
+    },
+    "validation": {
+      "yearInteger": "Рік має бути числом",
+      "yearMin": "Рік має бути не раніше 2000",
+      "invalidMonth": "Невірний місяць",
+      "dateToBeforeFrom": "Кінцева дата не може бути раніше початкової"
     }
   },
   "budgetPlan": {
@@ -410,7 +416,13 @@
       "priorityMin": "Поле пріоритету має бути мінімум 1",
       "priorityMax": "Поле пріоритету має бути максимум 10",
       "idInteger": "Id має бути числом",
-      "idMin": "Id має бути позитивним числом"
+      "idMin": "Id має бути позитивним числом",
+      "yearInteger": "Рік має бути числом",
+      "yearMin": "Рік має бути не раніше 2000",
+      "invalidMonth": "Невірний місяць",
+      "invalidEntriesFormat": "Невірний формат операцій",
+      "entryIdInteger": "ID операції має бути числом",
+      "invalidRegularEntriesFormat": "Невірний формат регулярних операцій"
     }
   },
   "regular": {
@@ -649,7 +661,15 @@
     "at": "о",
     "previousPage": "Перейти на попередню сторінку",
     "nextPage": "Перейти на наступну сторінку",
-    "closeNotification": "Закрити сповіщення"
+    "closeNotification": "Закрити сповіщення",
+    "pagination": {
+      "fromRequired": "Поле \"from\" обов'язкове та має бути числом",
+      "fromInteger": "Поле \"from\" має бути цілим числом",
+      "fromPositive": "Поле \"from\" має бути позитивним числом",
+      "toRequired": "Поле \"to\" обов'язкове та має бути числом",
+      "toInteger": "Поле \"to\" має бути цілим числом",
+      "toPositive": "Поле \"to\" має бути позитивним числом"
+    }
   },
   "nav": {
     "home": "Головна",
@@ -760,6 +780,22 @@
       "currencyCodeLength": "Код повинен містити рівно 3 символи",
       "emptyUpdate": "Не передано дані для оновлення",
       "statusRequired": "Статус є обов'язковим"
+    },
+    "validation": {
+      "idMustBeNumber": "Кожен ID має бути числом",
+      "excludeIdMustBeNumber": "Кожен excludeId має бути числом",
+      "idsArrayRequired": "Масив IDs є обов'язковим",
+      "excludeIdsArrayRequired": "Масив excludeIds є обов'язковим",
+      "fieldMustBeString": "Значення поля має бути рядком",
+      "fieldMustBeNumber": "Поле має бути числом",
+      "invalidRange": "Значення виходить за допустимий діапазон",
+      "invalidStatus": "Невірний статус",
+      "userIdMustBeNumber": "ID користувача має бути числом",
+      "invalidStartDate": "Невірний формат дати початку",
+      "invalidEndDate": "Невірний формат дати кінця",
+      "dateRangeInvalid": "Кінцева дата має бути більшою або рівною початковій",
+      "sumRangeInvalid": "Максимальна сума має бути більшою або рівною мінімальній",
+      "paginationRangeInvalid": "\"to\" має бути більшим або рівним \"from\""
     }
   },
   "entry": {

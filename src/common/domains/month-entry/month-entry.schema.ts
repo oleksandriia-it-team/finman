@@ -16,12 +16,12 @@ export interface MonthEntryValidationMessages extends EntryBaseValidationMessage
 
 export const DEFAULT_MONTH_ENTRY_MESSAGES: MonthEntryValidationMessages = {
   ...DEFAULT_ENTRY_BASE_MESSAGES,
-  selectedBoolean: 'Field "selected" must be a boolean',
-  priorityInteger: 'Priority must be a number',
-  priorityMin: 'Priority must be at least 1',
-  priorityMax: 'Priority must be at most 10',
-  idInteger: 'Id must be a number',
-  idMin: 'Id must be a positive number',
+  selectedBoolean: 'budgetPlan.validation.selectedBoolean',
+  priorityInteger: 'budgetPlan.validation.priorityInteger',
+  priorityMin: 'budgetPlan.validation.priorityMin',
+  priorityMax: 'budgetPlan.validation.priorityMax',
+  idInteger: 'budgetPlan.validation.idInteger',
+  idMin: 'budgetPlan.validation.idMin',
 };
 
 export function createMonthEntrySchema(messages: MonthEntryValidationMessages = DEFAULT_MONTH_ENTRY_MESSAGES) {

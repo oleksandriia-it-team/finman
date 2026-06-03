@@ -9,10 +9,10 @@ export interface LookupsFormValidationMessages {
 }
 
 export const DEFAULT_LOOKUPS_FORM_MESSAGES: LookupsFormValidationMessages = {
-  required: 'Required field',
-  currencyCodeLength: 'Code must be exactly 3 characters',
-  emptyUpdate: 'No update data provided',
-  statusRequired: 'Status is required',
+  required: 'admin.lookupsValidation.required',
+  currencyCodeLength: 'admin.lookupsValidation.currencyCodeLength',
+  emptyUpdate: 'admin.lookupsValidation.emptyUpdate',
+  statusRequired: 'admin.lookupsValidation.statusRequired',
 };
 
 const hasAtLeastOneDefinedField = (data: Record<string, unknown>) =>

@@ -24,22 +24,22 @@ export interface CreateUserValidationMessages {
 }
 
 export const DEFAULT_CREATE_USER_MESSAGES: CreateUserValidationMessages = {
-  emailRequired: 'Email is required',
-  emailMaxLength: `Email cannot exceed ${UserRequirements.MaxEmailLength} characters`,
-  emailInvalidFormat: 'Invalid email format (missing domain, e.g. .com)',
-  nameRequired: 'Name is required',
-  nameMinLength: `Name must be at least ${UserRequirements.MinNameLength} characters`,
-  nameMaxLength: `Name cannot exceed ${UserRequirements.MaxLoginLength} characters`,
-  nameInvalidChars: 'Name contains invalid characters',
-  passwordRequired: 'Password is required',
-  passwordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
-  passwordMaxLength: `Password cannot exceed ${UserRequirements.MaxPasswordLength} characters`,
-  passwordLatinOnly: 'Password can only contain Latin characters and special symbols',
-  localeRequired: 'Locale is required',
-  localeFormat: 'Invalid locale format (e.g., uk, en, en-US)',
-  currencyRequired: 'Please select a currency',
-  currencyCodeLength: `Currency code must be ${CurrencyRequirements.MaxCurrencyCodeLength} characters (e.g., UAH, USD, EUR)`,
-  currencyCodeFormat: 'Currency code must contain only uppercase Latin letters (e.g., UAH, USD)',
+  emailRequired: 'auth.user.validation.emailRequired',
+  emailMaxLength: 'auth.user.validation.emailMaxLength',
+  emailInvalidFormat: 'auth.user.validation.emailInvalidFormat',
+  nameRequired: 'auth.user.validation.nameRequired',
+  nameMinLength: 'auth.user.validation.nameMinLength',
+  nameMaxLength: 'auth.user.validation.nameMaxLength',
+  nameInvalidChars: 'auth.user.validation.nameInvalidChars',
+  passwordRequired: 'auth.user.validation.passwordRequired',
+  passwordMinLength: 'auth.user.validation.passwordMinLength',
+  passwordMaxLength: 'auth.user.validation.passwordMaxLength',
+  passwordLatinOnly: 'auth.user.validation.passwordLatinOnly',
+  localeRequired: 'auth.user.validation.localeRequired',
+  localeFormat: 'auth.user.validation.localeFormat',
+  currencyRequired: 'auth.user.validation.currencyRequired',
+  currencyCodeLength: 'auth.user.validation.currencyCodeLength',
+  currencyCodeFormat: 'auth.user.validation.currencyCodeFormat',
 };
 
 export function createCreateUserSchema(messages: CreateUserValidationMessages = DEFAULT_CREATE_USER_MESSAGES) {

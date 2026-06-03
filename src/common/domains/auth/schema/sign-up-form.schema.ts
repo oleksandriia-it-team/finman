@@ -17,12 +17,12 @@ export interface SignUpFormValidationMessages {
 }
 
 export const DEFAULT_SIGNUP_FORM_MESSAGES: SignUpFormValidationMessages = {
-  invalidEmail: 'Invalid email format',
-  workModeRequired: 'Please select a work mode',
-  currencyRequired: 'Please select a currency',
-  emailRequiredOnline: 'Email is required for online mode',
-  passwordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
-  passwordsDoNotMatch: 'Passwords do not match',
+  invalidEmail: 'auth.signup.validation.invalidEmail',
+  workModeRequired: 'auth.signup.validation.workModeRequired',
+  currencyRequired: 'auth.signup.validation.currencyRequired',
+  emailRequiredOnline: 'auth.signup.validation.emailRequiredOnline',
+  passwordMinLength: 'auth.signup.validation.passwordMinLength',
+  passwordsDoNotMatch: 'auth.signup.validation.passwordsDoNotMatch',
 };
 
 export function createSignUpFormSchema(

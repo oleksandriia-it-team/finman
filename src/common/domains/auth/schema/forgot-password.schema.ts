@@ -6,8 +6,8 @@ export interface ForgotPasswordValidationMessages {
 }
 
 const DEFAULT_MESSAGES: ForgotPasswordValidationMessages = {
-  emailRequired: 'Email is required',
-  emailInvalid: 'Invalid email format',
+  emailRequired: 'auth.forgotPassword.validation.emailRequired',
+  emailInvalid: 'auth.forgotPassword.validation.emailInvalid',
 };
 
 export function createForgotPasswordSchema(messages: ForgotPasswordValidationMessages = DEFAULT_MESSAGES) {

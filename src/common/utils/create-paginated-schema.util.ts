@@ -4,13 +4,13 @@ export function createPaginatedSchema<Filters extends ZodType<unknown>>(filtersS
   return {
     itemsSchema: z.object({
       from: z
-        .number('Field "from" is required and must be a number')
-        .int('Field "from" must be an integer')
-        .positive('Field "from" must be a positive number'),
+        .number('common.pagination.fromRequired')
+        .int('common.pagination.fromInteger')
+        .positive('common.pagination.fromPositive'),
       to: z
-        .number('Field "to" is required and must be a number')
-        .int('Field "to" must be an integer')
-        .positive('Field "to" must be a positive number'),
+        .number('common.pagination.toRequired')
+        .int('common.pagination.toInteger')
+        .positive('common.pagination.toPositive'),
       filters: filtersSchema.optional(),
     }),
     totalCountSchema: z.object({

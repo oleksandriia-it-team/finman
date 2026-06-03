@@ -7,9 +7,9 @@ export interface SixCodeMessages {
 }
 
 const DEFAULT_SIX_CODE_MESSAGES: SixCodeMessages = {
-  required: 'Code is required',
-  length: 'Code must be 6 digits',
-  numeric: 'Code must be numeric',
+  required: 'auth.code.validation.required',
+  length: 'auth.code.validation.length',
+  numeric: 'auth.code.validation.numeric',
 };
 
 export function buildSixCodeSchema(messages: SixCodeMessages = DEFAULT_SIX_CODE_MESSAGES) {

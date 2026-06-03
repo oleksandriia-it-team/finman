@@ -95,7 +95,15 @@
     "at": "at",
     "previousPage": "Go to previous page",
     "nextPage": "Go to next page",
-    "closeNotification": "Close notification"
+    "closeNotification": "Close notification",
+    "pagination": {
+      "fromRequired": "Field \"from\" is required and must be a number",
+      "fromInteger": "Field \"from\" must be an integer",
+      "fromPositive": "Field \"from\" must be a positive number",
+      "toRequired": "Field \"to\" is required and must be a number",
+      "toInteger": "Field \"to\" must be an integer",
+      "toPositive": "Field \"to\" must be a positive number"
+    }
   },
   "months": {
     "january": "January",
@@ -372,6 +380,12 @@
       "searchPlaceholder": "Search category...",
       "clearAll": "Clear all",
       "done": "Done"
+    },
+    "validation": {
+      "yearInteger": "Year must be a number",
+      "yearMin": "Year must be 2000 or later",
+      "invalidMonth": "Invalid month",
+      "dateToBeforeFrom": "End date must not be earlier than start date"
     }
   },
   "budgetPlan": {
@@ -452,7 +466,13 @@
       "priorityMin": "Priority must be at least 1",
       "priorityMax": "Priority must be at most 10",
       "idInteger": "Id must be a number",
-      "idMin": "Id must be a positive number"
+      "idMin": "Id must be a positive number",
+      "yearInteger": "Year must be a number",
+      "yearMin": "Year must be 2000 or later",
+      "invalidMonth": "Invalid month",
+      "invalidEntriesFormat": "Invalid entries format",
+      "entryIdInteger": "Entry ID must be a number",
+      "invalidRegularEntriesFormat": "Invalid regular entries format"
     }
   },
   "regular": {
@@ -760,6 +780,22 @@
       "currencyCodeLength": "Code must be exactly 3 characters",
       "emptyUpdate": "No update data provided",
       "statusRequired": "Status is required"
+    },
+    "validation": {
+      "idMustBeNumber": "Each ID must be a number",
+      "excludeIdMustBeNumber": "Each excludeId must be a number",
+      "idsArrayRequired": "IDs array is required",
+      "excludeIdsArrayRequired": "excludeIds array is required",
+      "fieldMustBeString": "Field value must be a string",
+      "fieldMustBeNumber": "Field must be a number",
+      "invalidRange": "Value is out of valid range",
+      "invalidStatus": "Invalid status",
+      "userIdMustBeNumber": "User ID must be a number",
+      "invalidStartDate": "Invalid start date format",
+      "invalidEndDate": "Invalid end date format",
+      "dateRangeInvalid": "End date must be greater than or equal to start date",
+      "sumRangeInvalid": "Maximum sum must be greater than or equal to minimum sum",
+      "paginationRangeInvalid": "\"to\" must be greater than or equal to \"from\""
     }
   },
   "entry": {

@@ -17,15 +17,15 @@ export interface LoginValidationMessages {
 }
 
 const DEFAULT_MESSAGES: LoginValidationMessages = {
-  loginRequired: 'Login or email is required',
-  loginMaxLength: `Login cannot exceed ${UserRequirements.MaxLoginLength} characters`,
-  emailInvalidFormat: 'Invalid email format (missing domain, e.g. .com)',
-  usernameMinLength: `Username must be at least ${UserRequirements.MinNameLength} characters`,
-  loginInvalidChars: 'Login contains invalid characters',
-  passwordRequired: 'Password is required',
-  passwordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
-  passwordMaxLength: `Password cannot exceed ${UserRequirements.MaxPasswordLength} characters`,
-  passwordLatinOnly: 'Password can only contain Latin characters and special symbols',
+  loginRequired: 'auth.login.validation.loginRequired',
+  loginMaxLength: 'auth.login.validation.loginMaxLength',
+  emailInvalidFormat: 'auth.login.validation.emailInvalidFormat',
+  usernameMinLength: 'auth.login.validation.usernameMinLength',
+  loginInvalidChars: 'auth.login.validation.loginInvalidChars',
+  passwordRequired: 'auth.login.validation.passwordRequired',
+  passwordMinLength: 'auth.login.validation.passwordMinLength',
+  passwordMaxLength: 'auth.login.validation.passwordMaxLength',
+  passwordLatinOnly: 'auth.login.validation.passwordLatinOnly',
 };
 
 export const buildLoginSchema = (

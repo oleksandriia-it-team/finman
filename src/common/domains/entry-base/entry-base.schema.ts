@@ -14,13 +14,13 @@ export interface EntryBaseValidationMessages {
 }
 
 export const DEFAULT_ENTRY_BASE_MESSAGES: EntryBaseValidationMessages = {
-  titleRequired: 'Title is required',
-  titleMaxLength: `Title max length: ${MonthEntryRequirements.MaxTitleLength} characters`,
-  descriptionMaxLength: `Description max length: ${MonthEntryRequirements.MaxDescriptionLength} characters`,
-  sumRequired: 'Enter amount',
-  sumMin: `Amount must be at least ${MonthEntryRequirements.MinSumValue}`,
-  incomeCategoryInvalid: 'Select a valid income category',
-  expenseCategoryInvalid: 'Select a valid expense category',
+  titleRequired: 'entry.validation.titleRequired',
+  titleMaxLength: 'entry.validation.titleMaxLength',
+  descriptionMaxLength: 'entry.validation.descriptionMaxLength',
+  sumRequired: 'entry.validation.sumRequired',
+  sumMin: 'entry.validation.sumMin',
+  incomeCategoryInvalid: 'entry.validation.incomeCategoryInvalid',
+  expenseCategoryInvalid: 'entry.validation.expenseCategoryInvalid',
 };
 
 function buildEntryFirstPart(messages: EntryBaseValidationMessages) {

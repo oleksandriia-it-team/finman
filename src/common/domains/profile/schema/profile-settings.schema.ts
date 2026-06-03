@@ -19,18 +19,18 @@ export interface ProfileSettingsValidationMessages {
 }
 
 const DEFAULT_MESSAGES: ProfileSettingsValidationMessages = {
-  nameRequired: 'Name is required',
-  nameMinLength: `Name must be at least ${UserRequirements.MinNameLength} characters`,
-  nameMaxLength: `Name cannot exceed ${UserRequirements.MaxLoginLength} characters`,
-  nameInvalidChars: 'Name contains invalid characters',
-  localeRequired: 'Locale is required',
-  localeFormat: 'Invalid locale format',
-  languageRequired: 'Select a language',
-  currentPasswordRequired: 'Enter current password',
-  newPasswordMinLength: `Password must be at least ${UserRequirements.MinPasswordLength} characters`,
-  newPasswordLatinOnly: 'Password can only contain Latin characters, digits and symbols',
-  newPasswordLettersAndDigits: 'Password must contain letters and digits',
-  passwordsDoNotMatch: 'Passwords do not match',
+  nameRequired: 'userSettings.profileValidation.nameRequired',
+  nameMinLength: 'userSettings.profileValidation.nameMinLength',
+  nameMaxLength: 'userSettings.profileValidation.nameMaxLength',
+  nameInvalidChars: 'userSettings.profileValidation.nameInvalidChars',
+  localeRequired: 'userSettings.profileValidation.localeRequired',
+  localeFormat: 'userSettings.profileValidation.localeFormat',
+  languageRequired: 'userSettings.profileValidation.languageRequired',
+  currentPasswordRequired: 'userSettings.profileValidation.currentPasswordRequired',
+  newPasswordMinLength: 'userSettings.profileValidation.newPasswordMinLength',
+  newPasswordLatinOnly: 'userSettings.profileValidation.newPasswordLatinOnly',
+  newPasswordLettersAndDigits: 'userSettings.profileValidation.newPasswordLettersAndDigits',
+  passwordsDoNotMatch: 'userSettings.profileValidation.passwordsDoNotMatch',
 };
 
 export function createProfileSettingsSchema(messages: ProfileSettingsValidationMessages = DEFAULT_MESSAGES) {

@@ -6,8 +6,8 @@ export interface ResetPasswordValidationMessages {
 }
 
 const DEFAULT_MESSAGES: ResetPasswordValidationMessages = {
-  passwordMinLength: 'Minimum 8 characters',
-  passwordsDoNotMatch: 'Passwords do not match',
+  passwordMinLength: 'auth.resetPassword.validation.passwordMinLength',
+  passwordsDoNotMatch: 'auth.resetPassword.validation.passwordsDoNotMatch',
 };
 
 export function createResetPasswordSchema(messages: ResetPasswordValidationMessages = DEFAULT_MESSAGES) {
