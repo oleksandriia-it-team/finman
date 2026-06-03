@@ -153,6 +153,7 @@
       "submitLoading": "Logging in...",
       "signupCta": "Don't have an account? Sign up",
       "or": "OR",
+      "successMessage": "Login successful!",
       "validation": {
         "loginRequired": "Login or email is required",
         "loginMaxLength": "Login cannot exceed {max} characters",
@@ -221,7 +222,8 @@
       "submit": "Confirm",
       "submitLoading": "Verifying...",
       "retryAfter": "Try again in {seconds}s",
-      "changeEmail": "Change email"
+      "changeEmail": "Change email",
+      "or": "or"
     },
     "resetPassword": {
       "title": "Set new password",

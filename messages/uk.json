@@ -103,6 +103,7 @@
       "submitLoading": "Входимо...",
       "signupCta": "Немає акаунту? Зареєструватися",
       "or": "АБО",
+      "successMessage": "Авторизація успішна",
       "validation": {
         "loginRequired": "Логін або email є обов'язковим",
         "loginMaxLength": "Логін не може бути довше {max} символів",
@@ -171,7 +172,8 @@
       "submit": "Підтвердити",
       "submitLoading": "Перевірка...",
       "retryAfter": "Спробуйте через {seconds}с",
-      "changeEmail": "Змінити пошту"
+      "changeEmail": "Змінити пошту",
+      "or": "or"
     },
     "resetPassword": {
       "title": "Встановлення пароля",

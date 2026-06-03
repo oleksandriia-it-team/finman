@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 export function LoginEnterCodeForm() {
   const { isLoading } = useSetupLogin();
   const { setStep, methods } = useLoginStore();
-  const t = useTranslations('auth.login');
+  const t = useTranslations('auth.confirmCode');
 
   return (
     <UiFieldGroup>
@@ -46,7 +46,7 @@ export function LoginEnterCodeForm() {
           setStep(LoginStep.Password);
         }}
       >
-        {t('backToPassword')}
+        {t('changeEmail')}
       </UiButton>
     </UiFieldGroup>
   );
