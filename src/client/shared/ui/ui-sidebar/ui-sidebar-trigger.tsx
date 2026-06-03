@@ -4,7 +4,6 @@ import * as React from 'react';
 import { useSidebar } from './ui-sidebar-provider';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
 import { cn } from '@frontend/shared/utils/cn.util';
-import { useTranslations } from 'next-intl';
 
 export function UiSidebarTrigger({
   className,
@@ -12,9 +11,12 @@ export function UiSidebarTrigger({
   bgNone = true,
   onClick,
   hideOnCollapse,
+  srLabel = 'Toggle sidebar',
   ...props
-}: Partial<React.ComponentProps<typeof UiIconButton>> & { hideOnCollapse?: boolean }) {
-  const t = useTranslations('common');
+}: Partial<React.ComponentProps<typeof UiIconButton>> & {
+  hideOnCollapse?: boolean;
+  srLabel?: string;
+}) {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -33,7 +35,7 @@ export function UiSidebarTrigger({
       }}
       {...props}
     >
-      <span className="sr-only">{t('toggleSidebar')}</span>
+      <span className="sr-only">{srLabel}</span>
     </UiIconButton>
   );
 }

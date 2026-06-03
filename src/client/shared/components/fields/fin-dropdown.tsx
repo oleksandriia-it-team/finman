@@ -8,6 +8,7 @@ import { UiSelect } from '@frontend/ui/ui-select/ui-select';
 import { UiSelectTrigger } from '@frontend/ui/ui-select/ui-select-trigger';
 import { UiSelectValue } from '@frontend/ui/ui-select/ui-select-value';
 import { UiSelectContent } from '@frontend/ui/ui-select/ui-select-content';
+import { useTranslations } from 'next-intl';
 
 export function FinDropdown<T>({
   onChange,
@@ -26,6 +27,7 @@ export function FinDropdown<T>({
   'data-invalid': dataInvalid,
   ...props
 }: DefaultDropdownInputProps<T>) {
+  const t = useTranslations('common');
   const [show, setVisibility] = useState<boolean>(false);
 
   const inputValue = useMemo(() => {
@@ -67,6 +69,7 @@ export function FinDropdown<T>({
     >
       <UiSelectTrigger
         {...(clearable ? { onClear: () => onChange(undefined) } : {})}
+        clearAriaLabel={t('clearField')}
         disabled={disabled ?? false}
         ref={ref as Ref<HTMLButtonElement>}
         data-invalid={dataInvalid}

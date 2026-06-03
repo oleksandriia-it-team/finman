@@ -5,8 +5,10 @@ import { getTotalPages } from '@frontend/shared/utils/get-total-pages.util';
 import { UiPaginationContent } from '@frontend/ui/ui-pagination/ui-pagination-content';
 import { UiPaginationItem } from '@frontend/ui/ui-pagination/ui-pagination-item';
 import { UiPaginationNext, UiPaginationPrevious } from '@frontend/ui/ui-pagination/ui-pagination-actions';
+import { useTranslations } from 'next-intl';
 
 export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...props }: PaginationProps) {
+  const t = useTranslations('common');
   const totalPages = getTotalPages(totalCount, pageSize);
 
   const showPages = useMemo(() => {
@@ -38,6 +40,7 @@ export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...
     <UiPagination {...props}>
       <UiPaginationContent>
         <UiPaginationPrevious
+          aria-label={t('previousPage')}
           disabled={selectedPage <= 1}
           onClick={() => setPage(selectedPage - 1)}
         />
@@ -55,6 +58,7 @@ export function FinPagination({ selectedPage, setPage, pageSize, totalCount, ...
         })}
 
         <UiPaginationNext
+          aria-label={t('nextPage')}
           disabled={selectedPage >= totalPages}
           onClick={() => setPage(selectedPage + 1)}
         />

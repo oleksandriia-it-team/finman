@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './ui-sidebar-provider';
-import { useTranslations } from 'next-intl';
 
 import './styles/sidebar-styles.scss';
 import { cn } from '@frontend/shared/utils/cn.util';
@@ -19,14 +18,17 @@ export function UiSidebar({
   collapsible = 'offcanvas',
   className,
   children,
+  sheetTitle = 'Navigation',
+  sheetDescription = 'Mobile navigation panel',
   ...props
 }: React.ComponentProps<'div'> & {
   side?: 'left' | 'right';
   variant?: 'sidebar' | 'floating' | 'inset';
   colorVariant?: 'white' | 'blue';
   collapsible?: 'offcanvas' | 'icon' | 'none';
+  sheetTitle?: string;
+  sheetDescription?: string;
 }) {
-  const t = useTranslations('common');
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === 'none') {
@@ -63,8 +65,8 @@ export function UiSidebar({
           side={side}
         >
           <UiSheetHeader className="sr-only">
-            <UiSheetTitle>{t('controlPanel')}</UiSheetTitle>
-            <UiSheetDescription>{t('mobileOnly')}</UiSheetDescription>
+            <UiSheetTitle>{sheetTitle}</UiSheetTitle>
+            <UiSheetDescription>{sheetDescription}</UiSheetDescription>
           </UiSheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </UiSheetContent>

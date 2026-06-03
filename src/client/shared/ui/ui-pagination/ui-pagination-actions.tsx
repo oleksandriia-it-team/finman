@@ -3,30 +3,28 @@
 import * as React from 'react';
 import { type ComponentProps } from 'react';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
-import { useTranslations } from 'next-intl';
 
-export function UiPaginationPrevious(props: ComponentProps<'button'>) {
-  const t = useTranslations('common');
-
+export function UiPaginationPrevious({
+  'aria-label': ariaLabel = 'Previous page',
+  ...props
+}: ComponentProps<'button'>) {
   return (
     <UiIconButton
       size="sm"
       icon="chevron-left"
-      aria-label={t('previousPage')}
+      aria-label={ariaLabel}
       isOutlined={false}
       {...props}
     />
   );
 }
 
-export function UiPaginationNext(props: ComponentProps<'button'>) {
-  const t = useTranslations('common');
-
+export function UiPaginationNext({ 'aria-label': ariaLabel = 'Next page', ...props }: ComponentProps<'button'>) {
   return (
     <UiIconButton
       size="sm"
       icon="chevron-right"
-      aria-label={t('nextPage')}
+      aria-label={ariaLabel}
       isOutlined={false}
       {...props}
     />

@@ -3,20 +3,17 @@
 import * as React from 'react';
 import { Combobox as ComboboxPrimitive } from '@base-ui/react';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useTranslations } from 'next-intl';
 
 export function UiComboboxTrigger({
   className,
-  'aria-label': ariaLabel,
+  'aria-label': ariaLabel = 'Open list',
   children,
   ...props
 }: ComboboxPrimitive.Trigger.Props) {
-  const t = useTranslations('common');
-
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
-      aria-label={ariaLabel ?? t('openList')}
+      aria-label={ariaLabel}
       className={className}
       {...props}
     >

@@ -6,18 +6,17 @@ import { cn } from '@frontend/shared/utils/cn.util';
 
 import './styles/combobox-chip-styles.scss';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
-import { useTranslations } from 'next-intl';
 
 export function UiComboboxChip({
   className,
   children,
   showRemove = true,
+  removeAriaLabel = 'Remove',
   ...props
 }: ComboboxPrimitive.Chip.Props & {
   showRemove?: boolean;
+  removeAriaLabel?: string;
 }) {
-  const t = useTranslations('common');
-
   return (
     <ComboboxPrimitive.Chip
       data-slot="combobox-chip"
@@ -29,7 +28,7 @@ export function UiComboboxChip({
         <ComboboxPrimitive.ChipRemove
           className="combobox-chip-remove"
           data-slot="combobox-chip-remove"
-          aria-label={t('deleteItem')}
+          aria-label={removeAriaLabel}
         >
           <UiSvgIcon name="x" />
         </ComboboxPrimitive.ChipRemove>
