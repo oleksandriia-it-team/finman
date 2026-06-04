@@ -19,6 +19,7 @@ export function ProfileSettingsAppearanceSection({
 }: ProfileSettingsAppearanceSectionProps) {
   const localeDataResource = useGetLocalesDropdown(currentLocale);
   const t = useTranslations('userSettings.appearance');
+  const tRoot = useTranslations();
   const supportLanguagesLocale = useSupportLanguagesLocale();
 
   return (
@@ -64,7 +65,7 @@ export function ProfileSettingsAppearanceSection({
           label={t('localeLabel')}
           placeholder={t('localePlaceholder')}
           options={localeDataResource.options}
-          errorLabel={localeDataResource.errorMessage ?? ''}
+          errorLabel={localeDataResource.errorMessage ? tRoot(localeDataResource.errorMessage) : ''}
           state={localeDataResource.state}
           customInputValue={localeDataResource.inputLabel?.label ?? currentLocale}
           search={localeDataResource.search}

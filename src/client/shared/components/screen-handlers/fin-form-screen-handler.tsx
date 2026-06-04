@@ -69,7 +69,10 @@ export function FinFormScreenHandler<T, ID = number>({
       );
     }
 
-    return error(checkIsAppErrorObj(item.error) ? item.error : { status: 500, message: t('unknownError') });
+    if (checkIsAppErrorObj(item.error)) {
+      return error({ ...item.error, message: t(item.error.message) });
+    }
+    return error({ status: 500, message: t('unknownError') });
   }
 
   if (!item.data) {

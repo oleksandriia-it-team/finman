@@ -44,7 +44,7 @@ export function FinListScreenHandler({
       error ?? (
         <FinErrorWidget
           status={appError?.status ?? 500}
-          message={appError?.message ?? t('dataLoadError')}
+          message={appError?.message ? t(appError.message) : t('dataLoadError')}
         />
       )
     );

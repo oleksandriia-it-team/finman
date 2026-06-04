@@ -41,7 +41,7 @@ export function FinTableScreenHandler({
           {error ?? (
             <FinErrorTableWidget
               status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
-              message={props.appError?.message ?? t('dataLoadError')}
+              message={props.appError?.message ? t(props.appError.message) : t('dataLoadError')}
             />
           )}
         </UiTableCell>
