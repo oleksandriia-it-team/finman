@@ -23,4 +23,12 @@ export const Tables: Record<string, TableLocalModel> = {
     name: 'plannedRegOpsBudget',
     indexedColumns: ['budgetPlanId', 'regularOperationId'],
   },
+  CurrenciesTable: {
+    name: 'currencies',
+    indexedColumns: ['currencyCode'],
+  },
+  CountriesAndLocalesTable: {
+    name: 'countriesAndLocales',
+    indexedColumns: ['locale'],
+  },
 };
