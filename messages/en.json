@@ -53,7 +53,8 @@
     "currencyNotFound": "Currency not found",
     "countryNotFound": "Country not found",
     "userNotFoundByEmail": "User with this email not found",
-    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request."
+    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request.",
+    "pageNotFound": "Page not found"
   },
   "common": {
     "cancel": "Cancel",
