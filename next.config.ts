@@ -32,7 +32,9 @@ const nextConfig: NextConfig = {
 
 const withPWA = withPWAInit({
   dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
+  // Service worker is only generated when running in true production.
+  // Mirrors the PROD switch used elsewhere (see users.seeder.ts, EnvConfigConstant.PROD).
+  disable: process.env.PROD !== 'true',
   register: true,
   workboxOptions: {
     navigateFallback: '/',
