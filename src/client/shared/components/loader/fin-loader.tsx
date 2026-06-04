@@ -13,7 +13,7 @@ export function FinLoader() {
         <AnimatedWalletLogo />
 
         <div className="flex gap-1">
-          <span className="text-foreground text-xl font-bold items-center">{t('loading')}</span>
+          <span className="text-foreground text-xl font-bold text-center">{t('loading')}</span>
 
           <UiBouncingDots dotClassName="size-2" />
         </div>

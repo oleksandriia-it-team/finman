@@ -18,8 +18,8 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
         <ErrorIconSvg />
 
         <div className="flex flex-col">
-          <h3 className="text-foreground text-xl font-bold">{t('somethingWentWrong')}</h3>
-          <span className="text-muted-foreground text-center text-base">{message}</span>
+          <h3 className="text-foreground text-xl font-bold text-center">{t('somethingWentWrong')}</h3>
+          <span className="text-muted-foreground text-center text-base text-center">{message}</span>
         </div>
 
         <div className="flex gap-3 bg-primary/10 rounded-xl p-4 text-primary-foreground">
@@ -27,8 +27,8 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
             name="info-circle"
             className="rounded-full p-2 bg-primary size-8"
           />
-          <div className="flex flex-col gap-3 items-center">
-            <span className="text-foreground text-lg">
+          <div className="flex flex-col gap-3">
+            <span className="text-foreground text-lg text-left">
               {t('errorCode')} <b className="font-bold">{status}</b>
             </span>
             <span className="text-muted-foreground text-sm">{t('repeatIssue')}</span>

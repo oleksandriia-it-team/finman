@@ -54,7 +54,8 @@
     "countryNotFound": "Country not found",
     "userNotFoundByEmail": "User with this email not found",
     "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request.",
-    "pageNotFound": "Page not found"
+    "pageNotFound": "Page not found",
+    "cannotDeleteRegularExistInCurrentBudgetPlan": "Cannot delete this regular operation because it is included in the current month's budget plan. Please remove it from the plan first."
   },
   "common": {
     "cancel": "Cancel",
