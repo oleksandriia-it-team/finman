@@ -175,7 +175,7 @@
       "submitLoading": "Перевірка...",
       "retryAfter": "Спробуйте через {seconds}с",
       "changeEmail": "Змінити пошту",
-      "or": "or"
+      "or": "або"
     },
     "resetPassword": {
       "title": "Встановлення пароля",

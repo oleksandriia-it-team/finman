@@ -18,7 +18,7 @@ export function FinListScreenHandler({
   skeletonItems,
   skeletonClassName,
 }: ListScreenHandlerProps) {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const skeletonArray = useMemo(
     () => Array.from({ length: skeletonItems }, (_, i) => `skeleton-${i}`),
     [skeletonItems],
@@ -44,14 +44,14 @@ export function FinListScreenHandler({
       error ?? (
         <FinErrorWidget
           status={appError?.status ?? 500}
-          message={appError?.message ? t(appError.message) : t('dataLoadError')}
+          message={appError?.message ? t(appError.message) : t('common.dataLoadError')}
         />
       )
     );
   }
 
   if (!hasData) {
-    return notItemFound ?? <span className="italic">{t('notFound')}</span>;
+    return notItemFound ?? <span className="italic">{t('common.notFound')}</span>;
   }
 
   return children;

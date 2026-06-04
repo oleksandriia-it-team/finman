@@ -17,7 +17,7 @@ export function FinTableScreenHandler({
   error,
   ...props
 }: TableScreenHandlerProps) {
-  const t = useTranslations('common');
+  const t = useTranslations();
   const tableSkeleton = useCallback(() => {
     const Skeleton = skeleton ?? UiSkeleton;
 
@@ -41,7 +41,7 @@ export function FinTableScreenHandler({
           {error ?? (
             <FinErrorTableWidget
               status={(props.appError?.status ?? 500) as ApiResultOperationError['status']}
-              message={props.appError?.message ? t(props.appError.message) : t('dataLoadError')}
+              message={props.appError?.message ? t(props.appError.message) : t('common.dataLoadError')}
             />
           )}
         </UiTableCell>
@@ -53,7 +53,7 @@ export function FinTableScreenHandler({
     () => (
       <UiTableRow>
         <UiTableCell colSpan={totalColumns}>
-          <span className="italic">{t('notFound')}</span>
+          <span className="italic">{t('common.notFound')}</span>
         </UiTableCell>
       </UiTableRow>
     ),

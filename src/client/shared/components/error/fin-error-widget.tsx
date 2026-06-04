@@ -19,7 +19,7 @@ export function FinErrorWidget({ message, status }: ErrorWidgetProps) {
 
         <div className="flex flex-col">
           <h3 className="text-foreground text-xl font-bold text-center">{t('somethingWentWrong')}</h3>
-          <span className="text-muted-foreground text-center text-base text-center">{message}</span>
+          <span className="text-muted-foreground text-base text-center">{message}</span>
         </div>
 
         <div className="flex gap-3 bg-primary/10 rounded-xl p-4 text-primary-foreground">
