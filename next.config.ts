@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import withPWAInit from '@ducanh2912/next-pwa';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
@@ -29,4 +30,45 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const withPWA = withPWAInit({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  workboxOptions: {
+    navigateFallback: '/',
+    runtimeCaching: [
+      {
+        urlPattern: /^\/_next\/static\/.*/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'next-static' },
+      },
+      {
+        urlPattern: /^\/_next\/image\?.*/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'next-image' },
+      },
+      {
+        urlPattern: /\/(logo|pictures|icons|json)\/.*/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'static-assets' },
+      },
+      {
+        urlPattern: /\.(?:js|css|woff2?|ttf|otf)$/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'fonts-and-scripts' },
+      },
+      {
+        urlPattern: /\.(?:png|jpg|jpeg|svg|webp|ico)$/,
+        handler: 'CacheFirst',
+        options: { cacheName: 'images' },
+      },
+      {
+        urlPattern: ({ request }) => request.mode === 'navigate',
+        handler: 'NetworkFirst',
+        options: { cacheName: 'html-pages' },
+      },
+    ],
+  },
+});
+
+export default withPWA(nextConfig);

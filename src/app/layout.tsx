@@ -19,6 +19,36 @@ export default function Layout({ children }: ChildrenComponentProps) {
       lang="en"
       className={cn('font-sans', inter.variable)}
     >
+      <head>
+        <link
+          rel="manifest"
+          href="/manifest.webmanifest"
+        />
+        <meta
+          name="theme-color"
+          content="#ffffff"
+        />
+        <link
+          rel="apple-touch-icon"
+          href="/icons/apple-touch-icon-180.png"
+        />
+        <meta
+          name="mobile-web-app-capable"
+          content="yes"
+        />
+        <meta
+          name="apple-mobile-web-app-capable"
+          content="yes"
+        />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="default"
+        />
+        <meta
+          name="apple-mobile-web-app-title"
+          content="Finman"
+        />
+      </head>
       <body className="w-screen h-screen bg-background text-foreground">
         <ClientLayout>{children}</ClientLayout>
       </body>

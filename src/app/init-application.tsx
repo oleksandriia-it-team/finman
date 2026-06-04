@@ -12,6 +12,10 @@ export default function InitApplication({ children }: ChildrenComponentProps) {
     if (user && !user?.online) {
       databaseLocalService.connect();
 
+      if (navigator.storage?.persist) {
+        navigator.storage.persist().catch(() => {});
+      }
+
       return () => {
         databaseLocalService.close();
       };
