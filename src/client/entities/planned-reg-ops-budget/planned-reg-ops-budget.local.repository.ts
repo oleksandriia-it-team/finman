@@ -25,6 +25,16 @@ export class PlannedRegOpsBudgetLocalRepository extends CrudLocalRepository<Plan
     return this.table.where('budgetPlanId').equals(budgetPlanId).toArray();
   }
 
+  async existsByRegularOperationAndBudgetPlan(regularOperationId: number, budgetPlanId: number): Promise<boolean> {
+    const record = await this.table
+      .where('regularOperationId')
+      .equals(regularOperationId)
+      .and((item) => item.budgetPlanId === budgetPlanId)
+      .first();
+
+    return record !== undefined;
+  }
+
   async deleteByBudgetPlanId(budgetPlanId: number): Promise<void> {
     await this.table.where('budgetPlanId').equals(budgetPlanId).delete();
   }

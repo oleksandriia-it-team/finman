@@ -13,8 +13,6 @@ import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 import { useTranslations } from 'next-intl';
 
 export default function RegularIncomesExpensesScreen() {
@@ -50,18 +48,16 @@ export default function RegularIncomesExpensesScreen() {
     clearCacheOnDestroy: true,
   });
 
-  const state = useCombineStates(onDelete.state, listState);
-
   return (
     <FinListPageWrapper>
       <p className="flex-none text-xl p-4">
         <b>{t('title')}</b>
       </p>
 
-      <FinListWrapper state={state}>
+      <FinListWrapper state={listState}>
         <FinListScreenHandler
-          state={state}
-          appError={getFirstAppError(onDelete.error, paginationAppError)}
+          state={listState}
+          appError={paginationAppError}
           hasData={!!options.length}
           skeletonItems={pageSize}
           skeletonClassName="min-h-72"

@@ -11,11 +11,15 @@ import type { TrackingOperationRecord } from '@common/records/tracking-operation
 import { TypeEntry } from '@common/enums/entry.enum';
 import { useTrackingOperations } from '@frontend/features/tracking-operation/tracking-operation-filters/tracking-operation-hooks/tracking-operations.hook';
 import { useTranslations } from 'next-intl';
+import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 
 export function useTrackingOperationForm(initialData?: TrackingOperationRecord, onSuccess?: () => void) {
   const { handleCreate, handleUpdate } = useTrackingOperations();
   const isEdit = !!initialData;
+  const t = useTranslations();
   const tTV = useTranslations('tracking.validation');
+  const tCommon = useTranslations('common');
+  const showToast = useGlobalToast((state) => state.showToast);
 
   const schema = useMemo(
     () =>
@@ -59,7 +63,12 @@ export function useTrackingOperationForm(initialData?: TrackingOperationRecord, 
       }
       onSuccess?.();
     } catch (err) {
-      console.error(err);
+      const message = err instanceof Error ? t(err.message) : tCommon('unknownError');
+      showToast({
+        title: tCommon('requestErrorTitle'),
+        description: message,
+        variant: 'destructive',
+      });
     }
   });
 

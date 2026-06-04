@@ -1,16 +1,13 @@
 'use client';
 
 import * as React from 'react';
+import { type ComponentProps, type Ref, useEffect, useMemo, useState } from 'react';
 import { DayPicker, getDefaultClassNames, type Matcher } from 'react-day-picker';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiDayButton } from '@frontend/ui/ui-datepicker/ui-day-button';
 
-const CalendarRoot = ({
-  className,
-  rootRef,
-  ...props
-}: React.ComponentProps<'div'> & { rootRef?: React.Ref<HTMLDivElement> }) => (
+const CalendarRoot = ({ className, rootRef, ...props }: ComponentProps<'div'> & { rootRef?: Ref<HTMLDivElement> }) => (
   <div
     data-slot="calendar"
     ref={rootRef}
@@ -39,7 +36,7 @@ const CalendarChevron = ({
   );
 };
 
-const CalendarWeekNumber = ({ children, ...props }: React.ComponentProps<'td'>) => (
+const CalendarWeekNumber = ({ children, ...props }: ComponentProps<'td'>) => (
   <td {...props}>
     <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
   </td>
@@ -55,11 +52,35 @@ export function UiCalendar({
   minDate,
   maxDate,
   disabled,
+  open,
   ...props
-}: React.ComponentProps<typeof DayPicker> & { minDate?: Date | undefined; maxDate?: Date | undefined }) {
+}: ComponentProps<typeof DayPicker> & {
+  minDate?: Date | undefined;
+  maxDate?: Date | undefined;
+  open?: boolean;
+}) {
   const defaultClassNames = getDefaultClassNames();
 
-  const disabledDates = React.useMemo(() => {
+  const [showMonth, setShowMonth] = useState(new Date());
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    if (props.mode === 'single' && props.selected) {
+      setShowMonth(props.selected);
+    } else if (props.mode === 'range' && props.selected) {
+      setShowMonth(props.selected.to ?? props.selected.from ?? new Date());
+    } else if (props.mode === 'multiple' && props.selected?.length) {
+      setShowMonth(props.selected[props.selected.length - 1]);
+    }
+
+    // We only want to update the month when the calendar is closed, otherwise it would override the month the user is currently viewing
+    // eslint-disable-next-line
+  }, [open]);
+
+  const disabledDates = useMemo(() => {
     const conditions: Matcher[] = [];
     if (minDate) conditions.push({ before: minDate });
     if (maxDate) conditions.push({ after: maxDate });
@@ -147,6 +168,8 @@ export function UiCalendar({
         WeekNumber: CalendarWeekNumber,
         ...components,
       }}
+      month={showMonth}
+      onMonthChange={setShowMonth}
       {...props}
     />
   );

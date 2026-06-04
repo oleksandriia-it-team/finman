@@ -71,7 +71,7 @@ export function TrackingOperationScreen() {
     clearCacheOnDestroy: true,
   });
 
-  const state = useCombineStates(onDelete.state, listState, basicInformationState);
+  const state = useCombineStates(listState, basicInformationState);
 
   return (
     <div className="size-full overflow-hidden flex flex-col">
@@ -94,7 +94,7 @@ export function TrackingOperationScreen() {
         <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
-            appError={getFirstAppError(onDelete.error, paginationAppError, basicInformationError)}
+            appError={getFirstAppError(paginationAppError, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"

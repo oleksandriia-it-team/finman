@@ -30,4 +30,8 @@ export const clientSchema = z.object({
         });
       }
     }),
+  PROD: z.preprocess((val) => {
+    if (val === undefined || val === null || val === '') return false;
+    return String(val).toLowerCase() === 'true' || val === '1';
+  }, z.boolean()),
 });

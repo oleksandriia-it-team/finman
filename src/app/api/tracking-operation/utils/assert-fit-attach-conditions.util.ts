@@ -26,8 +26,8 @@ async function assertAttachedFits<T extends HasBudgetPlan>(opts: {
   getCategory: (entity: T) => AllCategories | undefined;
   relations?: FindOptionsRelations<T>;
   notFoundMessage: string;
-  dateMismatchMessage: string;
   categoryMismatchMessage: string;
+  idKey?: keyof T;
 }): Promise<void> {
   const {
     repository,
@@ -38,23 +38,20 @@ async function assertAttachedFits<T extends HasBudgetPlan>(opts: {
     getCategory,
     relations,
     notFoundMessage,
-    dateMismatchMessage,
     categoryMismatchMessage,
+    idKey = 'id',
   } = opts;
 
   const exist = await repository.findOne({
-    where: { budgetPlan: { userId }, id } as FindOptionsWhere<T>,
+    where: {
+      budgetPlan: { userId, month: date.getUTCMonth(), year: date.getUTCFullYear() },
+      [idKey]: id,
+    } as FindOptionsWhere<T>,
     relations: { budgetPlan: true, ...(relations ?? {}) } as FindOptionsRelations<T>,
   });
 
   if (!exist) {
     throw new AppError(notFoundMessage, 403);
-  }
-
-  const isFitDate = exist.budgetPlan?.month === date.getUTCMonth() && exist.budgetPlan?.year === date.getUTCFullYear();
-
-  if (!isFitDate) {
-    throw new AppError(dateMismatchMessage, 403);
   }
 
   if (getCategory(exist) !== category) {
@@ -82,7 +79,6 @@ export async function assertFitAttachConditions({
       category,
       getCategory: (entry) => entry.category,
       notFoundMessage: ErrorTexts.MonthEntryNotFoundOrNotOwned,
-      dateMismatchMessage: ErrorTexts.MonthEntryDateMismatch,
       categoryMismatchMessage: ErrorTexts.MonthEntryCategoryMismatch,
     });
   }
@@ -90,6 +86,7 @@ export async function assertFitAttachConditions({
   if (!isEmpty(attachedPlannedRegEntryId)) {
     await assertAttachedFits({
       repository: plannedRegOpsBudgetRepository.repository,
+      idKey: 'regularOperationId',
       id: attachedPlannedRegEntryId,
       userId,
       date,
@@ -97,7 +94,6 @@ export async function assertFitAttachConditions({
       getCategory: (row) => row.regularOperation?.category,
       relations: { regularOperation: true },
       notFoundMessage: ErrorTexts.RegEntryNotFoundOrNotOwned,
-      dateMismatchMessage: ErrorTexts.RegEntryDateMismatch,
       categoryMismatchMessage: ErrorTexts.RegEntryCategoryMismatch,
     });
   }

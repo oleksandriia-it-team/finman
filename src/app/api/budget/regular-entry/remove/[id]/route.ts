@@ -6,6 +6,7 @@ import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { OwnsRegularEntryGuard } from '@backend/entities/regular-entry/application/owns-regular-entry.guard';
 import { getDefaultApiErrorFilter } from '../../../../shared/get-api-error-filter.util';
 import { ExistRegularEntryGuard } from '@backend/entities/regular-entry/application/exist-regular-entry.guard';
+import { RegularNotExistInCurrentBudgetGuard } from '@backend/features/regular-entry/regular-not-exist-in-current-budget.guard';
 
 export const DELETE = createRoute({
   paramsFn: (context) => ({
@@ -19,6 +20,7 @@ export const DELETE = createRoute({
     AuthGuard,
     ({ context }) => ExistRegularEntryGuard(context.regularEntry),
     ({ context: { userId, regularEntry } }) => OwnsRegularEntryGuard(regularEntry, userId as number),
+    ({ params: { id } }) => RegularNotExistInCurrentBudgetGuard(id),
   ],
   execute: async ({ params: { id } }) => {
     await regularEntryApiRepository.deleteItem(id, true);

@@ -52,6 +52,8 @@ export const enum ErrorTexts {
   CountryNotFound = 'errors.countryNotFound',
   UserNotFoundByEmail = 'errors.userNotFoundByEmail',
   CooldownWait = 'errors.cooldownWait',
+  PageNotFound = 'errors.pageNotFound',
+  CannotDeleteRegularExistInCurrentBudgetPlan = 'errors.cannotDeleteRegularExistInCurrentBudgetPlan',
 }
 
 export type ErrorMessageParams = Record<string, string | number>;

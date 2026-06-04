@@ -53,7 +53,9 @@
     "currencyNotFound": "Валюту не знайдено",
     "countryNotFound": "Країну не знайдено",
     "userNotFoundByEmail": "Користувача з такою поштою не знайдено",
-    "cooldownWait": "Занадто багато спроб. Зачекайте {seconds} секунд перед наступним запитом."
+    "cooldownWait": "Занадто багато спроб. Зачекайте {seconds} секунд перед наступним запитом.",
+    "pageNotFound": "Сторінку не знайдено",
+    "cannotDeleteRegularExistInCurrentBudgetPlan": "Неможливо видалити регулярну операцію, яка використовується в поточному бюджетному плані. Видаліть її з плану перед видаленням."
   },
   "months": {
     "january": "Січень",
@@ -92,6 +94,18 @@
   },
   "auth": {
     "login": {
+      "title": "Авторизація",
+      "codeStepTitle": "Двофакторна автентифікація",
+      "loginLabel": "Логін або email",
+      "loginPlaceholder": "Введіть логін або email",
+      "passwordLabel": "Пароль",
+      "passwordPlaceholder": "Введіть пароль",
+      "forgotPassword": "Забули пароль?",
+      "submit": "Увійти",
+      "submitLoading": "Входимо...",
+      "signupCta": "Немає акаунту? Зареєструватися",
+      "or": "АБО",
+      "successMessage": "Авторизація успішна",
       "validation": {
         "loginRequired": "Логін або email є обов'язковим",
         "loginMaxLength": "Логін не може бути довше {max} символів",
@@ -160,7 +174,8 @@
       "submit": "Підтвердити",
       "submitLoading": "Перевірка...",
       "retryAfter": "Спробуйте через {seconds}с",
-      "changeEmail": "Змінити пошту"
+      "changeEmail": "Змінити пошту",
+      "or": "або"
     },
     "resetPassword": {
       "title": "Встановлення пароля",

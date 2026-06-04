@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
       imageSrc="/pictures/recovery-picture.png"
       rightSideTitle={t('rightSideTitle')}
       rightSideDescription={t('rightSideDescription')}
-      rightSideClassName="bg-powder-muted"
+      rightSideClassName="bg-primary-muted"
       rightSideImageClassName="max-h-[25rem]"
     >
       <div className="flex flex-col w-full h-full min-h-[inherit]">

@@ -53,7 +53,9 @@
     "currencyNotFound": "Currency not found",
     "countryNotFound": "Country not found",
     "userNotFoundByEmail": "User with this email not found",
-    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request."
+    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request.",
+    "pageNotFound": "Page not found",
+    "cannotDeleteRegularExistInCurrentBudgetPlan": "Cannot delete this regular operation because it is included in the current month's budget plan. Please remove it from the plan first."
   },
   "common": {
     "cancel": "Cancel",
@@ -142,6 +144,18 @@
   },
   "auth": {
     "login": {
+      "title": "Log in",
+      "codeStepTitle": "Two-factor authentication",
+      "loginLabel": "Username or email",
+      "loginPlaceholder": "Enter username or email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "submitLoading": "Logging in...",
+      "signupCta": "Don't have an account? Sign up",
+      "or": "OR",
+      "successMessage": "Login successful!",
       "validation": {
         "loginRequired": "Login or email is required",
         "loginMaxLength": "Login cannot exceed {max} characters",
@@ -210,7 +224,8 @@
       "submit": "Confirm",
       "submitLoading": "Verifying...",
       "retryAfter": "Try again in {seconds}s",
-      "changeEmail": "Change email"
+      "changeEmail": "Change email",
+      "or": "or"
     },
     "resetPassword": {
       "title": "Set new password",

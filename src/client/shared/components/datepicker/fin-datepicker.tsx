@@ -154,6 +154,7 @@ export function FinDatepicker({
         }}
       >
         <UiCalendar
+          open={open}
           className={calendarClassName ?? ''}
           required={false}
           formatters={{
