@@ -16,8 +16,6 @@ export async function deleteRegularEntryLocalUseCase(
   if (currentPlan?.id) {
     const isLinked = await plannedRegOpsBudgetRepository.existsByRegularOperationAndBudgetPlan(id, currentPlan.id);
 
-    console.log(isLinked);
-
     if (isLinked) {
       throw new AppError(ErrorTexts.CannotDeleteRegularExistInCurrentBudgetPlan, 403);
     }
