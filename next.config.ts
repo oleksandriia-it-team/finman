@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 import withPWAInit from '@ducanh2912/next-pwa';
-import { EnvConfigConstant } from '@backend/config/env-config.constant';
+import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
@@ -38,7 +38,7 @@ const withPWA = withPWAInit({
   dest: 'public',
   // Service worker is only generated when running in true production.
   // Mirrors the PROD switch used elsewhere (see users.seeder.ts, EnvConfigConstant.PROD).
-  disable: !EnvConfigConstant.PROD,
+  disable: isDevMode(),
   register: true,
   workboxOptions: {
     navigateFallback: '/',
