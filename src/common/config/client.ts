@@ -2,32 +2,29 @@ import { z } from 'zod';
 import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 export const clientSchema = z.object({
-  NEXT_PUBLIC_API_URL: z
-    .string()
-    .default('http://localhost:3000')
-    .superRefine((val, ctx) => {
-      let url: URL;
+  NEXT_PUBLIC_API_URL: z.string().superRefine((val, ctx) => {
+    let url: URL;
 
-      try {
-        url = new URL(val);
-      } catch {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'API URL must be a valid URL (e.g., http://localhost:3000)',
-        });
-        return;
-      }
+    try {
+      url = new URL(val);
+    } catch {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'API URL must be a valid URL (e.g., http://localhost:3000)',
+      });
+      return;
+    }
 
-      const isHttps = url.protocol === 'https:';
-      const isLocalHttp = url.protocol === 'http:' && (url.hostname === 'localhost' || url.hostname === '127.0.0.1');
+    const isHttps = url.protocol === 'https:';
+    const isLocalHttp = url.protocol === 'http:' && (url.hostname === 'localhost' || url.hostname === '127.0.0.1');
 
-      if (!isHttps && !isLocalHttp) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: !isDevMode()
-            ? 'Only https:// is allowed in production'
-            : 'Only https:// or http://localhost / http://127.0.0.1 is allowed',
-        });
-      }
-    }),
+    if (!isHttps && !isLocalHttp) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: !isDevMode()
+          ? 'Only https:// is allowed in production'
+          : 'Only https:// or http://localhost / http://127.0.0.1 is allowed',
+      });
+    }
+  }),
 });
