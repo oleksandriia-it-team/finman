@@ -31,6 +31,10 @@ export class TrackingOperationRepository
   extends CrudApiRepository<TrackingOperationOrm, TrackingOperationApiFilter>
   implements ITrackingOperationRepository
 {
+  constructor() {
+    super(TrackingOperationOrm, 'TrackingOperationOrm');
+  }
+
   protected override mapFilters(
     filters: DeepPartial<TrackingOperationApiFilter> | undefined,
   ): FindOptionsWhere<TrackingOperationOrm> {
@@ -215,4 +219,4 @@ export class TrackingOperationRepository
   }
 }
 
-export const trackingOperationRepository = new TrackingOperationRepository(TrackingOperationOrm);
+export const trackingOperationRepository = new TrackingOperationRepository();

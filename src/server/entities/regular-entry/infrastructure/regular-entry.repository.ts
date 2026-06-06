@@ -14,6 +14,10 @@ export class RegularEntryApiRepository
   extends CrudApiRepository<RegularEntryOrm, RegularEntryApiFilter>
   implements IRegularEntryRepository
 {
+  constructor() {
+    super(RegularEntryOrm, 'RegularEntryOrm');
+  }
+
   protected override mapFilters(
     filters: DeepPartial<RegularEntryApiFilter> | undefined,
   ): FindOptionsWhere<RegularEntryOrm> {
@@ -43,4 +47,4 @@ export class RegularEntryApiRepository
   }
 }
 
-export const regularEntryApiRepository = new RegularEntryApiRepository(RegularEntryOrm);
+export const regularEntryApiRepository = new RegularEntryApiRepository();

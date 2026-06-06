@@ -6,6 +6,10 @@ export class PlannedRegOpsBudgetRepository extends CrudApiRepository<
   PlannedRegOpsBudgetOrm,
   never,
   Omit<PlannedRegOpsBudgetOrm, DefaultColumnKeys>
-> {}
+> {
+  constructor() {
+    super(PlannedRegOpsBudgetOrm, 'PlannedRegOpsBudgetOrm');
+  }
+}
 
-export const plannedRegOpsBudgetRepository = new PlannedRegOpsBudgetRepository(PlannedRegOpsBudgetOrm);
+export const plannedRegOpsBudgetRepository = new PlannedRegOpsBudgetRepository();

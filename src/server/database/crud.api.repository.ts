@@ -14,8 +14,8 @@ export abstract class CrudApiRepository<
   extends OrmRepository<T>
   implements ICrudService<T, DTO, F, UpdateDTO>
 {
-  constructor(entity: EntityTarget<T>) {
-    super(entity);
+  constructor(entity: EntityTarget<T>, tableName: string) {
+    super(entity, tableName);
   }
 
   async createItem(data: DTO): Promise<number> {

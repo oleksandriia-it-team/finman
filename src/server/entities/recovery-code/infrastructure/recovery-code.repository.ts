@@ -8,7 +8,7 @@ import { RecoveryValidationStatus } from '@common/enums/recovery-status.enum';
 
 export class RecoveryCodeRepository extends CrudApiRepository<RecoveryCodeOrm, never, CreateRecoveryCodeDto> {
   constructor() {
-    super(RecoveryCodeOrm);
+    super(RecoveryCodeOrm, 'RecoveryCodeOrm');
   }
   async validateAndGetCode(email: string, code: string): Promise<ValidationResult> {
     const record = await this.repository.findOneBy({

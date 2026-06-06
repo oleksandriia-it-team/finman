@@ -7,6 +7,10 @@ import { type DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
+  constructor() {
+    super(CurrencyOrm, 'CurrencyOrm');
+  }
+
   override async updateItem(id: number, data: Omit<CurrencyOrm, DefaultColumnKeys>): Promise<true> {
     await this.repository.update({ id }, data as QueryDeepPartialEntity<CurrencyOrm>);
 
@@ -43,4 +47,4 @@ export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyF
   }
 }
 
-export const currencyRepository = new CurrencyRepository(CurrencyOrm);
+export const currencyRepository = new CurrencyRepository();

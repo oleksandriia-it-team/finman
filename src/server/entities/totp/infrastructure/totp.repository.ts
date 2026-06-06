@@ -4,7 +4,7 @@ import type { DefaultColumnKeys } from '@common/models/default-table-columns.mod
 
 export class TotpRepository extends CrudApiRepository<TotpOrm, never, Omit<TotpOrm, DefaultColumnKeys | 'user'>> {
   constructor() {
-    super(TotpOrm);
+    super(TotpOrm, 'TotpOrm');
   }
 
   findByUserId(userId: number): Promise<TotpOrm | null> {
