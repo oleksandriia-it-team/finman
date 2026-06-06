@@ -3,6 +3,8 @@ import { UserOrm } from './user.orm';
 import { type CreateUserDto } from '@common/domains/user/schema/user.schema';
 import bcrypt from 'bcrypt';
 import type { FindOptionsWhere, QueryDeepPartialEntity } from 'typeorm';
+import { getTransactionManager, typeormTransactionManager } from '@backend/database/transaction.manager';
+import { DBDataSource } from '@backend/database/database-connection';
 
 export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateUserDto> {
   constructor() {
@@ -78,6 +80,19 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
     return this.repository.findOne({
       where: { id },
       relations: ['totp'],
+    });
+  }
+
+  async deleteAccount(id: number): Promise<boolean> {
+    return typeormTransactionManager.run(async () => {
+      const manager = getTransactionManager() ?? DBDataSource.manager;
+
+      await manager.delete('budget-plan', { userId: id });
+      await manager.delete('regular-entry', { userId: id });
+
+      const result = await manager.delete('users', { id });
+
+      return (result.affected ?? 0) > 0;
     });
   }
 }
