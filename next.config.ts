@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   serverExternalPackages: ['pg', 'typeorm'],
+  experimental: {
+    serverMinification: false,
+  },
   sassOptions: {
     silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin', 'color-functions', 'mixed-decls'],
   },
