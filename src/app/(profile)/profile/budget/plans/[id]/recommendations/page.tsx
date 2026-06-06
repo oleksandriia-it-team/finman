@@ -22,7 +22,7 @@ export default function BudgetPlanRecommendationsPage() {
   const id = createBudgetPlanIdUrl(selectedBudgetPlanDate);
 
   const isEdit = !!lastLoadedBudgetPlan;
-  const [needsRedirect] = useState(() => plannedRegularEntries.length === 0);
+  const [needsRedirect] = useState(() => plannedRegularEntries.length === 0 && monthOperations.length === 0);
 
   useEffect(() => {
     if (!needsRedirect) return;
