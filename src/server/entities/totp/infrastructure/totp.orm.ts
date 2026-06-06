@@ -4,7 +4,7 @@ import type { UserOrm } from '@backend/entities/user/infrastructure/user.orm';
 import { TotpRequirements } from '@backend/entities/totp/domain/totp-requirements.constant';
 
 // 2FA ORM
-@Entity()
+@Entity('totp_orm')
 export class TotpOrm extends DefaultTableColumnsOrm {
   @Column({ type: 'varchar', length: TotpRequirements.SecretLength })
   secret!: string;

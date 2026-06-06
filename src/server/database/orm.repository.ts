@@ -2,22 +2,22 @@ import { type DefaultTableColumns } from '@common/models/default-table-columns.m
 import { type EntityTarget, type Repository } from 'typeorm';
 import { DBDataSource } from './database-connection';
 import { getTransactionManager } from './transaction.manager';
-import { type ConstructorModel } from '@common/models/constructor.model';
 
 export abstract class OrmRepository<T extends DefaultTableColumns> {
-  private readonly entity: EntityTarget<T>;
+  readonly tableName: string;
 
-  constructor(entity: EntityTarget<T>) {
-    this.entity = entity;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  constructor(_entity: EntityTarget<T>, tableName: string) {
+    this.tableName = tableName;
   }
 
   get repository(): Repository<T> {
     const txManager = getTransactionManager();
 
     if (!txManager) {
-      return DBDataSource.getRepository((this.entity as ConstructorModel<T>).name) as Repository<T>;
+      return DBDataSource.getRepository<T>(this.tableName);
     }
 
-    return txManager.getRepository((this.entity as ConstructorModel<T>).name) as Repository<T>;
+    return txManager.getRepository<T>(this.tableName);
   }
 }

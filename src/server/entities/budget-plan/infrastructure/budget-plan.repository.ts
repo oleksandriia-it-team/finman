@@ -6,6 +6,10 @@ import type { GetBudgetPlanDto } from '@common/domains/budget-plan/get-budget-pl
 export type GetApiBudgetPlanInput = GetBudgetPlanDto & { userId: number };
 
 export class BudgetPlanRepository extends CrudApiRepository<BudgetPlanOrm, never, BudgetPlanDto> {
+  constructor() {
+    super(BudgetPlanOrm, 'budget_plan_orm');
+  }
+
   async getItem({ month, year, userId }: GetApiBudgetPlanInput) {
     if (userId) {
       return this.repository.findOne({
@@ -20,4 +24,4 @@ export class BudgetPlanRepository extends CrudApiRepository<BudgetPlanOrm, never
   }
 }
 
-export const budgetPlanRepository = new BudgetPlanRepository(BudgetPlanOrm);
+export const budgetPlanRepository = new BudgetPlanRepository();

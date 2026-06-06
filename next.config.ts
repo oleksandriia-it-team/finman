@@ -5,6 +5,9 @@ import { EnvConfigConstant } from '@backend/config/env-config.constant';
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   serverExternalPackages: ['pg', 'typeorm'],
+  experimental: {
+    serverMinification: false,
+  },
   sassOptions: {
     silenceDeprecations: ['legacy-js-api', 'import', 'global-builtin', 'color-functions', 'mixed-decls'],
   },
