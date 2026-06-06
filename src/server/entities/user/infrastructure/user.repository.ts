@@ -6,7 +6,7 @@ import type { FindOptionsWhere, QueryDeepPartialEntity } from 'typeorm';
 
 export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateUserDto> {
   constructor() {
-    super(UserOrm, 'UserOrm');
+    super(UserOrm, 'users');
   }
 
   override async createItem(data: CreateUserDto): Promise<number> {

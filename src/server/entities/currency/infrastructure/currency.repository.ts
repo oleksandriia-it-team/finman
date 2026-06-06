@@ -8,7 +8,7 @@ import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.uti
 
 export class CurrencyRepository extends CrudApiRepository<CurrencyOrm, CurrencyFilter> {
   constructor() {
-    super(CurrencyOrm, 'CurrencyOrm');
+    super(CurrencyOrm, 'currency');
   }
 
   override async updateItem(id: number, data: Omit<CurrencyOrm, DefaultColumnKeys>): Promise<true> {

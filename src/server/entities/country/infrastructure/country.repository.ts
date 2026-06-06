@@ -8,7 +8,7 @@ import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.uti
 
 export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAndLocalesFilter> {
   constructor() {
-    super(CountryOrm, 'CountryOrm');
+    super(CountryOrm, 'country');
   }
 
   override async updateItem(id: number, data: Omit<CountryOrm, DefaultColumnKeys>): Promise<true> {

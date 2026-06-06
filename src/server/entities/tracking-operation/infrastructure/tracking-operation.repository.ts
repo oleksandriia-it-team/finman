@@ -32,7 +32,7 @@ export class TrackingOperationRepository
   implements ITrackingOperationRepository
 {
   constructor() {
-    super(TrackingOperationOrm, 'TrackingOperationOrm');
+    super(TrackingOperationOrm, 'tracking-operation');
   }
 
   protected override mapFilters(

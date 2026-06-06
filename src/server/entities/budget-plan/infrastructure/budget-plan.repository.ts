@@ -7,7 +7,7 @@ export type GetApiBudgetPlanInput = GetBudgetPlanDto & { userId: number };
 
 export class BudgetPlanRepository extends CrudApiRepository<BudgetPlanOrm, never, BudgetPlanDto> {
   constructor() {
-    super(BudgetPlanOrm, 'BudgetPlanOrm');
+    super(BudgetPlanOrm, 'budget_plan_orm');
   }
 
   async getItem({ month, year, userId }: GetApiBudgetPlanInput) {

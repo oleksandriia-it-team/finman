@@ -15,7 +15,7 @@ export class RegularEntryApiRepository
   implements IRegularEntryRepository
 {
   constructor() {
-    super(RegularEntryOrm, 'RegularEntryOrm');
+    super(RegularEntryOrm, 'regular-entry');
   }
 
   protected override mapFilters(

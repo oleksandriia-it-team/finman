@@ -3,7 +3,7 @@ import { MonthEntryOrm } from '@backend/entities/month-entry/infrastructure/mont
 
 export class MonthEntryRepository extends CrudApiRepository<MonthEntryOrm, never> {
   constructor() {
-    super(MonthEntryOrm, 'MonthEntryOrm');
+    super(MonthEntryOrm, 'month_entry_orm');
   }
 }
 

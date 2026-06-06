@@ -8,7 +8,7 @@ export class PlannedRegOpsBudgetRepository extends CrudApiRepository<
   Omit<PlannedRegOpsBudgetOrm, DefaultColumnKeys>
 > {
   constructor() {
-    super(PlannedRegOpsBudgetOrm, 'PlannedRegOpsBudgetOrm');
+    super(PlannedRegOpsBudgetOrm, 'planned-reg-ops-budget');
   }
 }
 
