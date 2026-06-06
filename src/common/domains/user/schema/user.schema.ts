@@ -3,6 +3,7 @@ import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
 import { LatinPasswordPattern, LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
+import { SupportLanguages } from '@common/enums/support-languages.enum';
 
 export interface CreateUserValidationMessages {
   emailRequired: string;
@@ -91,6 +92,8 @@ export function createCreateUserSchema(messages: CreateUserValidationMessages = 
       .min(1, messages.currencyRequired)
       .length(CurrencyRequirements.MaxCurrencyCodeLength, messages.currencyCodeLength)
       .regex(/^[A-Z]{3}$/, messages.currencyCodeFormat),
+
+    language: z.nativeEnum(SupportLanguages).optional(),
   });
 }
 
