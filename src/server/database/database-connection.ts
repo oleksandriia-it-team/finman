@@ -4,7 +4,6 @@ import { DataSource, type DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '@backend/config/env-config.constant';
-import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 const args = process.argv.slice(2);
 const synchronize = args.includes('--synchronize=true');
@@ -24,17 +23,13 @@ const buildDataSourceOptions = (): DataSourceOptions => ({
   schema: 'public',
 });
 
-const globalForTypeorm = global as unknown as { typeorm: DataSource };
+const globalForTypeorm = globalThis as unknown as { __finmanDataSource?: DataSource };
 
-let instance: DataSource | null = null;
 const getDataSource = (): DataSource => {
-  if (globalForTypeorm.typeorm) return globalForTypeorm.typeorm;
-  if (instance) return instance;
-  instance = new DataSource(buildDataSourceOptions());
-  if (isDevMode()) {
-    globalForTypeorm.typeorm = instance;
+  if (!globalForTypeorm.__finmanDataSource) {
+    globalForTypeorm.__finmanDataSource = new DataSource(buildDataSourceOptions());
   }
-  return instance;
+  return globalForTypeorm.__finmanDataSource;
 };
 
 export const DBDataSource: DataSource = new Proxy({} as DataSource, {
