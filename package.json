@@ -4,6 +4,9 @@
   "description": "",
   "main": "main.tsx",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
