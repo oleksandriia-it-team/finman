@@ -80,6 +80,12 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       relations: ['totp'],
     });
   }
+
+  async deleteAccount(id: number): Promise<boolean> {
+    const result = await this.repository.delete({ id });
+
+    return (result.affected ?? 0) > 0;
+  }
 }
 
 export const userApiRepository = new UserApiRepository();

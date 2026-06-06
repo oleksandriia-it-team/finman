@@ -342,6 +342,14 @@
         "title": "Sign out?",
         "description": "After signing out you will need to sign in again to continue.",
         "confirm": "Sign out"
+      },
+      "deleteAccount": "Delete account",
+      "deleteAccountConfirm": {
+        "title": "Delete account?",
+        "description": "This action is permanent. Your account and all related data will be permanently removed.",
+        "confirm": "Yes, delete",
+        "cancel": "Cancel",
+        "successMessage": "Account deleted"
       }
     },
     "profileUpdated": "Profile updated",

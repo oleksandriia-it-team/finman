@@ -17,7 +17,7 @@ export class BudgetPlanOrm extends DefaultTableColumnsOrm {
   @Column({ type: 'int' })
   userId!: number;
 
-  @ManyToOne('UserOrm', 'budgetPlans')
+  @ManyToOne('UserOrm', 'budgetPlans', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
 

@@ -17,7 +17,7 @@ export class RegularEntryOrm extends BasicEntryOrm implements RegularEntry {
   @Column({ type: 'int' })
   userId!: number;
 
-  @ManyToOne('UserOrm', 'regularEntries')
+  @ManyToOne('UserOrm', 'regularEntries', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
 

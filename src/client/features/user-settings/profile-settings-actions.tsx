@@ -5,12 +5,15 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 import type { ProfileSettingsActionsProps } from '@frontend/features/user-settings/props/profile-settings-actions.props';
 import { useTranslations } from 'next-intl';
+import { DeleteAccountModal } from '@frontend/features/user-settings/delete-account/delete-account-modal';
 
 export function ProfileSettingsActions({ isOnline, isPending, isDirty, onLogout }: ProfileSettingsActionsProps) {
   const t = useTranslations('userSettings.actions');
 
   return (
     <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      <DeleteAccountModal />
+
       {isOnline && (
         <UiConfirmModal
           onConfirm={onLogout}

@@ -26,3 +26,13 @@
     }
   }
 }
+
+.dark .icon-badge {
+  @each $name, $colors in $variants {
+    &[data-variant='#{$name}'][data-reverse='true'] {
+      color: list.nth($colors, 2);
+      background: list.nth($colors, 1);
+    }
+  }
+
+}

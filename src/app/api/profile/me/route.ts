@@ -35,6 +35,29 @@ export const GET = createRoute({
   filter: getDefaultApiErrorFilter,
 });
 
+export const DELETE = createRoute({
+  contextFn: GetUserIdTransformer,
+  guards: [AuthGuard],
+  execute: async ({ context }) => {
+    const userId = context as number;
+
+    const deleted = await userApiRepository.deleteAccount(userId);
+
+    if (!deleted) {
+      return {
+        status: 404,
+        message: ErrorTexts.UserDataNotFound,
+      };
+    }
+
+    return {
+      status: 200,
+      data: { success: true },
+    };
+  },
+  filter: getDefaultApiErrorFilter,
+});
+
 export const PUT = createRoute({
   schema: ProfileSettingsSchema,
   contextFn: GetUserIdTransformer,

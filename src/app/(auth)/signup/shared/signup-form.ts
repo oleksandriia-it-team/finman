@@ -13,6 +13,9 @@ import { LookupsTypeEnum } from '@common/domains/lookups/enums/lookups-type.enum
 import { useTranslations } from 'next-intl';
 import { UserRequirements } from '@common/constants/user-requirements.constant';
 import { CurrencyRequirements } from '@common/constants/currency-requirements.constant';
+import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
+import { LanguageKey } from '@frontend/shared/constants/local-storage.constants';
+import { SupportLanguages } from '@common/enums/support-languages.enum';
 
 const defaultLocale = 'en-US';
 
@@ -103,7 +106,8 @@ export function useSetupRegistration(onSuccessAction: () => void) {
     isSubmittingRef.current = true;
 
     resolveLocale().then((locale) => {
-      const apiData = { ...data, locale } as SignUpFormInput;
+      const language = localStorageService.getItem<SupportLanguages>(LanguageKey) ?? SupportLanguages.Ukrainian;
+      const apiData = { ...data, locale, language } as SignUpFormInput;
       delete apiData.workMode;
       delete apiData.passwordConfirm;
 
@@ -112,7 +116,7 @@ export function useSetupRegistration(onSuccessAction: () => void) {
           setUserInformation({
             ...apiData,
             locale,
-            language: 'uk',
+            language,
             online: false,
             currencyCode: apiData.currencyCode!,
           });

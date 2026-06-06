@@ -5,3 +5,5 @@ export const UserInformationKey = 'UserInformationKey';
 export const BudgetPlanKey = 'BudgetPlanKey';
 
 export const ThemeKey = 'ThemeKey';
+
+export const LanguageKey = 'LanguageKey';
