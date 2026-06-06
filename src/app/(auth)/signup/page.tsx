@@ -29,6 +29,7 @@ import { useTranslations } from 'next-intl';
 export default function RegistrationPage() {
   const router = useRouter();
   const t = useTranslations('auth.signup');
+  const tRoot = useTranslations();
   const { methods, submit, isLoading } = useSetupRegistration(() => {
     const hasOfflineData = localStorageService.getItem(UserInformationKey);
     if (hasOfflineData) {
@@ -135,7 +136,7 @@ export default function RegistrationPage() {
                 name="currencyCode"
                 placeholder={t('currencyPlaceholder')}
                 options={currencyDataResource.options}
-                errorLabel={currencyDataResource.errorMessage ?? ''}
+                errorLabel={tRoot(currencyDataResource.errorMessage ?? '')}
                 state={currencyDataResource.state}
                 customInputValue={currencyDataResource.inputLabel?.label ?? ''}
                 search={currencyDataResource.search}
