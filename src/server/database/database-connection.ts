@@ -4,6 +4,7 @@ import { DataSource, type DataSourceOptions } from 'typeorm';
 import { Migrations } from './migrations';
 import { Entities } from './entities';
 import { EnvConfigConstant } from '@backend/config/env-config.constant';
+import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 const args = process.argv.slice(2);
 const synchronize = args.includes('--synchronize=true');
@@ -32,6 +33,6 @@ Prevents multiple database connections during Next.js Hot Module Replacement (HM
 By caching the DataSource in the global scope, we ensure a single connection persists across development reloads,
 avoiding 'Too many connections' errors
 */
-if (process.env.NODE_ENV !== 'production') {
+if (isDevMode()) {
   globalForTypeorm.typeorm = DBDataSource;
 }

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 export const clientSchema = z.object({
   NEXT_PUBLIC_API_URL: z
@@ -23,10 +24,9 @@ export const clientSchema = z.object({
       if (!isHttps && !isLocalHttp) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message:
-            process.env.NODE_ENV === 'production'
-              ? 'Only https:// is allowed in production'
-              : 'Only https:// or http://localhost / http://127.0.0.1 is allowed',
+          message: !isDevMode()
+            ? 'Only https:// is allowed in production'
+            : 'Only https:// or http://localhost / http://127.0.0.1 is allowed',
         });
       }
     }),
