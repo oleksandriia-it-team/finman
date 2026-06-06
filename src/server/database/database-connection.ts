@@ -9,7 +9,7 @@ import { isDevMode } from '@common/utils/is-dev-mode.util';
 const args = process.argv.slice(2);
 const synchronize = args.includes('--synchronize=true');
 
-const dataSourceOptions: DataSourceOptions = {
+const buildDataSourceOptions = (): DataSourceOptions => ({
   type: 'postgres',
   host: EnvConfigConstant.DB_HOST,
   port: EnvConfigConstant.DB_PORT,
@@ -22,17 +22,22 @@ const dataSourceOptions: DataSourceOptions = {
   synchronize,
   logging: true,
   schema: 'public',
-};
+});
 
 const globalForTypeorm = global as unknown as { typeorm: DataSource };
 
-export const DBDataSource: DataSource = globalForTypeorm.typeorm || new DataSource(dataSourceOptions);
+let instance: DataSource | null = null;
+const getDataSource = (): DataSource => {
+  if (globalForTypeorm.typeorm) return globalForTypeorm.typeorm;
+  if (instance) return instance;
+  instance = new DataSource(buildDataSourceOptions());
+  if (isDevMode()) {
+    globalForTypeorm.typeorm = instance;
+  }
+  return instance;
+};
 
-/*
-Prevents multiple database connections during Next.js Hot Module Replacement (HMR).
-By caching the DataSource in the global scope, we ensure a single connection persists across development reloads,
-avoiding 'Too many connections' errors
-*/
-if (isDevMode()) {
-  globalForTypeorm.typeorm = DBDataSource;
-}
+export const DBDataSource: DataSource = new Proxy({} as DataSource, {
+  get: (_, prop) => Reflect.get(getDataSource(), prop, getDataSource()),
+  set: (_, prop, value) => Reflect.set(getDataSource(), prop, value),
+});
