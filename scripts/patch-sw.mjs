@@ -103,21 +103,35 @@ function _ts_generator(thisArg, body) {
 // users. We cache "/profile" instead: its HTML + the already-precached JS
 // chunks are enough for React to boot and for client-side routing to take
 // the user to whichever page they actually requested.
-// We also pre-cache the RSC payload for /profile (fetched with
-// Accept: text/x-component) so that client-side navigation to /profile
-// works offline even on first visit after install.
 const pagesToPrecache = ['/', '/profile'];
+// We also pre-cache the RSC payloads (fetched with Accept: text/x-component)
+// for every STATIC profile route, so that Next.js client-side navigation to
+// them works offline even if the user never visited / hovered the link while
+// online (many of these links live behind menus and are never prefetched).
+// Dynamic ([id]) routes can't be enumerated here — they get cached at runtime
+// by the rsc-payloads NetworkFirst route when visited online.
+const rscToPrecache = [
+  '/',
+  '/profile',
+  '/profile/settings',
+  '/profile/analytics',
+  '/profile/budget/plans',
+  '/profile/budget/regular-operations',
+  '/profile/budget/regular-operations/add',
+  '/profile/tracking-operations/add',
+];
 const installHandler = `\
 self.addEventListener("install",function(ev){` +
   `var pages=${JSON.stringify(pagesToPrecache)};` +
+  `var rsc=${JSON.stringify(rscToPrecache)};` +
   `ev.waitUntil(` +
     `caches.open("pages").then(function(c){` +
       `return Promise.all(pages.map(function(u){return c.add(u).catch(function(){});}));` +
     `}).then(function(){` +
       `return caches.open("rsc-payloads");` +
     `}).then(function(rc){` +
-      `return Promise.all(${JSON.stringify(pagesToPrecache)}.map(function(u){` +
-        `return fetch(u,{headers:{"Accept":"text/x-component"}})` +
+      `return Promise.all(rsc.map(function(u){` +
+        `return fetch(u,{headers:{"Accept":"text/x-component","RSC":"1"}})` +
           `.then(function(r){if(r.ok)return rc.put(u,r);})` +
           `.catch(function(){});` +
       `}));` +
