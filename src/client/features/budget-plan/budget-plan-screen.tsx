@@ -1,7 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { createBudgetPlanIdUrl } from '@common/domains/budget-plan/create-budget-plan-param-url.util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
@@ -24,7 +25,7 @@ interface BudgetPlanViewScreenProps {
 
 export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
   const router = useRouter();
-  const pathname = usePathname();
+  const planId = createBudgetPlanIdUrl({ month: budgetPlan.month, year: budgetPlan.year });
   const isMobile = useIsMobile();
   const EntryCard = isMobile ? TransactionCard : IncomeExpenseCard;
   const StatisticBlock = isMobile ? BudgetPlanStatisticMobile : BudgetPlanStatisticDesktop;
@@ -67,7 +68,7 @@ export function BudgetPlanScreen({ budgetPlan }: BudgetPlanViewScreenProps) {
             isOutlined
             size="sm"
             className="gap-1.5"
-            onClick={() => router.push(`${pathname}/edit`)}
+            onClick={() => router.push(`/profile/budget/plans/${planId}/edit`)}
           >
             <UiSvgIcon
               name="pencil"
