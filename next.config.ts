@@ -38,10 +38,16 @@ const withPWA = withPWAInit({
   dest: 'public',
   // Service worker is only generated when running in true production.
   // Mirrors the PROD switch used elsewhere (see users.seeder.ts, EnvConfigConstant.PROD).
-  disable: isDevMode(),
+  // Set NEXT_PUBLIC_SW=true locally to test PWA offline behaviour in dev.
+  disable: process.env.NEXT_PUBLIC_SW !== 'true' && isDevMode(),
   register: true,
+  // When a navigation request fails offline, serve the cached root page.
+  // @ducanh2912/next-pwa handles navigate fallback at the top-level, not via
+  // runtimeCaching — using it there produces a NetworkOnly handler that ignores the cache.
+  fallbacks: {
+    document: '/',
+  },
   workboxOptions: {
-    navigateFallback: '/',
     runtimeCaching: [
       {
         urlPattern: /^\/_next\/static\/.*/,
@@ -67,11 +73,6 @@ const withPWA = withPWAInit({
         urlPattern: /\.(?:png|jpg|jpeg|svg|webp|ico)$/,
         handler: 'CacheFirst',
         options: { cacheName: 'images' },
-      },
-      {
-        urlPattern: ({ request }) => request.mode === 'navigate',
-        handler: 'NetworkFirst',
-        options: { cacheName: 'html-pages' },
       },
     ],
   },

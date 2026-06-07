@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/patch-sw.mjs",
     "start": "next start",
     "database:migrate": "tsx src/server/database/migrate.ts",
     "lint": "next lint && prettier --write \"src/**/*.scss\" && stylelint \"src/**/*.scss\" --fix",
