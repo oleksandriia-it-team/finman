@@ -98,19 +98,18 @@ function _ts_generator(thisArg, body) {
 
 `;
 
-// At install time, pre-cache the pages that serve as the offline app shell.
-// "/" alone is not suitable — it has a NotAuthGuard that redirects logged-in
-// users. We cache "/profile" instead: its HTML + the already-precached JS
-// chunks are enough for React to boot and for client-side routing to take
-// the user to whichever page they actually requested.
-const pagesToPrecache = ['/', '/profile'];
-// We also pre-cache the RSC payloads (fetched with Accept: text/x-component)
-// for every STATIC profile route, so that Next.js client-side navigation to
-// them works offline even if the user never visited / hovered the link while
-// online (many of these links live behind menus and are never prefetched).
+// The list of STATIC profile routes we pre-cache at SW install time.
+// We cache BOTH the HTML (in "pages") and the RSC payload (in "rsc-payloads")
+// for each, because the two are needed in different scenarios:
+//   • HTML  — used on a full page load / RELOAD of the route while offline.
+//             Next.js HTML is route-specific (it embeds that route's RSC
+//             tree), so serving "/profile" HTML for "/profile/budget/plans"
+//             hydrates as "/profile". The exact route's HTML must be cached.
+//   • RSC   — used for client-side navigation between routes while offline.
 // Dynamic ([id]) routes can't be enumerated here — they get cached at runtime
-// by the rsc-payloads NetworkFirst route when visited online.
-const rscToPrecache = [
+// (HTML via the navigate NetworkFirst route, RSC via the rsc-payloads route)
+// only if the user opens them while online.
+const staticRoutes = [
   '/',
   '/profile',
   '/profile/settings',
@@ -120,6 +119,8 @@ const rscToPrecache = [
   '/profile/budget/regular-operations/add',
   '/profile/tracking-operations/add',
 ];
+const pagesToPrecache = staticRoutes;
+const rscToPrecache = staticRoutes;
 const installHandler = `\
 self.addEventListener("install",function(ev){` +
   `var pages=${JSON.stringify(pagesToPrecache)};` +
@@ -174,13 +175,17 @@ const rscRoute = `e.registerRoute(` +
     `}` +
   `}]}));`;
 
-// When a navigate request is offline AND not yet in the "pages" cache,
-// fall back to the precached root "/" so the app shell still loads.
+// When a navigate request (full page load / reload) is offline, try to serve
+// the EXACT requested route's cached HTML first — Next.js HTML is route
+// specific, so this is what makes a reload of e.g. /profile/budget/plans show
+// the right page instead of the /profile shell. Only if that route's HTML was
+// never cached do we fall back to the /profile (then "/") app shell.
 const navigateRoute = `e.registerRoute(` +
   `({request:r})=>"navigate"===r.mode,` +
   `new e.NetworkFirst({cacheName:"pages",networkTimeoutSeconds:3,` +
-  `plugins:[{handlerDidError:async()=>` +
-  `(await caches.match("/profile",{ignoreSearch:true}))` +
+  `plugins:[{handlerDidError:async({request:r})=>` +
+  `(await caches.match(r.url,{ignoreSearch:true}))` +
+  `||(await caches.match("/profile",{ignoreSearch:true}))` +
   `||(await caches.match("/",{ignoreSearch:true}))` +
   `||Response.error()}]}));`;
 
