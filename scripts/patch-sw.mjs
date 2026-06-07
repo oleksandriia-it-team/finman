@@ -163,10 +163,30 @@ const rscRoute = `e.registerRoute(` +
   `({url:u})=>u.searchParams.has("_rsc"),` +
   `new e.NetworkFirst({cacheName:"rsc-payloads",networkTimeoutSeconds:3,` +
   `plugins:[{` +
+    // Normalise the cache key by stripping the per-build _rsc hash, so the
+    // same route maps to one entry regardless of the hash value.
     `cacheKeyWillBeUsed:async({request:r})=>{` +
       `var u=new URL(r.url);` +
       `u.searchParams.delete("_rsc");` +
       `return u.toString();` +
+    `},` +
+    // Whenever a route's RSC payload is (re)cached while online, also fetch &
+    // cache that route's full HTML document — ONCE per route — into "pages".
+    // This is what lets a full RELOAD of a DYNAMIC route (e.g.
+    // /profile/budget/plans/06-2026/recommendations) work offline: the navigate
+    // fallback can then serve that exact route's own HTML instead of /profile.
+    // De-duped via the c.match() guard so we issue at most one extra request
+    // per unique route, even though prefetch fires many _rsc requests.
+    `cacheDidUpdate:async({request:r})=>{` +
+      `var u=new URL(r.url);` +
+      `u.searchParams.delete("_rsc");` +
+      `var key=u.toString();` +
+      `try{` +
+        `var c=await caches.open("pages");` +
+        `if(await c.match(key))return;` +
+        `var resp=await fetch(key,{credentials:"same-origin"});` +
+        `if(resp&&resp.ok)await c.put(key,resp);` +
+      `}catch(e){}` +
     `},` +
     `handlerDidError:async({request:r})=>{` +
       `var u=new URL(r.url);` +
