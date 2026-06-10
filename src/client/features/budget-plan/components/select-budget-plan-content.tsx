@@ -11,7 +11,7 @@ import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.uti
 export function SelectBudgetPlanContent({ onSelect, selected }: SelectBudgetPlanContentProps) {
   const months = useMemo(() => Object.values(Month), []);
   const [showYear, setShowYear] = useState<number>(selected.year);
-  const disabledMonths = useDisabledMonthsToSelect();
+  const disabledMonths = useDisabledMonthsToSelect(showYear);
   const { now } = useSelectedBudgetPlan();
 
   return (

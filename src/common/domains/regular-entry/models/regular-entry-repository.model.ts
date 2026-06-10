@@ -8,10 +8,14 @@ export interface FindRegularEntryByTitleInput {
   userId?: number;
 }
 
+export type RegularEntryCreateDTO = Omit<RegularEntry, DefaultColumnKeys>;
+export type RegularEntryUpdateDTO = Omit<RegularEntry, DefaultColumnKeys | 'sum'>;
+
 export interface IRegularEntryRepository extends ICrudService<
   RegularEntry,
-  Omit<RegularEntry, DefaultColumnKeys>,
-  RegularEntryFilter
+  RegularEntryCreateDTO,
+  RegularEntryFilter,
+  RegularEntryUpdateDTO
 > {
   findByTitle(input: FindRegularEntryByTitleInput): Promise<RegularEntry | null>;
 }

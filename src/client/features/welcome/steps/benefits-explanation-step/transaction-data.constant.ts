@@ -5,8 +5,8 @@ export const TransactionsData = [
   {
     id: 1,
     icon: 'briefcase-fill',
-    title: 'Переказ коштів',
-    description: 'Надходження',
+    titleKey: 'transfer',
+    descriptionKey: 'income',
     sum: 250,
     type: TypeEntry.Income,
     category: IncomeCategories.Misc,
@@ -14,8 +14,8 @@ export const TransactionsData = [
   {
     id: 2,
     icon: 'car-front-fill',
-    title: 'Автобус',
-    description: 'Особисті витрати',
+    titleKey: 'bus',
+    descriptionKey: 'personalExpenses',
     sum: 15,
     type: TypeEntry.Expense,
     category: ExpenseCategories.Transport,
@@ -23,8 +23,8 @@ export const TransactionsData = [
   {
     id: 3,
     icon: 'music-note-beamed',
-    title: 'Концерт',
-    description: 'Особисті витрати',
+    titleKey: 'concert',
+    descriptionKey: 'personalExpenses',
     sum: 100,
     type: TypeEntry.Expense,
     category: ExpenseCategories.Entertainment,
@@ -32,8 +32,8 @@ export const TransactionsData = [
   {
     id: 4,
     icon: 'cup-hot-fill',
-    title: "Кав'ярня",
-    description: 'Особисті витрати',
+    titleKey: 'coffee',
+    descriptionKey: 'personalExpenses',
     sum: 81,
     type: TypeEntry.Expense,
     category: ExpenseCategories.Entertainment,
@@ -41,8 +41,8 @@ export const TransactionsData = [
   {
     id: 5,
     icon: 'pencil',
-    title: 'Канцелярія',
-    description: 'Особисті витрати',
+    titleKey: 'stationery',
+    descriptionKey: 'personalExpenses',
     sum: 78,
     type: TypeEntry.Expense,
     category: ExpenseCategories.Education,
@@ -50,8 +50,8 @@ export const TransactionsData = [
   {
     id: 6,
     icon: 'fork-knife',
-    title: 'Ресторан',
-    description: 'Особисті витрати',
+    titleKey: 'restaurant',
+    descriptionKey: 'personalExpenses',
     sum: 700,
     type: TypeEntry.Expense,
     category: ExpenseCategories.Entertainment,
@@ -59,8 +59,8 @@ export const TransactionsData = [
 ] as const satisfies ReadonlyArray<{
   id: number;
   icon: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   sum: number;
   type: TypeEntry.Income | TypeEntry.Expense;
   category: AllCategories;

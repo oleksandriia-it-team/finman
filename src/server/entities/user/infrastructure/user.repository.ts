@@ -6,7 +6,7 @@ import type { FindOptionsWhere, QueryDeepPartialEntity } from 'typeorm';
 
 export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateUserDto> {
   constructor() {
-    super(UserOrm);
+    super(UserOrm, 'users');
   }
 
   override async createItem(data: CreateUserDto): Promise<number> {
@@ -79,6 +79,12 @@ export class UserApiRepository extends CrudApiRepository<UserOrm, never, CreateU
       where: { id },
       relations: ['totp'],
     });
+  }
+
+  async deleteAccount(id: number): Promise<boolean> {
+    const result = await this.repository.delete({ id });
+
+    return (result.affected ?? 0) > 0;
   }
 }
 

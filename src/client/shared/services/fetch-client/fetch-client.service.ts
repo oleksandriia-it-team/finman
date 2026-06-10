@@ -1,17 +1,13 @@
 import { type RequestOptions } from '@frontend/shared/services/fetch-client/models/request-options.model';
 import { handleResponse } from '@frontend/shared/utils/fetch-handler';
 import { isEmpty } from '@common/utils/is-empty.util';
-import { PublicEnvConfigConstant } from '@common/config/public-env-config.constant';
 import type { AuthTokenModel } from '@frontend/shared/models/auth-token.model';
 import { authTokenService } from '@frontend/shared/services/user-information/auth-token.service';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 class FetchClientService {
-  private readonly baseUrl: string;
-
-  constructor(private readonly authTokenService: AuthTokenModel) {
-    this.baseUrl = PublicEnvConfigConstant.NEXT_PUBLIC_API_URL;
-  }
+  constructor(private readonly authTokenService: AuthTokenModel) {}
 
   public get<T>(endpoint: string, options?: RequestOptions<never, T>): Promise<T> {
     return this.request<T, never>(endpoint, 'GET', options);
@@ -54,19 +50,20 @@ class FetchClientService {
     const accessToken = this.authTokenService.getAccessToken();
 
     if (!skipAuth && !accessToken && !hasAuthorizationHeader && throwErrorIfNotAuth) {
-      throw new AppError('Ви не авторизовані', 401);
+      throw new AppError(ErrorTexts.Unauthorized, 401);
     }
 
-    const normalizedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
     const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    const url = new URL(`${normalizedBaseUrl}${normalizedEndpoint}`);
+    const searchParams = new URLSearchParams();
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (!isEmpty(value)) {
-          url.searchParams.append(key, String(value));
+          searchParams.append(key, String(value));
         }
       });
     }
+    const queryString = searchParams.toString();
+    const url = queryString ? `${normalizedEndpoint}?${queryString}` : normalizedEndpoint;
 
     const isFormData = body instanceof FormData;
     let requestBody: BodyInit | null = null;
@@ -82,7 +79,7 @@ class FetchClientService {
       headers.set('Authorization', `Bearer ${accessToken}`);
     }
 
-    const response = await fetch(url.toString(), {
+    const response = await fetch(url, {
       ...restOptions,
       method,
       headers,

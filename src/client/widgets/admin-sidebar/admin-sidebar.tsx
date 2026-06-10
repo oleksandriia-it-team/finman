@@ -8,13 +8,18 @@ import { UiSidebarTrigger } from '@frontend/ui/ui-sidebar/ui-sidebar-trigger';
 import { AdminSidebarContent } from './admin-sidebar-content';
 import { UiSidebarHeaderIcon } from '@frontend/ui/ui-sidebar/ui-sidebar-header-icon';
 import { LogoInverseSvg } from '@frontend/shared/svg/logo-inverse-svg';
+import { useTranslations } from 'next-intl';
 
 export function AdminSidebar() {
+  const t = useTranslations('common');
+
   return (
     <UiSidebarProvider>
       <UiSidebar
         collapsible="icon"
         colorVariant="blue"
+        sheetTitle={t('controlPanel')}
+        sheetDescription={t('mobileOnly')}
       >
         <UiSidebarHeader>
           <div className="flex gap-1 flex-1 items-center">
@@ -28,7 +33,10 @@ export function AdminSidebar() {
             <UiSidebarHeaderTitle>Finman</UiSidebarHeaderTitle>
           </div>
 
-          <UiSidebarTrigger hideOnCollapse />
+          <UiSidebarTrigger
+            hideOnCollapse
+            srLabel={t('toggleSidebar')}
+          />
         </UiSidebarHeader>
 
         <AdminSidebarContent />

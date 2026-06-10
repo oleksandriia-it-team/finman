@@ -18,12 +18,16 @@ export function UiSidebar({
   collapsible = 'offcanvas',
   className,
   children,
+  sheetTitle = 'Navigation',
+  sheetDescription = 'Mobile navigation panel',
   ...props
 }: React.ComponentProps<'div'> & {
   side?: 'left' | 'right';
   variant?: 'sidebar' | 'floating' | 'inset';
   colorVariant?: 'white' | 'blue';
   collapsible?: 'offcanvas' | 'icon' | 'none';
+  sheetTitle?: string;
+  sheetDescription?: string;
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
@@ -61,8 +65,8 @@ export function UiSidebar({
           side={side}
         >
           <UiSheetHeader className="sr-only">
-            <UiSheetTitle>Панель керування</UiSheetTitle>
-            <UiSheetDescription>Відбражається лише на мобільних пристроях</UiSheetDescription>
+            <UiSheetTitle>{sheetTitle}</UiSheetTitle>
+            <UiSheetDescription>{sheetDescription}</UiSheetDescription>
           </UiSheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </UiSheetContent>

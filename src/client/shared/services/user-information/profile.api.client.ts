@@ -29,6 +29,10 @@ export class ProfileApiClient {
 
     return result.data || null;
   }
+
+  async deleteAccount(): Promise<void> {
+    await fetchClient.delete<ApiResultOperationSuccess<{ success: true }>>('/api/profile/me');
+  }
 }
 
 export const profileApiClient = new ProfileApiClient(authTokenService);

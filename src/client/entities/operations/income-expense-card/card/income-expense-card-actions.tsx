@@ -6,6 +6,7 @@ import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSheetClose } from '@frontend/ui/ui-sheet/ui-sheet-close';
+import { useTranslations } from 'next-intl';
 
 interface IncomeExpenseCardPopoverProps extends ChildrenComponentProps {
   icon?: string;
@@ -14,6 +15,7 @@ interface IncomeExpenseCardPopoverProps extends ChildrenComponentProps {
 }
 
 export function IncomeExpenseCardActions({ icon, title, description, children }: IncomeExpenseCardPopoverProps) {
+  const t = useTranslations('operations.actions');
   const isMobile = useIsMobile();
 
   return (
@@ -47,7 +49,7 @@ export function IncomeExpenseCardActions({ icon, title, description, children }:
 
       {isMobile && (
         <UiSheetClose asChild>
-          <UiButton>Скасувати</UiButton>
+          <UiButton>{t('cancelButton')}</UiButton>
         </UiSheetClose>
       )}
     </UiResponsiveMenuContent>

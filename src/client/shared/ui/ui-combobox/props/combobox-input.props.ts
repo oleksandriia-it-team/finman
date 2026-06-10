@@ -5,6 +5,8 @@ export interface ComboboxInputProps extends Omit<ComboboxPrimitive.Input.Props, 
   'data-invalid'?: boolean | undefined;
   onClear?: () => void;
   hasValue: boolean;
+  openListAriaLabel?: string;
+  clearAriaLabel?: string;
 }
 
 export type ComboboxMultipleChips = ComponentPropsWithRef<typeof ComboboxPrimitive.Chips> &

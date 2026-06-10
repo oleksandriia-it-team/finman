@@ -30,8 +30,10 @@ import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
 import { getFirstAppError } from '@common/utils/get-first-app-error.util';
+import { useTranslations } from 'next-intl';
 
 export function TrackingOperationScreen() {
+  const t = useTranslations('tracking.screen');
   const isMobile = useIsMobile();
 
   const pageSize = 10;
@@ -69,7 +71,7 @@ export function TrackingOperationScreen() {
     clearCacheOnDestroy: true,
   });
 
-  const state = useCombineStates(onDelete.state, listState, basicInformationState);
+  const state = useCombineStates(listState, basicInformationState);
 
   return (
     <div className="size-full overflow-hidden flex flex-col">
@@ -92,7 +94,7 @@ export function TrackingOperationScreen() {
         <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
-            appError={getFirstAppError(onDelete.error, paginationAppError, basicInformationError)}
+            appError={getFirstAppError(paginationAppError, basicInformationError)}
             hasData={!!options.length}
             skeletonItems={pageSize}
             skeletonClassName="min-h-72"
@@ -153,7 +155,7 @@ export function TrackingOperationScreen() {
               name="plus"
               size="sm"
             />
-            Додати платіж
+            {t('addButton')}
           </UiButton>
         </FinButtonListAction>
       </FinListPageWrapper>

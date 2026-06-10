@@ -10,32 +10,40 @@ import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-co
 import { useCurrencyMutations } from '@frontend/features/admin/lookups/hooks/use-currency-mutations.hook';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useAdminLookup } from '../hooks/use-admin-lookup.hook';
-
-const Columns: LookupColumnDef<Currency>[] = [
-  {
-    header: "Ім'я",
-    cellClassName: 'py-2 text-sm font-medium text-foreground',
-    cell: (item) => item.currencyName,
-  },
-  {
-    header: 'Код',
-    cellClassName: 'py-2 text-sm text-muted-foreground',
-    cell: (item) => item.currencyCode,
-  },
-  {
-    header: 'Символ',
-    cellClassName: 'py-2 text-sm text-muted-foreground',
-    cell: (item) => item.currencySymbol,
-  },
-];
+import { useTranslations } from 'next-intl';
+import { useMemo } from 'react';
 
 export function CurrenciesLookup() {
+  const t = useTranslations('admin.currency');
+  const tCommon = useTranslations('admin.common');
+
+  const Columns: LookupColumnDef<Currency>[] = useMemo(
+    () => [
+      {
+        header: t('headerName'),
+        cellClassName: 'py-2 text-sm font-medium text-foreground',
+        cell: (item) => item.currencyName,
+      },
+      {
+        header: t('headerCode'),
+        cellClassName: 'py-2 text-sm text-muted-foreground',
+        cell: (item) => item.currencyCode,
+      },
+      {
+        header: t('headerSymbol'),
+        cellClassName: 'py-2 text-sm text-muted-foreground',
+        cell: (item) => item.currencySymbol,
+      },
+    ],
+    [t],
+  );
+
   const lookup = useAdminLookup<Currency>({
     lookupType: LookupsTypeEnum.Currency,
     queryKey: ['admin', 'lookups', 'currencies'],
     useMutations: useCurrencyMutations,
     getDeleteName: (item) => item.currencyName,
-    singleDeleteDescription: (name) => `Ви впевнені, що хочете видалити валюту "${name}"?`,
+    singleDeleteDescription: (name) => t('confirmDeleteDescription', { name }),
   });
 
   return (
@@ -95,7 +103,7 @@ export function CurrenciesLookup() {
             />
           }
           onConfirm={lookup.confirmSingleDelete}
-          title="Підтвердження видалення"
+          title={tCommon('confirmDeleteTitle')}
           description={lookup.singleDeleteDescription}
         />
 
@@ -108,8 +116,8 @@ export function CurrenciesLookup() {
             />
           }
           onConfirm={lookup.confirmBulkDelete}
-          title="Підтвердження масового видалення"
-          description="Ви впевнені, що хочете видалити всі вибрані записи?"
+          title={tCommon('confirmBulkDeleteTitle')}
+          description={tCommon('confirmBulkDeleteDescription')}
         />
       </div>
     </>

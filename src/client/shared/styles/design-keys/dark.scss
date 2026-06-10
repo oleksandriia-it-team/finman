@@ -1,99 +1,81 @@
 .dark {
-  --background: rgb(22 22 22);
-  --foreground: rgb(191 191 191);
-  --card: rgb(4 19 39);
-  --card-foreground: rgb(228 232 239);
-  --popover: rgb(49 58 70);
-  --popover-foreground: rgb(228 232 239);
-  --primary: rgb(1 82 203);
+  --background: rgb(15 20 32);
+  --foreground: rgb(226 232 244);
+  --card: rgb(20 25 38);
+  --card-foreground: rgb(226 232 244);
+  --popover: rgb(13 17 24);
+  --popover-foreground: rgb(226 232 244);
+  --primary: rgb(2 101 253);
   --primary-foreground: rgb(255 255 255);
-  --primary-muted: rgb(8 20 60);
-  --primary-muted-foreground: rgb(76 155 255);
-  --secondary: rgb(47 59 80);
-  --secondary-foreground: rgb(228 232 239);
-  --muted: rgb(37 46 61);
-  --muted-foreground: rgb(155 162 174);
-  --destructive-foreground: rgb(223 34 36);
-  --destructive: rgb(255 113 113);
-  --destructive-muted: rgb(80 7 7);
-  --destructive-muted-foreground: rgb(255 113 113);
-  --accent: rgb(43 53 74);
-  --accent-foreground: rgb(228 232 239);
-  --border: rgb(47 59 80);
-  --input: rgb(47 59 80);
-  --ring: rgb(1 82 203);
-  --chart-1: rgb(1 82 203);
-  --chart-2: rgb(2 101 253);
-  --chart-3: rgb(0 64 155);
-  --chart-4: rgb(13 73 165);
-  --chart-5: rgb(22 42 78);
-  --sidebar: rgb(28 36 51);
-  --sidebar-foreground: rgb(228 232 239);
-  --sidebar-primary: rgb(1 82 203);
-  --sidebar-primary-foreground: rgb(149 196 250);
-  --sidebar-accent: rgb(43 53 74);
-  --sidebar-accent-foreground: rgb(1 82 203);
-  --sidebar-border: rgb(47 59 80);
-  --sidebar-ring: rgb(1 82 203);
-  --overlay-background: rgb(0 0 0 / 50%);
-  --shadow-color: rgb(255 0 0);
-  --button-default-background: rgb(0 0 0);
-  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
-  --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 5%);
-  --shadow-sm: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
-  --shadow: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 1px 2px -1px rgb(0 0 0 / 10%);
-  --shadow-md: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 10%);
-  --shadow-lg: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 4px 6px -1px rgb(0 0 0 / 10%);
-  --shadow-xl: 0 1px 3px 0px rgb(0 0 0 / 10%), 0 8px 10px -1px rgb(0 0 0 / 10%);
-  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 25%);
-
-  // Custom colors
-
-  /* Success / Green */
-  --success: rgb(34 197 94);
-  --success-foreground: rgb(5 46 22);
-  --success-muted: rgb(20 83 45);
-  --success-muted-foreground: rgb(134 239 172);
-
-  /* Warning / Yellow */
-  --warning: rgb(234 179 8);
-  --warning-foreground: rgb(66 32 6);
-  --warning-muted: rgb(78 45 3);
-  --warning-muted-foreground: rgb(253 224 71);
-
-  /* Purple */
-  --purple: rgb(139 92 246);
+  --primary-muted: rgb(2 101 253 / 18%);
+  --primary-muted-foreground: rgb(99 160 255);
+  --secondary: rgb(31 40 64);
+  --secondary-foreground: rgb(148 160 184);
+  --muted: rgb(45 55 80);
+  --muted-foreground: rgb(90 100 128);
+  --destructive: rgb(144 18 19);
+  --destructive-foreground: rgb(248 113 113);
+  --destructive-muted: rgb(144 18 19);
+  --destructive-muted-foreground: rgb(252 165 165);
+  --accent: rgb(2 101 253 / 12%);
+  --accent-foreground: rgb(99 160 255);
+  --border: rgb(31 40 64);
+  --input: rgb(13 17 24);
+  --ring: rgb(2 101 253);
+  --chart-1: rgb(61 143 255);
+  --chart-2: rgb(99 160 255);
+  --chart-3: rgb(76 155 255);
+  --chart-4: rgb(142 192 255);
+  --chart-5: rgb(186 218 255);
+  --sidebar: rgb(19 24 38);
+  --sidebar-foreground: rgb(226 232 244);
+  --sidebar-primary: rgb(2 101 253);
+  --sidebar-primary-foreground: rgb(255 255 255);
+  --sidebar-accent: rgb(2 101 253 / 12%);
+  --sidebar-accent-foreground: rgb(99 160 255);
+  --sidebar-border: rgb(26 32 56);
+  --sidebar-ring: rgb(2 101 253);
+  --overlay-background: rgb(0 0 0 / 60%);
+  --shadow-color: rgb(0 0 0);
+  --button-default-background: rgb(20 25 38);
+  --shadow-2xs: 0 1px 3px 0px rgb(0 0 0 / 20%);
+  --shadow-xs:  0 1px 3px 0px rgb(0 0 0 / 20%);
+  --shadow-sm:  0 1px 3px 0px rgb(0 0 0 / 30%), 0 1px 2px -1px rgb(0 0 0 / 30%);
+  --shadow:     0 1px 3px 0px rgb(0 0 0 / 30%), 0 1px 2px -1px rgb(0 0 0 / 30%);
+  --shadow-md:  0 1px 3px 0px rgb(0 0 0 / 30%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  --shadow-lg:  0 1px 3px 0px rgb(0 0 0 / 30%), 0 4px 6px -1px rgb(0 0 0 / 30%);
+  --shadow-xl:  0 1px 3px 0px rgb(0 0 0 / 30%), 0 8px 10px -1px rgb(0 0 0 / 30%);
+  --shadow-2xl: 0 1px 3px 0px rgb(0 0 0 / 50%);
+  --success: rgb(22 163 74);
+  --success-foreground: rgb(255 255 255);
+  --success-muted: rgb(22 163 74 / 15%);
+  --success-muted-foreground: rgb(74 222 128);
+  --warning: rgb(202 138 4);
+  --warning-foreground: rgb(255 255 255);
+  --warning-muted: rgb(202 138 4 / 15%);
+  --warning-muted-foreground: rgb(251 191 36);
+  --purple: rgb(109 40 217);
   --purple-foreground: rgb(255 255 255);
-  --purple-muted: rgb(46 16 101);
-  --purple-muted-foreground: rgb(196 181 253);
-
-  /* Pink */
-  --pink: rgb(236 72 153);
+  --purple-muted: rgb(109 40 217 / 18%);
+  --purple-muted-foreground: rgb(167 139 250);
+  --pink: rgb(219 39 119);
   --pink-foreground: rgb(255 255 255);
-  --pink-muted: rgb(80 7 36);
-  --pink-muted-foreground: rgb(249 168 212);
-
-  /* Orange */
-  --orange: rgb(251 146 60);
-  --orange-foreground: rgb(67 20 7);
-  --orange-muted: rgb(67 20 7);
-  --orange-muted-foreground: rgb(253 186 116);
-
-  /* Teal */
-  --teal: rgb(45 212 191);
-  --teal-foreground: rgb(4 47 46);
-  --teal-muted: rgb(19 78 74);
-  --teal-muted-foreground: rgb(153 246 228);
-
-  /* Aqua */
-  --aqua: rgb(34 211 238);
+  --pink-muted: rgb(219 39 119 / 15%);
+  --pink-muted-foreground: rgb(244 114 182);
+  --orange: rgb(234 88 12);
+  --orange-foreground: rgb(255 255 255);
+  --orange-muted: rgb(234 88 12 / 15%);
+  --orange-muted-foreground: rgb(251 146 60);
+  --teal: rgb(13 148 136);
+  --teal-foreground: rgb(255 255 255);
+  --teal-muted: rgb(13 148 136 / 15%);
+  --teal-muted-foreground: rgb(45 212 191);
+  --aqua: rgb(103 232 249);
   --aqua-foreground: rgb(8 51 68);
-  --aqua-muted: rgb(8 51 68);
-  --aqua-muted-foreground: rgb(165 243 252);
-
-  /* Powder */
-  --powder: rgb(125 194 218);
-  --powder-foreground: rgb(4 30 46);
-  --powder-muted: rgb(18 62 84);
-  --powder-muted-foreground: rgb(186 230 245);
+  --aqua-muted: rgb(103 232 249 / 15%);
+  --aqua-muted-foreground: rgb(103 232 249);
+  --powder: rgb(176 224 240);
+  --powder-foreground: rgb(8 47 68);
+  --powder-muted: rgb(176 224 240 / 12%);
+  --powder-muted-foreground: rgb(147 210 232);
 }

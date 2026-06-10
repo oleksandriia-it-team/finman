@@ -6,7 +6,7 @@ import { UiInfoBlock } from '@frontend/ui/ui-info-block/ui-info-block';
 import { cn } from '@frontend/shared/utils/cn.util';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { UiResponsiveMenu } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu';
-import { CategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
+import { useCategoriesMapping } from '@frontend/shared/styles/card-styles-mappings';
 import { ExpenseCategories } from '@common/enums/categories.enum';
 import { UiResponsiveMenuTrigger } from '@frontend/ui/ui-responsive-menu/ui-responsive-menu-trigger';
 import { UiIconButton } from '@frontend/ui/ui-icon-button/ui-icon-button';
@@ -40,7 +40,8 @@ export function TransactionCard({
   editPath,
   badge,
 }: TransactionCardProps) {
-  const categoryStyles = CategoriesMapping[category] || CategoriesMapping[ExpenseCategories.Misc];
+  const categoriesMapping = useCategoriesMapping();
+  const categoryStyles = categoriesMapping[category] || categoriesMapping[ExpenseCategories.Misc];
 
   return (
     <div

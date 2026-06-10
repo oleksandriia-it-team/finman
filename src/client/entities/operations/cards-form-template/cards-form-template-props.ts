@@ -8,6 +8,7 @@ export interface CardsFormTemplateActionsProps {
 
 export interface CardsFormInputsTemplateProps {
   children?: ReactNode | Promise<ReactNode>;
+  disableSum?: boolean;
 }
 
 export interface CardsFormFooterTemplateProps {

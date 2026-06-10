@@ -21,7 +21,7 @@ export const UiGraphic = ({
 
   if (isImageSource) {
     if (typeof src === 'string' && src.startsWith('http:')) {
-      console.warn(`UiGraphic: Використання незахищеного протоколу HTTP для ${src} може бути заблоковано.`);
+      console.warn(`UiGraphic: Use of insecure HTTP protocol for ${src} may be blocked.`);
     }
 
     return (

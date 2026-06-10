@@ -2,8 +2,11 @@
 
 import './main-welcome-step.scss';
 import { UiGlassCard } from '@frontend/ui/ui-glass-card/ui-glass-card';
+import { useTranslations } from 'next-intl';
 
 export default function MainWelcomeStep() {
+  const t = useTranslations('welcome.main');
+
   return (
     <div className="relative z-1 flex items-center justify-center p-4 overflow-hidden min-h-full">
       <div className="blot green-blot" />
@@ -13,13 +16,11 @@ export default function MainWelcomeStep() {
         <div className="w-full md:w-1/2 text-center text-md-start">
           <h1 className="mb-4 text-3xl md:text-4xl leading-tight">
             <b>
-              <span className="block">Керуй своїми фінансами!</span>
-              <span className="block">Легко та стильно</span>
+              <span className="block">{t('titleLine1')}</span>
+              <span className="block">{t('titleLine2')}</span>
             </b>
           </h1>
-          <p className="text-muted-foreground text-lg md:text-2xl">
-            Твій особистий фінансовий простір. Жодних складних таблиць — лише те, що дійсно важливо.
-          </p>
+          <p className="text-muted-foreground text-lg md:text-2xl">{t('description')}</p>
         </div>
 
         <div className="w-full md:w-1/2 text flex justify-center">
@@ -27,7 +28,7 @@ export default function MainWelcomeStep() {
             <div className="flex items-center sm:mt-12">
               <UiGlassCard
                 icon="💳"
-                title="Баланс"
+                title={t('balanceTitle')}
                 value={<span className="text-success">+ 12 500 ₴</span>}
                 rotationClass="-rotate-3"
               />
@@ -36,14 +37,14 @@ export default function MainWelcomeStep() {
             <div className="flex flex-col gap-4 md:gap-6">
               <UiGlassCard
                 icon="🎯"
-                title="На макбук"
-                value={<span className="text-teal">45% зібрано</span>}
+                title={t('macbookGoalTitle')}
+                value={<span className="text-teal">{t('macbookGoalValue')}</span>}
                 rotationClass="rotate-2"
               />
 
               <UiGlassCard
                 icon="☕"
-                title="Кав'ярня"
+                title={t('coffeeTitle')}
                 value={<span className="text-destructive-foreground">- 85 ₴</span>}
                 rotationClass="-rotate-2"
               />

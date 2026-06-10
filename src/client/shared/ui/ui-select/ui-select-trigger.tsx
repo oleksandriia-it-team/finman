@@ -1,3 +1,5 @@
+'use client';
+
 import { Select as SelectPrimitive } from 'radix-ui';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { type SelectTriggerProps } from '@frontend/ui/ui-select/props/select-trigger.props';
@@ -12,6 +14,7 @@ export function UiSelectTrigger({
   children,
   onClear,
   hasValue,
+  clearAriaLabel = 'Clear',
   'data-invalid': dataInvalid,
   disabled,
   ...props
@@ -50,7 +53,7 @@ export function UiSelectTrigger({
             type="button"
             onClick={onClear}
             disabled={disabled}
-            aria-label="Очистити поле"
+            aria-label={clearAriaLabel}
           >
             <SelectPrimitive.Icon asChild>
               <UiSvgIcon

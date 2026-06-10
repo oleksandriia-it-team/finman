@@ -9,11 +9,12 @@ import { PromiseState } from '@frontend/shared/enums/promise-state.enum';
 import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 import type { Month } from '@common/enums/month.enum';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import { MonthTitles } from '@common/constants/month-titles.constant';
+import { useMonthTitles } from '@frontend/shared/i18n/use-month-titles.hook';
+import { useTranslations } from 'next-intl';
 import { SelectableTransactionCard } from '@frontend/entities/operations/selectable-card/selectable-transaction-card/selectable-transaction-card';
 import { SelectableRegularCard } from '@frontend/entities/operations/selectable-card/selectable-regular-card/selectable-regular-card';
 import { UiStatusBadge } from '@frontend/ui/ui-status-badge/ui-status-badge';
-import { getPriorityBadge } from '@frontend/features/budget-plan/utils/get-priority-badge.util';
+import { useGetPriorityBadge } from '@frontend/shared/i18n/use-priority.hook';
 import { useBudgetPlanRecommendations } from '@frontend/features/budget-plan/hooks/use-budget-plan-recommendations.hook';
 import type { MonthOperationItem } from '@frontend/features/budget-plan/hooks/use-budget-plan.hook';
 
@@ -53,7 +54,10 @@ export function BudgetPlanRecommendationsScreen({
     applyOptimal,
   } = useBudgetPlanRecommendations({ plannedRegularEntries, otherEntries, isEdit, onApply });
 
-  const monthLabel = `${MonthTitles[month]} ${year}`;
+  const monthTitles = useMonthTitles();
+  const t = useTranslations('budgetPlan.recommendations');
+  const getPriorityBadge = useGetPriorityBadge();
+  const monthLabel = `${monthTitles[month]} ${year}`;
   const isApplying = applyState === PromiseState.Loading;
   const CardComponent = isMobile ? SelectableTransactionCard : SelectableRegularCard;
 
@@ -61,21 +65,21 @@ export function BudgetPlanRecommendationsScreen({
     <FinListPageWrapper>
       <div className="flex-none px-4 pt-4 pb-2">
         <p className="text-sm text-muted-foreground mb-1">{monthLabel}</p>
-        <p className="text-2xl font-bold">Рекомендації</p>
+        <p className="text-2xl font-bold">{t('title')}</p>
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0 px-4 flex flex-col gap-4 pb-4">
         <UiCard className="rounded-3xl px-4 py-4 gap-0">
           <div className="flex flex-row justify-between gap-4">
             <div className="flex flex-col gap-1">
-              <p className="text-muted-foreground text-xs">Загальний дохід</p>
+              <p className="text-muted-foreground text-xs">{t('totalIncome')}</p>
               <FinTransformCurrency
                 value={totalIncome}
                 className="font-bold text-base text-success"
               />
             </div>
             <div className="flex flex-col gap-1 items-end">
-              <p className="text-muted-foreground text-xs">Поточні витрати</p>
+              <p className="text-muted-foreground text-xs">{t('currentExpenses')}</p>
               <FinTransformCurrency
                 value={totalExpenses}
                 className="font-bold text-base text-destructive-foreground"
@@ -87,7 +91,7 @@ export function BudgetPlanRecommendationsScreen({
 
           <div className="flex flex-row justify-between gap-4 items-center">
             <div className="flex flex-col gap-1">
-              <p className="text-muted-foreground text-xs">Економія</p>
+              <p className="text-muted-foreground text-xs">{t('savings')}</p>
               <FinTransformCurrency
                 value={selectedSavings}
                 className="font-bold text-base text-success"
@@ -111,7 +115,7 @@ export function BudgetPlanRecommendationsScreen({
               isRoundedFull
             />
             <div className="flex flex-col gap-0.5">
-              <p className="text-muted-foreground text-xs">Нові витрати</p>
+              <p className="text-muted-foreground text-xs">{t('newExpenses')}</p>
               <FinTransformCurrency
                 value={newExpenses}
                 className="font-bold text-base text-primary"
@@ -129,10 +133,11 @@ export function BudgetPlanRecommendationsScreen({
               isRoundedFull
             />
             <p className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{removedCount}</span>
-              {' з '}
-              <span className="font-semibold text-foreground">{totalCount}</span>
-              {' витрат буде видалено'}
+              {t.rich('willBeRemoved', {
+                removed: removedCount,
+                total: totalCount,
+                strong: (chunks) => <span className="font-semibold text-foreground">{chunks}</span>,
+              })}
             </p>
           </div>
         </UiCard>
@@ -140,7 +145,7 @@ export function BudgetPlanRecommendationsScreen({
         {expenseEntries.length > 0 ? (
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
-              <p className="text-base font-semibold">Пропозиції</p>
+              <p className="text-base font-semibold">{t('suggestions')}</p>
               <UiButton
                 variant="primary"
                 isOutlined
@@ -148,7 +153,7 @@ export function BudgetPlanRecommendationsScreen({
                 disabled={isApplying}
                 onClick={applyOptimal}
               >
-                Оптимальний план
+                {t('optimal')}
               </UiButton>
             </div>
 
@@ -160,7 +165,7 @@ export function BudgetPlanRecommendationsScreen({
                     key={entry.id}
                     item={{
                       ...entry,
-                      description: 'витрата · одноразово',
+                      description: t('itemDescription'),
                       badge: (
                         <UiStatusBadge
                           label={priorityBadge.label}
@@ -178,7 +183,7 @@ export function BudgetPlanRecommendationsScreen({
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center flex-1 gap-2">
-            <p className="text-muted-foreground text-sm text-center">Немає одноразових витрат для оптимізації</p>
+            <p className="text-muted-foreground text-sm text-center">{t('empty')}</p>
           </div>
         )}
       </div>
@@ -191,7 +196,7 @@ export function BudgetPlanRecommendationsScreen({
           disabled={isApplying}
           onClick={() => skip()}
         >
-          Пропустити
+          {t('skip')}
         </UiButton>
         <UiButton
           variant="primary"
@@ -200,7 +205,7 @@ export function BudgetPlanRecommendationsScreen({
           disabled={isApplying}
           onClick={() => apply()}
         >
-          {isApplying ? 'Збереження...' : 'Зберегти'}
+          {isApplying ? t('saving') : t('save')}
         </UiButton>
       </div>
     </FinListPageWrapper>

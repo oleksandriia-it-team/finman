@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
 import { FinLoader } from '@frontend/components/loader/fin-loader';
 import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
+import { useTranslations } from 'next-intl';
 
 const intSchema = z.coerce.number().int();
 
@@ -20,6 +21,7 @@ export function FinFormScreenHandler<T, ID = number>({
   queryKey,
   parseParam,
 }: FormScreenHandlerProps<T, ID>) {
+  const t = useTranslations();
   const usedParams = use(params) as object;
   const rawId = 'id' in usedParams ? String(usedParams.id) : null;
 
@@ -37,11 +39,11 @@ export function FinFormScreenHandler<T, ID = number>({
       return (
         <FinErrorWidget
           status={400}
-          message="ID є некоректним"
+          message={t('common.invalidId')}
         />
       );
     }
-    return error({ status: 400, message: 'ID є некоректним' });
+    return error({ status: 400, message: t('common.invalidId') });
   }
 
   const id = parsed.data;
@@ -62,14 +64,15 @@ export function FinFormScreenHandler<T, ID = number>({
       return (
         <FinErrorWidget
           status={500}
-          message="Помилка завантаження"
+          message={t('common.loadError')}
         />
       );
     }
 
-    return error(
-      checkIsAppErrorObj(item.error) ? item.error : { status: 500, message: 'Невідома помилка. Спробуйте пізніше' },
-    );
+    if (checkIsAppErrorObj(item.error)) {
+      return error({ ...item.error, message: t(item.error.message) });
+    }
+    return error({ status: 500, message: t('common.unknownError') });
   }
 
   if (!item.data) {
@@ -77,7 +80,7 @@ export function FinFormScreenHandler<T, ID = number>({
       notItemFound ?? (
         <FinErrorWidget
           status={404}
-          message="Елемент не знайдено"
+          message={t('common.elementNotFound')}
         />
       )
     );

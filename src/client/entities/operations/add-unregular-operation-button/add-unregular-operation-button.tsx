@@ -2,13 +2,16 @@
 
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiTitle } from '@frontend/ui/ui-text/ui-title';
+import { useTranslations } from 'next-intl';
 
 interface AddOperationButtonProps {
   onClick: () => void;
   label?: string;
 }
 
-export function AddOperationButton({ onClick, label = 'Додати операцію' }: AddOperationButtonProps) {
+export function AddOperationButton({ onClick, label }: AddOperationButtonProps) {
+  const t = useTranslations('operations.form');
+  const resolvedLabel = label ?? t('addButton');
   return (
     <button
       type="button"
@@ -19,7 +22,7 @@ export function AddOperationButton({ onClick, label = 'Додати операц
         name="plus"
         size="sm"
       />
-      <UiTitle size="sm">{label}</UiTitle>
+      <UiTitle size="sm">{resolvedLabel}</UiTitle>
     </button>
   );
 }

@@ -28,7 +28,8 @@ export abstract class CrudLocalRepository<
   T extends DefaultTableColumns,
   F extends object,
   DTO extends RecordModel = Omit<T, DefaultColumnKeys>,
-> implements ICrudService<T, DTO> {
+  UpdateDTO extends RecordModel = DTO,
+> implements ICrudService<T, DTO, F, UpdateDTO> {
   protected constructor(
     protected readonly databaseLocalService: DatabaseLocalService,
     readonly tableName: string,
@@ -53,7 +54,7 @@ export abstract class CrudLocalRepository<
 
   abstract createItem(data: DTO): Promise<number>;
 
-  abstract updateItem(id: number, data: DTO): Promise<true>;
+  abstract updateItem(id: number, data: UpdateDTO): Promise<true>;
 
   abstract deleteItem(id: number): Promise<true>;
 

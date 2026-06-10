@@ -1,10 +1,12 @@
 import type { IUseCase } from '@common/models/use-case.model';
-import type { DefaultColumnKeys } from '@common/models/default-table-columns.model';
-import type { RegularEntry } from '@common/records/regular-entry.record';
-import type { IRegularEntryRepository } from '@common/domains/regular-entry/models/regular-entry-repository.model';
+import type {
+  IRegularEntryRepository,
+  RegularEntryUpdateDTO,
+} from '@common/domains/regular-entry/models/regular-entry-repository.model';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
-export type UpdateRegularEntryInput = Omit<RegularEntry, DefaultColumnKeys> & { id: number; userId?: number };
+export type UpdateRegularEntryInput = RegularEntryUpdateDTO & { id: number; userId?: number };
 
 export class UpdateRegularEntryCommonUseCase implements IUseCase<UpdateRegularEntryInput, true> {
   constructor(private readonly regularEntryRepository: IRegularEntryRepository) {}
@@ -13,7 +15,7 @@ export class UpdateRegularEntryCommonUseCase implements IUseCase<UpdateRegularEn
     const exist = await this.regularEntryRepository.findByTitle(input);
 
     if (exist && exist.id !== id) {
-      throw new AppError('Регулярна операція з даним заголовком вже існує. Оберіть інший');
+      throw new AppError(ErrorTexts.RegularEntryTitleExists);
     }
 
     return this.regularEntryRepository.updateItem(id, input);

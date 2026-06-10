@@ -9,9 +9,11 @@ import { FinControlledPassword } from '@frontend/components/controlled-fields/fi
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { useSetupResetPassword } from './shared/reset-password.form';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const t = useTranslations('auth.resetPassword');
 
   const { methods, submit, isLoading } = useSetupResetPassword(() => {
     router.push('/login');
@@ -20,8 +22,8 @@ export default function ResetPasswordPage() {
   return (
     <AuthLayout
       imageSrc="/pictures/recovery-picture.png"
-      rightSideTitle="Створіть новий пароль"
-      rightSideDescription="Використовуйте комбінацію символів, літер та цифр для максимального захисту."
+      rightSideTitle={t('rightSideTitle')}
+      rightSideDescription={t('rightSideDescription')}
     >
       <div className="flex flex-col w-full h-full min-h-[inherit]">
         <div className="flex items-center gap-x-1.5 mb-8">
@@ -36,10 +38,8 @@ export default function ResetPasswordPage() {
         <div className="flex-1 flex flex-col justify-center">
           <div className="flex flex-col gap-6 w-full">
             <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-normal text-foreground leading-tight">Встановлення пароля</h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Будь ласка, введіть новий пароль для вашого облікового запису.
-              </p>
+              <h1 className="text-2xl font-normal text-foreground leading-tight">{t('title')}</h1>
+              <p className="text-sm text-muted-foreground leading-relaxed">{t('description')}</p>
             </div>
 
             <FormProvider {...methods}>
@@ -60,14 +60,14 @@ export default function ResetPasswordPage() {
 
                     <FinControlledPassword
                       name="password"
-                      label="Новий пароль*"
-                      placeholder="Введіть новий пароль"
+                      label={t('passwordLabel')}
+                      placeholder={t('passwordPlaceholder')}
                     />
 
                     <FinControlledPassword
                       name="passwordConfirm"
-                      label="Підтвердження пароля*"
-                      placeholder="Повторіть новий пароль"
+                      label={t('passwordConfirmLabel')}
+                      placeholder={t('passwordConfirmPlaceholder')}
                     />
 
                     <div className="flex flex-col gap-3 pt-2">
@@ -77,7 +77,7 @@ export default function ResetPasswordPage() {
                         className="w-full"
                         disabled={!methods.formState.isValid || isLoading}
                       >
-                        {isLoading ? 'Оновлення...' : 'Змінити пароль'}
+                        {isLoading ? t('submitLoading') : t('submit')}
                       </UiButton>
 
                       <button
@@ -85,7 +85,7 @@ export default function ResetPasswordPage() {
                         className="text-sm text-muted-foreground hover:text-primary transition-colors text-center"
                         onClick={() => router.push('/login')}
                       >
-                        Скасувати
+                        {t('cancel')}
                       </button>
                     </div>
                   </UiFieldGroup>

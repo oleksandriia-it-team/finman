@@ -4,6 +4,7 @@ import { UiComboboxInput } from '@frontend/ui/ui-combobox/ui-combobox-input';
 import { useState } from 'react';
 import { UiComboboxContent } from '@frontend/ui/ui-combobox/ui-combobox-content';
 import { FinComboboxList } from '@frontend/components/fields/components/fin-combobox-list';
+import { useTranslations } from 'next-intl';
 
 export function FinAutocomplete<T>({
   onChange,
@@ -27,6 +28,7 @@ export function FinAutocomplete<T>({
   onBlur,
   ...props
 }: DefaultAutocompleteInputProps<T>) {
+  const t = useTranslations('common');
   const [show, setVisibility] = useState<boolean>(false);
 
   return (
@@ -62,6 +64,8 @@ export function FinAutocomplete<T>({
         onBlur={(e) => onBlur?.(e.nativeEvent)}
         hasValue={!!search || !!customInputValue}
         placeholder={placeholder}
+        openListAriaLabel={t('openList')}
+        clearAriaLabel={t('clearField')}
       />
 
       <UiComboboxContent>

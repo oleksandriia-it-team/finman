@@ -6,14 +6,14 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 
 export function UiComboboxTrigger({
   className,
-  'aria-label': ariaLabel,
+  'aria-label': ariaLabel = 'Open list',
   children,
   ...props
 }: ComboboxPrimitive.Trigger.Props) {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
-      aria-label={ariaLabel ?? 'Відкрити список'}
+      aria-label={ariaLabel}
       className={className}
       {...props}
     >

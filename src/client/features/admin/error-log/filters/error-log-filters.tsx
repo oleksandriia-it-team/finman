@@ -1,3 +1,5 @@
+'use client';
+
 import { FormProvider, useForm } from 'react-hook-form';
 import { FinControlledDatepicker } from '@frontend/components/controlled-fields/fin-controlled-datepicker';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
@@ -5,6 +7,7 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.filter';
 import { useEffect, useMemo } from 'react';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
+import { useTranslations } from 'next-intl';
 
 interface ErrorLogsFiltersProps {
   filters: Partial<ErrorLogFilter>;
@@ -17,16 +20,21 @@ interface FilterFormValues {
   dateRange: { from?: Date; to?: Date } | undefined;
 }
 
-const methodOptions = [
-  { value: undefined, label: 'Усі методи' },
-  { value: 'GET', label: 'GET' },
-  { value: 'POST', label: 'POST' },
-  { value: 'PUT', label: 'PUT' },
-  { value: 'PATCH', label: 'PATCH' },
-  { value: 'DELETE', label: 'DELETE' },
-];
-
 export function ErrorLogsFilters({ filters, onChange }: ErrorLogsFiltersProps) {
+  const t = useTranslations('admin.errorLog');
+
+  const methodOptions = useMemo(
+    () => [
+      { value: undefined, label: t('allMethods') },
+      { value: 'GET', label: 'GET' },
+      { value: 'POST', label: 'POST' },
+      { value: 'PUT', label: 'PUT' },
+      { value: 'PATCH', label: 'PATCH' },
+      { value: 'DELETE', label: 'DELETE' },
+    ],
+    [t],
+  );
+
   const defaultDateRange = useMemo(() => {
     if (filters.dateFrom || filters.dateTo) {
       const range: { from?: Date; to?: Date } = {};
@@ -112,7 +120,7 @@ export function ErrorLogsFilters({ filters, onChange }: ErrorLogsFiltersProps) {
 
           <FinControlledInput
             name="endpoint"
-            placeholder="Пошук по ендпоінту або тексту помилки..."
+            placeholder={t('filterSearchPlaceholder')}
             className="!pl-9 bg-background w-full"
             showErrors={false}
           />
@@ -123,7 +131,7 @@ export function ErrorLogsFilters({ filters, onChange }: ErrorLogsFiltersProps) {
             name="method"
             id="method-filter"
             options={methodOptions}
-            placeholder="Метод: Усі"
+            placeholder={t('filterMethodPlaceholder')}
             clearable={false}
           />
         </div>
@@ -132,7 +140,7 @@ export function ErrorLogsFilters({ filters, onChange }: ErrorLogsFiltersProps) {
           <FinControlledDatepicker
             name="dateRange"
             mode="range"
-            placeholder="Останні 7 днів"
+            placeholder={t('filterDatePlaceholder')}
             clearable={false}
           />
         </div>

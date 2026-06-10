@@ -3,6 +3,7 @@ import { RecoveryService } from '@backend/entities/recovery-code/application/rec
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
 import { type ForgotPasswordDto, ForgotPasswordSchema } from '@common/domains/auth/schema/forgot-password.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { UserExistsRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/user-exist.guard';
 import { CooldownRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/cooldown.guard';
 
@@ -31,7 +32,7 @@ export const POST = createRoute({
 
       return {
         status: 400,
-        message: 'Не вдалося відправити лист. Спробуйте пізніше.',
+        message: ErrorTexts.EmailSendFailed,
       };
     }
 

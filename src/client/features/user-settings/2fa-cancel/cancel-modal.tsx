@@ -1,10 +1,15 @@
+'use client';
+
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiConfirmModal } from '@frontend/components/confirm-modal/fin-confirm-modal';
 import { useCancel2FA } from '@frontend/features/user-settings/2fa-cancel/cancel-2fa.hook';
+import { useTranslations } from 'next-intl';
 
 export function TwoFactorCancelModal() {
   const { mutate } = useCancel2FA();
+  const t = useTranslations('userSettings.twoFactor');
+  const tModal = useTranslations('userSettings.twoFactor.cancelModal');
 
   return (
     <UiConfirmModal
@@ -14,13 +19,13 @@ export function TwoFactorCancelModal() {
           variant="destructive"
         >
           <UiSvgIcon name="arrow-repeat" />
-          Скинути
+          {t('resetButton')}
         </UiButton>
       }
-      title="Скинути двофакторну автентифікацію"
-      description="Ви впевнені, що хочете скинути налаштування двофакторної автентифікації? Вам потрібно буде налаштувати її знову, щоб використовувати."
-      confirmLabel="Так, скинути"
-      cancelLabel="Ні, залишити"
+      title={tModal('title')}
+      description={tModal('description')}
+      confirmLabel={tModal('confirm')}
+      cancelLabel={tModal('cancel')}
       onConfirm={mutate}
     />
   );

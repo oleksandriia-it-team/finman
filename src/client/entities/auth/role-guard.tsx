@@ -9,8 +9,10 @@ import type { AuthGuardProps } from '@frontend/entities/auth/props/auth-guard.pr
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
 import { FinLoader } from '@frontend/shared/components/loader/fin-loader';
 import { FinErrorWidget } from '@frontend/components/error/fin-error-widget';
+import { useTranslations } from 'next-intl';
 
 export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) {
+  const t = useTranslations('admin.auth');
   const { userInfoState, userInformation } = useUserInformation(
     useShallow((state) => ({ userInformation: state.userInformation, userInfoState: state.userInfoState })),
   );
@@ -36,7 +38,7 @@ export function RoleGuard({ children, routePath = '/profile' }: AuthGuardProps) 
     return (
       <FinErrorWidget
         status={500}
-        message="Помилка завантаження користувача"
+        message={t('userLoadError')}
       />
     );
   }

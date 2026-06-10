@@ -18,10 +18,12 @@ import { RegularIncomesExpensesProvider } from '@frontend/features/regular-incom
 import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/selected-budget-plan.hook';
 import { useUserNavStoreHook } from '@frontend/widgets/profile-mobile-navbar/user-nav-store.hook';
 import { isCurrentMonth } from '@common/domains/budget-plan/is-current-month.util';
+import { useTranslations } from 'next-intl';
 
 const IdIndexInPath = 4;
 
 export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps) {
+  const t = useTranslations('budgetPlan.screen');
   const { selectedBudgetPlanDate, setBudgetPlanDate, state, error } = useSelectedBudgetPlan();
   const budgetPlan = true;
 
@@ -125,7 +127,7 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
             <>
               {!budgetPlan ? (
                 <div className="flex flex-col items-center justify-center gap-4 h-full">
-                  <p className="text-muted-foreground text-sm">Бюджетний план на цей місяць ще не створено</p>
+                  <p className="text-muted-foreground text-sm">{t('notCreated')}</p>
                   <UiButton
                     variant="primary"
                     size="lg"
@@ -136,7 +138,7 @@ export default function BudgetPlanIdLayout({ children }: ChildrenComponentProps)
                       name="plus"
                       size="sm"
                     />
-                    Створити план
+                    {t('create')}
                   </UiButton>
                 </div>
               ) : (

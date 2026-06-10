@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { UiModal } from '@frontend/ui/ui-modal/ui-modal';
 import { UiModalContent } from '@frontend/ui/ui-modal/ui-modal-content';
@@ -9,6 +11,7 @@ import { UiModalTrigger } from '@frontend/ui/ui-modal/ui-modal-trigger';
 import { UiModalClose } from '@frontend/ui/ui-modal/ui-modal-close';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { type ReactNode } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface UiConfirmModalProps {
   onConfirm: () => void;
@@ -22,14 +25,20 @@ interface UiConfirmModalProps {
 
 export function UiConfirmModal({
   onConfirm,
-  title = 'Ви впевнені?',
-  description = 'Цю дію неможливо скасувати.',
-  confirmLabel = 'Підтверджую',
-  cancelLabel = 'Скасувати',
+  title,
+  description,
+  confirmLabel,
+  cancelLabel,
   trigger,
   confirmVariant = 'destructive',
 }: UiConfirmModalProps) {
+  const t = useTranslations('common');
   const [open, setOpen] = useState(false);
+
+  const resolvedTitle = title ?? t('confirmQuestion');
+  const resolvedDescription = description ?? t('cannotUndo');
+  const resolvedConfirmLabel = confirmLabel ?? t('confirm');
+  const resolvedCancelLabel = cancelLabel ?? t('cancel');
 
   const handleConfirm = () => {
     onConfirm();
@@ -45,19 +54,19 @@ export function UiConfirmModal({
 
       <UiModalContent>
         <UiModalHeader>
-          <UiModalTitle>{title}</UiModalTitle>
-          <UiModalDescription>{description}</UiModalDescription>
+          <UiModalTitle>{resolvedTitle}</UiModalTitle>
+          <UiModalDescription>{resolvedDescription}</UiModalDescription>
         </UiModalHeader>
 
         <UiModalFooter>
           <UiModalClose asChild>
-            <UiButton variant="default">{cancelLabel}</UiButton>
+            <UiButton variant="default">{resolvedCancelLabel}</UiButton>
           </UiModalClose>
           <UiButton
             variant={confirmVariant}
             onClick={handleConfirm}
           >
-            {confirmLabel}
+            {resolvedConfirmLabel}
           </UiButton>
         </UiModalFooter>
       </UiModalContent>

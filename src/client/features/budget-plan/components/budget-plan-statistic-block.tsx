@@ -1,3 +1,5 @@
+'use client';
+
 import { UiCard } from '@frontend/ui/ui-card/ui-card';
 import { FinTransformCurrency } from '@frontend/components/transform-currency/fin-transform-currency';
 import { UiIconBadge } from '@frontend/ui/ui-icon-badge/ui-icon-badge';
@@ -7,22 +9,24 @@ import type {
   BudgetPlanStatisticBlockProps,
   StatItem,
 } from '@frontend/features/budget-plan/components/props/budget-plan-statistic-props';
+import { useTranslations } from 'next-intl';
 
 export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }: BudgetPlanStatisticBlockProps) {
   const balance = income - expense;
   const isPositive = balance >= 0;
+  const t = useTranslations('budgetPlan.statistic');
 
   return (
     <UiCard className={cn('rounded-3xl px-4 py-4 bg-card w-full gap-0', className)}>
       <div className="flex flex-row justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <p className=" text-muted-foreground text-xs">Загальний дохід</p>
+          <p className=" text-muted-foreground text-xs">{t('totalIncome')}</p>
           <span className="font-bold text-success">
             <FinTransformCurrency value={income} />
           </span>
         </div>
         <div className="flex flex-col gap-1 items-end">
-          <p className=" text-muted-foreground text-xs">Загальні витрати</p>
+          <p className=" text-muted-foreground text-xs">{t('totalExpenses')}</p>
           <span className="font-bold text-destructive-foreground">
             <FinTransformCurrency value={expense} />
           </span>
@@ -40,7 +44,7 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
             isRoundedFull
           />
           <div className="flex flex-col gap-0.5">
-            <p className="text-muted-foreground text-xs">Баланс</p>
+            <p className="text-muted-foreground text-xs">{t('balance')}</p>
             <div
               className={cn('font-bold flex items-center', isPositive ? 'text-success' : 'text-destructive-foreground')}
             >
@@ -50,7 +54,7 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
           </div>
         </div>
         <UiStatusBadge
-          label={balance >= 0 ? 'Надлишок' : 'Дефіцит'}
+          label={balance >= 0 ? t('surplus') : t('deficit')}
           variant={balance >= 0 ? 'success' : 'destructive'}
         />
       </div>
@@ -61,26 +65,27 @@ export function BudgetPlanStatisticMobile({ className, income = 0, expense = 0 }
 export function BudgetPlanStatisticDesktop({ className, income = 0, expense = 0 }: BudgetPlanStatisticBlockProps) {
   const balance = income - expense;
   const isPositive = balance >= 0;
+  const t = useTranslations('budgetPlan.statistic');
 
   const mainStats: StatItem[] = [
     {
       icon: 'graph-up-arrow',
       variant: 'success-muted',
-      label: 'Загальний дохід',
+      label: t('totalIncome'),
       value: income,
       textClass: 'text-success',
     },
     {
       icon: 'graph-down-arrow',
       variant: 'destructive-muted',
-      label: 'Загальні витрати',
+      label: t('totalExpenses'),
       value: expense,
       textClass: 'text-destructive-foreground',
     },
     {
       icon: 'wallet2',
       variant: 'primary-muted',
-      label: 'Баланс',
+      label: t('balance'),
       value: balance,
       textClass: isPositive ? 'text-success' : 'text-destructive-foreground',
       prefix: isPositive ? '+' : '',

@@ -24,10 +24,12 @@ import { isSuccessOr400Error } from '@frontend/shared/utils/is-success-or-400-er
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
 import { useAuthorizedUser } from '@frontend/entities/auth/authorized-user.hook';
 import type { OnlineUser } from '@common/records/user.record';
+import { useTranslations } from 'next-intl';
 
 export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
   const update = useUserInformation((state) => state.setUserInformation);
   const user = useAuthorizedUser() as OnlineUser;
+  const t = useTranslations('userSettings.twoFactor.setupModal');
 
   const [open, setOpen] = useState(false);
 
@@ -67,7 +69,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
 
       <UiModalContent className="flex flex-col gap-6 justify-center">
         <UiModalHeader>
-          <UiModalTitle>Підключіть автентифікатор</UiModalTitle>
+          <UiModalTitle>{t('title')}</UiModalTitle>
         </UiModalHeader>
 
         {state === PromiseState.Loading && <FinLoaderShort />}
@@ -99,7 +101,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
                 disabled={disabled}
                 variant="primary"
               >
-                Закрити
+                {t('close')}
               </UiButton>
             </UiModalClose>
           )}
@@ -107,7 +109,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
           {!confirmMutateResult && (
             <>
               <UiModalClose asChild>
-                <UiButton disabled={disabled}>Скасувати</UiButton>
+                <UiButton disabled={disabled}>{t('cancel')}</UiButton>
               </UiModalClose>
 
               <UiButton
@@ -116,7 +118,7 @@ export function TwoFactorSetupModal({ trigger }: { trigger: ReactNode }) {
                 variant="primary"
                 type="submit"
               >
-                Підтвердити та увімкнути
+                {t('confirm')}
               </UiButton>
             </>
           )}

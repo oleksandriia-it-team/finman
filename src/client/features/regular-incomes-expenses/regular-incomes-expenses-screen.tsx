@@ -13,11 +13,11 @@ import { calculateFromAndTo } from '@common/utils/calculate-from-and-to.util';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
-import { useCombineStates } from '@frontend/shared/hooks/combine-states/combine-states.hook';
-import { getFirstAppError } from '@common/utils/get-first-app-error.util';
+import { useTranslations } from 'next-intl';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
+  const t = useTranslations('regular.screen');
   const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
@@ -48,18 +48,16 @@ export default function RegularIncomesExpensesScreen() {
     clearCacheOnDestroy: true,
   });
 
-  const state = useCombineStates(onDelete.state, listState);
-
   return (
     <FinListPageWrapper>
       <p className="flex-none text-xl p-4">
-        <b>Регулярні доходи та витрати</b>
+        <b>{t('title')}</b>
       </p>
 
-      <FinListWrapper state={state}>
+      <FinListWrapper state={listState}>
         <FinListScreenHandler
-          state={state}
-          appError={getFirstAppError(onDelete.error, paginationAppError)}
+          state={listState}
+          appError={paginationAppError}
           hasData={!!options.length}
           skeletonItems={pageSize}
           skeletonClassName="min-h-72"
@@ -94,7 +92,7 @@ export default function RegularIncomesExpensesScreen() {
             name="plus"
             size="sm"
           />
-          Додати платіж
+          {t('addButton')}
         </UiButton>
       </FinButtonListAction>
     </FinListPageWrapper>

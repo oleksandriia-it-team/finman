@@ -1,7 +1,7 @@
 import {
   type ProfileSettingsData,
   type ProfileSettingsFormData,
-  ProfileSettingsSchema,
+  createProfileSettingsSchema,
 } from '@common/domains/profile/schema/profile-settings.schema';
 import { SupportLanguages } from '@common/enums/support-languages.enum';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,11 +9,16 @@ import { profileSettingsService } from '@frontend/features/user-settings/profile
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { useSendDataFetch } from '@frontend/shared/hooks/send-data-fetch/send-data-fetch.hook';
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useShallow } from 'zustand/react/shallow';
+import { useTranslations } from 'next-intl';
+import { UserRequirements } from '@common/constants/user-requirements.constant';
 
 export function useProfileSettingsForm() {
+  const t = useTranslations('userSettings');
+  const tCommon = useTranslations('common');
+  const tPV = useTranslations('userSettings.profileValidation');
   const { userInformation, setUserInformation, refresh } = useUserInformation(
     useShallow((state) => ({
       userInformation: state.userInformation,
@@ -23,8 +28,27 @@ export function useProfileSettingsForm() {
   );
   const { showToast } = useGlobalToast();
 
+  const schema = useMemo(
+    () =>
+      createProfileSettingsSchema({
+        nameRequired: tPV('nameRequired'),
+        nameMinLength: tPV('nameMinLength', { min: UserRequirements.MinNameLength }),
+        nameMaxLength: tPV('nameMaxLength', { max: UserRequirements.MaxLoginLength }),
+        nameInvalidChars: tPV('nameInvalidChars'),
+        localeRequired: tPV('localeRequired'),
+        localeFormat: tPV('localeFormat'),
+        languageRequired: tPV('languageRequired'),
+        currentPasswordRequired: tPV('currentPasswordRequired'),
+        newPasswordMinLength: tPV('newPasswordMinLength', { min: UserRequirements.MinPasswordLength }),
+        newPasswordLatinOnly: tPV('newPasswordLatinOnly'),
+        newPasswordLettersAndDigits: tPV('newPasswordLettersAndDigits'),
+        passwordsDoNotMatch: tPV('passwordsDoNotMatch'),
+      }),
+    [tPV],
+  );
+
   const methods = useForm<ProfileSettingsFormData, unknown, ProfileSettingsData>({
-    resolver: zodResolver(ProfileSettingsSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       name: userInformation?.name ?? '',
       locale: userInformation?.locale ?? 'uk-UA',
@@ -55,7 +79,7 @@ export function useProfileSettingsForm() {
   const updateMutation = useSendDataFetch(
     async (data: ProfileSettingsData) => {
       if (!userInformation) {
-        throw new Error('Користувача не знайдено.');
+        throw new Error('User not found.');
       }
 
       const updatedUser = await profileSettingsService.updateProfile(userInformation, data);
@@ -72,7 +96,7 @@ export function useProfileSettingsForm() {
           await refresh();
         } catch (error) {
           // Log error but don't block success flow
-          console.error('Не вдалося оновити інформацію про користувача:', error);
+          console.error('Failed to refresh user information:', error);
         } finally {
           reset({
             ...methods.getValues(),
@@ -80,7 +104,7 @@ export function useProfileSettingsForm() {
             newPassword: '',
             confirmPassword: '',
           });
-          showToast({ title: 'Успішно', description: 'Профіль оновлено', variant: 'default' });
+          showToast({ title: tCommon('successTitle'), description: t('profileUpdated'), variant: 'default' });
         }
       },
     },

@@ -1,0 +1,835 @@
+{
+  "errors": {
+    "unknownError": "Unknown error.",
+    "recordDoesNotExist": "Record does not exist.",
+    "dataProvidedDoesntMeetRequirements": "Unknown error: provided data does not meet operation requirements.",
+    "prevBatchIsNotDone": "Previous transaction is not finished yet.",
+    "abortError": "AbortError",
+    "incorrectIdProvided": "Invalid id provided.",
+    "incorrectTypeData": "Invalid data type provided.",
+    "twoFactorCodeIsRequired": "Two-factor authentication is enabled, the code is required",
+    "databaseConnection": "Database connection error",
+    "userNotFound": "User not found",
+    "twoFactorNotInitialized": "Initialize two-factor authentication first",
+    "invalidCredentials": "Invalid credentials",
+    "passwordUpdateFailed": "Failed to update password",
+    "invalidCode": "Invalid code",
+    "regularEntryTitleExists": "A regular operation with this title already exists. Choose another one",
+    "unexpectedRequestError": "Unexpected request error. Please try again later",
+    "unauthorized": "You are not authorized",
+    "paramNotInteger": "One of the parameters is not an integer",
+    "attachBothPlannedTypes": "Cannot attach a planned monthly operation and a planned regular-budget operation at the same time",
+    "monthEntryNotFoundOrNotOwned": "Monthly operation record with this ID does not exist or does not belong to the user",
+    "monthEntryDateMismatch": "Operation date does not match the month of the linked planned monthly operation",
+    "monthEntryCategoryMismatch": "Operation category must match the category of the linked planned monthly operation",
+    "regEntryNotFoundOrNotOwned": "Regular operation record with this ID does not exist or does not belong to the user",
+    "regEntryDateMismatch": "Operation date does not match the month of the linked planned regular-budget operation",
+    "regEntryCategoryMismatch": "Operation category must match the category of the linked planned regular-budget operation",
+    "foreignOrMissingMonthEntries": "Some monthly operation records are already linked to another budget plan or do not exist with the specified ID",
+    "plannedRegularEntriesNotOwned": "Some planned regular operation IDs do not exist or do not belong to the user",
+    "invalidJson": "Invalid JSON",
+    "budgetPlanNotFoundForMonth": "Budget plan not found for month {month} and year {year}",
+    "emailAlreadyExists": "This email address already exists",
+    "nameAlreadyExists": "This name already exists",
+    "noUpdateData": "No update data provided",
+    "userDataNotFound": "User data not found",
+    "wrongCurrentPassword": "Current password is incorrect",
+    "invalidOrExpiredCode": "Code is invalid or expired",
+    "codeNotFoundOrExpired": "Code not found or has expired",
+    "tooManyAttempts": "Too many attempts. Please request a new code.",
+    "invalidCodeWithAttempts": "Invalid code. Remaining attempts: {remainingAttempts}",
+    "emailNotFound": "No user with this email exists",
+    "emailSendFailed": "Failed to send email. Please try again later.",
+    "totpNotEnabled": "Two-factor authentication is not enabled",
+    "totpAlreadyEnabled": "Two-factor authentication is already enabled",
+    "regularEntryNotOwned": "This regular operation does not belong to you",
+    "regularEntryNotFound": "Regular operation not found",
+    "trackingOperationNotFound": "Operation not found",
+    "trackingOperationNotOwned": "This operation does not belong to you",
+    "budgetPlanNotFound": "Budget plan not found",
+    "budgetPlanAlreadyExists": "Budget plan already exists",
+    "insufficientPermissions": "Insufficient permissions",
+    "errorLogNotFound": "Error log not found",
+    "currencyNotFound": "Currency not found",
+    "countryNotFound": "Country not found",
+    "userNotFoundByEmail": "User with this email not found",
+    "cooldownWait": "Too many attempts. Please wait {seconds} seconds before the next request.",
+    "pageNotFound": "Page not found",
+    "cannotDeleteRegularExistInCurrentBudgetPlan": "Cannot delete this regular operation because it is included in the current month's budget plan. Please remove it from the plan first."
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "loading": "Loading",
+    "loadingDots": "Loading...",
+    "nothingFound": "Nothing found",
+    "error": "Error",
+    "loadError": "Load error",
+    "dataLoadError": "An error occurred while loading data",
+    "notFound": "Data not found",
+    "unknownError": "Unknown error. Please try again later",
+    "invalidId": "ID is invalid",
+    "elementNotFound": "Element not found",
+    "somethingWentWrong": "Something went wrong",
+    "errorCode": "Error code:",
+    "repeatIssue": "If the issue persists, please contact support.",
+    "backToHome": "Back to home",
+    "needHelp": "Need help?",
+    "contactUs": "Contact us",
+    "confirmQuestion": "Are you sure?",
+    "cannotUndo": "This action cannot be undone.",
+    "confirm": "Confirm",
+    "clearField": "Clear field",
+    "deleteItem": "Delete item",
+    "openList": "Open list",
+    "toggleSidebar": "Toggle sidebar",
+    "controlPanel": "Control panel",
+    "mobileOnly": "Displayed on mobile devices only",
+    "showPassword": "Show",
+    "hidePassword": "Hide",
+    "online": "Online",
+    "offline": "Offline",
+    "ukrainian": "Ukrainian",
+    "requestErrorTitle": "Request error",
+    "successTitle": "Success",
+    "today": "Today",
+    "at": "at",
+    "previousPage": "Go to previous page",
+    "nextPage": "Go to next page",
+    "closeNotification": "Close notification",
+    "pagination": {
+      "fromRequired": "Field \"from\" is required and must be a number",
+      "fromInteger": "Field \"from\" must be an integer",
+      "fromPositive": "Field \"from\" must be a positive number",
+      "toRequired": "Field \"to\" is required and must be a number",
+      "toInteger": "Field \"to\" must be an integer",
+      "toPositive": "Field \"to\" must be a positive number"
+    }
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "weekdays": {
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat"
+  },
+  "priority": {
+    "critical": "Critical",
+    "urgent": "Urgent",
+    "veryHigh": "Very high",
+    "high": "High",
+    "elevated": "Elevated",
+    "medium": "Medium",
+    "moderate": "Moderate",
+    "low": "Low",
+    "background": "Background",
+    "minimal": "Minimal"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "codeStepTitle": "Two-factor authentication",
+      "loginLabel": "Username or email",
+      "loginPlaceholder": "Enter username or email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Log in",
+      "submitLoading": "Logging in...",
+      "signupCta": "Don't have an account? Sign up",
+      "or": "OR",
+      "successMessage": "Login successful!",
+      "validation": {
+        "loginRequired": "Login or email is required",
+        "loginMaxLength": "Login cannot exceed {max} characters",
+        "emailInvalidFormat": "Invalid email format (missing domain, e.g. .com)",
+        "usernameMinLength": "Username must be at least {min} characters",
+        "loginInvalidChars": "Login contains invalid characters",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordMaxLength": "Password cannot exceed {max} characters",
+        "passwordLatinOnly": "Password can only contain Latin characters and special symbols"
+      }
+    },
+    "signup": {
+      "title": "Create your account",
+      "workModeLabel": "Work mode",
+      "workModePlaceholder": "Choose work mode",
+      "workModeTooltip": "Online: cloud sync. Offline: data stays only in your browser.",
+      "nameLabel": "Username *",
+      "namePlaceholder": "Min. 8 characters",
+      "emailLabel": "Email *",
+      "emailPlaceholder": "Enter email",
+      "passwordLabel": "Password *",
+      "passwordPlaceholder": "Min. 8 characters",
+      "passwordConfirmLabel": "Confirm password *",
+      "passwordConfirmPlaceholder": "Confirm password",
+      "currencyLabel": "Currency *",
+      "currencyPlaceholder": "Search...",
+      "submit": "Sign up",
+      "submitLoading": "Signing up...",
+      "or": "OR",
+      "alreadyHaveAccount": "Already have an account? Sign in",
+      "successMessage": "Sign up successful!",
+      "validation": {
+        "invalidEmail": "Invalid email format",
+        "workModeRequired": "Please select a work mode",
+        "currencyRequired": "Please select a currency",
+        "emailRequiredOnline": "Email is required for online mode",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
+    },
+    "recovery": {
+      "title": "Password recovery",
+      "description": "Enter the email associated with your account and we will send a password reset link.",
+      "rightSideTitle": "FinMan — account recovery",
+      "rightSideDescription": "Secure password recovery via an encrypted link. Your data is protected at every step.",
+      "emailLabel": "Email*",
+      "emailPlaceholder": "Enter your email",
+      "emailDescription": "We will send instructions to your inbox",
+      "submit": "Send link",
+      "submitLoading": "Sending...",
+      "or": "or",
+      "backToLogin": "Back to sign in",
+      "noAccount": "Don't have an account?",
+      "signupCta": "Sign up",
+      "successMessage": "Recovery code sent!"
+    },
+    "confirmCode": {
+      "title": "Confirm code",
+      "descriptionPrefix": "We sent a 6-digit code to",
+      "emailFallback": "your email",
+      "rightSideTitle": "FinMan — security first",
+      "rightSideDescription": "We use two-factor verification so your financial data stays safely locked.",
+      "codeLabel": "Enter confirmation code*",
+      "codeDescription": "The code is valid for 5 minutes",
+      "submit": "Confirm",
+      "submitLoading": "Verifying...",
+      "retryAfter": "Try again in {seconds}s",
+      "changeEmail": "Change email",
+      "or": "or"
+    },
+    "resetPassword": {
+      "title": "Set new password",
+      "description": "Please enter a new password for your account.",
+      "rightSideTitle": "Create a new password",
+      "rightSideDescription": "Use a combination of symbols, letters and digits for maximum protection.",
+      "passwordLabel": "New password*",
+      "passwordPlaceholder": "Enter new password",
+      "passwordConfirmLabel": "Confirm password*",
+      "passwordConfirmPlaceholder": "Repeat new password",
+      "submit": "Change password",
+      "submitLoading": "Updating...",
+      "cancel": "Cancel",
+      "successMessage": "Password changed successfully!",
+      "validation": {
+        "passwordMinLength": "Minimum 8 characters",
+        "passwordsDoNotMatch": "Passwords do not match"
+      }
+    },
+    "user": {
+      "validation": {
+        "emailRequired": "Email is required",
+        "emailMaxLength": "Email cannot exceed {max} characters",
+        "emailInvalidFormat": "Invalid email format (missing domain, e.g. .com)",
+        "nameRequired": "Name is required",
+        "nameMinLength": "Name must be at least {min} characters",
+        "nameMaxLength": "Name cannot exceed {max} characters",
+        "nameInvalidChars": "Name contains invalid characters",
+        "passwordRequired": "Password is required",
+        "passwordMinLength": "Password must be at least {min} characters",
+        "passwordMaxLength": "Password cannot exceed {max} characters",
+        "passwordLatinOnly": "Password can only contain Latin characters and special symbols",
+        "currencyRequired": "Please select a currency",
+        "currencyCodeLength": "Currency code must be {length} characters (e.g., UAH, USD, EUR)",
+        "currencyCodeFormat": "Currency code must contain only uppercase Latin letters (e.g., UAH, USD)",
+        "localeRequired": "Locale is required",
+        "localeFormat": "Invalid locale format (e.g., uk, en, en-US)"
+      }
+    },
+    "code": {
+      "validation": {
+        "required": "Enter all 6 digits",
+        "length": "Enter all 6 digits",
+        "numeric": "Code must be numeric"
+      }
+    },
+    "forgotPassword": {
+      "validation": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Invalid email format"
+      }
+    }
+  },
+  "userSettings": {
+    "header": {
+      "title": "Profile",
+      "description": "Manage your account and settings"
+    },
+    "account": {
+      "title": "Account",
+      "nameLabel": "Username",
+      "namePlaceholder": "john.doe"
+    },
+    "security": {
+      "title": "Security",
+      "passwordReplace": "Change password",
+      "currentPasswordLabel": "Current password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPasswordLabel": "New password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm password"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "themeTitle": "Theme",
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "localeLabel": "Date and time format",
+      "localePlaceholder": "Search...",
+      "languageLabel": "Language",
+      "languagePlaceholder": "Choose language"
+    },
+    "twoFactor": {
+      "titleEnabled": "Two-factor authentication — enabled",
+      "titleDisabled": "Two-factor authentication — disabled",
+      "description": "Extra protection layer via an authenticator app (Google Authenticator, Authy, 1Password)",
+      "setupButton": "Set up",
+      "resetButton": "Reset",
+      "cancelModal": {
+        "title": "Reset two-factor authentication",
+        "description": "Are you sure you want to reset two-factor authentication settings? You will need to set it up again to use it.",
+        "confirm": "Yes, reset",
+        "cancel": "No, keep",
+        "successMessage": "Two-factor authentication has been reset"
+      },
+      "setupModal": {
+        "title": "Connect authenticator",
+        "qrInstructions": "Scan the QR code in Google Authenticator, Authy or 1Password and enter the 6-digit code to enable two-factor authentication.",
+        "manualKeyTitle": "Or enter the key manually",
+        "manualKeyDescription": "If you can't scan — copy the code",
+        "codeLabel": "Code from app",
+        "codeDescription": "Enter the 6-digit code currently shown by your authenticator app",
+        "close": "Close",
+        "cancel": "Cancel",
+        "confirm": "Confirm and enable",
+        "successDescription": "Two-factor authentication is active. Next time you sign in we will ask for the code from your authenticator."
+      }
+    },
+    "actions": {
+      "save": "Save changes",
+      "logout": "Sign out",
+      "logoutConfirm": {
+        "title": "Sign out?",
+        "description": "After signing out you will need to sign in again to continue.",
+        "confirm": "Sign out"
+      },
+      "deleteAccount": "Delete account",
+      "deleteAccountConfirm": {
+        "title": "Delete account?",
+        "description": "This action is permanent. Your account and all related data will be permanently removed.",
+        "confirm": "Yes, delete",
+        "cancel": "Cancel",
+        "successMessage": "Account deleted"
+      }
+    },
+    "profileUpdated": "Profile updated",
+    "profileValidation": {
+      "nameRequired": "Name is required",
+      "nameMinLength": "Name must be at least {min} characters",
+      "nameMaxLength": "Name cannot exceed {max} characters",
+      "nameInvalidChars": "Name contains invalid characters",
+      "localeRequired": "Locale is required",
+      "localeFormat": "Invalid locale format",
+      "languageRequired": "Select a language",
+      "currentPasswordRequired": "Enter current password",
+      "newPasswordMinLength": "Password must be at least {min} characters",
+      "newPasswordLatinOnly": "Password can only contain Latin characters, digits and symbols",
+      "newPasswordLettersAndDigits": "Password must contain letters and digits",
+      "passwordsDoNotMatch": "Passwords do not match"
+    }
+  },
+  "analytics": {
+    "categories": {
+      "incomesTitle": "Incomes by category",
+      "incomesDescription": "Distribution of incomes by category for the selected period",
+      "expensesTitle": "Expenses by category",
+      "expensesDescription": "Distribution of expenses by category for the selected period",
+      "totalExpenses": "total expenses",
+      "totalIncomes": "total incomes"
+    },
+    "incomeExpenses": {
+      "title": "Income and expenses analytics",
+      "description": "Overview of incomes and expenses for the selected period"
+    },
+    "budgetVsActual": {
+      "title": "Budget plan vs Actual expenses",
+      "description": "Comparison of planned and actual expenses by category",
+      "planLabel": "Plan",
+      "factLabel": "Actual"
+    },
+    "picker": {
+      "month": "Month",
+      "period": "Period",
+      "apply": "Apply",
+      "prevYear": "Previous year",
+      "nextYear": "Next year"
+    },
+    "chart": {
+      "incomes": "Income",
+      "expenses": "Expenses"
+    },
+    "categoryFilter": {
+      "title": "Categories",
+      "searchPlaceholder": "Search category...",
+      "clearAll": "Clear all",
+      "done": "Done"
+    },
+    "validation": {
+      "yearInteger": "Year must be a number",
+      "yearMin": "Year must be 2000 or later",
+      "invalidMonth": "Invalid month",
+      "dateToBeforeFrom": "End date must not be earlier than start date"
+    }
+  },
+  "budgetPlan": {
+    "header": {
+      "selectTitle": "Select budget plan"
+    },
+    "title": {
+      "current": "Current plan",
+      "plan": "Plan"
+    },
+    "monthCell": {
+      "edit": "Edit",
+      "view": "View",
+      "notYet": "Not yet"
+    },
+    "screen": {
+      "title": "Budget plan",
+      "subtitle": "Regular operations: {regular} · One-time: {other}",
+      "edit": "Edit",
+      "empty": "The plan is empty",
+      "regularSection": "Regular operations",
+      "goToRegular": "Go to regular operations",
+      "otherSection": "Operations this month",
+      "otherSubtitle": "One-time incomes and expenses outside of regular ones",
+      "notCreated": "Budget plan for this month is not created yet",
+      "create": "Create plan",
+      "notCreatedTitle": "Budget plan for this month is not created",
+      "notCreatedDescription": "A new plan can be created only for the current month"
+    },
+    "statistic": {
+      "totalIncome": "Total income",
+      "totalExpenses": "Total expenses",
+      "balance": "Balance",
+      "surplus": "Surplus",
+      "deficit": "Deficit"
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "totalIncome": "Total income",
+      "currentExpenses": "Current expenses",
+      "savings": "Savings",
+      "newExpenses": "New expenses",
+      "willBeRemoved": "<strong>{removed}</strong> of <strong>{total}</strong> expenses will be removed",
+      "suggestions": "Suggestions",
+      "optimal": "Optimal plan",
+      "itemDescription": "expense · one-time",
+      "empty": "No one-time expenses to optimize",
+      "skip": "Skip",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "save": {
+      "successCreated": "Budget plan created",
+      "successUpdated": "Budget plan updated",
+      "errorTitle": "Error: {message}",
+      "errorDescription": "An error occurred while saving"
+    },
+    "form": {
+      "createTitle": "Budget plan",
+      "editTitle": "Edit plan",
+      "subtitle": "Choose regular operations to include in the plan",
+      "empty": "No regular operations yet",
+      "emptyHint": "Create them in the Regular operations section to include them in the plan",
+      "goToRegular": "Go to regular operations",
+      "cancel": "Cancel",
+      "next": "Next ({count})",
+      "monthEntryTitle": "Operation details",
+      "monthEntryDescription": "Fill in information about:",
+      "monthEntrySubjectCreate": "a new one-time operation",
+      "monthEntrySubjectEdit": "one-time operation",
+      "priorityLabel": "Priority",
+      "priorityPlaceholder": "Choose priority",
+      "onlyCurrentMonth": "A new budget plan can only be created for the current month"
+    },
+    "validation": {
+      "selectedBoolean": "Field \"selected\" must be a boolean",
+      "priorityInteger": "Priority must be a number",
+      "priorityMin": "Priority must be at least 1",
+      "priorityMax": "Priority must be at most 10",
+      "idInteger": "Id must be a number",
+      "idMin": "Id must be a positive number",
+      "yearInteger": "Year must be a number",
+      "yearMin": "Year must be 2000 or later",
+      "invalidMonth": "Invalid month",
+      "invalidEntriesFormat": "Invalid entries format",
+      "entryIdInteger": "Entry ID must be a number",
+      "invalidRegularEntriesFormat": "Invalid regular entries format"
+    }
+  },
+  "regular": {
+    "screen": {
+      "title": "Regular incomes and expenses",
+      "addButton": "Add payment"
+    },
+    "form": {
+      "title": "Payment details",
+      "description": "Fill in information about: ",
+      "frequencyLabel": "Frequency",
+      "frequencyPlaceholder": "Choose frequency",
+      "dayLabel": "Day",
+      "dayPlaceholder": "Day",
+      "successCreated": "Card created successfully",
+      "successUpdated": "Card updated successfully",
+      "errorTitle": "Error: {message}",
+      "errorDescription": "An error occurred while saving",
+      "validationTitle": "Check the form fields",
+      "validationDescription": "The form is filled incorrectly"
+    },
+    "sideBlock": {
+      "imageTitle": "Plan your finances wisely",
+      "imageSubtitle": "Regular payments help to control your budget",
+      "tipsTitle": "Useful tips",
+      "tipAutomateTitle": "Automate payments",
+      "tipAutomateDescription": "Set up regular payments so you never miss an important bill",
+      "tipControlTitle": "Control expenses",
+      "tipControlDescription": "Track all regular expenses in one place for better planning",
+      "tipTrendsTitle": "Analyze trends",
+      "tipTrendsDescription": "Review income and expense statistics over different periods",
+      "statisticTitle": "Quick statistics",
+      "averageExpenses": "Average monthly expenses",
+      "averageIncomes": "Average monthly income",
+      "changeExpenses": "Expense change last month",
+      "changeIncomes": "Income change last month"
+    },
+    "frequency": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "periodFilter": {
+      "today": "Today",
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
+    },
+    "validation": {
+      "frequencyInvalid": "Enter a valid frequency",
+      "dayInteger": "Day of month must be a number",
+      "dayMin": "Day of month must be at least 1",
+      "dayMax": "Day of month must be at most 31"
+    }
+  },
+  "operations": {
+    "form": {
+      "defaultSubjectEdit": "regular payment",
+      "defaultSubjectCreate": "new regular payment",
+      "paymentTypeLabel": "Payment type",
+      "income": "Income",
+      "expense": "Expense",
+      "categoryLabel": "Category",
+      "titleLabel": "Name",
+      "titlePlaceholder": "E.g.: Salary",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Short payment description",
+      "sumLabel": "Amount",
+      "saveButton": "Save",
+      "cancelButton": "Cancel",
+      "addButton": "Add operation"
+    },
+    "card": {
+      "noDescription": "No description",
+      "sumLabel": "Amount:"
+    },
+    "actions": {
+      "title": "Choose action",
+      "editLabel": "Edit",
+      "editDescription": "Change transaction data",
+      "deleteLabel": "Delete",
+      "deleteDescription": "Permanently delete transaction",
+      "cancelButton": "Cancel"
+    },
+    "typeFilter": {
+      "all": "All",
+      "expense": "Expenses",
+      "income": "Incomes"
+    }
+  },
+  "tracking": {
+    "header": {
+      "title": "Operations",
+      "searchPlaceholder": "Search..."
+    },
+    "screen": {
+      "addButton": "Add payment"
+    },
+    "statistic": {
+      "periodTotal": "Total for period",
+      "totalIncome": "Total income",
+      "totalExpenses": "Total expenses"
+    },
+    "filters": {
+      "title": "Filters",
+      "resetButton": "Reset",
+      "category": "Category",
+      "sum": "Amount",
+      "minLabel": "Min",
+      "maxLabel": "Max",
+      "dateFrom": "From",
+      "dateTo": "To",
+      "successTitle": "Success",
+      "successDescription": "Filters applied",
+      "errorTitle": "Error",
+      "errorDescription": "Failed to apply filters",
+      "validationErrorTitle": "Validation error",
+      "validationErrorDescription": "Check the correctness of the entered amounts or dates"
+    },
+    "form": {
+      "title": "Payment details",
+      "createSubject": "your new operation (which happened just now or recently)",
+      "editSubject": "your operation (which happened just now or recently)",
+      "descriptionPrefix": "Fill in information about: ",
+      "dateLabel": "Operation date"
+    },
+    "attach": {
+      "fillFromPlan": "Fill from plan",
+      "modalTitle": "Attach a planned operation from the budget plan",
+      "searchPlaceholder": "Search operation",
+      "notFound": "Not found",
+      "notFoundDetailed": "Not found. The budget plan for the selected date may not exist, or there is none for the selected category and type",
+      "clearButton": "Clear",
+      "applyButton": "Apply"
+    },
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMaxLength": "Title cannot exceed {max} characters",
+      "descriptionMaxLength": "Description cannot exceed {max} characters",
+      "typeInvalid": "Type must be expense or income",
+      "dateRequired": "Date is required",
+      "sumNotNumber": "Amount must be a number",
+      "sumMin": "Amount must be at least {min}",
+      "attachedIdInteger": "Attached entry ID must be an integer",
+      "cannotAttachBoth": "Cannot attach both a monthly and a regular budget entry simultaneously"
+    }
+  },
+  "welcome": {
+    "main": {
+      "titleLine1": "Take control of your finances!",
+      "titleLine2": "Easy and stylish",
+      "description": "Your personal financial space. No complex spreadsheets — just what really matters.",
+      "balanceTitle": "Balance",
+      "macbookGoalTitle": "For Macbook",
+      "macbookGoalValue": "45% saved",
+      "coffeeTitle": "Coffee shop"
+    },
+    "benefits": {
+      "title": "Why is it convenient?",
+      "description": "We understand how hard it is to make ends meet. Balancing studies, work and rest becomes easier when all your money is counted automatically.",
+      "today": "Today",
+      "transfer": "Money transfer",
+      "income": "Income",
+      "bus": "Bus",
+      "personalExpenses": "Personal expenses",
+      "concert": "Concert",
+      "coffee": "Coffee shop",
+      "stationery": "Stationery",
+      "restaurant": "Restaurant"
+    },
+    "signup": {
+      "title": "Ready to take control?",
+      "subtitle": "Your financial journey starts now",
+      "fullControlTitle": "Full money control",
+      "fullControlDescription": "Your money is under control",
+      "analyticsTitle": "Spending analytics",
+      "analyticsDescription": "Detailed charts and reports",
+      "cta": "Sign up",
+      "hint": "It takes less than a minute"
+    }
+  },
+  "categories": {
+    "groceries": "Groceries",
+    "housing": "Housing",
+    "utilities": "Utilities",
+    "transport": "Transport",
+    "entertainment": "Entertainment",
+    "education": "Education",
+    "shopping": "Shopping",
+    "health": "Health",
+    "expense-misc": "Other expense",
+    "salary": "Salary",
+    "investments": "Investments",
+    "freelance": "Freelance",
+    "scholarship": "Scholarship",
+    "income-misc": "Other income"
+  },
+  "nav": {
+    "home": "Home",
+    "planning": "Planning",
+    "budgetPlans": "Budget plans",
+    "regularOperations": "Regular operations",
+    "analytics": "Analytics",
+    "profile": "Profile",
+    "adminPanel": "Admin panel",
+    "countriesLocales": "Countries and locales",
+    "currencies": "Currencies",
+    "errorLogs": "Error logs"
+  },
+  "admin": {
+    "common": {
+      "successTitle": "Success",
+      "errorTitle": "Error",
+      "dataUpdated": "Data updated",
+      "recordAdded": "Record added",
+      "recordDeleted": "Record deleted",
+      "recordDeleteFailed": "Failed to delete record",
+      "selectedDeleted": "Selected records deleted",
+      "someDeleteFailed": "Some records could not be deleted",
+      "confirmDeleteTitle": "Confirm deletion",
+      "confirmBulkDeleteTitle": "Confirm bulk deletion",
+      "confirmBulkDeleteDescription": "Are you sure you want to delete all selected records?"
+    },
+    "lookup": {
+      "statusHead": "Status",
+      "createdHead": "Created",
+      "createdByHead": "Created by",
+      "updatedHead": "Updated",
+      "editAction": "Edit",
+      "deleteAction": "Delete",
+      "deleteConfirmTitle": "Delete record?",
+      "deleteConfirmDescription": "This action cannot be undone.",
+      "deleteConfirmLabel": "Delete"
+    },
+    "currency": {
+      "editTitle": "Edit currency",
+      "addTitle": "Add currency",
+      "nameLabel": "Name *",
+      "namePlaceholder": "E.g.: US Dollar",
+      "codeLabel": "Code *",
+      "codePlaceholder": "E.g.: USD",
+      "symbolLabel": "Symbol *",
+      "symbolPlaceholder": "E.g.: $",
+      "headerName": "Name",
+      "headerCode": "Code",
+      "headerSymbol": "Symbol",
+      "confirmDeleteDescription": "Are you sure you want to delete the currency \"{name}\"?"
+    },
+    "country": {
+      "editTitle": "Edit country",
+      "addTitle": "Add country",
+      "countryEnLabel": "Country in English*",
+      "countryEnPlaceholder": "E.g.: Ukraine",
+      "countryUkLabel": "Country in Ukrainian*",
+      "countryUkPlaceholder": "E.g.: Україна",
+      "localeLabel": "Locale *",
+      "localePlaceholder": "E.g.: uk-UA",
+      "headerCountryEn": "Country (English)",
+      "headerCountryUk": "Country (Ukrainian)",
+      "headerLocale": "Locale",
+      "confirmDeleteDescription": "Are you sure you want to delete the country \"{name}\"?"
+    },
+    "errorLog": {
+      "endpointError": "Endpoint / Error",
+      "method": "Method",
+      "status": "Status",
+      "createdAt": "Created",
+      "user": "User",
+      "updatedAt": "Updated",
+      "unknown": "Unknown",
+      "system": "System",
+      "viewDetails": "View details",
+      "noEndpoint": "No endpoint",
+      "modalTitle": "Error details",
+      "userLabel": "User",
+      "createdAtLabel": "Created",
+      "statusLabel": "Processing status",
+      "successStatusUpdate": "Status updated successfully",
+      "tabAll": "All",
+      "tabActive": "Active",
+      "tabResolving": "In progress",
+      "tabResolved": "Resolved",
+      "tabIgnored": "Ignored",
+      "statusActive": "Active",
+      "statusResolving": "In progress",
+      "statusResolved": "Resolved",
+      "statusIgnored": "Ignored",
+      "filterSearchPlaceholder": "Search by endpoint or error text...",
+      "allMethods": "All methods",
+      "filterMethodPlaceholder": "Method: All",
+      "filterDatePlaceholder": "Last 7 days"
+    },
+    "auth": {
+      "loading": "Loading",
+      "userLoadError": "Error loading user",
+      "notAuthorized": "You are not authorized. Redirecting...",
+      "alreadyAuthorized": "You are already authorized and cannot access this page. Redirecting..."
+    },
+    "errorLogPage": {
+      "breadcrumb": "Error logger"
+    },
+    "lookupsValidation": {
+      "required": "Required field",
+      "currencyCodeLength": "Code must be exactly 3 characters",
+      "emptyUpdate": "No update data provided",
+      "statusRequired": "Status is required"
+    },
+    "validation": {
+      "idMustBeNumber": "Each ID must be a number",
+      "excludeIdMustBeNumber": "Each excludeId must be a number",
+      "idsArrayRequired": "IDs array is required",
+      "excludeIdsArrayRequired": "excludeIds array is required",
+      "fieldMustBeString": "Field value must be a string",
+      "fieldMustBeNumber": "Field must be a number",
+      "invalidRange": "Value is out of valid range",
+      "invalidStatus": "Invalid status",
+      "userIdMustBeNumber": "User ID must be a number",
+      "invalidStartDate": "Invalid start date format",
+      "invalidEndDate": "Invalid end date format",
+      "dateRangeInvalid": "End date must be greater than or equal to start date",
+      "sumRangeInvalid": "Maximum sum must be greater than or equal to minimum sum",
+      "paginationRangeInvalid": "\"to\" must be greater than or equal to \"from\""
+    }
+  },
+  "entry": {
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMaxLength": "Title max length: {max} characters",
+      "descriptionMaxLength": "Description max length: {max} characters",
+      "sumRequired": "Enter amount",
+      "sumMin": "Amount must be at least {min}",
+      "incomeCategoryInvalid": "Select a valid income category",
+      "expenseCategoryInvalid": "Select a valid expense category"
+    }
+  }
+}

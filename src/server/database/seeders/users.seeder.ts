@@ -1,10 +1,10 @@
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
 import { RoleEnum } from '@common/domains/user/enums/role.enum';
+import { isDevMode } from '@common/utils/is-dev-mode.util';
 
 export async function userSeeder() {
   const existingUser = await userApiRepository.findUserForLogin('admin@test.com');
-  if (existingUser) {
-    console.log('Admin user already exists, skipping seed.');
+  if (existingUser || !isDevMode()) {
     return;
   }
 

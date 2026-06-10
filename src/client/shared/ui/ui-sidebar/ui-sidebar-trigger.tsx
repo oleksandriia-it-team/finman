@@ -11,8 +11,12 @@ export function UiSidebarTrigger({
   bgNone = true,
   onClick,
   hideOnCollapse,
+  srLabel = 'Toggle sidebar',
   ...props
-}: Partial<React.ComponentProps<typeof UiIconButton>> & { hideOnCollapse?: boolean }) {
+}: Partial<React.ComponentProps<typeof UiIconButton>> & {
+  hideOnCollapse?: boolean;
+  srLabel?: string;
+}) {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -31,7 +35,7 @@ export function UiSidebarTrigger({
       }}
       {...props}
     >
-      <span className="sr-only">Переключити сайдбар</span>
+      <span className="sr-only">{srLabel}</span>
     </UiIconButton>
   );
 }

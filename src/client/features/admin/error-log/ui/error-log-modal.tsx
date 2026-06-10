@@ -6,12 +6,14 @@ import { FinModalFormWrapper } from '@frontend/components/wrappers/fin-modal-for
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FinControlledDropdown } from '@frontend/components/controlled-fields/fin-controlled-dropdown';
+import { useTranslations } from 'next-intl';
 
 interface ErrorLogFormValues {
   status: ErrorLogStatus;
 }
 
 export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating }: ErrorLogModalProps) {
+  const t = useTranslations('admin.errorLog');
   const formId = `update-error-log-form-${log?.id || 'new'}`;
   const methods = useForm<ErrorLogFormValues>({
     defaultValues: {
@@ -28,10 +30,10 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
   if (!log) return null;
 
   const statusOptions = [
-    { label: 'Активна', value: ErrorLogStatus.Active },
-    { label: 'В обробці', value: ErrorLogStatus.IsResolving },
-    { label: 'Вирішена', value: ErrorLogStatus.Resolved },
-    { label: 'Ігнорована', value: ErrorLogStatus.Ignored },
+    { label: t('statusActive'), value: ErrorLogStatus.Active },
+    { label: t('statusResolving'), value: ErrorLogStatus.IsResolving },
+    { label: t('statusResolved'), value: ErrorLogStatus.Resolved },
+    { label: t('statusIgnored'), value: ErrorLogStatus.Ignored },
   ];
 
   const onSubmit = (data: ErrorLogFormValues) => {
@@ -46,7 +48,7 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
     <FinModalFormWrapper
       isOpen={isOpen}
       onClose={onClose}
-      title="Деталі помилки"
+      title={t('modalTitle')}
       formId={formId}
       isLoading={isUpdating}
       className="!max-w-[56rem] !w-[56rem]"
@@ -62,17 +64,17 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
               <span className="bg-foreground text-background px-2 py-0.5 rounded text-xs font-bold uppercase">
                 {log.method || 'UNKNOWN'}
               </span>
-              <span className="font-mono text-sm font-semibold break-all">{log.endpoint || 'Немає ендпоінту'}</span>
+              <span className="font-mono text-sm font-semibold break-all">{log.endpoint || t('noEndpoint')}</span>
             </div>
             <p className="text-destructive-foreground font-bold text-sm mt-1">{log.message}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm w-full">
             <div className="flex flex-col gap-1">
-              <span className="text-muted-foreground text-xs uppercase tracking-wide">Користувач</span>
-              <span className="font-medium">{log.user?.email || log.user?.name || 'Система'}</span>
+              <span className="text-muted-foreground text-xs uppercase tracking-wide">{t('userLabel')}</span>
+              <span className="font-medium">{log.user?.email || log.user?.name || t('system')}</span>
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-muted-foreground text-xs uppercase tracking-wide">Створено</span>
+              <span className="text-muted-foreground text-xs uppercase tracking-wide">{t('createdAtLabel')}</span>
               <span className="font-medium">
                 <FinTransformDate
                   date={log.createdAt}
@@ -85,7 +87,7 @@ export function ErrorLogModal({ isOpen, log, onClose, onUpdateStatus, isUpdating
             <FinControlledDropdown
               name="status"
               id="status-dropdown"
-              label="Статус обробки"
+              label={t('statusLabel')}
               options={statusOptions}
               disabled={isUpdating}
               clearable={false}

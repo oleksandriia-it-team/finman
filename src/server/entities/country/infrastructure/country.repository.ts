@@ -7,6 +7,10 @@ import { type DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import { calculateSkipAndLimit } from '@common/utils/calculate-skip-and-take.util';
 
 export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAndLocalesFilter> {
+  constructor() {
+    super(CountryOrm, 'country');
+  }
+
   override async updateItem(id: number, data: Omit<CountryOrm, DefaultColumnKeys>): Promise<true> {
     await this.repository.update({ id }, data as QueryDeepPartialEntity<CountryOrm>);
 
@@ -54,4 +58,4 @@ export class CountryRepository extends CrudApiRepository<CountryOrm, CountriesAn
   }
 }
 
-export const countryRepository = new CountryRepository(CountryOrm);
+export const countryRepository = new CountryRepository();

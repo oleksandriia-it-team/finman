@@ -4,6 +4,7 @@ import { UiPopoverContent } from '@frontend/shared/ui/ui-popover/ui-popover-cont
 import { UiButton } from '@frontend/shared/ui/ui-button/ui-button';
 import { UiSvgIcon } from '@frontend/shared/ui/ui-svg-icon/ui-svg-icon';
 import { UiConfirmModal } from '@frontend/shared/components/confirm-modal/fin-confirm-modal';
+import { useTranslations } from 'next-intl';
 
 interface LookupRowActionsProps {
   onEdit?: () => void;
@@ -11,6 +12,7 @@ interface LookupRowActionsProps {
 }
 
 export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
+  const t = useTranslations('admin.lookup');
   return (
     <UiPopover>
       <UiPopoverTrigger asChild>
@@ -43,7 +45,7 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
             name="pencil"
             size="sm"
           />
-          Редагувати
+          {t('editAction')}
         </UiButton>
 
         <UiConfirmModal
@@ -58,13 +60,13 @@ export function LookupRowActions({ onEdit, onDelete }: LookupRowActionsProps) {
                 name="trash"
                 size="sm"
               />
-              Видалити
+              {t('deleteAction')}
             </UiButton>
           }
           onConfirm={onDelete ?? (() => {})}
-          title="Видалити запис?"
-          description="Цю дію неможливо скасувати."
-          confirmLabel="Видалити"
+          title={t('deleteConfirmTitle')}
+          description={t('deleteConfirmDescription')}
+          confirmLabel={t('deleteConfirmLabel')}
         />
       </UiPopoverContent>
     </UiPopover>

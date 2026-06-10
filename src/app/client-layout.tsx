@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LoadGlobalToast } from './load-global-toast';
 import { UiTooltipProvider } from '@frontend/ui/ui-tooltip/ui-tooltip-provider';
 import { IsMobileProvider } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
+import { I18nProvider } from '@frontend/shared/i18n/i18n-provider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,14 +24,16 @@ export default function MainLayout({ children }: ChildrenComponentProps) {
   return (
     <LoadStylesComponent>
       <InitApplication>
-        <QueryClientProvider client={queryClient}>
-          <UiTooltipProvider>
-            <IsMobileProvider>
-              <LoadGlobalToast />
-              {children}
-            </IsMobileProvider>
-          </UiTooltipProvider>
-        </QueryClientProvider>
+        <I18nProvider>
+          <QueryClientProvider client={queryClient}>
+            <UiTooltipProvider>
+              <IsMobileProvider>
+                <LoadGlobalToast />
+                {children}
+              </IsMobileProvider>
+            </UiTooltipProvider>
+          </QueryClientProvider>
+        </I18nProvider>
       </InitApplication>
     </LoadStylesComponent>
   );

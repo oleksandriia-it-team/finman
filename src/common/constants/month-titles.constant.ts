@@ -1,26 +1,28 @@
 import { Month } from '@common/enums/month.enum';
 
-export const MonthTitles: Record<Month, string> = {
-  [Month.January]: 'Січень',
-  [Month.February]: 'Лютий',
-  [Month.March]: 'Березень',
-  [Month.April]: 'Квітень',
-  [Month.May]: 'Травень',
-  [Month.June]: 'Червень',
-  [Month.July]: 'Липень',
-  [Month.August]: 'Серпень',
-  [Month.September]: 'Вересень',
-  [Month.October]: 'Жовтень',
-  [Month.November]: 'Листопад',
-  [Month.December]: 'Грудень',
+/** Translation keys (under `months.*` namespace) for each month. */
+export const MonthTitleKeys: Record<Month, string> = {
+  [Month.January]: 'january',
+  [Month.February]: 'february',
+  [Month.March]: 'march',
+  [Month.April]: 'april',
+  [Month.May]: 'may',
+  [Month.June]: 'june',
+  [Month.July]: 'july',
+  [Month.August]: 'august',
+  [Month.September]: 'september',
+  [Month.October]: 'october',
+  [Month.November]: 'november',
+  [Month.December]: 'december',
 };
 
-export const WeekTitles: Record<number, string> = {
-  0: 'Нд',
-  1: 'Пн',
-  2: 'Вт',
-  3: 'Ср',
-  4: 'Чт',
-  5: 'Пт',
-  6: 'Сб',
+/** Translation keys (under `weekdays.*` namespace) for each weekday index (0=Sun..6=Sat). */
+export const WeekTitleKeys: Record<number, string> = {
+  0: 'sun',
+  1: 'mon',
+  2: 'tue',
+  3: 'wed',
+  4: 'thu',
+  5: 'fri',
+  6: 'sat',
 };

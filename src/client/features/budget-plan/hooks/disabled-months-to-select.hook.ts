@@ -2,18 +2,18 @@ import { useSelectedBudgetPlan } from '@frontend/features/budget-plan/hooks/sele
 import { useMemo } from 'react';
 import { Month } from '@common/enums/month.enum';
 
-export function useDisabledMonthsToSelect() {
-  const { now, selectedBudgetPlanDate } = useSelectedBudgetPlan();
+export function useDisabledMonthsToSelect(year: number) {
+  const { now } = useSelectedBudgetPlan();
 
   return useMemo(() => {
-    if (now.year > selectedBudgetPlanDate.year) {
-      return Object.values(Month);
-    }
-
-    if (now.year < selectedBudgetPlanDate.year) {
+    if (now.year > year) {
       return [];
     }
 
+    if (now.year < year) {
+      return Object.values(Month);
+    }
+
     return Object.values(Month).filter((month) => month > now.month);
-  }, [now.month, now.year, selectedBudgetPlanDate.year]);
+  }, [now.month, now.year, year]);
 }

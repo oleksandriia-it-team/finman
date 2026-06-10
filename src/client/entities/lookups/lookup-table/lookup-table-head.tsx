@@ -1,11 +1,13 @@
 import { UiTableHead } from '@frontend/shared/ui/ui-table/ui-table-head';
 import { type LookupColumnDef } from '@frontend/entities/lookups/lookup-column/lookup-column.model';
+import { useTranslations } from 'next-intl';
 
 interface LookupTableHeadProps<T> {
   columns: LookupColumnDef<T>[];
 }
 
 export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
+  const t = useTranslations('admin.lookup');
   const head = 'h-9 py-1 text-xs font-medium uppercase   text-muted-foreground';
   return (
     <>
@@ -20,10 +22,10 @@ export function LookupTableHead<T>({ columns }: LookupTableHeadProps<T>) {
         </UiTableHead>
       ))}
 
-      <UiTableHead className={head}>Статус</UiTableHead>
-      <UiTableHead className={head}>Створено</UiTableHead>
-      <UiTableHead className={head}>Створив</UiTableHead>
-      <UiTableHead className={head}>Оновлено</UiTableHead>
+      <UiTableHead className={head}>{t('statusHead')}</UiTableHead>
+      <UiTableHead className={head}>{t('createdHead')}</UiTableHead>
+      <UiTableHead className={head}>{t('createdByHead')}</UiTableHead>
+      <UiTableHead className={head}>{t('updatedHead')}</UiTableHead>
       <UiTableHead className="w-10" />
     </>
   );

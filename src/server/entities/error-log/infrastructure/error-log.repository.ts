@@ -7,7 +7,7 @@ import type { ErrorLogStatus } from '@common/constants/error-log-status.constant
 
 export class ErrorLogApiRepository extends CrudApiRepository<ErrorLogOrm, ErrorLogFilter> {
   constructor() {
-    super(ErrorLogOrm);
+    super(ErrorLogOrm, 'error-logs');
   }
 
   override async updateItem(id: number, data: Pick<ErrorLogOrm, 'status'>): Promise<true> {

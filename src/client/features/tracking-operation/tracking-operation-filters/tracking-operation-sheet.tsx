@@ -18,8 +18,10 @@ import { useTrackingOperationFilters } from '@frontend/features/tracking-operati
 import type { ChildrenComponentProps } from '@frontend/shared/models/component-with-chilren.model';
 import { useEffect, useMemo, useState } from 'react';
 import { useGetBasicTrackingInformation } from './tracking-operation-hooks/get-tracking-op-information.hook';
+import { useTranslations } from 'next-intl';
 
 export function FiltersSheet({ children }: ChildrenComponentProps) {
+  const t = useTranslations('tracking.filters');
   const { methods, handleApplyFilters, setRealMaxSum } = useTrackingOperationFilters();
 
   const [open, setOpen] = useState(false);
@@ -54,7 +56,7 @@ export function FiltersSheet({ children }: ChildrenComponentProps) {
         </UiResponsiveDialogTrigger>
         <UiResponsiveDialogContent className="flex flex-col w-full rounded-t-[2rem]">
           <UiResponsiveDialogHeader className="flex flex-row justify-between">
-            <UiResponsiveDialogTitle className="text-xl">Фільтри</UiResponsiveDialogTitle>
+            <UiResponsiveDialogTitle className="text-xl">{t('title')}</UiResponsiveDialogTitle>
             <UiResponsiveDialogClose />
           </UiResponsiveDialogHeader>
           <form
@@ -83,7 +85,7 @@ export function FiltersSheet({ children }: ChildrenComponentProps) {
 
             <UiResponsiveDialogFooter>
               <CardsFormTemplateActions
-                cancelButtonLabel="Скинути"
+                cancelButtonLabel={t('resetButton')}
                 onCancel={() =>
                   methods.reset({
                     dateFrom: null as never,

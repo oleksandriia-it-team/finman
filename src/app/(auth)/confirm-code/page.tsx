@@ -9,17 +9,19 @@ import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { AuthLayout } from '@frontend/entities/auth/auth-template';
 import { useConfirmCode } from './shared/confirm-code-form';
+import { useTranslations } from 'next-intl';
 
 export default function ConfirmCodePage() {
   const { methods, submit, isLoading, email, handleGoBack, isCounting, timeLeft } = useConfirmCode();
-  const countingLabel = isCounting ? `Спробуйте через ${timeLeft}с` : 'Підтвердити';
-  const buttonLabel = isLoading ? 'Перевірка...' : countingLabel;
+  const t = useTranslations('auth.confirmCode');
+  const countingLabel = isCounting ? t('retryAfter', { seconds: timeLeft }) : t('submit');
+  const buttonLabel = isLoading ? t('submitLoading') : countingLabel;
 
   return (
     <AuthLayout
       imageSrc="/pictures/recovery-picture.png"
-      rightSideTitle="FinMan — безпека понад усе"
-      rightSideDescription="Ми використовуємо двофакторну перевірку, щоб ваші фінансові дані залишалися під надійним замком."
+      rightSideTitle={t('rightSideTitle')}
+      rightSideDescription={t('rightSideDescription')}
     >
       <div className="flex flex-col w-full h-full min-h-[inherit]">
         <div className="flex items-center gap-x-1.5 mb-8">
@@ -34,10 +36,10 @@ export default function ConfirmCodePage() {
         <div className="flex-1 flex flex-col justify-center">
           <div className="flex flex-col gap-6 w-full">
             <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-normal text-foreground leading-tight">Підтвердження коду</h1>
+              <h1 className="text-2xl font-normal text-foreground leading-tight">{t('title')}</h1>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Ми надіслали 6-значний код на{' '}
-                <span className="font-medium text-foreground italic">{email || 'вашу пошту'}</span>.
+                {t('descriptionPrefix')}{' '}
+                <span className="font-medium text-foreground italic">{email || t('emailFallback')}</span>.
               </p>
             </div>
 
@@ -50,14 +52,14 @@ export default function ConfirmCodePage() {
                   <UiFieldGroup className="flex flex-col gap-8">
                     <FinControlledOtp
                       name="code"
-                      label="Введіть код підтвердження*"
+                      label={t('codeLabel')}
                       description={
                         <>
                           <UiSvgIcon
                             name="info-circle"
                             size="xs"
                           />
-                          Код дійсний протягом 5 хвилин
+                          {t('codeDescription')}
                         </>
                       }
                     />
@@ -82,7 +84,7 @@ export default function ConfirmCodePage() {
                           name="arrow-left"
                           size="sm"
                         />
-                        Змінити пошту
+                        {t('changeEmail')}
                       </button>
                     </div>
                   </UiFieldGroup>

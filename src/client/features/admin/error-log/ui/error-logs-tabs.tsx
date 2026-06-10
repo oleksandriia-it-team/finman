@@ -1,7 +1,10 @@
+'use client';
+
 import type { FilterTabConfig } from '@frontend/components/filter-tabs/model/filter-tabs.model';
 import { ErrorLogStatus } from '@common/constants/error-log-status.constant';
 import { UiFilterTabs } from '@frontend/components/filter-tabs/ui-filter-tabs';
 import type { ErrorLogFilter } from '@common/domains/lookups/filters/error-log.filter';
+import { useTranslations } from 'next-intl';
 
 interface ErrorLogTabsProps {
   filters: Partial<ErrorLogFilter>;
@@ -10,29 +13,31 @@ interface ErrorLogTabsProps {
 }
 
 export function ErrorLogTabs({ filters, setFilters, statusesCount }: ErrorLogTabsProps) {
+  const t = useTranslations('admin.errorLog');
+
   const errorLogTabs: FilterTabConfig<ErrorLogStatus | undefined>[] = [
-    { value: undefined, label: 'Усі', count: statusesCount['total'] || 0 },
+    { value: undefined, label: t('tabAll'), count: statusesCount['total'] || 0 },
     {
       value: ErrorLogStatus.Active,
-      label: 'Активні',
+      label: t('tabActive'),
       dotColor: 'bg-destructive-foreground',
       count: statusesCount[ErrorLogStatus.Active] || 0,
     },
     {
       value: ErrorLogStatus.IsResolving,
-      label: 'В обробці',
+      label: t('tabResolving'),
       dotColor: 'bg-warning',
       count: statusesCount[ErrorLogStatus.IsResolving] || 0,
     },
     {
       value: ErrorLogStatus.Resolved,
-      label: 'Вирішені',
+      label: t('tabResolved'),
       dotColor: 'bg-success',
       count: statusesCount[ErrorLogStatus.Resolved] || 0,
     },
     {
       value: ErrorLogStatus.Ignored,
-      label: 'Ігноровані',
+      label: t('tabIgnored'),
       dotColor: 'bg-muted-foreground',
       count: statusesCount[ErrorLogStatus.Ignored] || 0,
     },

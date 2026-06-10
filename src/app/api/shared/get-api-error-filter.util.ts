@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { getSafeAppError } from '@common/utils/get-safe-app-error.util';
 import { errorLogApiRepository } from '@backend/entities/error-log/infrastructure/error-log.repository';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export async function getDefaultApiErrorFilter(
   req: Request,
@@ -27,7 +28,7 @@ export async function getDefaultApiErrorFilter(
       }
     })();
 
-    return NextResponse.json({ status: 500, message: 'Невідома помилка' }, { status: 500 });
+    return NextResponse.json({ status: 500, message: ErrorTexts.UnknownError }, { status: 500 });
   }
 
   return NextResponse.json(message, { status: message.status });

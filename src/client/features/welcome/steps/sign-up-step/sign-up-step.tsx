@@ -4,16 +4,21 @@ import Link from 'next/link';
 
 import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
+import { TypeEntry } from '@common/enums/entry.enum';
+import { useTranslations } from 'next-intl';
 import { IncomeCategories } from '@common/enums/categories.enum';
 
 export default function SignUpStep() {
+  const t = useTranslations('welcome.signup');
+
   const features = [
     {
       id: 1,
       icon: 'shield-check',
-      title: 'Повний контроль коштів',
-      description: 'Ваші гроші під контролем',
       category: IncomeCategories.Salary,
+      titleKey: 'fullControlTitle',
+      descriptionKey: 'fullControlDescription',
+      type: TypeEntry.Income,
     },
     {
       id: 2,
@@ -21,8 +26,11 @@ export default function SignUpStep() {
       title: 'Аналітика витрат',
       description: 'Детальні графіки та звіти',
       category: IncomeCategories.Freelance,
+      titleKey: 'analyticsTitle',
+      descriptionKey: 'analyticsDescription',
+      type: TypeEntry.Income,
     },
-  ];
+  ] as const;
 
   return (
     <div className=" step-background relative flex items-center justify-center min-h-screen w-full overflow-hidden p-4">
@@ -42,10 +50,8 @@ export default function SignUpStep() {
           </div>
 
           <div className="space-y-2 text-center">
-            <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">
-              Готові взяти контроль?
-            </p>
-            <p className="text-lg text-muted-foreground">Ваша фінансова подорож починається зараз</p>
+            <p className="text-3xl md:text-4xl font-bold step-title tracking-tight leading-tight">{t('title')}</p>
+            <p className="text-lg text-muted-foreground">{t('subtitle')}</p>
           </div>
         </div>
         <div className="w-full space-y-3">
@@ -55,8 +61,8 @@ export default function SignUpStep() {
               showActions={false}
               key={feature.id}
               icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
+              title={t(feature.titleKey)}
+              description={t(feature.descriptionKey)}
               category={feature.category}
               check="✓"
               className="step-card-item"

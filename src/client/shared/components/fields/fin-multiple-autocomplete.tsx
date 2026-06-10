@@ -7,6 +7,7 @@ import { UiComboboxChips } from '@frontend/ui/ui-combobox/ui-combobox-chips';
 import { UiComboboxValue } from '@frontend/ui/ui-combobox/ui-combobox-value';
 import { UiComboboxChip } from '@frontend/ui/ui-combobox/ui-combobox-chip';
 import { UiComboboxChipsInput } from '@frontend/ui/ui-combobox/ui-combobox-chips-input';
+import { useTranslations } from 'next-intl';
 
 export function FinMultipleAutocomplete<T>({
   onChange,
@@ -28,6 +29,7 @@ export function FinMultipleAutocomplete<T>({
   'data-invalid': dataInvalid,
   onBlur,
 }: DefaultAutocompleteMultipleInputProps<T>) {
+  const t = useTranslations('common');
   const [show, setVisibility] = useState<boolean>(false);
 
   const customInputValue = selectedDataFull.map((i) => i.label);
@@ -67,7 +69,14 @@ export function FinMultipleAutocomplete<T>({
       >
         <UiComboboxValue>
           {customInputValue.map((i) => {
-            return <UiComboboxChip key={i}>{i}</UiComboboxChip>;
+            return (
+              <UiComboboxChip
+                key={i}
+                removeAriaLabel={t('deleteItem')}
+              >
+                {i}
+              </UiComboboxChip>
+            );
           })}
 
           <UiComboboxChipsInput

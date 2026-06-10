@@ -13,6 +13,7 @@ import type {
   CardsFormTemplateActionsProps,
   CardsFormTemplateProps,
 } from '@frontend/entities/operations/cards-form-template/cards-form-template-props';
+import { useTranslations } from 'next-intl';
 
 export function CardsFormTemplate({ children, submit }: CardsFormTemplateProps) {
   return (
@@ -27,7 +28,8 @@ export function CardsFormTemplate({ children, submit }: CardsFormTemplateProps) 
 }
 
 export function CardsFormHeaderTemplate({ title, description, isEdit, subjectLabel }: CardsFormHeaderTemplateProps) {
-  const defaultLabel = isEdit ? 'регулярний платіж' : 'новий регулярний платіж';
+  const t = useTranslations('operations.form');
+  const defaultLabel = isEdit ? t('defaultSubjectEdit') : t('defaultSubjectCreate');
   const finalLabel = subjectLabel ? (isEdit ? subjectLabel.edit : subjectLabel.create) : defaultLabel;
   return (
     <UiFormLayout.Header>
@@ -40,9 +42,10 @@ export function CardsFormHeaderTemplate({ title, description, isEdit, subjectLab
 }
 
 export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFooterTemplateProps) {
+  const t = useTranslations('operations.form');
   return (
     <>
-      <UiFormLayout.Section label="Тип платежу">
+      <UiFormLayout.Section label={t('paymentTypeLabel')}>
         <div className="flex w-full p-1.5 gap-4">
           <UiButton
             type="button"
@@ -54,7 +57,7 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
             onClick={() => setValue(TypeEntry.Income)}
             variant={selectedType === TypeEntry.Income ? 'success' : 'default'}
           >
-            Дохід
+            {t('income')}
           </UiButton>
           <UiButton
             type="button"
@@ -66,13 +69,13 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
             onClick={() => setValue(TypeEntry.Expense)}
             variant={selectedType === TypeEntry.Expense ? 'destructive' : 'default'}
           >
-            Витрата
+            {t('expense')}
           </UiButton>
         </div>
       </UiFormLayout.Section>
 
       {selectedType && (
-        <UiFormLayout.Section label="Категорія">
+        <UiFormLayout.Section label={t('categoryLabel')}>
           <TransactionCategoryPicker
             name="category"
             type={selectedType}
@@ -83,27 +86,29 @@ export function CardsFormTemplatePickers({ selectedType, setValue }: CardsFormFo
   );
 }
 
-export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplateProps) {
+export function CardsFormTemplateInputs({ children, disableSum = false }: CardsFormInputsTemplateProps) {
+  const t = useTranslations('operations.form');
   return (
     <>
       <FinControlledInput
-        label="Назва"
+        label={t('titleLabel')}
         id="title"
         name="title"
-        placeholder="Наприклад: Зарплата"
+        placeholder={t('titlePlaceholder')}
       />
 
       <FinControlledTextarea
-        label="Опис"
+        label={t('descriptionLabel')}
         id="description"
         name="description"
-        placeholder="Короткий опис платежу"
+        placeholder={t('descriptionPlaceholder')}
       />
 
       <FinControlledInput
-        label="Сума"
+        label={t('sumLabel')}
         id="sum"
         pattern={NumberOnlyPattern}
+        disabled={disableSum}
         name="sum"
         type="number"
         placeholder="0.00"
@@ -114,6 +119,7 @@ export function CardsFormTemplateInputs({ children }: CardsFormInputsTemplatePro
 }
 
 export function CardsFormTemplateActions({ onCancel, cancelButtonLabel }: CardsFormTemplateActionsProps) {
+  const t = useTranslations('operations.form');
   return (
     <UiFormLayout.Actions>
       <UiButton
@@ -121,7 +127,7 @@ export function CardsFormTemplateActions({ onCancel, cancelButtonLabel }: CardsF
         variant="primary"
         className="w-full py-6 font-semibold shadow-md"
       >
-        Зберегти
+        {t('saveButton')}
       </UiButton>
       <UiButton
         type="button"
@@ -129,7 +135,7 @@ export function CardsFormTemplateActions({ onCancel, cancelButtonLabel }: CardsF
         className="w-full py-6 font-semibold"
         onClick={onCancel}
       >
-        {cancelButtonLabel ?? 'Скасувати'}
+        {cancelButtonLabel ?? t('cancelButton')}
       </UiButton>
     </UiFormLayout.Actions>
   );

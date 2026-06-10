@@ -9,12 +9,13 @@ export abstract class CrudApiRepository<
   T extends ObjectLiteral & DefaultTableColumns,
   F extends object,
   DTO extends ObjectLiteral = Omit<T, DefaultColumnKeys>,
+  UpdateDTO extends ObjectLiteral = DTO,
 >
   extends OrmRepository<T>
-  implements ICrudService<T, DTO, F>
+  implements ICrudService<T, DTO, F, UpdateDTO>
 {
-  constructor(entity: EntityTarget<T>) {
-    super(entity);
+  constructor(entity: EntityTarget<T>, tableName: string) {
+    super(entity, tableName);
   }
 
   async createItem(data: DTO): Promise<number> {
@@ -25,7 +26,7 @@ export abstract class CrudApiRepository<
     return savedItem.id;
   }
 
-  async updateItem(id: number, data: DTO): Promise<true> {
+  async updateItem(id: number, data: UpdateDTO): Promise<true> {
     const updatedItem = this.repository.create({ id, ...data } as unknown as T);
 
     await this.repository.save(updatedItem);

@@ -2,13 +2,15 @@ import { AllCategoryValues } from '@common/enums/categories.enum';
 import { cn } from '@frontend/shared/utils/cn.util';
 import type { FiltersDefaultProps } from '@frontend/features/tracking-operation/tracking-operation-filters/props/filters-default.props';
 import { TransactionCategoryFilterPicker } from '@frontend/entities/operations/transaction-category-filter-picker/transaction-category-filter-picker';
+import { useTranslations } from 'next-intl';
 
 export function CategoryFilters({ className }: FiltersDefaultProps) {
+  const t = useTranslations('tracking.filters');
   const classes = cn('size-full flex flex-wrap flex-col justify-center items-start gap-2', className);
 
   return (
     <div className={classes}>
-      <p className="text-lg">Категорія</p>
+      <p className="text-lg">{t('category')}</p>
       <div className="flex flex-row  gap-1 flex-wrap items-start justify-start">
         {AllCategoryValues.map((category) => (
           <TransactionCategoryFilterPicker

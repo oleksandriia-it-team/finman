@@ -5,7 +5,7 @@ import { type MonthEntryOrm } from '@backend/entities/month-entry/infrastructure
 import { type UserOrm } from '@backend/entities/user/infrastructure/user.orm';
 import { type PlannedRegOpsBudgetOrm } from '@backend/entities/planned-reg-ops-budget/infrastructure/planned-reg-ops-budget.orm';
 
-@Entity()
+@Entity('budget_plan_orm')
 @Unique(['userId', 'month', 'year'])
 export class BudgetPlanOrm extends DefaultTableColumnsOrm {
   @Column({ type: 'enum', enum: Object.values(Month) })
@@ -17,7 +17,7 @@ export class BudgetPlanOrm extends DefaultTableColumnsOrm {
   @Column({ type: 'int' })
   userId!: number;
 
-  @ManyToOne('UserOrm', 'budgetPlans')
+  @ManyToOne('UserOrm', 'budgetPlans', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })
   user?: UserOrm;
 

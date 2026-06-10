@@ -3,6 +3,7 @@ import type { DefaultColumnKeys } from '@common/models/default-table-columns.mod
 import type { RegularEntry } from '@common/records/regular-entry.record';
 import type { IRegularEntryRepository } from '@common/domains/regular-entry/models/regular-entry-repository.model';
 import { AppError } from '@common/classes/app-error.class';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 
 export type CreateRegularEntryInput = Omit<RegularEntry, DefaultColumnKeys> & { userId?: number };
 
@@ -13,7 +14,7 @@ export class CreateRegularEntryCommonUseCase implements IUseCase<CreateRegularEn
     const exist = await this.regularEntryRepository.findByTitle(input);
 
     if (exist) {
-      throw new AppError('Регулярна операція з даним заголовком вже існує. Оберіть інший');
+      throw new AppError(ErrorTexts.RegularEntryTitleExists);
     }
 
     return this.regularEntryRepository.createItem(input);

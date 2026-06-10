@@ -1,4 +1,5 @@
 import { createRoute } from '@backend/shared/utils/create-route.util';
+import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { AuthGuard } from '@backend/entities/user/infrastructure/auth.guard';
 import { GetUserIdTransformer } from '@backend/shared/transformers/get-user-id.transformer';
 import { userApiRepository } from '@backend/entities/user/infrastructure/user.repository';
@@ -17,7 +18,7 @@ export const GET = createRoute({
     if (!user) {
       return {
         status: 404,
-        message: 'Дані користувача не знайдені',
+        message: ErrorTexts.UserDataNotFound,
       };
     }
 
@@ -29,6 +30,29 @@ export const GET = createRoute({
         ...safeUser,
         totpEnabled: !!totp?.enabled,
       } satisfies OnlineUser,
+    };
+  },
+  filter: getDefaultApiErrorFilter,
+});
+
+export const DELETE = createRoute({
+  contextFn: GetUserIdTransformer,
+  guards: [AuthGuard],
+  execute: async ({ context }) => {
+    const userId = context as number;
+
+    const deleted = await userApiRepository.deleteAccount(userId);
+
+    if (!deleted) {
+      return {
+        status: 404,
+        message: ErrorTexts.UserDataNotFound,
+      };
+    }
+
+    return {
+      status: 200,
+      data: { success: true },
     };
   },
   filter: getDefaultApiErrorFilter,
@@ -47,7 +71,7 @@ export const PUT = createRoute({
       if (!isPasswordValid) {
         return {
           status: 400,
-          message: 'Поточний пароль невірний',
+          message: ErrorTexts.WrongCurrentPassword,
         };
       }
     }
@@ -62,7 +86,7 @@ export const PUT = createRoute({
     if (!user) {
       return {
         status: 404,
-        message: 'Дані користувача не знайдені',
+        message: ErrorTexts.UserDataNotFound,
       };
     }
 

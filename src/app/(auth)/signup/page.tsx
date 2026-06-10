@@ -13,7 +13,7 @@ import { UiButton } from '@frontend/ui/ui-button/ui-button';
 import { UiSpinner } from '@frontend/ui/ui-spinner/spinner';
 import { useSetupRegistration } from './shared/signup-form';
 import { useGetCurrenciesDropdown } from '@frontend/entities/lookups/hooks/get-currencies-dropdown.hook';
-import { WORK_MODE_OPTIONS } from '@frontend/shared/constants/work-mode-options.constants';
+import { useWorkModeOptions } from '@frontend/shared/constants/work-mode-options.constants';
 import { WorkMode } from '@common/enums/work-mode.enum';
 import { UiTooltip } from '@frontend/ui/ui-tooltip/ui-tooltip';
 import { localStorageService } from '@frontend/shared/services/local-storage/local-storage.service';
@@ -24,9 +24,12 @@ import { UiTooltipContent } from '@frontend/ui/ui-tooltip/ui-tooltip-content';
 import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 import { LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
+import { useTranslations } from 'next-intl';
 
 export default function RegistrationPage() {
   const router = useRouter();
+  const t = useTranslations('auth.signup');
+  const tRoot = useTranslations();
   const { methods, submit, isLoading } = useSetupRegistration(() => {
     const hasOfflineData = localStorageService.getItem(UserInformationKey);
     if (hasOfflineData) {
@@ -37,6 +40,7 @@ export default function RegistrationPage() {
   });
 
   const currencyDataResource = useGetCurrenciesDropdown(methods.watch('currencyCode'));
+  const workModeOptions = useWorkModeOptions();
   const workMode = methods.watch('workMode');
   const isLocked = !workMode;
   const isOffline = workMode === WorkMode.Offline;
@@ -63,7 +67,7 @@ export default function RegistrationPage() {
                 />
                 <span className="text-2xl text-foreground tracking-tighter font-bold">FINMAN</span>
               </div>
-              <span className="text-sm font-semibold text-foreground block leading-tight">Створіть свій акаунт</span>
+              <span className="text-sm font-semibold text-foreground block leading-tight">{t('title')}</span>
             </UiFieldLegend>
 
             <UiFieldGroup className="flex flex-col gap-2.5">
@@ -73,7 +77,7 @@ export default function RegistrationPage() {
                     <FinControlledDropdown
                       label={
                         <>
-                          Режим роботи{' '}
+                          {t('workModeLabel')}{' '}
                           <UiTooltipTrigger asChild>
                             <UiSvgIcon
                               name={'info-circle'}
@@ -83,23 +87,23 @@ export default function RegistrationPage() {
                         </>
                       }
                       name="workMode"
-                      placeholder="Оберіть режим роботи"
-                      options={WORK_MODE_OPTIONS}
+                      placeholder={t('workModePlaceholder')}
+                      options={workModeOptions}
                     />
                   </div>
                   <UiTooltipContent
                     side="top"
                     className="max-w-[200px] text-center"
                   >
-                    <p>Онлайн: синхронізація з хмарою. Офлайн: дані тільки у вашому браузері.</p>
+                    <p>{t('workModeTooltip')}</p>
                   </UiTooltipContent>
                 </UiTooltip>
               </div>
 
               <FinControlledInput
                 name="name"
-                label="Ім'я користувача *"
-                placeholder="Мін. 8 символів"
+                label={t('nameLabel')}
+                placeholder={t('namePlaceholder')}
                 disabled={isLocked}
                 pattern={LatinUsernamePattern}
               />
@@ -108,31 +112,31 @@ export default function RegistrationPage() {
                 <>
                   <FinControlledInput
                     name="email"
-                    label="Email *"
-                    placeholder="Введіть email"
+                    label={t('emailLabel')}
+                    placeholder={t('emailPlaceholder')}
                     disabled={isLocked}
                   />
                   <FinControlledPassword
                     name="password"
-                    label="Пароль *"
-                    placeholder="Мін. 8 символів"
+                    label={t('passwordLabel')}
+                    placeholder={t('passwordPlaceholder')}
                     disabled={isLocked}
                   />
                   <FinControlledPassword
                     name="passwordConfirm"
-                    label="Підтвердження паролю *"
-                    placeholder="Підтвердіть пароль"
+                    label={t('passwordConfirmLabel')}
+                    placeholder={t('passwordConfirmPlaceholder')}
                     disabled={isLocked}
                   />
                 </>
               )}
 
               <FinControlledAutocomplete
-                label="Валюта *"
+                label={t('currencyLabel')}
                 name="currencyCode"
-                placeholder="Пошук..."
+                placeholder={t('currencyPlaceholder')}
                 options={currencyDataResource.options}
-                errorLabel={currencyDataResource.errorMessage ?? ''}
+                errorLabel={tRoot(currencyDataResource.errorMessage ?? '')}
                 state={currencyDataResource.state}
                 customInputValue={currencyDataResource.inputLabel?.label ?? ''}
                 search={currencyDataResource.search}
@@ -149,17 +153,17 @@ export default function RegistrationPage() {
                   disabled={isLocked || isLoading}
                 >
                   {isLoading && <UiSpinner className="size-4" />}
-                  {isLoading ? 'Реєстрація...' : 'Зареєструватися'}
+                  {isLoading ? t('submitLoading') : t('submit')}
                 </UiButton>
 
-                <UiSeparatorWithLabel label={'АБО'} />
+                <UiSeparatorWithLabel label={t('or')} />
 
                 <button
                   type="button"
                   className="w-full text-sm text-primary font-medium hover:underline text-center"
                   onClick={() => router.push('/login')}
                 >
-                  Вже є акаунт? Увійти
+                  {t('alreadyHaveAccount')}
                 </button>
               </div>
             </UiFieldGroup>

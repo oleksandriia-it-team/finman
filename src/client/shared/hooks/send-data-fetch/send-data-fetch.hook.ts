@@ -1,8 +1,9 @@
 import { type MutationFunction, useMutation, type UseMutationOptions } from '@tanstack/react-query';
 import { useGlobalToast } from '@frontend/shared/hooks/global-toast/global-toast.hook';
 import { getSafeErrorMessage } from '@common/utils/get-safe-error-message.util';
-import type { AppError } from '@common/classes/app-error.class';
+import { AppError } from '@common/classes/app-error.class';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
+import { useTranslations } from 'next-intl';
 
 export function useSendDataFetch<TData = unknown, TError = AppError, TVariables = void, TContext = unknown>(
   mutationFn: MutationFunction<TData, TVariables>,
@@ -13,6 +14,8 @@ export function useSendDataFetch<TData = unknown, TError = AppError, TVariables 
   },
 ) {
   const showToast = useGlobalToast((state) => state.showToast);
+  const t = useTranslations();
+  const tCommon = useTranslations('common');
 
   const mutation = useMutation<TData, TError, TVariables, TContext>({
     ...options,
@@ -21,7 +24,7 @@ export function useSendDataFetch<TData = unknown, TError = AppError, TVariables 
     onSuccess: (data, variables, onMutateResult, meta) => {
       if (options?.successMessage) {
         showToast({
-          title: 'Успішно',
+          title: tCommon('successTitle'),
           description: options.successMessage,
           variant: 'default',
         });
@@ -30,12 +33,14 @@ export function useSendDataFetch<TData = unknown, TError = AppError, TVariables 
     },
 
     onError: (error, variables, onMutateResult, meta) => {
-      const message = getSafeErrorMessage(error);
+      const messageKey = getSafeErrorMessage(error);
+      const messageParams = error instanceof AppError ? error.messageParams : undefined;
+      const description = t(messageKey, messageParams);
 
       if ((options?.showErrorToast ?? true) && (options?.showErrorToastIf?.(error) ?? true)) {
         showToast({
-          title: 'Помилка запиту',
-          description: message,
+          title: tCommon('requestErrorTitle'),
+          description,
           variant: 'destructive',
         });
       }
