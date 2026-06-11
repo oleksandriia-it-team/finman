@@ -145,18 +145,20 @@ export function TrackingOperationScreen() {
           pageSize={pageSize}
         />
         <FinButtonListAction>
-          <UiButton
-            variant="primary"
-            size="lg"
-            className="rounded-full gap-2 shadow-xl"
-            onClick={() => router.push('./profile/tracking-operations/add')}
-          >
-            <UiSvgIcon
-              name="plus"
-              size="sm"
-            />
-            {t('addButton')}
-          </UiButton>
+          {!isMobile && (
+            <UiButton
+              variant="primary"
+              size="lg"
+              className="rounded-full gap-2 shadow-xl"
+              onClick={() => router.push('./profile/tracking-operations/add')}
+            >
+              <UiSvgIcon
+                name="plus"
+                size="sm"
+              />
+              {t('addButton')}
+            </UiButton>
+          )}
         </FinButtonListAction>
       </FinListPageWrapper>
     </div>
