@@ -34,7 +34,7 @@ export function LoginEnterPasswordForm() {
         <button
           type="button"
           onClick={() => router.push('/recovery')}
-          className="absolute right-0 top-0 text-xs text-primary hover:underline"
+          className="absolute right-0 top-0 text-xs text-primary hover:underline cursor-pointer"
         >
           {t('forgotPassword')}
         </button>

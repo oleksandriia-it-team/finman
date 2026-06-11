@@ -160,7 +160,7 @@ export default function RegistrationPage() {
 
                 <button
                   type="button"
-                  className="w-full text-sm text-primary font-medium hover:underline text-center"
+                  className="w-full text-sm text-primary font-medium hover:underline text-center cursor-pointer"
                   onClick={() => router.push('/login')}
                 >
                   {t('alreadyHaveAccount')}
