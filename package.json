@@ -51,7 +51,6 @@
     "react-hook-form": "^7.62.0",
     "recharts": "^3.8.0",
     "reflect-metadata": "^0.2.2",
-    "resend": "^6.12.2",
     "sass": "^1.89.2",
     "speakeasy": "^2.0.0",
     "stream-json": "^1.9.1",
