@@ -11,8 +11,7 @@ const DefaultCurrency = 'UAH';
 
 export function formatCurrency(value: number, options: FormatCurrencyOptions = {}): string {
   const user = useUserInformation.getState().userInformation;
-
-  const locale = options.locale ?? user?.locale ?? DefaultLocale;
+  const locale = options.locale ?? (user?.language === 'en' ? 'en-US' : DefaultLocale);
   const currency = options.currency ?? user?.currencyCode ?? DefaultCurrency;
   const notation = options.notation ?? 'standard';
 
