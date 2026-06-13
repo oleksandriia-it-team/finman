@@ -12,6 +12,7 @@ export function I18nProvider({ children }: ChildrenComponentProps) {
     <NextIntlClientProvider
       locale={locale}
       messages={messagesByLocale[locale]}
+      timeZone="Europe/Kyiv"
     >
       {children}
     </NextIntlClientProvider>
