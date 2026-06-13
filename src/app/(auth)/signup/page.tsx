@@ -25,6 +25,10 @@ import { UiTooltipTrigger } from '@frontend/ui/ui-tooltip/ui-tooltip-trigger';
 import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 import { LatinUsernamePattern } from '@common/constants/latin-pattern.constant';
 import { useTranslations } from 'next-intl';
+import { UiPopover } from '@frontend/ui/ui-popover/ui-popover';
+import { UiPopoverTrigger } from '@frontend/ui/ui-popover/ui-popover-trigger';
+import { UiPopoverContent } from '@frontend/ui/ui-popover/ui-popover-content';
+import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -44,6 +48,11 @@ export default function RegistrationPage() {
   const workMode = methods.watch('workMode');
   const isLocked = !workMode;
   const isOffline = workMode === WorkMode.Offline;
+
+  const isMobile = useIsMobile();
+  const Root = isMobile ? UiPopover : UiTooltip;
+  const Trigger = isMobile ? UiPopoverTrigger : UiTooltipTrigger;
+  const Content = isMobile ? UiPopoverContent : UiTooltipContent;
 
   return (
     <AuthLayout imageSrc={'/pictures/login-picture.png'}>
@@ -72,18 +81,18 @@ export default function RegistrationPage() {
 
             <UiFieldGroup className="flex flex-col gap-2.5">
               <div className="grid grid-cols-1 gap-2.5">
-                <UiTooltip>
+                <Root>
                   <div>
                     <FinControlledDropdown
                       label={
                         <>
                           {t('workModeLabel')}{' '}
-                          <UiTooltipTrigger asChild>
+                          <Trigger asChild>
                             <UiSvgIcon
                               name={'info-circle'}
                               size="sm"
                             />
-                          </UiTooltipTrigger>
+                          </Trigger>
                         </>
                       }
                       name="workMode"
@@ -91,13 +100,13 @@ export default function RegistrationPage() {
                       options={workModeOptions}
                     />
                   </div>
-                  <UiTooltipContent
+                  <Content
                     side="top"
-                    className="max-w-[200px] text-center"
+                    className="max-w-[200px] text-center p-0"
                   >
-                    <p>{t('workModeTooltip')}</p>
-                  </UiTooltipContent>
-                </UiTooltip>
+                    <p className="text-sm">{t('workModeTooltip')}</p>
+                  </Content>
+                </Root>
               </div>
 
               <FinControlledInput
