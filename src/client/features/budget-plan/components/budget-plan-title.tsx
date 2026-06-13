@@ -15,7 +15,7 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
   const isCurrentMonthAndYear = isCurrentMonth(selected, now);
 
   return (
-    <div className="flex flex-col gap-1 px-3">
+    <div className="flex flex-col gap-1 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-muted/50">
       <UiDescription
         className="flex gap-2"
         size="xxs"
@@ -27,9 +27,13 @@ export function BudgetPlanTitle({ selected }: BudgetPlanTitleProps) {
 
       <UiTitle
         size="lg"
-        className="w-fit"
+        className="w-fit flex items-center gap-1.5"
       >
         {monthTitles[selected.month]} {selected.year}
+        <UiSvgIcon
+          name="chevron-down"
+          size="sm"
+        />
       </UiTitle>
     </div>
   );
