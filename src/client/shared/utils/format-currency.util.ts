@@ -1,4 +1,9 @@
 import { useUserInformation } from '@frontend/shared/services/user-information/use-user-information.store';
+import {
+  DefaultCurrency,
+  DefaultLocale,
+  LanguageToLocale,
+} from '@frontend/shared/constants/language-to-locale.constants';
 
 interface FormatCurrencyOptions {
   locale?: string | undefined;
@@ -6,12 +11,9 @@ interface FormatCurrencyOptions {
   notation?: 'standard' | 'compact' | undefined;
 }
 
-const DefaultLocale = 'uk-UA';
-const DefaultCurrency = 'UAH';
-
 export function formatCurrency(value: number, options: FormatCurrencyOptions = {}): string {
   const user = useUserInformation.getState().userInformation;
-  const locale = options.locale ?? (user?.language === 'en' ? 'en-US' : DefaultLocale);
+  const locale = options.locale ?? LanguageToLocale[user?.language ?? 'uk'] ?? DefaultLocale;
   const currency = options.currency ?? user?.currencyCode ?? DefaultCurrency;
   const notation = options.notation ?? 'standard';
 
