@@ -85,7 +85,7 @@ export default function SignUpStep() {
               Зареєструватися
             </Link>
           </UiPurpleButton>
-          <p className="text-center text-muted-foreground text-sm mt-4">Це займе менше 1 хвилини</p>
+          <p className="text-center text-muted-foreground text-sm mt-4">{t('hint')}</p>
         </div>
       </div>
     </div>
