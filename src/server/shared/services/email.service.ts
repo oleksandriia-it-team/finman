@@ -3,6 +3,8 @@ import { EnvConfigConstant } from '@backend/config/env-config.constant';
 
 const transporter = createTransport({
   service: 'gmail',
+  secure: true,
+  port: 465,
   auth: {
     user: EnvConfigConstant.GMAIL_EMAIL,
     pass: EnvConfigConstant.GMAIL_APP_PASSWORD,
