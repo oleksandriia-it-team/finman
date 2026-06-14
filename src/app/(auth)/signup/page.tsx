@@ -58,7 +58,7 @@ export default function RegistrationPage() {
     <AuthLayout imageSrc={'/pictures/login-picture.png'}>
       <FormProvider {...methods}>
         <form
-          className="w-full flex flex-col gap-3"
+          className="w-full flex flex-col gap-3 overflow-auto"
           onSubmit={(e) => {
             e.preventDefault();
             submit();
@@ -67,7 +67,7 @@ export default function RegistrationPage() {
           <UiFieldSet disabled={isLoading}>
             <UiFieldLegend
               size="xl"
-              className="flex flex-col items-start gap-0.5 mb-4 sticky top-0 w-full z-10"
+              className="flex flex-col items-start gap-0.5 mb-4 top-0 w-full z-10"
             >
               <div className="flex items-center gap-1.5">
                 <LogoSvg
@@ -153,7 +153,7 @@ export default function RegistrationPage() {
                 disabled={isLocked}
               />
 
-              <div className="flex flex-col gap-2.5 mt-1 sticky bottom-0 w-full pt-2">
+              <div className="flex flex-col gap-2.5 mt-1 bottom-0 w-full pt-2">
                 <UiButton
                   type="submit"
                   className="w-full"
