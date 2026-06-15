@@ -9,11 +9,13 @@ import type {
   IncomesByCategoryResponse,
   MonthlyIncomeExpensesItem,
   PlanVsActualItem,
+  PlanVsActualOperationItem,
 } from '@common/domains/analytics/analytics.model';
 import { GetMonthlyIncomeExpensesLocalUseCase } from '@frontend/features/analytics/get-monthly-income-expenses.local.use-case';
 import { GetExpensesByCategoryLocalUseCase } from '@frontend/features/analytics/get-expenses-by-category.local.use-case';
 import { GetIncomesByCategoryLocalUseCase } from '@frontend/features/analytics/get-incomes-by-category.local.use-case';
 import { GetPlanVsActualLocalUseCase } from '@frontend/features/analytics/get-plan-vs-actual.local.use-case';
+import { GetPlanVsActualOperationsLocalUseCase } from '@frontend/features/analytics/get-plan-vs-actual-operations.local.use-case';
 import { trackingOperationLocalRepository } from '@frontend/entities/tracking-operations/tracking-operation.local.repository';
 import { budgetPlanLocalRepository } from '@frontend/entities/budget-plan/budget-plan.local.repository';
 import { monthEntryLocalRepository } from '@frontend/entities/month-entry/month-entry.local.repository';
@@ -26,6 +28,7 @@ export class AnalyticsLocalUsecases implements IAnalyticsRepository {
     private readonly getExpensesByCategoryUseCase: GetExpensesByCategoryLocalUseCase,
     private readonly getIncomesByCategoryUseCase: GetIncomesByCategoryLocalUseCase,
     private readonly getPlanVsActualUseCase: GetPlanVsActualLocalUseCase,
+    private readonly getPlanVsActualOperationsUseCase: GetPlanVsActualOperationsLocalUseCase,
   ) {}
 
   getMonthlyIncomeExpenses(input: MonthlyIncomeExpensesFilter): Promise<MonthlyIncomeExpensesItem[]> {
@@ -42,6 +45,10 @@ export class AnalyticsLocalUsecases implements IAnalyticsRepository {
 
   getPlanVsActual(input: PlanVsActualFilter): Promise<PlanVsActualItem[]> {
     return this.getPlanVsActualUseCase.execute(input);
+  }
+
+  getPlanVsActualOperations(input: PlanVsActualFilter): Promise<PlanVsActualOperationItem[]> {
+    return this.getPlanVsActualOperationsUseCase.execute(input);
   }
 }
 
@@ -63,9 +70,18 @@ export const getPlanVsActualLocalUseCase = new GetPlanVsActualLocalUseCase(
   regularEntryLocalRepository,
 );
 
+export const getPlanVsActualOperationsLocalUseCase = new GetPlanVsActualOperationsLocalUseCase(
+  trackingOperationLocalRepository,
+  budgetPlanLocalRepository,
+  monthEntryLocalRepository,
+  plannedRegOpsBudgetLocalRepository,
+  regularEntryLocalRepository,
+);
+
 export const analyticsLocalUsecases = new AnalyticsLocalUsecases(
   getMonthlyIncomeExpensesLocalUseCase,
   getExpensesByCategoryLocalUseCase,
   getIncomesByCategoryLocalUseCase,
   getPlanVsActualLocalUseCase,
+  getPlanVsActualOperationsLocalUseCase,
 );

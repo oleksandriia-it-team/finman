@@ -4,11 +4,14 @@ import { useMemo, useState } from 'react';
 import { IncomesExpensesChartCard } from '@frontend/entities/analytics/incomes-expenses-chart/incomes-expenses-chart-card';
 import { CategoriesExpensesChartCard } from '@frontend/entities/analytics/categories-charts/categories-expenses-chart/categories-expenses-chart-card';
 import { CategoriesIncomesChartCard } from '@frontend/entities/analytics/categories-charts/categories-incomes-chart/categories-incomes-chart-card';
-import { BudgetVsActualChartCard } from '@frontend/entities/analytics/budget-vs-actual-chart/budget-vs-actual-chart-card';
 import {
-  useCategoriesMapping,
+  BudgetVsActualChartCard,
+  type BudgetVsActualMode,
+} from '@frontend/entities/analytics/budget-vs-actual-chart/budget-vs-actual-chart-card';
+import {
   ExpenseCategoryValues,
   IncomeCategoryValues,
+  useCategoriesMapping,
 } from '@frontend/shared/styles/card-styles-mappings';
 import { AnalyticsProvider, useAnalytics } from '@frontend/features/analytics/analytics.hook';
 import { useAnalyticsQuery } from '@frontend/features/analytics/hooks/use-analytics-query.hook';
@@ -19,11 +22,18 @@ import { useAnalyticsEmptyActions } from '@frontend/features/analytics/analytics
 import { getDefaultMonth, getDefaultRange } from '@common/domains/analytics/utils/get-default-filter.util';
 import type { AllCategories } from '@common/enums/categories.enum';
 import type { MonthRange, MonthYear } from '@common/domains/analytics/analytics.schema';
+import type { PlanVsActualItem, PlanVsActualOperationItem } from '@common/domains/analytics/analytics.model';
 
 const AllCategoriesList: AllCategories[] = [...ExpenseCategoryValues, ...IncomeCategoryValues];
 
 function AnalyticsCards() {
-  const { getMonthlyIncomeExpenses, getExpensesByCategory, getIncomesByCategory, getPlanVsActual } = useAnalytics();
+  const {
+    getMonthlyIncomeExpenses,
+    getExpensesByCategory,
+    getIncomesByCategory,
+    getPlanVsActual,
+    getPlanVsActualOperations,
+  } = useAnalytics();
   const categoriesMapping = useCategoriesMapping();
   const emptyActions = useAnalyticsEmptyActions();
 
@@ -32,6 +42,7 @@ function AnalyticsCards() {
   const [expensesByCategoryRange, setExpensesByCategoryRange] = useState<MonthRange>(getDefaultRange);
   const [incomesByCategoryRange, setIncomesByCategoryRange] = useState<MonthRange>(getDefaultRange);
   const [planVsActualMonth, setPlanVsActualMonth] = useState<MonthYear>(getDefaultMonth);
+  const [planVsActualMode, setPlanVsActualMode] = useState<BudgetVsActualMode>('category');
 
   const incomesExpensesFilter = useMemo(
     () => ({
@@ -70,13 +81,14 @@ function AnalyticsCards() {
 
   const planVsActual = useAnalyticsQuery(
     'analytics-plan-vs-actual',
-    planVsActualMonth,
-    getPlanVsActual,
+    { ...planVsActualMonth, mode: planVsActualMode },
+    (filter): Promise<Array<PlanVsActualItem | PlanVsActualOperationItem>> =>
+      filter.mode === 'operations' ? getPlanVsActualOperations(filter) : getPlanVsActual(filter),
     (data) =>
       data
         .filter((item) => item.planned > 0 || item.actual > 0)
         .map((item) => ({
-          label: categoriesMapping[item.category]?.label ?? String(item.category),
+          label: 'title' in item ? item.title : (categoriesMapping[item.category]?.label ?? String(item.category)),
           plan: item.planned,
           fact: item.actual,
         })),
@@ -128,6 +140,8 @@ function AnalyticsCards() {
       <BudgetVsActualChartCard
         data={planVsActual.data}
         loading={planVsActual.isLoading}
+        mode={planVsActualMode}
+        onModeChange={setPlanVsActualMode}
         emptyAction={emptyActions.budgetPlans}
         filterTrigger={
           <MonthPicker

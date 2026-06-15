@@ -81,9 +81,9 @@ export function BudgetVsActualChart({ data }: { data: BudgetItem[] }) {
           radius={4}
           barSize={12}
         >
-          {data.map((item) => (
+          {data.map((item, index) => (
             <Cell
-              key={item.label}
+              key={`${item.label}-${index}`}
               fill={item.fact > item.plan ? overspendColor : 'var(--color-fact)'}
             />
           ))}

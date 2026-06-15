@@ -10,6 +10,7 @@ import type {
   IncomesByCategoryResponse,
   MonthlyIncomeExpensesItem,
   PlanVsActualItem,
+  PlanVsActualOperationItem,
 } from '@common/domains/analytics/analytics.model';
 
 export class AnalyticsDataSource implements IAnalyticsRepository {
@@ -49,6 +50,10 @@ export class AnalyticsDataSource implements IAnalyticsRepository {
 
   getPlanVsActual(input: PlanVsActualFilter): Promise<PlanVsActualItem[]> {
     return this.source().then((s) => s.getPlanVsActual(input));
+  }
+
+  getPlanVsActualOperations(input: PlanVsActualFilter): Promise<PlanVsActualOperationItem[]> {
+    return this.source().then((s) => s.getPlanVsActualOperations(input));
   }
 }
 

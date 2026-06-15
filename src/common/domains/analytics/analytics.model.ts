@@ -28,3 +28,13 @@ export interface PlanVsActualItem {
   actual: number;
   overspend: boolean;
 }
+
+export interface PlanVsActualOperationItem {
+  id: number;
+  title: string;
+  category: ExpenseCategory;
+  planned: number;
+  actual: number;
+  overspend: boolean;
+  source: 'month' | 'regular';
+}

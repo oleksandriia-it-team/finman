@@ -18,6 +18,7 @@ export function useAnalyticsQuery<TData, TFilter, TMapped>(
   const query = useQuery({
     queryKey: [key, JSON.stringify(filter)],
     queryFn: () => queryFn(filter),
+    staleTime: 0,
   });
 
   // Recompute only when fetched data changes — mapper/fallback are inline at call-site,

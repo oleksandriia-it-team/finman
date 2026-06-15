@@ -385,7 +385,9 @@
       "title": "Budget plan vs Actual expenses",
       "description": "Comparison of planned and actual expenses by category",
       "planLabel": "Plan",
-      "factLabel": "Actual"
+      "factLabel": "Actual",
+      "modeCategory": "Planned expenses grouped by category",
+      "modeOperations": "Planned expenses per operation"
     },
     "empty": {
       "title": "No data",

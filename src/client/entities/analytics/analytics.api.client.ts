@@ -11,6 +11,7 @@ import type {
   IncomesByCategoryResponse,
   MonthlyIncomeExpensesItem,
   PlanVsActualItem,
+  PlanVsActualOperationItem,
 } from '@common/domains/analytics/analytics.model';
 
 export class AnalyticsApiClient implements IAnalyticsRepository {
@@ -35,6 +36,12 @@ export class AnalyticsApiClient implements IAnalyticsRepository {
   async getPlanVsActual(input: PlanVsActualFilter): Promise<PlanVsActualItem[]> {
     return fetchClient
       .post<ApiResultOperationSuccess<PlanVsActualItem[]>>('/api/analytics/plan-vs-actual', input)
+      .then((r) => r.data);
+  }
+
+  async getPlanVsActualOperations(input: PlanVsActualFilter): Promise<PlanVsActualOperationItem[]> {
+    return fetchClient
+      .post<ApiResultOperationSuccess<PlanVsActualOperationItem[]>>('/api/analytics/plan-vs-actual-operations', input)
       .then((r) => r.data);
   }
 }
