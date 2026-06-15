@@ -4,15 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 import { getPromiseState } from '@frontend/shared/utils/get-promise-state.util';
 import { getFirstAppError } from '@common/utils/get-first-app-error.util';
 
-const MaxRegularTransactions = 1000;
-
 export function useBudgetPlanScreenState({ initialData, onCancel }: BudgetPlanFormScreenProps) {
   const isEdit = !!initialData;
-  const { getPayments } = useRegularTransactions();
+  const { getPayments, getTotalCount } = useRegularTransactions();
 
   const { data, status, error } = useQuery({
     queryKey: ['budget-plan-regular-transactions'],
-    queryFn: () => getPayments(1, MaxRegularTransactions),
+    queryFn: async () => {
+      const totalCount = await getTotalCount();
+      getPayments(1, totalCount);
+    },
     staleTime: 0,
   });
 
