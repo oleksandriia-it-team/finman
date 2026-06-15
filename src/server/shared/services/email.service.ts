@@ -9,6 +9,9 @@ const transporter = createTransport({
     user: EnvConfigConstant.GMAIL_EMAIL,
     pass: EnvConfigConstant.GMAIL_APP_PASSWORD,
   },
+  connectionTimeout: 5000,
+  greetingTimeout: 5000,
+  socketTimeout: 10000,
 });
 
 export function sendEmail(to: string, subject: string, html: string) {

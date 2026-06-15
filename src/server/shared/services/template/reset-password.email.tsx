@@ -7,7 +7,7 @@ export function ResetPasswordEmail({ code }: { code: string }) {
         <Heading>Відновлення паролю — FinMan</Heading>
         <Text>Ваш одноразовий код:</Text>
         <Text style={{ fontSize: 32, fontWeight: 'bold' }}>{code}</Text>
-        <Text>Код дійсний 5 хвилини.</Text>
+        <Text>Код дійсний 5 хвилин.</Text>
       </Body>
     </Html>
   );
