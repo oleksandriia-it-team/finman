@@ -9,9 +9,9 @@ import {
   type BudgetVsActualMode,
 } from '@frontend/entities/analytics/budget-vs-actual-chart/budget-vs-actual-chart-card';
 import {
-  useCategoriesMapping,
   ExpenseCategoryValues,
   IncomeCategoryValues,
+  useCategoriesMapping,
 } from '@frontend/shared/styles/card-styles-mappings';
 import { AnalyticsProvider, useAnalytics } from '@frontend/features/analytics/analytics.hook';
 import { useAnalyticsQuery } from '@frontend/features/analytics/hooks/use-analytics-query.hook';

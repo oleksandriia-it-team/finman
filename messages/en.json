@@ -386,8 +386,8 @@
       "description": "Comparison of planned and actual expenses by category",
       "planLabel": "Plan",
       "factLabel": "Actual",
-      "modeCategory": "Budget plan",
-      "modeOperations": "Operations detail"
+      "modeCategory": "Planned expenses grouped by category",
+      "modeOperations": "Planned expenses per operation"
     },
     "picker": {
       "month": "Month",

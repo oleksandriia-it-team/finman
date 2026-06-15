@@ -35,16 +35,16 @@ export function BudgetVsActualChartCard({
       </ChartCardLayout.Header>
       <div className="flex gap-2 px-6 pb-2">
         <UiTabItem
-          isActive={mode === 'category'}
-          onClick={() => onModeChange('category')}
-        >
-          {t('modeCategory')}
-        </UiTabItem>
-        <UiTabItem
           isActive={mode === 'operations'}
           onClick={() => onModeChange('operations')}
         >
           {t('modeOperations')}
+        </UiTabItem>
+        <UiTabItem
+          isActive={mode === 'category'}
+          onClick={() => onModeChange('category')}
+        >
+          {t('modeCategory')}
         </UiTabItem>
       </div>
       <ChartCardLayout.Content>
