@@ -1,6 +1,6 @@
 export interface ChartCardTemplateProps {
-  title?: string;
-  description?: string;
-  children?: React.ReactNode;
-  className?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  children?: React.ReactNode | undefined;
+  className?: string | undefined;
 }

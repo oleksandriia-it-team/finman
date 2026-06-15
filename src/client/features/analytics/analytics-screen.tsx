@@ -15,6 +15,7 @@ import { useAnalyticsQuery } from '@frontend/features/analytics/hooks/use-analyt
 import { CategoriesFilterDropdown } from '@frontend/features/analytics/components/categories-filter-dropdown';
 import { MonthPicker } from '@frontend/features/analytics/components/month-picker';
 import { MonthRangePicker } from '@frontend/features/analytics/components/month-range-picker';
+import { useAnalyticsEmptyActions } from '@frontend/features/analytics/analytics-empty-actions.hook';
 import { getDefaultMonth, getDefaultRange } from '@common/domains/analytics/utils/get-default-filter.util';
 import type { AllCategories } from '@common/enums/categories.enum';
 import type { MonthRange, MonthYear } from '@common/domains/analytics/analytics.schema';
@@ -24,6 +25,7 @@ const AllCategoriesList: AllCategories[] = [...ExpenseCategoryValues, ...IncomeC
 function AnalyticsCards() {
   const { getMonthlyIncomeExpenses, getExpensesByCategory, getIncomesByCategory, getPlanVsActual } = useAnalytics();
   const categoriesMapping = useCategoriesMapping();
+  const emptyActions = useAnalyticsEmptyActions();
 
   const [incomesExpensesRange, setIncomesExpensesRange] = useState<MonthRange>(getDefaultRange);
   const [incomesExpensesCategories, setIncomesExpensesCategories] = useState<AllCategories[]>([]);
@@ -86,6 +88,7 @@ function AnalyticsCards() {
       <IncomesExpensesChartCard
         data={incomesExpenses.data}
         loading={incomesExpenses.isLoading}
+        emptyAction={emptyActions.addOperation}
         filterTrigger={
           <div className="flex flex-col gap-2">
             <CategoriesFilterDropdown
@@ -103,6 +106,7 @@ function AnalyticsCards() {
       <CategoriesExpensesChartCard
         data={expensesByCategory.data}
         loading={expensesByCategory.isLoading}
+        emptyAction={emptyActions.addOperation}
         filterTrigger={
           <MonthRangePicker
             value={expensesByCategoryRange}
@@ -113,6 +117,7 @@ function AnalyticsCards() {
       <CategoriesIncomesChartCard
         data={incomesByCategory.data}
         loading={incomesByCategory.isLoading}
+        emptyAction={emptyActions.addOperation}
         filterTrigger={
           <MonthRangePicker
             value={incomesByCategoryRange}
@@ -123,6 +128,7 @@ function AnalyticsCards() {
       <BudgetVsActualChartCard
         data={planVsActual.data}
         loading={planVsActual.isLoading}
+        emptyAction={emptyActions.budgetPlans}
         filterTrigger={
           <MonthPicker
             value={planVsActualMonth}
