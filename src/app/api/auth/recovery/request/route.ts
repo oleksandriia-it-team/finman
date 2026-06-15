@@ -26,8 +26,9 @@ export const POST = createRoute({
       code,
       expiresAt,
     });
-    const { error } = await RecoveryService.sendEmail(email, code);
-    if (error) {
+    try {
+      await RecoveryService.sendEmail(email, code);
+    } catch {
       await recoveryCodeRepository.deleteUserCodes(email);
 
       return {

@@ -19,9 +19,6 @@ export const serverSchema = z.object({
     .refine((s) => !s.includes('secret') && !s.includes('password'), {
       message: "JWT_SECRET is too weak: avoid common words like 'secret' or 'password'",
     }),
-  RESEND_FROM: z
-    .string()
-    .email('RESEND_FROM must be a valid email address')
-    .min(1, 'RESEND_FROM is required (must be from your Resend domain)'),
-  RESEND_API_KEY: z.string().min(1, 'RESEND_API_KEY is required'),
+  GMAIL_EMAIL: z.string().email('GMAIL_EMAIL must be a valid email address').min(1, 'GMAIL_EMAIL is required'),
+  GMAIL_APP_PASSWORD: z.string().min(1, 'GMAIL_APP_PASSWORD is required'),
 });
