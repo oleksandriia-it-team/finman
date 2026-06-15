@@ -12,12 +12,12 @@ export interface ChartEmptyAction {
 }
 
 interface ChartEmptyStateProps {
-  title?: string | undefined;
+  title: string;
   description?: string | undefined;
   action?: ChartEmptyAction | undefined;
 }
 
-export function ChartEmptyState({ title = 'Дані відсутні', description, action }: ChartEmptyStateProps) {
+export function ChartEmptyState({ title, description, action }: ChartEmptyStateProps) {
   return (
     <div className="size-full flex flex-col items-center justify-center gap-3 p-4 text-muted-foreground">
       <UiIconBadge

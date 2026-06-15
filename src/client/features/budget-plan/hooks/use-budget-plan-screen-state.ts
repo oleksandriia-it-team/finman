@@ -12,7 +12,7 @@ export function useBudgetPlanScreenState({ initialData, onCancel }: BudgetPlanFo
     queryKey: ['budget-plan-regular-transactions'],
     queryFn: async () => {
       const totalCount = await getTotalCount();
-      getPayments(1, totalCount);
+      return getPayments(1, totalCount);
     },
     staleTime: 0,
   });

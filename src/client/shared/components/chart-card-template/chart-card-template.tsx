@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react';
 import { CardDescription, CardHeader, CardTitle, UiCard } from '@frontend/ui/ui-card/ui-card';
 import type { ChartCardTemplateProps } from '@frontend/components/chart-card-template/chart-card-template-props';
-import { ChartEmptyState, type ChartEmptyAction } from '@frontend/components/chart-empty-state/chart-empty-state';
+import { type ChartEmptyAction, ChartEmptyState } from '@frontend/components/chart-empty-state/chart-empty-state';
 import { FinLoaderShort } from '@frontend/components/loader/fin-loader-short';
 import { cn } from '@frontend/shared/utils/cn.util';
 
 interface ChartCardStateProps {
   loading?: boolean | undefined;
   isEmpty?: boolean | undefined;
-  emptyTitle?: string | undefined;
+  emptyTitle: string;
   emptyDescription?: string | undefined;
   emptyAction?: ChartEmptyAction | undefined;
 }
