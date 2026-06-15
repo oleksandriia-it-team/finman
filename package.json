@@ -26,6 +26,7 @@
     "@ducanh2912/next-pwa": "^10.2.9",
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-toast": "^1.2.15",
+    "@swc/helpers": "^0.5.23",
     "@react-email/ui": "^6.6.0",
     "@tanstack/react-query": "^5.90.20",
     "autoprefixer": "^10.4.21",

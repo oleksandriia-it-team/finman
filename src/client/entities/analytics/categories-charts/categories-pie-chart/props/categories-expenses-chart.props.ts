@@ -7,5 +7,5 @@ export interface CategoryDataItem {
 
 export interface CategoriesChartProps {
   data: CategoryDataItem[];
-  totalLabel?: string;
+  totalLabel?: string | undefined;
 }

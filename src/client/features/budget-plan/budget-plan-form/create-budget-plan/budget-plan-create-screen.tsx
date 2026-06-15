@@ -1,9 +1,8 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { RegularEntry } from '@common/records/regular-entry.record';
-import { FinPagination } from '@frontend/components/pagination/fin-pagination';
 import { FinListScreenHandler } from '@frontend/components/screen-handlers/fin-list-screen-handler';
 import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-wrapper';
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
@@ -20,8 +19,7 @@ import { useBudgetPlanScreenState } from '@frontend/features/budget-plan/hooks/u
 import { useTranslations } from 'next-intl';
 
 export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
-  const { state, options, appError, paginationRestProps, isEdit, onCancel, pageSize, listState } =
-    useBudgetPlanScreenState(props);
+  const { state, options, appError, isEdit, onCancel } = useBudgetPlanScreenState(props);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -36,7 +34,7 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
 
   const hasAnySelected = selectedIds.size > 0 || monthOperations.length > 0;
 
-  const optionsById = new Map((options as RegularEntry[]).map((item) => [item.id, item]));
+  const optionsById = useMemo(() => new Map((options as RegularEntry[]).map((item) => [item.id, item])), [options]);
 
   const handleToggle = useCallback(
     (id: number) => {
@@ -73,12 +71,12 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto min-h-0">
-        <FinListWrapper state={listState}>
+        <FinListWrapper state={state}>
           <FinListScreenHandler
             state={state}
             appError={appError}
             hasData={!!options.length}
-            skeletonItems={pageSize}
+            skeletonItems={5}
             skeletonClassName="min-h-72"
             notItemFound={
               <div className="flex flex-col items-center justify-center gap-3 py-8 px-4">
@@ -108,12 +106,6 @@ export function BudgetPlanFormScreen(props: BudgetPlanFormScreenProps) {
             ))}
           </FinListScreenHandler>
         </FinListWrapper>
-
-        <FinPagination
-          className="pt-3"
-          {...paginationRestProps}
-          pageSize={pageSize}
-        />
 
         <div className="flex-none px-4 pt-6 pb-2">
           <p className="text-base font-semibold">{tScreen('otherSection')}</p>

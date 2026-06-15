@@ -111,7 +111,7 @@ export function BudgetPlanStatisticDesktop({ className, income = 0, expense = 0 
               size="xl"
             />
             <div className="flex flex-col gap-2">
-              <p className="text-muted text-sm">{label}</p>
+              <p className="text-muted-foreground text-sm">{label}</p>
               <div className={cn('font-bold text-lg flex items-center', textClass)}>
                 {prefix && <span>{prefix}</span>}
                 <FinTransformCurrency value={value} />

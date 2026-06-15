@@ -35,7 +35,7 @@ export function TransactionActions({ id, icon, title, editPath, handleDelete }: 
         trigger={
           <UiActionButton
             icon="trash-fill"
-            variant="destructive-muted"
+            variant="muted"
             iconVariant="destructive"
             size="sm"
           >

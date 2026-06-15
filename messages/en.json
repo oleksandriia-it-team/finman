@@ -389,6 +389,13 @@
       "modeCategory": "Planned expenses grouped by category",
       "modeOperations": "Planned expenses per operation"
     },
+    "empty": {
+      "title": "No data",
+      "noTransactions": "No transactions found for the selected period. Try changing the range or adding your first expense.",
+      "noBudgetPlan": "No budget plan for the selected month",
+      "addOperation": "Add operation",
+      "goToBudgetPlans": "Go to budget plans"
+    },
     "picker": {
       "month": "Month",
       "period": "Period",

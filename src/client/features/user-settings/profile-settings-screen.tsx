@@ -24,7 +24,7 @@ export function ProfileSettingsScreen() {
     router.push('/login');
   };
   const { methods, submit, updateMutation, isDirty } = useProfileSettingsForm();
-
+  const isOnline = profileUser.online;
   const currentFormLocale = methods.watch('locale') ?? profileUser.locale;
 
   return (
@@ -40,9 +40,9 @@ export function ProfileSettingsScreen() {
             aria-busy={updateMutation.isPending}
             onSubmit={submit}
           >
-            <div className="grid gap-5 lg:grid-cols-2">
+            <div className={`grid gap-5 ${isOnline ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}`}>
               <ProfileSettingsAccountSection />
-              <ProfileSettingsSecuritySection isOnline={profileUser.online} />
+              {isOnline && <ProfileSettingsSecuritySection isOnline={isOnline} />}
             </div>
 
             <ProfileSettingsAppearanceSection
@@ -54,7 +54,7 @@ export function ProfileSettingsScreen() {
             <ProfileSettings2faSection />
 
             <ProfileSettingsActions
-              isOnline={profileUser.online}
+              isOnline={isOnline}
               isPending={updateMutation.isPending}
               isDirty={isDirty}
               onLogout={handleLogout}
