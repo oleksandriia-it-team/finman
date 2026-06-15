@@ -8,6 +8,7 @@ import type {
   IncomesByCategoryResponse,
   MonthlyIncomeExpensesItem,
   PlanVsActualItem,
+  PlanVsActualOperationItem,
 } from '@common/domains/analytics/analytics.model';
 
 export interface IAnalyticsRepository {
@@ -15,4 +16,5 @@ export interface IAnalyticsRepository {
   getExpensesByCategory(input: CategoryBreakdownFilter): Promise<ExpensesByCategoryResponse>;
   getIncomesByCategory(input: CategoryBreakdownFilter): Promise<IncomesByCategoryResponse>;
   getPlanVsActual(input: PlanVsActualFilter): Promise<PlanVsActualItem[]>;
+  getPlanVsActualOperations(input: PlanVsActualFilter): Promise<PlanVsActualOperationItem[]>;
 }

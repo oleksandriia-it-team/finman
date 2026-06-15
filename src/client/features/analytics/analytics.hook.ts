@@ -12,6 +12,7 @@ import type {
   IncomesByCategoryResponse,
   MonthlyIncomeExpensesItem,
   PlanVsActualItem,
+  PlanVsActualOperationItem,
 } from '@common/domains/analytics/analytics.model';
 
 function useAnalyticsLogic() {
@@ -31,11 +32,16 @@ function useAnalyticsLogic() {
     return analyticsService.getPlanVsActual(filter);
   };
 
+  const getPlanVsActualOperations = (filter: PlanVsActualFilter): Promise<PlanVsActualOperationItem[]> => {
+    return analyticsService.getPlanVsActualOperations(filter);
+  };
+
   return {
     getMonthlyIncomeExpenses,
     getExpensesByCategory,
     getIncomesByCategory,
     getPlanVsActual,
+    getPlanVsActualOperations,
   };
 }
 
