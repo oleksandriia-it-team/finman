@@ -9,9 +9,9 @@ import { UiGraphic } from '@frontend/ui/ui-graphic/ui-graphic';
 import { UiFieldGroup } from '@frontend/ui/ui-field/ui-field-group';
 import { FinControlledInput } from '@frontend/components/controlled-fields/fin-controlled-input';
 import { UiButton } from '@frontend/ui/ui-button/ui-button';
-import { UiSeparator } from '@frontend/ui/ui-separator/ui-separator';
 import { UiSvgIcon } from '@frontend/ui/ui-svg-icon/ui-svg-icon';
 import { useTranslations } from 'next-intl';
+import { UiSeparatorWithLabel } from '@frontend/ui/ui-separator-with-label/ui-separator-with-label';
 
 export default function ForgotPasswordPage() {
   const router = useRouter();
@@ -87,12 +87,7 @@ export default function ForgotPasswordPage() {
                       </UiButton>
 
                       <div className="relative my-1">
-                        <div className="absolute inset-0 flex items-center">
-                          <UiSeparator />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                          <span className="text-muted-foreground bg-primary-foreground px-2">{t('or')}</span>
-                        </div>
+                        <UiSeparatorWithLabel label={t('or')} />
                       </div>
 
                       <button

@@ -1,6 +1,17 @@
 .tooltip-content {
   --tooltip-slide-animation: slideupandfade;
 
+  border-radius: var(--radius);
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+
+  svg {
+    fill: var(--popover-foreground);
+  }
+
   &[data-state='delayed-open'],
   &[data-state='instant-open'] {
     animation-name: zoomIn, var(--tooltip-slide-animation);

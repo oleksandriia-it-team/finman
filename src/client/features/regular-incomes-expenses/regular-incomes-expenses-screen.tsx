@@ -14,11 +14,13 @@ import { FinListPageWrapper } from '@frontend/components/wrappers/fin-list-page-
 import { FinListWrapper } from '@frontend/components/wrappers/fin-list-wrapper';
 import { FinButtonListAction } from '@frontend/components/wrappers/fin-button-list-action';
 import { useTranslations } from 'next-intl';
+import { useIsMobile } from '@frontend/shared/hooks/is-mobile/is-mobile.hook';
 
 export default function RegularIncomesExpensesScreen() {
   const pageSize = 5;
   const t = useTranslations('regular.screen');
   const { getPayments, getTotalCount, handleDelete } = useRegularTransactions();
+  const isMobile = useIsMobile();
 
   const onDelete = useSendDataFetch((id: number) => handleDelete(id), {
     onSuccess: () => {
@@ -82,18 +84,20 @@ export default function RegularIncomesExpensesScreen() {
       />
 
       <FinButtonListAction>
-        <UiButton
-          variant="primary"
-          size="lg"
-          className="rounded-full gap-2 shadow-xl"
-          onClick={() => router.push('./regular-operations/add')}
-        >
-          <UiSvgIcon
-            name="plus"
-            size="sm"
-          />
-          {t('addButton')}
-        </UiButton>
+        {!isMobile && (
+          <UiButton
+            variant="primary"
+            size="lg"
+            className="rounded-full gap-2 shadow-xl"
+            onClick={() => router.push('./regular-operations/add')}
+          >
+            <UiSvgIcon
+              name="plus"
+              size="sm"
+            />
+            {t('addButton')}
+          </UiButton>
+        )}
       </FinButtonListAction>
     </FinListPageWrapper>
   );

@@ -94,7 +94,7 @@ export function TransactionCard({
                 <UiIconButton
                   size="lg"
                   icon="three-dots-vertical"
-                  variant="muted"
+                  variant="muted-foreground"
                   borderNone
                 />
               </UiResponsiveMenuTrigger>

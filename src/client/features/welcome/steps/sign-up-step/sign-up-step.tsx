@@ -6,14 +6,16 @@ import './sign-up-step.scss';
 import { UiPurpleButton } from '@frontend/ui/ui-purple-button/ui-purple-button';
 import { TypeEntry } from '@common/enums/entry.enum';
 import { useTranslations } from 'next-intl';
+import { IncomeCategories } from '@common/enums/categories.enum';
 
 export default function SignUpStep() {
   const t = useTranslations('welcome.signup');
 
-  const checks = [
+  const features = [
     {
       id: 1,
       icon: 'shield-check',
+      category: IncomeCategories.Salary,
       titleKey: 'fullControlTitle',
       descriptionKey: 'fullControlDescription',
       type: TypeEntry.Income,
@@ -21,6 +23,9 @@ export default function SignUpStep() {
     {
       id: 2,
       icon: 'graph-up-arrow',
+      title: 'Аналітика витрат',
+      description: 'Детальні графіки та звіти',
+      category: IncomeCategories.Freelance,
       titleKey: 'analyticsTitle',
       descriptionKey: 'analyticsDescription',
       type: TypeEntry.Income,
@@ -50,15 +55,15 @@ export default function SignUpStep() {
           </div>
         </div>
         <div className="w-full space-y-3">
-          {checks.map((check) => (
+          {features.map((feature) => (
             <TransactionCard
               bgNone
               showActions={false}
-              key={check.id}
-              icon={check.icon}
-              title={t(check.titleKey)}
-              description={t(check.descriptionKey)}
-              type={check.type as TypeEntry.Income | TypeEntry.Expense}
+              key={feature.id}
+              icon={feature.icon}
+              title={t(feature.titleKey)}
+              description={t(feature.descriptionKey)}
+              category={feature.category}
               check="✓"
               className="step-card-item"
             />
@@ -77,7 +82,7 @@ export default function SignUpStep() {
               className="!text-inherit !no-underline"
               href="/signup"
             >
-              {t('cta')}
+              Зареєструватися
             </Link>
           </UiPurpleButton>
           <p className="text-center text-muted-foreground text-sm mt-4">{t('hint')}</p>

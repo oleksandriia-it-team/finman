@@ -23,7 +23,7 @@ export function ProfileSidebar() {
       >
         <UiSidebarHeader>
           <div className="flex gap-1 flex-1 items-center">
-            <UiSidebarHeaderIcon className="size-9 group-data-[collapsible=icon]:w-full">
+            <UiSidebarHeaderIcon className="size-9">
               <LogoSvg
                 width={28}
                 height={28}

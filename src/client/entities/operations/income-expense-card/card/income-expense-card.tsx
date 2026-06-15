@@ -72,7 +72,7 @@ export function IncomeExpenseCard({
                     <UiIconButton
                       size="lg"
                       icon="three-dots-vertical"
-                      variant="muted"
+                      variant="muted-foreground"
                       className="!border-none"
                     />
                   </UiResponsiveMenuTrigger>

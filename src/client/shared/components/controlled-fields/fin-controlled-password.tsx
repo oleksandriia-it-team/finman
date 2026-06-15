@@ -56,7 +56,7 @@ export function FinControlledPassword({
                 icon={showPassword ? 'eye-slash' : 'eye'}
                 onClick={() => setShowPassword(!showPassword)}
                 size="sm"
-                variant="muted"
+                variant="muted-foreground"
                 className="absolute right-2 top-1/2 -translate-y-1/2"
                 title={showPassword ? t('hidePassword') : t('showPassword')}
               />
