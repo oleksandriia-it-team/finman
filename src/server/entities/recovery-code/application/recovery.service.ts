@@ -1,9 +1,7 @@
-import { Resend } from 'resend';
 import { randomInt } from 'node:crypto';
-import { EnvConfigConstant } from '@backend/config/env-config.constant';
 
-let resendClient: Resend | null = null;
-const getResend = (): Resend => (resendClient ??= new Resend(EnvConfigConstant.RESEND_API_KEY));
+import { sendEmail } from '@backend/shared/services/email.service';
+import { resetPasswordHtml } from '@backend/shared/services/template/reset-password.email';
 
 export const RecoveryService = {
   generateCode() {
@@ -11,19 +9,7 @@ export const RecoveryService = {
   },
 
   async sendEmail(email: string, code: string) {
-    return await getResend().emails.send({
-      from: `Finman Auth <${EnvConfigConstant.RESEND_FROM}>`,
-      to: [email],
-      subject: 'Код відновлення паролю',
-      html: `
-        <div style="font-family: sans-serif; text-align: center; padding: 20px;">
-          <h1>Відновлення доступу</h1>
-          <p>Ваш код підтвердження (діє 5 хвилин):</p>
-          <div style="font-size: 32px; font-weight: bold; color: #0265fd; letter-spacing: 4px;">
-            ${code}
-          </div>
-        </div>
-      `,
-    });
+    const html = await resetPasswordHtml(code);
+    return sendEmail(email, 'Код відновлення паролю', html);
   },
 };
