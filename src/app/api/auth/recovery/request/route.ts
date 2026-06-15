@@ -3,9 +3,9 @@ import { RecoveryService } from '@backend/entities/recovery-code/application/rec
 import { recoveryCodeRepository } from '@backend/entities/recovery-code/infrastructure/recovery-code.repository';
 import { type ForgotPasswordDto, ForgotPasswordSchema } from '@common/domains/auth/schema/forgot-password.schema';
 import { createRoute } from '@backend/shared/utils/create-route.util';
-import { ErrorTexts } from '@common/constants/error-texts.constant';
 import { UserExistsRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/user-exist.guard';
 import { CooldownRecoveryGuard } from '@backend/entities/recovery-code/infrastructure/cooldown.guard';
+import { checkIsAppErrorObj } from '@common/utils/check-is-api-error.util';
 
 export const POST = createRoute({
   schema: ForgotPasswordSchema,
@@ -28,13 +28,14 @@ export const POST = createRoute({
     });
     try {
       await RecoveryService.sendEmail(email, code);
-    } catch {
+    } catch (err) {
       await recoveryCodeRepository.deleteUserCodes(email);
 
-      return {
-        status: 400,
-        message: ErrorTexts.EmailSendFailed,
-      };
+      if (checkIsAppErrorObj(err)) {
+        return err;
+      }
+
+      throw err;
     }
 
     return { status: 200, data: true };
