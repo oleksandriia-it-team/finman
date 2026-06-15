@@ -23,6 +23,7 @@ export function BudgetVsActualChartCard({
   loading,
   filterTrigger,
   mode,
+  onModeChange,
   emptyAction,
 }: BudgetVsActualChartCardProps) {
   const t = useTranslations('analytics');
@@ -42,13 +43,13 @@ export function BudgetVsActualChartCard({
           isActive={mode === 'operations'}
           onClick={() => onModeChange('operations')}
         >
-          {t('modeOperations')}
+          {t('budgetVsActual.modeOperations')}
         </UiTabItem>
         <UiTabItem
           isActive={mode === 'category'}
           onClick={() => onModeChange('category')}
         >
-          {t('modeCategory')}
+          {t('budgetVsActual.modeCategory')}
         </UiTabItem>
       </div>
       <BudgetVsActualChart data={data} />
